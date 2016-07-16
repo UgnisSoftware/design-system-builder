@@ -15,3 +15,8 @@ ugnis-script goals:
   - make every value reactive
   - typesafety
   - be the best interface for html, webgl and node programming
+
+ugnis-script details:
+  - typesafety without users specifying types
+  - every value is a constant
+  - every value is reactive
