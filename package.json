@@ -1,0 +1,29 @@
+{
+  "name": "Heroes-of-Ugnis",
+  "version": "0.0.1",
+  "description": "Turn Based Strategy game",
+  "main": "index.js",
+  "scripts": {
+    "start": "ugnis-build",
+    "compile": "NODE_ENV=production webpack --config webpack.config.prod.js -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UgnisSoftware/Heroes-of-Ugnis.git"
+  },
+  "keywords": [
+    "WebGL"
+  ],
+  "author": "Karolis Masiulis",
+  "devDependencies": {
+    "ugnis-build": "^1.0.0",
+    "ugnis-eslint": "^1.0.0",
+    "ugnis-test": "^1.0.0"
+  },
+  "dependencies": {
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
+  }
+}
