@@ -23,10 +23,9 @@ const Component = (props) =>
         {props.nodes[props.selectedNodeId].parentIds.map((nodeId)=>
             <button value={nodeId} onClick={props.onNodeClicked}>Parent</button>
         )}
-        <div>{props.nodes[props.selectedNodeId].title} {props.nodes[props.selectedNodeId].type}</div>
-        background-color: <input value={props.nodes[props.selectedNodeId].style.backgroundColor} onChange={props.onBgColorChange} />
         {props.nodes[props.selectedNodeId].type !== 'text' ?
             <div>
+                background-color: <input value={props.nodes[props.selectedNodeId].style.backgroundColor} onChange={props.onBgColorChange} /><hr/>
                 <button onClick={props.onAddText}>Add Text</button>
                 <button onClick={props.onAddBox}>Add Box</button>
             </div>:
@@ -34,6 +33,7 @@ const Component = (props) =>
             text: <input value={props.nodes[props.selectedNodeId].text} onChange={props.onTextChange} />
             </div>
         }
+        <hr/>
         {props.nodes[props.selectedNodeId].childrenIds.map((nodeId)=>
             <button value={nodeId} onClick={props.onNodeClicked}>Child</button>
         )}

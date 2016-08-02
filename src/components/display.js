@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { focusNode } from '../redux/actions/nodes'
 
 const mstp = (state)=> ({
-    nodes: state.nodes
+    nodes: state.nodes,
+    selectedNodeId: state.ui.selectedNodeId,
 })
 
 const mdtp = (dispatch, props)=> ({
@@ -13,7 +14,7 @@ const mdtp = (dispatch, props)=> ({
 const Component = (props) => {
 
     const mapChildren = (children) => children.map((nodeId)=>
-        props.nodes[nodeId].type === 'box' ? <button value={nodeId} onClick={props.onNodeClicked} style={props.nodes[nodeId].style}>{mapChildren(props.nodes[nodeId].childrenIds)}</button> :
+        props.nodes[nodeId].type === 'box' ? <button value={nodeId} onClick={props.onNodeClicked} style={{border:'none', background:'none', ...props.nodes[nodeId].style, boxShadow: nodeId === props.selectedNodeId ? ' 0px 0px 58px 2px rgba(96,168,232,1)' : ''}}>{mapChildren(props.nodes[nodeId].childrenIds)}</button> :
         props.nodes[nodeId].type === 'text' ? <button value={nodeId} onClick={props.onNodeClicked} style={{border:'none', background:'none'}}>{props.nodes[nodeId].text}</button> :
         null
     )

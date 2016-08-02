@@ -7,9 +7,18 @@ const generateRandomId = ()=>{
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
+function generateRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 export function onAddChild(boxType) {
     return (dispatch, getState)=> {
-        dispatch({type: ADD_CHILD, boxType, randomId: generateRandomId(), selectedNodeId: getState().ui.selectedNodeId})
+        dispatch({type: ADD_CHILD, boxType, randomId: generateRandomId(), randomColor: generateRandomColor(), selectedNodeId: getState().ui.selectedNodeId})
     }
 }
 

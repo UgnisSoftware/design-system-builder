@@ -24,7 +24,7 @@ export default (state = defaultState, action)=> {
                     $set: {
                         title: 'RandomTitle',
                         type: action.boxType,
-                        style: {backgroundColor: '#cccccc', padding: '20px'},
+                        style: {backgroundColor: action.randomColor, padding: '20px'},
                         parentIds: [action.selectedNodeId],
                         childrenIds: []
                     }
