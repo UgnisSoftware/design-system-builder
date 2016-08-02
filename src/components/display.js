@@ -1,25 +1,30 @@
 import React from 'react'
-import R from 'ramda'
 import { connect } from 'react-redux'
+import { focusNode } from '../redux/actions/nodes'
 
 const mstp = (state)=> ({
     nodes: state.nodes
 })
 
 const mdtp = (dispatch, props)=> ({
+    onNodeClicked: (event) => dispatch(focusNode(event.target.value)),
 })
 
-const Component = (props) =>
-    <div style={{flex: '1', border: '1px solid black'}}>
-        <div style={props.nodes['0'].style}>
-        {props.nodes['0'].childrenIds.map((nodeId)=>
-            props.nodes[nodeId].type === 'box' ?
-                <div style={props.nodes[nodeId].style}></div> :
-            props.nodes[nodeId].type === 'text' ?
-                <span style={props.nodes[nodeId].style}>{props.nodes[nodeId].text}</span> :
-            null
-        )}
+const Component = (props) => {
+
+    const mapChildren = (children) => children.map((nodeId)=>
+        props.nodes[nodeId].type === 'box' ? <button value={nodeId} onClick={props.onNodeClicked} style={props.nodes[nodeId].style}>{mapChildren(props.nodes[nodeId].childrenIds)}</button> :
+        props.nodes[nodeId].type === 'text' ? <button value={nodeId} onClick={props.onNodeClicked} style={{border:'none', background:'none'}}>{props.nodes[nodeId].text}</button> :
+        null
+    )
+
+    return (
+        <div style={{flex: '1', border: '1px solid black'}}>
+            <div style={props.nodes['0'].style}>
+                {mapChildren(props.nodes['0'].childrenIds)}
+            </div>
         </div>
-    </div>
+    )
+}
 
 export default connect(mstp, mdtp)(Component)

@@ -6,7 +6,7 @@ const defaultState = {
     0: {
         title: 'document',
         type: 'box',
-        style: {backgroundColor: '#cccccc', width: '200px', height: '100px'},
+        style: {backgroundColor: '#cccccc', padding: '20px'},
         parentIds: [],
         childrenIds: []
     }
@@ -24,7 +24,7 @@ export default (state = defaultState, action)=> {
                     $set: {
                         title: 'RandomTitle',
                         type: action.boxType,
-                        style: {backgroundColor: '#cccccc', width: '200px', height: '100px'},
+                        style: {backgroundColor: '#cccccc', padding: '20px'},
                         parentIds: [action.selectedNodeId],
                         childrenIds: []
                     }

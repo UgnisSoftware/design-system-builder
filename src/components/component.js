@@ -19,6 +19,7 @@ const mdtp = (dispatch, props)=> ({
 
 const Component = (props) =>
     <div style={{flex: '1'}}>
+        <h2>Edit Component</h2>
         {props.nodes[props.selectedNodeId].parentIds.map((nodeId)=>
             <button value={nodeId} onClick={props.onNodeClicked}>Parent</button>
         )}
