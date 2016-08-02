@@ -1,12 +1,14 @@
 import React from 'react'
-import styles from './app.scss';
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
+import Component from './components/component'
+import Display from './components/display'
 
 export default (props) =>
-    <div className={styles.component}>
-        <div className={styles.panel}>
-            <div>State</div>
-            <div>Style</div>
+    <Provider store={store}>
+        <div style={{height: '100%', display: 'flex', boxSizing: 'border-box'}}>
+            <Component/>
+            <Display/>
         </div>
-        <div className={styles.tree}>Component</div>
-        <div className={styles.display}>Display</div>
-    </div>
+    </Provider>
