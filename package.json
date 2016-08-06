@@ -21,11 +21,14 @@
     "ugnis-test": "^1.0.0"
   },
   "dependencies": {
+    "normalize.css": "^4.2.0",
     "ramda": "^0.21.0",
     "react": "^15.3.0",
+    "react-addons-css-transition-group": "^15.3.0",
     "react-addons-update": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
+    "react-toolbox": "^1.0.3",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0"
   }

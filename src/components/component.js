@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import {Tab, Tabs} from 'react-toolbox';
 
 import { onChangeBgColor } from '../redux/actions/ui'
 import { onAddChild, focusNode, onTextChange } from '../redux/actions/nodes'
@@ -19,7 +20,11 @@ const mdtp = (dispatch, props)=> ({
 
 const Component = (props) =>
     <div style={{flex: '1'}}>
-        <h2>Edit Component</h2>
+        <Tabs index={0}>
+            <Tab label='State'><small>Primary content</small></Tab>
+            <Tab label='Tree'><small>Secondary content</small></Tab>
+            <Tab label='Edit'><small>Fifth content</small></Tab>
+        </Tabs>
         {props.nodes[props.selectedNodeId].parentIds.map((nodeId)=>
             <button value={nodeId} onClick={props.onNodeClicked}>Parent</button>
         )}
