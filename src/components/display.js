@@ -8,22 +8,21 @@ const mstp = (state)=> ({
 })
 
 const mdtp = (dispatch, props)=> ({
-    onNodeClicked: (event) => dispatch(focusNode(event.target.value)),
+    onNodeClicked: (value, event) => {event.stopPropagation(); dispatch(focusNode(value))},
 })
 
 const Component = (props) => {
 
-    const mapChildren = (children) => children.map((nodeId)=>
-        props.nodes[nodeId].type === 'box' ? <button value={nodeId} onClick={props.onNodeClicked} style={{border:'none', background:'none', ...props.nodes[nodeId].style, boxShadow: nodeId === props.selectedNodeId ? ' 0px 0px 58px 2px rgba(96,168,232,1)' : ''}}>{mapChildren(props.nodes[nodeId].childrenIds)}</button> :
-        props.nodes[nodeId].type === 'text' ? <button value={nodeId} onClick={props.onNodeClicked} style={{border:'none', background:'none'}}>{props.nodes[nodeId].text}</button> :
+    const mapChildren = (childrenIds) => childrenIds.map((nodeId)=>
+        props.nodes[nodeId].type === 'box' ? <div onClick={props.onNodeClicked.bind(null, nodeId)} style={{...props.nodes[nodeId].style, boxShadow: nodeId === props.selectedNodeId ? ' 0px 0px 58px 2px rgba(96,168,232,1)' : ''}}>{mapChildren(props.nodes[nodeId].childrenIds)}</div> :
+        props.nodes[nodeId].type === 'text' ? <div onClick={props.onNodeClicked.bind(null, nodeId)}>{props.nodes[nodeId].text}</div> :
+        props.nodes[nodeId].type === 'input' ? <input onClick={props.onNodeClicked.bind(null, nodeId)}>{props.nodes[nodeId].text}</input> :
         null
     )
 
     return (
         <div style={{flex: '1', border: '1px solid black'}}>
-            <div style={props.nodes['0'].style}>
-                {mapChildren(props.nodes['0'].childrenIds)}
-            </div>
+            {mapChildren([0])}
         </div>
     )
 }
