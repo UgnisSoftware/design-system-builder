@@ -2,15 +2,69 @@ import update from 'react-addons-update'
 import { BG_CHANGE } from '../actions/ui'
 import { ADD_CHILD, TEXT_CHANGE } from '../actions/nodes'
 
-const defaultState = {
-    0: {
-        title: 'document',
+const defaultState = [
+    {
         type: 'box',
         style: {backgroundColor: '#cccccc', padding: '20px'},
         parentIds: [],
+        childrenIds: [1, 2, 5]
+    },
+    {
+        type: 'box',
+        style: {border: '1px solid black', cursor: 'pointer', display: 'inline-block', padding: '20px'},
+        parentIds: [0],
+        childrenIds: [3],
+        onClick: [0]
+    },
+    {
+        type: 'box',
+        style: {border: '1px solid black', cursor: 'pointer', display: 'inline-block', padding: '20px'},
+        parentIds: [0],
+        childrenIds: [4],
+        onClick: [1]
+    },
+    {
+        value: [
+            {
+                type: 'string',
+                value: '+',
+            },
+        ],
+        type: 'text',
+        style: {backgroundColor: 'lime', padding: '20px'},
+        parentIds: [1],
         childrenIds: []
-    }
-}
+    },
+    {
+        value: [
+            {
+                type: 'string',
+                value: '-',
+            },
+        ],
+        type: 'text',
+        style: {backgroundColor: 'magenta', padding: '20px'},
+        parentIds: [2],
+        childrenIds: []
+    },
+
+    {
+        value: [
+            {
+                type: 'string',
+                value: 'Current Value: ',
+            },
+            {
+                type: 'state',
+                id: 0,
+            },
+        ],
+        type: 'text',
+        style: {backgroundColor: 'magenta', padding: '20px'},
+        parentIds: [2],
+        childrenIds: []
+    },
+]
 
 export default (state = defaultState, action)=> {
     switch (action.type) {

@@ -29,6 +29,6 @@ export function focusNode(id) {
 }
 export function onTextChange(text) {
     return (dispatch, getState)=> {
-        dispatch({type: TEXT_CHANGE, text, selectedNodeId: getState().ui.selectedNodeId})
+        dispatch({type: TEXT_CHANGE, value:text, selectedNodeId: getState().ui.selectedNodeId})
     }
 }

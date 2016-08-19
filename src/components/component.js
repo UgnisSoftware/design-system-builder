@@ -19,7 +19,7 @@ const mdtp = (dispatch, props)=> ({
 })
 
 const Component = (props) =>
-    <div style={{flex: '1'}}>
+    <div style={{flex: '1', border: '1px solid black', padding: '5px'}}>
         {props.nodes[props.selectedNodeId].parentIds.map((nodeId)=>
             <button value={nodeId} onClick={props.onNodeClicked}>Parent</button>
         )}
