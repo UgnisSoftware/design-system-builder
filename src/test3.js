@@ -42,12 +42,17 @@ function setTextContent(node, text){
 
 // /API
 
+const state = {
+    showChild: true
+}
 
 // static
-const nodes = [
+const vdom = (state) =>
+[
     {
         type: 'box',
-        children: [1],
+        children: state.showChild === true ? [1] : [],
+        actions: [0],
     },
     {
         type: 'text',
@@ -55,7 +60,7 @@ const nodes = [
     }
 ]
 
-nodesToHTML(nodes);
+nodesToHTML(vdom(state));
 
 function nodesToHTML(nodes){
     function nodeToHTML(node) {
