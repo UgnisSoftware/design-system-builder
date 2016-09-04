@@ -1,15 +1,16 @@
-var snabbdom = require('snabbdom');
-var patch = snabbdom.init([ // Init patch function with choosen modules
-    require('snabbdom/modules/class'), // makes it easy to toggle classes
+//TODO remove snabbdom
+import snabbdom from 'snabbdom'
+const patch = snabbdom.init([
+    require('snabbdom/modules/class'),
     require('snabbdom/modules/props'), // for setting properties on DOM elements
     require('snabbdom/modules/style'), // handles styling on elements with support for animations
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-const render = ({view, state, actions, mutators}, node) =>{
+const render = ({view, state, actions, mutators}, node)=> {
     const currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
     
-    const magic = (def, state)=> {
+    const magic = (def)=> {
         if (def.type === 'conditional'){
             return magic(def.statement) ? magic(def.then) : magic(def.else)
         }
@@ -41,7 +42,7 @@ const render = ({view, state, actions, mutators}, node) =>{
     }
     
     function emmit(actionName){
-        return (e) => {
+        return (e)=> {
             actions[actionName].states.forEach((key)=>{
                 currentState[key] = magic(mutators[state[key].mutators[actionName]], currentState)
             })
@@ -54,11 +55,11 @@ const render = ({view, state, actions, mutators}, node) =>{
         const children = node.children ? magic(node.children, currentState).map((node) => toNode(node)) : undefined
         const data = {
             style: node.style,
-            on: node.onClick ? { click: emmit(node.onClick)} : undefined
+            on: node.onClick ? { click: emmit(node.onClick)} : undefined,
         }
         const text = node.type === 'text' ? magic(node.value, currentState) : undefined
         
-        return {sel, data, children: children, text};
+        return {sel, data, children, text};
     }
     
     let vdom = toNode(view)
@@ -66,12 +67,12 @@ const render = ({view, state, actions, mutators}, node) =>{
     patch(node, vdom) // first render
     
     function rerender(){
-        let newvdom = toNode(view)
+        const newvdom = toNode(view)
         patch(vdom, newvdom)
-        vdom = newvdom;
+        vdom = newvdom
     }
 }
 
-import {view, state, actions, mutators} from './def.js'
+import definitions from './def.js'
 
-render({view, state, actions, mutators}, document.getElementById('app'))
+render(definitions, document.getElementById('app'))

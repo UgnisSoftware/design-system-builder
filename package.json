@@ -4,8 +4,9 @@
   "description": "Turn Based Strategy game",
   "main": "index.js",
   "scripts": {
-    "start": "ugnis-build",
-    "compile": "NODE_ENV=production webpack --config webpack.config.prod.js -p"
+    "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static/bundle.js",
+    "server": "http-server ./static -p 3000 -o",
+    "compile": "echo 'todo'"
   },
   "repository": {
     "type": "git",
@@ -16,21 +17,15 @@
   ],
   "author": "Karolis Masiulis",
   "devDependencies": {
-    "ugnis-build": "^1.0.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "http-server": "^0.9.0",
     "ugnis-eslint": "^1.0.0",
-    "ugnis-test": "^1.0.0"
+    "watchify": "^3.7.0"
   },
   "dependencies": {
-    "normalize.css": "^4.2.0",
-    "ramda": "^0.21.0",
-    "react": "^15.3.0",
-    "react-addons-css-transition-group": "^15.3.0",
-    "react-addons-update": "^15.3.0",
-    "react-dom": "^15.3.0",
-    "react-redux": "^4.4.5",
-    "react-toolbox": "^1.0.3",
-    "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0",
     "snabbdom": "^0.5.1"
   }
 }
