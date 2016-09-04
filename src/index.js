@@ -6,149 +6,72 @@ var patch = snabbdom.init([ // Init patch function with choosen modules
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-function createElement(tagName){
-    return document.createElement(tagName);
-}
-
-function createElementNS(namespaceURI, qualifiedName){
-    return document.createElementNS(namespaceURI, qualifiedName);
-}
-
-function createTextNode(text){
-    return document.createTextNode(text);
-}
-
-function insertBefore(parentNode, newNode, referenceNode){
-    parentNode.insertBefore(newNode, referenceNode);
-}
-
-function removeChild(node, child){
-    node.removeChild(child);
-}
-
-function appendChild(node, child){
-    node.appendChild(child);
-}
-
-function parentNode(node){
-    return node.parentElement;
-}
-
-function nextSibling(node){
-    return node.nextSibling;
-}
-
-function tagName(node){
-    return node.tagName;
-}
-
-function setTextContent(node, text){
-    node.textContent = text;
-}
-
-// /API
-
-const emmiter = (action) => {
-    return (e) => {
-        nodesToHTML(vdom(state(action)))
+const render = ({view, state, actions, mutators}, node) =>{
+    const currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
+    
+    const magic = (def, state)=> {
+        if (def.type === 'conditional'){
+            return magic(def.statement) ? magic(def.then) : magic(def.else)
+        }
+        if (def.type === 'equals'){
+            return magic(def.first) === magic(def.second)
+        }
+        if (def.type === 'sum'){
+            return magic(def.first) + magic(def.second)
+        }
+        if (def.type === 'string'){
+            return def.value
+        }
+        if (def.type === 'boolean'){
+            return def.value
+        }
+        if (def.type === 'number'){
+            return def.value
+        }
+        if (def.type === 'array'){
+            return def.value
+        }
+        if (def.type === 'object'){
+            return def.value
+        }
+        if (def.type === 'state'){
+            return currentState[def.stateName]
+        }
+        throw new Error(def.type)
     }
-}
-
-const defaultActons = [
-    {
-        componentIds: [1],
-        sideEffects: [
-            {
-                type: 'updateState',
-                stateId: 0,
-                mutation: [
-                    {
-                        type: 'state',
-                        stateId: 0,
-                    },
-                    {
-                        type: 'function',
-                        value: 'add',
-                    },
-                    {
-                        type: 'number',
-                        value: 1,
-                    },
-                ],
-            }
-        ],
-    },
-]
-
-const virtualState = [
-    {
-        type: 'number',
-        name: 'Count',
-        defaultValue: 0,
-        value: 0,
-        actions: [0, 1],
-        nodes: [0],
-    },
-]
-
-const actualState = (stateDefinition) =>{
-    let state = {}
-    stateDefinition.forEach((def)=>{
-        state[def.name] = def.defaultValue
-    })
-    return state
-}
-
-console.log(actualState(virtualState))
-
-const actions = {
-    onShowChild: emmiter('show child: false'),
-}
-
-const state = (action)=> {
-    if(action === 'show child: false'){
-        return {
-            showChild: false,
-            text: 'Hello'
+    
+    function emmit(actionName){
+        return (e) => {
+            actions[actionName].states.forEach((key)=>{
+                currentState[key] = magic(mutators[state[key].mutators[actionName]], currentState)
+            })
+            rerender()
         }
     }
-    return {
-        showChild: true,
-        text: 'Hello'
-    }
-}
-
-// static
-const vdom = (state) =>
-    [
-        {
-            type: 'box',
-            children: state.showChild === true ? [1] : [2],
-            on: {
-                click: actions['onShowChild']
-            }
-
-        },
-        {
-            type: 'text',
-            value: state.text,
-        },
-        {
-            type: 'text',
-            value: 'No hi',
-        }
-    ]
-
-let htmlNode = document.getElementById('app')
-
-function nodesToHTML(nodes){
-    // TODO rewrite to your own vdom
+    
     function toNode(node) {
-        return {sel: node.type === 'box' ? 'div' : 'span', data: {style: node.style, on: node.on}, children: node.children ? node.children.map((id) => toNode(nodes[id])) : undefined, text: node.type === 'text' ? node.value : undefined};
+        const sel = node.type === 'box' ? 'div' : 'span'
+        const children = node.children ? magic(node.children, currentState).map((node) => toNode(node)) : undefined
+        const data = {
+            style: node.style,
+            on: node.onClick ? { click: emmit(node.onClick)} : undefined
+        }
+        const text = node.type === 'text' ? magic(node.value, currentState) : undefined
+        
+        return {sel, data, children: children, text};
     }
-    const vdom = toNode(nodes[0])
-    patch(htmlNode, vdom)
-    htmlNode = vdom;
+    
+    let vdom = toNode(view)
+    
+    patch(node, vdom) // first render
+    
+    function rerender(){
+        let newvdom = toNode(view)
+        patch(vdom, newvdom)
+        vdom = newvdom;
+    }
 }
 
-nodesToHTML(vdom(state()));
+import {view, state, actions, mutators} from './def.js'
+
+render({view, state, actions, mutators}, document.getElementById('app'))
