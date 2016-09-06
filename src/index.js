@@ -30,7 +30,7 @@ const render = ({view, state, actions, mutators}, node)=> {
                 currentMapValue[def.identifier] = value
                 return toNode(def.node)
             })
-            currentMapValue = {}
+            delete currentMapValue[def.identifier]
             return data
         }
         if (def.type === 'nodeArray'){
