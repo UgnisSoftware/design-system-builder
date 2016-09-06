@@ -9,16 +9,35 @@ const patch = snabbdom.init([
 
 const render = ({view, state, actions, mutators}, node)=> {
     const currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
+    let currentEvent = null
+    let currentMapValue = {}
     
-    const magic = (def)=> {
+    const resolve = (def)=> {
+        if(def.type === 'noop'){
+            return;
+        }
         if (def.type === 'conditional'){
-            return magic(def.statement) ? magic(def.then) : magic(def.else)
+            return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
         }
         if (def.type === 'equals'){
-            return magic(def.first) === magic(def.second)
+            return resolve(def.first) === resolve(def.second)
         }
         if (def.type === 'sum'){
-            return magic(def.first) + magic(def.second)
+            return resolve(def.first) + resolve(def.second)
+        }
+        if (def.type === 'list'){
+            const data = resolve(def.data).map((value)=> {
+                currentMapValue[def.identifier] = value
+                return toNode(def.node)
+            })
+            currentMapValue = {}
+            return data
+        }
+        if (def.type === 'nodeArray'){
+            return def.value.map((value)=> toNode(resolve(value)))
+        }
+        if (def.type === 'mapValue'){
+            return currentMapValue[def.value]
         }
         if (def.type === 'string'){
             return def.value
@@ -35,31 +54,50 @@ const render = ({view, state, actions, mutators}, node)=> {
         if (def.type === 'object'){
             return def.value
         }
-        if (def.type === 'state'){
-            return currentState[def.stateName]
+        if (def.type === 'objectValue'){
+            return resolve(def.object)[resolve(def.value)]
         }
-        throw new Error(def.type)
+        if (def.type === 'state'){
+            return currentState[def.value]
+        }
+        if (def.type === 'eventValue'){
+            return currentEvent.target.value
+        }
+        throw Error(def.type)
     }
     
-    function emmit(actionName){
-        return (e)=> {
-            actions[actionName].states.forEach((key)=>{
-                currentState[key] = magic(mutators[state[key].mutators[actionName]], currentState)
-            })
-            rerender()
-        }
+    function emmitAction(actionName, e){
+        currentEvent = e
+        actions[actionName].forEach((key)=> {
+            currentState[key] = resolve(mutators[state[key].mutators[actionName]])
+        })
+        currentEvent = null
+        rerender()
     }
     
     function toNode(node) {
-        const sel = node.type === 'box' ? 'div' : 'span'
-        const children = node.children ? magic(node.children, currentState).map((node) => toNode(node)) : undefined
+        if(node === undefined){
+            return; // noop
+        }
+        
+        const sel = node.type === 'box' ? 'div'
+            : node.type === 'text' ? 'span'
+            : node.type === 'input' ? 'input'
+            : 'error'
+        const children = node.children ? resolve(node.children).filter((val)=>val !== undefined) : undefined
+        const on = {
+            click: node.onClick ? [emmitAction, node.onClick] : undefined,
+            change: node.onChange ? [emmitAction, node.onChange] : undefined,
+            input: node.onInput ? [emmitAction, node.onInput] : undefined,
+        }
         const data = {
             style: node.style,
-            on: node.onClick ? { click: emmit(node.onClick)} : undefined,
+            on,
+            props: node.type === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
         }
-        const text = node.type === 'text' ? magic(node.value, currentState) : undefined
-        
-        return {sel, data, children, text};
+        const text = node.type === 'text' ? resolve(node.value) : undefined
+
+        return {sel, data, children, text}
     }
     
     let vdom = toNode(view)

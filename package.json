@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static/bundle.js",
-    "server": "http-server ./static -p 3000 -o",
+    "start": "http-server ./static -p 3000 -o",
     "compile": "echo 'todo'"
   },
   "repository": {
@@ -22,7 +22,6 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "http-server": "^0.9.0",
-    "ugnis-eslint": "^1.0.0",
     "watchify": "^3.7.0"
   },
   "dependencies": {
