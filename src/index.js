@@ -7,71 +7,141 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
+import definitions from './def.js'
+import devtools from './devtools.js'
+
 const render = ({view, state, actions, mutators}, node)=> {
-    const currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
+    let currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
+    
+    devtools.init(definitions, currentState, rerender)
+    // global state for resolver
     let currentEvent = null
+    let actionData = null
     let currentMapValue = {}
+    let currentMapIndex = {};
     
     const resolve = (def)=> {
-        if(def.type === 'noop'){
+        // static value
+        if(def._type === undefined){
+            return def;
+        }
+        if(def._type === 'noop'){
             return;
         }
-        if (def.type === 'conditional'){
+        if (def._type === 'conditional'){
             return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
         }
-        if (def.type === 'equals'){
+        if (def._type === 'equals'){
             return resolve(def.first) === resolve(def.second)
         }
-        if (def.type === 'sum'){
+        if (def._type === 'sum'){
             return resolve(def.first) + resolve(def.second)
         }
-        if (def.type === 'list'){
-            const data = resolve(def.data).map((value)=> {
+        // array
+        if (def._type === 'length'){
+            return resolve(def.value).length
+        }
+        if (def._type === 'filter'){
+            const data = resolve(def.data).filter((value, index)=> {
                 currentMapValue[def.identifier] = value
+                currentMapIndex[def.identifier] = index
+                return resolve(def.filter)
+            })
+            delete currentMapValue[def.identifier]
+            delete currentMapIndex[def.identifier]
+            return data
+        }
+        if (def._type === 'map'){
+            const data = resolve(def.data).map((value, index)=> {
+                currentMapValue[def.identifier] = value
+                currentMapIndex[def.identifier] = index
+                return resolve(def.map)
+            })
+            delete currentMapValue[def.identifier]
+            delete currentMapIndex[def.identifier]
+            return data
+        }
+        if (def._type === 'list'){
+            const data = resolve(def.data).map((value, index)=> {
+                currentMapValue[def.identifier] = value
+                currentMapIndex[def.identifier] = index
                 return toNode(def.node)
             })
             delete currentMapValue[def.identifier]
+            delete currentMapIndex[def.identifier]
             return data
         }
-        if (def.type === 'nodeArray'){
+        if (def._type === 'nodeArray'){
             return def.value.map((value)=> toNode(resolve(value)))
         }
-        if (def.type === 'mapValue'){
+        if (def._type === 'actionName'){
+            return { actionName: def.actionName, data: resolve(def.data)}
+        }
+        if (def._type === 'mapValue'){
             return currentMapValue[def.value]
         }
-        if (def.type === 'string'){
+        if (def._type === 'mapIndex'){
+            return currentMapIndex[def.value]
+        }
+        if (def._type === 'string'){
             return def.value
         }
-        if (def.type === 'boolean'){
+        if (def._type === 'boolean'){
             return def.value
         }
-        if (def.type === 'number'){
+        if (def._type === 'not'){
+            return !resolve(def.value)
+        }
+        if (def._type === 'number'){
             return def.value
         }
-        if (def.type === 'array'){
+        if (def._type === 'array'){
             return def.value
         }
-        if (def.type === 'object'){
-            return def.value
+        if (def._type === 'push'){
+            return resolve(def.data).concat(resolve(def.value))
         }
-        if (def.type === 'objectValue'){
+        if (def._type === 'object'){
+            return Object.keys(def.value).reduce((acc, val)=> {acc[val] = resolve(def.value[val]); return acc}, {})
+        }
+        if (def._type === 'merge'){ // maybe call it "set" but it would actually be an immutable merge?
+            return Object.assign({}, resolve(def.first), resolve(def.second))
+        }
+        if (def._type === 'set'){ // why not both?
+            return Object.assign({}, resolve(def.data), {[resolve(def.name)]: resolve(def.value)})
+        }
+        if (def._type === 'objectValue'){
             return resolve(def.object)[resolve(def.value)]
         }
-        if (def.type === 'state'){
+        if (def._type === 'state'){
             return currentState[def.value]
         }
-        if (def.type === 'eventValue'){
+        if (def._type === 'actionData'){
+            return actionData
+        }
+        if (def._type === 'eventValue'){
             return currentEvent.target.value
         }
-        throw Error(def.type)
+        throw Error(def._type)
     }
     
-    function emmitAction(actionName, e){
+    function onEnter(action, e){
+        if (e.keyCode == 13){
+            emmitAction(action, e)
+        }
+    }
+    
+    function emmitAction(action, e){
         currentEvent = e
-        actions[actionName].forEach((key)=> {
-            currentState[key] = resolve(mutators[state[key].mutators[actionName]])
+        actionData = action.data
+        let mutations = {};
+        actions[action.actionName].forEach((key)=> {
+            mutations[key] = resolve(mutators[state[key].mutators[action.actionName]])
         })
+        currentState = Object.assign({}, currentState, mutations)
         currentEvent = null
+        actionData = null
+        devtools.emit(action, e, currentState, mutations)
         rerender()
     }
     
@@ -80,22 +150,23 @@ const render = ({view, state, actions, mutators}, node)=> {
             return; // noop
         }
         
-        const sel = node.type === 'box' ? 'div'
-            : node.type === 'text' ? 'span'
-            : node.type === 'input' ? 'input'
+        const sel = node.nodeType === 'box' ? 'div'
+            : node.nodeType === 'text' ? 'span'
+            : node.nodeType === 'input' ? 'input'
             : 'error'
         const children = node.children ? resolve(node.children).filter((val)=>val !== undefined) : undefined
         const on = {
-            click: node.onClick ? [emmitAction, node.onClick] : undefined,
-            change: node.onChange ? [emmitAction, node.onChange] : undefined,
-            input: node.onInput ? [emmitAction, node.onInput] : undefined,
+            click: node.onClick ? [emmitAction, resolve(node.onClick)] : undefined,
+            change: node.onChange ? [emmitAction, resolve(node.onChange)] : undefined,
+            input: node.onInput ? [emmitAction, resolve(node.onInput)] : undefined,
+            keydown: node.onEnter ? [onEnter, resolve(node.onEnter)] : undefined
         }
         const data = {
-            style: node.style,
+            style: node.style ? resolve(node.style): undefined,
             on,
-            props: node.type === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
+            props: node.nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
         }
-        const text = node.type === 'text' ? resolve(node.value) : undefined
+        const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
 
         return {sel, data, children, text}
     }
@@ -110,7 +181,5 @@ const render = ({view, state, actions, mutators}, node)=> {
         vdom = newvdom
     }
 }
-
-import definitions from './def.js'
 
 render(definitions, document.getElementById('app'))
