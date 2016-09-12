@@ -17,6 +17,15 @@
             font-weight: 300;
             font-size: 14px;
         }
+        .glow {
+            animation:pulse .5s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes pulse {
+            from { box-shadow:0px 0px 1px 1px #0066cc; }
+            to { box-shadow:0px 0px 10px 2px #0066cc; }
+        }
     </style>
 </head>
 <body>

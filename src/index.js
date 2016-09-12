@@ -13,7 +13,7 @@ import devtools from './devtools.js'
 const render = ({view, state, actions, mutators}, node)=> {
     let currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
     
-    const emit = devtools(definitions, currentState, rerender)
+    const devtool = devtools(definitions, currentState, rerender)
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -141,7 +141,7 @@ const render = ({view, state, actions, mutators}, node)=> {
         currentState = Object.assign({}, currentState, mutations)
         currentEvent = null
         actionData = null
-        emit(action, e, currentState, mutations)
+        devtool.emit(action, e, currentState, mutations)
         rerender()
     }
     
@@ -150,7 +150,7 @@ const render = ({view, state, actions, mutators}, node)=> {
             return; // noop
         }
         
-        const sel = node.nodeType === 'box' ? 'div'
+        let sel = node.nodeType === 'box' ? 'div'
             : node.nodeType === 'text' ? 'span'
             : node.nodeType === 'input' ? 'input'
             : 'error'
@@ -168,6 +168,11 @@ const render = ({view, state, actions, mutators}, node)=> {
         }
         const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
 
+        // devtools
+        if(devtool.state.highlight && node === devtool.state.selectedComponent){
+            sel += '.glow'
+        }
+        
         return {sel, data, children, text}
     }
     

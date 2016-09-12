@@ -5,93 +5,122 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-export default function init(definitions, currentState, renderApp){
+export default function init(definitions, currentState, renderApp) {
     let node = document.createElement('div')
     document.body.appendChild(node)
     
     const state = {
         isOpen: true,
         currentState,
-        selectedComponent: definitions.view
+        selectedComponent: definitions.view,
+        highlight: true,
     }
     
-    function openMenu(){
+    function changeHighlight() {
+        state.highlight = !state.highlight
+        render();
+        renderApp();
+    }
+    
+    function openMenu() {
         state.isOpen = !state.isOpen
         render();
     }
-    function selectComponent(compoenent, e){
+    
+    function selectComponent(compoenent, e) {
         e.stopImmediatePropagation()
         state.selectedComponent = compoenent
         render();
+        renderApp();
     }
-    function generateChildTree(component){
-        return [
-            {
+    
+    function generateChildTree(component) {
+        if(component._type) {
+            return {
                 sel: 'div',
                 data: {
                     style: {
-                        display: 'flex',
-                        alignItems: 'center',
+                        padding: '5px 0',
+                        textAlign: 'center',
+                        width: '106px',
+                        height: '28px',
+                        fontSize: '1.5em',
+                        backgroundColor: '#4d4d4d',
+                        margin: '5px',
+                        cursor: 'pointer',
+                        borderRadius: '5px',
                     },
                 },
-                children: [
-                    {
-                        sel: 'div',
-                        data: {
-                            style: {
-                                padding: '15px 38px',
-                                fontSize: '2.5em',
-                                backgroundColor: '#4d4d4d',
-                                margin: '5px',
-                                borderRadius: '5px',
-                            },
-                        },
-                        text: component.nodeType,
-                    }
-                ],
-            },
-            {
-                sel: 'div',
-                data: {
-                    style: {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    },
-                },
-                children: component.children && component.children.value.map((child)=>{
-                    return {
-                        sel: 'div',
-                        data: {
-                            style: {
-                                padding: '10px 30px',
-                                fontSize: '2em',
-                                backgroundColor: '#4d4d4d',
-                                margin: '5px',
-                                borderRadius: '5px',
-                                boxShadow: state.selectedComponent === child ? '0 0 5px #ffffff': undefined,
-                            },
-                            on: {
-                                click: [selectComponent, child]
-                            }
-                        },
-                        text: child.nodeType,
-                    }
-                }),
+                text: component._type
             }
-        ]
+        }
+        return {
+            sel: 'div',
+            data: {
+                style: {
+                    display: 'flex',
+                    border: '1px solid white',
+                    padding: '2px',
+                },
+                on: {
+                    click: [selectComponent, component]
+                }
+            },
+            children: [
+                {
+                    sel: 'div',
+                    data: {
+                        style: {
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        },
+                    },
+                    children: [
+                        {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    padding: '10px 0',
+                                    textAlign: 'center',
+                                    width: '106px',
+                                    height: '34px',
+                                    fontSize: '2em',
+                                    backgroundColor: '#4d4d4d',
+                                    margin: '5px',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    boxShadow: state.selectedComponent === component ? '0 0 5px #ffffff' : undefined,
+                                },
+                            },
+                            text: component.nodeType || component._type,
+                        }
+                    ]
+                },
+                {
+                    sel: 'div',
+                    data: {
+                        style: {
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                        },
+                    },
+                    children: (()=>{
+                        if(!component.children) return undefined
+                        if(component.children._type && component.children._type !== 'nodeArray') return [generateChildTree(component.children)]
+                        return component.children && component.children.value && component.children.value.map(generateChildTree)
+                    })()
+                },
+            ],
+        }
     }
     
     function vdom() {
         return {
             sel: 'div',
             data: {
-                style: {
-                    position: 'absolute',
-                    right: '0',
-                    top: '0px',
-                    height: '100vh',
-                },
             },
             children: [
                 {
@@ -122,6 +151,52 @@ export default function init(definitions, currentState, renderApp){
                     sel: 'div',
                     data: {
                         style: {
+                            position: 'absolute',
+                            display: 'flex',
+                            left: '15px',
+                            padding: '15px',
+                            borderRadius: '5px',
+                            bottom: state.isOpen ? '15px' : '-50px',
+                            background: '#4d4d4d',
+                            color: '#ffffff',
+                            cursor: 'pointer',
+                            transition: 'all 0.5s',
+                            zIndex: '2000',
+                        },
+                        on: {
+                            click: changeHighlight
+                        }
+                    },
+                    children: [
+                        {
+                            sel: 'input',
+                            data: {
+                                props: {
+                                    type: 'checkbox',
+                                    checked: state.highlight
+                                },
+                                style: {
+                                    display: 'inline-block'
+                                },
+                            },
+                        },
+                        {
+                            sel: 'span',
+                            data: {
+                                style: {
+                                    userSelect: 'none',
+                                    whiteSpace: 'nowrap',
+                        
+                                },
+                            },
+                            text: 'Highlight live component'
+                        },
+                    ]
+                },
+                {
+                    sel: 'div',
+                    data: {
+                        style: {
                             boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)',
                             position: 'absolute',
                             right: state.isOpen ? '0px' : '-700px',
@@ -142,15 +217,11 @@ export default function init(definitions, currentState, renderApp){
                             sel: 'div',
                             data: {
                                 style: {
-                                    padding: '10px',
-                                    display: 'flex',
                                     height: '50%',
-                                    width: '100%',
-                                    alignItems: 'center',
                                     overflow: 'scroll',
                                 },
                             },
-                            children: generateChildTree(definitions.view)
+                            children: [generateChildTree(definitions.view)]
                         },
                         // component and state
                         {
@@ -158,7 +229,6 @@ export default function init(definitions, currentState, renderApp){
                             data: {
                                 style: {
                                     display: 'flex',
-                                    marginTop: '50px',
                                     backgroundColor: '#f5f5f5',
                                     borderTop: '6px solid #4d4d4d',
                                     height: '50%',
@@ -212,7 +282,7 @@ export default function init(definitions, currentState, renderApp){
         }
     }
     
-    function render(){
+    function render() {
         const newDom = vdom()
         patch(node, newDom)
         node = newDom
@@ -220,8 +290,11 @@ export default function init(definitions, currentState, renderApp){
     
     render()
     
-    return function emit(action, event, newState, mutations){
-        state.currentState = newState;
-        render()
+    return {
+        state: state,
+        emit: function (action, event, newState, mutations) {
+            state.currentState = newState;
+            render()
+        }
     }
 }
