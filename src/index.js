@@ -13,7 +13,7 @@ import devtools from './devtools.js'
 const render = ({view, state, actions, mutators}, node)=> {
     let currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
     
-    devtools.init(definitions, currentState, rerender)
+    const emit = devtools(definitions, currentState, rerender)
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -141,7 +141,7 @@ const render = ({view, state, actions, mutators}, node)=> {
         currentState = Object.assign({}, currentState, mutations)
         currentEvent = null
         actionData = null
-        devtools.emit(action, e, currentState, mutations)
+        emit(action, e, currentState, mutations)
         rerender()
     }
     

@@ -4,7 +4,11 @@ export default {
     // this is the view tree, it represents what will be shown on the screen, emits actions after user events (clicks)
     view: {
         nodeType: 'box',
-        style: {width: '550px', margin: 'auto', position: 'relative'},
+        style: {
+            width: '550px',
+            margin: '0 50px',
+            position: 'relative',
+        },
         children: {
             _type: 'nodeArray',
             value: [
@@ -19,9 +23,9 @@ export default {
                 {
                     nodeType: 'box',
                     style: {
-                        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)',
                         background: '#ffffff',
-                        position: 'relative'
+                        position: 'relative',
+                        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)',
                     },
                     children: {
                         _type: 'nodeArray',
@@ -52,39 +56,28 @@ export default {
                                 onEnter: {
                                     actionName: 'ADD_TODO',
                                 }
-                            },
-                            {
-                                _type: 'conditional',
-                                statement: {
-                                    _type: 'boolean',
-                                    value: true,
+                            },{
+                                nodeType: 'text',
+                                style: {
+                                    fontSize: '24px',
+                                    color: '#e6e6e6',
+                                    padding: '27px 11px',
+                                    writingMode: 'vertical-lr',
+                                    cursor: 'default',
+                                    textAlign: 'center',
+                                    WebkitUserSelect: 'none',
+                                    userSelect: 'none',
+                                    position: 'absolute',
+                                    top: '0',
+                                    left: '0'
                                 },
-                                then: {
-                                    nodeType: 'text',
-                                    style: {
-                                        fontSize: '24px',
-                                        color: '#e6e6e6',
-                                        padding: '27px 11px',
-                                        writingMode: 'vertical-lr',
-                                        cursor: 'default',
-                                        textAlign: 'center',
-                                        WebkitUserSelect: 'none',
-                                        userSelect: 'none',
-                                        position: 'absolute',
-                                        top: '0',
-                                        left: '0'
-                                    },
-                                    value: {
-                                        _type: 'string',
-                                        value: '❯',
-                                    },
-                                    onClick: {
-                                        actionName: 'MARK_ALL_AS_COMPLETED',
-                                    },
+                                value: {
+                                    _type: 'string',
+                                    value: '❯',
                                 },
-                                else: {
-                                    nodeType: 'noop',
-                                }
+                                onClick: {
+                                    actionName: 'MARK_ALL_AS_COMPLETED',
+                                },
                             },
                             {
                                 nodeType: 'box',
@@ -231,6 +224,8 @@ export default {
                                     height: '20px',
                                     textAlign: 'center',
                                     position: 'relative',
+                                    boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2)'
+    
                                 },
                                 children: {
                                     _type: 'nodeArray',
@@ -359,23 +354,6 @@ export default {
                                 }
                             },
                         ],
-                    },
-                },
-                {
-                    nodeType: 'text',
-                    style: {
-                        height: '50px',
-                        width: '100%',
-                        position: 'absolute',
-                        bottom: '0',
-                        WebkitUserSelect: 'none',
-                        userSelect: 'none',
-                        pointerEvents: 'none',
-                        boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2)'
-                    },
-                    value: {
-                        _type: 'string',
-                        value: '',
                     },
                 },
             ],
