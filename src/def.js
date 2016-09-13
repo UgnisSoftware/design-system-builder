@@ -15,10 +15,7 @@ export default {
                 {
                     nodeType: 'text',
                     style: {color: 'rgba(175, 47, 47, 0.15)', margin: '10px 0 5px 0', fontSize: '100px', fontWeight: '100', textAlign: 'center', width: '100%', display: 'block'},
-                    value: {
-                        _type: 'string',
-                        value: 'todos',
-                    },
+                    value: 'todos',
                 },
                 {
                     nodeType: 'box',
@@ -71,16 +68,14 @@ export default {
                                     top: '0',
                                     left: '0'
                                 },
-                                value: {
-                                    _type: 'string',
-                                    value: '❯',
-                                },
+                                value: '❯',
                                 onClick: {
                                     actionName: 'MARK_ALL_AS_COMPLETED',
                                 },
                             },
                             {
                                 nodeType: 'box',
+                                style: {},
                                 children: {
                                     _type: 'list',
                                     data: {
@@ -174,8 +169,8 @@ export default {
                                                                 value: false
                                                             }
                                                         },
-                                                        then: {height: '40px', width: '40px', display: 'inline-block', backgroundImage: 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>\')'},
-                                                        else: {height: '40px', width: '40px', display: 'inline-block', backgroundImage: 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>\')'},
+                                                        then: {height: '40px', width: '40px', display: 'inline-block', background: 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>\')'},
+                                                        else: {height: '40px', width: '40px', display: 'inline-block', background: 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>\')'},
                                                     },
                                                     onClick: {
                                                         _type: 'object',
@@ -234,7 +229,6 @@ export default {
                                             nodeType: 'text',
                                             style: {
                                                 float: 'left',
-                                                textAlign: 'left',
                                             },
                                             value: {
                                                 _type: 'sum',

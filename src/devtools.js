@@ -5,6 +5,32 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
+const styles = [
+    'width',
+    'height',
+    'display',
+    'padding',
+    'margin',
+    'position',
+    'top',
+    'bottom',
+    'left',
+    'right',
+    'float',
+    'border',
+    'background',
+    'boxShadow',
+    'fontSize',
+    'lineHeight',
+    'fontWeight',
+    'textAlign',
+    'writingMode',
+    'color',
+    'alignItems',
+    'cursor',
+    'overflow',
+]
+
 export default function init(definitions, currentState, renderApp) {
     let node = document.createElement('div')
     document.body.appendChild(node)
@@ -245,11 +271,111 @@ export default function init(definitions, currentState, renderApp) {
                                     data: {
                                         style: {
                                             flex: '1',
+                                            overflow: 'scroll',
                                             padding: '10px',
                                             borderRight: '6px solid #4d4d4d',
                                         },
                                     },
-                                    text: 'Selected Component: ' + state.selectedComponent.nodeType
+                                    children: [
+                                        state.selectedComponent.nodeType === 'text' ? {
+                                            sel: 'div',
+                                            data: {
+                                                style: {
+                                                    width: '100%',
+                                                },
+                                            },
+                                            children: [
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            display: 'inline-block',
+                                                            width: '30%',
+                                                            textAlign: 'right',
+                                                        },
+                                                    },
+                                                    text: 'Text: '
+                                                },
+                                                {
+                                                    sel: 'input',
+                                                    data: {
+                                                        props: {
+                                                            value: state.selectedComponent.value || ''
+                                                        },
+                                                        style: {
+                                                            display: 'inline-block',
+                                                        },
+                                                        on: {
+                                                            input: (e)=> {
+                                                                state.selectedComponent.value = e.target.value;
+                                                                renderApp()
+                                                            }
+                                                        }
+                                                    },
+                                                }
+                                            ]
+                                        }:
+                                        {
+                                            sel: 'div',
+                                            data: {
+                                                style: {
+                                                    width: '100%',
+                                                },
+                                            },
+                                            children: [
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            display: 'inline-block',
+                                                            width: '30%',
+                                                            textAlign: 'right',
+                                                        },
+                                                    },
+                                                    text: 'Children:'
+                                                },
+                                            ]
+                                        }
+                                    ].concat(styles.map((name)=>(
+                                        {
+                                            sel: 'div',
+                                            data: {
+                                                style: {
+                                                    width: '100%',
+                                                },
+                                            },
+                                            children: [
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            display: 'inline-block',
+                                                            width: '30%',
+                                                            textAlign: 'right',
+                                                        },
+                                                    },
+                                                    text: name + ': '
+                                                },
+                                                {
+                                                    sel: 'input',
+                                                    data: {
+                                                        props: {
+                                                            value: state.selectedComponent.style[name] || ''
+                                                        },
+                                                        style: {
+                                                            display: 'inline-block',
+                                                        },
+                                                        on: {
+                                                            input: (e)=> {
+                                                                state.selectedComponent.style = Object.assign({}, state.selectedComponent.style, {[name]: e.target.value});
+                                                                renderApp()
+                                                            }
+                                                        }
+                                                    },
+                                                }
+                                            ]
+                                        }))
+                                    ),
                                 },
                                 {
                                     sel: 'div',
