@@ -281,7 +281,6 @@ export default {
                                         {
                                             nodeType: 'box',
                                             style: {
-                                                width: '100%',
                                                 position: 'absolute',
                                                 left: '0',
                                                 right: '0',

@@ -293,7 +293,7 @@ export default function init(definitions, currentState, renderApp) {
                                     sel: 'span',
                                     data: {
                                     },
-                                    text: 'Compare how this app would be implemented with code in React'
+                                    text: 'Compare how this app would be implemented in code with React'
                                 },
                                 {
                                     sel: 'a',
