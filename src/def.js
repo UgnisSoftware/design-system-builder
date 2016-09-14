@@ -28,50 +28,61 @@ export default {
                         _type: 'nodeArray',
                         value: [
                             {
-                                nodeType: 'input',
-                                placeholder: 'What needs to be done?',
+                                nodeType: 'box',
                                 style: {
-                                    border: 'none',
-                                    width: '100%',
-                                    padding: '16px 16px 16px 60px',
-                                    background: 'rgba(0, 0, 0, 0.003)',
                                     boxShadow: 'inset 0 -2px 1px rgba(0,0,0,0.03)',
                                     boxSizing: 'border-box',
-                                    fontSize: '24px',
-                                    lineHeight: '1.4em',
-                                    fontWeight: '300',
-                                    outline: 'none',
-                                    color: 'inherit',
+                                    display: 'flex',
                                 },
-                                value: {
-                                    _type: 'state',
-                                    value: 'input',
-                                },
-                                onInput: {
-                                    actionName: 'UPDATE_INPUT',
-                                },
-                                onEnter: {
-                                    actionName: 'ADD_TODO',
+                                children: {
+                                    _type: 'nodeArray',
+                                    value: [
+                                        {
+                                            nodeType: 'text',
+                                            style: {
+                                                fontSize: '24px',
+                                                color: '#e6e6e6',
+                                                padding: '27px 11px',
+                                                writingMode: 'vertical-lr',
+                                                cursor: 'default',
+                                                textAlign: 'center',
+                                                WebkitUserSelect: 'none',
+                                                userSelect: 'none',
+                                                flex: '1',
+                                                maxWidth: '38px',
+                                            },
+                                            value: '❯',
+                                            onClick: {
+                                                actionName: 'MARK_ALL_AS_COMPLETED',
+                                            },
+                                        },
+                                        {
+                                            nodeType: 'input',
+                                            placeholder: 'What needs to be done?',
+                                            style: {
+                                                border: 'none',
+                                                flex: '1',
+                                                padding: '16px 16px 16px 0',
+                                                background: 'rgba(0, 0, 0, 0.003)',
+                                                fontSize: '24px',
+                                                lineHeight: '1.4em',
+                                                fontWeight: '300',
+                                                outline: 'none',
+                                                color: 'inherit',
+                                            },
+                                            value: {
+                                                _type: 'state',
+                                                value: 'input',
+                                            },
+                                            onInput: {
+                                                actionName: 'UPDATE_INPUT',
+                                            },
+                                            onEnter: {
+                                                actionName: 'ADD_TODO',
+                                            }
+                                        },
+                                    ]
                                 }
-                            },{
-                                nodeType: 'text',
-                                style: {
-                                    fontSize: '24px',
-                                    color: '#e6e6e6',
-                                    padding: '27px 11px',
-                                    writingMode: 'vertical-lr',
-                                    cursor: 'default',
-                                    textAlign: 'center',
-                                    WebkitUserSelect: 'none',
-                                    userSelect: 'none',
-                                    position: 'absolute',
-                                    top: '0',
-                                    left: '0'
-                                },
-                                value: '❯',
-                                onClick: {
-                                    actionName: 'MARK_ALL_AS_COMPLETED',
-                                },
                             },
                             {
                                 nodeType: 'box',

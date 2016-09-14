@@ -29,6 +29,7 @@ const styles = [
     'alignItems',
     'cursor',
     'overflow',
+    'transition',
 ]
 
 export default function init(definitions, currentState, renderApp) {
@@ -36,10 +37,10 @@ export default function init(definitions, currentState, renderApp) {
     document.body.appendChild(node)
     
     const state = {
-        isOpen: true,
+        isOpen: false,
         currentState,
         selectedComponent: definitions.view,
-        highlight: true,
+        highlight: false,
     }
     
     function changeHighlight() {
@@ -50,7 +51,9 @@ export default function init(definitions, currentState, renderApp) {
     
     function openMenu() {
         state.isOpen = !state.isOpen
+        state.highlight = state.isOpen
         render();
+        renderApp();
     }
     
     function selectComponent(compoenent, e) {
@@ -85,7 +88,7 @@ export default function init(definitions, currentState, renderApp) {
             data: {
                 style: {
                     display: 'flex',
-                    border: '1px solid white',
+                    border: '1px solid #FFA273',
                     padding: '2px',
                 },
                 on: {
@@ -117,7 +120,7 @@ export default function init(definitions, currentState, renderApp) {
                                     margin: '5px',
                                     cursor: 'pointer',
                                     borderRadius: '5px',
-                                    boxShadow: state.selectedComponent === component ? '0 0 5px #ffffff' : undefined,
+                                    boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
                                 },
                             },
                             text: component.nodeType || component._type,
@@ -179,7 +182,7 @@ export default function init(definitions, currentState, renderApp) {
                         style: {
                             position: 'absolute',
                             display: 'flex',
-                            left: '15px',
+                            right: '50%',
                             padding: '15px',
                             borderRadius: '5px',
                             bottom: state.isOpen ? '15px' : '-50px',
@@ -218,6 +221,97 @@ export default function init(definitions, currentState, renderApp) {
                             text: 'Highlight live component'
                         },
                     ]
+                },{
+                    sel: 'div',
+                    data: {
+                        style: {
+                            position: 'absolute',
+                            left: '50px',
+                            padding: '0 15px',
+                            borderRadius: '5px',
+                            bottom: '15px',
+                            background: '#4d4d4d',
+                            color: '#ffffff',
+                            transition: 'all 0.5s',
+                        },
+                    },
+                    children: [
+                        {
+                            sel: 'p',
+                            data: {
+                                style: {
+                                },
+                            },
+                            children: [
+                                {
+                                    sel: 'span',
+                                    data: {
+                                    },
+                                    text: 'This is an example'
+                                },
+                                {
+                                    sel: 'a',
+                                    data: {
+                                        props: {
+                                            href: 'http://todomvc.com/'
+                                        },
+                                        style: {
+                                            color: 'inherit',
+                                            marginLeft: '3px',
+                
+                                        },
+                                    },
+                                    text: 'TodoMVC application'
+                                },
+                            ]
+                        },
+                        {
+                            sel: 'p',
+                            data: {
+                                style: {
+                                },
+                            },
+                            children: [
+                                {
+                                    sel: 'span',
+                                    data: {
+                                        style: {
+                                        },
+                                    },
+                                    text: 'It was build using the tool on the right - Ugnis v0.0.12-pre-alpha'
+                                },
+                            ],
+                        },
+                        {
+                            sel: 'p',
+                            data: {
+                                style: {
+                                },
+                            },
+                            children: [
+                                {
+                                    sel: 'span',
+                                    data: {
+                                    },
+                                    text: 'Compare how this app would be implemented with code in React'
+                                },
+                                {
+                                    sel: 'a',
+                                    data: {
+                                        props: {
+                                            href: 'https://github.com/tastejs/todomvc/tree/gh-pages/examples/react/js'
+                                        },
+                                        style: {
+                                            color: 'inherit',
+                                            marginLeft: '3px',
+                        
+                                        },
+                                    },
+                                    text: 'here'
+                                },
+                            ]
+                        },
+                    ]
                 },
                 {
                     sel: 'div',
@@ -226,8 +320,6 @@ export default function init(definitions, currentState, renderApp) {
                             boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1)',
                             position: 'absolute',
                             right: state.isOpen ? '0px' : '-700px',
-                            backgroundSize: '16px',
-                            backgroundImage: 'url(/images/blueprint.png)',
                             color: '#ffffff',
                             boxSizing: 'border-box',
                             borderLeft: '6px solid #4d4d4d',
@@ -247,7 +339,22 @@ export default function init(definitions, currentState, renderApp) {
                                     overflow: 'scroll',
                                 },
                             },
-                            children: [generateChildTree(definitions.view)]
+                            children: [
+                                {
+                                    sel: 'div',
+                                    data: {
+                                        style: {
+                                            backgroundImage: 'url(/images/blueprint.png)',
+                                            backgroundSize: '16px',
+                                            padding: '10px',
+                                            // display: 'inline-block',
+                                            // minWidth: '100%',
+                                            // minHeight: '100%',
+                                        },
+                                    },
+                                    children: [generateChildTree(definitions.view)]
+                                },
+                            ]
                         },
                         // component and state
                         {
@@ -255,7 +362,7 @@ export default function init(definitions, currentState, renderApp) {
                             data: {
                                 style: {
                                     display: 'flex',
-                                    backgroundColor: '#f5f5f5',
+                                    backgroundColor: '#bbd0dd',
                                     borderTop: '6px solid #4d4d4d',
                                     height: '50%',
                                     width: '100%',
@@ -282,6 +389,7 @@ export default function init(definitions, currentState, renderApp) {
                                             data: {
                                                 style: {
                                                     width: '100%',
+                                                    margin: '0 0 10px 0',
                                                 },
                                             },
                                             children: [
@@ -320,6 +428,7 @@ export default function init(definitions, currentState, renderApp) {
                                             data: {
                                                 style: {
                                                     width: '100%',
+                                                    margin: '0 0 10px 0',
                                                 },
                                             },
                                             children: [
@@ -336,7 +445,7 @@ export default function init(definitions, currentState, renderApp) {
                                                 },
                                             ]
                                         }
-                                    ].concat(styles.map((name)=>(
+                                    ].concat(Object.keys(state.selectedComponent.style).map((name)=>(
                                         {
                                             sel: 'div',
                                             data: {
