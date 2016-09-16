@@ -37,10 +37,46 @@ export default function init(definitions, currentState, renderApp) {
     document.body.appendChild(node)
     
     const state = {
-        isOpen: false,
+        isOpen: true,
         currentState,
         selectedComponent: definitions.view,
-        highlight: false,
+        highlight: true,
+    }
+    
+    function addChild(component, type){
+        const empty = {
+            box: {
+                nodeType: 'box',
+                style: {},
+                children: {
+                    _type: 'nodeArray',
+                    value: [],
+                }
+            },
+            text: {
+                nodeType: 'text',
+                style: {},
+                value: ''
+            },
+            input: {
+                nodeType: 'input',
+                style: {},
+                value: ''
+            },
+        }
+        component.children.value.push(empty[type])
+        render();
+        renderApp();
+    }
+    
+    function removeNode(component, parent){
+        if(parent){
+            parent.children.value = parent.children.value.filter((child)=> child !== component)
+        } else {
+            component.children.value = []
+        }
+        render();
+        renderApp();
     }
     
     function changeHighlight() {
@@ -63,26 +99,7 @@ export default function init(definitions, currentState, renderApp) {
         renderApp();
     }
     
-    function generateChildTree(component) {
-        if(component._type) {
-            return {
-                sel: 'div',
-                data: {
-                    style: {
-                        padding: '5px 0',
-                        textAlign: 'center',
-                        width: '106px',
-                        height: '28px',
-                        fontSize: '1.5em',
-                        backgroundColor: '#4d4d4d',
-                        margin: '5px',
-                        cursor: 'pointer',
-                        borderRadius: '5px',
-                    },
-                },
-                text: component._type
-            }
-        }
+    function generateChildTree(component, parent) {
         return {
             sel: 'div',
             data: {
@@ -104,6 +121,7 @@ export default function init(definitions, currentState, renderApp) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            position: 'relative',
                         },
                     },
                     children: [
@@ -123,9 +141,103 @@ export default function init(definitions, currentState, renderApp) {
                                     boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
                                 },
                             },
-                            text: component.nodeType || component._type,
-                        }
-                    ]
+                            text: component.nodeType,
+                        },
+                        state.selectedComponent === component && {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    textAlign: 'center',
+                                    width: '30px',
+                                    height: '30px',
+                                    fontSize: '22px',
+                                    backgroundColor: '#4d4d4d',
+                                    border: '1px solid white',
+                                    cursor: 'pointer',
+                                    borderRadius: '15px',
+                                    color: 'white',
+                                    position: 'absolute',
+                                    right: '0',
+                                    margin: '-22px 0 0 0',
+                                    fontWeight: '800',
+                                },
+                                on: {
+                                    click: [removeNode, component, parent]
+                                }
+                            },
+                            text: 'x',
+                        },
+                        state.selectedComponent === component && component.nodeType === 'box' && {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    paddingLeft: '6px',
+                                    width: '100px',
+                                    height: '30px',
+                                    fontSize: '22px',
+                                    backgroundColor: '#4d4d4d',
+                                    cursor: 'pointer',
+                                    color: 'white',
+                                    position: 'absolute',
+                                    right: '5px',
+                                    margin: '38px 0 0 0',
+                                    fontWeight: '800',
+                                    borderTop: '1px solid white',
+                                },
+                                on: {
+                                    click: [addChild, component, 'box']
+                                }
+                            },
+                            text: '+ box',
+                        },
+                        state.selectedComponent === component && component.nodeType === 'box' && {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    paddingLeft: '6px',
+                                    width: '100px',
+                                    height: '30px',
+                                    fontSize: '22px',
+                                    backgroundColor: '#4d4d4d',
+                                    cursor: 'pointer',
+                                    color: 'white',
+                                    position: 'absolute',
+                                    right: '5px',
+                                    margin: '68px 0 0 0',
+                                    fontWeight: '800',
+                                    borderTop: '1px solid white',
+                                },
+                                on: {
+                                    click: [addChild, component, 'text']
+                                }
+                            },
+                            text: '+ text',
+                        },
+                        state.selectedComponent === component && component.nodeType === 'box' && {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    paddingLeft: '6px',
+                                    width: '100px',
+                                    height: '30px',
+                                    fontSize: '22px',
+                                    backgroundColor: '#4d4d4d',
+                                    cursor: 'pointer',
+                                    borderRadius: '0 0 5px 5px',
+                                    color: 'white',
+                                    position: 'absolute',
+                                    right: '5px',
+                                    margin: '98px 0 0 0',
+                                    fontWeight: '800',
+                                    borderTop: '1px solid white',
+                                },
+                                on: {
+                                    click: [addChild, component, 'input']
+                                }
+                            },
+                            text: '+ input',
+                        },
+                    ].filter((val)=> val)
                 },
                 {
                     sel: 'div',
@@ -136,11 +248,7 @@ export default function init(definitions, currentState, renderApp) {
                             justifyContent: 'center',
                         },
                     },
-                    children: (()=>{
-                        if(!component.children) return undefined
-                        if(component.children._type && component.children._type !== 'nodeArray') return [generateChildTree(component.children)]
-                        return component.children && component.children.value && component.children.value.map(generateChildTree)
-                    })()
+                    children: component.children && component.children.value && component.children.value.map((child)=>generateChildTree(child, component))
                 },
             ],
         }
@@ -215,7 +323,7 @@ export default function init(definitions, currentState, renderApp) {
                                 style: {
                                     userSelect: 'none',
                                     whiteSpace: 'nowrap',
-                        
+                                    
                                 },
                             },
                             text: 'Highlight live component'
@@ -258,7 +366,6 @@ export default function init(definitions, currentState, renderApp) {
                                         style: {
                                             color: 'inherit',
                                             marginLeft: '3px',
-                
                                         },
                                     },
                                     text: 'TodoMVC application'
@@ -304,7 +411,7 @@ export default function init(definitions, currentState, renderApp) {
                                         style: {
                                             color: 'inherit',
                                             marginLeft: '3px',
-                        
+                                            
                                         },
                                     },
                                     text: 'here'
@@ -362,7 +469,7 @@ export default function init(definitions, currentState, renderApp) {
                             data: {
                                 style: {
                                     display: 'flex',
-                                    backgroundColor: '#bbd0dd',
+                                    background: 'linear-gradient(to top, #ECE9E6 , #FFFFFF)',
                                     borderTop: '6px solid #4d4d4d',
                                     height: '50%',
                                     width: '100%',
@@ -505,7 +612,17 @@ export default function init(definitions, currentState, renderApp) {
                                                 },
                                             },
                                             key: stateName,
-                                            text: `${stateName} \\${definitions.state[stateName].stateType}\\: Default: ${definitions.state[stateName].defaultValue} Current: ${state.currentState[stateName]} `
+                                            children: [
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            background: '#dddddd',
+                                                        },
+                                                    },
+                                                    text: stateName + ': ' + (definitions.state[stateName].defaultValue === '' ? '\'\'': definitions.state[stateName].defaultValue)
+                                                },
+                                            ],
                                         })
                                     ),
                                 }

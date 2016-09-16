@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static/bundle.js",
-    "start": "http-server ./static -p 3000 -o",
+    "start": "http-server ./static -p 3000",
     "compile": "echo 'todo'"
   },
   "repository": {

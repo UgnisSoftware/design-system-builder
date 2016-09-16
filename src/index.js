@@ -153,6 +153,7 @@ const render = ({view, state, actions, mutators}, node)=> {
         let sel = node.nodeType === 'box' ? 'div'
             : node.nodeType === 'text' ? 'span'
             : node.nodeType === 'input' ? 'input'
+            : node.nodeType === 'list' ? 'div'
             : 'error'
         const children = node.children ? resolve(node.children).filter((val)=>val !== undefined) : undefined
         const on = {

@@ -85,7 +85,7 @@ export default {
                                 }
                             },
                             {
-                                nodeType: 'box',
+                                nodeType: 'list',
                                 style: {},
                                 children: {
                                     _type: 'list',
@@ -374,8 +374,7 @@ export default {
             },
         },
         flag: {
-            stateType: 'enum',
-            values: ['ALL', 'ACTIVE', 'COMPLETED'],
+            stateType: 'string',
             defaultValue: 'ALL',
             mutators: {
                 CHANGE_FLAG_ALL: 'CHANGE_FLAG_ALL',
