@@ -69,6 +69,20 @@ export default function init(definitions, currentState, renderApp) {
         renderApp();
     }
     
+    function addStyle(event){
+        state.selectedComponent.style[event.target.value] = ''
+        render();
+        renderApp();
+    }
+    
+    function deleteStyle(name){
+        const tempObj = Object.assign({}, state.selectedComponent.style)
+        delete tempObj[name]
+        state.selectedComponent.style = tempObj
+        render();
+        renderApp();
+    }
+    
     function removeNode(component, parent){
         if(parent){
             parent.children.value = parent.children.value.filter((child)=> child !== component)
@@ -160,6 +174,7 @@ export default function init(definitions, currentState, renderApp) {
                                     right: '0',
                                     margin: '-22px 0 0 0',
                                     fontWeight: '800',
+                                    zIndex: '100',
                                 },
                                 on: {
                                     click: [removeNode, component, parent]
@@ -183,6 +198,7 @@ export default function init(definitions, currentState, renderApp) {
                                     margin: '38px 0 0 0',
                                     fontWeight: '800',
                                     borderTop: '1px solid white',
+                                    zIndex: '101',
                                 },
                                 on: {
                                     click: [addChild, component, 'box']
@@ -206,6 +222,7 @@ export default function init(definitions, currentState, renderApp) {
                                     margin: '68px 0 0 0',
                                     fontWeight: '800',
                                     borderTop: '1px solid white',
+                                    zIndex: '102',
                                 },
                                 on: {
                                     click: [addChild, component, 'text']
@@ -230,6 +247,7 @@ export default function init(definitions, currentState, renderApp) {
                                     margin: '98px 0 0 0',
                                     fontWeight: '800',
                                     borderTop: '1px solid white',
+                                    zIndex: '103',
                                 },
                                 on: {
                                     click: [addChild, component, 'input']
@@ -550,9 +568,9 @@ export default function init(definitions, currentState, renderApp) {
                                                     },
                                                     text: 'Children:'
                                                 },
-                                            ]
-                                        }
-                                    ].concat(Object.keys(state.selectedComponent.style).map((name)=>(
+                                            ],
+                                        },
+                                        ...Object.keys(state.selectedComponent.style).map((name)=>(
                                         {
                                             sel: 'div',
                                             data: {
@@ -588,10 +606,39 @@ export default function init(definitions, currentState, renderApp) {
                                                             }
                                                         }
                                                     },
-                                                }
+                                                },
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            display: 'inline-block'
+                                                        },
+                                                        on: {
+                                                            click: [deleteStyle, name]
+                                                        }
+                                                    },
+                                                    text: 'x'
+                                                },
                                             ]
-                                        }))
-                                    ),
+                                        })),
+                                        {
+                                            sel: 'select',
+                                            data: {
+                                                on: {
+                                                    change: [addStyle]
+                                                }
+                                            },
+                                            children: styles.map(style => ({
+                                                sel: 'option',
+                                                data: {
+                                                    props: {
+                                                        value: style,
+                                                    },
+                                                },
+                                                text: style
+                                            })),
+                                        }
+                                    ],
                                 },
                                 {
                                     sel: 'div',
