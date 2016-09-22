@@ -41,6 +41,20 @@ export default function init(definitions, currentState, renderApp) {
         currentState,
         selectedComponent: definitions.view,
         highlight: true,
+        lastAction: '',
+    }
+    
+    
+    let timeout;
+    function clearLastAction(){
+        state.lastAction = ''
+        render()
+    }
+    function blinkAction(actionName){
+        state.lastAction = actionName
+        clearTimeout(timeout)
+        timeout = setTimeout(clearLastAction, 500)
+        render()
     }
     
     function addChild(component, type){
@@ -509,7 +523,7 @@ export default function init(definitions, currentState, renderApp) {
                                         },
                                     },
                                     children: [
-                                        state.selectedComponent.nodeType === 'text' ? {
+                                        state.selectedComponent.nodeType === 'text' && {
                                             sel: 'div',
                                             data: {
                                                 style: {
@@ -547,28 +561,6 @@ export default function init(definitions, currentState, renderApp) {
                                                     },
                                                 }
                                             ]
-                                        }:
-                                        {
-                                            sel: 'div',
-                                            data: {
-                                                style: {
-                                                    width: '100%',
-                                                    margin: '0 0 10px 0',
-                                                },
-                                            },
-                                            children: [
-                                                {
-                                                    sel: 'div',
-                                                    data: {
-                                                        style: {
-                                                            display: 'inline-block',
-                                                            width: '30%',
-                                                            textAlign: 'right',
-                                                        },
-                                                    },
-                                                    text: 'Children:'
-                                                },
-                                            ],
                                         },
                                         ...Object.keys(state.selectedComponent.style).map((name)=>(
                                         {
@@ -638,8 +630,9 @@ export default function init(definitions, currentState, renderApp) {
                                                 text: style
                                             })),
                                         }
-                                    ],
+                                    ].filter((val)=>val),
                                 },
+                                // STATE
                                 {
                                     sel: 'div',
                                     data: {
@@ -664,10 +657,71 @@ export default function init(definitions, currentState, renderApp) {
                                                     sel: 'div',
                                                     data: {
                                                         style: {
-                                                            background: '#dddddd',
                                                         },
                                                     },
-                                                    text: stateName + ': ' + (definitions.state[stateName].defaultValue === '' ? '\'\'': definitions.state[stateName].defaultValue)
+                                                    children: [
+                                                        {
+                                                            sel: 'span',
+                                                            data: {},
+                                                            text: stateName + ': ',
+                                                        },
+                                                        {
+                                                            sel: 'span',
+                                                            data: {
+                                                                style: {
+                                                                    background: '#dddddd',
+                                                                }
+                                                            },
+                                                            text: definitions.state[stateName].stateType + ' ' + definitions.state[stateName].defaultValue,
+                                                        },
+                                                        {
+                                                            sel: 'span',
+                                                            data: {
+                                                                style: {
+                                                                    background: '#aaddaa',
+                                                                }
+                                                            },
+                                                            text: state.currentState[stateName],
+                                                        }
+                                                    ],
+                                                },
+                                                // Actions
+                                                {
+                                                    sel: 'div',
+                                                    data: {
+                                                        style: {
+                                                            paddingLeft: '10px',
+                                                            fontSize: '0.5em',
+                                                        },
+                                                    },
+                                                    children: Object.keys(definitions.state[stateName].mutators).map(key=>({
+                                                        sel: 'div',
+                                                        data: {
+                                                            style: {
+                                                                paddingLeft: '10px',
+                                                                background: key === state.lastAction ? '#FFA273': 'none',
+                                                                transition: 'all 0.5s',
+                                                            },
+                                                        },
+                                                        children: [
+                                                            {
+                                                                sel: 'span',
+                                                                data: {},
+                                                                text: key + ': ',
+                                                            },
+                                                            {
+                                                                sel: 'span',
+                                                                data: {
+                                                                    style: {
+                                                                        background: '#dddddd',
+                                                                    }
+                                                                },
+                                                                text: definitions.mutators[definitions.state[stateName].mutators[key]]._type === 'string' ?
+                                                                    definitions.mutators[definitions.state[stateName].mutators[key]]._type + ' ' + definitions.mutators[definitions.state[stateName].mutators[key]].value:
+                                                                    definitions.mutators[definitions.state[stateName].mutators[key]]._type,
+                                                            }
+                                                        ],
+                                                    }))
                                                 },
                                             ],
                                         })
@@ -691,8 +745,9 @@ export default function init(definitions, currentState, renderApp) {
     
     return {
         state: state,
-        emit: function (action, event, newState, mutations) {
+        emit: function (actionName, data, event, newState, mutations) {
             state.currentState = newState;
+            blinkAction(actionName)
             render()
         }
     }

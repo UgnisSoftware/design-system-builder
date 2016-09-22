@@ -184,16 +184,13 @@ export default {
                                                         else: {height: '40px', width: '40px', display: 'inline-block', background: 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>\')'},
                                                     },
                                                     onClick: {
-                                                        _type: 'object',
-                                                        value: {
-                                                            actionName: 'CHANGE_ITEM_STATUS',
-                                                            data: {
-                                                                _type: 'object',
-                                                                value: {
-                                                                    itemId: {
-                                                                        _type: 'mapIndex',
-                                                                        value: 'mapId1',
-                                                                    },
+                                                        actionName: 'CHANGE_ITEM_STATUS',
+                                                        data: {
+                                                            _type: 'object',
+                                                            value: {
+                                                                itemId: {
+                                                                    _type: 'mapIndex',
+                                                                    value: 'mapId1',
                                                                 },
                                                             },
                                                         },
@@ -231,7 +228,7 @@ export default {
                                     textAlign: 'center',
                                     position: 'relative',
                                     boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2)'
-    
+                                    
                                 },
                                 children: {
                                     _type: 'nodeArray',
@@ -384,6 +381,12 @@ export default {
         },
         todos: {
             stateType: 'array',
+            definition: {
+                text: 'string',
+                completed: 'boolean',
+                showDestroy: 'boolean',
+                editing: 'boolean',
+            },
             defaultValue: [
                 {
                     text: 'do the laundry',

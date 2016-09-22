@@ -22,11 +22,11 @@ const render = ({view, state, actions, mutators}, node)=> {
     
     const resolve = (def)=> {
         // static value
+        if(def === undefined || def._type === 'noop'){
+            return;
+        }
         if(def._type === undefined){
             return def;
-        }
-        if(def._type === 'noop'){
-            return;
         }
         if (def._type === 'conditional'){
             return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
@@ -119,29 +119,32 @@ const render = ({view, state, actions, mutators}, node)=> {
         if (def._type === 'actionData'){
             return actionData
         }
+        if (def._type === 'actionData'){
+            return actionData
+        }
         if (def._type === 'eventValue'){
             return currentEvent.target.value
         }
         throw Error(def._type)
     }
     
-    function onEnter(action, e){
+    function onEnter(actionName, data, e){
         if (e.keyCode == 13){
-            emmitAction(action, e)
+            emmitAction(actionName, data, e)
         }
     }
     
-    function emmitAction(action, e){
+    function emmitAction(actionName, data, e){
         currentEvent = e
-        actionData = action.data
+        actionData = data
         let mutations = {};
-        actions[action.actionName].forEach((key)=> {
-            mutations[key] = resolve(mutators[state[key].mutators[action.actionName]])
+        actions[actionName].forEach((key)=> {
+            mutations[key] = resolve(mutators[state[key].mutators[actionName]])
         })
         currentState = Object.assign({}, currentState, mutations)
         currentEvent = null
         actionData = null
-        devtool.emit(action, e, currentState, mutations)
+        devtool.emit(actionName, data, e, currentState, mutations)
         rerender()
     }
     
@@ -157,10 +160,10 @@ const render = ({view, state, actions, mutators}, node)=> {
             : 'error'
         const children = node.children ? resolve(node.children).filter((val)=>val !== undefined) : undefined
         const on = {
-            click: node.onClick ? [emmitAction, resolve(node.onClick)] : undefined,
-            change: node.onChange ? [emmitAction, resolve(node.onChange)] : undefined,
-            input: node.onInput ? [emmitAction, resolve(node.onInput)] : undefined,
-            keydown: node.onEnter ? [onEnter, resolve(node.onEnter)] : undefined
+            click: node.onClick ? [emmitAction, node.onClick.actionName, resolve(node.onClick.data)] : undefined,
+            change: node.onChange ? [emmitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
+            input: node.onInput ? [emmitAction, node.onInput.actionName, resolve(node.onInput.data)] : undefined,
+            keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined
         }
         const data = {
             style: node.style ? resolve(node.style): undefined,
