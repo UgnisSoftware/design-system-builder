@@ -25,6 +25,9 @@ const render = ({view, state, actions, mutators}, node)=> {
         if(def === undefined || def._type === 'noop'){
             return;
         }
+        if(def._nodeType){
+            return toNode(def);
+        }
         if(def._type === undefined){
             return def;
         }
@@ -60,19 +63,6 @@ const render = ({view, state, actions, mutators}, node)=> {
             delete currentMapValue[def.identifier]
             delete currentMapIndex[def.identifier]
             return data
-        }
-        if (def._type === 'list'){
-            const data = resolve(def.data).map((value, index)=> {
-                currentMapValue[def.identifier] = value
-                currentMapIndex[def.identifier] = index
-                return toNode(def.node)
-            })
-            delete currentMapValue[def.identifier]
-            delete currentMapIndex[def.identifier]
-            return data
-        }
-        if (def._type === 'nodeArray'){
-            return def.value.map((value)=> toNode(resolve(value)))
         }
         if (def._type === 'actionName'){
             return { actionName: def.actionName, data: resolve(def.data)}
@@ -152,13 +142,25 @@ const render = ({view, state, actions, mutators}, node)=> {
         if(node === undefined){
             return; // noop
         }
-        
-        let sel = node.nodeType === 'box' ? 'div'
-            : node.nodeType === 'text' ? 'span'
-            : node.nodeType === 'input' ? 'input'
-            : node.nodeType === 'list' ? 'div'
+        let sel = node._nodeType === 'box' ? 'div'
+            : node._nodeType === 'text' ? 'span'
+            : node._nodeType === 'input' ? 'input'
             : 'error'
-        const children = node.children ? resolve(node.children).filter((val)=>val !== undefined) : undefined
+        let children;
+        if(node.children){
+            children = []
+            for(let i = 0; i < node.children.length; i++){
+                var child = resolve(node.children[i])
+                //flatten (let's hope no one is imitating array with object)
+                if (child.constructor === Array){
+                    for(let j = 0; j < child.length; j++){
+                        children.push(child[j])
+                    }
+                } else {
+                    children.push(child)
+                }
+            }
+        }
         const on = {
             click: node.onClick ? [emmitAction, node.onClick.actionName, resolve(node.onClick.data)] : undefined,
             change: node.onChange ? [emmitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
@@ -168,9 +170,9 @@ const render = ({view, state, actions, mutators}, node)=> {
         const data = {
             style: node.style ? resolve(node.style): undefined,
             on,
-            props: node.nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
+            props: node._nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
         }
-        const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
+        const text = node._nodeType === 'text' ? node.value && resolve(node.value) : undefined
 
         // devtools
         if(devtool.state.highlight && node === devtool.state.selectedComponent){
@@ -180,12 +182,13 @@ const render = ({view, state, actions, mutators}, node)=> {
         return {sel, data, children, text}
     }
     
-    let vdom = toNode(view)
+    let vdom = resolve(view)
+    console.log(vdom)
     
     patch(node, vdom) // first render
     
     function rerender(){
-        const newvdom = toNode(view)
+        const newvdom = resolve(view)
         patch(vdom, newvdom)
         vdom = newvdom
     }

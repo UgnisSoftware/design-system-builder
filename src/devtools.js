@@ -44,7 +44,6 @@ export default function init(definitions, currentState, renderApp) {
         lastAction: '',
     }
     
-    
     let timeout;
     function clearLastAction(){
         state.lastAction = ''
@@ -99,9 +98,9 @@ export default function init(definitions, currentState, renderApp) {
     
     function removeNode(component, parent){
         if(parent){
-            parent.children.value = parent.children.value.filter((child)=> child !== component)
+            parent.children = parent.children.filter((child)=> child !== component)
         } else {
-            component.children.value = []
+            component.children = []
         }
         render();
         renderApp();
@@ -169,7 +168,7 @@ export default function init(definitions, currentState, renderApp) {
                                     boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
                                 },
                             },
-                            text: component.nodeType,
+                            text: component._nodeType || component._type,
                         },
                         state.selectedComponent === component && {
                             sel: 'div',
@@ -280,7 +279,7 @@ export default function init(definitions, currentState, renderApp) {
                             justifyContent: 'center',
                         },
                     },
-                    children: component.children && component.children.value && component.children.value.map((child)=>generateChildTree(child, component))
+                    children: component.children  && component.children.map((child)=>generateChildTree(child, component))
                 },
             ],
         }
