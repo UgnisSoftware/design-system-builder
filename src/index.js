@@ -25,11 +25,11 @@ const render = ({view, state, actions, mutators}, node)=> {
         if(def === undefined || def._type === 'noop'){
             return;
         }
-        if(def._nodeType){
-            return toNode(def);
-        }
         if(def._type === undefined){
             return def;
+        }
+        if (def._type === 'vNode'){
+            return toNode(def);
         }
         if (def._type === 'conditional'){
             return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
@@ -142,9 +142,9 @@ const render = ({view, state, actions, mutators}, node)=> {
         if(node === undefined){
             return; // noop
         }
-        let sel = node._nodeType === 'box' ? 'div'
-            : node._nodeType === 'text' ? 'span'
-            : node._nodeType === 'input' ? 'input'
+        let sel = node.nodeType === 'box' ? 'div'
+            : node.nodeType === 'text' ? 'span'
+            : node.nodeType === 'input' ? 'input'
             : 'error'
         let children;
         if(node.children){
@@ -170,9 +170,9 @@ const render = ({view, state, actions, mutators}, node)=> {
         const data = {
             style: node.style ? resolve(node.style): undefined,
             on,
-            props: node._nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
+            props: node.nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
         }
-        const text = node._nodeType === 'text' ? node.value && resolve(node.value) : undefined
+        const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
 
         // devtools
         if(devtool.state.highlight && node === devtool.state.selectedComponent){
@@ -183,7 +183,6 @@ const render = ({view, state, actions, mutators}, node)=> {
     }
     
     let vdom = resolve(view)
-    console.log(vdom)
     
     patch(node, vdom) // first render
     

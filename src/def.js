@@ -1,9 +1,10 @@
 // objects with _type will be resolved at runtime on every change
-// objects with _nodeType will be used to construct html
+// types with vNode will be used to construct html
 export default {
     // this is the view tree, it represents what will be shown on the screen, emits actions after user events (clicks)
     view: {
-        _nodeType: 'box',
+        _type: 'vNode',
+        nodeType: 'box',
         style: {
             width: '550px',
             margin: '0 50px',
@@ -11,12 +12,14 @@ export default {
         },
         children: [
             {
-                _nodeType: 'text',
+                _type: 'vNode',
+                nodeType: 'text',
                 style: {color: 'rgba(175, 47, 47, 0.15)', margin: '10px 0 5px 0', fontSize: '100px', fontWeight: '100', textAlign: 'center', width: '100%', display: 'block'},
                 value: 'todos',
             },
             {
-                _nodeType: 'box',
+                _type: 'vNode',
+                nodeType: 'box',
                 style: {
                     background: '#ffffff',
                     position: 'relative',
@@ -24,7 +27,8 @@ export default {
                 },
                 children: [
                     {
-                        _nodeType: 'box',
+                        _type: 'vNode',
+                        nodeType: 'box',
                         style: {
                             boxShadow: 'inset 0 -2px 1px rgba(0,0,0,0.03)',
                             boxSizing: 'border-box',
@@ -32,7 +36,8 @@ export default {
                         },
                         children: [
                             {
-                                _nodeType: 'text',
+                                _type: 'vNode',
+                                nodeType: 'text',
                                 style: {
                                     fontSize: '24px',
                                     color: '#e6e6e6',
@@ -51,7 +56,8 @@ export default {
                                 },
                             },
                             {
-                                _nodeType: 'input',
+                                _type: 'vNode',
+                                nodeType: 'input',
                                 placeholder: 'What needs to be done?',
                                 style: {
                                     border: 'none',
@@ -143,11 +149,13 @@ export default {
                         },
                         identifier: 'mapId1',
                         map: {
-                            _nodeType: 'box',
+                            _type: 'vNode',
+                            nodeType: 'box',
                             style: {borderTop: '1px solid #e6e6e6', lineHeight: '1.2', fontSize: '24px', display: 'flex', alignItems: 'center', height: '58px'},
                             children: [
                                 {
-                                    _nodeType: 'box',
+                                    _type: 'vNode',
+                                    nodeType: 'box',
                                     style: {
                                         _type: 'conditional',
                                         statement: {
@@ -185,7 +193,8 @@ export default {
                                     },
                                 },
                                 {
-                                    _nodeType: 'text',
+                                    _type: 'vNode',
+                                    nodeType: 'text',
                                     style: {padding: '15px 0 15px 20px', display: 'inline-block'},
                                     value: {
                                         _type: 'objectValue',
@@ -204,7 +213,8 @@ export default {
                         },
                     },
                     {
-                        _nodeType: 'box',
+                        _type: 'vNode',
+                        nodeType: 'box',
                         style: {
                             background: '#ffffff',
                             borderTop: '1px solid #e6e6e6',
@@ -218,7 +228,8 @@ export default {
                         },
                         children: [
                             {
-                                _nodeType: 'text',
+                                _type: 'vNode',
+                                nodeType: 'text',
                                 style: {
                                     float: 'left',
                                 },
@@ -260,7 +271,8 @@ export default {
                                 }
                             },
                             {
-                                _nodeType: 'box',
+                                _type: 'vNode',
+                                nodeType: 'box',
                                 style: {
                                     position: 'absolute',
                                     left: '0',
@@ -268,7 +280,8 @@ export default {
                                 },
                                 children: [
                                     {
-                                        _nodeType: 'text',
+                                        _type: 'vNode',
+                                        nodeType: 'text',
                                         style: {
                                             margin: '3px',
                                             padding: '3px 7px',
@@ -284,7 +297,8 @@ export default {
                                         },
                                     },
                                     {
-                                        _nodeType: 'text',
+                                        _type: 'vNode',
+                                        nodeType: 'text',
                                         style: {
                                             margin: '3px',
                                             padding: '3px 7px',
@@ -300,7 +314,8 @@ export default {
                                         },
                                     },
                                     {
-                                        _nodeType: 'text',
+                                        _type: 'vNode',
+                                        nodeType: 'text',
                                         style: {
                                             margin: '3px',
                                             padding: '3px 7px',
@@ -318,7 +333,8 @@ export default {
                                 ],
                             },
                             {
-                                _nodeType: 'text',
+                                _type: 'vNode',
+                                nodeType: 'text',
                                 style: {
                                     float: 'right',
                                     textAlign: 'right',

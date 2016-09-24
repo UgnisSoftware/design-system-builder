@@ -168,7 +168,7 @@ export default function init(definitions, currentState, renderApp) {
                                     boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
                                 },
                             },
-                            text: component._nodeType || component._type,
+                            text: component.nodeType || component._type,
                         },
                         state.selectedComponent === component && {
                             sel: 'div',
