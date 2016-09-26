@@ -42,6 +42,9 @@ export default function init(definitions, currentState, renderApp) {
         selectedComponent: definitions.view,
         highlight: true,
         lastAction: '',
+        addingStyle: false,
+        addingState: false,
+        showStateMinified: true,
     }
     
     let timeout;
@@ -54,6 +57,11 @@ export default function init(definitions, currentState, renderApp) {
         clearTimeout(timeout)
         timeout = setTimeout(clearLastAction, 500)
         render()
+    }
+
+    function startAddingStyle(){
+        state.addingStyle = true;
+        render();
     }
     
     function addChild(component, type){
@@ -82,7 +90,13 @@ export default function init(definitions, currentState, renderApp) {
         renderApp();
     }
     
+    function minifyState(){
+        state.showStateMinified = !state.showStateMinified
+        render()
+    }
+    
     function addStyle(event){
+        state.addingStyle = false;
         state.selectedComponent.style[event.target.value] = ''
         render();
         renderApp();
@@ -612,9 +626,13 @@ export default function init(definitions, currentState, renderApp) {
                                                 },
                                             ]
                                         })),
+                                        state.addingStyle ?
                                         {
                                             sel: 'select',
                                             data: {
+                                                style: {
+                                                    margin: '10px',
+                                                },
                                                 on: {
                                                     change: [addStyle]
                                                 }
@@ -628,7 +646,26 @@ export default function init(definitions, currentState, renderApp) {
                                                 },
                                                 text: style
                                             })),
-                                        }
+                                        }:
+                                        {
+                                            sel: 'div',
+                                            data: {
+                                                style: {
+                                                    background: '#0066cc',
+                                                    margin: '10px',
+                                                    color: 'white',
+                                                    padding: '5px 10px',
+                                                    borderRadius: '5px',
+                                                    display: 'inline-block',
+                                                    marginLeft: '10px',
+                                                    cursor: 'pointer',
+                                                },
+                                                on: {
+                                                    click: [startAddingStyle]
+                                                }
+                                            },
+                                            text: '+ Add Style',
+                                        },
                                     ].filter((val)=>val),
                                 },
                                 // STATE
@@ -638,93 +675,119 @@ export default function init(definitions, currentState, renderApp) {
                                         style: {
                                             flex: '1',
                                             padding: '10px',
+                                            overflow: 'scroll',
                                         },
                                     },
-                                    children: Object.keys(definitions.state).map(stateName =>
-                                        ({
-                                            sel: 'div',
-                                            data: {
-                                                style: {
-                                                    flex: '1',
-                                                    padding: '10px',
-                                                    fontSize: '1.5em',
-                                                },
-                                            },
-                                            key: stateName,
-                                            children: [
-                                                {
-                                                    sel: 'div',
-                                                    data: {
-                                                        style: {
-                                                        },
+                                    children: [
+                                        ...Object.keys(definitions.state).map(stateName =>
+                                            ({
+                                                sel: 'div',
+                                                data: {
+                                                    style: {
+                                                        flex: '1',
+                                                        padding: '10px',
+                                                        fontSize: '1.5em',
                                                     },
-                                                    children: [
-                                                        {
-                                                            sel: 'span',
-                                                            data: {},
-                                                            text: stateName + ': ',
-                                                        },
-                                                        {
-                                                            sel: 'span',
-                                                            data: {
-                                                                style: {
-                                                                    background: '#dddddd',
-                                                                }
-                                                            },
-                                                            text: definitions.state[stateName].stateType + ' ' + definitions.state[stateName].defaultValue,
-                                                        },
-                                                        {
-                                                            sel: 'span',
-                                                            data: {
-                                                                style: {
-                                                                    background: '#aaddaa',
-                                                                }
-                                                            },
-                                                            text: state.currentState[stateName],
-                                                        }
-                                                    ],
                                                 },
-                                                // Actions
-                                                {
-                                                    sel: 'div',
-                                                    data: {
-                                                        style: {
-                                                            paddingLeft: '10px',
-                                                            fontSize: '0.5em',
-                                                        },
-                                                    },
-                                                    children: Object.keys(definitions.state[stateName].mutators).map(key=>({
+                                                key: stateName,
+                                                children: [
+                                                    {
                                                         sel: 'div',
                                                         data: {
                                                             style: {
-                                                                paddingLeft: '10px',
-                                                                background: key === state.lastAction ? '#FFA273': 'none',
-                                                                transition: 'all 0.5s',
                                                             },
+                                                            on: definitions.state[stateName].stateType === 'array' && {
+                                                                click: minifyState
+                                                            }
                                                         },
                                                         children: [
                                                             {
                                                                 sel: 'span',
                                                                 data: {},
-                                                                text: key + ': ',
+                                                                text: stateName + ': ',
                                                             },
                                                             {
                                                                 sel: 'span',
                                                                 data: {
                                                                     style: {
                                                                         background: '#dddddd',
+                                                                        margin: '0 10px 0 0',
+                                                                        padding: '0 5px',
+                                                                        whiteSpace: 'pre-wrap',
+                                                                    },
+                                                                },
+                                                                text: (definitions.state[stateName].stateType === 'array' && state.showStateMinified) ? '[...]': JSON.stringify(definitions.state[stateName].defaultValue, null, ' '),
+                                                            },
+                                                            {
+                                                                sel: 'span',
+                                                                data: {
+                                                                    style: {
+                                                                        background: '#aaddaa',
+                                                                        padding: '0 5px',
+                                                                        whiteSpace: 'pre-wrap',
                                                                     }
                                                                 },
-                                                                text: definitions.mutators[definitions.state[stateName].mutators[key]]._type === 'string' ?
-                                                                    definitions.mutators[definitions.state[stateName].mutators[key]]._type + ' ' + definitions.mutators[definitions.state[stateName].mutators[key]].value:
-                                                                    definitions.mutators[definitions.state[stateName].mutators[key]]._type,
+                                                                text: (definitions.state[stateName].stateType === 'array' && state.showStateMinified) ? '[...]': JSON.stringify(state.currentState[stateName], null, ' '),
                                                             }
                                                         ],
-                                                    }))
+                                                    },
+                                                    // Actions
+                                                    {
+                                                        sel: 'div',
+                                                        data: {
+                                                            style: {
+                                                                paddingLeft: '10px',
+                                                                fontSize: '0.5em',
+                                                            },
+                                                        },
+                                                        children: Object.keys(definitions.state[stateName].mutators).map(key=>({
+                                                            sel: 'div',
+                                                            data: {
+                                                                style: {
+                                                                    paddingLeft: '10px',
+                                                                    background: key === state.lastAction ? '#FFA273': 'none',
+                                                                    transition: 'all 0.5s',
+                                                                },
+                                                            },
+                                                            children: [
+                                                                {
+                                                                    sel: 'span',
+                                                                    data: {},
+                                                                    text: key + ': ',
+                                                                },
+                                                                {
+                                                                    sel: 'span',
+                                                                    data: {
+                                                                        style: {
+                                                                            background: '#dddddd',
+                                                                        }
+                                                                    },
+                                                                    text: definitions.mutators[definitions.state[stateName].mutators[key]]._type === 'string' ?
+                                                                    definitions.mutators[definitions.state[stateName].mutators[key]]._type + ' ' + definitions.mutators[definitions.state[stateName].mutators[key]].value:
+                                                                        definitions.mutators[definitions.state[stateName].mutators[key]]._type,
+                                                                }
+                                                            ],
+                                                        }))
+                                                    },
+                                                ],
+                                            }),
+                                        ),
+                                        {
+                                            sel: 'div',
+                                            data: {
+                                                style: {
+                                                    background: '#0066cc',
+                                                    color: 'white',
+                                                    padding: '5px 10px',
+                                                    borderRadius: '5px',
+                                                    display: 'inline-block',
+                                                    marginLeft: '10px',
+                                                    cursor: 'pointer',
                                                 },
-                                            ],
-                                        })
-                                    ),
+                                            },
+                                            text: '+ Add State',
+                                        },
+                                    ],
                                 }
                             ],
                         },
