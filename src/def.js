@@ -207,7 +207,6 @@ export default {
                                             value: 'text'
                                         },
                                     },
-                                    
                                 },
                             ],
                         },

@@ -149,9 +149,6 @@ export default function init(definitions, currentState, renderApp) {
                     border: '1px solid #FFA273',
                     padding: '2px',
                 },
-                on: {
-                    click: [selectComponent, component]
-                }
             },
             children: [
                 {
@@ -159,20 +156,19 @@ export default function init(definitions, currentState, renderApp) {
                     data: {
                         style: {
                             display: 'flex',
-                            flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
                             position: 'relative',
                         },
                     },
                     children: [
-                        {
+                        component.nodeType ? {
                             sel: 'div',
                             data: {
                                 style: {
                                     padding: '10px 0',
                                     textAlign: 'center',
-                                    width: '106px',
+                                    width: '106px', // check if node or map/if
                                     height: '34px',
                                     fontSize: '2em',
                                     backgroundColor: '#4d4d4d',
@@ -181,8 +177,52 @@ export default function init(definitions, currentState, renderApp) {
                                     borderRadius: '5px',
                                     boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
                                 },
+                                on: {
+                                    click: [selectComponent, component]
+                                }
                             },
-                            text: component.nodeType || component._type,
+                            text: component.nodeType,
+                        } :
+                        {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    padding: '10px',
+                                    textAlign: 'center',
+                                    transform: 'rotate(180deg)',
+                                    writingMode: 'vertical-lr',
+                                    width: '28px',
+                                    height: '60px',
+                                    fontSize: '2em',
+                                    backgroundColor: '#4d4d4d',
+                                    margin: '5px',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
+                                },
+                            },
+                            text: component._type,
+                        },
+                        component._type === 'map' && {
+                            sel: 'div',
+                            data: {
+                                style: {
+                                    padding: '10px 0',
+                                    textAlign: 'center',
+                                    width: '106px', // check if node or map/if
+                                    height: '34px',
+                                    fontSize: '2em',
+                                    backgroundColor: '#4d4d4d',
+                                    margin: '5px',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    boxShadow: state.selectedComponent === component ? '0 0 10px 2px #ffffff' : undefined,
+                                },
+                                on: {
+                                    click: [selectComponent, component.map]
+                                }
+                            },
+                            text: component.map.nodeType,
                         },
                         state.selectedComponent === component && {
                             sel: 'div',
@@ -293,7 +333,7 @@ export default function init(definitions, currentState, renderApp) {
                             justifyContent: 'center',
                         },
                     },
-                    children: component.children  && component.children.map((child)=>generateChildTree(child, component))
+                    children: component.children ? component.children.map((child)=>generateChildTree(child, component)) :  component.map ? component.map.children.map((child)=>generateChildTree(child, component)) : undefined,
                 },
             ],
         }
@@ -637,7 +677,9 @@ export default function init(definitions, currentState, renderApp) {
                                                     change: [addStyle]
                                                 }
                                             },
-                                            children: styles.map(style => ({
+                                            children: styles
+                                                .filter(style => !Object.keys(state.selectedComponent.style).includes(style))
+                                                .map(style => ({
                                                 sel: 'option',
                                                 data: {
                                                     props: {
