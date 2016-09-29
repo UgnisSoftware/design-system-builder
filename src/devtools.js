@@ -69,10 +69,7 @@ export default function init(definitions, currentState, renderApp) {
             box: {
                 nodeType: 'box',
                 style: {},
-                children: {
-                    _type: 'nodeArray',
-                    value: [],
-                }
+                children: [],
             },
             text: {
                 nodeType: 'text',
@@ -85,7 +82,7 @@ export default function init(definitions, currentState, renderApp) {
                 value: ''
             },
         }
-        component.children.value.push(empty[type])
+        component.children.push(empty[type])
         render();
         renderApp();
     }
