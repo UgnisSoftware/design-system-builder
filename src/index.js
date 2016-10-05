@@ -118,6 +118,11 @@ const render = ({view, state, actions, mutators}, node)=> {
         throw Error(def._type)
     }
     
+    function onClick(actionName, data, node, e){
+        devtool.selectComponent(node, e)
+        emmitAction(actionName, data, e)
+    }
+    
     function onEnter(actionName, data, e){
         if (e.keyCode == 13){
             emmitAction(actionName, data, e)
@@ -162,7 +167,7 @@ const render = ({view, state, actions, mutators}, node)=> {
             }
         }
         const on = {
-            click: node.onClick ? [emmitAction, node.onClick.actionName, resolve(node.onClick.data)] : undefined,
+            click: node.onClick ? [onClick, node.onClick.actionName, resolve(node.onClick.data), node] : [devtool.selectComponent, node],
             change: node.onChange ? [emmitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
             input: node.onInput ? [emmitAction, node.onInput.actionName, resolve(node.onInput.data)] : undefined,
             keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined

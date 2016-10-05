@@ -273,9 +273,8 @@ export default {
                                 _type: 'vNode',
                                 nodeType: 'box',
                                 style: {
-                                    position: 'absolute',
-                                    left: '0',
-                                    right: '0',
+                                    display: 'inline-block',
+                                    margin: 'auto',
                                 },
                                 children: [
                                     {

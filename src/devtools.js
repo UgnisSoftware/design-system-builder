@@ -67,16 +67,19 @@ export default function init(definitions, currentState, renderApp) {
     function addChild(component, type){
         const empty = {
             box: {
+                _type: 'vNode',
                 nodeType: 'box',
                 style: {},
                 children: [],
             },
             text: {
+                _type: 'vNode',
                 nodeType: 'text',
                 style: {},
                 value: ''
             },
             input: {
+                _type: 'vNode',
                 nodeType: 'input',
                 style: {},
                 value: ''
@@ -850,6 +853,7 @@ export default function init(definitions, currentState, renderApp) {
             state.currentState = newState;
             blinkAction(actionName)
             render()
-        }
+        },
+        selectComponent: selectComponent,
     }
 }
