@@ -37,10 +37,10 @@ export default function init(definitions, currentState, renderApp) {
     document.body.appendChild(node)
     
     const state = {
-        isOpen: true,
+        isOpen: false,
         currentState,
         selectedComponent: definitions.view,
-        highlight: true,
+        highlight: false,
         lastAction: '',
         addingStyle: false,
         addingState: false,
