@@ -181,7 +181,11 @@ const render = ({view, state, actions, mutators}, node)=> {
 
         // devtools
         if(devtool.state.highlight && node === devtool.state.selectedComponent){
-            sel += '.glow'
+            if(data.style) {
+                data.style = {...data.style, boxShadow: '0px 0px 1px 1px #0066cc', zIndex: '9000'}
+            } else {
+                data.style = { boxShadow: '0px 0px 1px 1px #0066cc',  zIndex: '9000'}
+            }
         }
         
         return {sel, data, children, text}

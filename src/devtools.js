@@ -343,6 +343,12 @@ export default function init(definitions, currentState, renderApp) {
         return {
             sel: 'div',
             data: {
+                style: {
+                    color: '#4d4d4d',
+                    fontWeight: '300',
+                    fontSize: '14px',
+                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                }
             },
             children: [
                 {
