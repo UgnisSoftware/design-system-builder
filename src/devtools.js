@@ -32,7 +32,8 @@ const styles = [
     'transition',
 ]
 
-export default function init(definitions, currentState, renderApp) {
+export default function init({ definitions, currentState, render}) {
+    const renderApp = render
     let node = document.createElement('div')
     document.body.appendChild(node)
     
@@ -50,18 +51,18 @@ export default function init(definitions, currentState, renderApp) {
     let timeout;
     function clearLastAction(){
         state.lastAction = ''
-        render()
+        rerender()
     }
     function blinkAction(actionName){
         state.lastAction = actionName
         clearTimeout(timeout)
         timeout = setTimeout(clearLastAction, 500)
-        render()
+        rerender()
     }
 
     function startAddingStyle(){
         state.addingStyle = true;
-        render();
+        rerender();
     }
     
     function addChild(component, type){
@@ -86,19 +87,19 @@ export default function init(definitions, currentState, renderApp) {
             },
         }
         component.children.push(empty[type])
-        render();
+        rerender();
         renderApp();
     }
     
     function minifyState(){
         state.showStateMinified = !state.showStateMinified
-        render()
+        rerender()
     }
     
     function addStyle(event){
         state.addingStyle = false;
         state.selectedComponent.style[event.target.value] = ''
-        render();
+        rerender();
         renderApp();
     }
     
@@ -106,7 +107,7 @@ export default function init(definitions, currentState, renderApp) {
         const tempObj = Object.assign({}, state.selectedComponent.style)
         delete tempObj[name]
         state.selectedComponent.style = tempObj
-        render();
+        rerender();
         renderApp();
     }
     
@@ -116,27 +117,27 @@ export default function init(definitions, currentState, renderApp) {
         } else {
             component.children = []
         }
-        render();
+        rerender();
         renderApp();
     }
     
     function changeHighlight() {
         state.highlight = !state.highlight
-        render();
+        rerender();
         renderApp();
     }
     
     function openMenu() {
         state.isOpen = !state.isOpen
         state.highlight = state.isOpen
-        render();
+        rerender();
         renderApp();
     }
     
     function selectComponent(compoenent, e) {
         e.stopImmediatePropagation()
         state.selectedComponent = compoenent
-        render();
+        rerender();
         renderApp();
     }
     
@@ -845,20 +846,20 @@ export default function init(definitions, currentState, renderApp) {
         }
     }
     
-    function render() {
+    function rerender() {
         const newDom = vdom()
         patch(node, newDom)
         node = newDom
     }
     
-    render()
+    rerender()
     
     return {
         state: state,
-        emit: function (actionName, data, event, newState, mutations) {
+        emitAction: function (actionName, data, event, newState, mutations) {
             state.currentState = newState;
             blinkAction(actionName)
-            render()
+            rerender()
         },
         selectComponent: selectComponent,
     }

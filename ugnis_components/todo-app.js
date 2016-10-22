@@ -27,7 +27,7 @@ export default {
                     nodeType: 'text',
                     style: {
                         color: 'rgba(175, 47, 47, 0.15)',
-                        margin: '10px 0 5px 0',
+                        padding: '10px 0 5px 0',
                         fontSize: '100px',
                         fontWeight: '100',
                         textAlign: 'center',

@@ -7,13 +7,12 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-import definitions from './def.js'
+import definitions from '../ugnis_components/todo-app.js'
 import devtools from './devtools.js'
 
-const render = ({view, state, actions, mutators}, node)=> {
+const component = ({view, state, actions, mutators}) => {
     let currentState = Object.keys(state).reduce((acc, val)=> {acc[val] = state[val].defaultValue; return acc}, {})
     
-    const devtool = devtools(definitions, currentState, rerender)
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -118,31 +117,6 @@ const render = ({view, state, actions, mutators}, node)=> {
         throw Error(def._type)
     }
     
-    function onClick(actionName, data, node, e){
-        devtool.selectComponent(node, e)
-        emmitAction(actionName, data, e)
-    }
-    
-    function onEnter(actionName, data, e){
-        if (e.keyCode == 13){
-            emmitAction(actionName, data, e)
-        }
-    }
-    
-    function emmitAction(actionName, data, e){
-        currentEvent = e
-        actionData = data
-        let mutations = {};
-        actions[actionName].forEach((key)=> {
-            mutations[key] = resolve(mutators[state[key].mutators[actionName]])
-        })
-        currentState = Object.assign({}, currentState, mutations)
-        currentEvent = null
-        actionData = null
-        devtool.emit(actionName, data, e, currentState, mutations)
-        rerender()
-    }
-    
     function toNode(node) {
         if(node === undefined){
             return; // noop
@@ -167,9 +141,9 @@ const render = ({view, state, actions, mutators}, node)=> {
             }
         }
         const on = {
-            click: node.onClick ? [onClick, node.onClick.actionName, resolve(node.onClick.data), node] : [devtool.selectComponent, node],
-            change: node.onChange ? [emmitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
-            input: node.onInput ? [emmitAction, node.onInput.actionName, resolve(node.onInput.data)] : undefined,
+            click: node.onClick ? [onClick, node.onClick.actionName, resolve(node.onClick.data), node] : undefined,
+            change: node.onChange ? [emitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
+            input: node.onInput ? [emitAction, node.onInput.actionName, resolve(node.onInput.data)] : undefined,
             keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined
         }
         const data = {
@@ -178,28 +152,63 @@ const render = ({view, state, actions, mutators}, node)=> {
             props: node.nodeType === 'input' ? { value: resolve(node.value), placeholder: node.placeholder} : undefined,
         }
         const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
-
-        // devtools
-        if(devtool.state.highlight && node === devtool.state.selectedComponent){
-            if(data.style) {
-                data.style = {...data.style, boxShadow: '0px 0px 1px 1px #0066cc', zIndex: '9000'}
-            } else {
-                data.style = { boxShadow: '0px 0px 1px 1px #0066cc',  zIndex: '9000'}
-            }
-        }
         
         return {sel, data, children, text}
     }
     
+    function onClick(actionName, data, node, e){
+        emitAction(actionName, data, e)
+    }
+    
+    function onEnter(actionName, data, e){
+        if (e.keyCode == 13){
+            emitAction(actionName, data, e)
+        }
+    }
+    
+    const listeners = [];
+    function addListener(callback){
+        const length = listeners.push(callback)
+        
+        // for unsubscribing
+        return () => listeners.splice(length-1, 1)
+    }
+    
+    function emitAction(actionName, data, e){
+        currentEvent = e
+        actionData = data
+        let mutations = {};
+        actions[actionName].forEach((key)=> {
+            mutations[key] = resolve(mutators[state[key].mutators[actionName]])
+        })
+        currentState = Object.assign({}, currentState, mutations)
+        currentEvent = null
+        actionData = null
+        listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
+        render()
+    }
+    
     let vdom = resolve(view)
     
-    patch(node, vdom) // first render
-    
-    function rerender(){
+    function render(){
         const newvdom = resolve(view)
         patch(vdom, newvdom)
         vdom = newvdom
     }
+    
+    return {
+        vdom,
+        currentState,
+        render,
+        emitAction,
+        addListener,
+        definitions,
+    };
 }
 
-render(definitions, document.getElementById('app'))
+const app = component(definitions);
+
+//const dev = devtools(app)
+//app.addListener(dev.emitAction)
+
+patch(document.getElementById('app'), app.vdom)
