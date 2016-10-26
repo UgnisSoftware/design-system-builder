@@ -10,7 +10,7 @@ export default (app) => {
     let node = document.createElement('div')
     document.body.appendChild(node)
     
-    const dev = ugnis(node, devtools, {app: app})
+    const dev = ugnis(node, devtools, {app: app.definition})
     //app.addListener(dev.emitAction)
     
     //const dev = ugnis(node, devtools)

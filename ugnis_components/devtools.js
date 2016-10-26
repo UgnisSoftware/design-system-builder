@@ -68,6 +68,27 @@ export default {
                             flex: '2',
                         },
                         children: [
+                            {
+                                _type: 'listObj',
+                                data: {
+                                    _type: 'objectValue',
+                                    object: {
+                                        "_type": "state",
+                                        "value": "app"
+                                    },
+                                    value: 'state'
+                                },
+                                identifier: 'listObject1',
+                                list: {
+                                    _type: 'vNode',
+                                    nodeType: 'text',
+                                    style: {},
+                                    value: {
+                                        "_type": "listIndex",
+                                        "value": "listObject1"
+                                    }
+                                },
+                            },
                         ]
                     },
                     {
@@ -97,12 +118,8 @@ export default {
                                         node: {
                                             _type: 'objectValue',
                                             object: {
-                                                _type: 'objectValue',
-                                                object: {
-                                                    _type: 'state',
-                                                    value: 'app'
-                                                },
-                                                value: 'definition'
+                                                _type: 'state',
+                                                value: 'app'
                                             },
                                             value: 'view'
                                         },
@@ -126,12 +143,10 @@ export default {
         app: {
             stateType: 'object',
             defaultValue: {
-                definition: {
-                    view: {},
-                    state: {},
-                    mutators: {},
-                    actions: {}
-                }
+                view: {},
+                state: {},
+                mutators: {},
+                actions: {}
             },
             mutators: {
             },

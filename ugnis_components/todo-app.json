@@ -102,7 +102,7 @@
                 ]
               },
               {
-                "_type": "map",
+                "_type": "list",
                 "data": {
                   "_type": "conditional",
                   "statement": {
@@ -132,7 +132,7 @@
                       "first": {
                         "_type": "objectValue",
                         "object": {
-                          "_type": "mapValue",
+                          "_type": "listValue",
                           "value": "filterId0"
                         },
                         "value": {
@@ -165,8 +165,8 @@
                     }
                   }
                 },
-                "identifier": "mapId1",
-                "map": {
+                "identifier": "listId1",
+                "list": {
                   "_type": "vNode",
                   "nodeType": "box",
                   "style": {
@@ -188,8 +188,8 @@
                           "first": {
                             "_type": "objectValue",
                             "object": {
-                              "_type": "mapValue",
-                              "value": "mapId1"
+                              "_type": "listValue",
+                              "value": "listId1"
                             },
                             "value": {
                               "_type": "string",
@@ -220,8 +220,8 @@
                           "_type": "object",
                           "value": {
                             "itemId": {
-                              "_type": "mapIndex",
-                              "value": "mapId1"
+                              "_type": "listIndex",
+                              "value": "listId1"
                             }
                           }
                         }
@@ -237,8 +237,8 @@
                       "value": {
                         "_type": "objectValue",
                         "object": {
-                          "_type": "mapValue",
-                          "value": "mapId1"
+                          "_type": "listValue",
+                          "value": "listId1"
                         },
                         "value": {
                           "_type": "string",
@@ -285,7 +285,7 @@
                             "first": {
                               "_type": "objectValue",
                               "object": {
-                                "_type": "mapValue",
+                                "_type": "listValue",
                                 "value": "filterId1"
                               },
                               "value": {
@@ -466,16 +466,16 @@
       "value": "COMPLETED"
     },
     "MARK_ALL_AS_COMPLETED": {
-      "_type": "map",
+      "_type": "list",
       "data": {
         "_type": "state",
         "value": "todos"
       },
       "identifier": "mutatorMapId0",
-      "map": {
+      "list": {
         "_type": "set",
         "data": {
-          "_type": "mapValue",
+          "_type": "listValue",
           "value": "mutatorMapId0"
         },
         "name": "completed",
@@ -483,13 +483,13 @@
       }
     },
     "CHANGE_ITEM_STATUS": {
-      "_type": "map",
+      "_type": "list",
       "data": {
         "_type": "state",
         "value": "todos"
       },
       "identifier": "mutatorMapId1",
-      "map": {
+      "list": {
         "_type": "conditional",
         "statement": {
           "_type": "equals",
@@ -501,14 +501,14 @@
             "value": "itemId"
           },
           "second": {
-            "_type": "mapIndex",
+            "_type": "listIndex",
             "value": "mutatorMapId1"
           }
         },
         "then": {
           "_type": "set",
           "data": {
-            "_type": "mapValue",
+            "_type": "listValue",
             "value": "mutatorMapId1"
           },
           "name": "completed",
@@ -517,7 +517,7 @@
             "value": {
               "_type": "objectValue",
               "object": {
-                "_type": "mapValue",
+                "_type": "listValue",
                 "value": "mutatorMapId1"
               },
               "value": "completed"
@@ -525,7 +525,7 @@
           }
         },
         "else": {
-          "_type": "mapValue",
+          "_type": "listValue",
           "value": "mutatorMapId1"
         }
       }
@@ -542,7 +542,7 @@
         "first": {
           "_type": "objectValue",
           "object": {
-            "_type": "mapValue",
+            "_type": "listValue",
             "value": "mutatorFilterId0"
           },
           "value": {

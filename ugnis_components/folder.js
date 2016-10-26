@@ -55,7 +55,7 @@ export default {
                     },
                     children: [
                         {
-                            _type: 'map',
+                            _type: 'list',
                             data: {
                                 _type: 'objectValue',
                                 object: {
@@ -65,14 +65,14 @@ export default {
                                 value: 'children'
                             },
                             identifier: 'folderMap1',
-                            map: {
+                            list: {
                                 _type: 'component',
                                 value: 'folder',
                                 defaultState: {
                                     _type: 'object',
                                     value: {
                                         node: {
-                                            "_type": "mapValue",
+                                            "_type": "listValue",
                                             "value": "folderMap1"
                                         }
                                     }

@@ -62,11 +62,22 @@ export const component = (definition, defaultState) => {
             delete currentMapIndex[def.identifier]
             return data
         }
-        if (def._type === 'map') {
+        if (def._type === 'list') {
             const data = resolve(def.data).map((value, index)=> {
                 currentMapValue[def.identifier] = value
                 currentMapIndex[def.identifier] = index
-                return resolve(def.map)
+                return resolve(def.list)
+            })
+            delete currentMapValue[def.identifier]
+            delete currentMapIndex[def.identifier]
+            return data
+        }
+        if (def._type === 'listObj') {
+            const mapData = resolve(def.data)
+            const data = Object.keys(mapData).map((index)=> {
+                currentMapValue[def.identifier] = mapData[index]
+                currentMapIndex[def.identifier] = index
+                return resolve(def.list)
             })
             delete currentMapValue[def.identifier]
             delete currentMapIndex[def.identifier]
@@ -75,10 +86,10 @@ export const component = (definition, defaultState) => {
         if (def._type === 'actionName') {
             return {actionName: def.actionName, data: resolve(def.data)}
         }
-        if (def._type === 'mapValue') {
+        if (def._type === 'listValue') {
             return currentMapValue[def.value]
         }
-        if (def._type === 'mapIndex') {
+        if (def._type === 'listIndex') {
             return currentMapIndex[def.value]
         }
         if (def._type === 'string') {
