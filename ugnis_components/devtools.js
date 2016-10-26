@@ -6,12 +6,14 @@ export default {
             color: '#dddddd',
             fontWeight: '300',
             fontSize: '14px',
-            flex: '1',
-            maxWidth: '350px',
-            position: 'relative',
+            position: 'absolute',
+            top: '0',
+            right: '0',
             background: '#4d4d4d',
+            boxSizing: "border-box",
             borderLeft: '3px solid #333333',
             fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            
         },
         children: [
             {
@@ -31,15 +33,32 @@ export default {
                     transition: 'all 0.5s',
                 },
                 value: 'Close devtools',
+                onClick: {
+                    actionName: 'TOGGLE_OPEN_DEVTOOLS'
+                }
             },
             {
                 _type: 'vNode',
                 nodeType: 'box',
                 style: {
-                    display: 'flex',
-                    height: '100vh',
-                    flexDirection: 'column',
-                    color: '#dddddd'
+                    _type: 'object',
+                    value: {
+                        display: 'flex',
+                        height: '100vh',
+                        flexDirection: 'column',
+                        color: '#dddddd',
+                        transition: '0.5s width',
+                        overflow: 'hidden',
+                        width: {
+                            _type: 'conditional',
+                            statement: {
+                                _type: 'state',
+                                value: 'isOpen'
+                            },
+                            then: '350px',
+                            else: '0px',
+                        }
+                    }
                 },
                 children: [
                     {
@@ -49,13 +68,6 @@ export default {
                             flex: '2',
                         },
                         children: [
-                            {
-                                _type: 'vNode',
-                                nodeType: 'text',
-                                style: {
-                                },
-                                value: 'hi'
-                            },
                         ]
                     },
                     {
@@ -66,13 +78,6 @@ export default {
                             borderTop: '1px solid #cccccc'
                         },
                         children: [
-                            {
-                                _type: 'vNode',
-                                nodeType: 'text',
-                                style: {
-                                },
-                                value: 'hi'
-                            },
                         ]
                     },
                     {
@@ -84,11 +89,25 @@ export default {
                         },
                         children: [
                             {
-                                _type: 'vNode',
-                                nodeType: 'text',
-                                style: {
+                                _type: 'component',
+                                value: 'folder',
+                                defaultState: {
+                                    _type: 'object',
+                                    value: {
+                                        node: {
+                                            _type: 'objectValue',
+                                            object: {
+                                                _type: 'objectValue',
+                                                object: {
+                                                    _type: 'state',
+                                                    value: 'app'
+                                                },
+                                                value: 'definition'
+                                            },
+                                            value: 'view'
+                                        },
+                                    },
                                 },
-                                value: 'hi'
                             },
                         ]
                     }
@@ -97,21 +116,37 @@ export default {
         ],
     },
     state: {
-        input: {
-            stateType: 'string',
-            defaultValue: '',
+        isOpen: {
+            stateType: 'boolean',
+            defaultValue: true,
             mutators: {
-                UPDATE_INPUT: 'UPDATE_INPUT',
-                ADD_TODO: 'EMPTY_INPUT',
+                TOGGLE_OPEN_DEVTOOLS: 'TOGGLE_OPEN_DEVTOOLS',
             },
         },
+        app: {
+            stateType: 'object',
+            defaultValue: {
+                definition: {
+                    view: {},
+                    state: {},
+                    mutators: {},
+                    actions: {}
+                }
+            },
+            mutators: {
+            },
+        }
     },
     mutators: {
-        UPDATE_INPUT: {
-            _type: 'eventValue',
+        TOGGLE_OPEN_DEVTOOLS: {
+            _type: 'not',
+            value: {
+                _type: 'state',
+                value: 'isOpen',
+            }
         },
     },
     actions: {
-        MARK_ALL_AS_COMPLETED: ['todos'],
+        TOGGLE_OPEN_DEVTOOLS: ['isOpen'],
     },
 }

@@ -7,18 +7,23 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-const component = ({view, state, actions, mutators}) => {
+import folder from '../ugnis_components/folder'
+
+export const component = (definition, defaultState) => {
+    const {view, state, actions, mutators} = definition
     let currentState = Object.keys(state).reduce((acc, val)=> {
         acc[val] = state[val].defaultValue;
         return acc
     }, {})
-    
+    if(defaultState){
+        currentState = Object.assign(currentState, defaultState)
+    }
     // global state for resolver
     let currentEvent = null
     let actionData = null
     let currentMapValue = {}
     let currentMapIndex = {};
-    
+
     const resolve = (def)=> {
         if (def === undefined) {
             return;
@@ -29,6 +34,10 @@ const component = ({view, state, actions, mutators}) => {
         }
         if (def._type === 'vNode') {
             return toNode(def);
+        }
+        if (def._type === 'component') {
+            const comp = component(folder, resolve(def.defaultState))
+            return comp.vdom;
         }
         if (def._type === 'conditional') {
             return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
@@ -132,7 +141,10 @@ const component = ({view, state, actions, mutators}) => {
         if (node.children) {
             children = []
             for (let i = 0; i < node.children.length; i++) {
-                var child = resolve(node.children[i])
+                const child = resolve(node.children[i])
+                if(child === undefined){
+                    continue
+                }
                 //flatten (let's hope no one is imitating array with object)
                 if (child.constructor === Array) {
                     for (let j = 0; j < child.length; j++) {
@@ -185,10 +197,12 @@ const component = ({view, state, actions, mutators}) => {
         currentEvent = e
         actionData = data
         let mutations = {};
-        actions[actionName].forEach((key)=> {
-            mutations[key] = resolve(mutators[state[key].mutators[actionName]])
-        })
-        currentState = Object.assign({}, currentState, mutations)
+        if(actions[actionName]){
+            actions[actionName].forEach((key)=> {
+                mutations[key] = resolve(mutators[state[key].mutators[actionName]])
+            })
+            currentState = Object.assign({}, currentState, mutations)
+        }
         currentEvent = null
         actionData = null
         listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
@@ -204,6 +218,7 @@ const component = ({view, state, actions, mutators}) => {
     }
     
     return {
+        definition,
         vdom,
         currentState,
         render,
@@ -212,8 +227,8 @@ const component = ({view, state, actions, mutators}) => {
     };
 }
 
-export default (definitions, node) => {
-    const app = component(definitions);
+export default (node, definition, defaultState) => {
+    const app = component(definition, defaultState);
     patch(node, app.vdom)
     return app
 }

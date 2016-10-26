@@ -1,17 +1,7 @@
 import ugnis from './ugnis'
-import todoApp from '../ugnis_components/todo-app.json'
+import devtools from './devtools'
 
-const app = ugnis(todoApp, document.getElementById('app'))
+import todoApp from '../ugnis_components/devtools.js'
+const app = ugnis(document.getElementById('app'), todoApp)
 
-
-
-
-
-
-import devtools from '../ugnis_components/devtools.js'
-
-let node = document.createElement('div')
-document.body.appendChild(node)
-
-const dev = ugnis(devtools, node)
-app.addListener(dev.emitAction)
+devtools(app)

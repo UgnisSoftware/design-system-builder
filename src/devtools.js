@@ -1,3 +1,42 @@
+import devtools from '../ugnis_components/devtools.js'
+import ugnis from './ugnis'
+
+export default (app) => {
+    // wrap the app component
+    var wrapper = document.createElement('div');
+    app.vdom.elm.parentNode.appendChild(wrapper);
+    wrapper.appendChild(app.vdom.elm);
+    
+    let node = document.createElement('div')
+    document.body.appendChild(node)
+    
+    const dev = ugnis(node, devtools, {app: app})
+    //app.addListener(dev.emitAction)
+    
+    //const dev = ugnis(node, devtools)
+    //dev.emitAction('NEW_APP', {app: dev})
+    
+    wrapper.style.width = 'calc(100% - 350px)'
+    wrapper.style.position = 'relative'
+    wrapper.style.transition = '0.5s width'
+    dev.addListener((actionName, data, e, currentState, mutations)=>{
+        if(actionName === 'TOGGLE_OPEN_DEVTOOLS'){
+            if(wrapper.style.width === '100%'){
+                wrapper.style.width = 'calc(100% - 350px)'
+            }
+            else {
+                wrapper.style.width = '100%'
+            }
+        }
+    })
+}
+
+
+
+
+
+
+/*
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/props'), // for setting properties on DOM elements
@@ -864,3 +903,4 @@ export default function init({ definitions, currentState, render}) {
         selectComponent: selectComponent,
     }
 }
+*/
