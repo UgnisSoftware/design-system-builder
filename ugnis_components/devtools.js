@@ -74,7 +74,7 @@ export default {
                                     _type: 'objectValue',
                                     object: {
                                         "_type": "state",
-                                        "value": "app"
+                                        "value": "definition"
                                     },
                                     value: 'state'
                                 },
@@ -119,7 +119,7 @@ export default {
                                             _type: 'objectValue',
                                             object: {
                                                 _type: 'state',
-                                                value: 'app'
+                                                value: 'definition'
                                             },
                                             value: 'view'
                                         },
@@ -140,7 +140,7 @@ export default {
                 TOGGLE_OPEN_DEVTOOLS: 'TOGGLE_OPEN_DEVTOOLS',
             },
         },
-        app: {
+        definition: {
             stateType: 'object',
             defaultValue: {
                 view: {},

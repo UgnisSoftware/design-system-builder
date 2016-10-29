@@ -217,7 +217,9 @@ export const component = (definition, defaultState) => {
         currentEvent = null
         actionData = null
         listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
-        render()
+        if(Object.keys(mutations).length){
+            render()
+        }
     }
     
     let vdom = resolve(view)

@@ -10,7 +10,7 @@ export default (app) => {
     let node = document.createElement('div')
     document.body.appendChild(node)
     
-    const dev = ugnis(node, devtools, {app: app.definition})
+    const dev = ugnis(node, devtools, {definition: app.definition})
     //app.addListener(dev.emitAction)
     
     //const dev = ugnis(node, devtools)
@@ -27,6 +27,16 @@ export default (app) => {
             else {
                 wrapper.style.width = '100%'
             }
+        } else {
+            app.render()
+        }
+    })
+    
+    document.addEventListener('keydown', (e)=>{
+        if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            e.preventDefault();
+            fetch('/save', {method: 'POST', body: JSON.stringify(app.definition), headers: {"Content-Type": "application/json"}})
+            return false;
         }
     })
 }
