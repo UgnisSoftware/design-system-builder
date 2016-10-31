@@ -7,10 +7,8 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 
-import folder from '../ugnis_components/folder'
-
 export const component = (definition, defaultState) => {
-    const {view, state, actions, mutators} = definition
+    const {rootNode, nodes, styles, state, actions, mutators} = definition
     let currentState = Object.keys(state).reduce((acc, val)=> {
         acc[val] = state[val].defaultValue;
         return acc
@@ -22,8 +20,8 @@ export const component = (definition, defaultState) => {
     let currentEvent = null
     let actionData = null
     let currentMapValue = {}
-    let currentMapIndex = {};
-
+    let currentMapIndex = {}
+    let currentRepeaters = {}
     const resolve = (def)=> {
         if (def === undefined) {
             return;
@@ -35,10 +33,6 @@ export const component = (definition, defaultState) => {
         if (def._type === 'vNode') {
             return toNode(def);
         }
-        if (def._type === 'component') {
-            const comp = component(folder, resolve(def.defaultState))
-            return comp.vdom;
-        }
         if (def._type === 'conditional') {
             return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
         }
@@ -48,7 +42,9 @@ export const component = (definition, defaultState) => {
         if (def._type === 'sum') {
             return resolve(def.first) + resolve(def.second)
         }
-        // array
+        if (def._type === 'ifExists') {
+            return resolve(def.data)[resolve(def.key)] || resolve(def.else)
+        }
         if (def._type === 'length') {
             return resolve(def.value).length
         }
@@ -81,6 +77,24 @@ export const component = (definition, defaultState) => {
             })
             delete currentMapValue[def.identifier]
             delete currentMapIndex[def.identifier]
+            return data
+        }
+        if (def._type === 'repeater') {
+            currentRepeaters[def.identifier] = def.value
+            currentMapValue[def.identifier] = resolve(def.data)
+            const data = resolve(def.value)
+            delete currentRepeaters[def.identifier]
+            delete currentMapValue[def.identifier]
+            return data
+        }
+        if (def._type === 'repeat') {
+            // I should really stop using global state,
+            // it would be embarrassing if anyone ever asked why didn't I just pass data through every resolve
+            // good thing no one is ever going to read this code
+            const previous = currentMapValue[def.identifier]
+            currentMapValue[def.identifier] = resolve(def.data)
+            const data = resolve(currentRepeaters[def.identifier])
+            currentMapValue[def.identifier] = previous
             return data
         }
         if (def._type === 'actionName') {
@@ -149,10 +163,10 @@ export const component = (definition, defaultState) => {
             : node.nodeType === 'input' ? 'input'
             : 'error'
         let children;
-        if (node.children) {
+        if (node.childrenIds) {
             children = []
-            for (let i = 0; i < node.children.length; i++) {
-                const child = resolve(node.children[i])
+            for (let i = 0; i < node.childrenIds.length; i++) {
+                const child = resolve(nodes[node.childrenIds[i]])
                 if(child === undefined){
                     continue
                 }
@@ -173,7 +187,7 @@ export const component = (definition, defaultState) => {
             keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined
         }
         const data = {
-            style: node.style ? resolve(node.style) : undefined,
+            style: node.styleId ? resolve(styles[node.styleId]) : undefined,
             on,
             props: node.nodeType === 'input' ? {
                 value: resolve(node.value),
@@ -214,6 +228,8 @@ export const component = (definition, defaultState) => {
             })
             currentState = Object.assign({}, currentState, mutations)
         }
+        console.log(actionData)
+        console.log(mutations)
         currentEvent = null
         actionData = null
         listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
@@ -222,10 +238,10 @@ export const component = (definition, defaultState) => {
         }
     }
     
-    let vdom = resolve(view)
+    let vdom = resolve(nodes[rootNode])
     
     function render() {
-        const newvdom = resolve(view)
+        const newvdom = resolve(nodes[rootNode])
         patch(vdom, newvdom)
         vdom = newvdom
     }
