@@ -9,6 +9,8 @@ const patch = snabbdom.init([
 
 export const component = (definition, defaultState = {}) => {
     const {nodes, styles, state, actions, mutators, defaultStateConnectors} = definition
+    
+    // construct state
     const defaultStateWithIds = Object.keys(defaultState).reduce((acc, key)=> {
         if(defaultStateConnectors[key]){
             acc[defaultStateConnectors[key]] = defaultState[key]
@@ -17,13 +19,6 @@ export const component = (definition, defaultState = {}) => {
         }
         return acc
     }, {})
-    // let currentState = Object.keys(state).reduce((acc, val)=> {
-    //     acc[val] = state[val].defaultValue;
-    //     return acc
-    // }, {})
-    // if(defaultState){
-    //     currentState = Object.assign(currentState, defaultState)
-    // }
     let currentState = {}
     function toState(id){
         const current = state[id]
@@ -35,7 +30,8 @@ export const component = (definition, defaultState = {}) => {
             currentState[id] = current.defaultValue
         }
     }
-    toState('_rootState')
+    toState('_rootState') // TODO measure and change to while
+    
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -248,8 +244,6 @@ export const component = (definition, defaultState = {}) => {
             })
             currentState = Object.assign({}, currentState, mutations)
         }
-        console.log(actionData)
-        console.log(mutations)
         currentEvent = null
         actionData = null
         listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
