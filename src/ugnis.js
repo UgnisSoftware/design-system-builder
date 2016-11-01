@@ -2,20 +2,40 @@
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/class'),
-    require('snabbdom/modules/props'), // for setting properties on DOM elements
-    require('snabbdom/modules/style'), // handles styling on elements with support for animations
-    require('snabbdom/modules/eventlisteners'), // attaches event listeners
+    require('snabbdom/modules/props'),
+    require('snabbdom/modules/style'),
+    require('snabbdom/modules/eventlisteners'),
 ]);
 
-export const component = (definition, defaultState) => {
-    const {rootNode, nodes, styles, state, actions, mutators} = definition
-    let currentState = Object.keys(state).reduce((acc, val)=> {
-        acc[val] = state[val].defaultValue;
+export const component = (definition, defaultState = {}) => {
+    const {nodes, styles, state, actions, mutators, defaultStateConnectors} = definition
+    const defaultStateWithIds = Object.keys(defaultState).reduce((acc, key)=> {
+        if(defaultStateConnectors[key]){
+            acc[defaultStateConnectors[key]] = defaultState[key]
+        } else {
+            console.warn('Unrecognized default state: '+ key)
+        }
         return acc
     }, {})
-    if(defaultState){
-        currentState = Object.assign(currentState, defaultState)
+    // let currentState = Object.keys(state).reduce((acc, val)=> {
+    //     acc[val] = state[val].defaultValue;
+    //     return acc
+    // }, {})
+    // if(defaultState){
+    //     currentState = Object.assign(currentState, defaultState)
+    // }
+    let currentState = {}
+    function toState(id){
+        const current = state[id]
+        if(current.stateType === 'nameSpace'){
+            current.childrenIds.forEach(toState)
+        } else if(defaultStateWithIds[id] != undefined){
+            currentState[id] = defaultStateWithIds[id]
+        } else{
+            currentState[id] = current.defaultValue
+        }
     }
+    toState('_rootState')
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -238,10 +258,10 @@ export const component = (definition, defaultState) => {
         }
     }
     
-    let vdom = resolve(nodes[rootNode])
+    let vdom = resolve(nodes['_rootNode'])
     
     function render() {
-        const newvdom = resolve(nodes[rootNode])
+        const newvdom = resolve(nodes['_rootNode'])
         patch(vdom, newvdom)
         vdom = newvdom
     }
