@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/UgnisSoftware/Heroes-of-Ugnis.git"
   },
+  "license": "MIT",
   "keywords": [
     "WebGL"
   ],
