@@ -7,13 +7,18 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'),
 ]);
 
+function generateuuid() {
+    const s4 = function() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (s4()+s4()+"-"+s4()+"-"+s4()+"-"+s4()+"-"+s4()+s4()+s4());
+}
+
 export const component = (definition, defaultState = {}) => {
-    const {nodes, styles, state, actions, mutators, defaultStateConnectors} = definition
-    
     // construct state
     const defaultStateWithIds = Object.keys(defaultState).reduce((acc, key)=> {
-        if(defaultStateConnectors[key]){
-            acc[defaultStateConnectors[key]] = defaultState[key]
+        if(definition.state[key]){
+            acc[key] = defaultState[key]
         } else {
             console.warn('Unrecognized default state: '+ key)
         }
@@ -21,7 +26,7 @@ export const component = (definition, defaultState = {}) => {
     }, {})
     let currentState = {}
     function toState(id){
-        const current = state[id]
+        const current = definition.state[id]
         if(current.stateType === 'nameSpace'){
             current.childrenIds.forEach(toState)
         } else if(defaultStateWithIds[id] != undefined){
@@ -60,6 +65,9 @@ export const component = (definition, defaultState = {}) => {
         }
         if (def._type === 'ifExists') {
             return resolve(def.data)[resolve(def.key)] || resolve(def.else)
+        }
+        if (def._type === 'uuid') {
+            return generateuuid();
         }
         if (def._type === 'length') {
             return resolve(def.value).length
@@ -182,7 +190,7 @@ export const component = (definition, defaultState = {}) => {
         if (node.childrenIds) {
             children = []
             for (let i = 0; i < node.childrenIds.length; i++) {
-                const child = resolve(nodes[node.childrenIds[i]])
+                const child = resolve(definition.nodes[node.childrenIds[i]])
                 if(child === undefined){
                     continue
                 }
@@ -203,7 +211,7 @@ export const component = (definition, defaultState = {}) => {
             keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined
         }
         const data = {
-            style: node.styleId ? resolve(styles[node.styleId]) : undefined,
+            style: node.styleId ? resolve(definition.styles[node.styleId]) : undefined,
             on,
             props: node.nodeType === 'input' ? {
                 value: resolve(node.value),
@@ -238,9 +246,9 @@ export const component = (definition, defaultState = {}) => {
         currentEvent = e
         actionData = data
         let mutations = {};
-        if(actions[actionName]){
-            actions[actionName].forEach((key)=> {
-                mutations[key] = resolve(mutators[state[key].mutators[actionName]])
+        if(definition.actions[actionName]){
+            definition.actions[actionName].forEach((key)=> {
+                mutations[key] = resolve(definition.mutators[definition.state[key].mutators[actionName]])
             })
             currentState = Object.assign({}, currentState, mutations)
         }
@@ -252,10 +260,10 @@ export const component = (definition, defaultState = {}) => {
         }
     }
     
-    let vdom = resolve(nodes['_rootNode'])
+    let vdom = resolve(definition.nodes['_rootNode'])
     
     function render() {
-        const newvdom = resolve(nodes['_rootNode'])
+        const newvdom = resolve(definition.nodes['_rootNode'])
         patch(vdom, newvdom)
         vdom = newvdom
     }
