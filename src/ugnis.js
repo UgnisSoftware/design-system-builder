@@ -37,6 +37,7 @@ export const component = (definition, defaultState = {}) => {
     }
     toState('_rootState') // TODO measure and change to while
     
+    console.log(currentState)
     // global state for resolver
     let currentEvent = null
     let actionData = null
@@ -68,6 +69,9 @@ export const component = (definition, defaultState = {}) => {
         }
         if (def._type === 'uuid') {
             return generateuuid();
+        }
+        if (def._type === 'randomColor') {
+            return "#"+((1<<24)*Math.random()|0).toString(16);
         }
         if (def._type === 'length') {
             return resolve(def.value).length

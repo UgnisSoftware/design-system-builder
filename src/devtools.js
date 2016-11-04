@@ -16,7 +16,6 @@ export default (app) => {
     wrapper.style.position = 'relative'
     wrapper.style.transition = '0.5s width'
     dev.addListener((actionName, data, e, currentState, mutations)=>{
-
         if(actionName === 'TOGGLE_OPEN_DEVTOOLS'){
             if(wrapper.style.width === '100%'){
                 wrapper.style.width = 'calc(100% - 350px)'
