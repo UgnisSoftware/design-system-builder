@@ -50,4 +50,38 @@ export default (app) => {
             return false;
         }
     })
+};
+
+export function onlyDevtools(){
+    
+    let node = document.createElement('div')
+    document.body.appendChild(node)
+    
+    const dev = ugnis(node, devtools, devtools)
+    
+    dev.addListener((actionName, data, e, currentState, mutations)=>{
+        if(mutations.nodes){
+            dev.definition.nodes = mutations.nodes
+        }
+        if(mutations.styles){
+            dev.definition.styles = mutations.styles
+        }
+        if(mutations.state){
+            dev.definition.state = mutations.state
+        }
+        if(mutations.mutations){
+            dev.definition.mutations = mutations.mutations
+        }
+        if(mutations.actions){
+            dev.definition.actions = mutations.actions
+        }
+    })
+    
+    document.addEventListener('keydown', (e)=>{
+        if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            e.preventDefault();
+            fetch('/save', {method: 'POST', body: JSON.stringify(devtools), headers: {"Content-Type": "application/json"}})
+            return false;
+        }
+    })
 }

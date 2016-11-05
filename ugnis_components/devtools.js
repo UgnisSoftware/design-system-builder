@@ -36,16 +36,48 @@ export default {
         '26cbcbcb-4a93-75e3-dda5-1a545207642d': {
             _type: 'vNode',
             nodeType: 'box',
-            //styleId: '8e412044-12a2-2a05-ff50-86c1ef909c63',
-            childrenIds: ['6eb58745-c122-cb63-6f10-cfcc28a87feb'],
+            styleId: 'c886e2bc-ff2b-85a0-f045-99c32f83e6b0',
+            childrenIds: ['6eb58745-c122-cb63-6f10-cfcc28a87feb', '0a178de8-d326-3fb1-1371-3c949fb64468'],
         },
         '6eb58745-c122-cb63-6f10-cfcc28a87feb':{
             _type: 'vNode',
             nodeType: 'text',
+            styleId: 'fe06858f-a8e5-6d8d-52f5-fba3fecebba1',
+            value: 'Styles: ',
+        },
+        '0a178de8-d326-3fb1-1371-3c949fb64468':  {
+            _type: 'vNode',
+            nodeType: 'input',
+            styleId: 'c886e2bc-ff2b-85a0-f045-99c32f83e6b0',
             value: {
-                _type: 'state',
-                value: '6b9da8cc-5ab5-27ad-5965-3ac65c248472',
+                _type: 'objectValue',
+                object:{
+                    _type: 'objectValue',
+                    object: {
+                        _type: 'state',
+                        value: 'styles',
+                    },
+                    value: {
+                        _type: 'objectValue',
+                        object: {
+                            _type: 'objectValue',
+                            object: {
+                                _type: 'state',
+                                value: 'nodes'
+                            },
+                            value: {
+                                _type: 'state',
+                                value: '6b9da8cc-5ab5-27ad-5965-3ac65c248472',
+                            }
+                        },
+                        value: 'styleId',
+                    },
+                },
+                value: 'background',
             },
+            onInput: {
+                actionName: 'UPDATE_BACKGROUND'
+            }
         },
         '4af7b676-c0f5-35a3-c230-88f13e8c7da5': {
             _type: 'vNode',
@@ -82,7 +114,11 @@ export default {
                 _type: 'vNode',
                 nodeType: 'box',
                 styleId: '7bab95c0-32da-d258-835f-fbff59984922',
-                childrenIds: ['2c3ab5d7-1276-7ee6-d694-a845f9a004a5', '1442bf6c-23d7-6026-a40e-11b08d14e941', '83b4e3a0-da1c-6a2b-9771-6c919e3a754e', '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1']
+                childrenIds: [
+                    '2c3ab5d7-1276-7ee6-d694-a845f9a004a5',
+                    '1442bf6c-23d7-6026-a40e-11b08d14e941',
+                    '83b4e3a0-da1c-6a2b-9771-6c919e3a754e',
+                ]
             },
         },
         '2c3ab5d7-1276-7ee6-d694-a845f9a004a5': {
@@ -124,8 +160,8 @@ export default {
             nodeType: 'text',
             styleId: 'fc4e05b7-fc3a-a35e-c9d8-6bfd0ed14516',
             value: {
-                _type: 'objectValue',
-                object: {
+                _type: 'ifExists',
+                data: {
                     _type: 'objectValue',
                     object: {
                         _type: 'state',
@@ -136,7 +172,22 @@ export default {
                         value: 'folder',
                     }
                 },
-                value: 'nodeType'
+                key: 'nodeType',
+                else: {
+                    _type: 'objectValue',
+                    object: {
+                        _type: 'objectValue',
+                        object: {
+                            _type: 'state',
+                            value: 'nodes',
+                        },
+                        value: {
+                            _type: 'listValue',
+                            value: 'folder',
+                        }
+                    },
+                    value: '_type',
+                },
             },
             onClick: {
                 actionName: 'SELECT_NODE',
@@ -176,7 +227,7 @@ export default {
                 _type: 'vNode',
                 nodeType: 'box',
                 styleId: 'f13ed055-b036-edae-6b7e-783aef4c5c52',
-                childrenIds: [ 'd273cf1a-012c-e71b-040c-21b44332d7c8']
+                childrenIds: [ 'd273cf1a-012c-e71b-040c-21b44332d7c8', '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1']
             },
         },
         'd273cf1a-012c-e71b-040c-21b44332d7c8': {
@@ -284,13 +335,17 @@ export default {
         },
         '5448cae5-37d7-370e-b276-5cc1ea92bff0': {
             flex: '2',
+            padding: '10px',
+            overflow: 'scroll',
         },
         '8e412044-12a2-2a05-ff50-86c1ef909c63': {
             flex: '1',
+            overflow: 'scroll',
             borderTop: '1px solid #cccccc',
         },
         'fd30749b-06e7-b5b2-358d-22b8f47afc96': {
             flex: '2',
+            overflow: 'scroll',
             borderTop: '1px solid #cccccc',
         },
         '7bab95c0-32da-d258-835f-fbff59984922': {
@@ -332,7 +387,11 @@ export default {
         },
         'fc4e05b7-fc3a-a35e-c9d8-6bfd0ed14516': {
             cursor: 'pointer',
-        }
+        },
+        'c886e2bc-ff2b-85a0-f045-99c32f83e6b0': {
+            padding: '10px',
+        },
+        'fe06858f-a8e5-6d8d-52f5-fba3fecebba1': {},
     },
     state: {
         '_rootState': {
@@ -357,6 +416,7 @@ export default {
                 '_rootNode': {
                     _type: 'vNode',
                     nodeType: 'box',
+                    styleId: '_rootStyle',
                     childrenIds: []
                 }
             },
@@ -367,9 +427,13 @@ export default {
         'styles': {
             title: 'styles',
             stateType: 'collection',
-            defaultValue: {},
+            defaultValue: {
+                _rootStyle: {
+                }
+            },
             mutators: {
-                ADD_NODE: 'ADD_STYLE'
+                ADD_NODE: 'ADD_STYLE',
+                UPDATE_BACKGROUND: 'UPDATE_BACKGROUND'
             }
         },
         'state': {
@@ -559,7 +623,7 @@ export default {
                 _type: 'object',
                 value: {
                     padding: '10px',
-                    backgroundColor: {
+                    background: {
                         _type: 'randomColor'
                     }
                 },
@@ -572,11 +636,63 @@ export default {
             },
             value: 'nodeId',
         },
+        UPDATE_BACKGROUND: {
+            _type: 'set',
+            data: {
+                _type: 'state',
+                value: 'styles',
+            },
+            name: {
+                _type: 'objectValue',
+                object: {
+                    _type: 'objectValue',
+                    object: {
+                        _type: 'state',
+                        value: 'nodes'
+                    },
+                    value: {
+                        _type: 'state',
+                        value: '6b9da8cc-5ab5-27ad-5965-3ac65c248472',
+                    }
+                },
+                value: 'styleId',
+            },
+            value: {
+                _type: 'set',
+                data: {
+                    _type: 'objectValue',
+                    object: {
+                        _type: 'state',
+                        value: 'styles',
+                    },
+                    value: {
+                        _type: 'objectValue',
+                        object: {
+                            _type: 'objectValue',
+                            object: {
+                                _type: 'state',
+                                value: 'nodes'
+                            },
+                            value: {
+                                _type: 'state',
+                                value: '6b9da8cc-5ab5-27ad-5965-3ac65c248472',
+                            }
+                        },
+                        value: 'styleId',
+                    },
+                },
+                name: 'background',
+                value: {
+                    _type: 'eventValue',
+                },
+            },
+        },
     },
     actions: {
         TOGGLE_OPEN_DEVTOOLS: ['a79098fc-eeb8-228a-179b-1a04c701fcab'],
         NODE_FOLDER_CLICKED: ['407ee467-67b9-2425-ef9c-3ec9ee880d87'],
         ADD_NODE: ['nodes', 'styles'],
         SELECT_NODE: ['6b9da8cc-5ab5-27ad-5965-3ac65c248472'],
+        UPDATE_BACKGROUND: ['styles'],
     },
 }
