@@ -1,5 +1,5 @@
 import ugnis from './ugnis'
-import devtools, {onlyDevtools} from './devtools'
+import editor, {onlyEditor} from './editor'
 
 // import devtoolsApp from '../ugnis_components/devtools.js'
 // const app = ugnis(document.getElementById('app'), devtoolsApp)
@@ -11,14 +11,14 @@ const emptyApp = {
             _type: 'vNode',
             nodeType: 'box',
             styleId: '_rootStyle',
-            childrenIds: []
-        }
+            childrenIds: [],
+        },
     },
     styles: {
         _rootStyle: {
             padding: '10px',
-            background: '#f5f5f5'
-        }
+            background: '#f5f5f5',
+        },
     },
     state: {
         _rootState: {
@@ -31,6 +31,6 @@ const emptyApp = {
     actions: {},
 }
 const app = ugnis(document.getElementById('app'), emptyApp)
-devtools(app)
+editor(app)
 
-// onlyDevtools()
+// onlyEditor()

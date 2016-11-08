@@ -10,7 +10,15 @@ export default {
             _type: 'vNode',
             nodeType: 'text',
             styleId: '9d187483-1c66-cd98-7667-90ad02a3858b',
-            value: 'Close devtools',
+            value: {
+                _type: 'conditional',
+                condition: {
+                    _type: 'state',
+                    value: 'a79098fc-eeb8-228a-179b-1a04c701fcab',
+                },
+                then: '>',
+                else: '<',
+            },
             onClick: {
                 actionName: 'TOGGLE_OPEN_DEVTOOLS'
             },
@@ -127,7 +135,7 @@ export default {
             styleId: 'e96f7622-8007-6a7b-8702-979e6c18f428',
             value: {
                 _type: 'conditional',
-                statement: {
+                condition: {
                     _type: 'ifExists',
                     data: {
                         _type: 'state',
@@ -204,7 +212,7 @@ export default {
         },
         '83b4e3a0-da1c-6a2b-9771-6c919e3a754e': {
             _type: 'conditional',
-            statement: {
+            condition: {
                 _type: 'equals',
                 first: {
                     _type: 'objectValue',
@@ -284,50 +292,52 @@ export default {
     },
     styles: {
         '2f5912ce-d927-891a-1697-fe369728f034': {
-            color: '#dddddd',
-            fontWeight: '300',
-            fontSize: '14px',
-            position: 'absolute',
-            top: '0',
-            right: '0',
-            background: '#4d4d4d',
-            boxSizing: "border-box",
-            borderLeft: '3px solid #333333',
-            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            _type: 'object',
+            value: {
+                color: '#dddddd',
+                fontWeight: '300',
+                fontSize: '14px',
+                position: 'fixed',
+                top: '0',
+                right: '0',
+                background: '#4d4d4d',
+                boxSizing: "border-box",
+                borderLeft: '3px solid #333333',
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                transition: '0.5s transform',
+                transform: {
+                    _type: 'conditional',
+                    condition: {
+                        _type: 'state',
+                        value: 'a79098fc-eeb8-228a-179b-1a04c701fcab'
+                    },
+                    then: 'translateX(0%)',
+                    else: 'translateX(100%)',
+                }
+            },
         },
         '9d187483-1c66-cd98-7667-90ad02a3858b': {
             position: 'absolute',
-            left: '-45px',
-            transform: 'rotate(180deg)',
-            writingMode: 'vertical-lr',
-            padding: '15px 5px 15px 5px',
-            borderRadius: '0px 5px 5px 0px',
+            left: '0',
+            transform: 'translateX(-100%)',
+            padding: '15px 15px 15px 15px',
+            borderRadius: '5px 0 0 5px',
             top: '30px',
+            width: '20px',
+            textAlign: 'center',
             fontSize: '2em',
             background: '#4d4d4d',
             cursor: 'pointer',
             transition: 'all 0.5s',
         },
         'f280bbd0-d982-d847-b717-5c35c185568c': {
-            _type: 'object',
-            value: {
-                display: 'flex',
-                height: '100vh',
-                fontSize: '1.2em',
-                flexDirection: 'column',
-                color: '#dddddd',
-                transition: '0.5s width',
-                overflow: 'hidden',
-                width: {
-                    _type: 'conditional',
-                    statement: {
-                        _type: 'state',
-                        value: 'a79098fc-eeb8-228a-179b-1a04c701fcab'
-                    },
-                    then: '350px',
-                    else: '0px',
-                }
-            }
+            display: 'flex',
+            height: '100vh',
+            fontSize: '1.2em',
+            flexDirection: 'column',
+            color: '#dddddd',
+            overflow: 'hidden',
+            width: '350px',
         },
         '599e3e50-1a08-2819-ff3e-d0aac3ebcfed': {
             display: 'block',
@@ -357,7 +367,7 @@ export default {
             value: {
                 display: {
                     _type: 'conditional',
-                    statement: {
+                    condition: {
                         _type: 'ifExists',
                         data: {
                             _type: 'state',
@@ -457,7 +467,7 @@ export default {
             defaultValue: {},
         },
         'a79098fc-eeb8-228a-179b-1a04c701fcab': {
-            title: 'is devtools open',
+            title: 'is editor open',
             stateType: 'boolean',
             defaultValue: true,
             mutators: {

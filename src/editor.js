@@ -1,4 +1,4 @@
-import devtools from '../ugnis_components/devtools.js'
+import devtools from '../ugnis_components/editor.js'
 import ugnis from './ugnis'
 
 export default (app) => {
@@ -15,7 +15,7 @@ export default (app) => {
     wrapper.style.width = 'calc(100% - 350px)'
     wrapper.style.position = 'relative'
     wrapper.style.transition = '0.5s width'
-    dev.addListener((actionName, data, e, currentState, mutations)=>{
+    dev.addListener((actionName, data, e, previousState, currentState, mutations)=>{
         if(actionName === 'TOGGLE_OPEN_DEVTOOLS'){
             if(wrapper.style.width === '100%'){
                 wrapper.style.width = 'calc(100% - 350px)'
@@ -52,14 +52,14 @@ export default (app) => {
     })
 };
 
-export function onlyDevtools(){
+export function onlyEditor(){
     
     let node = document.createElement('div')
     document.body.appendChild(node)
     
     const dev = ugnis(node, devtools, devtools)
     
-    dev.addListener((actionName, data, e, currentState, mutations)=>{
+    dev.addListener((actionName, data, e, previousState, currentState, mutations)=>{
         if(mutations.nodes){
             dev.definition.nodes = mutations.nodes
         }

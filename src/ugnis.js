@@ -248,6 +248,7 @@ export const component = (definition, defaultState = {}) => {
     function emitAction(actionName, data, e) {
         currentEvent = e
         actionData = data
+        const previousState = currentState
         let mutations = {};
         if(definition.actions[actionName]){
             definition.actions[actionName].forEach((key)=> {
@@ -257,7 +258,7 @@ export const component = (definition, defaultState = {}) => {
         }
         currentEvent = null
         actionData = null
-        listeners.forEach(callback => callback(actionName, data, e, currentState, mutations))
+        listeners.forEach(callback => callback(actionName, data, e, previousState, currentState, mutations))
         if(Object.keys(mutations).length){
             render()
         }

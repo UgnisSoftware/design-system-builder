@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 app.use(express.static('./static'))
 
 app.post('/save', (req, res)=> {
-    fs.writeFile("./ugnis_components/devtools.json", JSON.stringify(req.body, undefined, 4), function(err) {
+    fs.writeFile("./ugnis_components/app.json", JSON.stringify(req.body, undefined, 4), function(err) {
         if(err) {
             return console.log(err);
         }
