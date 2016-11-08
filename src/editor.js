@@ -15,8 +15,8 @@ export default (app) => {
     wrapper.style.width = 'calc(100% - 350px)'
     wrapper.style.position = 'relative'
     wrapper.style.transition = '0.5s width'
-    dev.addListener((actionName, data, e, previousState, currentState, mutations)=>{
-        if(actionName === 'TOGGLE_OPEN_DEVTOOLS'){
+    dev.addListener((eventName, data, event, previousState, currentState, mutations)=>{
+        if(eventName === 'TOGGLE_OPEN_DEVTOOLS'){
             if(wrapper.style.width === '100%'){
                 wrapper.style.width = 'calc(100% - 350px)'
             }
@@ -36,8 +36,8 @@ export default (app) => {
             if(mutations.mutations){
                 app.definition.mutations = mutations.mutations
             }
-            if(mutations.actions){
-                app.definition.actions = mutations.actions
+            if(mutations.events){
+                app.definition.events = mutations.events
             }
             app.render()
         }
@@ -59,7 +59,7 @@ export function onlyEditor(){
     
     const dev = ugnis(node, devtools, devtools)
     
-    dev.addListener((actionName, data, e, previousState, currentState, mutations)=>{
+    dev.addListener((eventName, data, event, previousState, currentState, mutations)=>{
         if(mutations.nodes){
             dev.definition.nodes = mutations.nodes
         }
@@ -72,8 +72,8 @@ export function onlyEditor(){
         if(mutations.mutations){
             dev.definition.mutations = mutations.mutations
         }
-        if(mutations.actions){
-            dev.definition.actions = mutations.actions
+        if(mutations.events){
+            dev.definition.events = mutations.events
         }
     })
     

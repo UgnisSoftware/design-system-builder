@@ -39,7 +39,7 @@ export const component = (definition, defaultState = {}) => {
     
     // global state for resolver
     let currentEvent = null
-    let actionData = null
+    let eventData = null
     let currentMapValue = {}
     let currentMapIndex = {}
     let currentRepeaters = {}
@@ -55,7 +55,7 @@ export const component = (definition, defaultState = {}) => {
             return toNode(def);
         }
         if (def._type === 'conditional') {
-            return resolve(def.statement) ? resolve(def.then) : resolve(def.else)
+            return resolve(def.condition) ? resolve(def.then) : resolve(def.else)
         }
         if (def._type === 'equals') {
             return resolve(def.first) === resolve(def.second)
@@ -124,8 +124,8 @@ export const component = (definition, defaultState = {}) => {
             currentMapValue[def.identifier] = previous
             return data
         }
-        if (def._type === 'actionName') {
-            return {actionName: def.actionName, data: resolve(def.data)}
+        if (def._type === 'eventName') {
+            return {eventName: def.eventName, data: resolve(def.data)}
         }
         if (def._type === 'listValue') {
             return currentMapValue[def.value]
@@ -169,11 +169,8 @@ export const component = (definition, defaultState = {}) => {
         if (def._type === 'state') {
             return currentState[def.value]
         }
-        if (def._type === 'actionData') {
-            return actionData
-        }
-        if (def._type === 'actionData') {
-            return actionData
+        if (def._type === 'eventData') {
+            return eventData
         }
         if (def._type === 'eventValue') {
             return currentEvent.target.value
@@ -208,13 +205,13 @@ export const component = (definition, defaultState = {}) => {
             }
         }
         const on = {
-            click: node.onClick ? [onClick, node.onClick.actionName, resolve(node.onClick.data), node] : undefined,
-            change: node.onChange ? [emitAction, node.onChange.actionName, resolve(node.onChange.data)] : undefined,
-            input: node.onInput ? [emitAction, node.onInput.actionName, resolve(node.onInput.data)] : undefined,
-            keydown: node.onEnter ? [onEnter, node.onEnter.actionName, resolve(node.onEnter.data)] : undefined
+            click: node.onClick ? [onClick, node.onClick.eventName, resolve(node.onClick.data), node] : undefined,
+            change: node.onChange ? [emitEvent, node.onChange.eventName, resolve(node.onChange.data)] : undefined,
+            input: node.onInput ? [emitEvent, node.onInput.eventName, resolve(node.onInput.data)] : undefined,
+            keydown: node.onEnter ? [onEnter, node.onEnter.eventName, resolve(node.onEnter.data)] : undefined
         }
         const data = {
-            style: node.styleId ? resolve(definition.styles[node.styleId]) : undefined,
+            style: node.styleId ? resolve({_type: 'object', value: definition.styles[node.styleId]}) : undefined,
             on,
             props: node.nodeType === 'input' ? {
                 value: resolve(node.value),
@@ -226,13 +223,13 @@ export const component = (definition, defaultState = {}) => {
         return {sel, data, children, text}
     }
     
-    function onClick(actionName, data, node, e) {
-        emitAction(actionName, data, e)
+    function onClick(eventName, data, node, e) {
+        emitEvent(eventName, data, e)
     }
     
-    function onEnter(actionName, data, e) {
+    function onEnter(eventName, data, e) {
         if (e.keyCode == 13) {
-            emitAction(actionName, data, e)
+            emitEvent(eventName, data, e)
         }
     }
     
@@ -245,20 +242,20 @@ export const component = (definition, defaultState = {}) => {
         return () => listeners.splice(length - 1, 1)
     }
     
-    function emitAction(actionName, data, e) {
+    function emitEvent(eventName, data, e) {
         currentEvent = e
-        actionData = data
+        eventData = data
         const previousState = currentState
         let mutations = {};
-        if(definition.actions[actionName]){
-            definition.actions[actionName].forEach((key)=> {
-                mutations[key] = resolve(definition.mutators[definition.state[key].mutators[actionName]])
+        if(definition.events[eventName]){
+            definition.events[eventName].forEach((key)=> {
+                mutations[key] = resolve(definition.mutators[definition.state[key].mutators[eventName]])
             })
             currentState = Object.assign({}, currentState, mutations)
         }
         currentEvent = null
-        actionData = null
-        listeners.forEach(callback => callback(actionName, data, e, previousState, currentState, mutations))
+        eventData = null
+        listeners.forEach(callback => callback(eventName, data, e, previousState, currentState, mutations))
         if(Object.keys(mutations).length){
             render()
         }
@@ -277,7 +274,7 @@ export const component = (definition, defaultState = {}) => {
         vdom,
         currentState,
         render,
-        emitAction,
+        emitEvent,
         addListener,
     };
 }

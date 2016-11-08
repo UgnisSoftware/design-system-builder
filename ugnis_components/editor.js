@@ -4,7 +4,7 @@ export default {
             _type: 'vNode',
             nodeType: 'box',
             styleId: '2f5912ce-d927-891a-1697-fe369728f034',
-            childrenIds: ['1481d6d2-00db-8ab5-c332-882575f25422', '877ecf00-faa0-78d4-a11e-2ec308f30f01'],
+            childrenIds: ['1481d6d2-00db-8ab5-c332-882575f25422', '877ecf00-faa0-78d4-a11e-2ec308f30f01', 'dfab80c8-6181-f7d5-3f6c-35d26b8b8313'],
         },
         '1481d6d2-00db-8ab5-c332-882575f25422': {
             _type: 'vNode',
@@ -20,14 +20,14 @@ export default {
                 else: '<',
             },
             onClick: {
-                actionName: 'TOGGLE_OPEN_DEVTOOLS'
+                eventName: 'TOGGLE_OPEN_DEVTOOLS'
             },
         },
         '877ecf00-faa0-78d4-a11e-2ec308f30f01': {
             _type: 'vNode',
             nodeType: 'box',
             styleId: 'f280bbd0-d982-d847-b717-5c35c185568c',
-            childrenIds: ['2537b664-9cb9-2b84-d629-c462e47875d2', 'dfab80c8-6181-f7d5-3f6c-35d26b8b8313', '4af7b676-c0f5-35a3-c230-88f13e8c7da5'],
+            childrenIds: ['2537b664-9cb9-2b84-d629-c462e47875d2', '4af7b676-c0f5-35a3-c230-88f13e8c7da5'],
         },
         '2537b664-9cb9-2b84-d629-c462e47875d2': {
             _type: 'vNode',
@@ -84,7 +84,7 @@ export default {
                 value: 'background',
             },
             onInput: {
-                actionName: 'UPDATE_BACKGROUND'
+                eventName: 'UPDATE_BACKGROUND'
             }
         },
         '4af7b676-c0f5-35a3-c230-88f13e8c7da5': {
@@ -151,7 +151,7 @@ export default {
                 else: '-',
             },
             onClick: {
-                actionName: 'NODE_FOLDER_CLICKED',
+                eventName: 'NODE_FOLDER_CLICKED',
                 data: {
                     _type: 'object',
                     value: {
@@ -198,7 +198,7 @@ export default {
                 },
             },
             onClick: {
-                actionName: 'SELECT_NODE',
+                eventName: 'SELECT_NODE',
                 data: {
                     _type: 'object',
                     value: {
@@ -271,7 +271,7 @@ export default {
             styleId: '5f05ea1a-457c-4290-10b4-72763c09c446',
             value: 'add component',
             onClick: {
-                actionName: 'ADD_NODE',
+                eventName: 'ADD_NODE',
                 data: {
                     _type: 'object',
                     value: {
@@ -292,29 +292,26 @@ export default {
     },
     styles: {
         '2f5912ce-d927-891a-1697-fe369728f034': {
-            _type: 'object',
-            value: {
-                color: '#dddddd',
-                fontWeight: '300',
-                fontSize: '14px',
-                position: 'fixed',
-                top: '0',
-                right: '0',
-                background: '#4d4d4d',
-                boxSizing: "border-box",
-                borderLeft: '3px solid #333333',
-                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                transition: '0.5s transform',
-                transform: {
-                    _type: 'conditional',
-                    condition: {
-                        _type: 'state',
-                        value: 'a79098fc-eeb8-228a-179b-1a04c701fcab'
-                    },
-                    then: 'translateX(0%)',
-                    else: 'translateX(100%)',
-                }
-            },
+            color: '#dddddd',
+            fontWeight: '300',
+            fontSize: '14px',
+            position: 'fixed',
+            top: '0',
+            right: '0',
+            background: '#4d4d4d',
+            boxSizing: "border-box",
+            borderLeft: '3px solid #333333',
+            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+            transition: '0.5s transform',
+            transform: {
+                _type: 'conditional',
+                condition: {
+                    _type: 'state',
+                    value: 'a79098fc-eeb8-228a-179b-1a04c701fcab'
+                },
+                then: 'translateX(0%)',
+                else: 'translateX(100%)',
+            }
         },
         '9d187483-1c66-cd98-7667-90ad02a3858b': {
             position: 'absolute',
@@ -345,13 +342,19 @@ export default {
         },
         '5448cae5-37d7-370e-b276-5cc1ea92bff0': {
             flex: '2',
-            padding: '10px',
             overflow: 'scroll',
         },
         '8e412044-12a2-2a05-ff50-86c1ef909c63': {
-            flex: '1',
             overflow: 'scroll',
-            borderTop: '1px solid #cccccc',
+            left: '0',
+            top: '50%',
+            background: '#4d4d4d',
+            padding: '10px',
+            transform: 'translateX(-101%)',
+            height: '50%',
+            width: '350px',
+            position: 'absolute',
+            borderTop: '1px solid rgb(204, 204, 204)',
         },
         'fd30749b-06e7-b5b2-358d-22b8f47afc96': {
             flex: '2',
@@ -359,29 +362,26 @@ export default {
             borderTop: '1px solid #cccccc',
         },
         '7bab95c0-32da-d258-835f-fbff59984922': {
-            padding: '10px',
+            padding: '2px 0 0 10px',
             display: 'block',
         },
         'f13ed055-b036-edae-6b7e-783aef4c5c52': {
-            _type: 'object',
-            value: {
-                display: {
-                    _type: 'conditional',
-                    condition: {
-                        _type: 'ifExists',
-                        data: {
-                            _type: 'state',
-                            value: '407ee467-67b9-2425-ef9c-3ec9ee880d87',
-                        },
-                        key: {
-                            _type: 'listValue',
-                            value: 'folder',
-                        },
-                        else: false
+            display: {
+                _type: 'conditional',
+                condition: {
+                    _type: 'ifExists',
+                    data: {
+                        _type: 'state',
+                        value: '407ee467-67b9-2425-ef9c-3ec9ee880d87',
                     },
-                    then: 'none',
-                    else: 'block',
-                }
+                    key: {
+                        _type: 'listValue',
+                        value: 'folder',
+                    },
+                    else: false
+                },
+                then: 'none',
+                else: 'block',
             }
         },
         '5f05ea1a-457c-4290-10b4-72763c09c446': {
@@ -401,7 +401,8 @@ export default {
         'c886e2bc-ff2b-85a0-f045-99c32f83e6b0': {
             padding: '10px',
         },
-        'fe06858f-a8e5-6d8d-52f5-fba3fecebba1': {},
+        'fe06858f-a8e5-6d8d-52f5-fba3fecebba1': {
+        },
     },
     state: {
         '_rootState': {
@@ -456,8 +457,8 @@ export default {
             stateType: 'collection',
             defaultValue: {},
         },
-        'actions': {
-            title: 'actions',
+        'events': {
+            title: 'events',
             stateType: 'collection',
             defaultValue: {},
         },
@@ -508,7 +509,7 @@ export default {
             name: {
                 _type: 'objectValue',
                 object:{
-                    _type: 'actionData'
+                    _type: 'eventData'
                 },
                 value: 'nodeId',
             },
@@ -523,7 +524,7 @@ export default {
                     key: {
                         _type: 'objectValue',
                         object:{
-                            _type: 'actionData'
+                            _type: 'eventData'
                         },
                         value: 'nodeId',
                     },
@@ -542,7 +543,7 @@ export default {
                 name: {
                     _type: 'objectValue',
                     object:{
-                        _type: 'actionData'
+                        _type: 'eventData'
                     },
                     value: 'nodeId',
                 },
@@ -557,7 +558,7 @@ export default {
                         value: {
                             _type: 'objectValue',
                             object:{
-                                _type: 'actionData'
+                                _type: 'eventData'
                             },
                             value: 'nodeId',
                         },
@@ -576,7 +577,7 @@ export default {
                                 value: {
                                     _type: 'objectValue',
                                     object:{
-                                        _type: 'actionData'
+                                        _type: 'eventData'
                                     },
                                     value: 'nodeId',
                                 },
@@ -586,7 +587,7 @@ export default {
                         value: {
                             _type: 'objectValue',
                             object:{
-                                _type: 'actionData'
+                                _type: 'eventData'
                             },
                             value: 'newNodeId',
                         }
@@ -596,7 +597,7 @@ export default {
             name: {
                 _type: 'objectValue',
                 object:{
-                    _type: 'actionData'
+                    _type: 'eventData'
                 },
                 value: 'newNodeId',
             },
@@ -608,7 +609,7 @@ export default {
                     styleId: {
                         _type: 'objectValue',
                         object:{
-                            _type: 'actionData'
+                            _type: 'eventData'
                         },
                         value: 'newStyleId',
                     },
@@ -625,7 +626,7 @@ export default {
             name: {
                 _type: 'objectValue',
                 object:{
-                    _type: 'actionData'
+                    _type: 'eventData'
                 },
                 value: 'newStyleId',
             },
@@ -642,7 +643,7 @@ export default {
         SELECT_NODE: {
             _type: 'objectValue',
             object:{
-                _type: 'actionData'
+                _type: 'eventData'
             },
             value: 'nodeId',
         },
@@ -698,7 +699,7 @@ export default {
             },
         },
     },
-    actions: {
+    events: {
         TOGGLE_OPEN_DEVTOOLS: ['a79098fc-eeb8-228a-179b-1a04c701fcab'],
         NODE_FOLDER_CLICKED: ['407ee467-67b9-2425-ef9c-3ec9ee880d87'],
         ADD_NODE: ['nodes', 'styles'],
