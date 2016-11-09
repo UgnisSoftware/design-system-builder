@@ -4,7 +4,11 @@ export default {
             _type: 'vNode',
             nodeType: 'box',
             styleId: '2f5912ce-d927-891a-1697-fe369728f034',
-            childrenIds: ['1481d6d2-00db-8ab5-c332-882575f25422', '877ecf00-faa0-78d4-a11e-2ec308f30f01', 'dfab80c8-6181-f7d5-3f6c-35d26b8b8313'],
+            childrenIds: [
+                '1481d6d2-00db-8ab5-c332-882575f25422',
+                '877ecf00-faa0-78d4-a11e-2ec308f30f01',
+                'dfab80c8-6181-f7d5-3f6c-35d26b8b8313',
+            ],
         },
         '1481d6d2-00db-8ab5-c332-882575f25422': {
             _type: 'vNode',
@@ -56,7 +60,7 @@ export default {
         '0a178de8-d326-3fb1-1371-3c949fb64468':  {
             _type: 'vNode',
             nodeType: 'input',
-            styleId: 'c886e2bc-ff2b-85a0-f045-99c32f83e6b0',
+            styleId: '58d8c444-0477-4f4c-fdc9-e372edfd838a',
             value: {
                 _type: 'objectValue',
                 object:{
@@ -130,87 +134,6 @@ export default {
             },
         },
         '2c3ab5d7-1276-7ee6-d694-a845f9a004a5': {
-            _type: 'vNode',
-            nodeType: 'text',
-            styleId: 'e96f7622-8007-6a7b-8702-979e6c18f428',
-            value: {
-                _type: 'conditional',
-                condition: {
-                    _type: 'ifExists',
-                    data: {
-                        _type: 'state',
-                        value: '407ee467-67b9-2425-ef9c-3ec9ee880d87',
-                    },
-                    key: {
-                        _type: 'listValue',
-                        value: 'folder',
-                    },
-                    else: false
-                },
-                then: '+',
-                else: '-',
-            },
-            onClick: {
-                eventName: 'NODE_FOLDER_CLICKED',
-                data: {
-                    _type: 'object',
-                    value: {
-                        nodeId: {
-                            _type: 'listValue',
-                            value: 'folder',
-                        }
-                    }
-                }
-            }
-        },
-        '1442bf6c-23d7-6026-a40e-11b08d14e941': {
-            _type: 'vNode',
-            nodeType: 'text',
-            styleId: 'fc4e05b7-fc3a-a35e-c9d8-6bfd0ed14516',
-            value: {
-                _type: 'ifExists',
-                data: {
-                    _type: 'objectValue',
-                    object: {
-                        _type: 'state',
-                        value: 'nodes',
-                    },
-                    value: {
-                        _type: 'listValue',
-                        value: 'folder',
-                    }
-                },
-                key: 'nodeType',
-                else: {
-                    _type: 'objectValue',
-                    object: {
-                        _type: 'objectValue',
-                        object: {
-                            _type: 'state',
-                            value: 'nodes',
-                        },
-                        value: {
-                            _type: 'listValue',
-                            value: 'folder',
-                        }
-                    },
-                    value: '_type',
-                },
-            },
-            onClick: {
-                eventName: 'SELECT_NODE',
-                data: {
-                    _type: 'object',
-                    value: {
-                        nodeId: {
-                            _type: 'listValue',
-                            value: 'folder',
-                        }
-                    }
-                }
-            }
-        },
-        '83b4e3a0-da1c-6a2b-9771-6c919e3a754e': {
             _type: 'conditional',
             condition: {
                 _type: 'equals',
@@ -233,16 +156,46 @@ export default {
             },
             then: {
                 _type: 'vNode',
-                nodeType: 'box',
-                styleId: 'f13ed055-b036-edae-6b7e-783aef4c5c52',
-                childrenIds: [ 'd273cf1a-012c-e71b-040c-21b44332d7c8', '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1']
+                nodeType: 'text',
+                styleId: 'e96f7622-8007-6a7b-8702-979e6c18f428',
+                value: {
+                    _type: 'conditional',
+                    condition: {
+                        _type: 'ifExists',
+                        data: {
+                            _type: 'state',
+                            value: '407ee467-67b9-2425-ef9c-3ec9ee880d87',
+                        },
+                        key: {
+                            _type: 'listValue',
+                            value: 'folder',
+                        },
+                        else: false
+                    },
+                    then: '+',
+                    else: '-',
+                },
+                onClick: {
+                    eventName: 'NODE_FOLDER_CLICKED',
+                    data: {
+                        _type: 'object',
+                        value: {
+                            nodeId: {
+                                _type: 'listValue',
+                                value: 'folder',
+                            }
+                        }
+                    }
+                }
             },
         },
-        'd273cf1a-012c-e71b-040c-21b44332d7c8': {
-            _type: 'list',
-            data: {
-                _type: 'objectValue',
-                object:  {
+        '1442bf6c-23d7-6026-a40e-11b08d14e941': {
+            _type: 'vNode',
+            nodeType: 'text',
+            styleId: 'fc4e05b7-fc3a-a35e-c9d8-6bfd0ed14516',
+            value: {
+                _type: 'ifExists',
+                data: {
                     _type: 'objectValue',
                     object: {
                         _type: 'state',
@@ -253,41 +206,213 @@ export default {
                         value: 'folder',
                     }
                 },
-                value: 'childrenIds'
+                key: 'nodeType',
             },
-            identifier: 'folderMap1',
-            list: {
-                _type: 'repeat',
-                identifier: 'folder',
-                data: {
-                    "_type": "listValue",
-                    "value": "folderMap1"
-                }
-            },
-        },
-        '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1':{
-            _type: 'vNode',
-            nodeType: 'text',
-            styleId: '5f05ea1a-457c-4290-10b4-72763c09c446',
-            value: 'add component',
             onClick: {
-                eventName: 'ADD_NODE',
+                eventName: 'SELECT_NODE',
                 data: {
                     _type: 'object',
                     value: {
                         nodeId: {
-                            _type: "listValue",
-                            value: "folder",
-                        },
-                        newNodeId: {
-                            _type: 'uuid'
-                        },
-                        newStyleId: {
-                            _type: 'uuid'
+                            _type: 'listValue',
+                            value: 'folder',
                         }
                     }
                 }
             }
+        },
+        '83b4e3a0-da1c-6a2b-9771-6c919e3a754e': {
+            _type: 'conditional',
+            condition: {
+                _type: 'objectValue',
+                object: {
+                    _type: 'objectValue',
+                    object:  {
+                        _type: 'state',
+                        value: 'nodes',
+                    },
+                    value: {
+                        _type: 'listValue',
+                        value: 'folder',
+                    }
+                },
+                value: 'nodeType'
+            },
+            then: {
+                _type: 'vNode',
+                nodeType: 'box',
+                styleId: 'f13ed055-b036-edae-6b7e-783aef4c5c52',
+                childrenIds: [ 'd273cf1a-012c-e71b-040c-21b44332d7c8', '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1']
+            },
+            else: {
+                _type: 'vNode',
+                nodeType: 'box',
+                styleId: '5b0e6870-69e3-03a9-650a-c7e6ee8e419c',
+                childrenIds: [ '7380c3c3-cea4-b724-b566-f8db057387e2']
+            },
+        },
+        '7380c3c3-cea4-b724-b566-f8db057387e2': {
+            _type: 'repeater',
+            identifier: 'subfolder',
+            data: {
+                _type: 'objectValue',
+                object:  {
+                    _type: 'state',
+                    value: 'nodes',
+                },
+                value: {
+                    _type: 'listValue',
+                    value: 'folder',
+                }
+            },
+            value: {
+                _type: 'vNode',
+                nodeType: 'box',
+                styleId: 'b13e31c1-23c3-cad9-1ed2-d10db0328255',
+                childrenIds: [
+                    '7c7e180c-6cef-a998-979a-01f53b510a96',
+                    //'95fdd76f-ee3b-a126-7f0a-0a530fd33915',
+                ]
+            },
+        },
+        '7c7e180c-6cef-a998-979a-01f53b510a96': {
+            _type: 'vNode',
+            nodeType: 'text',
+            styleId: '0d2cbcaf-c4eb-b788-1061-be5d480c1a37',
+            value: {
+                _type: 'ifExists',
+                data: {
+                    _type: 'listValue',
+                    value: 'subfolder',
+                },
+                key: '_type',
+                else: {
+                    _type: 'listValue',
+                    value: 'subfolder',
+                }
+            }
+        },
+        '95fdd76f-ee3b-a126-7f0a-0a530fd33915': {
+            _type: 'conditional',
+            condition: {
+                
+            },
+            then: '',
+            else: '',
+            identifier: 'subfolder',
+            data: {
+                "_type": "listValue",
+                "value": "folderMap1"
+            }
+        },
+        'd273cf1a-012c-e71b-040c-21b44332d7c8': {
+            _type: 'conditional',
+            condition: {
+                _type: 'equals',
+                first: {
+                    _type: 'objectValue',
+                    object: {
+                        _type: 'objectValue',
+                        object:  {
+                            _type: 'state',
+                            value: 'nodes',
+                        },
+                        value: {
+                            _type: 'listValue',
+                            value: 'folder',
+                        }
+                    },
+                    value: 'nodeType'
+                },
+                second: 'box'
+            },
+            then: {
+                _type: 'list',
+                data: {
+                    _type: 'objectValue',
+                    object:  {
+                        _type: 'objectValue',
+                        object: {
+                            _type: 'state',
+                            value: 'nodes',
+                        },
+                        value: {
+                            _type: 'listValue',
+                            value: 'folder',
+                        }
+                    },
+                    value: 'childrenIds'
+                },
+                identifier: 'folderMap1',
+                list: {
+                    _type: 'repeat',
+                    identifier: 'folder',
+                    data: {
+                        "_type": "listValue",
+                        "value": "folderMap1"
+                    }
+                },
+            },
+        },
+        '323f80ba-ff2a-cad3-7d0e-a9d2bb9523f1':{
+            _type: 'conditional',
+            condition: {
+                _type: 'equals',
+                first: {
+                    _type: 'state',
+                    value: '6b9da8cc-5ab5-27ad-5965-3ac65c248472',
+                },
+                second: {
+                    _type: 'listValue',
+                    value: 'folder',
+                },
+            },
+            then: {
+                _type: 'conditional',
+                condition: {
+                    _type: 'equals',
+                    first: {
+                        _type: 'objectValue',
+                        object: {
+                            _type: 'objectValue',
+                            object:  {
+                                _type: 'state',
+                                value: 'nodes',
+                            },
+                            value: {
+                                _type: 'listValue',
+                                value: 'folder',
+                            }
+                        },
+                        value: 'nodeType'
+                    },
+                    second: 'box'
+                },
+                then: {
+                    _type: 'vNode',
+                    nodeType: 'text',
+                    styleId: '5f05ea1a-457c-4290-10b4-72763c09c446',
+                    value: 'add component',
+                    onClick: {
+                        eventName: 'ADD_NODE',
+                        data: {
+                            _type: 'object',
+                            value: {
+                                nodeId: {
+                                    _type: "listValue",
+                                    value: "folder",
+                                },
+                                newNodeId: {
+                                    _type: 'uuid'
+                                },
+                                newStyleId: {
+                                    _type: 'uuid'
+                                }
+                            }
+                        }
+                    }
+                },
+            },
         },
     },
     styles: {
@@ -331,8 +456,8 @@ export default {
             display: 'flex',
             height: '100vh',
             fontSize: '1.2em',
-            flexDirection: 'column',
             color: '#dddddd',
+            flexDirection: 'column',
             overflow: 'hidden',
             width: '350px',
         },
@@ -403,6 +528,14 @@ export default {
         },
         'fe06858f-a8e5-6d8d-52f5-fba3fecebba1': {
         },
+        '5b0e6870-69e3-03a9-650a-c7e6ee8e419c': {
+        },
+        'b13e31c1-23c3-cad9-1ed2-d10db0328255': {
+        },
+        '0d2cbcaf-c4eb-b788-1061-be5d480c1a37': {
+        },
+        '58d8c444-0477-4f4c-fdc9-e372edfd838a': {
+        }
     },
     state: {
         '_rootState': {
