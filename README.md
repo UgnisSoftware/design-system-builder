@@ -1,4 +1,39 @@
-# ugnis-script
+# Ugnis
+
+Ugnis is a visual UI builder, a replacement for React+Redux/Elm without writing any code. Plays nice with existing apps, can be introduced in small steps.
+Ugnis consist of two parts:
+    - every applications is a JSON file
+    - a runtime that interprets your JSON and mounts it on a provided html node
+
+You wouldn't want to write JSON by hand, that's why Ugnis is a visual UI builder
+
+```
+  import ugnis from 'ugnis'
+
+  var app = ugnis(json)
+```
+
+If you are integrating Ugnis into an existing app, you can interact by sending and listening to events:
+
+```
+ app.emitEvent(eventName, data, nativeEvent)
+
+ app.addListener((eventName, data, nativeEvent, previousState, currentState, mutations)=>{
+
+ })
+```
+
+Goals (must be achieved before releasing 1.0v)
+  - zero configuration, use the web tool to build your app json or use it locally with 'npm install ugnis'
+  - simple, make right things easy to do.
+  - powerful enough to write any application, Ugnis is written with Ugnis itself
+  - scalable for humans - show connections between state, events and view nodes,
+        no need to go through thousands of line of code to build the mental mode, no need to grep action names.
+  - scalable for machines - application splitting by default
+  - server side rendering
+  - typesafe - there should be no runtime errors
+  - speed - Ugnis knows how view nodes are connected with the state, there is no need for virtual dom
+
 
 Problems with javascript:
   - too many edge cases
