@@ -3,8 +3,8 @@
 Ugnis is a visual UI builder, a replacement for React+Redux/Elm without writing any code. Plays nice with existing apps, can be introduced in small steps.
 
 Ugnis consist of two parts:
-    - every applications is a JSON file
-    - a runtime that interprets your JSON and mounts it on a provided html node
+  - every applications is a JSON file
+  - a runtime that interprets your JSON and mounts it on a provided html node
 
 You wouldn't want to write JSON by hand, that's why Ugnis is a visual UI builder
 
