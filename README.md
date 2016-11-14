@@ -1,8 +1,8 @@
-# <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis
+# <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis 0.0.26v
 
 Ugnis is a fully declarative way to write web applications, a replacement for React+Redux/Elm where instead of writing code you use a visual editor.
 
-WARNING: Ugnis is a proof of concept. We do not recommend relying on it before it reaches 1.0v.
+WARNING: Ugnis is a proof of concept. We do not recommend relying on it before 1.0v.
 
 Ugnis consist of three parts:
   - your application as a JSON file.

@@ -1,6 +1,6 @@
 {
   "name": "Heroes-of-Ugnis",
-  "version": "0.0.1",
+  "version": "0.0.26",
   "description": "Turn Based Strategy game",
   "main": "index.js",
   "scripts": {
