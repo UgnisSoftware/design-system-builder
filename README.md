@@ -1,17 +1,18 @@
 # Ugnis
 
-Ugnis is a visual UI builder, a replacement for React+Redux/Elm without writing any code. Plays nice with existing apps, can be introduced in small steps.
+Ugnis is a fully declarative way to write web applications, a replacement for React+Redux/Elm where instead of writing code you use a visual editor.
 
-Ugnis consist of two parts:
-  - every applications is a JSON file
-  - a runtime that interprets your JSON and mounts it on a provided html node
+WARNING: Ugnis is a proof of concept. We do not recommend relying on it before it reaches 1.0v.
 
-You wouldn't want to write JSON by hand, that's why Ugnis is a visual UI builder
+Ugnis consist of three parts:
+  - your application as a JSON file.
+  - a runtime that interprets your JSON and mounts it on a provided html node.
+  - Ugnis visual editor because you wouldn't want to write JSON by hand.
 
 ```
   import ugnis from 'ugnis'
 
-  var app = ugnis(json)
+  const app = ugnis(json)
 ```
 
 If you are integrating Ugnis into an existing app, you can interact by sending and listening to events:
@@ -27,6 +28,7 @@ If you are integrating Ugnis into an existing app, you can interact by sending a
 Goals (must be achieved before releasing 1.0v)
   - zero configuration, use the web tool to build your app json or use it locally with 'npm install ugnis'
   - simple, make right things easy to do.
+  - play nice with existing apps, can be introduced in small steps.
   - powerful enough to write any application, Ugnis is written with Ugnis itself
   - scalable for humans - show connections between state, events and view nodes,
         no need to go through thousands of line of code to build the mental mode, no need to grep action names.
@@ -34,7 +36,6 @@ Goals (must be achieved before releasing 1.0v)
   - server side rendering
   - typesafe - there should be no runtime errors
   - speed - Ugnis knows how view nodes are connected with the state, there is no need for virtual dom
-
 
 Problems with javascript:
   - too many edge cases
