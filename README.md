@@ -9,15 +9,15 @@ Ugnis consist of three parts:
   - a runtime that interprets your JSON and mounts it on a provided html node.
   - Ugnis visual editor because you wouldn't want to write JSON by hand.
 
-```
+```javascript
   import ugnis from 'ugnis'
 
-  const app = ugnis(json)
+  const app = ugnis(node, json, defaultState)
 ```
 
 If you are integrating Ugnis into an existing app, you can interact by sending and listening to events:
 
-```
+```javascript
  app.emitEvent(eventName, data, nativeEvent)
 
  app.addListener((eventName, data, nativeEvent, previousState, currentState, mutations)=>{
