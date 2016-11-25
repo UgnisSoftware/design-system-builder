@@ -1,4 +1,5 @@
 export default {
+    _type: 'web-app',
     nodes: {
         '_rootNode': {
             _type: 'vNode',
@@ -271,7 +272,7 @@ export default {
                 styleId: 'b13e31c1-23c3-cad9-1ed2-d10db0328255',
                 childrenIds: [
                     '7c7e180c-6cef-a998-979a-01f53b510a96',
-                    //'95fdd76f-ee3b-a126-7f0a-0a530fd33915',
+                    '95fdd76f-ee3b-a126-7f0a-0a530fd33915',
                 ]
             },
         },
@@ -295,15 +296,25 @@ export default {
         '95fdd76f-ee3b-a126-7f0a-0a530fd33915': {
             _type: 'conditional',
             condition: {
-                
+                _type: 'ifExists',
+                data: {
+                    _type: 'listValue',
+                    value: 'subfolder',
+                },
+                key: 'value',
             },
-            then: '',
-            else: '',
-            identifier: 'subfolder',
-            data: {
-                "_type": "listValue",
-                "value": "folderMap1"
-            }
+            then: {
+                _type: 'repeat',
+                identifier: 'subfolder',
+                data: {
+                    _type: 'objectValue',
+                    object:  {
+                        _type: 'listValue',
+                        value: 'subfolder',
+                    },
+                    value: 'value'
+                }
+            },
         },
         'd273cf1a-012c-e71b-040c-21b44332d7c8': {
             _type: 'conditional',

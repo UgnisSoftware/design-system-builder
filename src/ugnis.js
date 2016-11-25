@@ -37,6 +37,8 @@ export const component = (definition, defaultState = {}) => {
     }
     toState('_rootState') // TODO measure and change to while
     
+    
+    console.log(currentState)
     // global state for resolver
     let currentEvent = null
     let eventData = null
