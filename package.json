@@ -1,7 +1,7 @@
 {
-  "name": "Heroes-of-Ugnis",
+  "name": "Ugnis",
   "version": "0.0.26",
-  "description": "Turn Based Strategy game",
+  "description": "Ugnis",
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static/bundle.js",
@@ -27,6 +27,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "node-uuid": "^1.4.7",
     "snabbdom": "^0.5.1"
   }
 }

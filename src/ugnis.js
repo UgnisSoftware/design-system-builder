@@ -7,12 +7,7 @@ const patch = snabbdom.init([
     require('snabbdom/modules/eventlisteners'),
 ]);
 
-function generateuuid() {
-    const s4 = function() {
-        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-    return (s4()+s4()+"-"+s4()+"-"+s4()+"-"+s4()+"-"+s4()+s4()+s4());
-}
+const uuid = require('node-uuid');
 
 export const component = (definition, defaultState = {}) => {
     // construct state
@@ -36,9 +31,7 @@ export const component = (definition, defaultState = {}) => {
         }
     }
     toState('_rootState') // TODO measure and change to while
-    
-    
-    console.log(currentState)
+
     // global state for resolver
     let currentEvent = null
     let eventData = null
@@ -69,7 +62,7 @@ export const component = (definition, defaultState = {}) => {
             return resolve(def.data)[resolve(def.key)] || resolve(def.else)
         }
         if (def._type === 'uuid') {
-            return generateuuid();
+            return uuid.v4()
         }
         if (def._type === 'randomColor') {
             return "#"+((1<<24)*Math.random()|0).toString(16);

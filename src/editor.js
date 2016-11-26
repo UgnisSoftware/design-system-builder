@@ -3,7 +3,7 @@ import ugnis from './ugnis'
 
 export default (app) => {
     // wrap the app component
-    var wrapper = document.createElement('div');
+    const wrapper = document.createElement('div');
     app.vdom.elm.parentNode.appendChild(wrapper);
     wrapper.appendChild(app.vdom.elm);
     
