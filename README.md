@@ -9,23 +9,57 @@ Ugnis consist of three parts:
   - a runtime that interprets your JSON and mounts it on a provided html node.
   - Ugnis visual editor because you wouldn't want to write JSON by hand.
 
+# How to use it
+
+To create your first component use our online editor<link> or download the editor<link>
+
+if you don't want to download a packaged desktop app, you can use a website version via npm:
+```bash
+  npm install ugnis-editor
+
+  node node_modules/.bin/ugnis-editor PORT=3000 PATH=./ugnis_modules #defaults
+```
+
+Once you create a component you can add it to your website by installing:
+```bash
+    npm install ugnis
+```
+
+and mounting a component:
 ```javascript
   import ugnis from 'ugnis'
 
-  const app = ugnis(node, json, defaultState)
+  const component = ugnis(htmlNode, json, defaultState)
 ```
 
 If you are integrating Ugnis into an existing app, you can interact by sending and listening to events:
-
 ```javascript
- app.emitEvent(eventName, data, nativeEvent)
+ component.emitEvent(eventName, data, nativeEvent)
 
- app.addListener((eventName, data, nativeEvent, previousState, currentState, mutations)=>{
+ component.addListener((eventName, data, nativeEvent, previousState, currentState, mutations)=>{
 
  })
 ```
 
+## Integrating with react
+For react projects there is a special wrapper component
+```
+    npm install ugnis-react # you don't need to npm install ugnis
+```
+
+```javascript
+  import Ugnis from 'ugnis-react'
+
+  const component = (props) =>
+    <Ugnis
+        definition={json}
+        defaultState={defaultState}
+        onMount={function(definition, vdom, currentState, render, emitEvent, addListener){}}/>
+```
+
 Goals (must be achieved before releasing 1.0v)
+  - first programming language that truly can be written on mobile
+  - first programming language that is easy to translate to other human languages
   - zero configuration, use the web tool to build your app json or use it locally with 'npm install ugnis'
   - simple, make right things easy to do.
   - play nice with existing apps, can be introduced in small steps.
@@ -81,3 +115,8 @@ Features:
 Performance
   - remove virtual dom, because we know how components use state, we don't need virtual dom.
   - tail call optimisation
+
+#License:
+
+MIT. Also, for .json files, the standard JSON license applies, so "The Software shall be used for Good, not Evil".
+Keep in mind, that every Ugnis application is a .json file.
