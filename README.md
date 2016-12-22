@@ -1,28 +1,30 @@
 # <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis 0.0.26v
 
-Ugnis is a visual component builder. Built on the best ideas from React, Redux and Elm but removes boilerplate.
+Ugnis is a visual application builder. It's like React + Redux without boilerplate.
+
+*It's actually a small LISP-like language, just don't tell anyone that. Read how and why TODO HERE*
 
 Ugnis consist of three parts:
-  - your component as a JSON file - virtual-dom + virtual-state (tm)
+  - your application as a JSON file - virtual-dom + virtual-state (tm)
   - a render json to html function
-  - Ugnis visual editor because you wouldn't want to write JSON by hand.
+  - Ugnis visual editor because you wouldn't want to write JSON by hand
 
 # Goals
 Goals (must be reached before releasing 1.0v)
   - [x] zero configuration, Ugnis-only apps don't need webpack or babel
   - [x] powerful enough to write any application, Ugnis editor is written with Ugnis itself
-  - [x] plays nice with existing apps, can be introduced in small steps.
-  - [ ] speed - Ugnis knows how view nodes are connected with the state, there is no actual need to use virtual dom
-  - [ ] scalable for humans - show connections between state, events and view nodes,
-        no need to go through thousands of line of code to build the mental mode, no need to grep action names.
+  - [x] plays nice with existing apps, can be introduced in small steps
+  - [ ] speed - Ugnis knows how view nodes are connected with the state, so there is no actual need to use virtual dom
+  - [ ] scalable for humans - large applications are easy to understand
   - [ ] scalable for machines - application splitting by default
   - [ ] server side rendering
   - [ ] type safety - no runtime errors
   - [ ] editor works well on mobile
+  - [ ] allow easy extension of the runtime
 
 # How to use it
 
-To create your first component use our online editor TODO LINK or download the editor TODO LINK
+To create your first component use the online editor TODO LINK or download the editor TODO LINK
 
 if you don't want to download a packaged desktop app, you can use a website version via npm:
 ```bash
