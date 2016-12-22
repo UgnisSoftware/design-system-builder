@@ -1,17 +1,15 @@
 # <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis 0.0.26v
 
-Ugnis is a fully declarative way to write web applications, a replacement for React+Redux/Elm where instead of writing code you use a visual editor.
-
-WARNING: Ugnis is a proof of concept. We do not recommend relying on it before 1.0v.
+Ugnis is a visual component builder.
 
 Ugnis consist of three parts:
-  - your application as a JSON file.
+  - your component as a JSON file.
   - a runtime that interprets your JSON and mounts it on a provided html node.
   - Ugnis visual editor because you wouldn't want to write JSON by hand.
 
 # How to use it
 
-To create your first component use our online editor<link> or download the editor<link>
+To create your first component use our online editor TODO LINK or download the editor TODO LINK
 
 if you don't want to download a packaged desktop app, you can use a website version via npm:
 ```bash
@@ -20,7 +18,10 @@ if you don't want to download a packaged desktop app, you can use a website vers
   node node_modules/.bin/ugnis-editor PORT=3000 PATH=./ugnis_modules #defaults
 ```
 
-Once you create a component you can add it to your website by installing:
+Once you create a component you can add it to your website
+TODO CDN
+
+or by installing:
 ```bash
     npm install ugnis
 ```
@@ -57,19 +58,18 @@ For react projects there is a special wrapper component
         onMount={function(definition, vdom, currentState, render, emitEvent, addListener){}}/>
 ```
 
-Goals (must be achieved before releasing 1.0v)
-  - first programming language that truly can be written on mobile
-  - first programming language that is easy to translate to other human languages
-  - zero configuration, use the web tool to build your app json or use it locally with 'npm install ugnis'
-  - simple, make right things easy to do.
-  - play nice with existing apps, can be introduced in small steps.
-  - powerful enough to write any application, Ugnis is written with Ugnis itself
-  - scalable for humans - show connections between state, events and view nodes,
+# Goals
+Goals (must be reached before releasing 1.0v)
+  - [x] zero configuration, new apps don't need webpack or babel.
+  - [ ] editor works well on mobile
+  - [x] play nice with existing apps, can be introduced in small steps.
+  - [x] powerful enough to write any application, Ugnis is written with Ugnis itself
+  - [ ] scalable for humans - show connections between state, events and view nodes,
         no need to go through thousands of line of code to build the mental mode, no need to grep action names.
-  - scalable for machines - application splitting by default
-  - server side rendering
-  - typesafe - there should be no runtime errors
-  - speed - Ugnis knows how view nodes are connected with the state, there is no need for virtual dom
+  - [ ] scalable for machines - application splitting by default
+  - [ ] server side rendering
+  - [ ] typesafe - there should be no runtime errors
+  - [ ] speed - Ugnis knows how view nodes are connected with the state, there is no actual need to use virtual dom
 
 Problems with javascript:
   - too many edge cases
