@@ -2,17 +2,23 @@
 
 Ugnis is a visual application builder. It's like React + Redux without boilerplate.
 
-Ugnis consist of three parts:
-  - your application as a JSON file - virtual-dom + virtual-state (tm)
-  - a render json to html function
-  - Ugnis visual editor because you wouldn't want to write JSON by hand
+WARNING: Ugnis is a proof of concept, we recommend waiting for 1.0v before using it in production.
 
-Read technical implementation details TODO HERE *Ugnis is actually a small LISP-like language, just don't tell anyone that*
+Ugnis consist of three parts:
+  - Your application definition - a JSON file
+  - Runtime - a function that renders JSON to HTML
+  - Ugnis visual editor - because you wouldn't want to write JSON by hand
+
+Read technical implementation details TODO HERE *Ugnis is actually a small LISP-like language, just don't tell anyone that* ugnis is a programming language that should never be written by hand
 
 # Goals
 Goals (must be reached before releasing 1.0v)
   - [x] zero configuration, Ugnis-only apps don't need webpack or babel
   - [ ] powerful enough to write any application, Ugnis editor is written with Ugnis itself
+    - [x] string, number, variants
+    - [x] tables
+    - [ ] connected tables - graphs
+    - [ ] recursion
   - [x] plays nice with existing apps, can be introduced in small steps
   - [ ] speed - Ugnis knows how view nodes are connected with the state, so there is no actual need to use virtual dom
   - [ ] scalable for humans - large applications are easy to understand
@@ -21,6 +27,9 @@ Goals (must be reached before releasing 1.0v)
   - [ ] type safety - no runtime errors
   - [ ] editor works well on mobile
   - [ ] allow easy extension of the runtime
+  - [ ] editor as a desktop app
+  - [ ] router
+  - [ ] fetch
 
 # How to use it
 
