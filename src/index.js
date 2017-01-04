@@ -40,10 +40,12 @@ const emptyApp = {
         '9481d6d2-00db-8ab5-c332-882575f25426': {
             padding: '10px',
             background: '#aaaaaa',
+            display: 'inline-block',
         },
         '7481d6d2-00db-8ab5-c332-882575f25426': {
             padding: '10px',
             background: '#999999',
+            display: 'inline-block',
         },
     },
     state: {

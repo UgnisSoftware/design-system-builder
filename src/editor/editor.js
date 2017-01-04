@@ -92,6 +92,14 @@ export default (app)=>{
     function VIEW_NODE_SELECTED(nodeId) {
         setState({...state, selectedViewNode:nodeId})
     }
+    function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
+        // TODO rethink
+        e.stopPropagation()
+        delete state.app.nodes[nodeId]
+        state.app.nodes[parentId].childrenIds = state.app.nodes[parentId].childrenIds.filter((id)=> id !== nodeId)
+        app.render();
+        render();
+    }
 
     // Render
     function render() {
@@ -143,7 +151,7 @@ export default (app)=>{
                 flex: '1',
             }
         }, 'State')
-        function listNodes(nodeId) {
+        function listNodes(nodeId, parentId) {
             const node = state.app.nodes[nodeId]
             if(node._type === 'vNode'){
                 if(node.nodeType === 'box'){
@@ -151,6 +159,7 @@ export default (app)=>{
                     return h('div', {
                             style: {
                                 background: state.selectedViewNode === nodeId ? '#828183': '',
+                                position: 'relative',
                             }
                         }, [
                             h('svg', {
@@ -162,16 +171,23 @@ export default (app)=>{
                                 },
                                 [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})]),
                             h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}},node.nodeType),
-                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft:'1px solid white'}}, node.childrenIds.map(listNodes))
+                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft:'1px solid white'}}, node.childrenIds.map((id)=> listNodes(id, nodeId))),
+                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none' ,position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
                 } else {
-                    return h('div',{
-                        style: {
-                            cursor: 'pointer',
-                            background: state.selectedViewNode === nodeId ? '#828183': '',
-                        },
-                        on: {click: [VIEW_NODE_SELECTED, nodeId]}}, node.nodeType)
+                    return h('div', {
+                            style: {
+                                cursor: 'pointer',
+                                background: state.selectedViewNode === nodeId ? '#828183': '',
+                                position: 'relative'
+                            },
+                            on: {click: [VIEW_NODE_SELECTED, nodeId]}
+                        }, [
+                            node.nodeType,
+                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none' ,position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                        ]
+                    )
                 }
             }
         }

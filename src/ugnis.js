@@ -196,7 +196,7 @@ export const component = (definition, defaultState = {}) => {
             return // noop
         }
         let sel = node.nodeType === 'box' ? 'div'
-            : node.nodeType === 'text' ? 'div'
+            : node.nodeType === 'text' ? 'span'
                 : node.nodeType === 'input' ? 'input'
                     : 'error'
         let children
