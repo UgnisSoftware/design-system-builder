@@ -5,9 +5,9 @@ const patch = snabbdom.init([
     require('snabbdom/modules/props'),
     require('snabbdom/modules/style'),
     require('snabbdom/modules/eventlisteners'),
-]);
+])
 
-const uuid = require('node-uuid');
+const uuid = require('node-uuid')
 
 export const component = (definition, defaultState = {}) => {
     // construct state
@@ -32,6 +32,26 @@ export const component = (definition, defaultState = {}) => {
     }
     toState('_rootState') // TODO measure and change to while
 
+    // Allows stoping application in development. This is not an application state
+    let frozen = false
+    let frozenCallback = null
+    let selectHoverActive = false
+    let selectedNodeInDevelopment = ''
+
+    function selectNodeHover(nodeId, e) {
+        e.stopPropagation()
+        selectedNodeInDevelopment = nodeId
+        frozenCallback(nodeId)
+        render()
+    }
+    function selectNodeClick(nodeId, e) {
+        e.stopPropagation()
+        selectHoverActive = false
+        selectedNodeInDevelopment = nodeId
+        frozenCallback(nodeId)
+        render()
+    }
+
     // global state for resolver
     let currentEvent = null
     let eventData = null
@@ -40,14 +60,11 @@ export const component = (definition, defaultState = {}) => {
     let currentRepeaters = {}
     const resolve = (def)=> {
         if (def === undefined) {
-            return;
+            return
         }
         // static value
         if (def._type === undefined) {
-            return def;
-        }
-        if (def._type === 'vNode') {
-            return toNode(def);
+            return def
         }
         if (def._type === 'conditional') {
             return resolve(def.condition) ? resolve(def.then) : resolve(def.else)
@@ -65,7 +82,7 @@ export const component = (definition, defaultState = {}) => {
             return uuid.v4()
         }
         if (def._type === 'randomColor') {
-            return "#"+((1<<24)*Math.random()|0).toString(16);
+            return "#"+((1<<24)*Math.random()|0).toString(16)
         }
         if (def._type === 'length') {
             return resolve(def.value).length
@@ -148,7 +165,7 @@ export const component = (definition, defaultState = {}) => {
         }
         if (def._type === 'object') {
             return Object.keys(def.value).reduce((acc, val)=> {
-                acc[val] = resolve(def.value[val]);
+                acc[val] = resolve(def.value[val])
                 return acc
             }, {})
         }
@@ -172,20 +189,21 @@ export const component = (definition, defaultState = {}) => {
         }
         throw Error(def._type)
     }
-    
-    function toNode(node) {
+
+    function toNode(nodeId) {
+        const node = definition.nodes[resolve(nodeId)]
         if (node === undefined) {
-            return; // noop
+            return // noop
         }
         let sel = node.nodeType === 'box' ? 'div'
-            : node.nodeType === 'text' ? 'span'
-            : node.nodeType === 'input' ? 'input'
-            : 'error'
-        let children;
+            : node.nodeType === 'text' ? 'div'
+                : node.nodeType === 'input' ? 'input'
+                    : 'error'
+        let children
         if (node.childrenIds) {
             children = []
             for (let i = 0; i < node.childrenIds.length; i++) {
-                const child = resolve(definition.nodes[node.childrenIds[i]])
+                const child = toNode(node.childrenIds[i])
                 if(child === undefined){
                     continue
                 }
@@ -199,54 +217,67 @@ export const component = (definition, defaultState = {}) => {
                 }
             }
         }
-        const on = {
-            click: node.onClick ? [onClick, node.onClick.eventName, resolve(node.onClick.data), node] : undefined,
-            change: node.onChange ? [emitEvent, node.onChange.eventName, resolve(node.onChange.data)] : undefined,
-            input: node.onInput ? [emitEvent, node.onInput.eventName, resolve(node.onInput.data)] : undefined,
-            keydown: node.onEnter ? [onEnter, node.onEnter.eventName, resolve(node.onEnter.data)] : undefined
-        }
+        // when application is frozen, no events are captured, except for mouseover that constantly selects nodes
+        let on = frozen ?
+            {
+                mouseover: selectHoverActive ? [selectNodeHover, nodeId]: undefined,
+                click: [selectNodeClick, nodeId]
+            }:{
+                click: node.onClick ? [onClick, node.onClick.eventName, resolve(node.onClick.data), node] : undefined,
+                change: node.onChange ? [emitEvent, node.onChange.eventName, resolve(node.onChange.data)] : undefined,
+                input: node.onInput ? [emitEvent, node.onInput.eventName, resolve(node.onInput.data)] : undefined,
+                keydown: node.onEnter ? [onEnter, node.onEnter.eventName, resolve(node.onEnter.data)] : undefined,
+                mouseover: frozen ? [emitEvent, '$_HOVERED_FROZEN', {nodeId: nodeId}] : undefined
+            }
+
         const data = {
             style: node.styleId ? resolve({_type: 'object', value: definition.styles[node.styleId]}) : undefined,
             on,
             props: node.nodeType === 'input' ? {
-                value: resolve(node.value),
-                placeholder: node.placeholder
-            } : undefined,
+                    value: resolve(node.value),
+                    placeholder: node.placeholder
+                } : undefined,
         }
         const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
-        
+
+        // wrap in a border
+        if(frozen && selectedNodeInDevelopment === nodeId){
+            return {sel: 'div', data: {style: { outline: '1px solid blue', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
+        }
         return {sel, data, children, text}
     }
-    
+
     function onClick(eventName, data, node, e) {
         emitEvent(eventName, data, e)
     }
-    
+
     function onEnter(eventName, data, e) {
         if (e.keyCode == 13) {
             emitEvent(eventName, data, e)
         }
     }
-    
-    const listeners = [];
-    
+
+    const listeners = []
+
     function addListener(callback) {
         const length = listeners.push(callback)
-        
+
         // for unsubscribing
         return () => listeners.splice(length - 1, 1)
     }
-    
+
     function emitEvent(eventName, data, e) {
         currentEvent = e
         eventData = data
         const previousState = currentState
-        let mutations = {};
+        let mutations = {}
         if(definition.events[eventName]){
             definition.events[eventName].forEach((key)=> {
                 mutations[key] = resolve(definition.mutators[definition.state[key].mutators[eventName]])
             })
             currentState = Object.assign({}, currentState, mutations)
+        } else {
+            console.warn('No event named: ' + eventName)
         }
         currentEvent = null
         eventData = null
@@ -255,15 +286,27 @@ export const component = (definition, defaultState = {}) => {
             render()
         }
     }
-    
-    let vdom = resolve(definition.nodes['_rootNode'])
-    
+
+
+    let vdom = toNode('_rootNode')
     function render() {
-        const newvdom = resolve(definition.nodes['_rootNode'])
+        const newvdom = toNode('_rootNode')
         patch(vdom, newvdom)
         vdom = newvdom
     }
-    
+
+    function _freeze(isFrozen, callback, nodeId) {
+        frozenCallback = callback
+        selectedNodeInDevelopment = nodeId
+        if(frozen === false && isFrozen === true){
+            selectHoverActive = true
+        }
+        if(frozen || frozen !== isFrozen){
+            frozen = isFrozen
+            render()
+        }
+    }
+
     return {
         definition,
         vdom,
@@ -271,11 +314,12 @@ export const component = (definition, defaultState = {}) => {
         render,
         emitEvent,
         addListener,
-    };
+        _freeze
+    }
 }
 
 export default (node, definition, defaultState) => {
-    const app = component(definition, defaultState);
+    const app = component(definition, defaultState)
     patch(node, app.vdom)
     return app
 }
