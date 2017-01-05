@@ -106,21 +106,39 @@ export default (app)=>{
         setState({...state, selectedViewNode:nodeId})
     }
     function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
-        // TODO rethink
         e.stopPropagation()
         if(nodeId === '_rootNode'){
             // immutably remove all nodes except rootNode
             return setState({...state, definition: {
                 ...state.definition,
-                nodes: {'_rootNode': {...state.definition.nodes['_rootNode'], childrenIds: []},
+                nodes: {'_rootNode': {...state.definition.nodes['_rootNode'], childrenIds: []}},
                 styles: {'_rootStyle': state.definition.styles['_rootStyle']}
-            }}}, true)
+            }}, true)
         }
-        // traverse the tree and leave only used nodes
-        // TODO
+        // traverse the tree and leave only used nodes - Garbage collection
+        const newNodes = {}
+        const newStyles = {}
+        function addNode(addNodeId) {
+            let newNode = state.definition.nodes[addNodeId]
+            if(parentId === addNodeId){
+                newNode = {...newNode, childrenIds:newNode.childrenIds.filter((a)=>a!==nodeId)}
+            }
+            newNodes[addNodeId] = newNode
+            const newStyleId = newNode.styleId
+            newStyles[newStyleId] = state.definition.styles[newStyleId]
+            if(newNode.childrenIds){
+                newNode.childrenIds.forEach(addNode)
+            }
+        }
+        addNode('_rootNode')
+        setState({...state, definition: {
+            ...state.definition,
+            nodes: newNodes,
+            styles: newStyles,
+        }}, true)
     }
 
-    // Render
+// Render
     function render() {
         const arrowComponent = h('div', {
             on: {
