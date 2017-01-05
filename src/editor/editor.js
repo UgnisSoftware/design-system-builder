@@ -95,8 +95,12 @@ export default (app)=>{
     function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
         // TODO rethink
         e.stopPropagation()
-        delete state.app.nodes[nodeId]
-        state.app.nodes[parentId].childrenIds = state.app.nodes[parentId].childrenIds.filter((id)=> id !== nodeId)
+        if(nodeId === '_rootNode'){
+            state.app.nodes['_rootNode'].childrenIds = []
+        } else {
+            delete state.app.nodes[nodeId]
+            state.app.nodes[parentId].childrenIds = state.app.nodes[parentId].childrenIds.filter((id)=> id !== nodeId)
+        }
         app.render();
         render();
     }
