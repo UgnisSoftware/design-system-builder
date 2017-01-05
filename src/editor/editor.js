@@ -27,11 +27,11 @@ export default (app)=>{
         appIsFrozen: false,
         selectedViewNode: '',
         viewFoldersClosed: {},
-        app: app.definition,
+        definition: app.definition,
     }
     // undo/redo
     let stateStack = [state]
-    function setState(newState, pushToStack = false){
+    function setState(newState, pushToStack){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
         }
@@ -40,10 +40,14 @@ export default (app)=>{
             const currentIndex = stateStack.findIndex((a)=>a===state)
             stateStack = stateStack.slice(0, currentIndex+1).concat(newState);
         } else {
-            stateStack[stateStack.length-1] = newState;
+            // overwrite current
+            stateStack[stateStack.findIndex((a)=>a===state)] = newState;
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
+        }
+        if(state.definition !== newState.definition){
+            app.render(newState.definition)
         }
         state = newState;
         render()
@@ -54,20 +58,29 @@ export default (app)=>{
         // 89 - y
         if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
-            fetch('/save', {method: 'POST', body: JSON.stringify(state.app), headers: {"Content-Type": "application/json"}})
+            fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
         }
         if(e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             const currentIndex = stateStack.findIndex((a)=>a===state)
             if(currentIndex > 0){
-                state = stateStack[currentIndex-1]
+                const newState = stateStack[currentIndex-1]
+                if(state.definition !== newState.definition){
+                    app.render(newState.definition)
+                }
+                state = newState
                 render()
             }
+
         }
         if(e.which == 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             const currentIndex = stateStack.findIndex((a)=>a===state)
             if(currentIndex < stateStack.length-1){
-                state = stateStack[currentIndex+1]
+                const newState = stateStack[currentIndex+1]
+                if(state.definition !== newState.definition){
+                    app.render(newState.definition)
+                }
+                state = newState
                 render()
             }
         }
@@ -75,7 +88,7 @@ export default (app)=>{
 
     // Actions
     function ARROW_CLICKED() {
-        setState({...state, open: !state.open}, false)
+        setState({...state, open: !state.open})
         if(state.open){
             wrapper.style.width = 'calc(100% - 350px)'
         }
@@ -84,7 +97,7 @@ export default (app)=>{
         }
     }
     function FREEZER_CLICKED() {
-        setState({...state, appIsFrozen: !state.appIsFrozen}, false)
+        setState({...state, appIsFrozen: !state.appIsFrozen})
     }
     function VIEW_FOLDER_CLICKED(nodeId) {
         setState({...state, viewFoldersClosed:{...state.viewFoldersClosed, [nodeId]: !state.viewFoldersClosed[nodeId]}})
@@ -96,18 +109,19 @@ export default (app)=>{
         // TODO rethink
         e.stopPropagation()
         if(nodeId === '_rootNode'){
-            state.app.nodes['_rootNode'].childrenIds = []
-        } else {
-            delete state.app.nodes[nodeId]
-            state.app.nodes[parentId].childrenIds = state.app.nodes[parentId].childrenIds.filter((id)=> id !== nodeId)
+            // immutably remove all nodes except rootNode
+            return setState({...state, definition: {
+                ...state.definition,
+                nodes: {'_rootNode': {...state.definition.nodes['_rootNode'], childrenIds: []},
+                styles: {'_rootStyle': state.definition.styles['_rootStyle']}
+            }}}, true)
         }
-        app.render();
-        render();
+        // traverse the tree and leave only used nodes
+        // TODO
     }
 
     // Render
     function render() {
-
         const arrowComponent = h('div', {
             on: {
                 click: ARROW_CLICKED
@@ -156,13 +170,13 @@ export default (app)=>{
             }
         }, 'State')
         function listNodes(nodeId, parentId) {
-            const node = state.app.nodes[nodeId]
+            const node = state.definition.nodes[nodeId]
             if(node._type === 'vNode'){
                 if(node.nodeType === 'box'){
                     const closed = state.viewFoldersClosed[nodeId]
                     return h('div', {
                             style: {
-                                background: state.selectedViewNode === nodeId ? '#828183': '',
+                                outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
                                 position: 'relative',
                             }
                         }, [
@@ -183,7 +197,7 @@ export default (app)=>{
                     return h('div', {
                             style: {
                                 cursor: 'pointer',
-                                background: state.selectedViewNode === nodeId ? '#828183': '',
+                                outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
                                 position: 'relative'
                             },
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}

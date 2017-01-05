@@ -242,7 +242,7 @@ export const component = (definition, defaultState = {}) => {
 
         // wrap in a border
         if(frozen && selectedNodeInDevelopment === nodeId){
-            return {sel: 'div', data: {style: { outline: '1px solid blue', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
+            return {sel: 'div', data: {style: { outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
         }
         return {sel, data, children, text}
     }
@@ -287,9 +287,11 @@ export const component = (definition, defaultState = {}) => {
         }
     }
 
-
     let vdom = toNode('_rootNode')
-    function render() {
+    function render(newDefinition) {
+        if(newDefinition){
+            definition = newDefinition
+        }
         const newvdom = toNode('_rootNode')
         patch(vdom, newvdom)
         vdom = newvdom
