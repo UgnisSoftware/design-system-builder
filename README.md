@@ -20,7 +20,10 @@ Goals (must be reached before releasing 1.0v)
     - [ ] connected tables - graphs
     - [ ] recursion
   - [x] plays nice with existing apps, can be introduced in small steps
-  - [ ] speed - Ugnis knows how view nodes are connected with the state, so there is no actual need to use virtual dom
+  - [ ] performance
+    - [ ] Remove virtual dom - Ugnis already knows how view nodes are connected with the state
+    - [ ] synthetic events
+    - [ ] minified build without runtime
   - [ ] scalable for humans - large applications are easy to understand
   - [ ] scalable for machines - application splitting by default
   - [ ] server side rendering
