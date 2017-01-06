@@ -2,7 +2,10 @@
 
 Ugnis is a visual application builder. It's like React + Redux without boilerplate.
 
-WARNING: Ugnis is a proof of concept, it is recommended to wait for 1.0v before using it in production.
+WARNING: Ugnis is a proof of concept, we recommended waiting for 1.0v before using it for anything serious.
+If you have tried the visual editor, please do leave your feedback in this issue, it helps us a lot. // TODO
+
+# How does Ugnis work?
 
 Ugnis consist of three parts:
   - Your application definition - a JSON file
