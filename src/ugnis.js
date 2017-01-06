@@ -242,7 +242,7 @@ export const component = (definition, defaultState = {}) => {
 
         // wrap in a border
         if(frozen && selectedNodeInDevelopment === nodeId){
-            return {sel: 'div', data: {style: { outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
+            return {sel: sel === 'div' ? 'div': 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
         }
         return {sel, data, children, text}
     }

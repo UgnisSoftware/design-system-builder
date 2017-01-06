@@ -8,6 +8,8 @@ const patch = snabbdom.init([
 ]);
 import h from 'snabbdom/h';
 
+const uuid = require('node-uuid')
+
 export default (app)=>{
 
     const wrapper = document.createElement('div');
@@ -137,8 +139,46 @@ export default (app)=>{
             styles: newStyles,
         }}, true)
     }
+    function ADD_NODE(nodeId, type) {
+        const newNodeId = uuid.v4()
+        const newStyleId = uuid.v4()
+        let newNode;
+        if(type === 'box') {
+            newNode = {
+                _type: 'vNode',
+                nodeType: type,
+                styleId: newStyleId,
+                childrenIds: []
+            }
+        }
+        if(type === 'text') {
+            newNode = {
+                _type: 'vNode',
+                nodeType: type,
+                styleId: newStyleId,
+                value: 'Default Text'
+            }
+        }
+        if(type === 'input') {
+            // TODO add state
+            newNode = {
+                _type: 'vNode',
+                nodeType: type,
+                styleId: newStyleId,
+                value: 'Default Text'
+            }
+        }
+        const newStyle = {
+            padding: '10px',
+        }
+        setState({...state, definition: {
+            ...state.definition,
+            nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
+            styles: {...state.definition.styles, [newStyleId]: newStyle},
+        }}, true)
+    }
 
-// Render
+    // Render
     function render() {
         const arrowComponent = h('div', {
             on: {
@@ -195,6 +235,7 @@ export default (app)=>{
                     return h('div', {
                             style: {
                                 outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
+                                transition:'outline 0.1s',
                                 position: 'relative',
                             }
                         }, [
@@ -208,13 +249,17 @@ export default (app)=>{
                                 [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})]),
                             h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}},node.nodeType),
                             h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft:'1px solid white'}}, node.childrenIds.map((id)=> listNodes(id, nodeId))),
-                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none' ,position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
+                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
+                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
+                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                         ]
                     )
                 } else {
                     return h('div', {
                             style: {
                                 cursor: 'pointer',
+                                transition:'outline 0.1s',
                                 outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
                                 position: 'relative'
                             },
