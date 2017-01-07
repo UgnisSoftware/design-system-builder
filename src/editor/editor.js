@@ -177,6 +177,14 @@ export default (app)=>{
             styles: {...state.definition.styles, [newStyleId]: newStyle},
         }}, true)
     }
+    function CHANGE_STYLE(styleId, key, e) {
+        e.preventDefault()
+        // and now I really regret not using immutable or ramda lenses
+        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: e.target.value}}}})
+    }
+    function ADD_DEFAULT_STYLE(styleId, key) {
+        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: 'default'}}}})
+    }
 
     // Render
     function render() {
@@ -224,7 +232,6 @@ export default (app)=>{
             h('div', {style: {padding: '15px 15px 10px 15px', borderBottom: '1px solid #333333', color: state.appIsFrozen ? 'rgb(204, 91, 91)': 'rgb(91, 204, 91)'}}, state.appIsFrozen ? '❚❚': '►'),
             h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
         ])
-
         const stateComponent = h('div', {
             style: {
                 flex: '1',
@@ -272,26 +279,40 @@ export default (app)=>{
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}
                         }, [
                             state.selectedViewNode === nodeId ? h('span', {style: {color: '#53B2ED'}}, node.nodeType) : node.nodeType,
-                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none' ,position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                            h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
                 }
             }
         }
-        const editNodeComponent = h('div', {
-            style: {
-                position: 'absolute',
-                left: '-373px',
-                top: '-3px',
-                height: '97%',
-                borderRadius: '10px',
-                width: '350px',
-                background: '#4d4d4d',
-                border: '3px solid #333333',
-                padding: '5px',
-            }
-        }, [
-        ])
+        function generateEditNodeComponent() {
+            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
+            const selectedNode = state.definition.nodes[state.selectedViewNode]
+            const selectedStyle = state.definition.styles[selectedNode.styleId]
+            const styleEditorComponent = h('div', {style: {}},
+                Object.keys(selectedStyle).map((key)=>h('div', [h('span', key), h('input', {props: {value: selectedStyle[key]}, on: {input: [CHANGE_STYLE, selectedNode.styleId, key]}})]))
+            )
+            const addStyleComponent = h('div', {style: {}},
+                styles.filter((key)=>!Object.keys(selectedStyle).includes(key)).map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.styleId, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
+            )
+            return h('div', {
+                style: {
+                    position: 'absolute',
+                    left: '-373px',
+                    top: '-3px',
+                    height: '97%',
+                    borderRadius: '10px',
+                    width: '350px',
+                    background: '#4d4d4d',
+                    border: '3px solid #333333',
+                    padding: '5px',
+                }
+            }, [
+                styleEditorComponent,
+                addStyleComponent
+            ])
+        }
+
         const viewComponent = h('div', {
             style: {
                 position: 'relative',
@@ -299,7 +320,7 @@ export default (app)=>{
                 borderTop: '3px solid #333333',
                 padding: '5px',
             }
-        }, [listNodes('_rootNode'), state.definition.nodes[state.selectedViewNode] ? editNodeComponent: h('span')])
+        }, [listNodes('_rootNode'), state.definition.nodes[state.selectedViewNode] ? generateEditNodeComponent(): h('span')])
 
         const vnode =
             h('div', {
@@ -307,8 +328,7 @@ export default (app)=>{
                     display: 'flex',
                     flexDirection: 'column',
                     color: '#dddddd',
-                    fontWeight: '300',
-                    fontSize: '1.5em',
+                    font: "300 1.5em 'Helvetica Neue', Helvetica, Arial, sans-serif",
                     position: 'fixed',
                     top: '0',
                     right: '0',
@@ -317,7 +337,6 @@ export default (app)=>{
                     background: '#4d4d4d',
                     boxSizing: "border-box",
                     borderLeft: '3px solid #333333',
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
                     transition: '0.5s transform',
                     transform: state.open ? 'translateX(0%)': 'translateX(100%)',
                 },
