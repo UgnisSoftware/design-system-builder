@@ -180,10 +180,10 @@ export default (app)=>{
     function CHANGE_STYLE(styleId, key, e) {
         e.preventDefault()
         // and now I really regret not using immutable or ramda lenses
-        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: e.target.value}}}})
+        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: e.target.value}}}}, true)
     }
     function ADD_DEFAULT_STYLE(styleId, key) {
-        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: 'default'}}}})
+        setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: 'default'}}}}, true)
     }
 
     // Render
