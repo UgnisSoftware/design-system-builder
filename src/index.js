@@ -9,7 +9,7 @@ const emptyApp = {
             _type: 'vNode',
             nodeType: 'box',
             styleId: '_rootStyle',
-            childrenIds: ['2471d6d2-00db-8ab5-c332-882575f25425', 'a5d6d6d2-00db-8ab5-c332-882575f25425'],
+            childrenIds: ['2471d6d2-00db-8ab5-c332-882575f25425', '1481d6d2-00db-8ab5-c332-882575f25425', '3481d6d2-00db-8ab5-c332-882575f25425'],
         },
         '2471d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNode',
@@ -23,12 +23,6 @@ const emptyApp = {
                     value: '46vdd6d2-00db-8ab5-c332-882575f25426'
                 }
             },
-        },
-        'a5d6d6d2-00db-8ab5-c332-882575f25425': {
-            _type: 'vNode',
-            nodeType: 'box',
-            styleId: 'a3d676d2-00db-8ab5-c332-882575f25425',
-            childrenIds: ['1481d6d2-00db-8ab5-c332-882575f25425', '3481d6d2-00db-8ab5-c332-882575f25425'],
         },
         '1481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNode',
@@ -57,10 +51,6 @@ const emptyApp = {
         '8481d6d2-00db-8ab5-c332-882575f25426': {
             padding: '10px',
             background: '#cccccc',
-        },
-        'a3d676d2-00db-8ab5-c332-882575f25425': {
-            display: 'inline-block',
-            margin: '5px',
         },
         '9481d6d2-00db-8ab5-c332-882575f25426': {
             padding: '10px',

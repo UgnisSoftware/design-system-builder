@@ -186,7 +186,7 @@ export default (app)=>{
             },
             style: {
                 position: 'absolute',
-                left: '0',
+                left: '-3px',
                 transform: 'translateX(-100%)',
                 padding: '15px 15px 15px 15px',
                 borderRadius: '5px 0 0 5px',
@@ -209,19 +209,22 @@ export default (app)=>{
             },
             style: {
                 position: 'absolute',
-                left: '0',
+                left: '-3px',
                 transform: 'translateX(-100%)',
-                padding: '15px 15px 15px 15px',
                 borderRadius: '5px 0 0 5px',
                 top: '100px',
-                width: '20px',
+                width: '50px',
                 textAlign: 'center',
                 fontSize: '1em',
                 background: '#4d4d4d',
                 cursor: 'pointer',
-                transition: 'all 0.5s',
+                transition: 'all 0.2s',
             },
-        }, state.appIsFrozen ? '►': '❚❚',)
+        }, [
+            h('div', {style: {padding: '15px 15px 10px 15px', borderBottom: '1px solid #333333', color: state.appIsFrozen ? 'rgb(204, 91, 91)': 'rgb(91, 204, 91)'}}, state.appIsFrozen ? '❚❚': '►'),
+            h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
+        ])
+
         const stateComponent = h('div', {
             style: {
                 flex: '1',
@@ -246,18 +249,21 @@ export default (app)=>{
                                         click: [VIEW_FOLDER_CLICKED, nodeId]
                                     },
                                 },
-                                [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})]),
-                            h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}},node.nodeType),
-                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft:'1px solid white'}}, node.childrenIds.map((id)=> listNodes(id, nodeId))),
+                                [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === nodeId ? '#53B2ED': 'white'}})]),
+                            h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}}, state.selectedViewNode === nodeId ? [h('span', {style: {color: '#53B2ED'}}, node.nodeType)] : node.nodeType),
+                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft:'1px solid white'}}, [
+                                ...node.childrenIds.map((id)=> listNodes(id, nodeId)),
+                                h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
+                                h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
+                                h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
+                            ]),
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
-                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
-                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
-                            h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                         ]
                     )
                 } else {
                     return h('div', {
                             style: {
+                                paddingLeft: '5px',
                                 cursor: 'pointer',
                                 transition:'outline 0.1s',
                                 outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
@@ -265,20 +271,35 @@ export default (app)=>{
                             },
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}
                         }, [
-                            node.nodeType,
+                            state.selectedViewNode === nodeId ? h('span', {style: {color: '#53B2ED'}}, node.nodeType) : node.nodeType,
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none' ,position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
                 }
             }
         }
+        const editNodeComponent = h('div', {
+            style: {
+                position: 'absolute',
+                left: '-373px',
+                top: '-3px',
+                height: '97%',
+                borderRadius: '10px',
+                width: '350px',
+                background: '#4d4d4d',
+                border: '3px solid #333333',
+                padding: '5px',
+            }
+        }, [
+        ])
         const viewComponent = h('div', {
             style: {
+                position: 'relative',
                 flex: '1',
                 borderTop: '3px solid #333333',
                 padding: '5px',
             }
-        }, [listNodes('_rootNode')])
+        }, [listNodes('_rootNode'), state.definition.nodes[state.selectedViewNode] ? editNodeComponent: h('span')])
 
         const vnode =
             h('div', {
