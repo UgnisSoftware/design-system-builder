@@ -28,6 +28,7 @@ export default (app)=>{
         open: true,
         appIsFrozen: false,
         selectedViewNode: '',
+        selectedStateNode: '',
         viewFoldersClosed: {},
         definition: app.definition,
     }
@@ -106,6 +107,9 @@ export default (app)=>{
     }
     function VIEW_NODE_SELECTED(nodeId) {
         setState({...state, selectedViewNode:nodeId})
+    }
+    function STATE_NODE_SELECTED(nodeId) {
+        setState({...state, selectedStateNode:nodeId})
     }
     function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
         e.stopPropagation()
@@ -232,11 +236,48 @@ export default (app)=>{
             h('div', {style: {padding: '15px 15px 10px 15px', borderBottom: '1px solid #333333', color: state.appIsFrozen ? 'rgb(204, 91, 91)': 'rgb(91, 204, 91)'}}, state.appIsFrozen ? '❚❚': '►'),
             h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
         ])
+        function listState(stateId, parentId) {
+            const currentState = state.definition.state[stateId]
+            if(currentState.stateType === 'nameSpace') {
+                const closed = state.viewFoldersClosed[stateId]
+                return h('div', {
+                        style: {
+                            position: 'relative',
+                        }
+                    }, [
+                        h('svg', {
+                                attrs: {width: 12, height: 16},
+                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)'},
+                                on: {
+                                    click: [VIEW_FOLDER_CLICKED, stateId]
+                                },
+                            },
+                            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNode === stateId ? '#eab65c': 'white'}})]),
+                        h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, state.selectedStateNode === stateId ? [h('span', {style: {color: '#eab65c'}}, currentState.title)] : currentState.title),
+                        h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft: state.selectedStateNode === stateId ? '1px solid #eab65c' :'1px solid white'}}, [
+                            ...currentState.childrenIds.map((id)=> listState(id, stateId)),
+                        ]),
+                    ]
+                )
+            }
+            return h('div', {
+                    style: {
+                        paddingLeft: '5px',
+                        cursor: 'pointer',
+                        position: 'relative'
+                    },
+                    on: {click: [STATE_NODE_SELECTED, stateId]}
+                }, [
+                    state.selectedStateNode === stateId ? h('span', {style: {color: '#eab65c'}}, currentState.title) : currentState.title,
+                ]
+            )
+        }
         const stateComponent = h('div', {
             style: {
                 flex: '1',
+                padding: '5px',
             }
-        }, 'State')
+        }, [listState('_rootState')])
         function listNodes(nodeId, parentId) {
             const node = state.definition.nodes[nodeId]
             if(node._type === 'vNode'){
@@ -244,8 +285,6 @@ export default (app)=>{
                     const closed = state.viewFoldersClosed[nodeId]
                     return h('div', {
                             style: {
-                                outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
-                                transition:'outline 0.1s',
                                 position: 'relative',
                             }
                         }, [
@@ -258,7 +297,7 @@ export default (app)=>{
                                 },
                                 [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === nodeId ? '#53B2ED': 'white'}})]),
                             h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}}, state.selectedViewNode === nodeId ? [h('span', {style: {color: '#53B2ED'}}, node.nodeType)] : node.nodeType),
-                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft:'1px solid white'}}, [
+                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft: state.selectedViewNode === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
                                 ...node.childrenIds.map((id)=> listNodes(id, nodeId)),
                                 h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
                                 h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
@@ -272,8 +311,6 @@ export default (app)=>{
                             style: {
                                 paddingLeft: '5px',
                                 cursor: 'pointer',
-                                transition:'outline 0.1s',
-                                outline: state.selectedViewNode === nodeId ? '3px solid #3590df': '',
                                 position: 'relative'
                             },
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}

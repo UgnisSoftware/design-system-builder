@@ -69,12 +69,12 @@ const emptyApp = {
     },
     state: {
         _rootState: {
-            title: 'root state',
+            title: 'state',
             stateType: 'nameSpace',
             childrenIds: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
         },
         '46vdd6d2-00db-8ab5-c332-882575f25426': {
-            title: 'root state',
+            title: 'count',
             stateType: 'number',
             defaultValue: 0,
             mutators: {
