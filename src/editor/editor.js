@@ -29,8 +29,10 @@ export default (app)=>{
         appIsFrozen: false,
         selectedViewNode: '',
         selectedStateNode: '',
+        activeAction: '',
         viewFoldersClosed: {},
         definition: app.definition,
+        currentState: app.currentState
     }
     // undo/redo
     let stateStack = [state]
@@ -190,6 +192,19 @@ export default (app)=>{
         setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: 'default'}}}}, true)
     }
 
+    // Listen to app and blink every action
+    let timer = null
+    app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
+        setState({...state, activeAction: eventName, currentState})
+        // yeah, I probably needed some observables too
+        if(timer){
+            clearTimeout(timer)
+        }
+        timer = setTimeout(()=> {
+            setState({...state, activeAction: ''})
+        }, 500)
+    })
+
     // Render
     function render() {
         const arrowComponent = h('div', {
@@ -255,7 +270,7 @@ export default (app)=>{
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNode === stateId ? '#eab65c': 'white'}})]),
                         h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, state.selectedStateNode === stateId ? [h('span', {style: {color: '#eab65c'}}, currentState.title)] : currentState.title),
                         h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft: state.selectedStateNode === stateId ? '1px solid #eab65c' :'1px solid white'}}, [
-                            ...currentState.childrenIds.map((id)=> listState(id, stateId)),
+                            ...currentState.childrenIds.map((id)=> listState(id, stateId))
                         ]),
                     ]
                 )
@@ -266,9 +281,22 @@ export default (app)=>{
                         cursor: 'pointer',
                         position: 'relative'
                     },
-                    on: {click: [STATE_NODE_SELECTED, stateId]}
-                }, [
-                    state.selectedStateNode === stateId ? h('span', {style: {color: '#eab65c'}}, currentState.title) : currentState.title,
+                },
+                [
+                    h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, [currentState.title+ ': ', h('span', {style: {color: 'rgb(91, 204, 91)'}}, state.currentState[stateId])]),
+                    ...Object.keys(currentState.mutators).map(key =>
+                        h('div', [
+                            h('svg', {
+                                    attrs: {width: 16, height: 16},
+                                    style: { cursor: 'pointer', padding: '0 5px', transform: 'rotate(-90deg)'},
+                                },
+                                [
+                                    h('polygon', {attrs: {points: '16,8 4,1 7,8 4,15', fill:  state.activeAction === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}}),
+                                    h('polygon', {attrs: {points: '8,6 8,10 3,10 3,16 0,16 0,6', fill:  state.activeAction === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}})
+                                ]),
+                            h('span', {style: {color: state.activeAction === key ? 'rgb(91, 204, 91)': 'white', transition: 'all 0.2s'}}, key)
+                        ])
+                    )
                 ]
             )
         }
