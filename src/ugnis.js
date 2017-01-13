@@ -9,28 +9,18 @@ const patch = snabbdom.init([
 
 const uuid = require('node-uuid')
 
-export const component = (definition, defaultState = {}) => {
-    // construct state
-    const defaultStateWithIds = Object.keys(defaultState).reduce((acc, key)=> {
-        if(definition.state[key]){
-            acc[key] = defaultState[key]
-        } else {
-            console.warn('Unrecognized default state: '+ key)
-        }
-        return acc
-    }, {})
-    let currentState = {}
-    function toState(id){
+export const component = (definition) => {
+    function toState(id, acc = {}){
         const current = definition.state[id]
         if(current.stateType === 'nameSpace'){
-            current.childrenIds.forEach(toState)
-        } else if(defaultStateWithIds[id] != undefined){
-            currentState[id] = defaultStateWithIds[id]
-        } else{
-            currentState[id] = current.defaultValue
+            current.childrenIds.forEach((id)=> toState(id, acc))
+        } else {
+            acc[id] = current.defaultValue
+            return acc
         }
+        return acc
     }
-    toState('_rootState') // TODO measure and change to while
+    let currentState = toState('_rootState')
 
     // Allows stoping application in development. This is not an application state
     let frozen = false
@@ -290,7 +280,13 @@ export const component = (definition, defaultState = {}) => {
     let vdom = toNode('_rootNode')
     function render(newDefinition) {
         if(newDefinition){
-            definition = newDefinition
+            if(definition.state !== newDefinition.state){
+                definition = newDefinition
+                const newState = toState('_rootState')
+                currentState = {...newState, ...currentState}
+            } else {
+                definition = newDefinition
+            }
         }
         const newvdom = toNode('_rootNode')
         patch(vdom, newvdom)
@@ -309,19 +305,24 @@ export const component = (definition, defaultState = {}) => {
         }
     }
 
+    function getCurrentState() {
+        return currentState
+    }
+
     return {
         definition,
         vdom,
-        currentState,
+        getCurrentState,
         render,
         emitEvent,
         addListener,
-        _freeze
+        _freeze,
+        _resolve: resolve,
     }
 }
 
-export default (node, definition, defaultState) => {
-    const app = component(definition, defaultState)
+export default (node, definition) => {
+    const app = component(definition)
     patch(node, app.vdom)
     return app
 }

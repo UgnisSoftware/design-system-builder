@@ -32,7 +32,6 @@ export default (app)=>{
         activeAction: '',
         viewFoldersClosed: {},
         definition: app.definition,
-        currentState: app.currentState
     }
     // undo/redo
     let stateStack = [state]
@@ -76,7 +75,6 @@ export default (app)=>{
                 state = newState
                 render()
             }
-
         }
         if(e.which == 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             const currentIndex = stateStack.findIndex((a)=>a===state)
@@ -148,39 +146,99 @@ export default (app)=>{
     function ADD_NODE(nodeId, type) {
         const newNodeId = uuid.v4()
         const newStyleId = uuid.v4()
-        let newNode;
-        if(type === 'box') {
-            newNode = {
-                _type: 'vNode',
-                nodeType: type,
-                styleId: newStyleId,
-                childrenIds: []
-            }
-        }
-        if(type === 'text') {
-            newNode = {
-                _type: 'vNode',
-                nodeType: type,
-                styleId: newStyleId,
-                value: 'Default Text'
-            }
-        }
-        if(type === 'input') {
-            // TODO add state
-            newNode = {
-                _type: 'vNode',
-                nodeType: type,
-                styleId: newStyleId,
-                value: 'Default Text'
-            }
-        }
         const newStyle = {
             padding: '10px',
         }
+        if(type === 'box' || type === 'text') {
+            const newNode = type === 'box' ? {
+                    _type: 'vNode',
+                    nodeType: type,
+                    styleId: newStyleId,
+                    childrenIds: []
+                } : {
+                    _type: 'vNode',
+                    nodeType: type,
+                    styleId: newStyleId,
+                    value: 'Default Text'
+                }
+            setState({...state, definition: {
+                ...state.definition,
+                nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
+                styles: {...state.definition.styles, [newStyleId]: newStyle},
+            }}, true)
+        }
+        if(type === 'input') {
+            const newStateId = uuid.v4()
+            const newNode = {
+                _type: 'vNode',
+                nodeType: type,
+                styleId: newStyleId,
+                value: {
+                    _type: 'state',
+                    value: newStateId
+                }
+            }
+            const newState = {
+                title: 'new string',
+                stateType: 'string',
+                defaultValue: 'Default string',
+                mutators: {},
+            }
+            // TODO actions
+            // also add state
+            return setState({...state, definition: {
+                ...state.definition,
+                nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
+                styles: {...state.definition.styles, [newStyleId]: newStyle},
+                state: {...state.definition.state, ['_rootState']: {...state.definition.state['_rootState'], childrenIds: state.definition.state['_rootState'].childrenIds.concat(newStateId)}, [newStateId]: newState},
+            }}, true)
+        }
+    }
+    function ADD_STATE(namespaceId, type) {
+        const newStateId = uuid.v4()
+        let newState
+        if(type === 'string') {
+            newState = {
+                title: 'new string',
+                stateType: 'string',
+                defaultValue: 'Default string',
+                mutators: {},
+            }
+        }
+        if(type === 'number') {
+            newState = {
+                title: 'new number',
+                stateType: 'number',
+                defaultValue: 0,
+                mutators: {},
+            }
+        }
+        if(type === 'boolean') {
+            newState = {
+                title: 'new boolean',
+                stateType: 'boolean',
+                defaultValue: true,
+                mutators: {},
+            }
+        }
+        if(type === 'table') {
+            newState = {
+                title: 'new table',
+                stateType: 'table',
+                defaultValue: {},
+                mutators: {},
+            }
+        }
+        if(type === 'namespace') {
+            newState = {
+                title: 'new namespace',
+                stateType: 'nameSpace',
+                childrenIds: [],
+            }
+        }
         setState({...state, definition: {
             ...state.definition,
-            nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
-            styles: {...state.definition.styles, [newStyleId]: newStyle},
+            state: {...state.definition.state, [namespaceId]: {...state.definition.state[namespaceId], childrenIds: state.definition.state[namespaceId].childrenIds.concat(newStateId)}, [newStateId]: newState},
         }}, true)
     }
     function CHANGE_STYLE(styleId, key, e) {
@@ -195,7 +253,7 @@ export default (app)=>{
     // Listen to app and blink every action
     let timer = null
     app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
-        setState({...state, activeAction: eventName, currentState})
+        setState({...state, activeAction: eventName})
         // yeah, I probably needed some observables too
         if(timer){
             clearTimeout(timer)
@@ -270,7 +328,12 @@ export default (app)=>{
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNode === stateId ? '#eab65c': 'white'}})]),
                         h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, state.selectedStateNode === stateId ? [h('span', {style: {color: '#eab65c'}}, currentState.title)] : currentState.title),
                         h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft: state.selectedStateNode === stateId ? '1px solid #eab65c' :'1px solid white'}}, [
-                            ...currentState.childrenIds.map((id)=> listState(id, stateId))
+                            ...currentState.childrenIds.map((id)=> listState(id, stateId)),
+                            h('span', {style: {display: state.selectedStateNode === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'string']}}, '+ string'),
+                            h('span', {style: {display: state.selectedStateNode === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'number']}}, '+ number'),
+                            h('span', {style: {display: state.selectedStateNode === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'boolean']}}, '+ boolean'),
+                            h('span', {style: {display: state.selectedStateNode === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'table']}}, '+ table'),
+                            h('span', {style: {display: state.selectedStateNode === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'namespace']}}, '+ namespace'),
                         ]),
                     ]
                 )
@@ -283,7 +346,7 @@ export default (app)=>{
                     },
                 },
                 [
-                    h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, [currentState.title+ ': ', h('span', {style: {color: 'rgb(91, 204, 91)'}}, state.currentState[stateId])]),
+                    h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, [currentState.title+ ': ', h('span', {style: {color: 'rgb(91, 204, 91)'}}, app.getCurrentState()[stateId])]),
                     ...Object.keys(currentState.mutators).map(key =>
                         h('div', [
                             h('svg', {
@@ -343,7 +406,7 @@ export default (app)=>{
                             },
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}
                         }, [
-                            state.selectedViewNode === nodeId ? h('span', {style: {color: '#53B2ED'}}, node.nodeType) : node.nodeType,
+                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white', textDecoration: node.value._type ? 'underline': 'none'}}, app._resolve(node.value)),
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
