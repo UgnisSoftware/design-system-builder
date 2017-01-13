@@ -21,8 +21,9 @@ As a language it would be pretty fragile and verbose - perfect to be generated b
 Goals (must be reached before releasing 1.0v)
   - [x] zero configuration, Ugnis-only apps don't need webpack or babel
   - [ ] powerful enough to write any application, Ugnis editor is written with Ugnis itself
-    - [x] string, number, variants
+    - [x] string, number, boolean
     - [x] tables
+    - [ ] variants, make boolean a variant
     - [ ] connected tables - graphs
     - [ ] recursion
   - [x] plays nice with existing apps, can be introduced in small steps
@@ -37,6 +38,7 @@ Goals (must be reached before releasing 1.0v)
   - [ ] editor works well on mobile
   - [ ] allow easy extension of the runtime
   - [ ] editor as a desktop app
+  - [ ] animations / timed events
   - [ ] router
   - [ ] fetch
 
