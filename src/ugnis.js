@@ -262,7 +262,7 @@ export const component = (definition) => {
         const previousState = currentState
         let mutations = {}
         if(definition.events[eventName]){
-            definition.events[eventName].forEach((key)=> {
+            definition.events[eventName].states.forEach((key)=> {
                 mutations[key] = resolve(definition.mutators[definition.state[key].mutators[eventName]])
             })
             currentState = Object.assign({}, currentState, mutations)

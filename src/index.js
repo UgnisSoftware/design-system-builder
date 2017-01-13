@@ -30,7 +30,7 @@ const emptyApp = {
             styleId: '9481d6d2-00db-8ab5-c332-882575f25426',
             value: '+1',
             onClick: {
-                eventName: 'INCREMENT'
+                eventName: 'd48rd6d2-00db-8ab5-c332-882575f25426'
             },
         },
         '3481d6d2-00db-8ab5-c332-882575f25425': {
@@ -39,7 +39,7 @@ const emptyApp = {
             styleId: '7481d6d2-00db-8ab5-c332-882575f25426',
             value: '-1',
             onClick: {
-                eventName: 'DECREMENT'
+                eventName: '3a54d6d2-00db-8ab5-c332-882575f25426'
             },
         },
     },
@@ -82,13 +82,13 @@ const emptyApp = {
             stateType: 'number',
             defaultValue: 0,
             mutators: {
-                INCREMENT: 'INCREMENT',
-                DECREMENT: 'DECREMENT',
+                'd48rd6d2-00db-8ab5-c332-882575f25426': 'as55d6d2-00db-8ab5-c332-882575f25426',
+                '3a54d6d2-00db-8ab5-c332-882575f25426': '9dq8d6d2-00db-8ab5-c332-882575f25426',
             },
         },
     },
     mutators: {
-        INCREMENT: {
+        'as55d6d2-00db-8ab5-c332-882575f25426': {
             _type: 'sum',
             first: {
                 _type: 'state',
@@ -96,7 +96,7 @@ const emptyApp = {
             },
             second: 1
         },
-        DECREMENT: {
+        '9dq8d6d2-00db-8ab5-c332-882575f25426': {
             _type: 'sum',
             first: {
                 _type: 'state',
@@ -106,8 +106,14 @@ const emptyApp = {
         },
     },
     events: {
-        INCREMENT: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
-        DECREMENT: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+        'd48rd6d2-00db-8ab5-c332-882575f25426':{
+            title: 'increment',
+            states: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+        },
+        '3a54d6d2-00db-8ab5-c332-882575f25426': {
+            title: 'decrement',
+            states: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+        },
     },
 }
 const app = ugnis(document.getElementById('app'), emptyApp)

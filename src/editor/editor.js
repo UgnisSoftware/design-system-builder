@@ -29,7 +29,7 @@ export default (app)=>{
         appIsFrozen: false,
         selectedViewNode: '',
         selectedStateNode: '',
-        activeAction: '',
+        activeEvent: '',
         viewFoldersClosed: {},
         definition: app.definition,
     }
@@ -169,6 +169,8 @@ export default (app)=>{
         }
         if(type === 'input') {
             const newStateId = uuid.v4()
+            const eventId = uuid.v4()
+            const mutatorId = uuid.v4()
             const newNode = {
                 _type: 'vNode',
                 nodeType: type,
@@ -176,21 +178,34 @@ export default (app)=>{
                 value: {
                     _type: 'state',
                     value: newStateId
+                },
+                onInput: {
+                    eventName: eventId
                 }
             }
             const newState = {
-                title: 'new string',
+                title: 'input value',
                 stateType: 'string',
                 defaultValue: 'Default string',
-                mutators: {},
+                mutators: {
+                    [eventId]: mutatorId
+                },
             }
-            // TODO actions
+            const setToEventMutator = {
+                _type: 'eventValue'
+            }
+            const event = {
+                title: 'update input',
+                states: [newStateId]
+            }
             // also add state
             return setState({...state, definition: {
                 ...state.definition,
                 nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
                 styles: {...state.definition.styles, [newStyleId]: newStyle},
                 state: {...state.definition.state, ['_rootState']: {...state.definition.state['_rootState'], childrenIds: state.definition.state['_rootState'].childrenIds.concat(newStateId)}, [newStateId]: newState},
+                mutators: {...state.definition.mutators, [mutatorId]: setToEventMutator},
+                events: {...state.definition.events, [eventId]: event},
             }}, true)
         }
     }
@@ -253,13 +268,13 @@ export default (app)=>{
     // Listen to app and blink every action
     let timer = null
     app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
-        setState({...state, activeAction: eventName})
+        setState({...state, activeEvent: eventName})
         // yeah, I probably needed some observables too
         if(timer){
             clearTimeout(timer)
         }
         timer = setTimeout(()=> {
-            setState({...state, activeAction: ''})
+            setState({...state, activeEvent: ''})
         }, 500)
     })
 
@@ -354,10 +369,10 @@ export default (app)=>{
                                     style: { cursor: 'pointer', padding: '0 5px', transform: 'rotate(-90deg)'},
                                 },
                                 [
-                                    h('polygon', {attrs: {points: '16,8 4,1 7,8 4,15', fill:  state.activeAction === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}}),
-                                    h('polygon', {attrs: {points: '8,6 8,10 3,10 3,16 0,16 0,6', fill:  state.activeAction === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}})
+                                    h('polygon', {attrs: {points: '16,8 4,1 7,8 4,15', fill:  state.activeEvent === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}}),
+                                    h('polygon', {attrs: {points: '8,6 8,10 3,10 3,16 0,16 0,6', fill:  state.activeEvent === key ? 'rgb(91, 204, 91)': 'white'}, style:{transition: 'all 0.2s'}})
                                 ]),
-                            h('span', {style: {color: state.activeAction === key ? 'rgb(91, 204, 91)': 'white', transition: 'all 0.2s'}}, key)
+                            h('span', {style: {color: state.activeEvent === key ? 'rgb(91, 204, 91)': 'white', transition: 'all 0.2s'}}, state.definition.events[key].title)
                         ])
                     )
                 ]
