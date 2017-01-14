@@ -467,7 +467,7 @@ export default (app)=>{
                 padding: '5px',
             }
         }, [
-            h('div', {style: {overflow: 'overlay', maxHeight: '50vh'}}, [listNodes('_rootNode')]),
+            listNodes('_rootNode'),
             state.definition.nodes[state.selectedViewNode] ? generateEditNodeComponent(): h('span')
         ])
 
