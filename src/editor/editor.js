@@ -30,6 +30,7 @@ export default (app)=>{
         selectedViewNode: '',
         selectedStateNode: '',
         selectedViewSubMenu: 'props',
+        editingTitleNodeId: '',
         activeEvent: '',
         viewFoldersClosed: {},
         definition: app.definition,
@@ -57,10 +58,17 @@ export default (app)=>{
         state = newState;
         render()
     }
+    document.addEventListener('click', (e)=> {
+        // clicked outside
+        if(state.editingTitleNodeId && !e.target.dataset.istitleeditor){
+            setState({...state, editingTitleNodeId: ''})
+        }
+    })
     document.addEventListener('keydown', (e)=>{
         // 83 - s
         // 90 - z
         // 89 - y
+        // 13 - enter
         if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
             fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
@@ -89,6 +97,9 @@ export default (app)=>{
                 state = newState
                 render()
             }
+        }
+        if(e.which == 13) {
+            setState({...state, editingTitleNodeId: ''})
         }
     })
 
@@ -273,6 +284,15 @@ export default (app)=>{
     function SELECT_VIEW_SUBMENU(newId) {
         setState({...state, selectedViewSubMenu:newId})
     }
+    function EDIT_VIEW_NODE_TITLE(nodeId) {
+        setState({...state, editingTitleNodeId:nodeId})
+    }
+    function CHANGE_VIEW_NODE_TITLE(nodeId, e) {
+        setState({...state, definition: {
+            ...state.definition,
+            nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], title: e.target.value}},
+        }}, true)
+    }
 
     // Listen to app and blink every action
     let timer = null
@@ -395,6 +415,26 @@ export default (app)=>{
         }, [listState('_rootState')])
         function listNodes(nodeId, parentId) {
             const node = state.definition.nodes[nodeId]
+            function editingNode() {
+                return h('input', {
+                    style: {
+                        border: 'none',
+                        background: 'none',
+                        color: '#53B2ED',
+                        outline: 'none',
+                        padding: '0',
+                        boxShadow: 'inset 0 -1px 0 0 white',
+                    },
+                    on: {
+                        input: [CHANGE_VIEW_NODE_TITLE, nodeId],
+                    },
+                    attrs: {
+                        autofocus: true,
+                        value: node.title,
+                        'data-istitleeditor': true
+                    }
+                })
+            }
             if(node._type === 'vNode'){
                 if(node.nodeType === 'box'){
                     const closed = state.viewFoldersClosed[nodeId]
@@ -411,8 +451,10 @@ export default (app)=>{
                                     },
                                 },
                                 [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === nodeId ? '#53B2ED': 'white'}})]),
-                            h('span', { style: { cursor: 'pointer'}, on: {click: [VIEW_NODE_SELECTED, nodeId]}}, state.selectedViewNode === nodeId ? [h('span', {style: {color: '#53B2ED'}}, node.nodeType)] : node.nodeType),
-                            h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '5px', borderLeft: state.selectedViewNode === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
+                            state.editingTitleNodeId === nodeId ?
+                                editingNode():
+                                h('span', { style: {cursor: 'pointer', color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, nodeId], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
+                           h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
                                 ...node.childrenIds.map((id)=> listNodes(id, nodeId)),
                                 h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
                                 h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
@@ -421,16 +463,20 @@ export default (app)=>{
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
                         ]
                     )
+                } else if(state.editingTitleNodeId === nodeId) {
+                    return editingNode()
                 } else {
                     return h('div', {
                             style: {
-                                paddingLeft: '5px',
                                 cursor: 'pointer',
                                 position: 'relative'
                             },
-                            on: {click: [VIEW_NODE_SELECTED, nodeId]}
+                            on: {
+                                click: [VIEW_NODE_SELECTED, nodeId],
+                                dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]
+                            }
                         }, [
-                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}}, node.nodeType),
+                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}}, node.title),
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
@@ -462,7 +508,7 @@ export default (app)=>{
                 padding: '15px 17px 5px',
                 position: 'absolute',
                 top: '0',
-                left: '89px',
+                left: '94px',
                 zIndex: state.selectedViewSubMenu === 'style' ? '500': '0',
                 cursor: 'pointer',
                 borderRadius: '15px 15px 0 0',
@@ -480,7 +526,7 @@ export default (app)=>{
                 padding: '15px 17px 5px',
                 position: 'absolute',
                 top: '0',
-                left: '163px',
+                left: '172px',
                 zIndex: state.selectedViewSubMenu === 'events' ? '500': '0',
                 cursor: 'pointer',
                 borderRadius: '15px 15px 0 0',
@@ -574,6 +620,7 @@ export default (app)=>{
                     borderLeft: '3px solid #333333',
                     transition: '0.5s transform',
                     transform: state.open ? 'translateX(0%)': 'translateX(100%)',
+                    userSelect: 'none',
                 },
             }, [
                 arrowComponent,
