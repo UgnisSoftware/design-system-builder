@@ -29,6 +29,7 @@ export default (app)=>{
         appIsFrozen: false,
         selectedViewNode: '',
         selectedStateNode: '',
+        selectedViewSubMenu: 'props',
         activeEvent: '',
         viewFoldersClosed: {},
         definition: app.definition,
@@ -154,11 +155,13 @@ export default (app)=>{
         if(type === 'box' || type === 'text') {
             const newNode = type === 'box' ? {
                     _type: 'vNode',
+                    title: type,
                     nodeType: type,
                     styleId: newStyleId,
                     childrenIds: []
                 } : {
                     _type: 'vNode',
+                    title: type,
                     nodeType: type,
                     styleId: newStyleId,
                     value: 'Default Text'
@@ -175,6 +178,7 @@ export default (app)=>{
             const mutatorId = uuid.v4()
             const newNode = {
                 _type: 'vNode',
+                title: type,
                 nodeType: type,
                 styleId: newStyleId,
                 value: {
@@ -265,6 +269,9 @@ export default (app)=>{
     }
     function ADD_DEFAULT_STYLE(styleId, key) {
         setState({...state, definition: {...state.definition, styles: {...state.definition.styles, [styleId]: {...state.definition.styles[styleId], [key]: 'default'}}}}, true)
+    }
+    function SELECT_VIEW_SUBMENU(newId) {
+        setState({...state, selectedViewSubMenu:newId})
     }
 
     // Listen to app and blink every action
@@ -423,14 +430,88 @@ export default (app)=>{
                             },
                             on: {click: [VIEW_NODE_SELECTED, nodeId]}
                         }, [
-                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}}, 'text: '),
-                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white', textDecoration: node.value._type ? 'underline': 'none'}}, app._resolve(node.value)),
+                            h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}}, node.nodeType),
                             h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                         ]
                     )
                 }
             }
         }
+
+        const propsComponent = h('div', {
+            style: {
+                background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
+                padding: '15px 17px 5px',
+                position: 'absolute',
+                top: '0',
+                left: '6px',
+                zIndex: state.selectedViewSubMenu === 'props' ? '500': '0',
+                cursor: 'pointer',
+                borderRadius: '15px 15px 0 0',
+                borderColor: '#333333',
+                borderStyle: 'solid',
+                borderWidth: '3px 3px 0 3px',
+            },
+            on: {
+                click: [SELECT_VIEW_SUBMENU, 'props']
+            }
+        }, 'props')
+        const styleComponent = h('div', {
+            style: {
+                background: state.selectedViewSubMenu === 'style' ? '#4d4d4d': '#3d3d3d',
+                padding: '15px 17px 5px',
+                position: 'absolute',
+                top: '0',
+                left: '89px',
+                zIndex: state.selectedViewSubMenu === 'style' ? '500': '0',
+                cursor: 'pointer',
+                borderRadius: '15px 15px 0 0',
+                borderColor: '#333333',
+                borderStyle: 'solid',
+                borderWidth: '3px 3px 0 3px',
+            },
+            on: {
+                click: [SELECT_VIEW_SUBMENU, 'style']
+            }
+        }, 'style')
+        const eventsComponent = h('div', {
+            style: {
+                background: state.selectedViewSubMenu === 'events' ? '#4d4d4d': '#3d3d3d',
+                padding: '15px 17px 5px',
+                position: 'absolute',
+                top: '0',
+                left: '163px',
+                zIndex: state.selectedViewSubMenu === 'events' ? '500': '0',
+                cursor: 'pointer',
+                borderRadius: '15px 15px 0 0',
+                borderColor: '#333333',
+                borderStyle: 'solid',
+                borderWidth: '3px 3px 0 3px',
+            },
+            on: {
+                click: [SELECT_VIEW_SUBMENU, 'events']
+            }
+        }, 'events')
+
+        const unselectComponent = h('div', {
+            style: {
+                background: '#4d4d4d',
+                padding: '15px 23px 5px',
+                position: 'absolute',
+                top: '0',
+                left: '296px',
+                zIndex: '100',
+                cursor: 'pointer',
+                borderRadius: '15px 15px 0 0',
+                borderColor: '#333333',
+                borderStyle: 'solid',
+                borderWidth: '3px 3px 0 3px',
+            },
+            on: {
+                click: [VIEW_NODE_SELECTED, '']
+            }
+        }, 'x')
+
         function generateEditNodeComponent() {
             const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
             const selectedNode = state.definition.nodes[state.selectedViewNode]
@@ -439,23 +520,28 @@ export default (app)=>{
                 Object.keys(selectedStyle).map((key)=>h('div', [h('span', key), h('input', {props: {value: selectedStyle[key]}, on: {input: [CHANGE_STYLE, selectedNode.styleId, key]}})]))
             )
             const addStyleComponent = h('div', {style: {}},
-                styles.filter((key)=>!Object.keys(selectedStyle).includes(key)).map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.styleId, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
+                styles
+                    .filter((key)=>!Object.keys(selectedStyle).includes(key))
+                    .map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.styleId, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
             )
+            const propsSubmenuComponent = h('div', 'props')
+            const styleSubmenuComponent = h('div', [styleEditorComponent, addStyleComponent])
+            const eventsSubmenuComponent = h('div', 'events')
             return h('div', {
                 style: {
                     position: 'absolute',
                     left: '-373px',
                     top: '-3px',
-                    height: '97%',
-                    borderRadius: '10px',
-                    width: '350px',
-                    background: '#4d4d4d',
-                    border: '3px solid #333333',
-                    padding: '5px',
+                    height: 'calc(100% - 65px)',
                 }
             }, [
-                styleEditorComponent,
-                addStyleComponent
+                eventsComponent, styleComponent, propsComponent, unselectComponent,
+                h('div', { style: {position: 'absolute', top: '48px', left: '0', background: '#4d4d4d', height: '100%', borderRadius: '10px', width: '350px', padding: '5px', border: '3px solid #333333'}},[
+                    state.selectedViewSubMenu === 'props' ? propsSubmenuComponent: 
+                    state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
+                    state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent:
+                        h('span', 'Error, no such menu')
+                ])
             ])
         }
 

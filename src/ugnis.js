@@ -1,4 +1,11 @@
-//TODO remove snabbdom
+/**
+ * This is the interpreter for ugnis program definitions.
+ *
+ * While writing this I have discovered many better ways, so I am rewriting no longer maintaining this.
+ * This code has some no longer used parts like nested objects.
+ */
+
+
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/class'),

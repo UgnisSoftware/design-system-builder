@@ -7,12 +7,14 @@ const emptyApp = {
     nodes: {
         _rootNode: {
             _type: 'vNode',
+            title: 'box',
             nodeType: 'box',
             styleId: '_rootStyle',
             childrenIds: ['2471d6d2-00db-8ab5-c332-882575f25425', '1481d6d2-00db-8ab5-c332-882575f25425', '3481d6d2-00db-8ab5-c332-882575f25425'],
         },
         '2471d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNode',
+            title: 'text',
             nodeType: 'text',
             styleId: '8481d6d2-00db-8ab5-c332-882575f25426',
             value: {
@@ -26,6 +28,7 @@ const emptyApp = {
         },
         '1481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNode',
+            title: 'text',
             nodeType: 'text',
             styleId: '9481d6d2-00db-8ab5-c332-882575f25426',
             value: '+1',
@@ -35,6 +38,7 @@ const emptyApp = {
         },
         '3481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNode',
+            title: 'text',
             nodeType: 'text',
             styleId: '7481d6d2-00db-8ab5-c332-882575f25426',
             value: '-1',
