@@ -1,3 +1,13 @@
+function updateProps(oldVnode, vnode) {
+    var key, cur, old, elm = vnode.elm,
+        props = vnode.data.liveProps || {};
+    for (key in props) {
+        cur = props[key];
+        old = elm[key];
+        if (old !== cur) elm[key] = cur;
+    }
+}
+const livePropsPlugin = {create: updateProps, update: updateProps};
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/class'),
@@ -5,6 +15,7 @@ const patch = snabbdom.init([
     require('snabbdom/modules/style'),
     require('snabbdom/modules/eventlisteners'),
     require('snabbdom/modules/attributes'),
+    livePropsPlugin
 ]);
 import h from 'snabbdom/h';
 
@@ -288,6 +299,7 @@ export default (app)=>{
         setState({...state, editingTitleNodeId:nodeId})
     }
     function CHANGE_VIEW_NODE_TITLE(nodeId, e) {
+        e.preventDefault();
         setState({...state, definition: {
             ...state.definition,
             nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], title: e.target.value}},
@@ -420,7 +432,7 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: '#53B2ED',
+                        color: state.selectedViewNode === nodeId ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
@@ -428,9 +440,11 @@ export default (app)=>{
                     on: {
                         input: [CHANGE_VIEW_NODE_TITLE, nodeId],
                     },
+                    liveProps: {
+                        value: node.title,
+                    },
                     attrs: {
                         autofocus: true,
-                        value: node.title,
                         'data-istitleeditor': true
                     }
                 })
