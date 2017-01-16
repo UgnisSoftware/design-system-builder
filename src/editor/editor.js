@@ -654,10 +654,10 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(selectedNode.nodeType === 'text'){
-                    return h('div', {style: {padding: '10px'}}, [h('span', 'value: '), listEmber(selectedNode.value)])
+                    return h('div', {style: {padding: '10px'}}, [h('span', 'text: '), listEmber(selectedNode.value)])
                 }
                 if(selectedNode.nodeType === 'input'){
-                    return h('div', [h('span', 'text: '), listEmber(selectedNode.value)])
+                    return h('div', [h('span', 'value: '), listEmber(selectedNode.value)])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])
