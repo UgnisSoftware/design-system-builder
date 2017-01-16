@@ -613,7 +613,18 @@ export default (app)=>{
             const selectedNode = state.definition.nodes[state.selectedViewNode]
             const selectedStyle = state.definition.styles[selectedNode.styleId]
             const styleEditorComponent = h('div', {style: {}},
-                Object.keys(selectedStyle).map((key)=>h('div', [h('span', key), h('input', {props: {value: selectedStyle[key]}, on: {input: [CHANGE_STYLE, selectedNode.styleId, key]}})]))
+                Object.keys(selectedStyle).map((key)=>h('div', [h('input', {style: {
+                    border: 'none',
+                    background: 'none',
+                    color:  'white',
+                    outline: 'none',
+                    padding: '0',
+                    boxShadow: 'inset 0 -1px 0 0 white',
+                    display: 'inline-block',
+                    width: '150px',
+                    margin: '10px',
+                }, props: {value: selectedStyle[key]}, on: {input: [CHANGE_STYLE, selectedNode.styleId, key]}}),
+                    h('span', key)]))
             )
             const addStyleComponent = h('div', {style: {}},
                 styles
@@ -621,14 +632,32 @@ export default (app)=>{
                     .map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.styleId, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
             )
             function generatePropsMenu() {
+                const listEmber = (node) => {
+                    console.log(node)
+                    if(node._type == 'sum'){
+                        return h('span', { style: {}}, [
+                            listEmber(node.first),
+                            h('span', ' + '),
+                            listEmber(node.second)
+                        ])
+                    }
+                    if(node._type == 'state'){
+                        return h('span', {
+                                style: {cursor: 'pointer', color: state.selectedStateNode === node.value ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNode === node.value ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
+                                on: {click: [STATE_NODE_SELECTED, node.value]}
+                            },
+                            state.definition.state[node.value].title)
+                    }
+                    return h('span', {style: {color: '#bdbdbd', textDecoration: 'underline'}}, String(node))
+                }
                 if(selectedNode.nodeType === 'box'){
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(selectedNode.nodeType === 'text'){
-                    return h('div', 'text')
+                    return h('div', {style: {padding: '10px'}}, [h('span', 'value: '), listEmber(selectedNode.value)])
                 }
                 if(selectedNode.nodeType === 'input'){
-                    return h('div', 'value')
+                    return h('div', [h('span', 'text: '), listEmber(selectedNode.value)])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])
