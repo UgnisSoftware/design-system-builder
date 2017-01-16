@@ -305,6 +305,13 @@ export default (app)=>{
             nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], title: e.target.value}},
         }}, true)
     }
+    function CHANGE_STATE_NODE_TITLE(nodeId, e) {
+        e.preventDefault();
+        setState({...state, definition: {
+            ...state.definition,
+            state: {...state.definition.state, [nodeId]: {...state.definition.state[nodeId], title: e.target.value}},
+        }}, true)
+    }
 
     // Listen to app and blink every action
     let timer = null
@@ -367,6 +374,31 @@ export default (app)=>{
         ])
         function listState(stateId, parentId) {
             const currentState = state.definition.state[stateId]
+            function editingNode(hasBorder) {
+                return h('input', {
+                    style: {
+                        background: 'none',
+                        color: state.selectedStateNode === stateId ? '#eab65c': 'white',
+                        outline: 'none',
+                        boxShadow: hasBorder ? 'none': 'inset 0 -1px 0 0 white',
+                        padding: hasBorder ? '2px 5px': '0',
+                        margin: hasBorder ? '3px 3px 0 0' : '0',
+                        border: hasBorder ? '2px solid ' + (state.selectedStateNode === stateId ? '#eab65c': 'white'): 'none',
+                        borderRadius: hasBorder ? '10px': '0',
+                        display: 'inline'
+                    },
+                    on: {
+                        input: [CHANGE_STATE_NODE_TITLE, stateId],
+                    },
+                    liveProps: {
+                        value: currentState.title,
+                    },
+                    attrs: {
+                        autofocus: true,
+                        'data-istitleeditor': true
+                    }
+                })
+            }
             if(currentState.stateType === 'nameSpace') {
                 // if empty and unselected consider closed
                 const closed = state.viewFoldersClosed[stateId] || (state.selectedStateNode !== stateId && currentState.childrenIds.length === 0)
@@ -384,7 +416,9 @@ export default (app)=>{
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNode === stateId ? '#eab65c': 'white'}})]),
-                            h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId]}}, state.selectedStateNode === stateId ? [h('span', {style: {color: '#eab65c'}}, currentState.title)] : currentState.title),
+                            state.editingTitleNodeId === stateId ?
+                                editingNode():
+                                h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, state.selectedStateNode === stateId ? [h('span', {style: {color: '#eab65c'}}, currentState.title)] : currentState.title),
                         ]),
                         h('div', {style: { display: closed ? 'none': 'block', marginLeft: '13px', paddingLeft: '5px', paddingBottom: '5px', borderLeft: state.selectedStateNode === stateId ? '1px solid #eab65c' :'1px solid white'}}, [
                             ...currentState.childrenIds.map((id)=> listState(id, stateId)),
@@ -406,8 +440,10 @@ export default (app)=>{
                     },
                 },
                 [
-                    h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}}, [
-                        h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNode === stateId ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'}}, currentState.title),
+                    h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
+                        state.editingTitleNodeId === stateId ?
+                            editingNode(true):
+                            h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNode === stateId ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'}}, currentState.title),
                         h('span', ': '),
                         h('span', {style: {color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)': 'white'}}, app.getCurrentState()[stateId]),
                     ]),
@@ -584,7 +620,18 @@ export default (app)=>{
                     .filter((key)=>!Object.keys(selectedStyle).includes(key))
                     .map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.styleId, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
             )
-            const propsSubmenuComponent = h('div', 'props')
+            function generatePropsMenu() {
+                if(selectedNode.nodeType === 'box'){
+                    return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
+                }
+                if(selectedNode.nodeType === 'text'){
+                    return h('div', 'text')
+                }
+                if(selectedNode.nodeType === 'input'){
+                    return h('div', 'value')
+                }
+            }
+            const propsSubmenuComponent = h('div', [generatePropsMenu()])
             const styleSubmenuComponent = h('div', [styleEditorComponent, addStyleComponent])
             const eventsSubmenuComponent = h('div', 'events')
             return h('div', {
