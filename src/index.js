@@ -4,59 +4,90 @@ import editor from './editor/editor'
 // import savedApp from '../ugnis_components/app.json'
 
 const emptyApp = {
-    nodes: {
-        _rootNode: {
-            _type: 'vNode',
-            title: 'box',
-            nodeType: 'box',
-            styleId: '_rootStyle',
-            childrenIds: ['2471d6d2-00db-8ab5-c332-882575f25425', '1481d6d2-00db-8ab5-c332-882575f25425', '3481d6d2-00db-8ab5-c332-882575f25425'],
+    conditional: {},
+    equal: {},
+    not: {},
+    list: {},
+    get: {
+        '87fvd6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'get',
+            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
         },
-        '2471d6d2-00db-8ab5-c332-882575f25425': {
-            _type: 'vNode',
-            title: 'text',
-            nodeType: 'text',
-            styleId: '8481d6d2-00db-8ab5-c332-882575f25426',
-            value: {
-                _type: 'sum',
-                first: 'Current value: ',
-                second: {
-                    _type: 'state',
-                    value: '46vdd6d2-00db-8ab5-c332-882575f25426'
-                }
-            },
+        '4cq9d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'get',
+            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
         },
-        '1481d6d2-00db-8ab5-c332-882575f25425': {
-            _type: 'vNode',
-            title: 'text',
-            nodeType: 'text',
-            styleId: '9481d6d2-00db-8ab5-c332-882575f25426',
-            value: '+1',
-            onClick: {
-                eventName: 'd48rd6d2-00db-8ab5-c332-882575f25426'
-            },
-        },
-        '3481d6d2-00db-8ab5-c332-882575f25425': {
-            _type: 'vNode',
-            title: 'text',
-            nodeType: 'text',
-            styleId: '7481d6d2-00db-8ab5-c332-882575f25426',
-            value: '-1',
-            onClick: {
-                eventName: '3a54d6d2-00db-8ab5-c332-882575f25426'
-            },
+        '7ay5d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'get',
+            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
         },
     },
+    add: {
+        'w86fd6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'add',
+            a: { _type: 'ref', ref: 'get', id: '87fvd6d2-00db-8ab5-c332-882575f25426'},
+            b: 1
+        },
+        'u43wd6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'add',
+            a: { _type: 'ref', ref: 'get', id: '4cq9d6d2-00db-8ab5-c332-882575f25426'},
+            b: -1
+        },
+        'p9s3d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'add',
+            a: 'Current value: ',
+            b: { _type: 'ref', ref: 'get', id: '7ay5d6d2-00db-8ab5-c332-882575f25426'},
+        }
+    },
+    vNodeBox: {
+        _rootNode: {
+            _type: 'vNodeBox',
+            title: 'box',
+            style: {_type:'ref', ref:'styles', id:'_rootStyle'},
+            children: [
+                {_type:'ref', ref:'vNodeText', id:'2471d6d2-00db-8ab5-c332-882575f25425'},
+                {_type:'ref', ref:'vNodeText', id:'1481d6d2-00db-8ab5-c332-882575f25425'},
+                {_type:'ref', ref:'vNodeText', id:'3481d6d2-00db-8ab5-c332-882575f25425'}
+            ],
+        },
+    },
+    vNodeText: {
+        '2471d6d2-00db-8ab5-c332-882575f25425': {
+            _type: 'vNodeText',
+            title: 'text',
+            style: {_type: 'ref', ref: 'styles', id: '8481d6d2-00db-8ab5-c332-882575f25426'},
+            value: { _type: 'ref', ref: 'add', id: 'p9s3d6d2-00db-8ab5-c332-882575f25426'},
+        },
+        '1481d6d2-00db-8ab5-c332-882575f25425': {
+            _type: 'vNodeText',
+            title: 'text',
+            value: '+1',
+            style: {_type: 'ref', ref: 'styles', id: '9481d6d2-00db-8ab5-c332-882575f25426'},
+            onClick: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
+        },
+        '3481d6d2-00db-8ab5-c332-882575f25425': {
+            _type: 'vNodeText',
+            title: 'text',
+            value: '-1',
+            style: {_type: 'ref', ref: 'styles', id: '7481d6d2-00db-8ab5-c332-882575f25426'},
+            onClick: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
+        },
+    },
+    vNodeInput: {},
+    vNodeLink: {},
     styles: {
         _rootStyle: {
+            _type: 'style',
             padding: '10px',
             background: '#f5f5f5',
         },
         '8481d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'style',
             padding: '10px',
             background: '#cccccc',
         },
         '9481d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'style',
             padding: '10px',
             background: '#aaaaaa',
             display: 'inline-block',
@@ -66,6 +97,7 @@ const emptyApp = {
             userSelect: 'none',
         },
         '7481d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'style',
             padding: '10px',
             background: '#999999',
             display: 'inline-block',
@@ -75,50 +107,53 @@ const emptyApp = {
             userSelect: 'none',
         },
     },
-    state: {
-        _rootState: {
+    nameSpaces: {
+        _rootNameSpace: {
             title: 'state',
             stateType: 'nameSpace',
-            childrenIds: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+            children: [
+                { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
+            ],
         },
+    },
+    state: {
         '46vdd6d2-00db-8ab5-c332-882575f25426': {
             title: 'count',
+            ref: '46vdd6d2-00db-8ab5-c332-882575f25426',
             stateType: 'number',
             defaultValue: 0,
-            mutators: {
-                'd48rd6d2-00db-8ab5-c332-882575f25426': 'as55d6d2-00db-8ab5-c332-882575f25426',
-                '3a54d6d2-00db-8ab5-c332-882575f25426': '9dq8d6d2-00db-8ab5-c332-882575f25426',
-            },
+            mutators: [
+                { _type: 'ref', ref: 'mutators', id: 'as55d6d2-00db-8ab5-c332-882575f25426'},
+                { _type: 'ref', ref: 'mutators', id: '9dq8d6d2-00db-8ab5-c332-882575f25426'},
+            ]
         },
     },
     mutators: {
         'as55d6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'sum',
-            first: {
-                _type: 'state',
-                value: '46vdd6d2-00db-8ab5-c332-882575f25426'
-            },
-            second: 1
+            action: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
+            state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
+            mutation: { _type: 'ref', ref: 'add', id: 'w86fd6d2-00db-8ab5-c332-882575f25426'},
         },
         '9dq8d6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'sum',
-            first: {
-                _type: 'state',
-                value: '46vdd6d2-00db-8ab5-c332-882575f25426'
-            },
-            second: -1
+            action: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
+            state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
+            mutation: { _type: 'ref', ref: 'add', id: 'u43wd6d2-00db-8ab5-c332-882575f25426'},
         },
     },
     events: {
         'd48rd6d2-00db-8ab5-c332-882575f25426':{
             title: 'increment',
-            states: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+            mutators: [
+                { _type: 'ref', ref: 'mutators', id: 'as55d6d2-00db-8ab5-c332-882575f25426'},
+            ]
         },
         '3a54d6d2-00db-8ab5-c332-882575f25426': {
             title: 'decrement',
-            states: ['46vdd6d2-00db-8ab5-c332-882575f25426'],
+            mutators: [
+                { _type: 'ref', ref: 'mutators', id: '9dq8d6d2-00db-8ab5-c332-882575f25426'},
+            ]
         },
     },
 }
 const app = ugnis(document.getElementById('app'), emptyApp)
-editor(app)
+//editor(app)

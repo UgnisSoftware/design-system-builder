@@ -1,51 +1,48 @@
-/**
- * This is the interpreter for ugnis program definitions.
- *
- * While writing this I have discovered many better ways, so I am rewriting no longer maintaining this.
- * This code has some no longer used parts like nested objects.
- */
-
-
+function updateProps(oldVnode, vnode) {
+    var key, cur, old, elm = vnode.elm,
+        props = vnode.data.liveProps || {};
+    for (key in props) {
+        cur = props[key];
+        old = elm[key];
+        if (old !== cur) elm[key] = cur;
+    }
+}
+const livePropsPlugin = {create: updateProps, update: updateProps};
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/class'),
     require('snabbdom/modules/props'),
     require('snabbdom/modules/style'),
     require('snabbdom/modules/eventlisteners'),
-])
-
-const uuid = require('node-uuid')
+    require('snabbdom/modules/attributes'),
+    livePropsPlugin
+]);
+import h from 'snabbdom/h';
 
 export const component = (definition) => {
-    function toState(id, acc = {}){
-        const current = definition.state[id]
-        if(current.stateType === 'nameSpace'){
-            current.childrenIds.forEach((id)=> toState(id, acc))
-        } else {
-            acc[id] = current.defaultValue
-            return acc
-        }
+
+    let currentState = Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
+        acc[def.ref] = def.defaultValue
         return acc
-    }
-    let currentState = toState('_rootState')
+    }, {})
 
     // Allows stoping application in development. This is not an application state
     let frozen = false
     let frozenCallback = null
     let selectHoverActive = false
-    let selectedNodeInDevelopment = ''
+    let selectedNodeInDevelopment = {}
 
-    function selectNodeHover(nodeId, e) {
+    function selectNodeHover(node, e) {
         e.stopPropagation()
-        selectedNodeInDevelopment = nodeId
-        frozenCallback(nodeId)
+        selectedNodeInDevelopment = node
+        frozenCallback(node)
         render()
     }
-    function selectNodeClick(nodeId, e) {
+    function selectNodeClick(node, e) {
         e.stopPropagation()
         selectHoverActive = false
-        selectedNodeInDevelopment = nodeId
-        frozenCallback(nodeId)
+        selectedNodeInDevelopment = node
+        frozenCallback(node)
         render()
     }
 
@@ -55,7 +52,7 @@ export const component = (definition) => {
     let currentMapValue = {}
     let currentMapIndex = {}
     let currentRepeaters = {}
-    const resolve = (def)=> {
+    function resolve(def){
         if (def === undefined) {
             return
         }
@@ -63,23 +60,17 @@ export const component = (definition) => {
         if (def._type === undefined) {
             return def
         }
+        if (def._type === 'ref') {
+            return resolve(definition[def.ref][def.id])
+        }
         if (def._type === 'conditional') {
-            return resolve(def.condition) ? resolve(def.then) : resolve(def.else)
+            return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
-        if (def._type === 'equals') {
-            return resolve(def.first) === resolve(def.second)
+        if (def._type === 'equal') {
+            return resolve(def.a) === resolve(def.b)
         }
-        if (def._type === 'sum') {
-            return resolve(def.first) + resolve(def.second)
-        }
-        if (def._type === 'ifExists') {
-            return resolve(def.data)[resolve(def.key)] || resolve(def.else)
-        }
-        if (def._type === 'uuid') {
-            return uuid.v4()
-        }
-        if (def._type === 'randomColor') {
-            return "#"+((1<<24)*Math.random()|0).toString(16)
+        if (def._type === 'add') {
+            return resolve(def.a) + resolve(def.b)
         }
         if (def._type === 'length') {
             return resolve(def.value).length
@@ -104,79 +95,26 @@ export const component = (definition) => {
             delete currentMapIndex[def.identifier]
             return data
         }
-        if (def._type === 'listObj') {
-            const mapData = resolve(def.data)
-            const data = Object.keys(mapData).map((index)=> {
-                currentMapValue[def.identifier] = mapData[index]
-                currentMapIndex[def.identifier] = index
-                return resolve(def.list)
-            })
-            delete currentMapValue[def.identifier]
-            delete currentMapIndex[def.identifier]
-            return data
-        }
-        if (def._type === 'repeater') {
-            currentRepeaters[def.identifier] = def.value
-            currentMapValue[def.identifier] = resolve(def.data)
-            const data = resolve(def.value)
-            delete currentRepeaters[def.identifier]
-            delete currentMapValue[def.identifier]
-            return data
-        }
-        if (def._type === 'repeat') {
-            // I should really stop using global state,
-            // it would be embarrassing if anyone ever asked why didn't I just pass data through every resolve
-            // good thing no one is ever going to read this code
-            const previous = currentMapValue[def.identifier]
-            currentMapValue[def.identifier] = resolve(def.data)
-            const data = resolve(currentRepeaters[def.identifier])
-            currentMapValue[def.identifier] = previous
-            return data
-        }
-        if (def._type === 'eventName') {
-            return {eventName: def.eventName, data: resolve(def.data)}
-        }
         if (def._type === 'listValue') {
             return currentMapValue[def.value]
         }
         if (def._type === 'listIndex') {
             return currentMapIndex[def.value]
         }
-        if (def._type === 'string') {
-            return def.value
-        }
-        if (def._type === 'boolean') {
-            return def.value
-        }
         if (def._type === 'not') {
             return !resolve(def.value)
-        }
-        if (def._type === 'number') {
-            return def.value
-        }
-        if (def._type === 'array') {
-            return def.value
         }
         if (def._type === 'push') {
             return resolve(def.data).concat(resolve(def.value))
         }
-        if (def._type === 'object') {
-            return Object.keys(def.value).reduce((acc, val)=> {
-                acc[val] = resolve(def.value[val])
-                return acc
-            }, {})
-        }
         if (def._type === 'merge') { // maybe call it "set" but it would actually be an immutable merge?
-            return Object.assign({}, resolve(def.first), resolve(def.second))
+            return Object.assign({}, resolve(def.a), resolve(def.b))
         }
         if (def._type === 'set') { // why not both?
             return Object.assign({}, resolve(def.data), {[resolve(def.name)]: resolve(def.value)})
         }
-        if (def._type === 'objectValue') {
-            return resolve(def.object)[resolve(def.value)]
-        }
-        if (def._type === 'state') {
-            return currentState[def.value]
+        if (def._type === 'get') {
+            return currentState[def.stateId]
         }
         if (def._type === 'eventData') {
             return eventData
@@ -184,74 +122,85 @@ export const component = (definition) => {
         if (def._type === 'eventValue') {
             return currentEvent.target.value
         }
+        if (def._type === 'vNodeBox') {
+            return boxNode(def)
+        }
+        if (def._type === 'vNodeText') {
+            return textNode(def)
+        }
+        if (def._type === 'vNodeInput') {
+            return inputNode(def)
+        }
+        if (def._type === 'vNodeLink') {
+            // TODO
+        }
+        if (def._type === 'style') {
+            return Object.keys(def).reduce((acc, val)=> {
+                acc[val] = resolve(def[val])
+                return acc
+            }, {})
+        }
         throw Error(def._type)
     }
 
-    function toNode(nodeId) {
-        const node = definition.nodes[resolve(nodeId)]
-        if (node === undefined) {
-            return // noop
-        }
-        let sel = node.nodeType === 'box' ? 'div'
-            : node.nodeType === 'text' ? 'span'
-                : node.nodeType === 'input' ? 'input'
-                    : 'error'
-        let children
-        if (node.childrenIds) {
-            children = []
-            for (let i = 0; i < node.childrenIds.length; i++) {
-                const child = toNode(node.childrenIds[i])
-                if(child === undefined){
-                    continue
-                }
-                //flatten (let's hope no one is imitating array with object)
-                if (child.constructor === Array) {
-                    for (let j = 0; j < child.length; j++) {
-                        children.push(child[j])
-                    }
-                } else {
-                    children.push(child)
-                }
-            }
-        }
-        // when application is frozen, no events are captured, except for mouseover that constantly selects nodes
-        let on = frozen ?
-            {
-                mouseover: selectHoverActive ? [selectNodeHover, nodeId]: undefined,
-                click: [selectNodeClick, nodeId]
-            }:{
-                click: node.onClick ? [onClick, node.onClick.eventName, resolve(node.onClick.data), node] : undefined,
-                change: node.onChange ? [emitEvent, node.onChange.eventName, resolve(node.onChange.data)] : undefined,
-                input: node.onInput ? [emitEvent, node.onInput.eventName, resolve(node.onInput.data)] : undefined,
-                keydown: node.onEnter ? [onEnter, node.onEnter.eventName, resolve(node.onEnter.data)] : undefined,
-                mouseover: frozen ? [emitEvent, '$_HOVERED_FROZEN', {nodeId: nodeId}] : undefined
-            }
-
+    function boxNode(node) {
         const data = {
-            style: node.styleId ? resolve({_type: 'object', value: definition.styles[node.styleId]}) : undefined,
-            on,
-            props: node.nodeType === 'input' ? {
-                    value: resolve(node.value),
-                    placeholder: node.placeholder
-                } : undefined,
+            style: resolve(node.style),
+            on: frozen ?
+                {
+                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
+                    click: [selectNodeClick, node]
+                }:{
+                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
+                },
         }
-        const text = node.nodeType === 'text' ? node.value && resolve(node.value) : undefined
-
         // wrap in a border
-        if(frozen && selectedNodeInDevelopment === nodeId){
+        if(frozen && selectedNodeInDevelopment === node){
             return {sel: sel === 'div' ? 'div': 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
         }
-        return {sel, data, children, text}
+        return h('div', data, node.children.map(resolve))
     }
 
-    function onClick(eventName, data, node, e) {
-        emitEvent(eventName, data, e)
-    }
-
-    function onEnter(eventName, data, e) {
-        if (e.keyCode == 13) {
-            emitEvent(eventName, data, e)
+    function textNode(node) {
+        const data = {
+            style: resolve(node.style),
+            on: frozen ?
+                {
+                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
+                    click: [selectNodeClick, node]
+                }:{
+                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
+                    input: node.onInput ? [emitEvent, node.onInput.id] : undefined,
+                },
         }
+        // wrap in a border
+        if(frozen && selectedNodeInDevelopment === node){
+            return {sel: sel === 'div' ? 'div': 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
+        }
+        return h('span', data, resolve(node.value))
+    }
+
+    function inputNode(node) {
+        const data = {
+            style: resolve(node.style),
+            on: frozen ?
+                {
+                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
+                    click: [selectNodeClick, node]
+                }:{
+                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
+                    input: node.onInput ? [emitEvent, node.onInput.id] : undefined,
+                },
+            props: {
+                value: resolve(node.value),
+                placeholder: node.placeholder
+            }
+        }
+        // wrap in a border
+        if(frozen && selectedNodeInDevelopment === node){
+            return {sel: sel === 'div' ? 'div': 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [{sel, data, children, text}]}
+        }
+        return h('input', data)
     }
 
     const listeners = []
@@ -269,8 +218,10 @@ export const component = (definition) => {
         const previousState = currentState
         let mutations = {}
         if(definition.events[eventName]){
-            definition.events[eventName].states.forEach((key)=> {
-                mutations[key] = resolve(definition.mutators[definition.state[key].mutators[eventName]])
+            definition.events[eventName].mutators.forEach((ref)=> {
+                const mutator = resolve(ref)
+                const state = resolve(mutator.state)
+                mutations[state.ref] = resolve(mutator.mutation)
             })
             currentState = Object.assign({}, currentState, mutations)
         } else {
@@ -284,7 +235,7 @@ export const component = (definition) => {
         }
     }
 
-    let vdom = toNode('_rootNode')
+    let vdom = resolve(definition.vNodeBox['_rootNode'])
     function render(newDefinition) {
         if(newDefinition){
             if(definition.state !== newDefinition.state){
@@ -295,7 +246,7 @@ export const component = (definition) => {
                 definition = newDefinition
             }
         }
-        const newvdom = toNode('_rootNode')
+        const newvdom = resolve(definition.vNodeBox['_rootNode'])
         patch(vdom, newvdom)
         vdom = newvdom
     }
