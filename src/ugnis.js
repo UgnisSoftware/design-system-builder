@@ -48,10 +48,9 @@ export const component = (definition) => {
 
     // global state for resolver
     let currentEvent = null
-    let eventData = null
+    let eventData = {}
     let currentMapValue = {}
     let currentMapIndex = {}
-    let currentRepeaters = {}
     function resolve(def){
         if (def === undefined) {
             return
@@ -151,7 +150,7 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
                     click: [selectNodeClick, node]
                 }:{
-                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
                 },
         }
         // wrap in a border
@@ -169,8 +168,7 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
                     click: [selectNodeClick, node]
                 }:{
-                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
-                    input: node.onInput ? [emitEvent, node.onInput.id] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
                 },
         }
         // wrap in a border
@@ -188,8 +186,8 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
                     click: [selectNodeClick, node]
                 }:{
-                    click: node.onClick ? [emitEvent, node.onClick.id] : undefined,
-                    input: node.onInput ? [emitEvent, node.onInput.id] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
+                    input: node.input ? [emitEvent, node.input.id, node.inputData] : undefined,
                 },
             props: {
                 value: resolve(node.value),
@@ -214,7 +212,7 @@ export const component = (definition) => {
 
     function emitEvent(eventName, data, e) {
         currentEvent = e
-        eventData = data
+        eventData = resolve(data)
         const previousState = currentState
         let mutations = {}
         if(definition.events[eventName]){
@@ -225,7 +223,7 @@ export const component = (definition) => {
             })
             currentState = Object.assign({}, currentState, mutations)
         } else {
-            console.warn('No event named: ' + eventName)
+            console.warn('No event named: ' + eventName) // todo list available
         }
         currentEvent = null
         eventData = null
@@ -240,7 +238,10 @@ export const component = (definition) => {
         if(newDefinition){
             if(definition.state !== newDefinition.state){
                 definition = newDefinition
-                const newState = toState('_rootState')
+                const newState = Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
+                    acc[def.ref] = def.defaultValue
+                    return acc
+                }, {})
                 currentState = {...newState, ...currentState}
             } else {
                 definition = newDefinition

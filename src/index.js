@@ -63,14 +63,14 @@ const emptyApp = {
             title: 'text',
             value: '+1',
             style: {_type: 'ref', ref: 'styles', id: '9481d6d2-00db-8ab5-c332-882575f25426'},
-            onClick: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
+            click: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
         },
         '3481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNodeText',
             title: 'text',
             value: '-1',
             style: {_type: 'ref', ref: 'styles', id: '7481d6d2-00db-8ab5-c332-882575f25426'},
-            onClick: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
+            click: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
         },
     },
     vNodeInput: {},
@@ -107,10 +107,9 @@ const emptyApp = {
             userSelect: 'none',
         },
     },
-    nameSpaces: {
+    nameSpace: {
         _rootNameSpace: {
             title: 'state',
-            stateType: 'nameSpace',
             children: [
                 { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
             ],
@@ -130,12 +129,12 @@ const emptyApp = {
     },
     mutators: {
         'as55d6d2-00db-8ab5-c332-882575f25426': {
-            action: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
+            event: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
             state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
             mutation: { _type: 'ref', ref: 'add', id: 'w86fd6d2-00db-8ab5-c332-882575f25426'},
         },
         '9dq8d6d2-00db-8ab5-c332-882575f25426': {
-            action: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
+            event: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
             state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
             mutation: { _type: 'ref', ref: 'add', id: 'u43wd6d2-00db-8ab5-c332-882575f25426'},
         },
@@ -156,4 +155,4 @@ const emptyApp = {
     },
 }
 const app = ugnis(document.getElementById('app'), emptyApp)
-//editor(app)
+editor(app)
