@@ -79,6 +79,7 @@ const emptyApp = {
     styles: {
         _rootStyle: {
             _type: 'style',
+            fontFamily: "'Comfortaa', cursive",
             padding: '10px',
             background: '#f5f5f5',
         },
