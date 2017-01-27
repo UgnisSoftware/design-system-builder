@@ -38,10 +38,10 @@ export default (app)=>{
     let state = {
         open: true,
         appIsFrozen: false,
-        selectedViewNode: '',
-        selectedStateNode: '',
+        selectedViewNode: {},
+        selectedStateNode: {},
         selectedViewSubMenu: 'props',
-        editingTitleNodeId: '',
+        editingTitleNode: {},
         activeEvent: '',
         viewFoldersClosed: {},
         definition: app.definition,
@@ -61,9 +61,10 @@ export default (app)=>{
             stateStack[stateStack.findIndex((a)=>a===state)] = newState;
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
-            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
+            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode.id)
         }
         if(state.definition !== newState.definition){
+            // TODO add garbage collection?
             app.render(newState.definition)
         }
         state = newState;
@@ -71,8 +72,8 @@ export default (app)=>{
     }
     document.addEventListener('click', (e)=> {
         // clicked outside
-        if(state.editingTitleNodeId && !e.target.dataset.istitleeditor){
-            setState({...state, editingTitleNodeId: ''})
+        if(state.editingTitleNode && !e.target.dataset.istitleeditor){
+            setState({...state, editingTitleNode: {}})
         }
     })
     document.addEventListener('keydown', (e)=>{
@@ -81,6 +82,7 @@ export default (app)=>{
         // 89 - y
         // 13 - enter
         if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            // TODO garbage collect
             e.preventDefault();
             fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
@@ -110,7 +112,7 @@ export default (app)=>{
             }
         }
         if(e.which == 13) {
-            setState({...state, editingTitleNodeId: ''})
+            setState({...state, editingTitleNode: {}})
         }
     })
 
@@ -142,98 +144,98 @@ export default (app)=>{
             // immutably remove all nodes except rootNode
             return setState({...state, definition: {
                 ...state.definition,
-                nodes: {'_rootNode': {...state.definition.nodes['_rootNode'], childrenIds: []}},
-                styles: {'_rootStyle': state.definition.styles['_rootStyle']}
-            }, selectedViewNode: ''}, true)
+                vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
+            }, selectedViewNode: {}}, true)
         }
-        // traverse the tree and leave only used nodes - Garbage collection
-        const newNodes = {}
-        const newStyles = {}
-        function addNode(addNodeId) {
-            let newNode = state.definition.nodes[addNodeId]
-            if(parentId === addNodeId){
-                newNode = {...newNode, childrenIds:newNode.childrenIds.filter((a)=>a!==nodeId)}
-            }
-            newNodes[addNodeId] = newNode
-            const newStyleId = newNode.styleId
-            newStyles[newStyleId] = state.definition.styles[newStyleId]
-            if(newNode.childrenIds){
-                newNode.childrenIds.forEach(addNode)
-            }
-        }
-        addNode('_rootNode')
         setState({...state, definition: {
             ...state.definition,
-            nodes: newNodes,
-            styles: newStyles,
-        }, selectedViewNode: ''}, true)
+            vNodeBox: {...state.definition.vNodeBox, [parentId]: {...state.definition.vNodeBox[parentId], children:state.definition.vNodeBox[parentId].children.filter((ref)=>ref.id !== nodeId)}},
+        }, selectedViewNode: {}}, true)
     }
     function ADD_NODE(nodeId, type) {
         const newNodeId = uuid.v4()
         const newStyleId = uuid.v4()
         const newStyle = {
+            _type: 'style',
             padding: '10px',
         }
-        if(type === 'box' || type === 'text') {
-            const newNode = type === 'box' ? {
-                    _type: 'vNode',
-                    title: type,
-                    nodeType: type,
-                    styleId: newStyleId,
-                    childrenIds: []
-                } : {
-                    _type: 'vNode',
-                    title: type,
-                    nodeType: type,
-                    styleId: newStyleId,
-                    value: 'Default Text'
-                }
+        if(type === 'box') {
+            const newNode = {
+                _type: 'vNodeBox',
+                title: 'box',
+                style: {_type:'ref', ref:'styles', id:newStyleId},
+                children: [],
+            }
             setState({...state, definition: {
                 ...state.definition,
-                nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
+                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
+                styles: {...state.definition.styles, [newStyleId]: newStyle},
+            }}, true)
+        }
+        if(type === 'text'){
+            const newNode = {
+                _type: 'vNodeText',
+                title: 'text',
+                style: {_type:'ref', ref:'styles', id:newStyleId},
+                value: 'Default Text'
+            }
+            setState({...state, definition: {
+                ...state.definition,
+                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeText', id:newNodeId})}},
+                vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                 styles: {...state.definition.styles, [newStyleId]: newStyle},
             }}, true)
         }
         if(type === 'input') {
-            const newStateId = uuid.v4()
+            const stateId = uuid.v4()
             const eventId = uuid.v4()
             const mutatorId = uuid.v4()
+            const getId = uuid.v4()
+            const eventValueId = uuid.v4()
             const newNode = {
-                _type: 'vNode',
-                title: type,
-                nodeType: type,
-                styleId: newStyleId,
-                value: {
-                    _type: 'state',
-                    value: newStateId
-                },
-                onInput: {
-                    eventName: eventId
-                }
+                _type: 'vNodeInput',
+                title: 'input',
+                style: {_type:'ref', ref:'styles', id:newStyleId},
+                value: {_type:'ref', ref:'get', id:getId},
+                input: {_type:'ref', ref:'event', id:eventId}
+            }
+            const newGet = {
+                _type: 'get',
+                stateId: stateId
             }
             const newState = {
                 title: 'input value',
                 stateType: 'string',
+                ref: stateId,
                 defaultValue: 'Default string',
-                mutators: {
-                    [eventId]: mutatorId
-                },
+                mutators: [{_type:'ref', ref:'mutators', id:mutatorId}],
             }
-            const setToEventMutator = {
+            const eventValue = {
                 _type: 'eventValue'
             }
-            const event = {
+            const newMutator = {
+                event: { _type: 'ref', ref: 'events', id:eventId},
+                state: { _type: 'ref', ref: 'state', id:stateId},
+                mutation: { _type: 'ref', ref: 'eventValue', id:eventValueId},
+            }
+            const newEvent = {
                 title: 'update input',
-                states: [newStateId]
+                mutators: [
+                    { _type: 'ref', ref: 'mutators', id: mutatorId},
+                ]
             }
             // also add state
             return setState({...state, definition: {
                 ...state.definition,
-                nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], childrenIds: state.definition.nodes[nodeId].childrenIds.concat(newNodeId)}, [newNodeId]: newNode},
+                get: {...state.definition.get, [getId]: newGet},
+                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeInput', id:newNodeId})}},
+                vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                 styles: {...state.definition.styles, [newStyleId]: newStyle},
-                state: {...state.definition.state, ['_rootState']: {...state.definition.state['_rootState'], childrenIds: state.definition.state['_rootState'].childrenIds.concat(newStateId)}, [newStateId]: newState},
-                mutators: {...state.definition.mutators, [mutatorId]: setToEventMutator},
-                events: {...state.definition.events, [eventId]: event},
+                nameSpace: {...state.definition.nameSpace, ['_rootNameSpace']: {...state.definition.nameSpace['_rootNameSpace'], children: state.definition.nameSpace['_rootNameSpace'].children.concat({_type:'ref', ref:'state', id:stateId})}},
+                state: {...state.definition.state, [stateId]: newState},
+                mutators: {...state.definition.mutators, [mutatorId]: newMutator},
+                events: {...state.definition.events, [eventId]: newEvent},
+                eventValue: {...state.definition.eventValue, [eventValueId]: eventValue}
             }}, true)
         }
     }
@@ -243,45 +245,53 @@ export default (app)=>{
         if(type === 'string') {
             newState = {
                 title: 'new string',
+                ref: newStateId,
                 stateType: 'string',
                 defaultValue: 'Default string',
-                mutators: {},
+                mutators: [],
             }
         }
         if(type === 'number') {
             newState = {
                 title: 'new number',
+                ref: newStateId,
                 stateType: 'number',
                 defaultValue: 0,
-                mutators: {},
+                mutators: [],
             }
         }
         if(type === 'boolean') {
             newState = {
                 title: 'new boolean',
                 stateType: 'boolean',
+                ref: newStateId,
                 defaultValue: true,
-                mutators: {},
+                mutators: [],
             }
         }
         if(type === 'table') {
             newState = {
                 title: 'new table',
                 stateType: 'table',
+                ref: newStateId,
                 defaultValue: {},
-                mutators: {},
+                mutators: [],
             }
         }
         if(type === 'namespace') {
             newState = {
                 title: 'new namespace',
-                stateType: 'nameSpace',
-                childrenIds: [],
+                children: [],
             }
+            return setState({...state, definition: {
+                ...state.definition,
+                nameSpace: {...state.definition.nameSpace, [namespaceId]: {...state.definition.nameSpace[namespaceId], children: state.definition.nameSpace[namespaceId].children.concat({_type:'ref', ref:'nameSpace', id:newStateId})}, [newStateId]: newState},
+            }}, true)
         }
         setState({...state, definition: {
             ...state.definition,
-            state: {...state.definition.state, [namespaceId]: {...state.definition.state[namespaceId], childrenIds: state.definition.state[namespaceId].childrenIds.concat(newStateId)}, [newStateId]: newState},
+            nameSpace: {...state.definition.nameSpace, [namespaceId]: {...state.definition.nameSpace[namespaceId], children: state.definition.nameSpace[namespaceId].children.concat({_type:'ref', ref:'state', id:newStateId})}},
+            state: {...state.definition.state, [newStateId]: newState},
         }}, true)
     }
     function CHANGE_STYLE(styleId, key, e) {
@@ -296,13 +306,13 @@ export default (app)=>{
         setState({...state, selectedViewSubMenu:newId})
     }
     function EDIT_VIEW_NODE_TITLE(nodeId, type) {
-        setState({...state, editingTitleNodeId:{_type: 'ref', ref:type, id:nodeId}})
+        setState({...state, editingTitleNode:{_type: 'ref', ref:type, id:nodeId}})
     }
-    function CHANGE_VIEW_NODE_TITLE(nodeId, e) {
+    function CHANGE_VIEW_NODE_TITLE(nodeId, nodeType, e) {
         e.preventDefault();
         setState({...state, definition: {
             ...state.definition,
-            nodes: {...state.definition.nodes, [nodeId]: {...state.definition.nodes[nodeId], title: e.target.value}},
+            [nodeType]: {...state.definition[nodeType], [nodeId]: {...state.definition[nodeType][nodeId], title: e.target.value}},
         }}, true)
     }
     function CHANGE_STATE_NODE_TITLE(nodeId, e) {
@@ -312,11 +322,19 @@ export default (app)=>{
             state: {...state.definition.state, [nodeId]: {...state.definition.state[nodeId], title: e.target.value}},
         }}, true)
     }
+    function CHANGE_NAMESPACE_TITLE(nodeId, e) {
+        e.preventDefault();
+        setState({...state, definition: {
+            ...state.definition,
+            nameSpace: {...state.definition.nameSpace, [nodeId]: {...state.definition.nameSpace[nodeId], title: e.target.value}},
+        }}, true)
+    }
 
     // Listen to app and blink every action
     let timer = null
     app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
         setState({...state, activeEvent: eventName})
+        console.log(eventName)
         // yeah, I probably needed some observables too
         if(timer){
             clearTimeout(timer)
@@ -388,7 +406,7 @@ export default (app)=>{
                         display: 'inline'
                     },
                     on: {
-                        input: [CHANGE_STATE_NODE_TITLE, stateId],
+                        input: [CHANGE_NAMESPACE_TITLE, stateId],
                     },
                     liveProps: {
                         value: currentNameSpace.title,
@@ -414,7 +432,7 @@ export default (app)=>{
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNode === stateId ? '#eab65c': 'white'}})]),
-                        state.editingTitleNodeId === stateId ?
+                        state.editingTitleNode.id === stateId ?
                             editingNode():
                             h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white'}}, currentNameSpace.title)]),
                     ]),
@@ -466,7 +484,7 @@ export default (app)=>{
                 },
                 [
                     h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
-                        state.editingTitleNodeId === stateId ?
+                        state.editingTitleNode.id === stateId ?
                             editingNode():
                             h('span', {style: {color: state.selectedStateNode === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNode === stateId ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'}}, currentState.title),
                         h('span', ': '),
@@ -474,7 +492,7 @@ export default (app)=>{
                     ]),
                     ...currentState.mutators.map(ref =>
                         h('div', {style: {display: 'box', padding: '2px 0 0 15px'}}, [
-                            h('span', {style: {color: state.activeEvent === ref.id ? 'rgb(91, 204, 91)': 'white', transition: 'all 0.2s'}}, state.definition.events[state.definition.mutators[ref.id].event.id].title)
+                            h('span', {style: {color: state.activeEvent === state.definition.mutators[ref.id].event.id ? 'rgb(91, 204, 91)': 'white', transition: 'all 0.2s'}}, state.definition.events[state.definition.mutators[ref.id].event.id].title)
                         ])
                     )
                 ]
@@ -493,7 +511,7 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode === nodeId ? '#53B2ED': 'white',
+                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
@@ -523,17 +541,21 @@ export default (app)=>{
                                 click: [VIEW_FOLDER_CLICKED, nodeId]
                             },
                         },
-                        [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === nodeId ? '#53B2ED': 'white'}})]),
-                    state.editingTitleNodeId === nodeId ?
+                        [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}})]),
+                    state.editingTitleNode.id === nodeId ?
                         editingNode():
-                        h('span', { style: {cursor: 'pointer', color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, nodeId, 'vNodeBox'], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeBox']}}, node.title),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
-                        ...node.children.map((ref)=> ref.ref === 'vNodeText' ? listTextNode(ref.id, nodeId): listBoxNode(ref.id, nodeId)),
-                        h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
+                        h('span', { style: {cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, nodeId, 'vNodeBox'], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeBox']}}, node.title),
+                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
+                        ...node.children.map((ref)=>{
+                            if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId)
+                            if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId)
+                            if(ref.ref === 'vNodeInput') return listInputNode(ref.id, nodeId)
+                        }),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                     ]),
-                    h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
+                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
                 ]
             )
         }
@@ -545,13 +567,13 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode === nodeId ? '#53B2ED': 'white',
+                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
                     },
                     on: {
-                        input: [CHANGE_VIEW_NODE_TITLE, nodeId],
+                        input: [CHANGE_VIEW_NODE_TITLE, nodeId, 'vNodeText'],
                     },
                     liveProps: {
                         value: node.title,
@@ -562,7 +584,7 @@ export default (app)=>{
                     }
                 })
             }
-            if(state.editingTitleNodeId === nodeId) {
+            if(state.editingTitleNode.id === nodeId) {
                 return editingNode()
             } else {
                 return h('div', {
@@ -575,8 +597,52 @@ export default (app)=>{
                             dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeText']
                         }
                     }, [
-                        h('span', {style: {color: state.selectedViewNode === nodeId ? '#53B2ED': 'white'}}, node.title),
-                        h('div', {style: {display: state.selectedViewNode === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                        h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}, node.title),
+                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                    ]
+                )
+            }
+        }
+
+        function listInputNode(nodeId, parentId) {
+            const node = state.definition.vNodeInput[nodeId]
+            function editingNode() {
+                return h('input', {
+                    style: {
+                        border: 'none',
+                        background: 'none',
+                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        outline: 'none',
+                        padding: '0',
+                        boxShadow: 'inset 0 -1px 0 0 white',
+                    },
+                    on: {
+                        input: [CHANGE_VIEW_NODE_TITLE, nodeId, 'vNodeInput'],
+                    },
+                    liveProps: {
+                        value: node.title,
+                    },
+                    attrs: {
+                        autofocus: true,
+                        'data-istitleeditor': true
+                    }
+                })
+            }
+            if(state.editingTitleNode.id === nodeId) {
+                return editingNode()
+            } else {
+                return h('div', {
+                        style: {
+                            cursor: 'pointer',
+                            position: 'relative'
+                        },
+                        on: {
+                            click: [VIEW_NODE_SELECTED, nodeId, 'vNodeInput'],
+                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeInput']
+                        }
+                    }, [
+                        h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}, node.title),
+                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                     ]
                 )
             }
@@ -663,16 +729,16 @@ export default (app)=>{
             const styleEditorComponent = h('div', {style: {}},
                 Object.keys(selectedStyle).map((key)=>h('div', [h('input', {
                     style: {
-                    border: 'none',
-                    background: 'none',
-                    color:  'white',
-                    outline: 'none',
-                    padding: '0',
-                    boxShadow: 'inset 0 -1px 0 0 white',
-                    display: 'inline-block',
-                    width: '150px',
-                    margin: '10px',
-                },
+                        border: 'none',
+                        background: 'none',
+                        color:  'white',
+                        outline: 'none',
+                        padding: '0',
+                        boxShadow: 'inset 0 -1px 0 0 white',
+                        display: 'inline-block',
+                        width: '150px',
+                        margin: '10px',
+                    },
                     props: {value: selectedStyle[key]},
                     on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}}),
                     h('span', key)]))
@@ -744,7 +810,7 @@ export default (app)=>{
             }
         }, [
             listBoxNode('_rootNode'),
-            state.selectedViewNode ? generateEditNodeComponent(): h('span')
+            state.selectedViewNode.id ? generateEditNodeComponent(): h('span')
         ])
 
         const vnode =

@@ -8,6 +8,7 @@ const emptyApp = {
     equal: {},
     not: {},
     list: {},
+    eventValue: {},
     get: {
         '87fvd6d2-00db-8ab5-c332-882575f25426': {
             _type: 'get',
