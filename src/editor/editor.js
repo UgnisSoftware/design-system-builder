@@ -41,7 +41,7 @@ export default (app)=>{
         selectedViewNode: {},
         selectedStateNodeId: '',
         selectedViewSubMenu: 'props',
-        editingTitleNode: {},
+        editingTitleNodeId: '',
         activeEvent: '',
         viewFoldersClosed: {},
         definition: app.definition,
@@ -72,8 +72,8 @@ export default (app)=>{
     }
     document.addEventListener('click', (e)=> {
         // clicked outside
-        if(state.editingTitleNode._type && !e.target.dataset.istitleeditor){
-            setState({...state, editingTitleNode: {}})
+        if(state.editingTitleNodeId && !e.target.dataset.istitleeditor){
+            setState({...state, editingTitleNodeId: ''})
         }
     })
     document.addEventListener('keydown', (e)=>{
@@ -112,7 +112,7 @@ export default (app)=>{
             }
         }
         if(e.which == 13) {
-            setState({...state, editingTitleNode: {}})
+            setState({...state, editingTitleNodeId: ''})
         }
     })
 
@@ -324,8 +324,8 @@ export default (app)=>{
     function SELECT_VIEW_SUBMENU(newId) {
         setState({...state, selectedViewSubMenu:newId})
     }
-    function EDIT_VIEW_NODE_TITLE(nodeId, type) {
-        setState({...state, editingTitleNode:{_type: 'ref', ref:type, id:nodeId}})
+    function EDIT_VIEW_NODE_TITLE(nodeId) {
+        setState({...state, editingTitleNodeId:nodeId})
     }
     function CHANGE_VIEW_NODE_TITLE(nodeId, nodeType, e) {
         e.preventDefault();
@@ -462,7 +462,7 @@ export default (app)=>{
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedStateNodeId === stateId ? '#eab65c': 'white'}})]),
-                        state.editingTitleNode.id === stateId ?
+                        state.editingTitleNodeId === stateId ?
                             editingNode():
                             h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white'}}, currentNameSpace.title)]),
                     ]),
@@ -514,7 +514,7 @@ export default (app)=>{
                 },
                 [
                     h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
-                        state.editingTitleNode.id === stateId ?
+                        state.editingTitleNodeId === stateId ?
                             editingNode():
                             h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'}}, currentState.title),
                     ]),
@@ -605,7 +605,7 @@ export default (app)=>{
                             },
                         },
                         [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === node ? '#53B2ED': 'white'}})]),
-                    state.editingTitleNode.id === nodeId ?
+                    state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', { style: {cursor: 'pointer', color: state.selectedViewNode === node ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, node], dblclick: [EDIT_VIEW_NODE_TITLE, node]}}, node.title),
                     h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode === node ? '1px solid #53B2ED' : '1px solid white'}}, [
@@ -647,7 +647,7 @@ export default (app)=>{
                     }
                 })
             }
-            if(state.editingTitleNode.id === nodeId) {
+            if(state.editingTitleNodeId === nodeId) {
                 return editingNode()
             } else {
                 return h('div', {
@@ -657,7 +657,7 @@ export default (app)=>{
                         },
                         on: {
                             click: [VIEW_NODE_SELECTED, node],
-                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeText']
+                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]
                         }
                     }, [
                         h('span', {style: {color: state.selectedViewNode === node ? '#53B2ED': 'white'}}, node.title),
@@ -691,7 +691,7 @@ export default (app)=>{
                     }
                 })
             }
-            if(state.editingTitleNode.id === nodeId) {
+            if(state.editingTitleNodeId === nodeId) {
                 return editingNode()
             } else {
                 return h('div', {
@@ -701,7 +701,7 @@ export default (app)=>{
                         },
                         on: {
                             click: [VIEW_NODE_SELECTED, node],
-                            dblclick: [EDIT_VIEW_NODE_TITLE, node]
+                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]
                         }
                     }, [
                         h('span', {style: {color: state.selectedViewNode === node ? '#53B2ED': 'white'}}, node.title),
@@ -765,7 +765,6 @@ export default (app)=>{
                 click: [SELECT_VIEW_SUBMENU, 'events']
             }
         }, 'events')
-
         const unselectComponent = h('div', {
             style: {
                 background: '#4d4d4d',
@@ -784,6 +783,7 @@ export default (app)=>{
                 click: [UNSELECT_VIEW_NODE]
             }
         }, 'x')
+
         const listEmber = (node, expected) => {
             if(node._type === 'ref'){
                 if(node.ref === 'add'){
