@@ -61,7 +61,7 @@ export default (app)=>{
             stateStack[stateStack.findIndex((a)=>a===state)] = newState;
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
-            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode.id)
+            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
         }
         if(state.definition !== newState.definition){
             // TODO add garbage collection?
@@ -132,8 +132,8 @@ export default (app)=>{
     function VIEW_FOLDER_CLICKED(nodeId) {
         setState({...state, viewFoldersClosed:{...state.viewFoldersClosed, [nodeId]: !state.viewFoldersClosed[nodeId]}})
     }
-    function VIEW_NODE_SELECTED(nodeId, type) {
-        setState({...state, selectedViewNode:{_type: 'ref', ref:type, id:nodeId}})
+    function VIEW_NODE_SELECTED(node) {
+        setState({...state, selectedViewNode:node})
     }
     function STATE_NODE_SELECTED(nodeId) {
         setState({...state, selectedStateNodeId:nodeId})
@@ -346,7 +346,6 @@ export default (app)=>{
     let timer = null
     app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
         setState({...state, activeEvent: eventName})
-        console.log(eventName)
         // yeah, I probably needed some observables too
         if(timer){
             clearTimeout(timer)
@@ -583,21 +582,21 @@ export default (app)=>{
                                 click: [VIEW_FOLDER_CLICKED, nodeId]
                             },
                         },
-                        [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}})]),
+                        [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill:  state.selectedViewNode === node ? '#53B2ED': 'white'}})]),
                     state.editingTitleNode.id === nodeId ?
                         editingNode():
-                        h('span', { style: {cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, nodeId, 'vNodeBox'], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeBox']}}, node.title),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '1px solid #53B2ED' : '1px solid white'}}, [
+                        h('span', { style: {cursor: 'pointer', color: state.selectedViewNode === node ? '#53B2ED': 'white'}, on: {click: [VIEW_NODE_SELECTED, node], dblclick: [EDIT_VIEW_NODE_TITLE, node]}}, node.title),
+                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode === node ? '1px solid #53B2ED' : '1px solid white'}}, [
                         ...node.children.map((ref)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId)
                             if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId)
                             if(ref.ref === 'vNodeInput') return listInputNode(ref.id, nodeId)
                         }),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
+                        h('span', {style: {display: state.selectedViewNode === node ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
+                        h('span', {style: {display: state.selectedViewNode === node ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
+                        h('span', {style: {display: state.selectedViewNode === node ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                     ]),
-                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
+                    h('div', {style: {display: state.selectedViewNode === node ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
                 ]
             )
         }
@@ -609,7 +608,7 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: state.selectedViewNode === node ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
@@ -635,12 +634,12 @@ export default (app)=>{
                             position: 'relative'
                         },
                         on: {
-                            click: [VIEW_NODE_SELECTED, nodeId, 'vNodeText'],
+                            click: [VIEW_NODE_SELECTED, node],
                             dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeText']
                         }
                     }, [
-                        h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}, node.title),
-                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                        h('span', {style: {color: state.selectedViewNode === node ? '#53B2ED': 'white'}}, node.title),
+                        h('div', {style: {display: state.selectedViewNode === node ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                     ]
                 )
             }
@@ -653,7 +652,7 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: state.selectedViewNode === node ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
@@ -683,8 +682,8 @@ export default (app)=>{
                             dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeInput']
                         }
                     }, [
-                        h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}, node.title),
-                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                        h('span', {style: {color: state.selectedViewNode === node ? '#53B2ED': 'white'}}, node.title),
+                        h('div', {style: {display: state.selectedViewNode === node ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                     ]
                 )
             }
@@ -787,7 +786,7 @@ export default (app)=>{
 
         function generateEditNodeComponent() {
             const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
-            const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
+            const selectedNode = state.selectedViewNode
             const selectedStyle = state.definition.styles[selectedNode.style.id]
             const styleEditorComponent = h('div', {style: {}},
                 Object.keys(selectedStyle).map((key)=>h('div', [h('input', {
@@ -812,13 +811,13 @@ export default (app)=>{
                     .map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
             )
             function generatePropsMenu() {
-                if(state.selectedViewNode.ref === 'vNodeBox'){
+                if(state.selectedViewNode._type === 'vNodeBox'){
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
-                if(state.selectedViewNode.ref === 'vNodeText'){
+                if(state.selectedViewNode._type === 'vNodeText'){
                     return h('div', {style: {padding: '10px'}}, [h('span', 'text: '), listEmber(selectedNode.value)])
                 }
-                if(state.selectedViewNode.ref === 'vNodeInput'){
+                if(state.selectedViewNode._type === 'vNodeInput'){
                     return h('div', [h('span', 'value: '), listEmber(selectedNode.value)])
                 }
             }
@@ -852,7 +851,7 @@ export default (app)=>{
             }
         }, [
             listBoxNode('_rootNode'),
-            state.selectedViewNode.id ? generateEditNodeComponent(): h('span')
+            state.selectedViewNode._type ? generateEditNodeComponent(): h('span')
         ])
 
         const vnode =
