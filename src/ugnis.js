@@ -268,10 +268,16 @@ export const component = (definition) => {
         return currentState
     }
 
+    function setCurrentState(newState) {
+        currentState = newState
+        render()
+    }
+
     return {
         definition,
         vdom,
         getCurrentState,
+        setCurrentState,
         render,
         emitEvent,
         addListener,
