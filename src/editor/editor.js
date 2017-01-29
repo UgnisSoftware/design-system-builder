@@ -39,7 +39,7 @@ export default (app)=>{
         open: true,
         appIsFrozen: false,
         selectedViewNode: {},
-        selectedStateNodeId: {},
+        selectedStateNodeId: '',
         selectedViewSubMenu: 'props',
         editingTitleNode: {},
         activeEvent: '',
@@ -67,12 +67,12 @@ export default (app)=>{
             // TODO add garbage collection?
             app.render(newState.definition)
         }
-        state = newState;
+        state = newState
         render()
     }
     document.addEventListener('click', (e)=> {
         // clicked outside
-        if(state.editingTitleNode && !e.target.dataset.istitleeditor){
+        if(state.editingTitleNode._type && !e.target.dataset.istitleeditor){
             setState({...state, editingTitleNode: {}})
         }
     })
@@ -135,8 +135,18 @@ export default (app)=>{
     function VIEW_NODE_SELECTED(node) {
         setState({...state, selectedViewNode:node})
     }
+    function UNSELECT_VIEW_NODE(e) {
+        if(e.target === this.elm){
+            setState({...state, selectedViewNode:{}})
+        }
+    }
     function STATE_NODE_SELECTED(nodeId) {
         setState({...state, selectedStateNodeId:nodeId})
+    }
+    function UNSELECT_STATE_NODE(e) {
+        if(e.target === this.elm){
+            setState({...state, selectedStateNodeId:''})
+        }
     }
     function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
         e.stopPropagation()
@@ -166,11 +176,14 @@ export default (app)=>{
                 style: {_type:'ref', ref:'styles', id:newStyleId},
                 children: [],
             }
-            setState({...state, definition: {
-                ...state.definition,
-                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
-                styles: {...state.definition.styles, [newStyleId]: newStyle},
-            }}, true)
+            setState({
+                ...state,
+                selectedViewNode: newNode,
+                definition: {
+                    ...state.definition,
+                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
+                    styles: {...state.definition.styles, [newStyleId]: newStyle},
+                }}, true)
         }
         if(type === 'text'){
             const newNode = {
@@ -179,12 +192,15 @@ export default (app)=>{
                 style: {_type:'ref', ref:'styles', id:newStyleId},
                 value: 'Default Text'
             }
-            setState({...state, definition: {
-                ...state.definition,
-                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeText', id:newNodeId})}},
-                vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
-                styles: {...state.definition.styles, [newStyleId]: newStyle},
-            }}, true)
+            setState({
+                ...state,
+                selectedViewNode: newNode,
+                definition: {
+                    ...state.definition,
+                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeText', id:newNodeId})}},
+                    vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
+                    styles: {...state.definition.styles, [newStyleId]: newStyle},
+                }}, true)
         }
         if(type === 'input') {
             const stateId = uuid.v4()
@@ -225,18 +241,21 @@ export default (app)=>{
                 ]
             }
             // also add state
-            return setState({...state, definition: {
-                ...state.definition,
-                get: {...state.definition.get, [getId]: newGet},
-                vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeInput', id:newNodeId})}},
-                vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
-                styles: {...state.definition.styles, [newStyleId]: newStyle},
-                nameSpace: {...state.definition.nameSpace, ['_rootNameSpace']: {...state.definition.nameSpace['_rootNameSpace'], children: state.definition.nameSpace['_rootNameSpace'].children.concat({_type:'ref', ref:'state', id:stateId})}},
-                state: {...state.definition.state, [stateId]: newState},
-                mutators: {...state.definition.mutators, [mutatorId]: newMutator},
-                events: {...state.definition.events, [eventId]: newEvent},
-                eventValue: {...state.definition.eventValue, [eventValueId]: eventValue}
-            }}, true)
+            return setState({
+                ...state,
+                selectedViewNode: newNode,
+                definition: {
+                    ...state.definition,
+                    get: {...state.definition.get, [getId]: newGet},
+                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeInput', id:newNodeId})}},
+                    vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
+                    styles: {...state.definition.styles, [newStyleId]: newStyle},
+                    nameSpace: {...state.definition.nameSpace, ['_rootNameSpace']: {...state.definition.nameSpace['_rootNameSpace'], children: state.definition.nameSpace['_rootNameSpace'].children.concat({_type:'ref', ref:'state', id:stateId})}},
+                    state: {...state.definition.state, [stateId]: newState},
+                    mutators: {...state.definition.mutators, [mutatorId]: newMutator},
+                    events: {...state.definition.events, [eventId]: newEvent},
+                    eventValue: {...state.definition.eventValue, [eventValueId]: eventValue}
+                }}, true)
         }
     }
     function ADD_STATE(namespaceId, type) {
@@ -451,8 +470,8 @@ export default (app)=>{
                         ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'string']}}, '+ text'),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'number']}}, '+ number'),
-                        h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'boolean']}}, '+ variant'),
-                        h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'table']}}, '+ table'),
+                        //h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'boolean']}}, '+ variant'),
+                        //h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'table']}}, '+ table'),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'namespace']}}, '+ folder'),
                     ]),
                 ]
@@ -543,6 +562,9 @@ export default (app)=>{
             style: {
                 overflow: 'overlay',
                 flex: '1',
+            },
+            on: {
+                click: [UNSELECT_STATE_NODE]
             }
         }, [listNameSpace('_rootNameSpace')])
         function listBoxNode(nodeId, parentId) {
@@ -552,7 +574,7 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: state.selectedViewNode === node ? '#53B2ED': 'white',
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
@@ -678,8 +700,8 @@ export default (app)=>{
                             position: 'relative'
                         },
                         on: {
-                            click: [VIEW_NODE_SELECTED, nodeId, 'vNodeInput'],
-                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId, 'vNodeInput']
+                            click: [VIEW_NODE_SELECTED, node],
+                            dblclick: [EDIT_VIEW_NODE_TITLE, node]
                         }
                     }, [
                         h('span', {style: {color: state.selectedViewNode === node ? '#53B2ED': 'white'}}, node.title),
@@ -759,7 +781,7 @@ export default (app)=>{
                 borderWidth: '3px 3px 0 3px',
             },
             on: {
-                click: [VIEW_NODE_SELECTED, '']
+                click: [UNSELECT_VIEW_NODE]
             }
         }, 'x')
         const listEmber = (node, expected) => {
@@ -848,6 +870,9 @@ export default (app)=>{
                 flex: '1',
                 borderTop: '3px solid #333333',
                 padding: '5px',
+            },
+            on: {
+                click: [UNSELECT_VIEW_NODE]
             }
         }, [
             listBoxNode('_rootNode'),

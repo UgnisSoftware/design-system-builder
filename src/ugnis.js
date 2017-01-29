@@ -196,7 +196,7 @@ export const component = (definition) => {
         }
         // wrap in a border
         if(frozen && selectedNodeInDevelopment === node){
-            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('input', data)]}
+            return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('input', data)]}
         }
         return h('input', data)
     }
