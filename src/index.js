@@ -9,35 +9,21 @@ const emptyApp = {
     not: {},
     list: {},
     eventValue: {},
-    get: {
-        '87fvd6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'get',
-            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
-        },
-        '4cq9d6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'get',
-            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
-        },
-        '7ay5d6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'get',
-            stateId: '46vdd6d2-00db-8ab5-c332-882575f25426'
-        },
-    },
-    add: {
+    join: {
         'w86fd6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'add',
-            a: { _type: 'ref', ref: 'get', id: '87fvd6d2-00db-8ab5-c332-882575f25426'},
+            _type: 'join',
+            a: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
             b: 1
         },
         'u43wd6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'add',
-            a: { _type: 'ref', ref: 'get', id: '4cq9d6d2-00db-8ab5-c332-882575f25426'},
+            _type: 'join',
+            a: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
             b: -1
         },
         'p9s3d6d2-00db-8ab5-c332-882575f25426': {
-            _type: 'add',
+            _type: 'join',
             a: 'Current value: ',
-            b: { _type: 'ref', ref: 'get', id: '7ay5d6d2-00db-8ab5-c332-882575f25426'},
+            b: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
         }
     },
     vNodeBox: {
@@ -57,7 +43,7 @@ const emptyApp = {
             _type: 'vNodeText',
             title: 'text',
             style: {_type: 'ref', ref: 'styles', id: '8481d6d2-00db-8ab5-c332-882575f25426'},
-            value: { _type: 'ref', ref: 'add', id: 'p9s3d6d2-00db-8ab5-c332-882575f25426'},
+            value: { _type: 'ref', ref: 'join', id: 'p9s3d6d2-00db-8ab5-c332-882575f25426'},
         },
         '1481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNodeText',
@@ -75,7 +61,6 @@ const emptyApp = {
         },
     },
     vNodeInput: {},
-    vNodeLink: {},
     styles: {
         _rootStyle: {
             _type: 'style',
@@ -119,6 +104,7 @@ const emptyApp = {
     },
     state: {
         '46vdd6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'state',
             title: 'count',
             ref: '46vdd6d2-00db-8ab5-c332-882575f25426',
             stateType: 'number',
@@ -133,12 +119,12 @@ const emptyApp = {
         'as55d6d2-00db-8ab5-c332-882575f25426': {
             event: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
             state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
-            mutation: { _type: 'ref', ref: 'add', id: 'w86fd6d2-00db-8ab5-c332-882575f25426'},
+            mutation: { _type: 'ref', ref: 'join', id: 'w86fd6d2-00db-8ab5-c332-882575f25426'},
         },
         '9dq8d6d2-00db-8ab5-c332-882575f25426': {
             event: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
             state: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
-            mutation: { _type: 'ref', ref: 'add', id: 'u43wd6d2-00db-8ab5-c332-882575f25426'},
+            mutation: { _type: 'ref', ref: 'join', id: 'u43wd6d2-00db-8ab5-c332-882575f25426'},
         },
     },
     events: {

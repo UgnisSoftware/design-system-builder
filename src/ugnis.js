@@ -32,17 +32,17 @@ export const component = (definition) => {
     let selectHoverActive = false
     let selectedNodeInDevelopment = {}
 
-    function selectNodeHover(node, e) {
+    function selectNodeHover(ref, e) {
         e.stopPropagation()
-        selectedNodeInDevelopment = node
-        frozenCallback(node)
+        selectedNodeInDevelopment = ref
+        frozenCallback(ref)
         render()
     }
-    function selectNodeClick(node, e) {
+    function selectNodeClick(ref, e) {
         e.stopPropagation()
         selectHoverActive = false
-        selectedNodeInDevelopment = node
-        frozenCallback(node)
+        selectedNodeInDevelopment = ref
+        frozenCallback(ref)
         render()
     }
 
@@ -51,69 +51,25 @@ export const component = (definition) => {
     let eventData = {}
     let currentMapValue = {}
     let currentMapIndex = {}
-    function resolve(def){
-        if (def === undefined) {
+    function resolve(ref){
+        if(ref === undefined){
             return
         }
-        // static value
-        if (def._type === undefined) {
-            return def
+        if(ref._type === undefined){
+            return ref
         }
-        if (def._type === 'ref') {
-            return resolve(definition[def.ref][def.id])
-        }
+        const def = definition[ref.ref][ref.id]
         if (def._type === 'conditional') {
             return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
         if (def._type === 'equal') {
             return resolve(def.a) === resolve(def.b)
         }
-        if (def._type === 'add') {
+        if (def._type === 'join') {
             return resolve(def.a) + resolve(def.b)
         }
-        if (def._type === 'length') {
-            return resolve(def.value).length
-        }
-        if (def._type === 'filter') {
-            const data = resolve(def.data).filter((value, index)=> {
-                currentMapValue[def.identifier] = value
-                currentMapIndex[def.identifier] = index
-                return resolve(def.filter)
-            })
-            delete currentMapValue[def.identifier]
-            delete currentMapIndex[def.identifier]
-            return data
-        }
-        if (def._type === 'list') {
-            const data = resolve(def.data).map((value, index)=> {
-                currentMapValue[def.identifier] = value
-                currentMapIndex[def.identifier] = index
-                return resolve(def.list)
-            })
-            delete currentMapValue[def.identifier]
-            delete currentMapIndex[def.identifier]
-            return data
-        }
-        if (def._type === 'listValue') {
-            return currentMapValue[def.value]
-        }
-        if (def._type === 'listIndex') {
-            return currentMapIndex[def.value]
-        }
-        if (def._type === 'not') {
-            return !resolve(def.value)
-        }
-        if (def._type === 'push') {
-            return resolve(def.data).concat(resolve(def.value))
-        }
-        if (def._type === 'merge') { // maybe call it "set" but it would actually be an immutable merge?
-            return Object.assign({}, resolve(def.a), resolve(def.b))
-        }
-        if (def._type === 'set') { // why not both?
-            return Object.assign({}, resolve(def.data), {[resolve(def.name)]: resolve(def.value)})
-        }
-        if (def._type === 'get') {
-            return currentState[def.stateId]
+        if (def._type === 'state') {
+            return currentState[ref.id]
         }
         if (def._type === 'eventData') {
             return eventData
@@ -122,16 +78,13 @@ export const component = (definition) => {
             return currentEvent.target.value
         }
         if (def._type === 'vNodeBox') {
-            return boxNode(def)
+            return boxNode(ref)
         }
         if (def._type === 'vNodeText') {
-            return textNode(def)
+            return textNode(ref)
         }
         if (def._type === 'vNodeInput') {
-            return inputNode(def)
-        }
-        if (def._type === 'vNodeLink') {
-            // TODO
+            return inputNode(ref)
         }
         if (def._type === 'style') {
             return Object.keys(def).reduce((acc, val)=> {
@@ -142,49 +95,52 @@ export const component = (definition) => {
         throw Error(def._type)
     }
 
-    function boxNode(node) {
+    function boxNode(ref) {
+        const node = definition[ref.ref][ref.id]
         const data = {
             style: resolve(node.style),
             on: frozen ?
                 {
-                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
-                    click: [selectNodeClick, node]
+                    mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
+                    click: [selectNodeClick, ref]
                 }:{
                     click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
                 },
         }
         // wrap in a border
-        if(frozen && selectedNodeInDevelopment === node){
+        if(frozen && selectedNodeInDevelopment.id === ref.id){
             return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, node.children.map(resolve))]}
         }
         return h('div', data, node.children.map(resolve))
     }
 
-    function textNode(node) {
+    function textNode(ref) {
+        const node = definition[ref.ref][ref.id]
         const data = {
             style: resolve(node.style),
             on: frozen ?
                 {
-                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
-                    click: [selectNodeClick, node]
+                    mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
+                    click: [selectNodeClick, ref]
                 }:{
                     click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
                 },
         }
         // wrap in a border
-        if(frozen && selectedNodeInDevelopment === node){
+        if(frozen && selectedNodeInDevelopment.id === ref.id){
             return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('span', data, resolve(node.value))]}
         }
         return h('span', data, resolve(node.value))
     }
 
-    function inputNode(node) {
+    function inputNode(ref) {
+        const node = definition[ref.ref][ref.id]
         const data = {
             style: resolve(node.style),
             on: frozen ?
                 {
-                    mouseover: selectHoverActive ? [selectNodeHover, node]: undefined,
-                    click: [selectNodeClick, node]
+                    mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
+                    click: [selectNodeClick, ref]
                 }:{
                     click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
                     input: node.input ? [emitEvent, node.input.id, node.inputData] : undefined,
@@ -195,7 +151,7 @@ export const component = (definition) => {
             }
         }
         // wrap in a border
-        if(frozen && selectedNodeInDevelopment === node){
+        if(frozen && selectedNodeInDevelopment.id === ref.id){
             return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('input', data)]}
         }
         return h('input', data)
@@ -217,9 +173,9 @@ export const component = (definition) => {
         let mutations = {}
         if(definition.events[eventName]){
             definition.events[eventName].mutators.forEach((ref)=> {
-                const mutator = resolve(ref)
-                const state = resolve(mutator.state)
-                mutations[state.ref] = resolve(mutator.mutation)
+                const mutator = definition.mutators[ref.id]
+                const state = mutator.state
+                mutations[state.id] = resolve(mutator.mutation)
             })
             currentState = Object.assign({}, currentState, mutations)
         } else {
@@ -233,7 +189,7 @@ export const component = (definition) => {
         }
     }
 
-    let vdom = resolve(definition.vNodeBox['_rootNode'])
+    let vdom = resolve({_type:'ref', ref:'vNodeBox', id:'_rootNode'})
     function render(newDefinition) {
         if(newDefinition){
             if(definition.state !== newDefinition.state){
@@ -247,7 +203,7 @@ export const component = (definition) => {
                 definition = newDefinition
             }
         }
-        const newvdom = resolve(definition.vNodeBox['_rootNode'])
+        const newvdom = resolve({_type:'ref', ref:'vNodeBox', id:'_rootNode'})
         patch(vdom, newvdom)
         vdom = newvdom
     }
