@@ -222,9 +222,9 @@ export default (app)=>{
             }
             const newState = {
                 title: 'input value',
-                stateType: 'string',
+                stateType: 'text',
                 ref: stateId,
-                defaultValue: 'Default string',
+                defaultValue: 'Default text',
                 mutators: [{_type:'ref', ref:'mutators', id:mutatorId}],
             }
             const eventValue = {
@@ -262,12 +262,12 @@ export default (app)=>{
     function ADD_STATE(namespaceId, type) {
         const newStateId = uuid.v4()
         let newState
-        if(type === 'string') {
+        if(type === 'text') {
             newState = {
-                title: 'new string',
+                title: 'new text',
                 ref: newStateId,
-                stateType: 'string',
-                defaultValue: 'Default string',
+                stateType: 'text',
+                defaultValue: 'Default text',
                 mutators: [],
             }
         }
@@ -495,7 +495,7 @@ export default (app)=>{
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', marginLeft: '13px', paddingLeft: '5px', paddingBottom: '5px', borderLeft: state.selectedStateNodeId === stateId ? '1px solid #eab65c' :'1px solid white', transition: 'border-color 0.2s'}}, [
                         ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
-                        h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'string']}}, '+ text'),
+                        h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'text']}}, '+ text'),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'number']}}, '+ number'),
                         //h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'boolean']}}, '+ variant'),
                         //h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'table']}}, '+ table'),
@@ -556,7 +556,7 @@ export default (app)=>{
                             border: 'none',
                             maxWidth: '50%',
                         }
-                        if(state.definition.state[stateId].stateType === 'string') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
+                        if(state.definition.state[stateId].stateType === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
                         if(state.definition.state[stateId].stateType === 'number') return h('span', {style: {position: 'relative'}}, [
                             h('span', {style: {color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)': 'white'}}, app.getCurrentState()[stateId]),
                             h('svg', {
@@ -838,10 +838,10 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(state.selectedViewNode._type === 'vNodeText'){
-                    return h('div', {style: {padding: '10px'}}, [h('span', 'text: '), listEmber(selectedNode.value)])
+                    return h('div', {style: {padding: '10px'}}, [h('span', 'text: '), listEmber(selectedNode.value, 'text')])
                 }
                 if(state.selectedViewNode._type === 'vNodeInput'){
-                    return h('div', [h('span', 'value: '), listEmber(selectedNode.value)])
+                    return h('div', {style: {padding: '10px'}}, [h('span', 'value: '), listEmber(selectedNode.value, 'text')])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])
