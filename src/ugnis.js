@@ -92,6 +92,18 @@ export const component = (definition) => {
                 return acc
             }, {})
         }
+        if (def._type === 'text') {
+            return resolve(def.value)
+        }
+        if (def._type === 'number') {
+            return resolve(def.value)
+        }
+        if (def._type === 'toUpperCase') {
+            return resolve(def.value).toUpperCase()
+        }
+        if (def._type === 'toLowerCase') {
+            return resolve(def.value).toLowerCase()
+        }
         throw Error(def._type)
     }
 

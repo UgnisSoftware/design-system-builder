@@ -4,6 +4,32 @@ import editor from './editor/editor'
 // import savedApp from '../ugnis_components/app.json'
 
 const emptyApp = {
+    text: {
+        'h5dsd6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'text',
+            value: 'Current value: '
+        },
+        'mnr8d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'text',
+            value: 'add one'
+        },
+        '5jsud6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'text',
+            value: 'remove one'
+        },
+    },
+    number: {
+        'qpw7d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'number',
+            value: 1
+        },
+        '3qp4d6d2-00db-8ab5-c332-882575f25426': {
+            _type: 'number',
+            value: -1
+        },
+    },
+    toLowerCase: {},
+    toUpperCase: {},
     conditional: {},
     equal: {},
     not: {},
@@ -13,16 +39,16 @@ const emptyApp = {
         'w86fd6d2-00db-8ab5-c332-882575f25426': {
             _type: 'join',
             a: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
-            b: 1
+            b: { _type: 'ref', ref: 'number', id: 'qpw7d6d2-00db-8ab5-c332-882575f25426'}
         },
         'u43wd6d2-00db-8ab5-c332-882575f25426': {
             _type: 'join',
             a: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
-            b: -1
+            b: { _type: 'ref', ref: 'number', id: '3qp4d6d2-00db-8ab5-c332-882575f25426'}
         },
         'p9s3d6d2-00db-8ab5-c332-882575f25426': {
             _type: 'join',
-            a: 'Current value: ',
+            a: { _type: 'ref', ref: 'text', id: 'h5dsd6d2-00db-8ab5-c332-882575f25426'},
             b: { _type: 'ref', ref: 'state', id: '46vdd6d2-00db-8ab5-c332-882575f25426'},
         }
     },
@@ -48,14 +74,14 @@ const emptyApp = {
         '1481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNodeText',
             title: 'text',
-            value: '+1',
+            value: { _type: 'ref', ref: 'text', id: 'mnr8d6d2-00db-8ab5-c332-882575f25426'},
             style: {_type: 'ref', ref: 'styles', id: '9481d6d2-00db-8ab5-c332-882575f25426'},
             click: { _type: 'ref', ref: 'events', id: 'd48rd6d2-00db-8ab5-c332-882575f25426'},
         },
         '3481d6d2-00db-8ab5-c332-882575f25425': {
             _type: 'vNodeText',
             title: 'text',
-            value: '-1',
+            value: { _type: 'ref', ref: 'text', id: '5jsud6d2-00db-8ab5-c332-882575f25426'},
             style: {_type: 'ref', ref: 'styles', id: '7481d6d2-00db-8ab5-c332-882575f25426'},
             click: { _type: 'ref', ref: 'events', id: '3a54d6d2-00db-8ab5-c332-882575f25426'},
         },

@@ -177,9 +177,9 @@ export default (app)=>{
                 style: {_type:'ref', ref:'styles', id:newStyleId},
                 children: [],
             }
-            setState({
+            return setState({
                 ...state,
-                selectedViewNode: {_type:'ref', ref:'vNodeBox', id: newNode},
+                selectedViewNode: {_type:'ref', ref:'vNodeBox', id: newNodeId},
                 definition: {
                     ...state.definition,
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
@@ -187,17 +187,23 @@ export default (app)=>{
                 }}, true)
         }
         if(type === 'text'){
+            const textId = uuid.v4()
+            const textNode = {
+                _type: 'text',
+                value: 'Default text'
+            }
             const newNode = {
                 _type: 'vNodeText',
                 title: 'text',
                 style: {_type:'ref', ref:'styles', id:newStyleId},
-                value: 'Default Text'
+                value: {_type:'ref', ref:'text', id:textId}
             }
-            setState({
+            return setState({
                 ...state,
-                selectedViewNode: {_type:'ref', ref:'vNodeText', id: newNode},
+                selectedViewNode: {_type:'ref', ref:'vNodeText', id: newNodeId},
                 definition: {
                     ...state.definition,
+                    text: {...state.definition.text, [textId]: textNode},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     styles: {...state.definition.styles, [newStyleId]: newStyle},
@@ -207,20 +213,16 @@ export default (app)=>{
             const stateId = uuid.v4()
             const eventId = uuid.v4()
             const mutatorId = uuid.v4()
-            const getId = uuid.v4()
             const eventValueId = uuid.v4()
             const newNode = {
                 _type: 'vNodeInput',
                 title: 'input',
                 style: {_type:'ref', ref:'styles', id:newStyleId},
-                value: {_type:'ref', ref:'get', id:getId},
+                value: {_type:'ref', ref:'state', id:stateId},
                 input: {_type:'ref', ref:'event', id:eventId}
             }
-            const newGet = {
-                _type: 'get',
-                stateId: stateId
-            }
             const newState = {
+                _type: 'state',
                 title: 'input value',
                 stateType: 'text',
                 ref: stateId,
@@ -241,13 +243,11 @@ export default (app)=>{
                     { _type: 'ref', ref: 'mutators', id: mutatorId},
                 ]
             }
-            // also add state
             return setState({
                 ...state,
-                selectedViewNode: {_type:'ref', ref:'vNodeInput', id: newNode},
+                selectedViewNode: {_type:'ref', ref:'vNodeInput', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    get: {...state.definition.get, [getId]: newGet},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({_type:'ref', ref:'vNodeInput', id:newNodeId})}},
                     vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                     styles: {...state.definition.styles, [newStyleId]: newStyle},
@@ -368,6 +368,39 @@ export default (app)=>{
     function SELECT_EVENT(eventId) {
         setState({...state, selectedEventId:eventId})
     }
+    function CHANGE_STATIC_VALUE(ref, propertyName, e) {
+        setState({...state, definition:{
+            ...state.definition,
+            [ref.ref]: {
+                ...state.definition[ref.ref],
+                [ref.id]: {
+                    ...state.definition[ref.ref][ref.id],
+                    [propertyName]: e.target.value
+                }
+            }
+        }}, true)
+    }
+
+    function TO_UPPER(ref) {
+        const newId = uuid.v4()
+        setState({...state, definition:{
+            ...state.definition,
+            toUpperCase: {
+                ...state.definition.toUpperCase,
+                [newId]: {
+                    _type:'toUpperCase',
+                    value: state.definition[ref.ref][ref.id].value
+                }
+            },
+            [ref.ref]: {
+                ...state.definition[ref.ref],
+                [ref.id]: {
+                    ...state.definition[ref.ref][ref.id],
+                    value: {_type:'ref', ref:'toUpperCase', id:newId}
+                }
+            }
+        }}, true)
+    }
 
     // Listen to app and blink every action
     let timer = null
@@ -429,23 +462,77 @@ export default (app)=>{
             h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
         ])
 
-        const listEmber = (ref, expected) => {
+        function emberEditor(ref, expected){
             if(ref._type === 'ref'){
+                const node = state.definition[ref.ref][ref.id]
+                if(ref.ref === 'text'){
+                    if(node.value._type === 'ref'){
+                        return emberEditor(node.value, expected)
+                    }
+                    return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
+                        style: {
+                            background: 'none',
+                            outline: 'none',
+                            padding: '0',
+                            margin:  '0',
+                            border: 'none',
+                            borderRadius: '0',
+                            display: 'inline-block',
+                            width: '100%',
+                            color: '#bdbdbd',
+                            textDecoration: 'underline',
+                        },
+                        on: {
+                            input: [CHANGE_STATIC_VALUE, ref, 'value'],
+                        },
+                        liveProps: {
+                            value: node.value,
+                        },
+                    }),
+                        h('div', {style: {border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [TO_UPPER, ref]}}, '+ to upper case'),
+                    ])
+                }
                 if(ref.ref === 'join'){
-                    const node = state.definition[ref.ref][ref.id]
-                    return h('span', { style: {}}, [
-                        listEmber(node.a),
-                        h('span', ' + '),
-                        listEmber(node.b)
+                    return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
+                        h('div', {style: {paddingBottom: '7px'}}, ' join '),
+                        emberEditor(node.a),
+                        emberEditor(node.b)
+                    ])
+                }
+                if(ref.ref === 'toUpperCase'){
+                    return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
+                        h('div', {style: {paddingBottom: '7px'}}, 'to upper case'),
+                        h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
+                            style: {
+                                background: 'none',
+                                outline: 'none',
+                                padding: '0',
+                                margin:  '0',
+                                border: 'none',
+                                borderRadius: '0',
+                                display: 'inline-block',
+                                width: '100%',
+                                color: '#bdbdbd',
+                                textDecoration: 'underline',
+                            },
+                            on: {
+                                input: [CHANGE_STATIC_VALUE, ref, 'value'],
+                            },
+                            liveProps: {
+                                value: node.value,
+                            },
+                        }),
+                        ]),
                     ])
                 }
                 if(ref.ref === 'state'){
-                    const node = state.definition[ref.ref][ref.id]
-                    return h('span', {
-                            style: {cursor: 'pointer', color: state.selectedStateNodeId === ref.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === ref.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
-                            on: {click: [STATE_NODE_SELECTED, ref.id]}
-                        },
-                        node.title)
+                    return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
+                        h('div',{
+                                style: { cursor: 'pointer', color: state.selectedStateNodeId === ref.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === ref.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
+                                on: {click: [STATE_NODE_SELECTED, ref.id]}
+                            },
+                            node.title)
+                    ])
                 }
             }
             return h('span', {style: {color: '#bdbdbd', textDecoration: 'underline'}}, String(ref))
@@ -842,10 +929,10 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(selectedNode._type === 'vNodeText'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), listEmber(selectedNode.value, 'text')])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
                 }
                 if(selectedNode._type === 'vNodeInput'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('span', 'value: '), listEmber(selectedNode.value, 'text')])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])
