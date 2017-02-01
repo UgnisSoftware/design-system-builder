@@ -9,6 +9,7 @@ app.use(express.static('./static_prod'))
 
 app.post('/_github_update', (req, res)=> {
     spawn('git pull')
+    res.send('OK')
 })
 
 app.listen(3000, ()=> {
