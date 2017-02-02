@@ -92,17 +92,56 @@
             margin: 0;
             text-align: center;
             font-weight: 300;
-            padding-top: 50px;
+            padding-top: 60px;
+            font-size: 3em;
+        }
+        #shoutout b {
+            font-size: 1.2em;
+        }
+        #subshoutout{
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.2em;
+            padding-top: 16px;
         }
         .dots {
             position: absolute;
-            bottom: -20px;
+            bottom: -15px;
             left: 50%;
             transform: translate(-50%, 0);
             white-space: nowrap;
+            font-size: 16px;
         }
         .rel {
             position: relative;
+        }
+        #examples{
+            margin-top:60px;
+            padding-top: 60px;
+            padding-bottom: 60px;
+            display:flex;
+            background: #e6e6e6;
+        }
+        #exampleimg {
+            flex:1;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            margin-right: -50px;
+        }
+        #questions{
+            flex:1;
+            padding-left: 5%;
+            font-size: 1.1em;
+            font-family: 'Open Sans', sans-serif;
+        }
+        #action {
+            background: #AD5251;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 20px;
         }
     </style>
 </head>
@@ -122,6 +161,21 @@
     </header>
     <section class="col_8" id="main">
         <h1 id="shoutout">build web apps <b>visually</b></h1>
+        <h2 id="subshoutout">make programming obsolete</h2>
+        <section id="examples">
+            <div id="questions">
+                <h3>What can you build with Ugnis?</h3>
+                <ul>
+                    <li>Maybe a Blog?</li>
+                    <li>Or a TodoApp?</li>
+                    <li>How about a People Management App?</li>
+                    <li>Or a new social network?</li>
+                    <li>A game?</li>
+                </ul>
+                <a id="action" href="./editor">Start quick tutorial</a>
+            </div>
+            <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
+        </section>
     </section>
 </body>
 </html>
