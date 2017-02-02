@@ -370,7 +370,9 @@
             "padding": "10px",
             "float": "right",
             "paddingRight": "50px",
-            "textAlign": "right"
+            "textAlign": "right",
+            "maxWidth": "500px",
+            "line-height": "1.5"
         },
         "cbcd8edb-4aa2-43fe-ad39-cee79b490295": {
             "_type": "style",
