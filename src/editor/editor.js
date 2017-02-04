@@ -575,10 +575,10 @@ export default (app)=>{
                         position: 'relative',
                     }
                 }, [
-                    h('div', {style: { padding: '3px'}}, [
+                    h('div', [
                         h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
+                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-10px'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, stateId]
                                 },
@@ -588,7 +588,7 @@ export default (app)=>{
                             editingNode():
                             h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'color 0.2s'}}, currentNameSpace.title)]),
                     ]),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '13px', paddingLeft: '5px', paddingBottom: '5px', borderLeft: state.selectedStateNodeId === stateId ? '1px solid #eab65c' :'1px solid white', transition: 'border-color 0.2s'}}, [
+                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', paddingBottom: '5px', borderLeft: state.selectedStateNodeId === stateId ? '1px solid #eab65c' :'1px solid white', transition: 'border-color 0.2s'}}, [
                         ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'text']}}, '+ text'),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'number']}}, '+ number'),
@@ -628,7 +628,6 @@ export default (app)=>{
             }
             return h('div', {
                     style: {
-                        paddingLeft: '5px',
                         cursor: 'pointer',
                         position: 'relative',
                         fontSize: '0.8em',
@@ -674,7 +673,7 @@ export default (app)=>{
                     })(),
                     ...currentState.mutators.map(ref =>
                         h('div', {
-                            style: {color: state.activeEvent === state.definition.mutators[ref.id].event.id ? '#5bcc5b': 'white', marginLeft: '8px', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutators[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
+                            style: {color: state.activeEvent === state.definition.mutators[ref.id].event.id ? '#5bcc5b': 'white', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutators[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
                             on: {
                                 click: [SELECT_EVENT, state.definition.mutators[ref.id].event.id]
                             }
@@ -685,7 +684,7 @@ export default (app)=>{
             )
         }
 
-        const stateComponent = h('div', {style: {overflow: 'overlay', flex: '1'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
+        const stateComponent = h('div', {style: {overflow: 'overlay', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
         function listBoxNode(nodeId, parentId) {
             const node = state.definition.vNodeBox[nodeId]
@@ -719,7 +718,7 @@ export default (app)=>{
                 }, [
                     h('svg', {
                             attrs: {width: 12, height: 16},
-                            style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
+                            style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-10px'},
                             on: {
                                 click: [VIEW_FOLDER_CLICKED, nodeId]
                             },
@@ -728,7 +727,7 @@ export default (app)=>{
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', { style: {cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {_type:'ref', ref:'vNodeBox', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '10px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '1px solid #53B2ED' : '1px solid white', transition: 'border-color 0.2s'}}, [
+                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '1px solid #53B2ED' : '1px solid white', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId)
                             if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId)
@@ -1009,7 +1008,7 @@ export default (app)=>{
             ])
         }
 
-        const viewComponent = h('div', {style: {position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '5px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {style: {position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 15px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode('_rootNode'),
             state.selectedViewNode._type ? generateEditNodeComponent(): h('span')
         ])

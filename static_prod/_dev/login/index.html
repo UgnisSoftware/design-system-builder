@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding-top: 2vh;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo_box{
+            flex: 1;
+        }
+        .login_box{
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            margin-top: 30px;
+            flex: 1;
+            background: white;
+            padding:20px;
+            border-radius: 6px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .label{
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .input{
+            width: 100%;
+            padding:5px;
+            box-sizing: border-box;
+            margin: 6px 0 16px 0;
+            line-height: 24px;
+            color: #333;
+            font-family: inherit;
+            vertical-align: middle;
+            border-radius: 3px;
+            background: white;
+            font-size: 16px;
+            border: 1px solid #ddd;
+        }
+        .button {
+            background: #AD5251;
+            border-radius: 3px;
+            color: white;
+            font-size: 20px;
+            display: inline-block;
+            padding: 9px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 15px;
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover{
+            background: #a25150;
+        }
+        .reset{
+            font-size: 12px;
+            color: #0072bc;
+            float: right;
+            margin-top:-10px;
+        }
+        .reset:hover{
+            text-decoration: underline;
+        }
+        .register{
+            flex: 1;
+            width: 320px;
+            margin-top: 5px;
+            padding:15px;
+            font-size: 15px;
+            color: #0072bc;
+            box-sizing: border-box;
+            border-radius: 6px;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .register:hover{
+            text-decoration: underline;
+        }
+        .footer{
+            font-size: 11px;
+            color: #959595;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .footer a:hover{
+            text-decoration: underline;
+        }
+        .contacts{
+
+        }
+        .contacts:before{
+            content: '•';
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <section class="center login">
+        <a href="/" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <div class="login_box">
+            <label for="email" class="label">Email</label>
+            <input id="email" class="input" name="email" type="email"/>
+            <label for="password" class="label">Password</label>
+            <input id="password" class="input" name="password" type="password"/>
+            <a class="reset" href="../reset-password" type="password">Forgot password?</a>
+            <button class="button" type="submit">sign in</button>
+        </div>
+        <a class="center register" href="../register">
+            Create a new account?
+        </a>
+        <div class="footer">
+            <a href="../terms-of-service">Terms of Service</a><span class="contacts">support@ugnis.com</span>
+        </div>
+    </section>
+</body>
+</html>

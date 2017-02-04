@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding-top: 2vh;
+            width: 620px;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo_box{
+            flex: 1;
+        }
+        .payment{
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            margin-top: 30px;
+            background-color: white;
+            padding:20px;
+            border-radius: 6px;
+            height: 252px;
+            font-family: 'Open Sans', sans-serif;
+            position: relative;
+            background-position: 52.5% 40%;
+            background-repeat: no-repeat;
+            background-size: 100px;
+            background-image: url("data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='200' viewBox='0 0 8 8'><path d='M3 0c-1.1 0-2 .9-2 2v1h-1v4h6v-4h-1v-1c0-1.1-.9-2-2-2zm0 1c.56 0 1 .44 1 1v1h-2v-1c0-.56.44-1 1-1z' fill='#eaeaea' /></svg>");
+
+        }
+        .button {
+            background: #AD5251;
+            border-radius: 3px;
+            color: white;
+            font-size: 20px;
+            display: inline-block;
+            padding: 9px;
+            float: right;
+            box-sizing: border-box;
+            margin-top: 15px;
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        .button:hover{
+            background: #a25150;
+        }
+        .footer{
+            font-size: 11px;
+            color: #959595;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .footer a:hover{
+            text-decoration: underline;
+        }
+        .contacts{
+
+        }
+        .contacts:before{
+            content: '•';
+            padding: 0 10px;
+        }
+        .price{
+            margin-top: 14px;
+            padding: 10px;
+            float: right;
+            font-size: 18px;
+            color: #292828;
+            position: absolute;
+            bottom: 18px;
+            right: 140px;
+        }
+    </style>
+    <script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
+    <script>
+//        fetch('/client_token', {
+//            method: 'get'
+//        }).then(function(response) {
+//            return response.text()
+//        }).then(clientToken=>{
+            var clientToken = 'eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJjZDUwMThlNTVjNTk5OWVkZmU4MGFjOTg3MzE0NGE4M2RhMmE4N2E4Mzk2ZjJhZTYxMmM5MDE2ZDM4YjczY2VifGNyZWF0ZWRfYXQ9MjAxNy0wMi0wNFQwNjo0Mzo0MS41NzkxMTk4ODArMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0'
+            braintree.setup(clientToken, "dropin", {
+                container: "payment-form"
+            });
+//        });
+    </script>
+</head>
+<body>
+<section class="center login">
+    <a href="/" class="center logo_box">
+        <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+        <span id="logo_text">ugnis</span>
+    </a>
+    <div class="payment">
+       <form id="checkout" method="post" action="/checkout" autocomplete="off">
+            <div id="payment-form"></div>
+            <input type="submit" class="button" value="subscribe">
+        </form>
+        <span class="price">€12 / month</span>
+    </div>
+    <div class="footer">
+        <a href="../terms-of-service">Terms of Service</a><span class="contacts">support@ugnis.com</span>
+    </div>
+</section>
+
+</body>
+</html>
