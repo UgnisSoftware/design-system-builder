@@ -1036,7 +1036,7 @@ export default (app)=>{
             }, [
                 arrowComponent,
                 freezeComponent,
-                loginComponent,
+                //loginComponent,
                 stateComponent,
                 viewComponent,
             ])
