@@ -68,7 +68,7 @@
             return response.json()
         }).then(user=>{
             if(user.subscribed){
-                localStorage.setItem('userSubscibed', user.subscribed)
+                localStorage.setItem('usersubscribed', user.subscribed)
             } else {
                 window.location.replace('../checkout')
             }
