@@ -462,7 +462,7 @@ export default (app)=>{
             h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
         ])
         const loginComponent = h('div', {style: {fontSize: '0.8em', background: 'rgb(60, 60, 60)', padding: '10px', textAlign:'right'}}, [
-                h('a', {props: {href: '/login'}, style: {color: '#53B2ED',}}, 'log in / register'),
+                h('a', {props: {href: '../login'}, style: {color: '#53B2ED',}}, 'log in / register'),
             ]
         )
 

@@ -86,23 +86,6 @@
             height: calc(100vh - 70px);
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
-        #shoutout{
-            margin: 0;
-            text-align: center;
-            font-weight: 300;
-            padding-top: 60px;
-            font-size: 3em;
-        }
-        #shoutout b {
-            font-size: 1.2em;
-        }
-        #subshoutout{
-            margin: 0;
-            text-align: center;
-            font-weight: 300;
-            font-size: 1.2em;
-            padding-top: 16px;
-        }
         .dots {
             position: absolute;
             bottom: -15px;
@@ -114,32 +97,83 @@
         .rel {
             position: relative;
         }
-        #examples{
-            margin-top:60px;
-            padding-top: 60px;
-            padding-bottom: 60px;
-            display:flex;
-            background: #e6e6e6;
+        .plans{
+            display: flex;
+            height: 400px;
+            width: 1032px;
+            margin-left: -5%;
+            background: white;
+            margin-top: 4vh;
+            justify-content: space-between;
         }
-        #exampleimg {
-            flex:1;
+        .plan{
+            position: relative;
+            flex: 1;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            margin-right: -50px;
+            background: #ffffff;
+            max-width: 47%;
+            padding: 10px;
         }
-        #questions{
-            flex:1;
-            padding-left: 5%;
-            font-size: 1.1em;
+        #shoutout{
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            padding-top: 60px;
+            font-size: 3em;
+        }
+        #subshoutout b {
+            font-size: 1.2em;
+        }
+        #subshoutout{
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.2em;
+            padding-top: 16px;
+        }
+        h3{
+            padding: 0 29px;
+            font-size: 1.5em;
+        }
+        ul {
+            padding: 0 30px;
+            font-size: 1.2em;
+        }
+        li {
             font-family: 'Open Sans', sans-serif;
         }
-        #action {
+
+        .button {
             background: #AD5251;
-            border-radius: 10px;
-            border: none;
+            border-radius: 3px;
             color: white;
-            font-size: 1.2em;
+            font-size: 20px;
             display: inline-block;
-            padding: 20px;
+            padding: 9px;
+            float: right;
+            box-sizing: border-box;
+            margin-top: 15px;
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        .button:hover{
+            background: #a25150;
+        }
+        .price{
+            margin-top: 14px;
+            padding: 10px;
+            float: right;
+            font-size: 18px;
+            color: #292828;
+            position: absolute;
+            bottom: 18px;
+            right: 140px;
         }
     </style>
 </head>
@@ -151,29 +185,39 @@
                 <span id="logo_text">ugnis</span>
             </a>
             <div id="menu" class="col_8">
-                <a class="menu_item" href="./editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
             </div>
         </div>
     </header>
     <section class="col_8" id="main">
-        <h1 id="shoutout">build web apps <b>visually</b></h1>
-        <h2 id="subshoutout">make programming obsolete</h2>
-        <section id="examples">
-            <div id="questions">
-                <h3>What can you build with Ugnis? (TODO ADD EXAMPLES)</h3>
+        &nbsp;
+        <h1 id="shoutout">get more from ugnis</h1>
+        <h2 id="subshoutout">or use it for <b>free forever</b></h2>
+        <div class="plans">
+            <div class="plan">
+                <h3>Free plan</h3>
                 <ul>
-                    <li>Maybe a Blog?</li>
-                    <li>Or a TodoApp?</li>
-                    <li>How about a People Management App?</li>
-                    <li>Or a new social network?</li>
-                    <li>A game?</li>
+                    <li>A single app</li>
+                    <li>Basic components</li>
                 </ul>
-                <a id="action" href="./editor">Start quick tutorial</a>
             </div>
-            <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
-        </section>
+            <div class="plan">
+                <h3>Premium plan</h3>
+                <ul>
+                    <li>Unlimited apps</li>
+                    <li>Basic + pro components</li>
+                    <li>Additional tutorials and examples</li>
+                    <li>Business grade email support</li>
+                </ul>
+                <span class="price">€12 / month</span>
+                <a href="../checkout" class="button">subscribe</a>
+            </div>
+        </div>
+        <div class="faq">
+            <h3>faq</h3>
+        </div>
     </section>
 </body>
 </html>

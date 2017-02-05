@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding-top: 2vh;
+            width: 900px;
+            display: flex;
+            flex-direction: column;
+        }
+        .thanks{
+            padding-top: 100px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .thanks a {
+            color: #0072bc;
+        }
+    </style>
+    <script>
+        if(!localStorage.getItem('userToken')){
+            window.location.replace('../login')
+        }
+    </script>
+    <script>
+        fetch('/user-data/'+localStorage.getItem('userToken'), {
+            method: 'get',
+        }).then(function(response) {
+            return response.json()
+        }).then(user=>{
+            if(user.subscribed){
+                window.location.replace('../user')
+            }
+        });
+    </script>
+</head>
+<body>
+<section class="center login">
+    <a href="/_dev" class="center logo_box">
+        <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+        <span id="logo_text">ugnis</span>
+    </a>
+    <div class="thanks">An error occurred during the process. <a href="../checkout">Would you like to try again?</a></div>
+</section>
+</body>
+</html>

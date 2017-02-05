@@ -66,7 +66,7 @@
         }
         .input{
             width: 100%;
-            padding:5px;
+            padding:6px;
             box-sizing: border-box;
             margin: 6px 0 16px 0;
             line-height: 24px;
@@ -75,7 +75,7 @@
             vertical-align: middle;
             border-radius: 3px;
             background: white;
-            font-size: 16px;
+            font-size: 15px;
             border: 1px solid #ddd;
         }
         .button {
@@ -137,22 +137,36 @@
             content: '•';
             padding: 0 10px;
         }
+        #error {
+            border: 1px solid #AD5251;
+            margin-bottom: 20px;
+            padding: 5px;
+            box-sizing: border-box;
+            border-radius: 3px;
+            color: #4e4e4e;
+            text-align: center;
+        }
     </style>
+    <script>
+        if(localStorage.getItem('userToken')){
+            window.location.replace('../user')
+        }
+    </script>
 </head>
 <body>
     <section class="center login">
-        <a href="/" class="center logo_box">
+        <a href="/_dev" class="center logo_box">
             <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
             <span id="logo_text">ugnis</span>
         </a>
-        <div class="login_box">
+        <form id="login" class="login_box">
             <label for="email" class="label">Email</label>
-            <input id="email" class="input" name="email" type="email"/>
+            <input required id="email" class="input" name="email" type="email"/>
             <label for="password" class="label">Password</label>
-            <input id="password" class="input" name="password" type="password"/>
+            <input required id="password" class="input" name="password" type="password"/>
             <a class="reset" href="../reset-password" type="password">Forgot password?</a>
             <button class="button" type="submit">sign in</button>
-        </div>
+        </form>
         <a class="center register" href="../register">
             Create a new account?
         </a>
@@ -160,5 +174,39 @@
             <a href="../terms-of-service">Terms of Service</a><span class="contacts">support@ugnis.com</span>
         </div>
     </section>
+    <script>
+        document.getElementById('login').addEventListener('submit', (e)=>{
+            e.preventDefault()
+            fetch('/login', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                body: JSON.stringify({
+                    email: e.target[0].value,
+                    password: e.target[1].value
+                })
+            })
+                .then(res=> {
+                    if (!res.ok) {
+                        throw Error(res.statusText)
+                    }
+                    return res.json()}
+                )
+                .then((data)=>{
+                    localStorage.setItem('userToken', data.token)
+                    localStorage.setItem('userEmail', data.email)
+                    window.location.assign('../user')
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    const newItem = document.getElementById('error') || document.createElement("div")
+                    newItem.textContent= "Email and password did not match"
+                    newItem.setAttribute('id','error')
+                    e.target.insertBefore(newItem, e.target.childNodes[0])
+                });
+        })
+    </script>
 </body>
 </html>

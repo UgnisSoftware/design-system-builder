@@ -82,26 +82,11 @@
             background: #e6e6e6;
         }
         #main {
+            padding: 50px;
+            box-sizing: border-box;
             background: white;
             height: calc(100vh - 70px);
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-        }
-        #shoutout{
-            margin: 0;
-            text-align: center;
-            font-weight: 300;
-            padding-top: 60px;
-            font-size: 3em;
-        }
-        #shoutout b {
-            font-size: 1.2em;
-        }
-        #subshoutout{
-            margin: 0;
-            text-align: center;
-            font-weight: 300;
-            font-size: 1.2em;
-            padding-top: 16px;
         }
         .dots {
             position: absolute;
@@ -114,32 +99,24 @@
         .rel {
             position: relative;
         }
-        #examples{
-            margin-top:60px;
-            padding-top: 60px;
-            padding-bottom: 60px;
-            display:flex;
-            background: #e6e6e6;
-        }
-        #exampleimg {
-            flex:1;
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            margin-right: -50px;
-        }
-        #questions{
-            flex:1;
-            padding-left: 5%;
-            font-size: 1.1em;
-            font-family: 'Open Sans', sans-serif;
-        }
-        #action {
+        .button {
             background: #AD5251;
-            border-radius: 10px;
-            border: none;
+            border-radius: 3px;
             color: white;
-            font-size: 1.2em;
+            font-size: 20px;
             display: inline-block;
-            padding: 20px;
+            padding: 9px;
+            float: right;
+            box-sizing: border-box;
+            margin-top: 15px;
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover{
+            background: #a25150;
         }
     </style>
 </head>
@@ -151,29 +128,16 @@
                 <span id="logo_text">ugnis</span>
             </a>
             <div id="menu" class="col_8">
-                <a class="menu_item" href="./editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
             </div>
         </div>
     </header>
     <section class="col_8" id="main">
-        <h1 id="shoutout">build web apps <b>visually</b></h1>
-        <h2 id="subshoutout">make programming obsolete</h2>
-        <section id="examples">
-            <div id="questions">
-                <h3>What can you build with Ugnis? (TODO ADD EXAMPLES)</h3>
-                <ul>
-                    <li>Maybe a Blog?</li>
-                    <li>Or a TodoApp?</li>
-                    <li>How about a People Management App?</li>
-                    <li>Or a new social network?</li>
-                    <li>A game?</li>
-                </ul>
-                <a id="action" href="./editor">Start quick tutorial</a>
-            </div>
-            <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
-        </section>
+        &nbsp;
+        <h1>Your apps:</h1>
+        <a href="../checkout" class="button">subscibe</a>
     </section>
 </body>
 </html>
