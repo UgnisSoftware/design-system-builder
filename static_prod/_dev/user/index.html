@@ -118,6 +118,12 @@
         .button:hover{
             background: #a25150;
         }
+        #subscribe_button{
+            display: none;
+        }
+        .unhide {
+            display: initial !important;
+        }
     </style>
 </head>
 <body>
@@ -130,14 +136,25 @@
             <div id="menu" class="col_8">
                 <a class="menu_item" href="../editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
                 <a class="menu_item" href="../pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="../login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../login"><span class="rel" id="login_text">login/register<span class="dots">• • •</span></span></a>
             </div>
         </div>
     </header>
     <section class="col_8" id="main">
         &nbsp;
         <h1>Your apps:</h1>
-        <a href="../checkout" class="button">subscribe</a>
+        <a href="../checkout" class="button" id="subscribe_button">subscribe</a>
     </section>
+    <script>
+        if(!localStorage.getItem('userSubscribed')){
+            var elm = document.getElementById("subscribe_button");
+            elm.className += " unhide";
+        }
+    </script>
+    <script>
+        if(localStorage.getItem('userEmail')){
+            document.getElementById('login_text').textContent = localStorage.getItem('userEmail')
+        }
+    </script>
 </body>
 </html>

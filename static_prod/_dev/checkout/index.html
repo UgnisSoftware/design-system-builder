@@ -132,6 +132,9 @@
         if(!localStorage.getItem('userToken')){
             window.location.replace('../login')
         }
+        if(localStorage.getItem('userSubscribed')){
+            window.location.replace('../user')
+        }
     </script>
     <script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
     <script>

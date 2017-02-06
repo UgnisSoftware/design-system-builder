@@ -187,7 +187,7 @@
             <div id="menu" class="col_8">
                 <a class="menu_item" href="../editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
                 <a class="menu_item" href="../pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="../login"><span class="rel">login/register<span class="dots">• • •</span></span></a>
+                <a class="menu_item" href="../login"><span class="rel" id="login_text">login/register<span class="dots">• • •</span></span></a>
             </div>
         </div>
     </header>
@@ -219,5 +219,10 @@
             <h3>faq</h3>
         </div>
     </section>
+    <script>
+        if(localStorage.getItem('userEmail')){
+            document.getElementById('login_text').textContent = localStorage.getItem('userEmail')
+        }
+    </script>
 </body>
 </html>
