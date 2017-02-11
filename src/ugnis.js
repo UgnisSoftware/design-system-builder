@@ -93,6 +93,9 @@ export const component = (definition) => {
         if (ref.ref === 'toLowerCase') {
             return resolve(def.value).toLowerCase()
         }
+        if (ref.ref === 'eventValue') {
+            return currentEvent.target.value
+        }
         throw Error(ref)
     }
 

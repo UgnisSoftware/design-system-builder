@@ -185,21 +185,16 @@ export default (app)=>{
                 }}, true)
         }
         if(type === 'text'){
-            const textId = uuid.v4()
-            const textNode = {
-                value: 'Default text'
-            }
             const newNode = {
                 title: 'text',
                 style: {ref:'style', id:newStyleId},
-                value: {ref:'text', id:textId}
+                value: 'Default text'
             }
             return setState({
                 ...state,
                 selectedViewNode: {ref:'vNodeText', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    text: {...state.definition.text, [textId]: textNode},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -209,7 +204,6 @@ export default (app)=>{
             const stateId = uuid.v4()
             const eventId = uuid.v4()
             const mutatorId = uuid.v4()
-            const eventValueId = uuid.v4()
             const newNode = {
                 title: 'input',
                 style: {ref:'style', id:newStyleId},
@@ -226,7 +220,7 @@ export default (app)=>{
             const newMutator = {
                 event: { ref: 'event', id:eventId},
                 state: { ref: 'state', id:stateId},
-                mutation: { ref: 'eventValue', id:eventValueId},
+                mutation: { ref: 'eventValue'},
             }
             const newEvent = {
                 title: 'update input',
@@ -246,7 +240,7 @@ export default (app)=>{
                     state: {...state.definition.state, [stateId]: newState},
                     mutator: {...state.definition.mutator, [mutatorId]: newMutator},
                     event: {...state.definition.event, [eventId]: newEvent},
-                    eventValue: {...state.definition.eventValue, [eventValueId]: eventValue}
+                    eventValue: {...state.definition.eventValue}
                 }}, true)
         }
     }
