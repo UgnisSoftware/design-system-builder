@@ -50,7 +50,11 @@ export const component = (definition) => {
     let currentEvent = null
     let currentMapValue = {}
     let currentMapIndex = {}
+    let eventData = {}
     function resolve(ref){
+        if(ref === undefined){
+            return
+        }
         // static value (string/number)
         if(ref.ref === undefined){
             return ref
@@ -170,7 +174,7 @@ export const component = (definition) => {
         let mutations = {}
         if(definition.event[eventName]){
             definition.event[eventName].mutators.forEach((ref)=> {
-                const mutator = definition.mutators[ref.id]
+                const mutator = definition.mutator[ref.id]
                 const state = mutator.state
                 mutations[state.id] = resolve(mutator.mutation)
             })
