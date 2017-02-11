@@ -5,17 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_prod/_dev/editor/bundle.js",
-    "start": "node server.js",
-    "compile": "echo 'todo'"
+    "start": "node server.prod.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/UgnisSoftware/Heroes-of-Ugnis.git"
-  },
-  "license": "MIT",
-  "keywords": [
-    "WebGL"
-  ],
   "author": "Karolis Masiulis",
   "devDependencies": {
     "babel-preset-es2015": "^6.14.0",

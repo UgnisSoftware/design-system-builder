@@ -15,6 +15,17 @@ app.post('/_github_update', (req, res)=> {
     res.send('OK')
 })
 
+app.post('/save', (req, res)=> {
+    fs.writeFile("./ugnis_components/app-" + uuid.v4() + '.json', JSON.stringify(req.body, undefined, 4), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    });
+    res.send('OK')
+})
+
 const gateway = braintree.connect({
     environment: braintree.Environment.Sandbox,
     merchantId: "svvgfsykg7vqjwcy",

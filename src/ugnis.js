@@ -48,63 +48,48 @@ export const component = (definition) => {
 
     // global state for resolver
     let currentEvent = null
-    let eventData = {}
     let currentMapValue = {}
     let currentMapIndex = {}
     function resolve(ref){
-        if(ref === undefined){
-            return
-        }
-        if(ref._type === undefined){
+        // static value (string/number)
+        if(ref.ref === undefined){
             return ref
         }
         const def = definition[ref.ref][ref.id]
-        if (def._type === 'conditional') {
+        if (ref.ref === 'conditional') {
             return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
-        if (def._type === 'equal') {
+        if (ref.ref === 'equal') {
             return resolve(def.a) === resolve(def.b)
         }
-        if (def._type === 'join') {
+        if (ref.ref === 'join') {
             return resolve(def.a) + resolve(def.b)
         }
-        if (def._type === 'state') {
+        if (ref.ref === 'state') {
             return currentState[ref.id]
         }
-        if (def._type === 'eventData') {
-            return eventData
-        }
-        if (def._type === 'eventValue') {
-            return currentEvent.target.value
-        }
-        if (def._type === 'vNodeBox') {
+        if (ref.ref === 'vNodeBox') {
             return boxNode(ref)
         }
-        if (def._type === 'vNodeText') {
+        if (ref.ref === 'vNodeText') {
             return textNode(ref)
         }
-        if (def._type === 'vNodeInput') {
+        if (ref.ref === 'vNodeInput') {
             return inputNode(ref)
         }
-        if (def._type === 'style') {
+        if (ref.ref === 'style') {
             return Object.keys(def).reduce((acc, val)=> {
                 acc[val] = resolve(def[val])
                 return acc
             }, {})
         }
-        if (def._type === 'text') {
-            return resolve(def.value)
-        }
-        if (def._type === 'number') {
-            return resolve(def.value)
-        }
-        if (def._type === 'toUpperCase') {
+        if (ref.ref === 'toUpperCase') {
             return resolve(def.value).toUpperCase()
         }
-        if (def._type === 'toLowerCase') {
+        if (ref.ref === 'toLowerCase') {
             return resolve(def.value).toLowerCase()
         }
-        throw Error(def._type)
+        throw Error(ref)
     }
 
     function boxNode(ref) {
@@ -183,8 +168,8 @@ export const component = (definition) => {
         eventData = resolve(data)
         const previousState = currentState
         let mutations = {}
-        if(definition.events[eventName]){
-            definition.events[eventName].mutators.forEach((ref)=> {
+        if(definition.event[eventName]){
+            definition.event[eventName].mutators.forEach((ref)=> {
                 const mutator = definition.mutators[ref.id]
                 const state = mutator.state
                 mutations[state.id] = resolve(mutator.mutation)
@@ -201,7 +186,7 @@ export const component = (definition) => {
         }
     }
 
-    let vdom = resolve({_type:'ref', ref:'vNodeBox', id:'_rootNode'})
+    let vdom = resolve({ref:'vNodeBox', id:'_rootNode'})
     function render(newDefinition) {
         if(newDefinition){
             if(definition.state !== newDefinition.state){
@@ -215,7 +200,7 @@ export const component = (definition) => {
                 definition = newDefinition
             }
         }
-        const newvdom = resolve({_type:'ref', ref:'vNodeBox', id:'_rootNode'})
+        const newvdom = resolve({ref:'vNodeBox', id:'_rootNode'})
         patch(vdom, newvdom)
         vdom = newvdom
     }

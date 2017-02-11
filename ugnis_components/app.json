@@ -1,52 +1,4 @@
 {
-    "text": {
-        "h5dsd6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "text",
-            "value": "Current value: "
-        },
-        "mnr8d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "text",
-            "value": "add one"
-        },
-        "5jsud6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "text",
-            "value": "remove one"
-        },
-        "f05b2596-5aaf-4cf6-a662-e5d5e9823a25": {
-            "_type": "text",
-            "value": "This is a simple app. It was build with the tool on the right."
-        },
-        "c7f794b0-0d0d-45a3-a1d7-87d0c17da999": {
-            "_type": "text",
-            "value": "This is the visual application builder"
-        },
-        "a9c8f16f-23c3-4353-b6e6-23ea08bd20d7": {
-            "_type": "text",
-            "value": "1.) Everything that can change or is shared goes to the top part. It is not visible to the user."
-        },
-        "58d9d093-971d-4d65-95dd-3730be076d11": {
-            "_type": "text",
-            "value": "2.) The bottom part describes what you want your users to see."
-        },
-        "9b795f36-341d-4a35-b75f-72d359231dc0": {
-            "_type": "text",
-            "value": "3.) Green arrow means that the application is running, you can stop it to inspect and select nodes by clicking."
-        },
-        "829aa278-d416-49b9-91c9-4d2a272b8a45": {
-            "_type": "text",
-            "value": "4.) Still missing: adding events, dragging state to view nodes, complex data structures, fetching and router "
-        }
-    },
-    "number": {
-        "qpw7d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "number",
-            "value": 1
-        },
-        "3qp4d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "number",
-            "value": -1
-        }
-    },
     "toLowerCase": {},
     "toUpperCase": {},
     "conditional": {},
@@ -56,40 +8,25 @@
     "eventValue": {},
     "join": {
         "w86fd6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "join",
             "a": {
-                "_type": "ref",
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
             "b": {
-                "_type": "ref",
                 "ref": "number",
-                "id": "qpw7d6d2-00db-8ab5-c332-882575f25426"
+                "id": 1
             }
         },
         "u43wd6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "join",
             "a": {
-                "_type": "ref",
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
-            "b": {
-                "_type": "ref",
-                "ref": "number",
-                "id": "3qp4d6d2-00db-8ab5-c332-882575f25426"
-            }
+            "b": -1
         },
         "p9s3d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "join",
-            "a": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "h5dsd6d2-00db-8ab5-c332-882575f25426"
-            },
+            "a": "Current value: ",
             "b": {
-                "_type": "ref",
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             }
@@ -97,88 +34,71 @@
     },
     "vNodeBox": {
         "_rootNode": {
-            "_type": "vNodeBox",
             "title": "box",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "_rootStyle"
             },
             "children": [
                 {
-                    "_type": "ref",
                     "ref": "vNodeBox",
                     "id": "c0a5bc45-f8b1-455b-a934-34dc05679c12"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "2471d6d2-00db-8ab5-c332-882575f25425"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "1481d6d2-00db-8ab5-c332-882575f25425"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "3481d6d2-00db-8ab5-c332-882575f25425"
                 }
             ]
         },
         "c0a5bc45-f8b1-455b-a934-34dc05679c12": {
-            "_type": "vNodeBox",
             "title": "developer comments",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "8092ac5e-dfd0-4492-a65d-8ac3eec325e0"
             },
             "children": [
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "b872527b-bc61-4439-98ea-c07d30b38a3f"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeBox",
                     "id": "7960422a-0298-485e-bd37-63d28cfd7d66"
                 }
             ]
         },
         "7960422a-0298-485e-bd37-63d28cfd7d66": {
-            "_type": "vNodeBox",
             "title": "box",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "766b11ec-da27-494c-b272-c26fec3f6475"
             },
             "children": [
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "0f0c095e-5608-4b4a-a264-84978058fa1f"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "dc3183e4-415b-4502-9207-1d9aec04a82c"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "ead84901-fa67-40d7-a461-0a275c72a6e1"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "82079d4d-0627-451c-92dd-e33ddb303931"
                 },
                 {
-                    "_type": "ref",
                     "ref": "vNodeText",
                     "id": "c74b676d-c5d4-4624-8b96-02abdc584fb7"
                 }
@@ -187,158 +107,102 @@
     },
     "vNodeText": {
         "2471d6d2-00db-8ab5-c332-882575f25425": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "8481d6d2-00db-8ab5-c332-882575f25426"
             },
             "value": {
-                "_type": "ref",
                 "ref": "join",
                 "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "1481d6d2-00db-8ab5-c332-882575f25425": {
-            "_type": "vNodeText",
             "title": "text",
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "mnr8d6d2-00db-8ab5-c332-882575f25426"
-            },
+            "value": "add one",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "9481d6d2-00db-8ab5-c332-882575f25426"
             },
             "click": {
-                "_type": "ref",
-                "ref": "events",
+                "ref": "event",
                 "id": "d48rd6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "3481d6d2-00db-8ab5-c332-882575f25425": {
-            "_type": "vNodeText",
             "title": "text",
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "5jsud6d2-00db-8ab5-c332-882575f25426"
-            },
+            "value": "remove one",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "7481d6d2-00db-8ab5-c332-882575f25426"
             },
             "click": {
-                "_type": "ref",
-                "ref": "events",
+                "ref": "event",
                 "id": "3a54d6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "b872527b-bc61-4439-98ea-c07d30b38a3f": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "a9461e28-7d92-49a0-9001-23d74e4b382d"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "f05b2596-5aaf-4cf6-a662-e5d5e9823a25"
-            }
+            "value": "This is a simple app. It was build with the tool on the right."
         },
         "0f0c095e-5608-4b4a-a264-84978058fa1f": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "cbcd8edb-4aa2-43fe-ad39-cee79b490295"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "c7f794b0-0d0d-45a3-a1d7-87d0c17da999"
-            }
+            "value": "This is the visual application builder"
         },
         "dc3183e4-415b-4502-9207-1d9aec04a82c": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "6763f102-23f7-4390-b463-4e1b14e866c9"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "a9c8f16f-23c3-4353-b6e6-23ea08bd20d7"
-            }
+            "value": "1.) Everything that can change or is shared goes to the top part. It is not visible to the user."
         },
         "ead84901-fa67-40d7-a461-0a275c72a6e1": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "91c9adf0-d62e-4580-93e7-f39594ae5e7d"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "58d9d093-971d-4d65-95dd-3730be076d11"
-            }
+            "value": "2.) The bottom part describes what you want your users to see."
         },
         "82079d4d-0627-451c-92dd-e33ddb303931": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "e9fbeb39-7193-4522-91b3-761bd35639d3"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "9b795f36-341d-4a35-b75f-72d359231dc0"
-            }
+            "value":  "3.) Green arrow means that the application is running, you can stop it to inspect and select nodes by clicking."
         },
         "c74b676d-c5d4-4624-8b96-02abdc584fb7": {
-            "_type": "vNodeText",
             "title": "text",
             "style": {
-                "_type": "ref",
-                "ref": "styles",
+                "ref": "style",
                 "id": "3cf5d89d-3703-483e-ab64-5a5b780aec27"
             },
-            "value": {
-                "_type": "ref",
-                "ref": "text",
-                "id": "829aa278-d416-49b9-91c9-4d2a272b8a45"
-            }
+            "value": "4.) Still missing: adding events, dragging state to view nodes, complex data structures, fetching and router "
         }
     },
     "vNodeInput": {},
-    "styles": {
+    "style": {
         "_rootStyle": {
-            "_type": "style",
             "fontFamily": "'Comfortaa', cursive",
             "padding": "10px",
             "background": "#f5f5f5",
             "height": "100vh"
         },
         "8481d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "style",
             "padding": "10px",
             "background": "#cccccc"
         },
         "9481d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "style",
             "padding": "10px",
             "background": "#aaaaaa",
             "display": "inline-block",
@@ -348,7 +212,6 @@
             "userSelect": "none"
         },
         "7481d6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "style",
             "padding": "10px",
             "background": "#999999",
             "display": "inline-block",
@@ -358,15 +221,12 @@
             "userSelect": "none"
         },
         "8092ac5e-dfd0-4492-a65d-8ac3eec325e0": {
-            "_type": "style",
             "padding": "10px 10px 10px 0"
         },
         "a9461e28-7d92-49a0-9001-23d74e4b382d": {
-            "_type": "style",
             "padding": "10px 10px 10px 0"
         },
         "766b11ec-da27-494c-b272-c26fec3f6475": {
-            "_type": "style",
             "padding": "10px",
             "float": "right",
             "paddingRight": "50px",
@@ -375,27 +235,22 @@
             "line-height": "1.5"
         },
         "cbcd8edb-4aa2-43fe-ad39-cee79b490295": {
-            "_type": "style",
             "padding": "10px",
             "display": "block"
         },
         "6763f102-23f7-4390-b463-4e1b14e866c9": {
-            "_type": "style",
             "padding": "10px",
             "display": "block"
         },
         "91c9adf0-d62e-4580-93e7-f39594ae5e7d": {
-            "_type": "style",
             "padding": "10px",
             "display": "block"
         },
         "e9fbeb39-7193-4522-91b3-761bd35639d3": {
-            "_type": "style",
             "padding": "10px",
             "display": "block"
         },
         "3cf5d89d-3703-483e-ab64-5a5b780aec27": {
-            "_type": "style",
             "padding": "10px",
             "display": "block"
         }
@@ -405,7 +260,6 @@
             "title": "state",
             "children": [
                 {
-                    "_type": "ref",
                     "ref": "state",
                     "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
                 }
@@ -414,68 +268,58 @@
     },
     "state": {
         "46vdd6d2-00db-8ab5-c332-882575f25426": {
-            "_type": "state",
             "title": "count",
             "ref": "46vdd6d2-00db-8ab5-c332-882575f25426",
             "stateType": "number",
             "defaultValue": 0,
             "mutators": [
                 {
-                    "_type": "ref",
-                    "ref": "mutators",
+                    "ref": "mutator",
                     "id": "as55d6d2-00db-8ab5-c332-882575f25426"
                 },
                 {
-                    "_type": "ref",
-                    "ref": "mutators",
+                    "ref": "mutator",
                     "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
         }
     },
-    "mutators": {
+    "mutator": {
         "as55d6d2-00db-8ab5-c332-882575f25426": {
             "event": {
-                "_type": "ref",
-                "ref": "events",
+                "ref": "event",
                 "id": "d48rd6d2-00db-8ab5-c332-882575f25426"
             },
             "state": {
-                "_type": "ref",
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
             "mutation": {
-                "_type": "ref",
                 "ref": "join",
                 "id": "w86fd6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "9dq8d6d2-00db-8ab5-c332-882575f25426": {
             "event": {
-                "_type": "ref",
-                "ref": "events",
+                "ref": "event",
                 "id": "3a54d6d2-00db-8ab5-c332-882575f25426"
             },
             "state": {
-                "_type": "ref",
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
             "mutation": {
-                "_type": "ref",
                 "ref": "join",
                 "id": "u43wd6d2-00db-8ab5-c332-882575f25426"
             }
         }
     },
-    "events": {
+    "event": {
         "d48rd6d2-00db-8ab5-c332-882575f25426": {
             "title": "increment",
             "mutators": [
                 {
-                    "_type": "ref",
-                    "ref": "mutators",
+                    "ref": "mutator",
                     "id": "as55d6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
@@ -484,8 +328,7 @@
             "title": "decrement",
             "mutators": [
                 {
-                    "_type": "ref",
-                    "ref": "mutators",
+                    "ref": "mutator",
                     "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
