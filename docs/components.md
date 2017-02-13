@@ -7,6 +7,7 @@ select
 slider
 table
 tabs
+image
 checkbox/switches
 progress bar
 

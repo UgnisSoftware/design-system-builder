@@ -12,7 +12,6 @@
             color: #000000;
             font-family: 'Comfortaa', sans-serif;
             background-color: #f5f5f5;
-            overflow: hidden;
             margin:0;
         }
         header{
@@ -83,7 +82,7 @@
         }
         #main {
             background: white;
-            height: calc(100vh - 70px);
+            minHeight: calc(100vh - 70px);
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
         #shoutout{
@@ -141,6 +140,32 @@
             display: inline-block;
             padding: 20px;
         }
+        #explanations {
+            display: flex
+        }
+        .expln {
+            flex: 1;
+            padding: 20px;
+        }
+        .plus {
+            color: #51ad51;
+            font-weight: 800;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .minus {
+            color: #AD5251;
+            font-weight: 800;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .faq {
+            padding: 20px;
+        }
+        .shouldyou{
+            text-align: center;
+        }
+        .tissilly{
+            font-family: 'Open Sans', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -173,6 +198,48 @@
                 <a id="action" href="./editor">Start quick tutorial</a>
             </div>
             <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
+        </section>
+        <div class="faq">
+            <h3>FAQ</h3>
+            <p>How does using ugnis look like? You use our visual editor to create the definition of your application (logged in users can save one definition and come back to it later on). Once your app is ready, you can export a minified javascript code and put it in your website.</p>
+            <p>Can Ugnis create an app for Windows, Linux and Mac? Yes, when exporting you can select to export as a wrapped Electron app.</p>
+            <p>Can Ugnis create and iOS or Android app? Not yet, though in the future a slightly changed editor with more specialized components for every OS will be able to export to iOS and Android</p>
+        </div>
+        <h2 class="shouldyou">Should you use ugnis?</h2>
+        <section id="explanations">
+            <div class="expln">
+                <h3>For React, Redux, Angular or Elm programmers</h3>
+                <ul>
+                    <li class="plus">Full framework with view, state management, styling, routing and http requests</li>
+                    <li class="plus">Visually shows how parts of the app are connected</li>
+                    <li class="plus">Type safe without getting in your way</li>
+                    <li class="plus">Less boilerplate, faster development speed</li>
+                    <li class="plus">No build tools required</li>
+                    <li class="plus">Can be introduced in small steps to an existing app</li>
+                    <li class="plus">Faster and much smaller than any other framework</li>
+                    <li class="plus">Build for scale - large apps are easy to understand and change</li>
+
+                    <li class="minus">Early in development - rapid UI changes, lacking examples</li>
+                    <li class="minus">Some very specific styles and behaviours are not yet possible, but you can always add CSS classes and external javascript</li>
+                    <li class="minus">Support for multiple people working on the same project is in an early phase</li>
+                    <li class="minus">To implement real time collaboration and git-like history your code has to be on Ugnis servers</li>
+                </ul>
+            </div>
+            <div class="expln">
+                <h3>For people without programming experience</h3>
+                <ul>
+                    <li class="plus">As powerful as a programming language - create any app you can think of</li>
+                    <li class="plus">Simple - become productive in a few hours</li>
+                    <li class="plus">Guaranteed safety - no fear of making a mistake</li>
+                    <li class="plus">Enables everyone on the team - programmers, designers, managers to make changes</li>
+                    <li class="plus">One of the first real development environment to work on mobile</li>
+                    <li class="minus">Does not yet provide data storage for your apps - but there are plenty backend solution to chose from like Firebase</li>
+                </ul>
+            </div>
+        </section>
+        <section class="expln">
+            <h3>For non-JavaScript programmers</h3>
+            <p class="tissilly"> Just use ugnis. We don't recommend going to the JavaScript world of undefined with bazillion different frameworks and bundlers. We've been there, 'tis a silly place.</p>
         </section>
     </section>
     <script>
