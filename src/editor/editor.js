@@ -834,7 +834,7 @@ export default (app)=>{
                 padding: '12px 15px 8px',
                 position: 'absolute',
                 top: '0',
-                left: '94px',
+                left: '91px',
                 zIndex: state.selectedViewSubMenu === 'style' ? '500': '0',
                 cursor: 'pointer',
                 borderRadius: '15px 15px 0 0',
@@ -852,7 +852,7 @@ export default (app)=>{
                 padding: '12px 15px 8px',
                 position: 'absolute',
                 top: '0',
-                left: '172px',
+                left: '165px',
                 zIndex: state.selectedViewSubMenu === 'events' ? '500': '0',
                 cursor: 'pointer',
                 borderRadius: '15px 15px 0 0',
@@ -981,7 +981,7 @@ export default (app)=>{
                 }
             }, [
                 eventsComponent, styleComponent, propsComponent, unselectComponent,
-                h('div', { style: {position: 'absolute', top: '48px', left: '0', background: '#4d4d4d', height: '100%', borderRadius: '10px', width: '360px', border: '3px solid #333333'}},[
+                h('div', { style: {position: 'absolute', top: '43px', left: '0', background: '#4d4d4d', height: '100%', borderRadius: '10px', width: '360px', border: '3px solid #333333'}},[
                     state.selectedViewSubMenu === 'props' ? propsSubmenuComponent:
                         state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
                             state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent:
@@ -1001,7 +1001,7 @@ export default (app)=>{
                     display: 'flex',
                     flexDirection: 'column',
                     color: 'white',
-                    font: "300 1.5em 'Open Sans'",
+                    font: "300 1.2em 'Open Sans'",
                     lineHeight: '1.2em',
                     position: 'fixed',
                     top: '0',
