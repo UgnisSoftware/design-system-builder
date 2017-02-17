@@ -7,6 +7,7 @@ either __boolean__      -> boolean
 
 to text                 -> text
 
+equal __<A>__           -> boolean
 
 general
 

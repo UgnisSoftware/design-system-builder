@@ -6,27 +6,68 @@
     "not": {},
     "list": {},
     "eventValue": {},
+    "pipe": {
+        "fw8jd6d2-00db-8ab5-c332-882575f25426": {
+            "type": "text",
+            "value": "Current value: ",
+            "transformations": [
+                {
+                "ref": "join",
+                "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
+                }
+            ]
+        },
+        "ui8jd6d2-00db-8ab5-c332-882575f25426": {
+            "type": "text",
+            "value": "add one",
+            "transformations": []
+        },
+        "c8wed6d2-00db-8ab5-c332-882575f25426": {
+            "type": "text",
+            "value": "remove one",
+            "transformations": []
+        },
+        "pdq6d6d2-00db-8ab5-c332-882575f25426": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
+            },
+            "transformations": [
+                {
+                    "ref": "add",
+                    "id": "w86fd6d2-00db-8ab5-c332-882575f25426"
+                }
+            ]
+        },
+        "452qd6d2-00db-8ab5-c332-882575f25426": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
+            },
+            "transformations": [
+                {
+                    "ref": "add",
+                    "id": "u43wd6d2-00db-8ab5-c332-882575f25426"
+                }
+            ]
+        }
+    },
     "join": {
-        "w86fd6d2-00db-8ab5-c332-882575f25426": {
-            "a": {
-                "ref": "state",
-                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
-            },
-            "b": 1
-        },
-        "u43wd6d2-00db-8ab5-c332-882575f25426": {
-            "a": {
-                "ref": "state",
-                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
-            },
-            "b": -1
-        },
         "p9s3d6d2-00db-8ab5-c332-882575f25426": {
-            "a": "Current value: ",
-            "b": {
+            "value": {
                 "ref": "state",
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             }
+        }
+    },
+    "add": {
+        "w86fd6d2-00db-8ab5-c332-882575f25426": {
+            "value": 1
+        },
+        "u43wd6d2-00db-8ab5-c332-882575f25426": {
+            "value": -1
         }
     },
     "vNodeBox": {
@@ -37,10 +78,6 @@
                 "id": "_rootStyle"
             },
             "children": [
-                {
-                    "ref": "vNodeBox",
-                    "id": "c0a5bc45-f8b1-455b-a934-34dc05679c12"
-                },
                 {
                     "ref": "vNodeText",
                     "id": "2471d6d2-00db-8ab5-c332-882575f25425"
@@ -54,52 +91,6 @@
                     "id": "3481d6d2-00db-8ab5-c332-882575f25425"
                 }
             ]
-        },
-        "c0a5bc45-f8b1-455b-a934-34dc05679c12": {
-            "title": "developer comments",
-            "style": {
-                "ref": "style",
-                "id": "8092ac5e-dfd0-4492-a65d-8ac3eec325e0"
-            },
-            "children": [
-                {
-                    "ref": "vNodeText",
-                    "id": "b872527b-bc61-4439-98ea-c07d30b38a3f"
-                },
-                {
-                    "ref": "vNodeBox",
-                    "id": "7960422a-0298-485e-bd37-63d28cfd7d66"
-                }
-            ]
-        },
-        "7960422a-0298-485e-bd37-63d28cfd7d66": {
-            "title": "box",
-            "style": {
-                "ref": "style",
-                "id": "766b11ec-da27-494c-b272-c26fec3f6475"
-            },
-            "children": [
-                {
-                    "ref": "vNodeText",
-                    "id": "0f0c095e-5608-4b4a-a264-84978058fa1f"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "dc3183e4-415b-4502-9207-1d9aec04a82c"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "ead84901-fa67-40d7-a461-0a275c72a6e1"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "82079d4d-0627-451c-92dd-e33ddb303931"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "c74b676d-c5d4-4624-8b96-02abdc584fb7"
-                }
-            ]
         }
     },
     "vNodeText": {
@@ -110,13 +101,16 @@
                 "id": "8481d6d2-00db-8ab5-c332-882575f25426"
             },
             "value": {
-                "ref": "join",
-                "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
+                "ref": "pipe",
+                "id": "fw8jd6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "1481d6d2-00db-8ab5-c332-882575f25425": {
             "title": "text",
-            "value": "add one",
+            "value": {
+                "ref": "pipe",
+                "id": "ui8jd6d2-00db-8ab5-c332-882575f25426"
+            },
             "style": {
                 "ref": "style",
                 "id": "9481d6d2-00db-8ab5-c332-882575f25426"
@@ -128,7 +122,10 @@
         },
         "3481d6d2-00db-8ab5-c332-882575f25425": {
             "title": "text",
-            "value": "remove one",
+            "value": {
+                "ref": "pipe",
+                "id": "c8wed6d2-00db-8ab5-c332-882575f25426"
+            },
             "style": {
                 "ref": "style",
                 "id": "7481d6d2-00db-8ab5-c332-882575f25426"
@@ -137,54 +134,6 @@
                 "ref": "event",
                 "id": "3a54d6d2-00db-8ab5-c332-882575f25426"
             }
-        },
-        "b872527b-bc61-4439-98ea-c07d30b38a3f": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "a9461e28-7d92-49a0-9001-23d74e4b382d"
-            },
-            "value": "This is a simple app. It was build with the tool on the right."
-        },
-        "0f0c095e-5608-4b4a-a264-84978058fa1f": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "cbcd8edb-4aa2-43fe-ad39-cee79b490295"
-            },
-            "value": "This is the visual application builder"
-        },
-        "dc3183e4-415b-4502-9207-1d9aec04a82c": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "6763f102-23f7-4390-b463-4e1b14e866c9"
-            },
-            "value": "1.) Everything that can change or is shared goes to the top part. It is not visible to the user."
-        },
-        "ead84901-fa67-40d7-a461-0a275c72a6e1": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "91c9adf0-d62e-4580-93e7-f39594ae5e7d"
-            },
-            "value": "2.) The bottom part describes what you want your users to see."
-        },
-        "82079d4d-0627-451c-92dd-e33ddb303931": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "e9fbeb39-7193-4522-91b3-761bd35639d3"
-            },
-            "value":  "3.) Green arrow means that the application is running, you can stop it to inspect and select nodes by clicking."
-        },
-        "c74b676d-c5d4-4624-8b96-02abdc584fb7": {
-            "title": "text",
-            "style": {
-                "ref": "style",
-                "id": "3cf5d89d-3703-483e-ab64-5a5b780aec27"
-            },
-            "value": "4.) Still missing: adding events, dragging state to view nodes, complex data structures, fetching and router "
         }
     },
     "vNodeInput": {},
@@ -292,8 +241,8 @@
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
             "mutation": {
-                "ref": "join",
-                "id": "w86fd6d2-00db-8ab5-c332-882575f25426"
+                "ref": "pipe",
+                "id": "pdq6d6d2-00db-8ab5-c332-882575f25426"
             }
         },
         "9dq8d6d2-00db-8ab5-c332-882575f25426": {
@@ -306,8 +255,8 @@
                 "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
             },
             "mutation": {
-                "ref": "join",
-                "id": "u43wd6d2-00db-8ab5-c332-882575f25426"
+                "ref": "pipe",
+                "id": "452qd6d2-00db-8ab5-c332-882575f25426"
             }
         }
     },

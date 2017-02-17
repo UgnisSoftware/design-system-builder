@@ -6,7 +6,7 @@ capitalize              -> text
 to upper case           -> text
 to lower case           -> text
 
-char at __number__      -> text
+letter at __number__      -> text
 trim                    -> text
 
 cut from

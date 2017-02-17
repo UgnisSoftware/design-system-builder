@@ -635,7 +635,7 @@ export default (app)=>{
                             h('span', {style: {color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)': 'white'}}, app.getCurrentState()[stateId]),
                             h('svg', {
                                     attrs: {width: 6, height: 8},
-                                    style: { cursor: 'pointer', position: 'absolute', top: '0', right: '-12px', padding: '8px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                    style: { cursor: 'pointer', position: 'absolute', top: '0', right: '-12px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
                                     on: {
                                         click: [INCREMENT_CURRENT_STATE_NUMBER_VALUE, stateId]
                                     },
@@ -643,7 +643,7 @@ export default (app)=>{
                                 [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]),
                             h('svg', {
                                     attrs: {width: 6, height: 8},
-                                    style: { cursor: 'pointer', position: 'absolute', bottom: '0', right: '-12px', padding: '3px 2px 8px 2px', transform:'rotate(90deg)'},
+                                    style: { cursor: 'pointer', position: 'absolute', bottom: '0', right: '-12px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                     on: {
                                         click: [DECREMENT_CURRENT_STATE_NUMBER_VALUE, stateId]
                                     },

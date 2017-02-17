@@ -60,14 +60,11 @@ export const component = (definition) => {
             return ref
         }
         const def = definition[ref.ref][ref.id]
+        if (ref.ref === 'pipe') {
+            return pipe(ref)
+        }
         if (ref.ref === 'conditional') {
             return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
-        }
-        if (ref.ref === 'equal') {
-            return resolve(def.a) === resolve(def.b)
-        }
-        if (ref.ref === 'join') {
-            return resolve(def.a) + resolve(def.b)
         }
         if (ref.ref === 'state') {
             return currentState[ref.id]
@@ -87,16 +84,45 @@ export const component = (definition) => {
                 return acc
             }, {})
         }
-        if (ref.ref === 'toUpperCase') {
-            return resolve(def.value).toUpperCase()
-        }
-        if (ref.ref === 'toLowerCase') {
-            return resolve(def.value).toLowerCase()
-        }
         if (ref.ref === 'eventValue') {
             return currentEvent.target.value
         }
         throw Error(ref)
+    }
+
+    function transformValue(value, transformations){
+        for(let i = transformations.length-1; i >= 0; i--) {
+            const ref = transformations[i];
+            const transformer = definition[ref.ref][ref.id]
+            if (ref.ref === 'equal') {
+                value = value === resolve(transformer.value)
+            }
+            if (ref.ref === 'add') {
+                value = value + resolve(transformer.value)
+            }
+            if (ref.ref === 'branch') {
+                if(resolve(transformer.predicate)){
+                    value = transformValue(value, transformer.then)
+                } else {
+                    value = transformValue(value, transformer.else)
+                }
+            }
+            if (ref.ref === 'join') {
+                value = value.concat(resolve(transformer.value))
+            }
+            if (ref.ref === 'toUpperCase') {
+                value = value.toUpperCase()
+            }
+            if (ref.ref === 'toLowerCase') {
+                value = value.toLowerCase()
+            }
+        }
+        return value;
+    }
+
+    function pipe(ref) {
+        const def = definition[ref.ref][ref.id]
+        return transformValue(resolve(def.value), def.transformations)
     }
 
     function boxNode(ref) {
