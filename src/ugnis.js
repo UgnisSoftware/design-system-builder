@@ -116,6 +116,9 @@ export const component = (definition) => {
             if (ref.ref === 'toLowerCase') {
                 value = value.toLowerCase()
             }
+            if (ref.ref === 'toText') {
+                value = value.toString()
+            }
         }
         return value;
     }

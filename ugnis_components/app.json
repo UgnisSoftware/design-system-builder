@@ -5,6 +5,9 @@
     "equal": {},
     "not": {},
     "list": {},
+    "toText": {
+        "7bs9d6d2-00db-8ab5-c332-882575f25426": {}
+    },
     "eventValue": {},
     "pipe": {
         "fw8jd6d2-00db-8ab5-c332-882575f25426": {
@@ -12,8 +15,21 @@
             "value": "Current value: ",
             "transformations": [
                 {
-                "ref": "join",
-                "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
+                    "ref": "join",
+                    "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
+                }
+            ]
+        },
+        "um5ed6d2-00db-8ab5-c332-882575f25426": {
+            "type": "text",
+            "value": {
+                "ref": "state",
+                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
+            },
+            "transformations": [
+                {
+                    "ref": "toText",
+                    "id": "7bs9d6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
         },
@@ -57,8 +73,8 @@
     "join": {
         "p9s3d6d2-00db-8ab5-c332-882575f25426": {
             "value": {
-                "ref": "state",
-                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
+                "ref": "pipe",
+                "id": "um5ed6d2-00db-8ab5-c332-882575f25426"
             }
         }
     },

@@ -446,80 +446,120 @@ export default (app)=>{
             ]
         )
 
-        function emberEditor(ref, expected){
-            // if(ref._type === 'ref'){
-            //     const node = state.definition[ref.ref][ref.id]
-            //     if(ref.ref === 'text'){
-            //         if(node.value._type === 'ref'){
-            //             return emberEditor(node.value, expected)
-            //         }
-            //         return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
-            //             style: {
-            //                 background: 'none',
-            //                 outline: 'none',
-            //                 padding: '0',
-            //                 margin:  '0',
-            //                 border: 'none',
-            //                 borderRadius: '0',
-            //                 display: 'inline-block',
-            //                 width: '100%',
-            //                 color: '#bdbdbd',
-            //                 textDecoration: 'underline',
-            //             },
-            //             on: {
-            //                 input: [CHANGE_STATIC_VALUE, ref, 'value'],
-            //             },
-            //             liveProps: {
-            //                 value: node.value,
-            //             },
-            //         }),
-            //             h('div', {style: {border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [TO_UPPER, ref]}}, '+ to upper case'),
-            //         ])
-            //     }
-            //     if(ref.ref === 'join'){
-            //         return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
-            //             h('div', {style: {paddingBottom: '7px'}}, ' join '),
-            //             emberEditor(node.a),
-            //             emberEditor(node.b)
-            //         ])
-            //     }
-            //     if(ref.ref === 'toUpperCase'){
-            //         return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
-            //             h('div', {style: {paddingBottom: '7px'}}, 'to upper case'),
-            //             h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
-            //                 style: {
-            //                     background: 'none',
-            //                     outline: 'none',
-            //                     padding: '0',
-            //                     margin:  '0',
-            //                     border: 'none',
-            //                     borderRadius: '0',
-            //                     display: 'inline-block',
-            //                     width: '100%',
-            //                     color: '#bdbdbd',
-            //                     textDecoration: 'underline',
-            //                 },
-            //                 on: {
-            //                     input: [CHANGE_STATIC_VALUE, ref, 'value'],
-            //                 },
-            //                 liveProps: {
-            //                     value: node.value,
-            //                 },
-            //             }),
-            //             ]),
-            //         ])
-            //     }
-            //     if(ref.ref === 'state'){
-            //         return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
-            //             h('div',{
-            //                     style: { cursor: 'pointer', color: state.selectedStateNodeId === ref.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === ref.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
-            //                     on: {click: [STATE_NODE_SELECTED, ref.id]}
-            //                 },
-            //                 node.title)
-            //         ])
-            //     }
-            // }
-            return h('span', {style: {color: '#bdbdbd', textDecoration: 'underline'}}, String(ref))
+        function emberEditor(ref){
+            const pipe = state.definition[ref.ref][ref.id]
+
+            function listTransformations(transformations) {
+                return transformations.map((transRef)=>{
+                    const transformer = state.definition[transRef.ref][transRef.id]
+                    if (transRef.ref === 'equal') {
+                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                    }
+                    if (transRef.ref === 'add') {
+                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                    }
+                    // if (transRef.ref === 'branch') {
+                    //     if(resolve(transformer.predicate)){
+                    //         value = transformValue(value, transformer.then)
+                    //     } else {
+                    //         value = transformValue(value, transformer.else)
+                    //     }
+                    // }
+                    if (transRef.ref === 'join') {
+                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                    }
+                    if (transRef.ref === 'toUpperCase') {
+                        return h('div', {}, [transRef.ref])
+                    }
+                    if (transRef.ref === 'toLowerCase') {
+                        return h('div', {}, [transRef.ref])
+                    }
+                    if (transRef.ref === 'toText') {
+                        return h('div', {}, [transRef.ref])
+                    }
+                })
+            }
+
+            if (typeof pipe.value === 'string') {
+                return h('div', [
+                    h('input', {
+                            style: {
+                                background: 'none',
+                                outline: 'none',
+                                padding: '0',
+                                margin:  '0',
+                                border: 'none',
+                                borderRadius: '0',
+                                display: 'inline-block',
+                                width: '100%',
+                                color: '#bdbdbd',
+                                textDecoration: 'underline',
+                            },
+                            on: {
+                                input: [CHANGE_STATIC_VALUE, ref, 'value'],
+                            },
+                            liveProps: {
+                                value: pipe.value,
+                            },
+                        }
+                    ),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations))
+                    //h('div', {style: {border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [TO_UPPER, ref]}}, '+ to upper case'),
+                ])
+            }
+
+            if(pipe.value.ref === 'state'){
+                return h('div', [
+                    h('div',{
+                            style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
+                            on: {click: [STATE_NODE_SELECTED, pipe.value.id]}
+                        },
+                        state.definition[pipe.value.ref][pipe.value.id].title),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations))
+                ])
+            }
+
+
+            return;
+            if(ref.ref === 'text'){
+                if(node.value._type === 'ref'){
+                    return emberEditor(node.value, expected)
+                }
+
+            }
+            if(ref.ref === 'join'){
+                return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
+                    h('div', {style: {paddingBottom: '7px'}}, ' join '),
+                    emberEditor(node.a),
+                    emberEditor(node.b)
+                ])
+            }
+            if(ref.ref === 'toUpperCase'){
+                return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
+                    h('div', {style: {paddingBottom: '7px'}}, 'to upper case'),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
+                        style: {
+                            background: 'none',
+                            outline: 'none',
+                            padding: '0',
+                            margin:  '0',
+                            border: 'none',
+                            borderRadius: '0',
+                            display: 'inline-block',
+                            width: '100%',
+                            color: '#bdbdbd',
+                            textDecoration: 'underline',
+                        },
+                        on: {
+                            input: [CHANGE_STATIC_VALUE, ref, 'value'],
+                        },
+                        liveProps: {
+                            value: node.value,
+                        },
+                    }),
+                    ]),
+                ])
+            }
         }
 
         function listNameSpace(stateId) {
@@ -914,10 +954,10 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(state.selectedViewNode.ref === 'vNodeText'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value)])])
                 }
                 if(state.selectedViewNode.ref === 'vNodeInput'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value)])])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])
