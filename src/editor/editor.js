@@ -453,10 +453,16 @@ export default (app)=>{
                 return transformations.map((transRef)=>{
                     const transformer = state.definition[transRef.ref][transRef.id]
                     if (transRef.ref === 'equal') {
-                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref),
+                            emberEditor(transformer.value)
+                        ])
                     }
                     if (transRef.ref === 'add') {
-                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref),
+                            emberEditor(transformer.value)
+                        ])
                     }
                     // if (transRef.ref === 'branch') {
                     //     if(resolve(transformer.predicate)){
@@ -466,16 +472,25 @@ export default (app)=>{
                     //     }
                     // }
                     if (transRef.ref === 'join') {
-                        return h('div', {}, [transRef.ref, emberEditor(transformer.value)])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, [transRef.ref, h('span', {style: {float: 'right'}}, transformer.type)]),
+                            emberEditor(transformer.value)
+                        ])
                     }
                     if (transRef.ref === 'toUpperCase') {
-                        return h('div', {}, [transRef.ref])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
+                        ])
                     }
                     if (transRef.ref === 'toLowerCase') {
-                        return h('div', {}, [transRef.ref])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
+                        ])
                     }
                     if (transRef.ref === 'toText') {
-                        return h('div', {}, [transRef.ref])
+                        return h('div', {}, [
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
+                        ])
                     }
                 })
             }
@@ -492,7 +507,7 @@ export default (app)=>{
                                 borderRadius: '0',
                                 display: 'inline-block',
                                 width: '100%',
-                                color: '#bdbdbd',
+                                color: 'white',
                                 textDecoration: 'underline',
                             },
                             on: {
