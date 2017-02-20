@@ -20,6 +20,8 @@ const patch = snabbdom.init([
 ]);
 
 const uuid = require('node-uuid')
+import big from 'big.js';
+big.E_POS = 1e+6
 
 export default (app)=>{
 
@@ -212,7 +214,7 @@ export default (app)=>{
             }
             const newState = {
                 title: 'input value',
-                stateType: 'text',
+                type: 'text',
                 ref: stateId,
                 defaultValue: 'Default text',
                 mutators: [{ ref:'mutator', id:mutatorId}],
@@ -251,7 +253,7 @@ export default (app)=>{
             newState = {
                 title: 'new text',
                 ref: newStateId,
-                stateType: 'text',
+                type: 'text',
                 defaultValue: 'Default text',
                 mutators: [],
             }
@@ -260,7 +262,7 @@ export default (app)=>{
             newState = {
                 title: 'new number',
                 ref: newStateId,
-                stateType: 'number',
+                type: 'number',
                 defaultValue: 0,
                 mutators: [],
             }
@@ -268,7 +270,7 @@ export default (app)=>{
         if(type === 'boolean') {
             newState = {
                 title: 'new boolean',
-                stateType: 'boolean',
+                type: 'boolean',
                 ref: newStateId,
                 defaultValue: true,
                 mutators: [],
@@ -277,7 +279,7 @@ export default (app)=>{
         if(type === 'table') {
             newState = {
                 title: 'new table',
-                stateType: 'table',
+                type: 'table',
                 ref: newStateId,
                 defaultValue: {},
                 mutators: [],
@@ -338,12 +340,24 @@ export default (app)=>{
         app.setCurrentState({...app.getCurrentState(), [stateId]: e.target.value})
         render()
     }
+    function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
+        // todo big throws error instead of returning NaN... fix, rewrite or hack
+        try {
+            if(big(e.target.value).toString() !== app.getCurrentState()[stateId].toString()){
+                app.setCurrentState({...app.getCurrentState(), [stateId]: big(e.target.value)})
+                render()
+            }
+        } catch(err) {
+            console.log(e.target.value)
+            //e.target.value = app.getCurrentState()[stateId]
+        }
+    }
     function INCREMENT_CURRENT_STATE_NUMBER_VALUE(stateId) {
-        app.setCurrentState({...app.getCurrentState(), [stateId]: app.getCurrentState()[stateId]+1})
+        app.setCurrentState({...app.getCurrentState(), [stateId]: big(app.getCurrentState()[stateId]).add(1)})
         render()
     }
     function DECREMENT_CURRENT_STATE_NUMBER_VALUE(stateId) {
-        app.setCurrentState({...app.getCurrentState(), [stateId]: app.getCurrentState()[stateId]-1})
+        app.setCurrentState({...app.getCurrentState(), [stateId]: big(app.getCurrentState()[stateId]).add(-1)})
         render()
     }
     function SELECT_EVENT(eventId) {
@@ -446,24 +460,24 @@ export default (app)=>{
             ]
         )
 
-        function emberEditor(ref){
+        function emberEditor(ref, type){
             const pipe = state.definition[ref.ref][ref.id]
 
-            function listTransformations(transformations) {
-                return transformations.map((transRef)=>{
+            function listTransformations(transformations, transType) {
+                return transformations.map((transRef, index)=>{
                     const transformer = state.definition[transRef.ref][transRef.id]
-                    if (transRef.ref === 'equal') {
-                        return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref),
-                            emberEditor(transformer.value)
-                        ])
-                    }
-                    if (transRef.ref === 'add') {
-                        return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref),
-                            emberEditor(transformer.value)
-                        ])
-                    }
+                    // if (transRef.ref === 'equal') {
+                    //     return h('div', {}, [
+                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, transType)]),
+                    //         emberEditor(transformer.value, type)
+                    //     ])
+                    // }
+                    // if (transRef.ref === 'add') {
+                    //     return h('div', {}, [
+                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, transType)]),
+                    //         emberEditor(transformer.value, type)
+                    //     ])
+                    // }
                     // if (transRef.ref === 'branch') {
                     //     if(resolve(transformer.predicate)){
                     //         value = transformValue(value, transformer.then)
@@ -473,30 +487,30 @@ export default (app)=>{
                     // }
                     if (transRef.ref === 'join') {
                         return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, [transRef.ref, h('span', {style: {float: 'right'}}, transformer.type)]),
-                            emberEditor(transformer.value)
+                            h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                            emberEditor(transformer.value, transType)
                         ])
                     }
-                    if (transRef.ref === 'toUpperCase') {
-                        return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
-                        ])
-                    }
-                    if (transRef.ref === 'toLowerCase') {
-                        return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
-                        ])
-                    }
+                    // if (transRef.ref === 'toUpperCase') {
+                    //     return h('div', {}, [
+                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, 'text')]),
+                    //     ])
+                    // }
+                    // if (transRef.ref === 'toLowerCase') {
+                    //     return h('div', {}, [
+                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, 'text')]),
+                    //     ])
+                    // }
                     if (transRef.ref === 'toText') {
                         return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default'}}, transRef.ref)
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
                         ])
                     }
                 })
             }
 
             if (typeof pipe.value === 'string') {
-                return h('div', [
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
                     h('input', {
                             style: {
                                 background: 'none',
@@ -518,61 +532,26 @@ export default (app)=>{
                             },
                         }
                     ),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations))
-                    //h('div', {style: {border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [TO_UPPER, ref]}}, '+ to upper case'),
+                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
+                ]),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
             }
 
             if(pipe.value.ref === 'state'){
-                return h('div', [
-                    h('div',{
-                            style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
-                            on: {click: [STATE_NODE_SELECTED, pipe.value.id]}
-                        },
-                        state.definition[pipe.value.ref][pipe.value.id].title),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations))
-                ])
-            }
-
-
-            return;
-            if(ref.ref === 'text'){
-                if(node.value._type === 'ref'){
-                    return emberEditor(node.value, expected)
-                }
-
-            }
-            if(ref.ref === 'join'){
-                return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
-                    h('div', {style: {paddingBottom: '7px'}}, ' join '),
-                    emberEditor(node.a),
-                    emberEditor(node.b)
-                ])
-            }
-            if(ref.ref === 'toUpperCase'){
-                return h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [
-                    h('div', {style: {paddingBottom: '7px'}}, 'to upper case'),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, [h('input', {
-                        style: {
-                            background: 'none',
-                            outline: 'none',
-                            padding: '0',
-                            margin:  '0',
-                            border: 'none',
-                            borderRadius: '0',
-                            display: 'inline-block',
-                            width: '100%',
-                            color: '#bdbdbd',
-                            textDecoration: 'underline',
-                        },
-                        on: {
-                            input: [CHANGE_STATIC_VALUE, ref, 'value'],
-                        },
-                        liveProps: {
-                            value: node.value,
-                        },
-                    }),
-                    ]),
+                const displState = state.definition[pipe.value.ref][pipe.value.id]
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
+                    h('div', {style: {flex: '1'}},
+                        [h('div',{
+                                style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
+                                on: {click: [STATE_NODE_SELECTED, pipe.value.id]}
+                            },
+                            [displState.title])
+                        ]
+                    ),
+                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
+                ]),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
             }
         }
@@ -685,9 +664,9 @@ export default (app)=>{
                             border: 'none',
                             maxWidth: '50%',
                         }
-                        if(state.definition.state[stateId].stateType === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
-                        if(state.definition.state[stateId].stateType === 'number') return h('span', {style: {position: 'relative'}}, [
-                            h('span', {style: {color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)': 'white'}}, app.getCurrentState()[stateId]),
+                        if(state.definition.state[stateId].type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
+                        if(state.definition.state[stateId].type === 'number') return h('span', {style: {position: 'relative'}}, [
+                            h('input', {attrs: {type: 'number'}, liveProps: {value: app.getCurrentState()[stateId]}, style: {...noStyleInput, width: 9*app.getCurrentState()[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
                             h('svg', {
                                     attrs: {width: 6, height: 8},
                                     style: { cursor: 'pointer', position: 'absolute', top: '0', right: '-12px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
@@ -969,10 +948,10 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(state.selectedViewNode.ref === 'vNodeText'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value)])])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
                 }
                 if(state.selectedViewNode.ref === 'vNodeInput'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value)])])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])

@@ -18,6 +18,7 @@ const patch = snabbdom.init([
     livePropsPlugin
 ]);
 import h from 'snabbdom/h';
+import big from 'big.js';
 
 export const component = (definition) => {
 
@@ -98,7 +99,16 @@ export const component = (definition) => {
                 value = value === resolve(transformer.value)
             }
             if (ref.ref === 'add') {
-                value = value + resolve(transformer.value)
+                value = big(value).plus(resolve(transformer.value))
+            }
+            if (ref.ref === 'subtract') {
+                value = big(value).minus(resolve(transformer.value))
+            }
+            if (ref.ref === 'multiply') {
+                value = big(value).times(resolve(transformer.value))
+            }
+            if (ref.ref === 'divide') {
+                value = big(value).div(resolve(transformer.value))
             }
             if (ref.ref === 'branch') {
                 if(resolve(transformer.predicate)){
