@@ -64,10 +64,20 @@
             },
             "transformations": [
                 {
-                    "ref": "add",
+                    "ref": "subtract",
                     "id": "u43wd6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
+        },
+        "ew83d6d2-00db-8ab5-c332-882575f25426": {
+            "type": "number",
+            "value": 1,
+            "transformations": []
+        },
+        "w3e9d6d2-00db-8ab5-c332-882575f25426": {
+            "type": "number",
+            "value": 1,
+            "transformations": []
         }
     },
     "join": {
@@ -80,10 +90,18 @@
     },
     "add": {
         "w86fd6d2-00db-8ab5-c332-882575f25426": {
-            "value": 1
-        },
+            "value": {
+                "ref": "pipe",
+                "id": "ew83d6d2-00db-8ab5-c332-882575f25426"
+            }
+        }
+    },
+    "subtract": {
         "u43wd6d2-00db-8ab5-c332-882575f25426": {
-            "value": -1
+            "value": {
+                "ref": "pipe",
+                "id": "w3e9d6d2-00db-8ab5-c332-882575f25426"
+            }
         }
     },
     "vNodeBox": {

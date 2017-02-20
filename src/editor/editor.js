@@ -348,8 +348,6 @@ export default (app)=>{
                 render()
             }
         } catch(err) {
-            console.log(e.target.value)
-            //e.target.value = app.getCurrentState()[stateId]
         }
     }
     function INCREMENT_CURRENT_STATE_NUMBER_VALUE(stateId) {
@@ -363,14 +361,22 @@ export default (app)=>{
     function SELECT_EVENT(eventId) {
         setState({...state, selectedEventId:eventId})
     }
-    function CHANGE_STATIC_VALUE(ref, propertyName, e) {
+    function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
+        let value = e.target.value
+        if(type === 'number'){
+            try {
+                value = big(e.target.value)
+            } catch(err) {
+                return;
+            }
+        }
         setState({...state, definition:{
             ...state.definition,
             [ref.ref]: {
                 ...state.definition[ref.ref],
                 [ref.id]: {
                     ...state.definition[ref.ref][ref.id],
-                    [propertyName]: e.target.value
+                    [propertyName]: value
                 }
             }
         }}, true)
@@ -472,12 +478,18 @@ export default (app)=>{
                     //         emberEditor(transformer.value, type)
                     //     ])
                     // }
-                    // if (transRef.ref === 'add') {
-                    //     return h('div', {}, [
-                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, transType)]),
-                    //         emberEditor(transformer.value, type)
-                    //     ])
-                    // }
+                    if (transRef.ref === 'add') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
+                            emberEditor(transformer.value, transType)
+                        ])
+                    }
+                    if (transRef.ref === 'subtract') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
+                            emberEditor(transformer.value, transType)
+                        ])
+                    }
                     // if (transRef.ref === 'branch') {
                     //     if(resolve(transformer.predicate)){
                     //         value = transformValue(value, transformer.then)
@@ -525,7 +537,7 @@ export default (app)=>{
                                 textDecoration: 'underline',
                             },
                             on: {
-                                input: [CHANGE_STATIC_VALUE, ref, 'value'],
+                                input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
                             },
                             liveProps: {
                                 value: pipe.value,
@@ -533,6 +545,36 @@ export default (app)=>{
                         }
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
+                ]),
+                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
+                ])
+            }
+
+            if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
+                    h('input', {
+                            attrs: {type:'number'},
+                            style: {
+                                background: 'none',
+                                outline: 'none',
+                                padding: '0',
+                                margin:  '0',
+                                border: 'none',
+                                borderRadius: '0',
+                                display: 'inline-block',
+                                width: '100%',
+                                color: 'white',
+                                textDecoration: 'underline',
+                            },
+                            on: {
+                                input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
+                            },
+                            liveProps: {
+                                value: Number(pipe.value),
+                            },
+                        }
+                    ),
+                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
                 ]),
                     h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
@@ -664,8 +706,8 @@ export default (app)=>{
                             border: 'none',
                             maxWidth: '50%',
                         }
-                        if(state.definition.state[stateId].type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
-                        if(state.definition.state[stateId].type === 'number') return h('span', {style: {position: 'relative'}}, [
+                        if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
+                        if(currentState.type === 'number') return h('span', {style: {position: 'relative'}}, [
                             h('input', {attrs: {type: 'number'}, liveProps: {value: app.getCurrentState()[stateId]}, style: {...noStyleInput, width: 9*app.getCurrentState()[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
                             h('svg', {
                                     attrs: {width: 6, height: 8},
@@ -692,7 +734,10 @@ export default (app)=>{
                                     click: [SELECT_EVENT, state.definition.mutator[ref.id].event.id]
                                 }
                             },
-                            '• ' + state.definition.event[state.definition.mutator[ref.id].event.id].title)
+                            [
+                                h('span', '• ' + state.definition.event[state.definition.mutator[ref.id].event.id].title),
+                                emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)
+                            ])
                     )
                 ]
             )
@@ -948,7 +993,7 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(state.selectedViewNode.ref === 'vNodeText'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'text '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
+                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
                 }
                 if(state.selectedViewNode.ref === 'vNodeInput'){
                     return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
