@@ -148,7 +148,7 @@ export default (app)=>{
     }
     function UNSELECT_STATE_NODE(e) {
         if(e.target === this.elm){
-            setState({...state, selectedStateNodeId:''})
+            setState({...state, selectedStateNodeId:'', selectedEventId:''})
         }
     }
     function DELETE_SELECTED_VIEW(nodeId, parentId, e) {
@@ -481,13 +481,13 @@ export default (app)=>{
                     if (transRef.ref === 'add') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            emberEditor(transformer.value, transType)
+                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     if (transRef.ref === 'subtract') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            emberEditor(transformer.value, transType)
+                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     // if (transRef.ref === 'branch') {
@@ -500,7 +500,7 @@ export default (app)=>{
                     if (transRef.ref === 'join') {
                         return h('div', {}, [
                             h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
-                            emberEditor(transformer.value, transType)
+                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     // if (transRef.ref === 'toUpperCase') {
@@ -546,7 +546,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
                 ]),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
             }
 
@@ -576,7 +576,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
                 ]),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
             }
 
@@ -593,7 +593,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
-                    h('div', {style: {paddingLeft: '5px', borderLeft: '1px solid white'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
                 ])
             }
         }
@@ -644,7 +644,7 @@ export default (app)=>{
                             editingNode():
                             h('span', { style: { cursor: 'pointer'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'color 0.2s'}}, currentNameSpace.title)]),
                     ]),
-                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', paddingBottom: '5px', borderLeft: state.selectedStateNodeId === stateId ? '2px solid #eab65c' :'2px solid white', transition: 'border-color 0.2s'}}, [
+                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', paddingBottom: '5px', borderLeft: state.selectedStateNodeId === stateId ? '2px solid #eab65c' :'2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'text']}}, '+ text'),
                         h('span', {style: {display: state.selectedStateNodeId === stateId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #eab65c', padding: '5px', margin: '5px'}, on: {click: [ADD_STATE, stateId, 'number']}}, '+ number'),
@@ -666,7 +666,7 @@ export default (app)=>{
                         boxShadow: 'none',
                         padding: '2px 5px',
                         margin: '3px 3px 0 0',
-                        border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': 'white'),
+                        border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'),
                         borderRadius: '10px',
                         display: 'inline',
                     },
@@ -693,7 +693,7 @@ export default (app)=>{
                     h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
                         state.editingTitleNodeId === stateId ?
                             editingNode():
-                            h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '7px 3px 2px 0', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
+                            h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '7px 3px 2px 0', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
                     ]),
                     h('span', ': '),
                     (()=> {
@@ -736,7 +736,7 @@ export default (app)=>{
                             },
                             [
                                 h('span', '• ' + state.definition.event[state.definition.mutator[ref.id].event.id].title),
-                                emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)
+                                state.selectedEventId === state.definition.mutator[ref.id].event.id ? h('div', {style: {marginLeft: '10px'}}, [emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)]): h('div')
                             ])
                     )
                 ]
