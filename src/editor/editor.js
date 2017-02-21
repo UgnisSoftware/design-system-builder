@@ -90,7 +90,7 @@ export default (app)=>{
             fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
         }
-        if(e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        if(!e.shiftKey && e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
             const currentIndex = stateStack.findIndex((a)=>a===state)
             if(currentIndex > 0){
@@ -102,7 +102,7 @@ export default (app)=>{
                 render()
             }
         }
-        if(e.which == 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        if((e.which == 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))) {
             e.preventDefault();
             const currentIndex = stateStack.findIndex((a)=>a===state)
             if(currentIndex < stateStack.length-1){
