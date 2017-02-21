@@ -187,16 +187,23 @@ export default (app)=>{
                 }}, true)
         }
         if(type === 'text'){
+            const pipeId = uuid.v4()
             const newNode = {
                 title: 'text',
                 style: {ref:'style', id:newStyleId},
-                value: 'Default text'
+                value: {ref:'pipe', id:pipeId}
+            }
+            const newPipe = {
+                type: 'text',
+                value: 'Default Text',
+                transformations: []
             }
             return setState({
                 ...state,
                 selectedViewNode: {ref:'vNodeText', id: newNodeId},
                 definition: {
                     ...state.definition,
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -206,11 +213,17 @@ export default (app)=>{
             const stateId = uuid.v4()
             const eventId = uuid.v4()
             const mutatorId = uuid.v4()
+            const pipeId = uuid.v4()
             const newNode = {
                 title: 'input',
                 style: {ref:'style', id:newStyleId},
-                value: {ref:'state', id:stateId},
+                value: {ref:'pipe', id:pipeId},
                 input: {ref:'event', id:eventId}
+            }
+            const newPipe = {
+                type: 'text',
+                value: {ref: 'state', id: stateId},
+                transformations: []
             }
             const newState = {
                 title: 'input value',
@@ -235,6 +248,7 @@ export default (app)=>{
                 selectedViewNode: {ref:'vNodeInput', id: newNodeId},
                 definition: {
                     ...state.definition,
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeInput', id:newNodeId})}},
                     vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
