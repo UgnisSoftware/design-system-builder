@@ -381,22 +381,75 @@ export default (app)=>{
             }
         }}, true)
     }
-
-    function TO_UPPER(ref) {
-        const newId = uuid.v4()
+    function ADD_EVENT(propertyName) {
+        const ref = state.selectedViewNode
+        const eventId = uuid.v4();
         setState({...state, definition:{
             ...state.definition,
-            toUpperCase: {
-                ...state.definition.toUpperCase,
-                [newId]: {
-                    value: state.definition[ref.ref][ref.id].value
-                }
-            },
             [ref.ref]: {
                 ...state.definition[ref.ref],
                 [ref.id]: {
                     ...state.definition[ref.ref][ref.id],
-                    value: {ref:'toUpperCase', id:newId}
+                    [propertyName]: {ref: 'event', id: eventId}
+                }
+            },
+            event: {
+                ...state.definition.event,
+                [eventId]: {
+                    title: 'Default event name',
+                    mutators: []
+                }
+            }
+        }}, true)
+    }
+    function ADD_MUTATOR(stateId, eventId) {
+        const mutatorId = uuid.v4();
+        const pipeId = uuid.v4();
+        setState({...state, definition:{
+            ...state.definition,
+            pipe:{
+                ...state.definition.pipe,
+                [pipeId]: {
+                    type: state.definition.state[stateId].type,
+                    value: state.definition.state[stateId].defaultValue,
+                    transformations: []
+                }
+            },
+            state: {
+                ...state.definition.state,
+                [stateId]: {
+                    ...state.definition.state[stateId],
+                    mutators: state.definition.state[stateId].mutators.concat({
+                        ref: 'mutator',
+                        id: mutatorId
+                    })
+                }
+            },
+            mutator: {
+                ...state.definition.mutator,
+                [mutatorId]: {
+                    event: {
+                        ref: "event",
+                        id: eventId
+                    },
+                    state: {
+                        ref: "state",
+                        id: stateId
+                    },
+                    mutation: {
+                        ref: "pipe",
+                        id: pipeId
+                    }
+                }
+            },
+            event: {
+                ...state.definition.event,
+                [eventId]: {
+                    ...state.definition.event[eventId],
+                    mutators: state.definition.event[eventId].mutators.concat({
+                        ref: 'mutator',
+                        id: mutatorId
+                    })
                 }
             }
         }}, true)
@@ -738,7 +791,10 @@ export default (app)=>{
                                 h('span', '• ' + state.definition.event[state.definition.mutator[ref.id].event.id].title),
                                 state.selectedEventId === state.definition.mutator[ref.id].event.id ? h('div', {style: {marginLeft: '10px'}}, [emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)]): h('div')
                             ])
-                    )
+                    ),
+                    state.selectedStateNodeId === stateId ?
+                        h('div', Object.keys(state.definition.event).filter((eventId)=> !currentState.mutators.map((ref)=> state.definition[ref.ref][ref.id].event.id).includes(eventId)).map((eventId)=> h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [ADD_MUTATOR, stateId, eventId]}}, 'React to: ' + state.definition.event[eventId].title))):
+                        h('div')
                 ]
             )
         }
@@ -1036,14 +1092,15 @@ export default (app)=>{
                 ])
             }
             const currentEvents = availableEvents.filter((event)=>selectedNode[event.propertyName])
-            const eventsSubmenuComponent = h('div', { style: {}}, [
-                h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}}, '+ event'),
-            ].concat(currentEvents.length ?
+            const eventsLeft = availableEvents.filter((event)=>!selectedNode[event.propertyName])
+            const eventsSubmenuComponent = h('div', { style: {}}, eventsLeft.map((event)=>
+                h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on:{click: [ADD_EVENT, event.propertyName]}}, '+ ' + event.description),
+            ).concat(currentEvents.length ?
                 currentEvents.map((event)=>h('div', [
                     h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
                     h('div', {
                             style:
-                                {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'all 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
+                                {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'color 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
                             on: {
                                 click: [SELECT_EVENT, selectedNode[event.propertyName].id]
                             }
