@@ -1107,7 +1107,7 @@ export default (app)=>{
             }
             const currentEvents = availableEvents.filter((event)=>selectedNode[event.propertyName])
             const eventsLeft = availableEvents.filter((event)=>!selectedNode[event.propertyName])
-            const eventsSubmenuComponent = h('div', { style: {}}, eventsLeft.map((event)=>
+            const eventsSubmenuComponent = h('div', { style: {paddingTop: '20px'}}, eventsLeft.map((event)=>
                 h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on:{click: [ADD_EVENT, event.propertyName]}}, '+ ' + event.description),
             ).concat(currentEvents.length ?
                 currentEvents.map((event)=>h('div', [
