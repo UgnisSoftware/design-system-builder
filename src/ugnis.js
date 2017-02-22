@@ -147,7 +147,10 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
                 },
         }
         // wrap in a border
@@ -166,7 +169,10 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
                 },
         }
         // wrap in a border
@@ -185,8 +191,13 @@ export const component = (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, node.clickData] : undefined,
-                    input: node.input ? [emitEvent, node.input.id, node.inputData] : undefined,
+                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
+                    input: node.input ? [emitEvent, node.input.id, undefined] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
+                    focus: node.focus ? [emitEvent, node.focus.id, undefined] : undefined,
+                    blur: node.blur ? [emitEvent, node.blur.id, undefined] : undefined,
                 },
             props: {
                 value: resolve(node.value),

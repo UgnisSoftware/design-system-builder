@@ -329,6 +329,22 @@ export default (app)=>{
     function EDIT_VIEW_NODE_TITLE(nodeId) {
         setState({...state, editingTitleNodeId:nodeId})
     }
+    function EDIT_EVENT_TITLE(nodeId) {
+        setState({...state, editingTitleNodeId:nodeId})
+    }
+    function CHANGE_EVENT_TITLE(nodeId, e) {
+        e.preventDefault();
+        setState({...state, definition: {
+            ...state.definition,
+            event: {
+                ...state.definition.event,
+                [nodeId]: {
+                    ...state.definition.event[nodeId],
+                    title: e.target.value
+                }
+            },
+        }}, true)
+    }
     function CHANGE_VIEW_NODE_TITLE(nodeId, nodeType, e) {
         e.preventDefault();
         setState({...state, definition: {
@@ -410,7 +426,7 @@ export default (app)=>{
             event: {
                 ...state.definition.event,
                 [eventId]: {
-                    title: 'Default event name',
+                    title: 'On ' + propertyName,
                     mutators: []
                 }
             }
@@ -678,7 +694,8 @@ export default (app)=>{
                         margin:  '0',
                         border: 'none',
                         borderRadius: '0',
-                        display: 'inline'
+                        display: 'inline',
+                        font: 'inherit'
                     },
                     on: {
                         input: [CHANGE_NAMESPACE_TITLE, stateId],
@@ -736,6 +753,7 @@ export default (app)=>{
                         border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'),
                         borderRadius: '10px',
                         display: 'inline',
+                        font: 'inherit'
                     },
                     on: {
                         input: [CHANGE_STATE_NODE_TITLE, stateId],
@@ -798,16 +816,48 @@ export default (app)=>{
                         h('div', {
                                 style: {color: state.activeEvent === state.definition.mutator[ref.id].event.id ? '#5bcc5b': 'white', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutator[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
                                 on: {
-                                    click: [SELECT_EVENT, state.definition.mutator[ref.id].event.id]
+                                    click: [SELECT_EVENT, state.definition.mutator[ref.id].event.id],
+                                    dblclick: [EDIT_EVENT_TITLE, state.definition.mutator[ref.id].event.id]
                                 }
                             },
                             [
-                                h('span', '• ' + state.definition.event[state.definition.mutator[ref.id].event.id].title),
+                                h('span', [
+                                        '• ',
+                                        state.editingTitleNodeId === state.definition.mutator[ref.id].event.id ?
+                                            h('input', {
+                                                style: {
+                                                    background: 'none',
+                                                    color: 'white',
+                                                    outline: 'none',
+                                                    boxShadow: 'inset 0 -1px 0 0 white',
+                                                    padding: '0',
+                                                    margin:  '0',
+                                                    border: 'none',
+                                                    borderRadius: '0',
+                                                    display: 'inline',
+                                                    font: 'inherit'
+                                                },
+                                                on: {
+                                                    input: [CHANGE_EVENT_TITLE, state.definition.mutator[ref.id].event.id],
+                                                },
+                                                liveProps: {
+                                                    value: state.definition.event[state.definition.mutator[ref.id].event.id].title,
+                                                },
+                                                attrs: {
+                                                    autofocus: true,
+                                                    'data-istitleeditor': true
+                                                }
+                                            })
+                                            : state.definition.event[state.definition.mutator[ref.id].event.id].title
+                                    ]
+                                ),
                                 state.selectedEventId === state.definition.mutator[ref.id].event.id ? h('div', {style: {marginLeft: '10px'}}, [emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)]): h('div')
                             ])
                     ),
                     state.selectedStateNodeId === stateId ?
-                        h('div', Object.keys(state.definition.event).filter((eventId)=> !currentState.mutators.map((ref)=> state.definition[ref.ref][ref.id].event.id).includes(eventId)).map((eventId)=> h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [ADD_MUTATOR, stateId, eventId]}}, 'React to: ' + state.definition.event[eventId].title))):
+                        h('div', Object.keys(state.definition.event).filter((eventId)=> !currentState.mutators.map((ref)=> state.definition[ref.ref][ref.id].event.id).includes(eventId)).map((eventId)=>
+                            h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on: {click: [ADD_MUTATOR, stateId, eventId]}}, 'React to: ' + state.definition.event[eventId].title))
+                        ):
                         h('div')
                 ]
             )
@@ -826,6 +876,7 @@ export default (app)=>{
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
+                        font: 'inherit'
                     },
                     on: {
                         input: [CHANGE_VIEW_NODE_TITLE, nodeId, 'vNodeBox'],
@@ -883,6 +934,7 @@ export default (app)=>{
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
+                        font: 'inherit'
                     },
                     on: {
                         input: [CHANGE_VIEW_NODE_TITLE, nodeId, 'vNodeText'],
@@ -926,6 +978,7 @@ export default (app)=>{
                         outline: 'none',
                         padding: '0',
                         boxShadow: 'inset 0 -1px 0 0 white',
+                        font: 'inherit'
                     },
                     on: {
                         input: [CHANGE_VIEW_NODE_TITLE, nodeId, 'vNodeInput'],
@@ -1116,10 +1169,43 @@ export default (app)=>{
                             style:
                                 {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'color 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
                             on: {
-                                click: [SELECT_EVENT, selectedNode[event.propertyName].id]
+                                click: [SELECT_EVENT, selectedNode[event.propertyName].id],
+                                dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
                             }
                         },
-                        '• ' + state.definition.event[selectedNode[event.propertyName].id].title)
+                        [
+                            h('span', [
+                                '• ',
+                                state.editingTitleNodeId === selectedNode[event.propertyName].id ?
+                                    h('input', {
+                                        style: {
+                                            background: 'none',
+                                            color: 'white',
+                                            outline: 'none',
+                                            boxShadow: 'inset 0 -1px 0 0 white',
+                                            padding: '0',
+                                            margin:  '0',
+                                            border: 'none',
+                                            borderRadius: '0',
+                                            display: 'inline',
+                                            font: 'inherit'
+                                        },
+                                        on: {
+                                            input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
+                                        },
+                                        liveProps: {
+                                            value: state.definition.event[selectedNode[event.propertyName].id].title,
+                                        },
+                                        attrs: {
+                                            autofocus: true,
+                                            'data-istitleeditor': true
+                                        }
+                                    })
+                                    : state.definition.event[selectedNode[event.propertyName].id].title
+                                ]
+                            )
+                        ]
+                    )
                 ])) :
                 []))
             return h('div', {
