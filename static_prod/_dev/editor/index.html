@@ -3,14 +3,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/normalize.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+        // fuck apple
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    </script>
+    <style type="text/css">
+        #warning-message { display: none; }
+        @media only screen and (orientation:portrait){
+            #app { display:none; }
+            #warning-message { display:block; }
+        }
+        @media only screen and (orientation:landscape){
+            #warning-message { display:none; }
+        }
+    </style>
     <title>Ugnis λ</title>
 </head>
 <body>
     <div id="app"></div>
+    <div id="warning-message">Rotate your device to use Ugnis</div>
     <script src="bundle.js"></script>
 </body>
 </html>
