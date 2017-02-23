@@ -485,6 +485,27 @@ export default (app)=>{
         }}, true)
     }
 
+    function MOVE_VIEW_NODE(parentId, position, amount, e) {
+        e.preventDefault()
+        e.stopPropagation()
+        setState({...state, definition:{
+            ...state.definition,
+            vNodeBox: {
+                ...state.definition.vNodeBox,
+                [parentId]: {
+                    ...state.definition.vNodeBox[parentId],
+                    children: state.definition.vNodeBox[parentId].children.map( // functional swap
+                        (child,index)=> index === position + amount ?
+                            state.definition.vNodeBox[parentId].children[position]:
+                            index === position ?
+                                state.definition.vNodeBox[parentId].children[position + amount]:
+                                state.definition.vNodeBox[parentId].children[index]
+                    )
+                }
+            }
+        }}, true)
+    }
+
     // Listen to app and blink every action
     let timer = null
     app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
@@ -865,7 +886,7 @@ export default (app)=>{
 
         const stateComponent = h('div', {style: {overflow: 'overlay', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
-        function listBoxNode(nodeId, parentId) {
+        function listBoxNode(nodeId, parentId, position) {
             const node = state.definition.vNodeBox[nodeId]
             function editingNode() {
                 return h('input', {
@@ -910,20 +931,38 @@ export default (app)=>{
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeBox', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
-                        ...node.children.map((ref)=>{
-                            if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId)
-                            if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId)
-                            if(ref.ref === 'vNodeInput') return listInputNode(ref.id, nodeId)
+                        ...node.children.map((ref, index)=>{
+                            if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId, index)
+                            if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId, index)
+                            if(ref.ref === 'vNodeInput') return listInputNode(ref.id, nodeId, index)
                         }),
                         h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
                         h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
                         h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                     ]),
+                    position > 0 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, -1]
+                                },
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
+                parentId && position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, 1]
+                                },
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
                     h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
                 ]
             )
         }
-        function listTextNode(nodeId, parentId) {
+        function listTextNode(nodeId, parentId, position) {
             const node = state.definition.vNodeText[nodeId]
             function editingNode() {
                 return h('input', {
@@ -962,12 +1001,30 @@ export default (app)=>{
                         }
                     }, [
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
+                        position > 0 ? h('svg', {
+                                    attrs: {width: 6, height: 8},
+                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                    on: {
+                                        click: [MOVE_VIEW_NODE, parentId, position, -1]
+                                    },
+                                },
+                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                            h('span'),
+                        position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                                    attrs: {width: 6, height: 8},
+                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
+                                    on: {
+                                        click: [MOVE_VIEW_NODE, parentId, position, 1]
+                                    },
+                                },
+                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                            h('span'),
                         h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                     ]
                 )
             }
         }
-        function listInputNode(nodeId, parentId) {
+        function listInputNode(nodeId, parentId, position) {
             const node = state.definition.vNodeInput[nodeId]
             function editingNode() {
                 return h('input', {
@@ -1006,6 +1063,24 @@ export default (app)=>{
                         }
                     }, [
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
+                        position > 0 ? h('svg', {
+                                    attrs: {width: 6, height: 8},
+                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                    on: {
+                                        click: [MOVE_VIEW_NODE, parentId, position, -1]
+                                    },
+                                },
+                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                            h('span'),
+                        position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                                    attrs: {width: 6, height: 8},
+                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
+                                    on: {
+                                        click: [MOVE_VIEW_NODE, parentId, position, 1]
+                                    },
+                                },
+                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                            h('span'),
                         h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
                     ]
                 )
@@ -1163,50 +1238,50 @@ export default (app)=>{
             const eventsSubmenuComponent = h('div', { style: {paddingTop: '20px'}}, eventsLeft.map((event)=>
                 h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on:{click: [ADD_EVENT, event.propertyName]}}, '+ ' + event.description),
             ).concat(currentEvents.length ?
-                currentEvents.map((event)=>h('div', [
-                    h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
-                    h('div', {
-                            style:
-                                {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'color 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
-                            on: {
-                                click: [SELECT_EVENT, selectedNode[event.propertyName].id],
-                                dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
-                            }
-                        },
-                        [
-                            h('span', [
-                                '• ',
-                                state.editingTitleNodeId === selectedNode[event.propertyName].id ?
-                                    h('input', {
-                                        style: {
-                                            background: 'none',
-                                            color: 'white',
-                                            outline: 'none',
-                                            boxShadow: 'inset 0 -1px 0 0 white',
-                                            padding: '0',
-                                            margin:  '0',
-                                            border: 'none',
-                                            borderRadius: '0',
-                                            display: 'inline',
-                                            font: 'inherit'
-                                        },
-                                        on: {
-                                            input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
-                                        },
-                                        liveProps: {
-                                            value: state.definition.event[selectedNode[event.propertyName].id].title,
-                                        },
-                                        attrs: {
-                                            autofocus: true,
-                                            'data-istitleeditor': true
-                                        }
-                                    })
-                                    : state.definition.event[selectedNode[event.propertyName].id].title
-                                ]
-                            )
-                        ]
-                    )
-                ])) :
+                currentEvents.map((event)=>
+                    h('div', [
+                        h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
+                        h('div',
+                            {
+                                style:
+                                    {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'color 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
+                                on: {
+                                    click: [SELECT_EVENT, selectedNode[event.propertyName].id],
+                                    dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
+                                }
+                            }, [
+                                h('span', {}, [
+                                    '• ',
+                                    state.editingTitleNodeId === selectedNode[event.propertyName].id ?
+                                        h('input', {
+                                            style: {
+                                                background: 'none',
+                                                color: 'white',
+                                                outline: 'none',
+                                                boxShadow: 'inset 0 -1px 0 0 white',
+                                                padding: '0',
+                                                margin:  '0',
+                                                border: 'none',
+                                                borderRadius: '0',
+                                                display: 'inline',
+                                                font: 'inherit'
+                                            },
+                                            on: {
+                                                input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
+                                            },
+                                            liveProps: {
+                                                value: state.definition.event[selectedNode[event.propertyName].id].title,
+                                            },
+                                            attrs: {
+                                                autofocus: true,
+                                                'data-istitleeditor': true
+                                            }
+                                        })
+                                        : state.definition.event[selectedNode[event.propertyName].id].title]
+                                )
+                            ]
+                        )
+                    ])) :
                 []))
             return h('div', {
                 style: {
