@@ -30,7 +30,7 @@ export default (app)=>{
     wrapper.appendChild(app.vdom.elm);
 
     let node = document.createElement('div')
-    document.body.appendChild(node)
+    document.getElementById('wrapper').appendChild(node)
 
     wrapper.style.width = 'calc(100% - 350px)'
     wrapper.style.position = 'relative'
