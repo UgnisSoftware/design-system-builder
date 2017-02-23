@@ -16,7 +16,7 @@
     <style type="text/css">
         #warning-message { display: none; }
         @media only screen and (orientation:portrait){
-            #app { display:none !important; }
+            #wrapper { display:none;  }
             #warning-message { display:block; }
         }
         @media only screen and (orientation:landscape){
@@ -26,7 +26,9 @@
     <title>Ugnis λ</title>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="wrapper">
+        <div id="app"></div>
+    </div>
     <div id="warning-message">Rotate your device to use Ugnis</div>
     <script src="bundle.js"></script>
 </body>
