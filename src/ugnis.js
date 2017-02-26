@@ -92,7 +92,7 @@ export const component = (definition) => {
     }
 
     function transformValue(value, transformations){
-        for(let i = transformations.length-1; i >= 0; i--) {
+        for(let i = 0; i < transformations.length; i++) {
             const ref = transformations[i];
             const transformer = definition[ref.ref][ref.id]
             if (ref.ref === 'equal') {

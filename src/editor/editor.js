@@ -42,6 +42,7 @@ export default (app)=>{
         appIsFrozen: false,
         selectedViewNode: {},
         selectedEventId: '',
+        selectedPipeId: '',
         selectedStateNodeId: '',
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
@@ -484,7 +485,6 @@ export default (app)=>{
             }
         }}, true)
     }
-
     function MOVE_VIEW_NODE(parentId, position, amount, e) {
         e.preventDefault()
         e.stopPropagation()
@@ -504,6 +504,153 @@ export default (app)=>{
                 }
             }
         }}, true)
+    }
+    function SELECT_PIPE(pipeId) {
+        setState({...state, selectedPipeId:pipeId})
+    }
+    function CHANGE_PIPE_VALUE_TO_STATE(pipeId) {
+        if(!state.selectedStateNodeId || state.selectedStateNodeId === state.definition.pipe[pipeId].value.id ){
+            return;
+        }
+        setState({...state, definition: {
+            ...state.definition,
+            pipe: {
+                ...state.definition.pipe,
+                [pipeId]: {
+                    ...state.definition.pipe[pipeId],
+                    value: {ref: 'state', id: state.selectedStateNodeId},
+                    transformations: []
+                }
+            }
+        }}, true)
+    }
+    function ADD_TRANSFORMATION(pipeId, transformation) {
+        if(transformation === 'join'){
+            const newPipeId = uuid.v4();
+            const joinId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                join: {
+                    ...state.definition.join,
+                    [joinId]: {
+                        value: {ref: 'pipe', id:newPipeId}
+                    }
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [newPipeId]: {
+                        type: 'text',
+                        value: 'Default text',
+                        transformations: []
+                    },
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'join', id:joinId})
+                    }
+                }
+            }}, true)
+        }
+        if(transformation === 'toUpperCase'){
+            const newId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                toUpperCase: {
+                    ...state.definition.toUpperCase,
+                    [newId]: {}
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toUpperCase', id:newId})
+                    }
+                }
+            }}, true)
+        }
+        if(transformation === 'toLowerCase'){
+            const newId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                toLowerCase: {
+                    ...state.definition.toLowerCase,
+                    [newId]: {}
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toLowerCase', id:newId})
+                    }
+                }
+            }}, true)
+        }
+        if(transformation === 'toText'){
+            const newId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                toText: {
+                    ...state.definition.toText,
+                    [newId]: {}
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toText', id:newId})
+                    }
+                }
+            }}, true)
+        }
+        if(transformation === 'add'){
+            const newPipeId = uuid.v4();
+            const addId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                add: {
+                    ...state.definition.add,
+                    [addId]: {
+                        value: {ref: 'pipe', id:newPipeId}
+                    }
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [newPipeId]: {
+                        type: 'number',
+                        value: 0,
+                        transformations: []
+                    },
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'add', id:addId})
+                    }
+                }
+            }}, true)
+        }
+        if(transformation === 'subtract'){
+            const newPipeId = uuid.v4();
+            const subtractId = uuid.v4();
+            setState({...state, definition: {
+                ...state.definition,
+                subtract: {
+                    ...state.definition.subtract,
+                    [subtractId]: {
+                        value: {ref: 'pipe', id:newPipeId}
+                    }
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [newPipeId]: {
+                        type: 'number',
+                        value: 0,
+                        transformations: []
+                    },
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'subtract', id:subtractId})
+                    }
+                }
+            }}, true)
+        }
     }
 
     // Listen to app and blink every action
@@ -607,16 +754,16 @@ export default (app)=>{
                             h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
-                    // if (transRef.ref === 'toUpperCase') {
-                    //     return h('div', {}, [
-                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, 'text')]),
-                    //     ])
-                    // }
-                    // if (transRef.ref === 'toLowerCase') {
-                    //     return h('div', {}, [
-                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, 'text')]),
-                    //     ])
-                    // }
+                    if (transRef.ref === 'toUpperCase') {
+                        return h('div', {}, [
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                        ])
+                    }
+                    if (transRef.ref === 'toLowerCase') {
+                        return h('div', {}, [
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                        ])
+                    }
                     if (transRef.ref === 'toText') {
                         return h('div', {}, [
                             h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
@@ -625,8 +772,26 @@ export default (app)=>{
                 })
             }
 
+            function genTransformators(type) {
+                if(type === 'text'){
+                    return [
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: state.selectedStateNodeId ? '2px solid white' : '2px solid #bdbdbd', color: state.selectedStateNodeId ? 'white' : '#bdbdbd',}, on: {click: [CHANGE_PIPE_VALUE_TO_STATE, ref.id]}}, 'change to state'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'join']}}, 'join'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toUpperCase']}}, 'to Upper case'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toLowerCase']}}, 'to Lower case'),
+                    ]
+                }
+                if(type === 'number'){
+                    return [
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: state.selectedStateNodeId ? '2px solid white' : '2px solid #bdbdbd', color: state.selectedStateNodeId  ? 'white' : '#bdbdbd',}, on: {click: [CHANGE_PIPE_VALUE_TO_STATE, ref.id]}}, 'change to state'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toText']}}, 'to text'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'add']}}, 'add'),
+                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'subtract']}}, 'subtract'),
+                    ]
+                }
+            }
             if (typeof pipe.value === 'string') {
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
                             style: {
                                 background: 'none',
@@ -650,12 +815,13 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', state.selectedPipeId === ref.id ? genTransformators('text'): [])
                 ])
             }
 
             if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
                             attrs: {type:'number'},
                             style: {
@@ -680,13 +846,14 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', state.selectedPipeId === ref.id ? genTransformators('number'): [])
                 ])
             }
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}}, [
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('div', {style: {flex: '1'}},
                         [h('div',{
                                 style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
@@ -697,7 +864,8 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type))
+                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): []) // TODO fix, a hack for demo, type should be last transformation not just text
                 ])
             }
         }
@@ -1191,10 +1359,22 @@ export default (app)=>{
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
                 }
                 if(state.selectedViewNode.ref === 'vNodeText'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
+                    return h('div', {style: {paddingTop: '20px'}}, [
+                        h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
+                            h('span', {style: {flex: '1'}}, 'value'),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
+                    ])
                 }
                 if(state.selectedViewNode.ref === 'vNodeInput'){
-                    return h('div', {style: {paddingTop: '20px'}}, [h('div', {style: {background: '#676767', padding: '5px 10px'}}, 'value '), h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])])
+                    return h('div', {style: {paddingTop: '20px'}}, [
+                        h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
+                            h('span', {style: {flex: '1'}}, 'value'),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
+                    ])
                 }
             }
             const propsSubmenuComponent = h('div', [generatePropsMenu()])

@@ -35,12 +35,12 @@
         },
         "ui8jd6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
-            "value": "add one",
+            "value": "+",
             "transformations": []
         },
         "c8wed6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
-            "value": "remove one",
+            "value": "-",
             "transformations": []
         },
         "pdq6d6d2-00db-8ab5-c332-882575f25426": {
@@ -179,10 +179,10 @@
         },
         "8481d6d2-00db-8ab5-c332-882575f25426": {
             "padding": "10px",
-            "margin": "10px 5px",
+            "margin": "10px 5px"
         },
         "9481d6d2-00db-8ab5-c332-882575f25426": {
-            "padding": "10px",
+            "padding": "10px 15px",
             "background": "#aaaaaa",
             "display": "inline-block",
             "marginLeft": "5px",
@@ -192,7 +192,7 @@
             "margin": "10px 5px"
         },
         "7481d6d2-00db-8ab5-c332-882575f25426": {
-            "padding": "10px",
+            "padding": "10px 15px",
             "background": "#999999",
             "display": "inline-block",
             "marginLeft": "5px",
