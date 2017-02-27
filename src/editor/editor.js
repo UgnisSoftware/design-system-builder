@@ -709,8 +709,7 @@ export default (app)=>{
                 transition: 'all 0.2s',
             },
         }, [
-            h('div', {style: {padding: '15px 15px 10px 15px', borderBottom: '1px solid #333333', color: state.appIsFrozen ? 'rgb(204, 91, 91)': 'rgb(91, 204, 91)'}}, state.appIsFrozen ? '❚❚': '►'),
-            h('div', {style: {padding: '4px 17px', fontSize: '0.8em',color: '#929292'}}, state.appIsFrozen ? '►': '❚❚')
+            h('div', {style: {padding: '15px 15px 10px 15px', borderBottom: '1px solid #333333', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
         ])
         const loginComponent = h('div', {style: {fontSize: '0.8em', background: 'rgb(60, 60, 60)', padding: '10px', textAlign:'right'}}, [
                 h('a', {props: {href: '../login'}, style: {color: '#53B2ED',}}, 'log in / register'),
