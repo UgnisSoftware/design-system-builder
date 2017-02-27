@@ -219,22 +219,10 @@
                     "id": "3481d6d2-00db-8ab5-c332-882575f25425"
                 },
                 {
-                    "ref": "vNodeBox",
-                    "id": "sa77d6d2-00db-8ab5-c332-882575f25426"
-                }
-            ]
-        },
-        "sa77d6d2-00db-8ab5-c332-882575f25426": {
-            "title": "box",
-            "style": {
-                "ref": "style",
-                "id": "q86sd89d-3703-483e-ab64-5a5b780aec27"
-            },
-            "children": [
-                {
                     "ref": "vNodeList",
                     "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
-                }]
+                }
+            ]
         },
         "gw9dd6d2-00db-8ab5-c332-882575f25426": {
             "title": "box",
@@ -296,7 +284,13 @@
                 "ref": "pipe",
                 "id": "f9qxd6d2-00db-8ab5-c332-882575f25426"
             },
-            "child": {"ref": "vNodeBox", "id":"gw9dd6d2-00db-8ab5-c332-882575f25426" }
+            "style": {
+                "ref": "style",
+                "id": "q86sd89d-3703-483e-ab64-5a5b780aec27"
+            },
+            "children": [
+                {"ref": "vNodeBox", "id":"gw9dd6d2-00db-8ab5-c332-882575f25426" }
+            ]
         }
     },
     "style": {

@@ -1322,12 +1322,15 @@ export default (app)=>{
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
-                        ((ref, index)=>{
+                        ...node.children.map((ref, index)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref.id)
                             if(ref.ref === 'vNodeBox') return listBoxNode(ref.id)
                             if(ref.ref === 'vNodeInput') return listInputNode(ref.id)
                             if(ref.ref === 'vNodeList') return listListNode(ref.id)
-                        })(node.child, 0),
+                        }),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
                     ]),
                     position > 0 ? h('svg', {
                                 attrs: {width: 6, height: 8},
@@ -1338,7 +1341,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    parentId && position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                    parentId && position < (state.definition.vNodeBox[parentId].children.length-1) ? h('svg', {
                                 attrs: {width: 6, height: 8},
                                 style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                 on: {
@@ -1474,7 +1477,7 @@ export default (app)=>{
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
                     ])
                 }
-                if(state.selectedViewNode.ref === 'vNodeBox'){
+                if(state.selectedViewNode.ref === 'vNodeList'){
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'TODO ADD PROPS')
                 }
             }

@@ -231,12 +231,29 @@ export const component = (definition) => {
             currentMapValue[ref.id] = value
             currentMapIndex[ref.id] = index
 
-            return resolve(node.child)
+            return node.children.map(resolve)
         })
         delete currentMapValue[ref.id];
         delete currentMapIndex[ref.id];
 
-        return children
+        const data = {
+            style: resolve(node.style),
+            on: frozen ?
+                {
+                    mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
+                    click: [selectNodeClick, ref]
+                }:{
+                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
+                },
+        }
+        // wrap in a border
+        if(frozen && selectedNodeInDevelopment.id === ref.id){
+            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, flatten(children))]}
+        }
+        return h('div', data, flatten(children))
     }
 
     const listeners = []
