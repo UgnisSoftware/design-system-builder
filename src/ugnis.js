@@ -20,6 +20,12 @@ const patch = snabbdom.init([
 import h from 'snabbdom/h';
 import big from 'big.js';
 
+function flatten(arr) {
+    return arr.reduce(function (flat, toFlatten) {
+        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+    }, []);
+}
+
 export const component = (definition) => {
 
     let currentState = Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
@@ -79,6 +85,9 @@ export const component = (definition) => {
         if (ref.ref === 'vNodeInput') {
             return inputNode(ref)
         }
+        if (ref.ref === 'vNodeList') {
+            return listNode(ref)
+        }
         if (ref.ref === 'style') {
             return Object.keys(def).reduce((acc, val)=> {
                 acc[val] = resolve(def[val])
@@ -87,6 +96,9 @@ export const component = (definition) => {
         }
         if (ref.ref === 'eventValue') {
             return currentEvent.target.value
+        }
+        if (ref.ref === 'listValue') {
+            return currentMapValue[def.list.id][def.property]
         }
         throw Error(ref)
     }
@@ -155,9 +167,9 @@ export const component = (definition) => {
         }
         // wrap in a border
         if(frozen && selectedNodeInDevelopment.id === ref.id){
-            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, node.children.map(resolve))]}
+            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, flatten(node.children.map(resolve)))]}
         }
-        return h('div', data, node.children.map(resolve))
+        return h('div', data, flatten(node.children.map(resolve)))
     }
 
     function textNode(ref) {
@@ -209,6 +221,22 @@ export const component = (definition) => {
             return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('input', data)]}
         }
         return h('input', data)
+    }
+
+    function listNode(ref) {
+        const node = definition[ref.ref][ref.id]
+        const list = resolve(node.value)
+
+        const children = Object.keys(list).map(key=>list[key]).map((value, index)=> {
+            currentMapValue[ref.id] = value
+            currentMapIndex[ref.id] = index
+
+            return resolve(node.child)
+        })
+        delete currentMapValue[ref.id];
+        delete currentMapIndex[ref.id];
+
+        return children
     }
 
     const listeners = []
