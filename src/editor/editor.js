@@ -1124,12 +1124,12 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
                         h('svg', {
-                                attrs: {width: 16, height: 16},
+                                attrs: {width: 14, height: 14},
                                 style: { cursor: 'pointer', padding: '0 5px 0 0'},
                                 on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeBox', id: nodeId}]}
                             },
                             [
-                                h('rect', {attrs: {x: 1, y: 4, width: 14, height: 10, fill: 'none', stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
+                                h('rect', {attrs: {x: 1, y: 1, width: 12, height: 12, fill: 'none', stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
                             ]),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
@@ -1202,7 +1202,7 @@ export default (app)=>{
                 }, [
                     h('svg', {
                             attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
-                            style: { cursor: 'pointer', padding: '0 7px 0 1px'},
+                            style: { cursor: 'pointer', padding: '0 7px 0 0'},
                         },
                         [
                             h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}})
@@ -1266,7 +1266,7 @@ export default (app)=>{
                 }, [
                     h('svg', {
                             attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
-                            style: { cursor: 'pointer', padding: '0 7px 0 1px'},
+                            style: { cursor: 'pointer', padding: '0 7px 0 0'},
                         },
                         [
                             h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
@@ -1341,17 +1341,17 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
                         h('svg', {
-                                attrs: {width: 16, height: 16},
+                                attrs: {width: 14, height: 14},
                                 style: { cursor: 'pointer', padding: '0 5px 0 0'},
                                 on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}]}
                             },
                             [
                                 h('circle', {attrs: {r: 2, cx: 2, cy: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
                                 h('rect', {attrs: {x: 6, y: 1, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('circle', {attrs: {r: 2, cx: 2, cy: 8, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('rect', {attrs: {x: 6, y: 7, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('circle', {attrs: {r: 2, cx: 2, cy: 14, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('rect', {attrs: {x: 6, y: 13, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('circle', {attrs: {r: 2, cx: 2, cy: 7, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('rect', {attrs: {x: 6, y: 6, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('circle', {attrs: {r: 2, cx: 2, cy: 12, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('rect', {attrs: {x: 6, y: 11, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
                             ]
                         ),
                         state.editingTitleNodeId === nodeId ?
