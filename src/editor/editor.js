@@ -686,11 +686,15 @@ export default (app)=>{
                 cursor: 'pointer',
                 transition: 'all 0.5s',
             },
-        }, [h('svg', {
-                attrs: {width: 12, height: 16},
-                style: { cursor: 'pointer', padding: '0 5px', transform: state.open ? 'rotate(0deg)': 'rotate(180deg)'},
-            },
-            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})])])
+        }, [
+            h('svg', {
+                    attrs: {width: 12, height: 16},
+                    style: { cursor: 'pointer', padding: '0 5px', transform: state.open ? 'rotate(0deg)': 'rotate(180deg)'},
+                },
+                [
+                    h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})
+                ])
+        ])
         const freezeComponent = h('div', {
             on: {
                 click: FREEZER_CLICKED
@@ -1081,10 +1085,10 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: '#53B2ED',
                         outline: 'none',
                         padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 white',
+                        boxShadow: 'inset 0 -1px 0 0 #53B2ED',
                         font: 'inherit'
                     },
                     on: {
@@ -1114,6 +1118,14 @@ export default (app)=>{
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
+                        h('svg', {
+                                attrs: {width: 16, height: 16},
+                                style: { cursor: 'pointer', padding: '0 5px 0 0'},
+                                on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}]}
+                            },
+                            [
+                                h('rect', {attrs: {x: 1, y: 4, width: 14, height: 10, fill: 'none', stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
+                            ]),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeBox', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
@@ -1158,10 +1170,10 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: '#53B2ED',
                         outline: 'none',
                         padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 white',
+                        boxShadow: 'inset 0 -1px 0 0 #53B2ED',
                         font: 'inherit'
                     },
                     on: {
@@ -1176,42 +1188,44 @@ export default (app)=>{
                     }
                 })
             }
-            if(state.editingTitleNodeId === nodeId) {
-                return editingNode()
-            } else {
-                return h('div', {
-                        style: {
-                            cursor: 'pointer',
-                            position: 'relative'
+            return h('div', {
+                    style: {
+                        cursor: 'pointer',
+                        position: 'relative'
+                    },
+                    on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeText', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
+                }, [
+                    h('svg', {
+                            attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
+                            style: { cursor: 'pointer', padding: '1px 5px 0 0'},
                         },
-                        on: {
-                            click: [VIEW_NODE_SELECTED, {ref:'vNodeText', id: nodeId}],
-                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]
-                        }
-                    }, [
+                        [
+                            h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}})
+                        ]),
+                    state.editingTitleNodeId === nodeId ?
+                        editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
-                        position > 0 ? h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                    on: {
-                                        click: [MOVE_VIEW_NODE, parentId, position, -1]
-                                    },
+                    position > 0 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, -1]
                                 },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                            h('span'),
-                        position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                    on: {
-                                        click: [MOVE_VIEW_NODE, parentId, position, 1]
-                                    },
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
+                    position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, 1]
                                 },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                            h('span'),
-                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
-                    ]
-                )
-            }
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
+                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                ]
+            )
         }
         function listInputNode(nodeId, parentId, position) {
             const node = state.definition.vNodeInput[nodeId]
@@ -1220,10 +1234,10 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: '#53B2ED',
                         outline: 'none',
                         padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 white',
+                        boxShadow: 'inset 0 -1px 0 0 #53B2ED',
                         font: 'inherit'
                     },
                     on: {
@@ -1238,42 +1252,47 @@ export default (app)=>{
                     }
                 })
             }
-            if(state.editingTitleNodeId === nodeId) {
-                return editingNode()
-            } else {
-                return h('div', {
-                        style: {
-                            cursor: 'pointer',
-                            position: 'relative'
+            return h('div', {
+                    style: {
+                        cursor: 'pointer',
+                        position: 'relative'
+                    },
+                    on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeInput', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
+                }, [
+                    h('svg', {
+                            attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
+                            style: { cursor: 'pointer', padding: '1px 5px 0 0'},
                         },
-                        on: {
-                            click: [VIEW_NODE_SELECTED, {ref:'vNodeInput', id: nodeId}],
-                            dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]
-                        }
-                    }, [
+                        [
+                            h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'M 9.8114827,4.2360393 C 9.6547357,4.5865906 9.3039933,4.8295854 8.8957233,4.8288684 L 1.2968926,4.8115404 1.3169436,2.806447 8.9006377,2.828642 c 0.552448,0.00165 0.9993074,0.4501223 0.9976564,1.0025698 -2.1e-5,0.1445856 -0.0313,0.2806734 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                        ]),
+                    state.editingTitleNodeId === nodeId ?
+                        editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
-                        position > 0 ? h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                    on: {
-                                        click: [MOVE_VIEW_NODE, parentId, position, -1]
-                                    },
+                    position > 0 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, -1]
                                 },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                            h('span'),
-                        position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                    on: {
-                                        click: [MOVE_VIEW_NODE, parentId, position, 1]
-                                    },
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
+                    position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                                attrs: {width: 6, height: 8},
+                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
+                                on: {
+                                    click: [MOVE_VIEW_NODE, parentId, position, 1]
                                 },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                            h('span'),
-                        h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
-                    ]
-                )
-            }
+                            },
+                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
+                        h('span'),
+                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x')
+                ]
+            )
         }
 
         function listListNode(nodeId, parentId, position) {
@@ -1283,10 +1302,10 @@ export default (app)=>{
                     style: {
                         border: 'none',
                         background: 'none',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',
+                        color: '#53B2ED',
                         outline: 'none',
                         padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 white',
+                        boxShadow: 'inset 0 -1px 0 0 #53B2ED',
                         font: 'inherit'
                     },
                     on: {
@@ -1316,6 +1335,20 @@ export default (app)=>{
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
+                        h('svg', {
+                                attrs: {width: 16, height: 16},
+                                style: { cursor: 'pointer', padding: '0 5px 0 0'},
+                                on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}]}
+                            },
+                            [
+                                h('circle', {attrs: {r: 2, cx: 2, cy: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('rect', {attrs: {x: 6, y: 1, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('circle', {attrs: {r: 2, cx: 2, cy: 8, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('rect', {attrs: {x: 6, y: 7, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('circle', {attrs: {r: 2, cx: 2, cy: 14, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                h('rect', {attrs: {x: 6, y: 13, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                            ]
+                        ),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
