@@ -84,12 +84,17 @@ export default (app)=>{
         // 83 - s
         // 90 - z
         // 89 - y
+        // 32 - space
         // 13 - enter
         if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             // TODO garbage collect
             e.preventDefault();
             fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
+        }
+        if(e.which == 32 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            e.preventDefault()
+            FREEZER_CLICKED()
         }
         if(!e.shiftKey && e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
@@ -1112,7 +1117,7 @@ export default (app)=>{
                     h('div', {style: {display: 'flex', alignItems: 'center'}}, [
                         h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-10px'},
+                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-3px'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, nodeId]
                                 },
@@ -1121,7 +1126,7 @@ export default (app)=>{
                         h('svg', {
                                 attrs: {width: 16, height: 16},
                                 style: { cursor: 'pointer', padding: '0 5px 0 0'},
-                                on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}]}
+                                on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeBox', id: nodeId}]}
                             },
                             [
                                 h('rect', {attrs: {x: 1, y: 4, width: 14, height: 10, fill: 'none', stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
@@ -1130,7 +1135,7 @@ export default (app)=>{
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeBox', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
-                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
+                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref, index)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId, index)
                             if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId, index)
@@ -1197,7 +1202,7 @@ export default (app)=>{
                 }, [
                     h('svg', {
                             attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
-                            style: { cursor: 'pointer', padding: '1px 5px 0 0'},
+                            style: { cursor: 'pointer', padding: '0 7px 0 1px'},
                         },
                         [
                             h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}})
@@ -1261,7 +1266,7 @@ export default (app)=>{
                 }, [
                     h('svg', {
                             attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
-                            style: { cursor: 'pointer', padding: '1px 5px 0 0'},
+                            style: { cursor: 'pointer', padding: '0 7px 0 1px'},
                         },
                         [
                             h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
@@ -1329,7 +1334,7 @@ export default (app)=>{
                     h('div', {style: {display: 'flex', alignItems: 'center'}}, [
                         h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-10px'},
+                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-3px'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, nodeId]
                                 },
@@ -1353,7 +1358,7 @@ export default (app)=>{
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, {ref:'vNodeList', id: nodeId}], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
-                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
+                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref, index)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref.id)
                             if(ref.ref === 'vNodeBox') return listBoxNode(ref.id)
@@ -1617,7 +1622,7 @@ export default (app)=>{
             ])
         }
 
-        const viewComponent = h('div', {style: {position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 15px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {style: {position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode('_rootNode'),
             state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
         ])
