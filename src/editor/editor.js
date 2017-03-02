@@ -124,7 +124,7 @@ export default (app)=>{
     }
     function WIDTH_DRAGGED() {
         const resize = (e)=>{
-            const newWidth = window.innerWidth - e.screenX
+            const newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
             if(newWidth > 200){
                 setState({...state, editorWidth: newWidth})
             }
@@ -708,7 +708,7 @@ export default (app)=>{
         const dragComponent = h('div', {
             on: {
                 mousedown: WIDTH_DRAGGED,
-                touchdown: WIDTH_DRAGGED,
+                touchstart: WIDTH_DRAGGED,
             },
             attrs: {
 
@@ -718,7 +718,7 @@ export default (app)=>{
                 left: '0',
                 transform: 'translateX(-100%)',
                 top: '0',
-                width: '10px',
+                width: '100px',
                 height: '100%',
                 textAlign: 'center',
                 fontSize: '1em',
