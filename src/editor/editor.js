@@ -138,7 +138,7 @@ export default (app)=>{
             window.removeEventListener('touchup', stopDragging)
         }
         window.addEventListener('mouseup', stopDragging)
-        window.addEventListener('touchup', stopDragging)
+        window.addEventListener('touchend', stopDragging)
     }
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
@@ -708,6 +708,7 @@ export default (app)=>{
         const dragComponent = h('div', {
             on: {
                 mousedown: WIDTH_DRAGGED,
+                touchdown: WIDTH_DRAGGED,
             },
             attrs: {
 
