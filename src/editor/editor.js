@@ -130,11 +130,15 @@ export default (app)=>{
             }
         }
         window.addEventListener('mousemove', resize)
+        window.addEventListener('touchmove', resize)
         const stopDragging = (e)=>{
             window.removeEventListener('mousemove', resize)
+            window.removeEventListener('touchmove', resize)
             window.removeEventListener('mouseup', stopDragging)
+            window.removeEventListener('touchup', stopDragging)
         }
         window.addEventListener('mouseup', stopDragging)
+        window.addEventListener('touchup', stopDragging)
     }
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
