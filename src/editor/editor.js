@@ -25,20 +25,13 @@ big.E_POS = 1e+6
 
 export default (app)=>{
 
-    const wrapper = document.createElement('div');
-    app.vdom.elm.parentNode.appendChild(wrapper);
-    wrapper.appendChild(app.vdom.elm);
-
     let node = document.createElement('div')
     document.getElementById('wrapper').appendChild(node)
-
-    wrapper.style.width = 'calc(100% - 350px)'
-    wrapper.style.position = 'relative'
-    wrapper.style.transition = '0.5s width'
 
     // State
     let state = {
         open: true,
+        editorWidth: 350,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedEventId: '',
@@ -128,12 +121,20 @@ export default (app)=>{
     // Actions
     function ARROW_CLICKED() {
         setState({...state, open: !state.open})
-        if(state.open){
-            wrapper.style.width = 'calc(100% - 350px)'
+    }
+    function WIDTH_DRAGGED() {
+        const resize = (e)=>{
+            const newWidth = window.innerWidth - e.screenX
+            if(newWidth > 200){
+                setState({...state, editorWidth: newWidth})
+            }
         }
-        else {
-            wrapper.style.width = '100%'
+        window.addEventListener('mousemove', resize)
+        const stopDragging = (e)=>{
+            window.removeEventListener('mousemove', resize)
+            window.removeEventListener('mouseup', stopDragging)
         }
+        window.addEventListener('mouseup', stopDragging)
     }
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
@@ -694,12 +695,32 @@ export default (app)=>{
         }, [
             h('svg', {
                     attrs: {width: 12, height: 16},
-                    style: { cursor: 'pointer', padding: '0 5px', transform: state.open ? 'rotate(0deg)': 'rotate(180deg)'},
+                    style: { cursor: 'pointer', padding: '0 5px', transform: state.open ? 'translateZ(0) rotate(0deg)': 'translateZ(0) rotate(180deg)'},
                 },
                 [
                     h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15', fill: 'white'}})
                 ])
         ])
+        const dragComponent = h('div', {
+            on: {
+                mousedown: WIDTH_DRAGGED,
+            },
+            attrs: {
+
+            },
+            style: {
+                position: 'absolute',
+                left: '0',
+                transform: 'translateX(-100%)',
+                top: '0',
+                width: '10px',
+                height: '100%',
+                textAlign: 'center',
+                fontSize: '1em',
+                opacity: 0,
+                cursor: 'col-resize',
+            },
+        })
         const freezeComponent = h('div', {
             on: {
                 click: FREEZER_CLICKED
@@ -720,10 +741,6 @@ export default (app)=>{
         }, [
             h('div', {style: {padding: '15px 15px 10px 15px', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
         ])
-        const loginComponent = h('div', {style: {fontSize: '0.8em', background: 'rgb(60, 60, 60)', padding: '10px', textAlign:'right'}}, [
-                h('a', {props: {href: '../login'}, style: {color: '#53B2ED',}}, 'log in / register'),
-            ]
-        )
 
         function emberEditor(ref, type){
             const pipe = state.definition[ref.ref][ref.id]
@@ -1638,19 +1655,19 @@ export default (app)=>{
                     position: 'fixed',
                     top: '0',
                     right: '0',
-                    width: '350px',
+                    width: state.editorWidth + 'px',
                     height: '100vh',
                     background: '#4d4d4d',
                     boxSizing: "border-box",
                     borderLeft: '3px solid #333333',
                     transition: '0.5s transform',
-                    transform: state.open ? 'translateX(0%)': 'translateX(100%)',
+                    transform: state.open ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
                     userSelect: 'none',
                 },
             }, [
+                dragComponent,
                 arrowComponent,
                 freezeComponent,
-                //loginComponent,
                 stateComponent,
                 viewComponent,
             ])
