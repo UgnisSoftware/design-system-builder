@@ -718,7 +718,7 @@ export default (app)=>{
                 left: '0',
                 transform: 'translateX(-100%)',
                 top: '0',
-                width: '100px',
+                width: '10px',
                 height: '100%',
                 textAlign: 'center',
                 fontSize: '1em',
