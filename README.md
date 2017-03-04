@@ -23,24 +23,29 @@ Goals (must be reached before releasing 1.0v)
   - [ ] powerful enough to write any application, Ugnis editor is written with Ugnis itself
     - [x] string, number, boolean
     - [x] tables
-    - [ ] variants, make boolean a variant
+    - [ ] variants, boolean becomes a variant
     - [ ] connected tables - graphs
     - [ ] recursion
+  - [ ] sane style editor
   - [x] plays nice with existing apps, can be introduced in small steps
   - [ ] performance
-    - [ ] Remove virtual dom - Ugnis already knows how view nodes are connected with the state
+    - [ ] Remove virtual dom - Ugnis already knows how view nodes are connected with state
     - [ ] synthetic events
-    - [ ] minified build without runtime
-  - [ ] scalable for humans - large applications are easy to understand
-  - [ ] scalable for machines - application splitting by default
-  - [ ] server side rendering
-  - [ ] type safety - no runtime errors
+  - [ ] type safety - prevent runtime errors
   - [ ] editor works well on mobile
   - [ ] most commands should have rebindable keys
   - [ ] editor as a desktop app
   - [ ] animations / timed events
   - [ ] router
   - [ ] fetch
+  - [ ] keyboard events
+  - [ ] Open source - release on Github
+
+Future improvements
+  - [ ] server side rendering
+  - [ ] application splitting
+  - [ ] WebAssembly compiler
+  - [ ] iOS and Android components
 
 # How to use it
 

@@ -32,6 +32,7 @@ export default (app)=>{
     let state = {
         open: true,
         editorWidth: 350,
+        subEditorWidth: 350,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedEventId: '',
@@ -122,14 +123,18 @@ export default (app)=>{
     function ARROW_CLICKED() {
         setState({...state, open: !state.open})
     }
-    function WIDTH_DRAGGED(e) {
+    function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
         const resize = (e)=>{
             e.preventDefault()
-            const newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
-            if(newWidth > 200){
-                setState({...state, editorWidth: newWidth})
+            let newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
+            if(widthName === 'subEditorWidth'){
+                newWidth = newWidth - state.editorWidth - 10
             }
+            if(newWidth < 320){
+                newWidth = 320
+            }
+            setState({...state, [widthName]: newWidth})
         }
         window.addEventListener('mousemove', resize)
         window.addEventListener('touchmove', resize)
@@ -710,8 +715,8 @@ export default (app)=>{
         ])
         const dragComponent = h('div', {
             on: {
-                mousedown: WIDTH_DRAGGED,
-                touchstart: WIDTH_DRAGGED,
+                mousedown: [WIDTH_DRAGGED, 'editorWidth'],
+                touchstart: [WIDTH_DRAGGED, 'editorWidth'],
             },
             attrs: {
 
@@ -719,6 +724,27 @@ export default (app)=>{
             style: {
                 position: 'absolute',
                 left: '0',
+                transform: 'translateX(-100%)',
+                top: '0',
+                width: '10px',
+                height: '100%',
+                textAlign: 'center',
+                fontSize: '1em',
+                opacity: 0,
+                cursor: 'col-resize',
+            },
+        })
+        const dragSubComponent = h('div', {
+            on: {
+                mousedown: [WIDTH_DRAGGED, 'subEditorWidth'],
+                touchstart: [WIDTH_DRAGGED, 'subEditorWidth'],
+            },
+            attrs: {
+
+            },
+            style: {
+                position: 'absolute',
+                left: '2px',
                 transform: 'translateX(-100%)',
                 top: '0',
                 width: '10px',
@@ -1477,7 +1503,7 @@ export default (app)=>{
                 padding: '15px 23px 5px',
                 position: 'absolute',
                 top: '0',
-                left: '296px',
+                right: '16px',
                 zIndex: '100',
                 cursor: 'pointer',
                 borderRadius: '15px 15px 0 0',
@@ -1631,18 +1657,18 @@ export default (app)=>{
             return h('div', {
                 style: {
                     position: 'absolute',
-                    left: '0px',
+                    left: '-8px',
                     transform: 'translate(-100%, 0)',
-                    bottom: '0',
+                    marginRight: '8px',
+                    bottom: '6px',
                     height: '50%',
                     display: 'flex',
                     flexDirection: 'column',
-                    paddingRight: '8px',
-                    paddingBottom: '6px'
                 }
             }, [
-                h('div', {style: {flex: '1', maxHeight: '43px'}}, [eventsComponent, styleComponent, propsComponent, unselectComponent]),
-                h('div', { style: {flex: '1', background: '#4d4d4d', borderRadius: '10px', width: '360px', border: '3px solid #333333'}},[
+                h('div', {style: {flex: '1', maxHeight: '43px', minHeight: '43px', position: 'relative', marginTop: '6px'}}, [eventsComponent, styleComponent, propsComponent, unselectComponent]),
+                h('div', { style: {flex: '1', overflow: 'overlay', background: '#4d4d4d', borderRadius: '10px', width: state.subEditorWidth + 'px', border: '3px solid #333333'}},[
+                    dragSubComponent,
                     state.selectedViewSubMenu === 'props' ? propsSubmenuComponent:
                         state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
                             state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent:
