@@ -122,8 +122,10 @@ export default (app)=>{
     function ARROW_CLICKED() {
         setState({...state, open: !state.open})
     }
-    function WIDTH_DRAGGED() {
+    function WIDTH_DRAGGED(e) {
+        e.preventDefault()
         const resize = (e)=>{
+            e.preventDefault()
             const newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
             if(newWidth > 200){
                 setState({...state, editorWidth: newWidth})
@@ -132,6 +134,7 @@ export default (app)=>{
         window.addEventListener('mousemove', resize)
         window.addEventListener('touchmove', resize)
         const stopDragging = (e)=>{
+            e.preventDefault()
             window.removeEventListener('mousemove', resize)
             window.removeEventListener('touchmove', resize)
             window.removeEventListener('mouseup', stopDragging)
@@ -1186,7 +1189,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
+                    h('div', {style: {cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeId, parentId]}}, 'x'),
                 ]
             )
         }
@@ -1414,7 +1417,6 @@ export default (app)=>{
             )
         }
 
-
         const propsComponent = h('div', {
             style: {
                 background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
@@ -1629,13 +1631,18 @@ export default (app)=>{
             return h('div', {
                 style: {
                     position: 'absolute',
-                    left: '-373px',
-                    top: '-3px',
-                    height: 'calc(100% - 55px)',
+                    left: '0px',
+                    transform: 'translate(-100%, 0)',
+                    bottom: '0',
+                    height: '50%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    paddingRight: '8px',
+                    paddingBottom: '6px'
                 }
             }, [
-                eventsComponent, styleComponent, propsComponent, unselectComponent,
-                h('div', { style: {position: 'absolute', top: '43px', left: '0', background: '#4d4d4d', height: '100%', borderRadius: '10px', width: '360px', border: '3px solid #333333'}},[
+                h('div', {style: {flex: '1', maxHeight: '43px'}}, [eventsComponent, styleComponent, propsComponent, unselectComponent]),
+                h('div', { style: {flex: '1', background: '#4d4d4d', borderRadius: '10px', width: '360px', border: '3px solid #333333'}},[
                     state.selectedViewSubMenu === 'props' ? propsSubmenuComponent:
                         state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
                             state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent:
@@ -1644,9 +1651,8 @@ export default (app)=>{
             ])
         }
 
-        const viewComponent = h('div', {style: {position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {style: {overflow: 'overlay', position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode('_rootNode'),
-            state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
         ])
 
         const vnode =
@@ -1675,6 +1681,7 @@ export default (app)=>{
                 freezeComponent,
                 stateComponent,
                 viewComponent,
+                state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
             ])
 
         node = patch(node, vnode)

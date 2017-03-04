@@ -36,7 +36,7 @@ Goals (must be reached before releasing 1.0v)
   - [ ] server side rendering
   - [ ] type safety - no runtime errors
   - [ ] editor works well on mobile
-  - [ ] allow easy extension of the runtime
+  - [ ] most commands should have rebindable keys
   - [ ] editor as a desktop app
   - [ ] animations / timed events
   - [ ] router
