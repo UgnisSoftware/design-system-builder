@@ -22,7 +22,6 @@
             font-size: 2em;
         }
         a {
-            color: inherit;
             text-decoration: inherit;
         }
         .col_12{
@@ -101,43 +100,60 @@
             font-size: 1.2em;
             padding-top: 16px;
         }
-        .dots {
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translate(-50%, 0);
-            white-space: nowrap;
-            font-size: 16px;
+        .dot {
+            user-select: none;
         }
         .rel {
             position: relative;
         }
         #examples{
-            margin-top:60px;
-            padding-top: 60px;
-            padding-bottom: 60px;
+            margin:80px 0 60px;
             display:flex;
-            background: #e6e6e6;
+            background: #f5f5f5;
         }
         #exampleimg {
             flex:1;
+            align-self:center;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
             margin-right: -50px;
+            margin-top: -50px;
+            transform: translateY(25px);
+        }
+        #divider {
+            width: 30px
         }
         #questions{
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
             flex:1;
-            padding-left: 5%;
+            align-self:stretch;
+            padding: 40px;
+            margin-top: -50px;
+            transform: translateY(25px);
             font-size: 1.1em;
+            margin-left: -50px;
+            background: white;
             font-family: 'Open Sans', sans-serif;
         }
-        #action {
+        .action_wrapper{
+            margin: 20px 0 0 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items:center;
+        }
+        .action {
             background: #AD5251;
             border-radius: 10px;
             border: none;
             color: white;
             font-size: 1.2em;
             display: inline-block;
-            padding: 20px;
+            padding: 15px 20px;
+        }
+        .action:hover{
+            background: #a74e4d;
+        }
+        .show_not_tell {
+            flex: 1;
         }
         #explanations {
             display: flex
@@ -156,14 +172,33 @@
             font-weight: 800;
             font-family: 'Open Sans', sans-serif;
         }
+        .grey{
+            color: #aaaaaa;
+        }
+        .support_font{
+            font-size: 0.8em;
+        }
         .faq {
             padding: 20px;
         }
         .shouldyou{
-            text-align: center;
+            padding-left: 20px;
         }
         .tissilly{
             font-family: 'Open Sans', sans-serif;
+        }
+        .try_editor{
+            background: #AD5251;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 15px 20px;
+            margin-top: 10px;
+        }
+        .try_editor:hover{
+            background: #a74e4d;
         }
     </style>
 </head>
@@ -175,70 +210,83 @@
                 <span id="logo_text">ugnis</span>
             </a>
             <div id="menu" class="col_8">
-                <a class="menu_item" href="./editor"><span class="rel">editor<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./pricing"><span class="rel">pricing<span class="dots">• • •</span></span></a>
-                <a class="menu_item" href="./login"><span class="rel" id="login_text">login/register<span class="dots">• • •</span></span></a>
+                <a class="try_editor" href="./editor">open editor</a>
             </div>
         </div>
     </header>
     <section class="col_8" id="main">
         <h1 id="shoutout">build web apps <b>visually</b></h1>
-        <h2 id="subshoutout">make programming obsolete</h2>
+        <h2 id="subshoutout">make JavaScript undefined again</h2>
         <section id="examples">
             <div id="questions">
-                <h3>What can you build with Ugnis? (TODO ADD EXAMPLES)</h3>
+                <h3>Ugnis is a visual front-end framework</h3>
+                <p>No more typing mistakes. No more </p>
+                <p>It builds on the ideas of current state of the art tools:</p>
                 <ul>
-                    <li>Maybe a Blog?</li>
-                    <li>Or a TodoApp?</li>
-                    <li>How about a People Management App?</li>
-                    <li>Or a new social network?</li>
-                    <li>A game?</li>
+                    <li>Declarative and functional</li>
+                    <li>A single state container and one way data flow</li>
+                    <li>Prevents runtime errors</li>
                 </ul>
-                <a id="action" href="./editor">Start quick tutorial</a>
+                But unlike current frameworks:
+                <ul>
+                    <li>Reduces boilerplate to a minimum</li>
+                    <li>Visually displays how your code is connected</li>
+                    <li>Starting new project is instant, no build tools or configuration</li>
+                    <li>Encourages non-programmers to contribute</li>
+                </ul>
+                <div class="action_wrapper">
+                    <b class="show_not_tell">It's better to show than tell</b>
+                    <a class="action" href="./editor">Start a quick tutorial</a>
+                </div>
             </div>
+            <div id="divider"></div>
             <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
         </section>
-        <div class="faq">
-            <h3>FAQ</h3>
-            <p>How does using ugnis look like? You use our visual editor to create the definition of your application (logged in users can save one definition and come back to it later on). Once your app is ready, you can export a minified javascript code and put it in your website.</p>
-            <p>Can Ugnis create an app for Windows, Linux and Mac? Yes, when exporting you can select to export as a wrapped Electron app.</p>
-            <p>Can Ugnis create and iOS or Android app? Not yet, though in the future a slightly changed editor with more specialized components for every OS will be able to export to iOS and Android</p>
-        </div>
-        <h2 class="shouldyou">Should you use ugnis?</h2>
+        <h2 class="shouldyou">What Ugnis is aiming to be:</h2>
         <section id="explanations">
             <div class="expln">
-                <h3>For React, Redux, Angular or Elm programmers</h3>
+                <h3>For Front-end programmers</h3>
                 <ul>
                     <li class="plus">Full framework with view, state management, styling, routing and http requests</li>
-                    <li class="plus">Visually shows how parts of the app are connected</li>
                     <li class="plus">Type safe without getting in your way</li>
-                    <li class="plus">Less boilerplate, faster development speed</li>
                     <li class="plus">No build tools required</li>
                     <li class="plus">Can be introduced in small steps to an existing app</li>
                     <li class="plus">Faster and much smaller than any other framework</li>
-                    <li class="plus">Build for scale - large apps are easy to understand and change</li>
-
-                    <li class="minus">Early in development - rapid UI changes, lacking examples</li>
-                    <li class="minus">Some very specific styles and behaviours are not yet possible, but you can always add CSS classes and external javascript</li>
-                    <li class="minus">Support for multiple people working on the same project is in an early phase</li>
-                    <li class="minus">To implement real time collaboration and git-like history your code has to be on Ugnis servers</li>
+                    <li class="minus">Support multiple people working on the same project is not yet implemented</li>
+                    <li class="minus">Saving your application is not possible in beta</li>
+                    <li class="minus">Text-based tools, like Git, are not build to support visual programming languages</li>
                 </ul>
             </div>
             <div class="expln">
-                <h3>For people without programming experience</h3>
+                <h3>For people without JavaScript or any programming experience</h3>
                 <ul>
-                    <li class="plus">As powerful as a programming language - create any app you can think of</li>
+                    <li class="plus">As powerful as a programming language - create any webapp you can think of</li>
+                    <li class="plus">A way to avoid the notorious JavaScript ecosystem</li>
                     <li class="plus">Simple - become productive in a few hours</li>
-                    <li class="plus">Guaranteed safety - no fear of making a mistake</li>
-                    <li class="plus">Enables everyone on the team - programmers, designers, managers to make changes</li>
-                    <li class="plus">One of the first real development environment to work on mobile</li>
-                    <li class="minus">Does not yet provide data storage for your apps - but there are plenty backend solution to chose from like Firebase</li>
+                    <li class="plus">Guaranteed safety - users shouldn't be afraid to make mistakes</li>
+                    <li class="plus">A real development environment that works on mobile</li>
+                    <li class="minus">Not a back-end (data storage) provider for your apps</li>
                 </ul>
             </div>
         </section>
-        <section class="expln">
-            <h3>For non-JavaScript programmers</h3>
-            <p class="tissilly"> Just use ugnis. We don't recommend going to the JavaScript world of undefined with bazillion different frameworks and bundlers. We've been there, 'tis a silly place.</p>
+        <section>
+        <div class="faq">
+            <h2>FAQ<span class="dot"> • </span><span class="grey support_font">support@ugnis.com or <a class="grey" href="https://twitter.com/UgnisSoftware">@UgnisSoftware</a></span></h2>
+            <h3>How do I use Ugnis?</h3>
+            <p>You use the visual editor to create the definition of your application. Once your app is ready, you can export a minified JavaScript code and put it in your website.</p>
+            <h3>How does Ugnis work internally?</h3>
+            <p>Ugnis is declarative programming taken to the extreme - code is just a JSON file. Other parts are: <ol><li>Interpreter for the JSON.</li><li>Editor, because you wouldn't want to write JSON by hand. Editor works with the Interpreter to change your definition JSON.</li><li>Compiler that takes your JSON and makes it into an optimized JS code that does not require an interpreter.</li></ol></p>
+            <h3>How do I use Ugnis?</h3>
+            <p>Will ugnis do X? Look into our road map. If there is something we haven't thought about, please email us or tweet</p>
+            <h3>How do I use Ugnis?</h3>
+            <p>Will you release Ugnis to open source? Yes, once we finish 1.0v. Supporting an open source community would be too hard when tool is changing so much.</p>
+            <h3>How do I use Ugnis?</h3>
+            <p>Can Ugnis create an app for Windows, Linux and Mac? Yes, Ugnis 1.0v will allow automatic wrapping with Electron.</p>
+            <h3>How do I use Ugnis?</h3>
+            <p>Can Ugnis create and iOS or Android app? Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
+            <h3>How do I use Ugnis?</h3>
+            <p>Visual programming will never work. That is not a question and it works already. Ugnis did not start as a visual tool, but a one-dimentional string of symbols proved to be a bad way to express the cyclical nature of applications.</p>
+        </div>
         </section>
     </section>
     <script>
