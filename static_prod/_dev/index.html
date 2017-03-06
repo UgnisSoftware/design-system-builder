@@ -134,6 +134,18 @@
             background: white;
             font-family: 'Open Sans', sans-serif;
         }
+
+        @media (max-width: 1780px) {
+            #divider{
+                display: none;
+            }
+            #exampleimg {
+                display: none;
+            }
+            #questions {
+                transform: translate(25px);
+            }
+        }
         .action_wrapper{
             margin: 20px 0 0 0;
             display: flex;
@@ -219,23 +231,39 @@
         <h2 id="subshoutout">make JavaScript undefined again</h2>
         <section id="examples">
             <div id="questions">
-                <h3>Ugnis is a visual front-end framework</h3>
-                <p>No more boilerplate. No more hidden state bugs. No more undefined.</p>
-                <p>Ugnis builds on the ideas of current state of the art tools:</p>
+                <h3>Ugnis is a new type of frameworks</h3>
+                <p> Current JavaScript ecosystem is frustrating.
+                    Tools like JSX, templates and Observables try to reduce boilerplate,
+                    but they don't solve the underlying problem - all current solutions are <b>a one-dimentional string of symbols:</b></p>
                 <ul>
-                    <li>Declarative and functional</li>
-                    <li>A single state container and one way data flow</li>
-                    <li>Prevents runtime errors</li>
+                    <li>Text cannot show how your different parts of your code work together</li>
+                    <li>You have to know the how a valid program looks before you can start writing</li>
+                    <li>Text is prone to errors and easily tangles together</li>
                 </ul>
-                But unlike current frameworks:
+                <p><b>Ugnis is a visual front-end framework</b></p>
                 <ul>
-                    <li>Reduces boilerplate to a minimum</li>
-                    <li>Visually displays how your code is connected</li>
-                    <li>Starting new project is instant, no build tools or configuration</li>
-                    <li>Encourages non-programmers to contribute</li>
+                    <li>There is no new language to learn</li>
+                    <li>Setting up a new project takes seconds not hours</li>
+                    <li>Generated code is guaranteed to have no runtime errors</li>
+                    <li>Understand how code works by poking around</li>
+                    <li>Forget obscure HTML, CSS and JavaScript rules</li>
                 </ul>
+
+
+                <!--<p>Ugnis builds on the ideas of current state of the art tools:</p>-->
+                <!--<ul>-->
+                    <!--<li>Declarative and functional</li>-->
+                    <!--<li>A single state container and one way data flow</li>-->
+                    <!--<li>Prevents runtime errors</li>-->
+                <!--</ul>-->
+                <!--But unlike current frameworks:-->
+                <!--<ul>-->
+                    <!--<li>Reduces boilerplate to a minimum</li>-->
+                    <!--<li>Visually displays how your code is connected</li>-->
+                    <!--<li></li>-->
+                <!--</ul>-->
                 <div class="action_wrapper">
-                    <b class="show_not_tell">It's better to show than tell</b>
+                    <b class="show_not_tell">Try it for yourself</b>
                     <a class="action" href="./editor">Start a quick tutorial</a>
                 </div>
             </div>
@@ -245,11 +273,12 @@
         <h2 class="shouldyou">What Ugnis is aiming to be:</h2>
         <section id="explanations">
             <div class="expln">
-                <h3>For Front-end programmers</h3>
+                <h3>For Front-end developers</h3>
                 <ul>
                     <li class="plus">Full framework with view, state management, styling, routing and http requests</li>
-                    <li class="plus">Type safe without getting in your way</li>
-                    <li class="plus">No build tools required</li>
+                    <li class="plus">Declarative, functional and type safe without getting in your way</li>
+                    <li class="plus">Familiar - single state container, one way data flow, functional rendering</li>
+                    <li class="plus">Starting a new project is instant, no build tools or configuration</li>
                     <li class="plus">Can be introduced in small steps to an existing app</li>
                     <li class="plus">Faster and much smaller than any other framework</li>
                     <li class="minus">Support multiple people working on the same project is not yet implemented</li>
@@ -263,8 +292,9 @@
                     <li class="plus">As powerful as a programming language - create any webapp you can think of</li>
                     <li class="plus">A way to avoid the notorious JavaScript ecosystem</li>
                     <li class="plus">Simple - become productive in a few hours</li>
-                    <li class="plus">Guaranteed safety - users shouldn't be afraid to make mistakes</li>
-                    <li class="plus">A real development environment that works on mobile</li>
+                    <li class="plus">Guaranteed safety - can be learned and used without the fear of making mistakes</li>
+                    <li class="plus">Full development environment that works on mobile</li>
+                    <li class="plus">Encourages everyone on the team to contribute</li>
                     <li class="minus">Not a back-end (data storage) provider for your apps</li>
                 </ul>
             </div>
