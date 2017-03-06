@@ -25,21 +25,21 @@
             text-decoration: inherit;
         }
         .col_12{
-            width: 1780px;
+            max-width: 1780px;
             margin: auto;
         }
         @media (max-width: 1780px) {
             .col_12{
-                width: 1220px;
+                max-width: 1220px;
             }
         }
         .col_8{
-            width: 1500px;
+            max-width: 1500px;
             margin: auto;
         }
         @media (max-width: 1780px) {
             .col_8{
-                width: 940px;
+                max-width: 940px;
             }
         }
         #logo{
@@ -211,6 +211,19 @@
         }
         .try_editor:hover{
             background: #a74e4d;
+        }
+        @media (max-width: 1020px) {
+            #explanations{
+                flex-direction: column;
+            }
+            .try_editor{
+                margin-right: 20px;
+            }
+            #questions {
+                padding: 30px 45px;
+                margin-left: 0px;
+                transform: none;
+            }
         }
     </style>
 </head>
