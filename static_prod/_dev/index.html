@@ -188,7 +188,7 @@
             color: #aaaaaa;
         }
         .support_font{
-            font-size: 0.8em;
+            font-size: 0.6em;
         }
         .faq {
             padding: 20px;
@@ -246,9 +246,13 @@
             transform: translateY(25px);
             font-size: 1.1em;
             margin-left: -50px;
+            margin-right: -50px;
             margin-bottom: 10px;
             background: white;
             font-family: 'Open Sans', sans-serif;
+        }
+        .faq_title{
+            font-size: 2em;
         }
         #example_block_item:hover ~ #exampleimg { opacity: 0.2; }
     </style>
@@ -267,7 +271,7 @@
     </header>
     <section class="col_8" id="main">
         <h1 id="shoutout">build web apps <b>visually</b></h1>
-        <h2 id="subshoutout">make JavaScript undefined again</h2>
+        <h2 id="subshoutout"></h2>
         <section id="examples">
             <div id="example_block">
                 <h3>examples</h3>
@@ -283,7 +287,7 @@
         </section>
         <section>
         <div class="faq">
-            <h2>FAQ<span class="dot"> • </span><span class="grey support_font">support@ugnis.com or <a class="grey" href="https://twitter.com/UgnisSoftware">@UgnisSoftware</a></span></h2>
+            <h2 class="faq_title">FAQ <span class="grey support_font">support@ugnis.com <span class="dot"> • </span> <a class="grey" href="https://twitter.com/UgnisSoftware">@UgnisSoftware</a></span></h2>
             <div class="faq_block">
                 <h3>How do I use Ugnis?</h3>
                 <p>You use the visual editor to create the definition of your application. Once your app is ready, you can export a minified JavaScript code and put it in your website.</p>
@@ -294,7 +298,14 @@
             </div>
             <div class="faq_block">
                 <h3>How does Ugnis work internally?</h3>
-                <p>Ugnis is declarative programming taken to the extreme - code is just a JSON file. Other parts are: <ol><li>Interpreter for the JSON.</li><li>Editor, because you wouldn't want to write JSON by hand. Editor works with the Interpreter to change your definition JSON.</li><li>Compiler that takes your JSON and makes it into an optimized JS code that does not require an interpreter.</li></ol></p>
+                <p>Ugnis is declarative programming taken to the extreme. There are 4 parts:
+                <ol>
+                    <li>Your application as a JSON file</li>
+                    <li>Interpreter for your JSON code</li>
+                    <li>Editor, because you wouldn't want to write JSON by hand. Editor works with the Interpreter to change your code definition JSON.</li>
+                    <li>Compiler that takes your JSON and makes it into an optimized JS code that does not require an interpreter.</li>
+                </ol>
+                </p>
             </div>
             <div class="faq_block">
                 <h3>Will ugnis do ...?</h3>
