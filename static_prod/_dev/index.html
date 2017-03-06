@@ -225,6 +225,32 @@
                 transform: none;
             }
         }
+        #example_block{
+            flex: 1;
+            max-width: 30%;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            align-self:stretch;
+            padding: 40px;
+            margin-top: -50px;
+            transform: translateY(25px);
+            font-size: 1.1em;
+            margin-left: -50px;
+            background: white;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .faq_block {
+            flex: 1;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            align-self:stretch;
+            padding: 20px;
+            transform: translateY(25px);
+            font-size: 1.1em;
+            margin-left: -50px;
+            margin-bottom: 10px;
+            background: white;
+            font-family: 'Open Sans', sans-serif;
+        }
+        #example_block_item:hover #exampleimg { opacity: 0.2; }
     </style>
 </head>
 <body>
@@ -243,78 +269,45 @@
         <h1 id="shoutout">build web apps <b>visually</b></h1>
         <h2 id="subshoutout">make JavaScript undefined again</h2>
         <section id="examples">
-            <div id="questions">
-                <h3>Ugnis is a new type of framework</h3>
-                <p> Current JavaScript ecosystem is frustrating.
-                    Tools like JSX and Observables try to reduce boilerplate,
-                    but they don't solve the underlying problem - all current solutions are <b>a one-dimensional string of symbols:</b></p>
-                <ul>
-                    <li>Text cannot show how your different parts of your code work together</li>
-                    <li>You have to know the how a valid program looks before you can start writing</li>
-                    <li>Text is prone to errors and easily tangles together</li>
-                </ul>
-                <p><b>Ugnis is a visual front-end framework</b></p>
-                <ul>
-                    <li>There is no new language to learn</li>
-                    <li>Setting up a new project takes seconds not hours</li>
-                    <li>Generated code is guaranteed to have no runtime errors</li>
-                    <li>Understand how code works by poking around</li>
-                    <li>Forget obscure HTML, CSS and JavaScript rules</li>
-                </ul>
-                <div class="action_wrapper">
-                    <b class="show_not_tell">Try it for yourself</b>
-                    <a class="action" href="./editor">Start a quick tutorial</a>
-                </div>
+            <div id="example_block">
+                <h3>examples</h3>
+                <div id="example_block_item">Blog</div>
+                <div>TODO app</div>
             </div>
             <div id="divider"></div>
             <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
         </section>
-        <h2 class="shouldyou">What Ugnis is aiming to be:</h2>
-        <section id="explanations">
-            <div class="expln">
-                <h3>For Front-end developers</h3>
-                <ul>
-                    <li class="plus">Full framework with view, state management, styling, routing and http requests</li>
-                    <li class="plus">Declarative, functional and type safe without getting in your way</li>
-                    <li class="plus">Familiar - single state container, one way data flow, functional rendering</li>
-                    <li class="plus">Starting a new project is instant, no build tools or configuration</li>
-                    <li class="plus">Can be introduced in small steps to an existing app</li>
-                    <li class="plus">Faster and much smaller than any other framework</li>
-                    <li class="minus">Support multiple people working on the same project is not yet implemented</li>
-                    <li class="minus">Saving your application is not possible in beta</li>
-                    <li class="minus">Text-based tools, like Git, are not build to support visual programming languages</li>
-                </ul>
-            </div>
-            <div class="expln">
-                <h3>For people without JavaScript or any programming experience</h3>
-                <ul>
-                    <li class="plus">As powerful as a programming language - create any webapp you can think of</li>
-                    <li class="plus">A way to avoid the notorious JavaScript ecosystem</li>
-                    <li class="plus">Simple - become productive in a few hours</li>
-                    <li class="plus">Guaranteed safety - can be learned and used without the fear of making mistakes</li>
-                    <li class="plus">Full development environment that works on mobile</li>
-                    <li class="plus">Encourages everyone on the team to contribute</li>
-                    <li class="minus">Not a back-end (data storage) provider for your apps</li>
-                </ul>
-            </div>
-        </section>
         <section>
         <div class="faq">
             <h2>FAQ<span class="dot"> • </span><span class="grey support_font">support@ugnis.com or <a class="grey" href="https://twitter.com/UgnisSoftware">@UgnisSoftware</a></span></h2>
-            <h3>How do I use Ugnis?</h3>
-            <p>You use the visual editor to create the definition of your application. Once your app is ready, you can export a minified JavaScript code and put it in your website.</p>
-            <h3>How do I save my application?</h3>
-            <p>Ugnis is changing rapidly and we cannot support saving applications before we release 1.0v</p>
-            <h3>How does Ugnis work internally?</h3>
-            <p>Ugnis is declarative programming taken to the extreme - code is just a JSON file. Other parts are: <ol><li>Interpreter for the JSON.</li><li>Editor, because you wouldn't want to write JSON by hand. Editor works with the Interpreter to change your definition JSON.</li><li>Compiler that takes your JSON and makes it into an optimized JS code that does not require an interpreter.</li></ol></p>
-            <h3>Will ugnis do ...?</h3>
-            <p>Check our <a href="./roadmap">road map</a>. If there is something we haven't thought about, please send an email or tweet</p>
-            <h3>Can Ugnis create an app for Windows, Linux and Mac?</h3>
-            <p>Yes, Ugnis 1.0v will allow automatic wrapping with Electron.</p>
-            <h3>Can Ugnis create and iOS or Android app?</h3>
-            <p>Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
-            <h3>Visual programming will never work.</h3>
-            <p>But it already works. Ugnis did not start as a visual tool. It became obvious that we needed more than one dimension to express the cyclical nature of applications.</p>
+            <div class="faq_block">
+                <h3>How do I use Ugnis?</h3>
+                <p>You use the visual editor to create the definition of your application. Once your app is ready, you can export a minified JavaScript code and put it in your website.</p>
+            </div>
+            <div class="faq_block">
+                <h3>How do I save my application?</h3>
+                <p>Ugnis is changing rapidly and we cannot support saving applications before we release 1.0v</p>
+            </div>
+            <div class="faq_block">
+                <h3>How does Ugnis work internally?</h3>
+                <p>Ugnis is declarative programming taken to the extreme - code is just a JSON file. Other parts are: <ol><li>Interpreter for the JSON.</li><li>Editor, because you wouldn't want to write JSON by hand. Editor works with the Interpreter to change your definition JSON.</li><li>Compiler that takes your JSON and makes it into an optimized JS code that does not require an interpreter.</li></ol></p>
+            </div>
+            <div class="faq_block">
+                <h3>Will ugnis do ...?</h3>
+                <p>Check our <a href="./roadmap">road map</a>. If there is something we haven't thought about, please send an email or tweet</p>
+            </div>
+            <div class="faq_block">
+                <h3>Can Ugnis create an app for Windows, Linux and Mac?</h3>
+                <p>Yes, Ugnis 1.0v will allow automatic wrapping with Electron.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Can Ugnis create and iOS or Android app?</h3>
+                <p>Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Visual programming will never work.</h3>
+                <p>But it already works. Ugnis did not start as a visual tool. It became obvious that we needed more than one dimension to express the cyclical nature of applications.</p>
+            </div>
         </div>
         </section>
     </section>
