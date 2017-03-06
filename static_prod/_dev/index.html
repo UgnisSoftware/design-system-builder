@@ -81,7 +81,6 @@
         }
         #main {
             background: white;
-            minHeight: calc(100vh - 70px);
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
         #shoutout{
@@ -235,7 +234,7 @@
                 <h3>Ugnis is a new type of framework</h3>
                 <p> Current JavaScript ecosystem is frustrating.
                     Tools like JSX and Observables try to reduce boilerplate,
-                    but they don't solve the underlying problem - all current solutions are <b>a one-dimentional string of symbols:</b></p>
+                    but they don't solve the underlying problem - all current solutions are <b>a one-dimensional string of symbols:</b></p>
                 <ul>
                     <li>Text cannot show how your different parts of your code work together</li>
                     <li>You have to know the how a valid program looks before you can start writing</li>
@@ -302,14 +301,9 @@
             <h3>Can Ugnis create and iOS or Android app?</h3>
             <p>Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
             <h3>Visual programming will never work.</h3>
-            <p>That is not a question and it already works. Ugnis did not start as a visual tool, but a one-dimentional string of symbols proved to be a bad way to express the cyclical nature of applications.</p>
+            <p>That is not a question and it already works. Ugnis did not start as a visual tool. It became obvious that we needed more than one dimension to express the cyclical nature of applications.</p>
         </div>
         </section>
     </section>
-    <script>
-        if(localStorage.getItem('userEmail')){
-            document.getElementById('login_text').textContent = localStorage.getItem('userEmail')
-        }
-    </script>
 </body>
 </html>
