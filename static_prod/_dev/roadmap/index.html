@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding: 2vh 20px;
+            max-width: 820px;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo_box{
+            flex: 1;
+        }
+        .login_box{
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            margin-top: 30px;
+            flex: 1;
+            background: white;
+            padding:20px;
+            border-radius: 6px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .label{
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .input{
+            width: 100%;
+            padding:6px;
+            box-sizing: border-box;
+            margin: 6px 0 16px 0;
+            line-height: 24px;
+            color: #333;
+            font-family: inherit;
+            vertical-align: middle;
+            border-radius: 3px;
+            background: white;
+            font-size: 15px;
+            border: 1px solid #ddd;
+        }
+        .button {
+            background: #AD5251;
+            border-radius: 3px;
+            color: white;
+            font-size: 20px;
+            display: inline-block;
+            padding: 9px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 15px;
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover{
+            background: #a25150;
+        }
+        .reset{
+            font-size: 12px;
+            color: #0072bc;
+            float: right;
+            margin-top:-10px;
+        }
+        .reset:hover{
+            text-decoration: underline;
+        }
+        .register{
+            flex: 1;
+            width: 320px;
+            margin-top: 5px;
+            padding:15px;
+            font-size: 15px;
+            color: #0072bc;
+            box-sizing: border-box;
+            border-radius: 6px;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .register:hover{
+            text-decoration: underline;
+        }
+        .footer{
+            font-size: 11px;
+            color: #959595;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .footer a:hover{
+            text-decoration: underline;
+        }
+        .contacts{
+
+        }
+        .contacts:before{
+            content: '•';
+            padding: 0 10px;
+        }
+        #error {
+            border: 1px solid #AD5251;
+            margin-bottom: 20px;
+            padding: 5px;
+            box-sizing: border-box;
+            border-radius: 3px;
+            color: #4e4e4e;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="center login">
+        <a href="/_dev" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <h1 id="goals">Roadmap</h1>
+
+        <p>Goals (must be reached before releasing 1.0v)</p>
+        <ul>
+            <li><input type="checkbox" disabled id="checkbox0" checked="true"><label for="checkbox0">zero configuration, Ugnis-only apps don’t need webpack or babel</label></li>
+            <li><input type="checkbox" disabled id="checkbox1"><label for="checkbox1">powerful enough to write any application, Ugnis editor is written with Ugnis itself</label>
+                <ul>
+                    <li><input type="checkbox" disabled id="checkbox2" checked="true"><label for="checkbox2">string, number, boolean</label></li>
+                    <li><input type="checkbox" disabled id="checkbox3" checked="true"><label for="checkbox3">tables</label></li>
+                    <li><input type="checkbox" disabled id="checkbox4"><label for="checkbox4">variants, boolean becomes a variant</label></li>
+                    <li><input type="checkbox" disabled id="checkbox5"><label for="checkbox5">connected tables - graphs</label></li>
+                    <li><input type="checkbox" disabled id="checkbox6"><label for="checkbox6">recursion</label></li>
+                </ul>
+            </li>
+            <li><input type="checkbox" disabled id="checkbox7"><label for="checkbox7">better style editor</label></li>
+            <li><input type="checkbox" disabled id="checkbox8" checked="true"><label for="checkbox8">plays nice with existing apps, can be introduced in small steps</label></li>
+            <li><input type="checkbox" disabled id="checkbox9"><label for="checkbox9">performance</label>
+                <ul>
+                    <li><input type="checkbox" disabled id="checkbox10"><label for="checkbox10">Remove virtual dom - Ugnis already knows how view nodes are connected with state</label></li>
+                    <li><input type="checkbox" disabled id="checkbox11"><label for="checkbox11">synthetic events</label></li>
+                </ul>
+            </li>
+            <li><input type="checkbox" disabled id="checkbox12"><label for="checkbox12">type safety - prevent runtime errors</label></li>
+            <li><input type="checkbox" disabled id="checkbox13"><label for="checkbox13">editor works well on mobile</label></li>
+            <li><input type="checkbox" disabled id="checkbox14"><label for="checkbox14">most commands should have rebindable keys</label></li>
+            <li><input type="checkbox" disabled id="checkbox16"><label for="checkbox16">animations / timed events</label></li>
+            <li><input type="checkbox" disabled id="checkbox17"><label for="checkbox17">router</label></li>
+            <li><input type="checkbox" disabled id="checkbox18"><label for="checkbox18">fetch</label></li>
+            <li><input type="checkbox" disabled id="checkbox19"><label for="checkbox19">keyboard events</label></li>
+        </ul>
+        <p>Future improvements</p>
+        <ul>
+            <li><input type="checkbox" disabled id="checkbox21"><label for="checkbox21">server side rendering</label></li>
+            <li><input type="checkbox" disabled id="checkbox22"><label for="checkbox22">application splitting</label></li>
+            <li><input type="checkbox" disabled id="checkbox23"><label for="checkbox23">WebAssembly compiler</label></li>
+            <li><input type="checkbox" disabled id="checkbox24"><label for="checkbox24">iOS and Android components</label></li>
+        </ul>
+    </section>
+</body>
+</html>
