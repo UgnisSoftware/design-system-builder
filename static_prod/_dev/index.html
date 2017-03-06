@@ -250,7 +250,7 @@
             background: white;
             font-family: 'Open Sans', sans-serif;
         }
-        #example_block_item:hover #exampleimg { opacity: 0.2; }
+        #example_block_item:hover ~ #exampleimg { opacity: 0.2; }
     </style>
 </head>
 <body>
@@ -273,6 +273,10 @@
                 <h3>examples</h3>
                 <div id="example_block_item">Blog</div>
                 <div>TODO app</div>
+                <div class="action_wrapper">
+                    <b class="show_not_tell">Try it for yourself</b>
+                    <a class="action" href="./editor">Start a quick tutorial</a>
+                </div>
             </div>
             <div id="divider"></div>
             <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
@@ -294,7 +298,7 @@
             </div>
             <div class="faq_block">
                 <h3>Will ugnis do ...?</h3>
-                <p>Check our <a href="./roadmap">road map</a>. If there is something we haven't thought about, please send an email or tweet</p>
+                <p>Check out our <a href="./roadmap">road map</a>. If there is something we haven't thought about, please send us an email or tweet</p>
             </div>
             <div class="faq_block">
                 <h3>Can Ugnis create an app for Windows, Linux and Mac?</h3>
