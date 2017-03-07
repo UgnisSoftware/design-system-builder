@@ -184,7 +184,8 @@ export default (app)=>{
             vNodeBox: {...state.definition.vNodeBox, [parentId]: {...state.definition.vNodeBox[parentId], children:state.definition.vNodeBox[parentId].children.filter((ref)=>ref.id !== nodeId)}},
         }, selectedViewNode: {}}, true)
     }
-    function ADD_NODE(nodeId, type) {
+    function ADD_NODE(nodeRef, type) {
+        const nodeId = nodeRef.id
         const newNodeId = uuid.v4()
         const newStyleId = uuid.v4()
         const newStyle = {
@@ -199,11 +200,17 @@ export default (app)=>{
             return setState({
                 ...state,
                 selectedViewNode: {ref:'vNodeBox', id: newNodeId},
-                definition: {
+                definition: nodeRef.ref === 'vNodeBox' ? {
                     ...state.definition,
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
-                }}, true)
+                } : {
+                        ...state.definition,
+                        [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}},
+                        vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
+                        style: {...state.definition.style, [newStyleId]: newStyle},
+                    }
+            }, true)
         }
         if(type === 'text'){
             const pipeId = uuid.v4()
@@ -223,7 +230,7 @@ export default (app)=>{
                 definition: {
                     ...state.definition,
                     pipe: {...state.definition.pipe, [pipeId]: newPipe},
-                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
+                    [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 }}, true)
@@ -268,7 +275,7 @@ export default (app)=>{
                 definition: {
                     ...state.definition,
                     pipe: {...state.definition.pipe, [pipeId]: newPipe},
-                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeInput', id:newNodeId})}},
+                    [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeInput', id:newNodeId})}},
                     vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
                     nameSpace: {...state.definition.nameSpace, ['_rootNameSpace']: {...state.definition.nameSpace['_rootNameSpace'], children: state.definition.nameSpace['_rootNameSpace'].children.concat({ref:'state', id:stateId})}},
@@ -1134,7 +1141,9 @@ export default (app)=>{
 
         const stateComponent = h('div', {style: {overflow: 'overlay', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
-        function listBoxNode(nodeId, parentId, position) {
+        function listBoxNode(nodeRef, parentRef, position) {
+            const nodeId = nodeRef.id
+            const parentId = parentRef.id
             const node = state.definition.vNodeBox[nodeId]
             function editingNode() {
                 return h('input', {
@@ -1188,14 +1197,14 @@ export default (app)=>{
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref, index)=>{
-                            if(ref.ref === 'vNodeText') return listTextNode(ref.id, nodeId, index)
-                            if(ref.ref === 'vNodeBox') return listBoxNode(ref.id, nodeId, index)
-                            if(ref.ref === 'vNodeInput') return listInputNode(ref.id, nodeId, index)
-                            if(ref.ref === 'vNodeList') return listListNode(ref.id, nodeId, index)
+                            if(ref.ref === 'vNodeText') return listTextNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeBox') return listBoxNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeInput') return listInputNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeList') return listListNode(ref, nodeRef, index)
                         }),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeBox', id: nodeId}, 'box']}}, '+ box'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeBox', id: nodeId}, 'text']}}, '+ text'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeBox', id: nodeId}, 'input']}}, '+ input'),
                     ]),
                     position > 0 ? h('svg', {
                                 attrs: {width: 6, height: 8},
@@ -1206,7 +1215,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    parentId && position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                    parentId && position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
                                 attrs: {width: 6, height: 8},
                                 style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                 on: {
@@ -1219,7 +1228,9 @@ export default (app)=>{
                 ]
             )
         }
-        function listTextNode(nodeId, parentId, position) {
+        function listTextNode(nodeRef, parentRef, position) {
+            const nodeId = nodeRef.id
+            const parentId = parentRef.id
             const node = state.definition.vNodeText[nodeId]
             function editingNode() {
                 return h('input', {
@@ -1270,7 +1281,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                    position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
                                 attrs: {width: 6, height: 8},
                                 style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                 on: {
@@ -1283,7 +1294,9 @@ export default (app)=>{
                 ]
             )
         }
-        function listInputNode(nodeId, parentId, position) {
+        function listInputNode(nodeRef, parentRef, position) {
+            const nodeId = nodeRef.id
+            const parentId = parentRef.id
             const node = state.definition.vNodeInput[nodeId]
             function editingNode() {
                 return h('input', {
@@ -1337,7 +1350,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    position < state.definition.vNodeBox[parentId].children.length-1 ? h('svg', {
+                    position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
                                 attrs: {width: 6, height: 8},
                                 style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                 on: {
@@ -1351,7 +1364,9 @@ export default (app)=>{
             )
         }
 
-        function listListNode(nodeId, parentId, position) {
+        function listListNode(nodeRef, parentRef, position) {
+            const nodeId = nodeRef.id
+            const parentId = parentRef.id
             const node = state.definition.vNodeList[nodeId]
             function editingNode() {
                 return h('input', {
@@ -1411,14 +1426,14 @@ export default (app)=>{
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref, index)=>{
-                            if(ref.ref === 'vNodeText') return listTextNode(ref.id)
-                            if(ref.ref === 'vNodeBox') return listBoxNode(ref.id)
-                            if(ref.ref === 'vNodeInput') return listInputNode(ref.id)
-                            if(ref.ref === 'vNodeList') return listListNode(ref.id)
+                            if(ref.ref === 'vNodeText') return listTextNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeBox') return listBoxNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeInput') return listInputNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeList') return listListNode(ref, nodeRef, index)
                         }),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeId, 'input']}}, '+ input'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeList', id: nodeId}, 'box']}}, '+ box'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeList', id: nodeId}, 'text']}}, '+ text'),
+                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, {ref:'vNodeList', id: nodeId}, 'input']}}, '+ input'),
                     ]),
                     position > 0 ? h('svg', {
                                 attrs: {width: 6, height: 8},
@@ -1429,7 +1444,7 @@ export default (app)=>{
                             },
                             [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
                         h('span'),
-                    parentId && position < (state.definition.vNodeBox[parentId].children.length-1) ? h('svg', {
+                    parentId && position < (state.definition[parentRef.ref][parentId].children.length-1) ? h('svg', {
                                 attrs: {width: 6, height: 8},
                                 style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
                                 on: {
@@ -1678,7 +1693,7 @@ export default (app)=>{
         }
 
         const viewComponent = h('div', {style: {overflow: 'overlay', position: 'relative', flex: '1', borderTop: '3px solid #333333', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
-            listBoxNode('_rootNode'),
+            listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, {}),
         ])
 
         const vnode =
