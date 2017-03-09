@@ -24,7 +24,6 @@ import big from 'big.js';
 big.E_POS = 1e+6
 
 export default (app)=>{
-
     let node = document.createElement('div')
     document.getElementById('wrapper').appendChild(node)
 
@@ -742,7 +741,7 @@ export default (app)=>{
                 left: '0',
                 transform: 'translateX(-100%)',
                 top: '0',
-                width: '10px',
+                width: '20px',
                 height: '100%',
                 textAlign: 'center',
                 fontSize: '1em',
@@ -763,7 +762,7 @@ export default (app)=>{
                 left: '2px',
                 transform: 'translateX(-100%)',
                 top: '0',
-                width: '10px',
+                width: '20px',
                 height: '100%',
                 textAlign: 'center',
                 fontSize: '1em',
