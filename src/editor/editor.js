@@ -131,16 +131,16 @@ export default (app)=>{
                 newWidth = newWidth - state.editorWidth - 10
             }
             // minify if you want it so small
-            if(state.open && widthName === 'editorWidth' && newWidth < 50){
+            if(state.open && widthName === 'editorWidth' && newWidth < 180){
                 ARROW_CLICKED()
                 return false
             }
-            if(!state.open && widthName === 'editorWidth' && newWidth > 50){
+            if(!state.open && widthName === 'editorWidth' && newWidth > 180){
                 ARROW_CLICKED()
                 return false
             }
-            if(newWidth < 320){
-                newWidth = 320
+            if(newWidth < 250){
+                newWidth = 250
             }
             setState({...state, [widthName]: newWidth})
             return false
@@ -152,7 +152,7 @@ export default (app)=>{
             window.removeEventListener('mousemove', resize)
             window.removeEventListener('touchmove', resize)
             window.removeEventListener('mouseup', stopDragging)
-            window.removeEventListener('touchup', stopDragging)
+            window.removeEventListener('touchend', stopDragging)
             return false
         }
         window.addEventListener('mouseup', stopDragging)
