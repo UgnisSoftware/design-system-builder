@@ -1,9 +1,9 @@
 
-filter |tableProp1| _____
-map ____
+filter _____               -> table
+map ____                   -> table
 
-set __id__
-delete __id__
+set __id__                 -> table
+delete __id__              -> table
 
-at __position__
-select __column__
+at __position__            -> row
+select __column__          -> column.type

@@ -800,13 +800,13 @@ export default (app)=>{
                     if (transRef.ref === 'add') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     if (transRef.ref === 'subtract') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     // if (transRef.ref === 'branch') {
@@ -819,7 +819,7 @@ export default (app)=>{
                     if (transRef.ref === 'join') {
                         return h('div', {}, [
                             h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
-                            h('div', {style: {borderLeft: '2px solid #bdbdbd', marginLeft: '5px', paddingLeft: '5px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
                         ])
                     }
                     if (transRef.ref === 'toUpperCase') {
@@ -883,7 +883,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                     h('div', state.selectedPipeId === ref.id ? genTransformators('text'): [])
                 ])
             }
@@ -914,7 +914,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                     h('div', state.selectedPipeId === ref.id ? genTransformators('number'): [])
                 ])
             }
@@ -932,7 +932,7 @@ export default (app)=>{
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
-                    h('div', {style: {marginLeft: '5px', paddingLeft: '5px', borderLeft: '2px solid #bdbdbd'}}, listTransformations(pipe.transformations, pipe.type)),
+                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                     h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): []) // TODO fix, a hack for demo, type should be last transformation not just text
                 ])
             }
