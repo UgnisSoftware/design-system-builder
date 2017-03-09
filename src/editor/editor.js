@@ -132,15 +132,18 @@ export default (app)=>{
             }
             // minify if you want it so small
             if(state.open && widthName === 'editorWidth' && newWidth < 50){
-                return ARROW_CLICKED()
+                ARROW_CLICKED()
+                return false
             }
             if(!state.open && widthName === 'editorWidth' && newWidth > 50){
-                return ARROW_CLICKED()
+                ARROW_CLICKED()
+                return false
             }
             if(newWidth < 320){
                 newWidth = 320
             }
             setState({...state, [widthName]: newWidth})
+            return false
         }
         window.addEventListener('mousemove', resize)
         window.addEventListener('touchmove', resize)
@@ -150,9 +153,11 @@ export default (app)=>{
             window.removeEventListener('touchmove', resize)
             window.removeEventListener('mouseup', stopDragging)
             window.removeEventListener('touchup', stopDragging)
+            return false
         }
         window.addEventListener('mouseup', stopDragging)
         window.addEventListener('touchend', stopDragging)
+        return false
     }
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
