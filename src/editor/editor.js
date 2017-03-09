@@ -125,11 +125,18 @@ export default (app)=>{
     }
     function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
-        const resize = (e)=>{
+        function resize(e){
             e.preventDefault()
             let newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
             if(widthName === 'subEditorWidth'){
                 newWidth = newWidth - state.editorWidth - 10
+            }
+            // minify if you want it so small
+            if(state.open && widthName === 'editorWidth' && newWidth < 50){
+                return ARROW_CLICKED()
+            }
+            if(!state.open && widthName === 'editorWidth' && newWidth > 50){
+                return ARROW_CLICKED()
             }
             if(newWidth < 320){
                 newWidth = 320
@@ -138,7 +145,7 @@ export default (app)=>{
         }
         window.addEventListener('mousemove', resize)
         window.addEventListener('touchmove', resize)
-        const stopDragging = (e)=>{
+        function stopDragging(e){
             e.preventDefault()
             window.removeEventListener('mousemove', resize)
             window.removeEventListener('touchmove', resize)
@@ -776,7 +783,6 @@ export default (app)=>{
                 top: '128px',
                 width: '50px',
                 textAlign: 'center',
-                fontSize: '1em',
                 background: '#4d4d4d',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
