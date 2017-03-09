@@ -153,7 +153,7 @@ export const component = (definition) => {
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
         const data = {
-            style: resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -164,10 +164,6 @@ export const component = (definition) => {
                     mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
                     mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
                 },
-        }
-        // wrap in a border
-        if(frozen && selectedNodeInDevelopment.id === ref.id){
-            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, flatten(node.children.map(resolve)))]}
         }
         return h('div', data, flatten(node.children.map(resolve)))
     }
@@ -175,7 +171,7 @@ export const component = (definition) => {
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
         const data = {
-            style: resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -187,17 +183,13 @@ export const component = (definition) => {
                     mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
                 },
         }
-        // wrap in a border
-        if(frozen && selectedNodeInDevelopment.id === ref.id){
-            return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('span', data, resolve(node.value))]}
-        }
         return h('span', data, resolve(node.value))
     }
 
     function inputNode(ref) {
         const node = definition[ref.ref][ref.id]
         const data = {
-            style: resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -216,10 +208,6 @@ export const component = (definition) => {
                 placeholder: node.placeholder
             }
         }
-        // wrap in a border
-        if(frozen && selectedNodeInDevelopment.id === ref.id){
-            return {sel: 'span', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('input', data)]}
-        }
         return h('input', data)
     }
 
@@ -237,7 +225,7 @@ export const component = (definition) => {
         delete currentMapIndex[ref.id];
 
         const data = {
-            style: resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -248,10 +236,6 @@ export const component = (definition) => {
                     mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
                     mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
                 },
-        }
-        // wrap in a border
-        if(frozen && selectedNodeInDevelopment.id === ref.id){
-            return {sel: 'div', data: {style: { transition:'outline 0.1s',outline: '3px solid #3590df', borderRadius: '2px', boxSizing: 'border-box'}},children: [h('div', data, flatten(children))]}
         }
         return h('div', data, flatten(children))
     }

@@ -1566,7 +1566,7 @@ export default (app)=>{
                 if(state.selectedViewNode.ref === 'vNodeText'){
                     return h('div', {style: {paddingTop: '20px'}}, [
                         h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
-                            h('span', {style: {flex: '1'}}, 'value'),
+                            h('span', {style: {flex: '1'}}, 'text value'),
                             h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
@@ -1575,7 +1575,7 @@ export default (app)=>{
                 if(state.selectedViewNode.ref === 'vNodeInput'){
                     return h('div', {style: {paddingTop: '20px'}}, [
                         h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
-                            h('span', {style: {flex: '1'}}, 'value'),
+                            h('span', {style: {flex: '1'}}, 'input value'),
                             h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
