@@ -14,7 +14,13 @@
             margin:0;
         }
         header{
-            height: 70px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            background-color: #fff;
+            height: 75px;
             border-bottom: 2px solid #AD5251;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
@@ -43,43 +49,25 @@
             }
         }
         #logo{
-            padding-top:10px;
-            width: 50px;
-            overflow: hidden;
+            padding-top: 7px;
             display: inline-block;
-            height: 60px;
+            margin-right: -7px;
+            margin-bottom: -3px;
         }
         #logo_text {
             font-size:44px;
+            vertical-align: bottom;
+            color: #000;
         }
         #home_button{
-            color: inherit;
-            display: inline-block;
             width: 190px;
-            background-color: #f5f5f5;
-            border-bottom: 2px solid #AD5251;
-            padding: 10px 20px 22px 20px;
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            position: absolute;
-            z-index: 1000;
-            transition: all 0.5s;
-            border-radius: 0 0 40px 40px;
         }
-        #menu{
-            justify-content: flex-end;
+        .menu{
+            justify-content: space-between;
             display: flex;
         }
-        .menu_item{
-            flex: 0;
-            padding: 25px;
-            font-size: 20px;
-            transition: all 0.5s;
-            line-height: 1;
-        }
-        .menu_item:hover{
-            background: #e6e6e6;
-        }
         #main {
+            margin-top: 75px;
             background: white;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
@@ -87,7 +75,7 @@
             margin: 0;
             text-align: center;
             font-weight: 300;
-            padding-top: 60px;
+            padding-top: 45px;
             font-size: 3em;
         }
         #shoutout b {
@@ -102,9 +90,6 @@
         }
         .dot {
             user-select: none;
-        }
-        .rel {
-            position: relative;
         }
         #examples{
             margin:80px 0 60px;
@@ -122,28 +107,12 @@
         #divider {
             width: 30px
         }
-        #questions{
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            flex:1;
-            align-self:stretch;
-            padding: 40px;
-            margin-top: -50px;
-            transform: translateY(25px);
-            font-size: 1.1em;
-            margin-left: -50px;
-            background: white;
-            font-family: 'Open Sans', sans-serif;
-        }
-
         @media (max-width: 1780px) {
             #divider{
                 display: none;
             }
             #exampleimg {
                 display: none;
-            }
-            #questions {
-                transform: translate(25px);
             }
         }
         .action_wrapper{
@@ -167,23 +136,6 @@
         .show_not_tell {
             flex: 1;
         }
-        #explanations {
-            display: flex
-        }
-        .expln {
-            flex: 1;
-            padding: 20px;
-        }
-        .plus {
-            color: #51ad51;
-            font-weight: 800;
-            font-family: 'Open Sans', sans-serif;
-        }
-        .minus {
-            color: #AD5251;
-            font-weight: 800;
-            font-family: 'Open Sans', sans-serif;
-        }
         .grey{
             color: #aaaaaa;
         }
@@ -193,13 +145,8 @@
         .faq {
             padding: 20px;
         }
-        .shouldyou{
-            padding-left: 20px;
-        }
-        .tissilly{
-            font-family: 'Open Sans', sans-serif;
-        }
         .try_editor{
+            align-self: center;
             background: #AD5251;
             border-radius: 10px;
             border: none;
@@ -213,16 +160,8 @@
             background: #a74e4d;
         }
         @media (max-width: 1020px) {
-            #explanations{
-                flex-direction: column;
-            }
             .try_editor{
                 margin-right: 20px;
-            }
-            #questions {
-                padding: 30px 45px;
-                margin-left: 0px;
-                transform: none;
             }
         }
         #example_block{
@@ -258,14 +197,12 @@
 </head>
 <body>
     <header>
-        <div class="col_12">
+        <div class="col_8 menu">
             <a href="/_dev" id="home_button">
-                <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+                <img id="logo" src="/images/logo256x256.png" height="57"/>
                 <span id="logo_text">ugnis</span>
             </a>
-            <div id="menu" class="col_8">
-                <a class="try_editor" href="./editor">open editor</a>
-            </div>
+            <a class="try_editor" href="./editor">open editor</a>
         </div>
     </header>
     <section class="col_8" id="main">

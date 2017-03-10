@@ -25,7 +25,7 @@ big.E_POS = 1e+6
 
 export default (app)=>{
     let node = document.createElement('div')
-    document.getElementById('wrapper').appendChild(node)
+    document.body.appendChild(node)
 
     // State
     let state = {
