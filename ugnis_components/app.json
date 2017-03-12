@@ -297,7 +297,6 @@
         "_rootStyle": {
             "fontFamily": "'Comfortaa', cursive",
             "background": "#f5f5f5",
-            "minHeight": "100vh"
         },
         "8481d6d2-00db-8ab5-c332-882575f25426": {
             "padding": "10px",

@@ -26,7 +26,7 @@ function flatten(arr) {
     }, []);
 }
 
-export const component = (definition) => {
+export default (definition) => {
 
     let currentState = Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
         acc[def.ref] = def.defaultValue
@@ -323,10 +323,4 @@ export const component = (definition) => {
         _freeze,
         _resolve: resolve,
     }
-}
-
-export default (node, definition) => {
-    const app = component(definition)
-    patch(node, app.vdom)
-    return app
 }
