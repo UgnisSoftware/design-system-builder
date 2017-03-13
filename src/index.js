@@ -1829,6 +1829,7 @@ function editor(appDefinition){
                     width: desiredWidth +'px',
                     height: desiredHeight + 'px',
                     background: '#ffffff',
+                    boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     transform: 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
                     overflow: 'auto',
                     position: 'absolute',
