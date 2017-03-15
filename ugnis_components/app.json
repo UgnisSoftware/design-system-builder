@@ -1,4 +1,10 @@
 {
+    "eventData": {
+        "_input": {
+            "title" : "input value",
+            "type": "text"
+        }
+    },
     "toLowerCase": {},
     "toUpperCase": {},
     "conditional": {},
@@ -8,7 +14,6 @@
     "toText": {
         "7bs9d6d2-00db-8ab5-c332-882575f25426": {}
     },
-    "eventValue": {},
     "listValue": {
         "pz7hd6d2-00db-8ab5-c332-882575f25426": {
             "type": "number",
@@ -297,6 +302,7 @@
         "_rootStyle": {
             "fontFamily": "'Comfortaa', cursive",
             "background": "#f5f5f5",
+            "minHeight": "100%"
         },
         "8481d6d2-00db-8ab5-c332-882575f25426": {
             "padding": "10px",
@@ -470,7 +476,8 @@
                     "ref": "mutator",
                     "id": "as55d6d2-00db-8ab5-c332-882575f25426"
                 }
-            ]
+            ],
+            "data": []
         },
         "3a54d6d2-00db-8ab5-c332-882575f25426": {
             "title": "decrement",
@@ -479,7 +486,8 @@
                     "ref": "mutator",
                     "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
                 }
-            ]
+            ],
+            "data": []
         }
     }
 }

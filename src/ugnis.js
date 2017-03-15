@@ -94,8 +94,8 @@ export default (definition) => {
                 return acc
             }, {})
         }
-        if (ref.ref === 'eventValue') {
-            return currentEvent.target.value
+        if (ref.ref === 'eventData') {
+            return eventData[ref.id]
         }
         if (ref.ref === 'listValue') {
             return currentMapValue[def.list.id][def.property]
@@ -159,10 +159,10 @@ export default (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
-                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
-                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
-                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
+                    click: node.click ? [emitEvent, node.click] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                 },
         }
         return h('div', data, flatten(node.children.map(resolve)))
@@ -177,10 +177,10 @@ export default (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
-                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
-                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
-                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
+                    click: node.click ? [emitEvent, node.click] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                 },
         }
         return h('span', data, resolve(node.value))
@@ -195,13 +195,13 @@ export default (definition) => {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
                     click: [selectNodeClick, ref]
                 }:{
-                    click: node.click ? [emitEvent, node.click.id, undefined] : undefined,
-                    input: node.input ? [emitEvent, node.input.id, undefined] : undefined,
-                    dblclick: node.dblclick ? [emitEvent, node.dblclick.id, undefined] : undefined,
-                    mouseover: node.mouseover ? [emitEvent, node.mouseover.id, undefined] : undefined,
-                    mouseout: node.mouseout ? [emitEvent, node.mouseout.id, undefined] : undefined,
-                    focus: node.focus ? [emitEvent, node.focus.id, undefined] : undefined,
-                    blur: node.blur ? [emitEvent, node.blur.id, undefined] : undefined,
+                    click: node.click ? [emitEvent, node.click] : undefined,
+                    input: node.input ? [emitEvent, node.input] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
+                    focus: node.focus ? [emitEvent, node.focus] : undefined,
+                    blur: node.blur ? [emitEvent, node.blur] : undefined,
                 },
             props: {
                 value: resolve(node.value),
@@ -249,24 +249,26 @@ export default (definition) => {
         return () => listeners.splice(length - 1, 1)
     }
 
-    function emitEvent(eventName, data, e) {
+    function emitEvent(eventRef, e) {
+        const eventId = eventRef.id
+        const event = definition.event[eventId]
         currentEvent = e
-        eventData = resolve(data)
+        event.data.forEach((ref)=>{
+            if(ref.id === '_input'){
+                eventData[ref.id] = e.target.value
+            }
+        })
         const previousState = currentState
         let mutations = {}
-        if(definition.event[eventName]){
-            definition.event[eventName].mutators.forEach((ref)=> {
-                const mutator = definition.mutator[ref.id]
-                const state = mutator.state
-                mutations[state.id] = resolve(mutator.mutation)
-            })
-            currentState = Object.assign({}, currentState, mutations)
-        } else {
-            console.warn('No event named: ' + eventName) // todo list available
-        }
-        currentEvent = null
-        eventData = null
-        listeners.forEach(callback => callback(eventName, data, e, previousState, currentState, mutations))
+        definition.event[eventId].mutators.forEach((ref)=> {
+            const mutator = definition.mutator[ref.id]
+            const state = mutator.state
+            mutations[state.id] = resolve(mutator.mutation)
+        })
+        currentState = Object.assign({}, currentState, mutations)
+        listeners.forEach(callback => callback(eventId, eventData, e, previousState, currentState, mutations))
+        currentEvent = {}
+        eventData = {}
         if(Object.keys(mutations).length){
             render()
         }

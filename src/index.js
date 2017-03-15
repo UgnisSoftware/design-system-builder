@@ -40,7 +40,8 @@ function editor(appDefinition){
 
     // State
     let state = {
-        open: true,
+        leftOpen: true,
+        rightOpen: true,
         editorRightWidth: 350,
         editorLeftWidth: 350,
         subEditorWidth: 350,
@@ -131,9 +132,6 @@ function editor(appDefinition){
     })
 
     // Actions
-    function ARROW_CLICKED() {
-        setState({...state, open: !state.open})
-    }
     function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
         function resize(e){
@@ -145,14 +143,12 @@ function editor(appDefinition){
             if(widthName === 'subEditorWidth'){
                 newWidth = newWidth - state.editorRightWidth - 10
             }
-            // minify if you want it so small
-            if(state.open && widthName !== 'subEditorWidth' && newWidth < 180){
-                ARROW_CLICKED()
-                return false
-            }
-            if(!state.open && widthName !== 'subEditorWidth' && newWidth > 180){
-                ARROW_CLICKED()
-                return false
+            // I probably was drunk
+            if(widthName !== 'subEditorWidth' && ( (widthName === 'editorLeftWidth' ? state.leftOpen: state.rightOpen) ? newWidth < 180: newWidth > 180)){
+                if(widthName === 'editorLeftWidth'){
+                    return setState({...state, leftOpen: !state.leftOpen})
+                }
+                return setState({...state, rightOpen: !state.rightOpen})
             }
             if(newWidth < 250){
                 newWidth = 250
@@ -265,16 +261,22 @@ function editor(appDefinition){
             const stateId = uuid.v4()
             const eventId = uuid.v4()
             const mutatorId = uuid.v4()
-            const pipeId = uuid.v4()
+            const pipeInputId = uuid.v4()
+            const pipeMutatorId = uuid.v4()
             const newNode = {
                 title: 'input',
                 style: {ref:'style', id:newStyleId},
-                value: {ref:'pipe', id:pipeId},
+                value: {ref:'pipe', id:pipeInputId},
                 input: {ref:'event', id:eventId}
             }
-            const newPipe = {
+            const newPipeInput = {
                 type: 'text',
                 value: {ref: 'state', id: stateId},
+                transformations: []
+            }
+            const newPipeMutator = {
+                type: 'text',
+                value: {ref: 'eventData', id: '_input'},
                 transformations: []
             }
             const newState = {
@@ -287,20 +289,23 @@ function editor(appDefinition){
             const newMutator = {
                 event: { ref: 'event', id:eventId},
                 state: { ref: 'state', id:stateId},
-                mutation: { ref: 'eventValue'},
+                mutation: { ref: 'pipe', id: pipeMutatorId},
             }
             const newEvent = {
                 title: 'update input',
                 mutators: [
                     { ref: 'mutator', id: mutatorId},
-                ]
+                ],
+                data: [
+                    {ref: 'eventData', id: '_input'}
+                ],
             }
             return setState({
                 ...state,
                 selectedViewNode: {ref:'vNodeInput', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    pipe: {...state.definition.pipe, [pipeInputId]: newPipeInput, [pipeMutatorId]: newPipeMutator},
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeInput', id:newNodeId})}},
                     vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -308,7 +313,6 @@ function editor(appDefinition){
                     state: {...state.definition.state, [stateId]: newState},
                     mutator: {...state.definition.mutator, [mutatorId]: newMutator},
                     event: {...state.definition.event, [eventId]: newEvent},
-                    eventValue: {...state.definition.eventValue}
                 }}, true)
         }
     }
@@ -937,6 +941,22 @@ function editor(appDefinition){
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                     h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): []) // TODO fix, a hack for demo, type should be last transformation not just text
+                ])
+            }
+            if(pipe.value.ref === 'eventData'){
+                const eventData = state.definition[pipe.value.ref][pipe.value.id]
+                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                    h('div', {style: {flex: '1'}},
+                        [h('div',{
+                                style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), display: 'inline-block'},
+                                on: {click: [STATE_NODE_SELECTED, pipe.value.id]}
+                            },
+                            [eventData.title])
+                        ]
+                    ),
+                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': eventData.type === type ? 'green': 'red'}}, eventData.type)
+                ]),
+                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                 ])
             }
         }
@@ -1718,7 +1738,7 @@ function editor(appDefinition){
                     boxSizing: "border-box",
                     borderLeft: '3px solid #222',
                     transition: '0.5s transform',
-                    transform: state.open ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
+                    transform: state.rightOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
                     userSelect: 'none',
                 },
             }, [
@@ -1760,7 +1780,7 @@ function editor(appDefinition){
                 boxSizing: "border-box",
                 borderRight: '3px solid #222',
                 transition: '0.5s transform',
-                transform: state.open ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(-100%)',
+                transform: state.leftOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(-100%)',
                 userSelect: 'none',
             },
         }, [
@@ -1831,12 +1851,14 @@ function editor(appDefinition){
                     background: '#ffffff',
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     transform: 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
-                    overflow: 'auto',
                     position: 'absolute',
                     top: (heightLeft-desiredHeight)/2 + 'px',
                     left: (widthLeft-desiredWidth)/2+state.editorLeftWidth + 'px',
                 }
-            })()}, [app.vdom])
+            })()}, [
+                h('div', {style: {background: '#53B2ED', width: '100%', height: '40px', position:'absolute', top: '-40px', display: 'flex', justifyContent: 'center', alignItems: 'center', left: '0', borderRadius: '5px 5px 0 0', boxShadow: 'inset 0 -3px 0 0 #b7b7b7'}}, 'todo: url, width and height, close button'),
+                h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
+            ])
         ])
         const mainRowComponent = h('div', {
             style: {
