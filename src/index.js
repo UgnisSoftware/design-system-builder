@@ -19,8 +19,8 @@ const patch = snabbdom.init([
     livePropsPlugin
 ]);
 
-const uuid = require('node-uuid')
-import big from 'big.js';
+function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/1|0/g,function(){return(0|Math.random()*16).toString(16)})}
+import big from 'big.js'
 big.E_POS = 1e+6
 
 import ugnis from './ugnis'
@@ -208,8 +208,8 @@ function editor(appDefinition){
     }
     function ADD_NODE(nodeRef, type) {
         const nodeId = nodeRef.id
-        const newNodeId = uuid.v4()
-        const newStyleId = uuid.v4()
+        const newNodeId = uuid()
+        const newStyleId = uuid()
         const newStyle = {
             padding: '10px',
         }
@@ -235,7 +235,7 @@ function editor(appDefinition){
             }, true)
         }
         if(type === 'text'){
-            const pipeId = uuid.v4()
+            const pipeId = uuid()
             const newNode = {
                 title: 'text',
                 style: {ref:'style', id:newStyleId},
@@ -258,11 +258,11 @@ function editor(appDefinition){
                 }}, true)
         }
         if(type === 'input') {
-            const stateId = uuid.v4()
-            const eventId = uuid.v4()
-            const mutatorId = uuid.v4()
-            const pipeInputId = uuid.v4()
-            const pipeMutatorId = uuid.v4()
+            const stateId = uuid()
+            const eventId = uuid()
+            const mutatorId = uuid()
+            const pipeInputId = uuid()
+            const pipeMutatorId = uuid()
             const newNode = {
                 title: 'input',
                 style: {ref:'style', id:newStyleId},
@@ -317,7 +317,7 @@ function editor(appDefinition){
         }
     }
     function ADD_STATE(namespaceId, type) {
-        const newStateId = uuid.v4()
+        const newStateId = uuid()
         let newState
         if(type === 'text') {
             newState = {
@@ -471,7 +471,7 @@ function editor(appDefinition){
     }
     function ADD_EVENT(propertyName) {
         const ref = state.selectedViewNode
-        const eventId = uuid.v4();
+        const eventId = uuid();
         setState({...state, definition:{
             ...state.definition,
             [ref.ref]: {
@@ -491,8 +491,8 @@ function editor(appDefinition){
         }}, true)
     }
     function ADD_MUTATOR(stateId, eventId) {
-        const mutatorId = uuid.v4();
-        const pipeId = uuid.v4();
+        const mutatorId = uuid();
+        const pipeId = uuid();
         setState({...state, definition:{
             ...state.definition,
             pipe:{
@@ -583,8 +583,8 @@ function editor(appDefinition){
     }
     function ADD_TRANSFORMATION(pipeId, transformation) {
         if(transformation === 'join'){
-            const newPipeId = uuid.v4();
-            const joinId = uuid.v4();
+            const newPipeId = uuid();
+            const joinId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 join: {
@@ -608,7 +608,7 @@ function editor(appDefinition){
             }}, true)
         }
         if(transformation === 'toUpperCase'){
-            const newId = uuid.v4();
+            const newId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 toUpperCase: {
@@ -625,7 +625,7 @@ function editor(appDefinition){
             }}, true)
         }
         if(transformation === 'toLowerCase'){
-            const newId = uuid.v4();
+            const newId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 toLowerCase: {
@@ -642,7 +642,7 @@ function editor(appDefinition){
             }}, true)
         }
         if(transformation === 'toText'){
-            const newId = uuid.v4();
+            const newId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 toText: {
@@ -659,8 +659,8 @@ function editor(appDefinition){
             }}, true)
         }
         if(transformation === 'add'){
-            const newPipeId = uuid.v4();
-            const addId = uuid.v4();
+            const newPipeId = uuid();
+            const addId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 add: {
@@ -684,8 +684,8 @@ function editor(appDefinition){
             }}, true)
         }
         if(transformation === 'subtract'){
-            const newPipeId = uuid.v4();
-            const subtractId = uuid.v4();
+            const newPipeId = uuid();
+            const subtractId = uuid();
             setState({...state, definition: {
                 ...state.definition,
                 subtract: {

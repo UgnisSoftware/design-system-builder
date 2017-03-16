@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_prod/_dev/editor/bundle.js",
-    "start": "node server.prod.js"
+    "start": "node server.prod.js",
+    "compile": "browserify -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js | uglifyjs -c > ./static_prod/_dev/editor/bundle.min.js"
   },
   "author": "Karolis Masiulis",
   "devDependencies": {
@@ -13,6 +14,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
+    "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
   },
   "dependencies": {
@@ -20,7 +22,6 @@
     "body-parser": "^1.15.2",
     "braintree": "^1.47.0",
     "express": "^4.14.0",
-    "node-uuid": "^1.4.7",
     "snabbdom": "^0.5.1"
   }
 }
