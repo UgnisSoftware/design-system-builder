@@ -1,14 +1,21 @@
 {
     "eventData": {
         "_input": {
-            "title" : "input value",
+            "title": "input value",
             "type": "text"
         }
     },
     "toLowerCase": {},
     "toUpperCase": {},
     "conditional": {},
-    "equal": {},
+    "equal": {
+        "a7251af0-50a7-4823-85a0-66ce09d8a3cc": {
+            "value": {
+                "ref": "pipe",
+                "id": "ee2423e6-5b48-41ae-8ccf-6a2c7b46d2f8"
+            }
+        }
+    },
     "not": {},
     "list": {},
     "toText": {
@@ -17,17 +24,26 @@
     "listValue": {
         "pz7hd6d2-00db-8ab5-c332-882575f25426": {
             "type": "number",
-            "list": {"ref": "vNodeList", "id": "fl89d6d2-00db-8ab5-c332-882575f25425"},
+            "list": {
+                "ref": "vNodeList",
+                "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
+            },
             "property": "x"
         },
         "hj9wd6d2-00db-8ab5-c332-882575f25426": {
             "type": "number",
-            "list": {"ref": "vNodeList", "id": "fl89d6d2-00db-8ab5-c332-882575f25425"},
+            "list": {
+                "ref": "vNodeList",
+                "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
+            },
             "property": "y"
         },
         "hhr8b6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
-            "list": {"ref": "vNodeList", "id": "fl89d6d2-00db-8ab5-c332-882575f25425"},
+            "list": {
+                "ref": "vNodeList",
+                "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
+            },
             "property": "color"
         }
     },
@@ -105,7 +121,10 @@
             "type": "text",
             "value": 0,
             "transformations": [
-                {"ref": "add", "id": "wbr7d6d2-00db-8ab5-c332-882575f25426"},
+                {
+                    "ref": "add",
+                    "id": "wbr7d6d2-00db-8ab5-c332-882575f25426"
+                },
                 {
                     "ref": "toText",
                     "id": "noop"
@@ -120,7 +139,10 @@
             "type": "text",
             "value": 0,
             "transformations": [
-                {"ref": "add", "id": "vq8dd6d2-00db-8ab5-c332-882575f25426"},
+                {
+                    "ref": "add",
+                    "id": "vq8dd6d2-00db-8ab5-c332-882575f25426"
+                },
                 {
                     "ref": "toText",
                     "id": "noop"
@@ -133,7 +155,10 @@
         },
         "8cq6b6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
-            "value": {"ref": "listValue", "id": "hhr8b6d2-00db-8ab5-c332-882575f25426"},
+            "value": {
+                "ref": "listValue",
+                "id": "hhr8b6d2-00db-8ab5-c332-882575f25426"
+            },
             "transformations": []
         },
         "f9qxd6d2-00db-8ab5-c332-882575f25426": {
@@ -152,6 +177,38 @@
         "qdw7c6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
             "value": "px",
+            "transformations": []
+        },
+        "84369aba-4a4d-4932-8a9a-8f9ca948b6a2": {
+            "type": "text",
+            "value": "The number now is even",
+            "transformations": []
+        },
+        "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
+            },
+            "transformations": [
+                {
+                    "ref": "remainder",
+                    "id": "34780d22-f521-4c30-89a5-3e7f5b5af7c2"
+                },
+                {
+                    "ref": "equal",
+                    "id": "a7251af0-50a7-4823-85a0-66ce09d8a3cc"
+                }
+            ]
+        },
+        "1229d478-bc25-4401-8a89-74fc6cfe8996": {
+            "type": "number",
+            "value": 2,
+            "transformations": []
+        },
+        "ee2423e6-5b48-41ae-8ccf-6a2c7b46d2f8": {
+            "type": "number",
+            "value": 0,
             "transformations": []
         }
     },
@@ -203,6 +260,14 @@
             }
         }
     },
+    "remainder": {
+        "34780d22-f521-4c30-89a5-3e7f5b5af7c2": {
+            "value": {
+                "ref": "pipe",
+                "id": "1229d478-bc25-4401-8a89-74fc6cfe8996"
+            }
+        }
+    },
     "vNodeBox": {
         "_rootNode": {
             "title": "box",
@@ -222,6 +287,10 @@
                 {
                     "ref": "vNodeText",
                     "id": "3481d6d2-00db-8ab5-c332-882575f25425"
+                },
+                {
+                    "ref": "vNodeIf",
+                    "id": "5787c15a-426b-41eb-831d-e3e074159582"
                 },
                 {
                     "ref": "vNodeList",
@@ -279,6 +348,17 @@
                 "ref": "event",
                 "id": "3a54d6d2-00db-8ab5-c332-882575f25426"
             }
+        },
+        "e8add1c7-8a01-4164-8604-722d8ab529f1": {
+            "title": "text",
+            "style": {
+                "ref": "style",
+                "id": "4dca73b3-90eb-41e7-8651-2bdcc93f3871"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "84369aba-4a4d-4932-8a9a-8f9ca948b6a2"
+            }
         }
     },
     "vNodeInput": {},
@@ -294,7 +374,29 @@
                 "id": "q86sd89d-3703-483e-ab64-5a5b780aec27"
             },
             "children": [
-                {"ref": "vNodeBox", "id":"gw9dd6d2-00db-8ab5-c332-882575f25426" }
+                {
+                    "ref": "vNodeBox",
+                    "id": "gw9dd6d2-00db-8ab5-c332-882575f25426"
+                }
+            ]
+        }
+    },
+    "vNodeIf": {
+        "5787c15a-426b-41eb-831d-e3e074159582": {
+            "title": "if",
+            "value": {
+                "ref": "pipe",
+                "id": "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070"
+            },
+            "style": {
+                "ref": "style",
+                "id": "a1a8c5b9-a7d1-416b-8e76-eac96fb273c9"
+            },
+            "children": [
+                {
+                    "ref": "vNodeText",
+                    "id": "e8add1c7-8a01-4164-8604-722d8ab529f1"
+                }
             ]
         }
     },
@@ -367,9 +469,24 @@
         },
         "fq9dd6d2-00db-8ab5-c332-882575f25426": {
             "padding": "10px",
-            "width": {"ref":"pipe", "id": "3qkid6d2-00db-8ab5-c332-882575f25426"},
-            "height": {"ref":"pipe", "id": "t7vqd6d2-00db-8ab5-c332-882575f25426"},
-            "background": {"ref": "pipe", "id": "8cq6b6d2-00db-8ab5-c332-882575f25426"}
+            "width": {
+                "ref": "pipe",
+                "id": "3qkid6d2-00db-8ab5-c332-882575f25426"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "t7vqd6d2-00db-8ab5-c332-882575f25426"
+            },
+            "background": {
+                "ref": "pipe",
+                "id": "8cq6b6d2-00db-8ab5-c332-882575f25426"
+            }
+        },
+        "4dca73b3-90eb-41e7-8651-2bdcc93f3871": {
+            "padding": "10px"
+        },
+        "a1a8c5b9-a7d1-416b-8e76-eac96fb273c9": {
+            "padding": "10px"
         }
     },
     "nameSpace": {
@@ -382,7 +499,7 @@
                 },
                 {
                     "ref": "state",
-                    "id":  "c8q9d6d2-00db-8ab5-c332-882575f25426"
+                    "id": "c8q9d6d2-00db-8ab5-c332-882575f25426"
                 }
             ]
         }
@@ -414,22 +531,22 @@
                 "color": "text"
             },
             "defaultValue": {
-                "ops6d6d2-00db-8ab5-c332-882575f25426":{
+                "ops6d6d2-00db-8ab5-c332-882575f25426": {
                     "x": 120,
                     "y": 100,
                     "color": "#eab65c"
                 },
-                "wpv5d6d2-00db-8ab5-c332-882575f25426":{
+                "wpv5d6d2-00db-8ab5-c332-882575f25426": {
                     "x": 200,
                     "y": 120,
                     "color": "#53B2ED"
                 },
-                "qn27d6d2-00db-8ab5-c332-882575f25426":{
+                "qn27d6d2-00db-8ab5-c332-882575f25426": {
                     "x": 130,
                     "y": 200,
                     "color": "#5bcc5b"
                 },
-                "ca9rd6d2-00db-8ab5-c332-882575f25426":{
+                "ca9rd6d2-00db-8ab5-c332-882575f25426": {
                     "x": 150,
                     "y": 150,
                     "color": "#4d4d4d"

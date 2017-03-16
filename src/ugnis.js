@@ -88,6 +88,9 @@ export default (definition) => {
         if (ref.ref === 'vNodeList') {
             return listNode(ref)
         }
+        if (ref.ref === 'vNodeIf') {
+            return ifNode(ref)
+        }
         if (ref.ref === 'style') {
             return Object.keys(def).reduce((acc, val)=> {
                 acc[val] = resolve(def[val])
@@ -108,7 +111,12 @@ export default (definition) => {
             const ref = transformations[i];
             const transformer = definition[ref.ref][ref.id]
             if (ref.ref === 'equal') {
-                value = value === resolve(transformer.value)
+                const compareValue = resolve(transformer.value)
+                if(value instanceof big || compareValue instanceof big){
+                    value = big(value).eq(compareValue)
+                } else{
+                    value = value === compareValue
+                }
             }
             if (ref.ref === 'add') {
                 value = big(value).plus(resolve(transformer.value))
@@ -121,6 +129,9 @@ export default (definition) => {
             }
             if (ref.ref === 'divide') {
                 value = big(value).div(resolve(transformer.value))
+            }
+            if (ref.ref === 'remainder') {
+                value = big(value).mod(resolve(transformer.value))
             }
             if (ref.ref === 'branch') {
                 if(resolve(transformer.predicate)){
@@ -166,6 +177,11 @@ export default (definition) => {
                 },
         }
         return h('div', data, flatten(node.children.map(resolve)))
+    }
+
+    function ifNode(ref) {
+        const node = definition[ref.ref][ref.id]
+        return resolve(node.value) ? node.children.map(resolve): []
     }
 
     function textNode(ref) {

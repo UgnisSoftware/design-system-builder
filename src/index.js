@@ -223,10 +223,10 @@ function editor(appDefinition){
                 ...state,
                 selectedViewNode: {ref:'vNodeBox', id: newNodeId},
                 definition: nodeRef.ref === 'vNodeBox' ? {
-                    ...state.definition,
-                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
-                    style: {...state.definition.style, [newStyleId]: newStyle},
-                } : {
+                        ...state.definition,
+                        vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
+                        style: {...state.definition.style, [newStyleId]: newStyle},
+                    } : {
                         ...state.definition,
                         [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}},
                         vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
@@ -1169,7 +1169,7 @@ function editor(appDefinition){
         function listBoxNode(nodeRef, parentRef, position) {
             const nodeId = nodeRef.id
             const parentId = parentRef.id
-            const node = state.definition.vNodeBox[nodeId]
+            const node = state.definition[nodeRef.ref][nodeId]
             function editingNode() {
                 return h('input', {
                     style: {
@@ -1213,9 +1213,20 @@ function editor(appDefinition){
                                 style: { cursor: 'pointer', padding: '0 5px 0 0'},
                                 on: {click: [VIEW_NODE_SELECTED, nodeRef]}
                             },
-                            [
-                                h('rect', {attrs: {x: 1, y: 1, width: 12, height: 12, fill: 'none', stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
-                            ]),
+                            nodeRef.ref === 'vNodeBox' ? [
+                                    h('rect', {attrs: {x: 1, y: 1, width: 12, height: 12, fill: 'none', transition: 'all 0.2s',stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', 'stroke-width': '2'}}),
+                                ]:
+                                nodeRef.ref === 'vNodeList' ? [
+                                        h('circle', {attrs: {r: 2, cx: 2, cy: 2, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                        h('rect', {attrs: {x: 6, y: 1, width: 10, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                        h('circle', {attrs: {r: 2, cx: 2, cy: 7, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                        h('rect', {attrs: {x: 6, y: 6, width: 10, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                        h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                        h('rect', {attrs: {x: 6, y: 11, width: 10, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
+                                    ] : [
+                                        h('text', {attrs: { x:2, y:14, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}, 'if'),
+                                    ]
+                        ),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
@@ -1223,9 +1234,8 @@ function editor(appDefinition){
                     h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
                         ...node.children.map((ref, index)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref, nodeRef, index)
-                            if(ref.ref === 'vNodeBox') return listBoxNode(ref, nodeRef, index)
+                            if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, nodeRef, index)
                             if(ref.ref === 'vNodeInput') return listInputNode(ref, nodeRef, index)
-                            if(ref.ref === 'vNodeList') return listListNode(ref, nodeRef, index)
                         }),
                         h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'box']}}, '+ box'),
                         h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'text']}}, '+ text'),
@@ -1389,100 +1399,6 @@ function editor(appDefinition){
             )
         }
 
-        function listListNode(nodeRef, parentRef, position) {
-            const nodeId = nodeRef.id
-            const parentId = parentRef.id
-            const node = state.definition.vNodeList[nodeId]
-            function editingNode() {
-                return h('input', {
-                    style: {
-                        border: 'none',
-                        background: 'none',
-                        color: '#53B2ED',
-                        outline: 'none',
-                        padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 #53B2ED',
-                        font: 'inherit'
-                    },
-                    on: {
-                        input: [CHANGE_VIEW_NODE_TITLE, nodeRef],
-                    },
-                    liveProps: {
-                        value: node.title,
-                    },
-                    attrs: {
-                        autofocus: true,
-                        'data-istitleeditor': true
-                    }
-                })
-            }
-            const closed = state.viewFoldersClosed[nodeId]
-            return h('div', {
-                    style: {
-                        position: 'relative',
-                    }
-                }, [
-                    h('div', {style: {display: 'flex', alignItems: 'center'}}, [
-                        h('svg', {
-                                attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-3px'},
-                                on: {
-                                    click: [VIEW_FOLDER_CLICKED, nodeId]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
-                        h('svg', {
-                                attrs: {width: 14, height: 14},
-                                style: { cursor: 'pointer', padding: '0 5px 0 0'},
-                                on: {click: [VIEW_NODE_SELECTED, nodeRef]}
-                            },
-                            [
-                                h('circle', {attrs: {r: 2, cx: 2, cy: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('rect', {attrs: {x: 6, y: 1, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('circle', {attrs: {r: 2, cx: 2, cy: 7, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('rect', {attrs: {x: 6, y: 6, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('circle', {attrs: {r: 2, cx: 2, cy: 12, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                                h('rect', {attrs: {x: 6, y: 11, width: 10, height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white',}}),
-                            ]
-                        ),
-                        state.editingTitleNodeId === nodeId ?
-                            editingNode():
-                            h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
-                    ]),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
-                        ...node.children.map((ref, index)=>{
-                            if(ref.ref === 'vNodeText') return listTextNode(ref, nodeRef, index)
-                            if(ref.ref === 'vNodeBox') return listBoxNode(ref, nodeRef, index)
-                            if(ref.ref === 'vNodeInput') return listInputNode(ref, nodeRef, index)
-                            if(ref.ref === 'vNodeList') return listListNode(ref, nodeRef, index)
-                        }),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'input']}}, '+ input'),
-                    ]),
-                    position > 0 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, -1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    parentId && position < (state.definition[parentRef.ref][parentId].children.length-1) ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, 1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
-                ]
-            )
-        }
-
         const propsComponent = h('div', {
             style: {
                 background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
@@ -1605,6 +1521,9 @@ function editor(appDefinition){
                     ])
                 }
                 if(state.selectedViewNode.ref === 'vNodeList'){
+                    return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'TODO ADD PROPS')
+                }
+                if(state.selectedViewNode.ref === 'vNodeIf'){
                     return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'TODO ADD PROPS')
                 }
             }
@@ -1800,21 +1719,21 @@ function editor(appDefinition){
                 h('span', {style: { padding: '15px 15px 10px 15px', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
             ]),
             h('div', {
-                on: {
-                    click: FREEZER_CLICKED
+                    on: {
+                        click: FREEZER_CLICKED
+                    },
+                    style: {
+                        flex: '1 auto',
+                        padding: '10px',
+                        overflow: 'auto'
+                    },
                 },
-                style: {
-                    flex: '1 auto',
-                    padding: '10px',
-                    overflow: 'auto'
-                },
-            },
                 eventStack.map((a)=>a).reverse().map(event =>
                     h('div', {style: { padding: '5px', color: '#ffffff'}}, [
                         state.definition.event[event.eventName].title,
                         h('div', Object.keys(event.mutations).map(stateId => state.definition.state[stateId].title + ': ' + event.mutations[stateId].toString()))
-                    ]
-                ))
+                    ])
+                )
             )
         ])
         const renderViewComponent = h('div', {
