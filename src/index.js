@@ -1719,21 +1719,21 @@ function editor(appDefinition){
                 h('span', {style: { padding: '15px 15px 10px 15px', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
             ]),
             h('div', {
-                    on: {
-                        click: FREEZER_CLICKED
-                    },
                     style: {
                         flex: '1 auto',
                         padding: '10px',
                         overflow: 'auto'
-                    },
+                    }
                 },
-                eventStack.map((a)=>a).reverse().map(event =>
-                    h('div', {style: { padding: '5px', color: '#ffffff'}}, [
-                        state.definition.event[event.eventName].title,
-                        h('div', Object.keys(event.mutations).map(stateId => state.definition.state[stateId].title + ': ' + event.mutations[stateId].toString()))
-                    ])
-                )
+                eventStack
+                    .map((a)=>a)
+                    .reverse()
+                    .map(event =>
+                        h('div', {style: { padding: '5px', color: '#ffffff'}}, [
+                            state.definition.event[event.eventName].title,
+                            h('div', Object.keys(event.mutations).map(stateId => state.definition.state[stateId].title + ': ' + event.mutations[stateId].toString()))
+                        ])
+                    )
             )
         ])
         const renderViewComponent = h('div', {
