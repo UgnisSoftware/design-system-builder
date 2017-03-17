@@ -1161,7 +1161,7 @@ function editor(appDefinition){
             )
         }
 
-        const stateComponent = h('div', {style: {overflow: 'auto', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
+        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
         function listBoxNode(nodeRef, parentRef, position) {
             const nodeId = nodeRef.id
@@ -1623,7 +1623,7 @@ function editor(appDefinition){
                 }
             }, [
                 h('div', {style: {flex: '1', maxHeight: '43px', minHeight: '43px', position: 'relative', marginTop: '6px'}}, [eventsComponent, styleComponent, propsComponent, unselectComponent]),
-                h('div', { style: {flex: '1', overflow: 'auto', background: '#4d4d4d', borderRadius: '10px', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
+                h('div', {attrs: {class: 'better-scrollbar'}, style: {flex: '1', overflow: 'auto', background: '#4d4d4d', borderRadius: '10px', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
                     dragSubComponent,
                     state.selectedViewSubMenu === 'props' ? propsSubmenuComponent:
                         state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
@@ -1633,7 +1633,7 @@ function editor(appDefinition){
             ])
         }
 
-        const viewComponent = h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', borderTop: '3px solid #222', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', borderTop: '3px solid #222', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, {}),
         ])
 
@@ -1716,6 +1716,7 @@ function editor(appDefinition){
                 h('span', {style: { padding: '15px 15px 10px 15px', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
             ]),
             h('div', {
+                    attrs: {class: 'better-scrollbar'},
                     style: {
                         flex: '1 auto',
                         padding: '10px',
