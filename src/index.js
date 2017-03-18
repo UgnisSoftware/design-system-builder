@@ -31,8 +31,6 @@ editor(savedApp)
 
 function editor(appDefinition){
 
-    //app.vdom.elm.parentNode
-
     const app = ugnis(appDefinition)
 
     let node = document.createElement('div')
@@ -46,6 +44,7 @@ function editor(appDefinition){
         editorLeftWidth: 350,
         subEditorWidth: 350,
         appIsFrozen: false,
+        showingViewNodes: false,
         selectedViewNode: {},
         selectedEventId: '',
         selectedPipeId: '',
@@ -54,6 +53,8 @@ function editor(appDefinition){
         editingTitleNodeId: '',
         activeEvent: '',
         viewFoldersClosed: {},
+        dragMouseLocation: null,
+        currentlyDragging: '',
         definition: app.definition,
     }
     // undo/redo
@@ -205,6 +206,38 @@ function editor(appDefinition){
             ...state.definition,
             [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
         }, selectedViewNode: {}}, true)
+    }
+    function NODE_DRAGGED(type, e) {
+        e.preventDefault()
+        function showComponent(e){
+            e.preventDefault()
+            const x = e.touches? e.touches[0].pageX: e.pageX
+            const y = e.touches? e.touches[0].pageY: e.pageY
+
+            setState({...state, dragMouseLocation: {x, y}})
+            return false
+        }
+        window.addEventListener('mousemove', showComponent)
+        window.addEventListener('touchmove', showComponent)
+        function stopDragging(e){
+            e.preventDefault()
+            window.removeEventListener('mousemove', showComponent)
+            window.removeEventListener('touchmove', showComponent)
+            window.removeEventListener('mouseup', stopDragging)
+            window.removeEventListener('touchend', stopDragging)
+
+            setState({...state, dragMouseLocation: null, currentlyDragging: ''})
+            return false
+        }
+        window.addEventListener('mouseup', stopDragging)
+        window.addEventListener('touchend', stopDragging)
+        const x = e.touches? e.touches[0].pageX: e.pageX
+        const y = e.touches? e.touches[0].pageY: e.pageY
+        setState({...state, dragMouseLocation: {x, y}, currentlyDragging: type, showingViewNodes: false})
+        return false
+    }
+    function DRAGGED_OVER_ME(nodeRef) {
+        ADD_NODE(nodeRef, state.currentlyDragging)
     }
     function ADD_NODE(nodeRef, type) {
         const nodeId = nodeRef.id
@@ -709,6 +742,12 @@ function editor(appDefinition){
             }}, true)
         }
     }
+    function SHOW_VIEW_NODES(e){
+        setState({
+            ...state,
+            showingViewNodes: true
+        })
+    }
 
     // Listen to app and blink every action
     let timer = null
@@ -733,9 +772,6 @@ function editor(appDefinition){
                 mousedown: [WIDTH_DRAGGED, 'editorLeftWidth'],
                 touchstart: [WIDTH_DRAGGED, 'editorLeftWidth'],
             },
-            attrs: {
-
-            },
             style: {
                 position: 'absolute',
                 right: '0',
@@ -754,9 +790,6 @@ function editor(appDefinition){
                 mousedown: [WIDTH_DRAGGED, 'editorRightWidth'],
                 touchstart: [WIDTH_DRAGGED, 'editorRightWidth'],
             },
-            attrs: {
-
-            },
             style: {
                 position: 'absolute',
                 left: '0',
@@ -774,9 +807,6 @@ function editor(appDefinition){
             on: {
                 mousedown: [WIDTH_DRAGGED, 'subEditorWidth'],
                 touchstart: [WIDTH_DRAGGED, 'subEditorWidth'],
-            },
-            attrs: {
-
             },
             style: {
                 position: 'absolute',
@@ -1074,22 +1104,6 @@ function editor(appDefinition){
                         if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
                         if(currentState.type === 'number') return h('span', {style: {position: 'relative'}}, [
                             h('input', {attrs: {type: 'number'}, liveProps: {value: app.getCurrentState()[stateId]}, style: {...noStyleInput, width: 9*app.getCurrentState()[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
-                            h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: { cursor: 'pointer', position: 'absolute', top: '0', right: '-12px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                    on: {
-                                        click: [INCREMENT_CURRENT_STATE_NUMBER_VALUE, stateId]
-                                    },
-                                },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]),
-                            h('svg', {
-                                    attrs: {width: 6, height: 8},
-                                    style: { cursor: 'pointer', position: 'absolute', bottom: '0', right: '-12px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                    on: {
-                                        click: [DECREMENT_CURRENT_STATE_NUMBER_VALUE, stateId]
-                                    },
-                                },
-                                [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]),
                         ])
                         if(currentState.type === 'table') {
                             const table = app.getCurrentState()[stateId];
@@ -1228,35 +1242,17 @@ function editor(appDefinition){
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
-                    h('div', {style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd', transition: 'border-color 0.2s'}}, [
+                    h('div', {
+                        style: { display: closed ? 'none': 'block', marginLeft: '7px', paddingLeft: '10px', borderLeft: nodeRef.ref === 'vNodeBox' ? state.selectedViewNode.id === nodeId ? '2px solid #53B2ED' : '2px solid #bdbdbd': 'none', transition: 'border-color 0.2s'},
+                        on: {
+                            mouseover: state.currentlyDragging ? [DRAGGED_OVER_ME, nodeRef] : undefined
+                        }}, [
                         ...node.children.map((ref, index)=>{
                             if(ref.ref === 'vNodeText') return listTextNode(ref, nodeRef, index)
                             if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, nodeRef, index)
                             if(ref.ref === 'vNodeInput') return listInputNode(ref, nodeRef, index)
                         }),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'box']}}, '+ box'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'text']}}, '+ text'),
-                        h('span', {style: {display: state.selectedViewNode.id === nodeId ? 'inline-block': 'none', cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {click: [ADD_NODE, nodeRef, 'input']}}, '+ input'),
                     ]),
-                    position > 0 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, -1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    parentId && position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, 1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    h('div', {style: {cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                 ]
             )
         }
@@ -1304,25 +1300,6 @@ function editor(appDefinition){
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
-                    position > 0 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, -1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, 1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x')
                 ]
             )
         }
@@ -1373,25 +1350,6 @@ function editor(appDefinition){
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
-                    position > 0 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', top: '0', right: '25px', padding: '1px 2px 3px 2px', transform:'rotate(-90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, -1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    position < state.definition[parentRef.ref][parentId].children.length-1 ? h('svg', {
-                                attrs: {width: 6, height: 8},
-                                style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', cursor: 'pointer', position: 'absolute', bottom: '0', right: '25px', padding: '3px 2px 1px 2px', transform:'rotate(90deg)'},
-                                on: {
-                                    click: [MOVE_VIEW_NODE, parentRef, position, 1]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '6,4 0,0 2,4 0,8', fill: 'white'}})]):
-                        h('span'),
-                    h('div', {style: {display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x')
                 ]
             )
         }
@@ -1472,106 +1430,174 @@ function editor(appDefinition){
         function generateEditNodeComponent() {
             const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
-            const selectedStyle = state.definition.style[selectedNode.style.id]
-            const styleEditorComponent = h('div', {style: {}},
-                Object.keys(selectedStyle).map((key)=>h('div', [h('input', {
-                    style: {
-                        border: 'none',
-                        background: 'none',
-                        color:  'white',
-                        outline: 'none',
-                        padding: '0',
-                        boxShadow: 'inset 0 -1px 0 0 white',
-                        display: 'inline-block',
-                        width: '160px',
-                        margin: '10px',
-                    },
-                    props: {value: selectedStyle[key]},
-                    on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}}),
-                    h('span', key)]))
-            )
-            const addStyleComponent = h('div', {style: {}},
-                styles
-                    .filter((key)=>!Object.keys(selectedStyle).includes(key))
-                    .map((key)=>h('div', {on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},style:{display: 'inline-block', cursor: 'pointer', borderRadius: '5px', border: '3px solid white', padding: '5px', margin: '5px'}}, '+ ' + key))
-            )
-            function generatePropsMenu() {
-                if(state.selectedViewNode.ref === 'vNodeBox'){
-                    return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'Component has no props')
+            const genpropsSubmenuComponent = () => h('div', [(()=>{
+                if (state.selectedViewNode.ref === 'vNodeBox') {
+                    return h('div', {
+                        style: {
+                            textAlign: 'center',
+                            marginTop: '100px',
+                            color: '#bdbdbd'
+                        }
+                    }, 'Component has no props')
                 }
-                if(state.selectedViewNode.ref === 'vNodeText'){
+                if (state.selectedViewNode.ref === 'vNodeText') {
                     return h('div', {style: {paddingTop: '20px'}}, [
-                        h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
+                        h('div', {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
                             h('span', {style: {flex: '1'}}, 'text value'),
                             h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
                     ])
                 }
-                if(state.selectedViewNode.ref === 'vNodeInput'){
+                if (state.selectedViewNode.ref === 'vNodeInput') {
                     return h('div', {style: {paddingTop: '20px'}}, [
-                        h('div', {style: {display:'flex', alignItems: 'center', background: '#676767', padding: '5px 10px', marginBottom: '10px'}}, [
+                        h('div', {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
                             h('span', {style: {flex: '1'}}, 'input value'),
                             h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
                     ])
                 }
-                if(state.selectedViewNode.ref === 'vNodeList'){
-                    return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'TODO ADD PROPS')
+                if (state.selectedViewNode.ref === 'vNodeList') {
+                    return h('div', {
+                        style: {
+                            textAlign: 'center',
+                            marginTop: '100px',
+                            color: '#bdbdbd'
+                        }
+                    }, 'TODO ADD PROPS')
                 }
-                if(state.selectedViewNode.ref === 'vNodeIf'){
-                    return h('div', {style: {textAlign: 'center', marginTop: '100px', color: '#bdbdbd' }}, 'TODO ADD PROPS')
+                if (state.selectedViewNode.ref === 'vNodeIf') {
+                    return h('div', {
+                        style: {
+                            textAlign: 'center',
+                            marginTop: '100px',
+                            color: '#bdbdbd'
+                        }
+                    }, 'TODO ADD PROPS')
                 }
-            }
-            const propsSubmenuComponent = h('div', [generatePropsMenu()])
-            const styleSubmenuComponent = h('div', [styleEditorComponent, addStyleComponent])
-            let availableEvents = [
-                {
-                    description: 'on click',
-                    propertyName: 'click'
-                },
-                {
-                    description: 'double clicked',
-                    propertyName: 'dblclick'
-                },
-                {
-                    description: 'mouse over',
-                    propertyName: 'mouseover'
-                },
-                {
-                    description: 'mouse out',
-                    propertyName: 'mouseout'
-                },
-            ]
-            if(state.selectedViewNode.ref === 'vNodeInput'){
-                availableEvents = availableEvents.concat([
-                    {
-                        description: 'input',
-                        propertyName: 'input'
-                    },
-                    {
-                        description: 'focus',
-                        propertyName: 'focus'
-                    },
-                    {
-                        description: 'blur',
-                        propertyName: 'blur'
-                    },
+            })()])
+            const genstyleSubmenuComponent = () => {
+                const selectedStyle = state.definition.style[selectedNode.style.id]
+                return h('div', [
+                    (()=>{
+                        return h('div', {style: {}},
+                            Object.keys(selectedStyle).map((key) => h('div', [h('input', {
+                                style: {
+                                    border: 'none',
+                                    background: 'none',
+                                    color: 'white',
+                                    outline: 'none',
+                                    padding: '0',
+                                    boxShadow: 'inset 0 -1px 0 0 white',
+                                    display: 'inline-block',
+                                    width: '160px',
+                                    margin: '10px',
+                                },
+                                props: {value: selectedStyle[key]},
+                                on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}
+                            }),
+                                h('span', key)]))
+                        )
+                    })(),
+                    (()=>{
+                        return h('div', {style: {}},
+                            styles
+                                .filter((key) => !Object.keys(selectedStyle).includes(key))
+                                .map((key) => h('div', {
+                                    on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},
+                                    style: {
+                                        display: 'inline-block',
+                                        cursor: 'pointer',
+                                        borderRadius: '5px',
+                                        border: '3px solid white',
+                                        padding: '5px',
+                                        margin: '5px'
+                                    }
+                                }, '+ ' + key))
+                        )
+                    })(),
                 ])
             }
-            const currentEvents = availableEvents.filter((event)=>selectedNode[event.propertyName])
-            const eventsLeft = availableEvents.filter((event)=>!selectedNode[event.propertyName])
-            const eventsSubmenuComponent = h('div', { style: {paddingTop: '20px'}}, eventsLeft.map((event)=>
-                h('div', {style: {display: 'inline-block', border: '3px solid #5bcc5b', borderRadius: '5px', cursor: 'pointer', padding: '5px', margin: '10px'}, on:{click: [ADD_EVENT, event.propertyName]}}, '+ ' + event.description),
+            const geneventsSubmenuComponent = () => {
+                let availableEvents = [
+                    {
+                        description: 'on click',
+                        propertyName: 'click'
+                    },
+                    {
+                        description: 'double clicked',
+                        propertyName: 'dblclick'
+                    },
+                    {
+                        description: 'mouse over',
+                        propertyName: 'mouseover'
+                    },
+                    {
+                        description: 'mouse out',
+                        propertyName: 'mouseout'
+                    },
+                ]
+                if (state.selectedViewNode.ref === 'vNodeInput') {
+                    availableEvents = availableEvents.concat([
+                        {
+                            description: 'input',
+                            propertyName: 'input'
+                        },
+                        {
+                            description: 'focus',
+                            propertyName: 'focus'
+                        },
+                        {
+                            description: 'blur',
+                            propertyName: 'blur'
+                        },
+                    ])
+                }
+                const currentEvents = availableEvents.filter((event) => selectedNode[event.propertyName])
+                const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
+
+                return h('div', {style: {paddingTop: '20px'}}, eventsLeft.map((event) =>
+                h('div', {
+                    style: {
+                        display: 'inline-block',
+                        border: '3px solid #5bcc5b',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        padding: '5px',
+                        margin: '10px'
+                    }, on: {click: [ADD_EVENT, event.propertyName]}
+                }, '+ ' + event.description),
             ).concat(currentEvents.length ?
-                currentEvents.map((event)=>
+                currentEvents.map((event) =>
                     h('div', [
                         h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
                         h('div',
                             {
-                                style:
-                                    {color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b': 'white', transition: 'color 0.2s', fontSize: '0.8em', cursor: 'pointer', padding: '5px 10px', boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset': 'none'},
+                                style: {
+                                    color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b' : 'white',
+                                    transition: 'color 0.2s',
+                                    fontSize: '0.8em',
+                                    cursor: 'pointer',
+                                    padding: '5px 10px',
+                                    boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset' : 'none'
+                                },
                                 on: {
                                     click: [SELECT_EVENT, selectedNode[event.propertyName].id],
                                     dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
@@ -1587,7 +1613,7 @@ function editor(appDefinition){
                                                 outline: 'none',
                                                 boxShadow: 'inset 0 -1px 0 0 white',
                                                 padding: '0',
-                                                margin:  '0',
+                                                margin: '0',
                                                 border: 'none',
                                                 borderRadius: '0',
                                                 display: 'inline',
@@ -1610,6 +1636,10 @@ function editor(appDefinition){
                         )
                     ])) :
                 []))
+            }
+
+            const fullVNode = state.selectedViewNode.ref === 'vNodeBox' || state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
+
             return h('div', {
                 style: {
                     position: 'absolute',
@@ -1622,18 +1652,61 @@ function editor(appDefinition){
                     flexDirection: 'column',
                 }
             }, [
-                h('div', {style: {flex: '1', maxHeight: '43px', minHeight: '43px', position: 'relative', marginTop: '6px'}}, [eventsComponent, styleComponent, propsComponent, unselectComponent]),
+                h('div', {style: {flex: '1', maxHeight: '43px', minHeight: '43px', position: 'relative', marginTop: '6px'}}, fullVNode ? [eventsComponent, styleComponent, propsComponent, unselectComponent]: [unselectComponent]),
                 h('div', {attrs: {class: 'better-scrollbar'}, style: {flex: '1', overflow: 'auto', background: '#4d4d4d', borderRadius: '10px', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
                     dragSubComponent,
-                    state.selectedViewSubMenu === 'props' ? propsSubmenuComponent:
-                        state.selectedViewSubMenu === 'style' ? styleSubmenuComponent:
-                            state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent:
+                    state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
+                        state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
+                            state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent():
                                 h('span', 'Error, no such menu')
                 ])
             ])
         }
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', borderTop: '3px solid #222', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const addStateComponent = h('div', {style: { cursor: 'pointer', flex: '0 auto', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state')
+        ])
+
+        function generateSelectViewNodeComponent() {
+            return h('div', {
+                style: {
+                    position: 'absolute',
+                    left: '0px',
+                    bottom: '0px',
+                    height: '50%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }
+            }, [
+                h('div', {attrs: {class: 'better-scrollbar'}, style: {margin: '40px 3px 0 0', flex: '1', overflow: 'auto', background: '#333', width: state.editorRightWidth + 'px'}},[
+                    h('div', {style: {padding: '5px', margin: '5px'}}, 'drag and drop components into the component tree or into live application'),
+                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+                            mousedown: [NODE_DRAGGED, 'box'],
+                            touchstart: [NODE_DRAGGED, 'box'],
+                        }},
+                        '+ box'
+                    ),
+                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+                            mousedown: [NODE_DRAGGED, 'text'],
+                            touchstart: [NODE_DRAGGED, 'text'],
+                        }},
+                        '+ text'
+                    ),
+                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+                            mousedown: [NODE_DRAGGED, 'input'],
+                            touchstart: [NODE_DRAGGED, 'input'],
+                        }},
+                        '+ input'
+                    ),
+                ])
+            ])
+        }
+
+        const addViewNodeComponent = h('div', {style: { cursor: 'pointer', flex: '0 auto', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add component')
+        ])
+
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '6px 8px'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, {}),
         ])
 
@@ -1659,9 +1732,11 @@ function editor(appDefinition){
                 },
             }, [
                 dragComponentRight,
+                addStateComponent,
                 stateComponent,
+                addViewNodeComponent,
                 viewComponent,
-                state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
+                state.showingViewNodes ? generateSelectViewNodeComponent(): state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
             ])
 
 
