@@ -369,10 +369,6 @@
                 "ref": "pipe",
                 "id": "f9qxd6d2-00db-8ab5-c332-882575f25426"
             },
-            "style": {
-                "ref": "style",
-                "id": "q86sd89d-3703-483e-ab64-5a5b780aec27"
-            },
             "children": [
                 {
                     "ref": "vNodeBox",
@@ -387,10 +383,6 @@
             "value": {
                 "ref": "pipe",
                 "id": "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070"
-            },
-            "style": {
-                "ref": "style",
-                "id": "a1a8c5b9-a7d1-416b-8e76-eac96fb273c9"
             },
             "children": [
                 {
@@ -464,9 +456,6 @@
             "padding": "10px",
             "display": "block"
         },
-        "q86sd89d-3703-483e-ab64-5a5b780aec27": {
-            "padding": "20px"
-        },
         "fq9dd6d2-00db-8ab5-c332-882575f25426": {
             "padding": "10px",
             "width": {
@@ -485,9 +474,6 @@
         "4dca73b3-90eb-41e7-8651-2bdcc93f3871": {
             "padding": "10px"
         },
-        "a1a8c5b9-a7d1-416b-8e76-eac96fb273c9": {
-            "padding": "10px"
-        }
     },
     "nameSpace": {
         "_rootNameSpace": {
