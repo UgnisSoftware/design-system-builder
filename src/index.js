@@ -31,7 +31,8 @@ editor(savedApp)
 
 function editor(appDefinition){
 
-    const app = ugnis(appDefinition)
+    const savedDefinition = JSON.parse(localStorage.getItem('saved_app'))
+    const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
     document.body.appendChild(node)
@@ -55,7 +56,7 @@ function editor(appDefinition){
         viewFoldersClosed: {},
         dragMouseLocation: null,
         currentlyDragging: '',
-        definition: app.definition,
+        definition: savedDefinition || app.definition,
     }
     // undo/redo
     let stateStack = [state]
@@ -77,6 +78,7 @@ function editor(appDefinition){
         if(state.definition !== newState.definition){
             // TODO add garbage collection?
             app.render(newState.definition)
+            localStorage.setItem('saved_app', JSON.stringify(newState.definition));
         }
         state = newState
         render()
@@ -747,6 +749,9 @@ function editor(appDefinition){
             ...state,
             showingViewNodes: true
         })
+    }
+    function RESET_APP() {
+        setState({...state, definition: appDefinition})
     }
 
     // Listen to app and blink every action
@@ -1747,13 +1752,32 @@ function editor(appDefinition){
                 maxHeight: '75px',
                 minHeight: '75px',
                 background: '#222',
-                display:'flex'
+                display:'flex',
+                justifyContent: 'center',
+                fontFamily: "'Comfortaa', sans-serif",
             }
         }, [
             h('a', {style: {flex: '0 auto', width: '190px', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/_dev'}}, [
                 h('img',{style: { margin: '7px -2px -3px 5px', display: 'inline-block'}, attrs: {src: '/images/logo256x256.png', height: '57'}}),
-                h('span',{style: { fontSize:'44px', fontFamily: "'Comfortaa', sans-serif", verticalAlign: 'bottom', color: '#fff'}}, 'ugnis')
+                h('span',{style: { fontSize:'44px',  verticalAlign: 'bottom', color: '#fff'}}, 'ugnis')
             ]),
+            h('div', {style: {
+                position: 'absolute',
+                top: '0',
+                right: '0',
+                background: '#9c4848',
+                borderRadius: '10px',
+                border: 'none',
+                color: 'white',
+                display: 'inline-block',
+                padding: '15px 20px',
+                margin: '13px',
+                cursor: 'pointer'
+            },
+                on: {
+                    click: RESET_APP
+                }
+            }, 'reset demo')
         ])
         const leftComponent = h('div', {
             style: {
