@@ -24,14 +24,14 @@ import big from 'big.js'
 big.E_POS = 1e+6
 
 import ugnis from './ugnis'
-
 import savedApp from '../ugnis_components/app.json'
 
+const version = '0.0.23v'
 editor(savedApp)
 
 function editor(appDefinition){
 
-    const savedDefinition = JSON.parse(localStorage.getItem('saved_app'))
+    const savedDefinition = JSON.parse(localStorage.getItem('saved_app_' + version))
     const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
@@ -78,7 +78,7 @@ function editor(appDefinition){
         if(state.definition !== newState.definition){
             // TODO add garbage collection?
             app.render(newState.definition)
-            localStorage.setItem('saved_app', JSON.stringify(newState.definition));
+            localStorage.setItem('saved_app_'+version, JSON.stringify(newState.definition));
         }
         state = newState
         render()

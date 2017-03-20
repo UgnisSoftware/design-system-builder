@@ -473,7 +473,7 @@
         },
         "4dca73b3-90eb-41e7-8651-2bdcc93f3871": {
             "padding": "10px"
-        },
+        }
     },
     "nameSpace": {
         "_rootNameSpace": {
@@ -573,6 +573,7 @@
     },
     "event": {
         "d48rd6d2-00db-8ab5-c332-882575f25426": {
+            "type": "click",
             "title": "increment",
             "mutators": [
                 {
@@ -580,9 +581,14 @@
                     "id": "as55d6d2-00db-8ab5-c332-882575f25426"
                 }
             ],
+            "emmiter": {
+                "ref": "vNodeText",
+                "id": "1481d6d2-00db-8ab5-c332-882575f25425"
+            },
             "data": []
         },
         "3a54d6d2-00db-8ab5-c332-882575f25426": {
+            "type": "click",
             "title": "decrement",
             "mutators": [
                 {
@@ -590,6 +596,10 @@
                     "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
                 }
             ],
+            "emmiter": {
+                "ref": "vNodeText",
+                "id": "3481d6d2-00db-8ab5-c332-882575f25425"
+            },
             "data": []
         }
     }
