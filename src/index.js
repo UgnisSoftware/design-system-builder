@@ -215,7 +215,6 @@ function editor(appDefinition){
             e.preventDefault()
             const x = e.touches? e.touches[0].pageX: e.pageX
             const y = e.touches? e.touches[0].pageY: e.pageY
-
             setState({...state, dragMouseLocation: {x, y}})
             return false
         }
@@ -258,15 +257,15 @@ function editor(appDefinition){
                 ...state,
                 selectedViewNode: {ref:'vNodeBox', id: newNodeId},
                 definition: nodeRef.ref === 'vNodeBox' ? {
-                        ...state.definition,
-                        vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
-                        style: {...state.definition.style, [newStyleId]: newStyle},
-                    } : {
-                        ...state.definition,
-                        [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}},
-                        vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
-                        style: {...state.definition.style, [newStyleId]: newStyle},
-                    }
+                    ...state.definition,
+                    vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
+                    style: {...state.definition.style, [newStyleId]: newStyle},
+                } : {
+                    ...state.definition,
+                    [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}},
+                    vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
+                    style: {...state.definition.style, [newStyleId]: newStyle},
+                }
             }, true)
         }
         if(type === 'text'){
@@ -1216,10 +1215,10 @@ function editor(appDefinition){
                         paddingLeft: depth *20 + 8+ 'px',
                         background: '#444',
                         borderTop: depth === 0 ? '2px solid #333': undefined,
-                        boxShadow: depth === 0 ?'inset 0 1px 0 0 #4d4d4d': undefined,
+                        boxShadow: depth === 0 ?'inset 0 2px 0 0 #4d4d4d': undefined,
                         borderBottom: '2px solid #333',
                         marginBottom: '2px',
-                        paddingTop: '3px',
+                        paddingTop: depth === 0 ? '3px' : '1px',
                         paddingBottom: '3px',
                     }}, [
                         nodeRef.ref === 'vNodeBox' && node.children.length > 0 ? h('svg', {
@@ -1231,23 +1230,23 @@ function editor(appDefinition){
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]): h('span'),
                         h('svg', {
-                                attrs: {width: 14, height: 14},
-                                style: { cursor: 'pointer', padding: '0 5px 0 0'},
+                                attrs: {width: 14, height: 15},
+                                style: { cursor: 'pointer', padding: '0 7px 0 0'},
                                 on: {click: [VIEW_NODE_SELECTED, nodeRef]}
                             },
                             nodeRef.ref === 'vNodeBox' ? [
-                                    h('rect', {attrs: {x: 2, y: 1, width: 12, height: 12, fill: 'none', transition: 'all 0.2s',stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', 'stroke-width': '2'}}),
-                                ]:
+                                h('rect', {attrs: {x: 2, y: 2, width: 12, height: 12, fill: 'none', transition: 'all 0.2s',stroke: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', 'stroke-width': '2'}}),
+                            ]:
                                 nodeRef.ref === 'vNodeList' ? [
-                                        h('circle', {attrs: {r: 2, cx: 2, cy: 2, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                        h('rect', {attrs: {x: 6, y: 1, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                        h('circle', {attrs: {r: 2, cx: 2, cy: 7, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                        h('rect', {attrs: {x: 6, y: 6, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                        h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                        h('rect', {attrs: {x: 6, y: 11, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
-                                    ] : [
-                                        h('text', {attrs: { x:3, y:14, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}}, '?'),
-                                    ]
+                                    h('circle', {attrs: {r: 2, cx: 2, cy: 2, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                    h('rect', {attrs: {x: 6, y: 1, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                    h('circle', {attrs: {r: 2, cx: 2, cy: 7, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                    h('rect', {attrs: {x: 6, y: 6, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                    h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                    h('rect', {attrs: {x: 6, y: 11, width: 8, transition: 'all 0.2s', height: 2, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',}}),
+                                ] : [
+                                    h('text', {attrs: { x:3, y:14, fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}}, '?'),
+                                ]
                         ),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
@@ -1302,27 +1301,28 @@ function editor(appDefinition){
                         background: '#444',
                         marginBottom: '2px',
                         borderBottom: '2px solid #333',
-                        paddingTop: '2px',
+                        paddingTop: '1px',
                         paddingBottom: '3px'
                     },
                     on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
                 }, [
-                    nodeRef.ref === 'vNodeInput' ?                     h('svg', {
-                                attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
-                                style: { cursor: 'pointer', padding: '0 7px 0 0'},
-                            },
-                            [
-                                h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
-                                h('path', {attrs: {d: 'M 9.8114827,4.2360393 C 9.6547357,4.5865906 9.3039933,4.8295854 8.8957233,4.8288684 L 1.2968926,4.8115404 1.3169436,2.806447 8.9006377,2.828642 c 0.552448,0.00165 0.9993074,0.4501223 0.9976564,1.0025698 -2.1e-5,0.1445856 -0.0313,0.2806734 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
-                                h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
-                                h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
-                            ]): h('svg', {
-                            attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
+                    nodeRef.ref === 'vNodeInput' ? h('svg', {
+                            attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
                             style: { cursor: 'pointer', padding: '0 7px 0 0'},
                         },
                         [
-                            h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}})
-                        ]),
+                            h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'M 9.8114827,4.2360393 C 9.6547357,4.5865906 9.3039933,4.8295854 8.8957233,4.8288684 L 1.2968926,4.8115404 1.3169436,2.806447 8.9006377,2.828642 c 0.552448,0.00165 0.9993074,0.4501223 0.9976564,1.0025698 -2.1e-5,0.1445856 -0.0313,0.2806734 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                            h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'}}),
+                        ]):
+                        h('svg', {
+                                attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
+                                style: { cursor: 'pointer', padding: '0 7px 0 0'},
+                            },
+                            [
+                                h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}})
+                            ]),
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
@@ -1550,68 +1550,68 @@ function editor(appDefinition){
                 const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
 
                 return h('div', {style: {paddingTop: '20px'}}, eventsLeft.map((event) =>
-                h('div', {
-                    style: {
-                        display: 'inline-block',
-                        border: '3px solid #5bcc5b',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        padding: '5px',
-                        margin: '10px'
-                    }, on: {click: [ADD_EVENT, event.propertyName]}
-                }, '+ ' + event.description),
-            ).concat(currentEvents.length ?
-                currentEvents.map((event) =>
-                    h('div', [
-                        h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
-                        h('div',
-                            {
-                                style: {
-                                    color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b' : 'white',
-                                    transition: 'color 0.2s',
-                                    fontSize: '0.8em',
-                                    cursor: 'pointer',
-                                    padding: '5px 10px',
-                                    boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset' : 'none'
-                                },
-                                on: {
-                                    click: [SELECT_EVENT, selectedNode[event.propertyName].id],
-                                    dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
-                                }
-                            }, [
-                                h('span', {}, [
-                                    '• ',
-                                    state.editingTitleNodeId === selectedNode[event.propertyName].id ?
-                                        h('input', {
-                                            style: {
-                                                background: 'none',
-                                                color: 'white',
-                                                outline: 'none',
-                                                boxShadow: 'inset 0 -1px 0 0 white',
-                                                padding: '0',
-                                                margin: '0',
-                                                border: 'none',
-                                                borderRadius: '0',
-                                                display: 'inline',
-                                                font: 'inherit'
-                                            },
-                                            on: {
-                                                input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
-                                            },
-                                            liveProps: {
-                                                value: state.definition.event[selectedNode[event.propertyName].id].title,
-                                            },
-                                            attrs: {
-                                                autofocus: true,
-                                                'data-istitleeditor': true
-                                            }
-                                        })
-                                        : state.definition.event[selectedNode[event.propertyName].id].title]
-                                )
-                            ]
-                        )
-                    ])) :
-                []))
+                    h('div', {
+                        style: {
+                            display: 'inline-block',
+                            border: '3px solid #5bcc5b',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            padding: '5px',
+                            margin: '10px'
+                        }, on: {click: [ADD_EVENT, event.propertyName]}
+                    }, '+ ' + event.description),
+                ).concat(currentEvents.length ?
+                    currentEvents.map((event) =>
+                        h('div', [
+                            h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
+                            h('div',
+                                {
+                                    style: {
+                                        color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b' : 'white',
+                                        transition: 'color 0.2s',
+                                        fontSize: '0.8em',
+                                        cursor: 'pointer',
+                                        padding: '5px 10px',
+                                        boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset' : 'none'
+                                    },
+                                    on: {
+                                        click: [SELECT_EVENT, selectedNode[event.propertyName].id],
+                                        dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
+                                    }
+                                }, [
+                                    h('span', {}, [
+                                        '• ',
+                                        state.editingTitleNodeId === selectedNode[event.propertyName].id ?
+                                            h('input', {
+                                                style: {
+                                                    background: 'none',
+                                                    color: 'white',
+                                                    outline: 'none',
+                                                    boxShadow: 'inset 0 -1px 0 0 white',
+                                                    padding: '0',
+                                                    margin: '0',
+                                                    border: 'none',
+                                                    borderRadius: '0',
+                                                    display: 'inline',
+                                                    font: 'inherit'
+                                                },
+                                                on: {
+                                                    input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
+                                                },
+                                                liveProps: {
+                                                    value: state.definition.event[selectedNode[event.propertyName].id].title,
+                                                },
+                                                attrs: {
+                                                    autofocus: true,
+                                                    'data-istitleeditor': true
+                                                }
+                                            })
+                                            : state.definition.event[selectedNode[event.propertyName].id].title]
+                                    )
+                                ]
+                            )
+                        ])) :
+                    []))
             }
 
             const fullVNode = state.selectedViewNode.ref === 'vNodeBox' || state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
@@ -1678,7 +1678,7 @@ function editor(appDefinition){
             ])
         }
 
-        const addViewNodeComponent = h('div', {style: { cursor: 'pointer', flex: '0 auto', marginLeft: '-10px', border: '3px solid #222', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
+        const addViewNodeComponent = h('div', {style: { cursor: 'pointer', flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
             h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add component (todo: quick add)')
         ])
 
