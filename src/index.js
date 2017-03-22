@@ -26,7 +26,7 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
-const version = '0.0.23v'
+const version = '0.0.24v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1827,12 +1827,15 @@ function editor(appDefinition){
                 state.eventStack
                     .map((a)=>a)
                     .reverse()
-                    .map(event =>
-                        h('div', {style: { padding: '5px', color: '#ffffff'}}, [
-                            state.definition.event[event.eventId].title,
-                            h('div', Object.keys(event.mutations).map(stateId => state.definition.state[stateId].title + ': ' + event.mutations[stateId].toString()))
+                    .map(eventData => {
+                        const event = state.definition.event[eventData.eventId]
+                        const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                        return h('div', {style: {padding: '5px', color: '#ffffff'}}, [
+
+                            h('div', {style: {cursor: 'pointer', background: '#333', borderRadius: '10px', padding: '5px'}, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [event.emitter.ref + ': ' + event.type]),
+                            h('div', Object.keys(eventData.mutations).map(stateId => state.definition.state[stateId].title + ': ' + eventData.mutations[stateId].toString()))
                         ])
-                    )
+                    })
             )
         ])
         const renderViewComponent = h('div', {

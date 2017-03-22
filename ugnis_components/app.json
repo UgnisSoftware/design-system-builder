@@ -581,7 +581,7 @@
                     "id": "as55d6d2-00db-8ab5-c332-882575f25426"
                 }
             ],
-            "emmiter": {
+            "emitter": {
                 "ref": "vNodeText",
                 "id": "1481d6d2-00db-8ab5-c332-882575f25425"
             },
@@ -596,7 +596,7 @@
                     "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
                 }
             ],
-            "emmiter": {
+            "emitter": {
                 "ref": "vNodeText",
                 "id": "3481d6d2-00db-8ab5-c332-882575f25425"
             },
