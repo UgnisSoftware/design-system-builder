@@ -1829,7 +1829,7 @@ function editor(appDefinition){
                     .reverse()
                     .map(event =>
                         h('div', {style: { padding: '5px', color: '#ffffff'}}, [
-                            state.definition.event[event.eventName].title,
+                            state.definition.event[event.eventId].title,
                             h('div', Object.keys(event.mutations).map(stateId => state.definition.state[stateId].title + ': ' + event.mutations[stateId].toString()))
                         ])
                     )
