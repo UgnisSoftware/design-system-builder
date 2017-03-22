@@ -1645,40 +1645,40 @@ function editor(appDefinition){
             h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state')
         ])
 
-        function generateSelectViewNodeComponent() {
-            return h('div', {
-                style: {
-                    position: 'absolute',
-                    left: '0px',
-                    bottom: '0px',
-                    height: '50%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                }
-            }, [
-                h('div', {attrs: {class: 'better-scrollbar'}, style: {margin: '49px 3px 0 0', flex: '1', overflow: 'auto', background: '#333', width: state.editorRightWidth + 'px'}},[
-                    h('div', {style: {padding: '5px', margin: '5px'}}, 'drag and drop components into the component tree or into live application'),
-                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-                            mousedown: [NODE_DRAGGED, 'box'],
-                            touchstart: [NODE_DRAGGED, 'box'],
-                        }},
-                        '+ box'
-                    ),
-                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-                            mousedown: [NODE_DRAGGED, 'text'],
-                            touchstart: [NODE_DRAGGED, 'text'],
-                        }},
-                        '+ text'
-                    ),
-                    h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-                            mousedown: [NODE_DRAGGED, 'input'],
-                            touchstart: [NODE_DRAGGED, 'input'],
-                        }},
-                        '+ input'
-                    ),
-                ])
-            ])
-        }
+        // function generateSelectViewNodeComponent() {
+        //     return h('div', {
+        //         style: {
+        //             position: 'absolute',
+        //             left: '0px',
+        //             bottom: '0px',
+        //             height: '50%',
+        //             display: 'flex',
+        //             flexDirection: 'column',
+        //         }
+        //     }, [
+        //         h('div', {attrs: {class: 'better-scrollbar'}, style: {margin: '49px 3px 0 0', flex: '1', overflow: 'auto', background: '#333', width: state.editorRightWidth + 'px'}},[
+        //             h('div', {style: {padding: '5px', margin: '5px'}}, 'drag and drop components into the component tree or into live application'),
+        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+        //                     mousedown: [NODE_DRAGGED, 'box'],
+        //                     touchstart: [NODE_DRAGGED, 'box'],
+        //                 }},
+        //                 '+ box'
+        //             ),
+        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+        //                     mousedown: [NODE_DRAGGED, 'text'],
+        //                     touchstart: [NODE_DRAGGED, 'text'],
+        //                 }},
+        //                 '+ text'
+        //             ),
+        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
+        //                     mousedown: [NODE_DRAGGED, 'input'],
+        //                     touchstart: [NODE_DRAGGED, 'input'],
+        //                 }},
+        //                 '+ input'
+        //             ),
+        //         ])
+        //     ])
+        // }
 
         const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
             h('span', {style: { padding: '0 10px'}}, 'add component: '),
