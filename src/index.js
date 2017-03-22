@@ -326,10 +326,15 @@ function editor(appDefinition){
                 mutation: { ref: 'pipe', id: pipeMutatorId},
             }
             const newEvent = {
+                type: 'input',
                 title: 'update input',
                 mutators: [
                     { ref: 'mutator', id: mutatorId},
                 ],
+                emitter: {
+                    ref: 'vNodeInput',
+                    id: newNodeId,
+                },
                 data: [
                     {ref: 'eventData', id: '_input'}
                 ],
@@ -753,7 +758,49 @@ function editor(appDefinition){
         setState({...state, definition: appDefinition})
     }
 
-    // Render
+    const boxIcon = h('svg', {
+            attrs: {width: 14, height: 15},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        },
+        [
+            h('rect', {attrs: {x: 2, y: 2, width: 12, height: 12, fill: 'none', transition: 'all 0.2s',stroke: '#bdbdbd', 'stroke-width': '2'}}),
+        ])
+    const ifIcon = h('svg', {
+            attrs: {width: 14, height: 14},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        }, [
+            h('text', {attrs: { x:3, y:14, fill: '#bdbdbd'}}, '?'),
+        ])
+    const listIcon = h('svg', {
+            attrs: {width: 14, height: 14},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        },
+        [
+            h('circle', {attrs: {r: 2, cx: 2, cy: 2, transition: 'all 0.2s', fill: '#bdbdbd',}}),
+            h('rect', {attrs: {x: 6, y: 1, width: 8, transition: 'all 0.2s', height: 2, fill: '#bdbdbd',}}),
+            h('circle', {attrs: {r: 2, cx: 2, cy: 7, transition: 'all 0.2s', fill: '#bdbdbd',}}),
+            h('rect', {attrs: {x: 6, y: 6, width: 8, transition: 'all 0.2s', height: 2, fill: '#bdbdbd',}}),
+            h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: '#bdbdbd',}}),
+            h('rect', {attrs: {x: 6, y: 11, width: 8, transition: 'all 0.2s', height: 2, fill:'#bdbdbd',}}),
+        ])
+    const inputIcon = h('svg', {
+            attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        },
+        [
+            h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill:'#bdbdbd'}}),
+            h('path', {attrs: {d: 'M 9.8114827,4.2360393 C 9.6547357,4.5865906 9.3039933,4.8295854 8.8957233,4.8288684 L 1.2968926,4.8115404 1.3169436,2.806447 8.9006377,2.828642 c 0.552448,0.00165 0.9993074,0.4501223 0.9976564,1.0025698 -2.1e-5,0.1445856 -0.0313,0.2806734 -0.08681,0.404827 z', fill: '#bdbdbd'}}),
+            h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: '#bdbdbd'}}),
+            h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: '#bdbdbd'}}),
+        ])
+    const textIcon = h('svg', {
+            attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        },
+        [
+            h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: '#bdbdbd'}})
+        ])
+
     function render() {
         const currentState = app.getCurrentState()
         const dragComponentLeft = h('div', {
@@ -1663,54 +1710,9 @@ function editor(appDefinition){
 
         const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
             h('span', {style: { padding: '0 10px'}}, 'add component: '),
-            h('svg', {
-                    attrs: {width: 14, height: 15},
-                    style: { cursor: 'pointer', padding: '0 7px 0 0'},
-                    on: {click: [ADD_NODE, state.selectedViewNode, 'box']}
-                },
-                [
-                    h('rect', {attrs: {x: 2, y: 2, width: 12, height: 12, fill: 'none', transition: 'all 0.2s',stroke: '#bdbdbd', 'stroke-width': '2'}}),
-                ]),
-            // h('svg', {
-            //         attrs: {width: 14, height: 14},
-            //         style: { cursor: 'pointer', padding: '0 7px 0 0'},
-            //         on: {click: [ADD_NODE, state.selectedViewNode, 'list']}
-            //     },
-            //     [
-            //         h('circle', {attrs: {r: 2, cx: 2, cy: 2, transition: 'all 0.2s', fill: '#bdbdbd',}}),
-            //         h('rect', {attrs: {x: 6, y: 1, width: 8, transition: 'all 0.2s', height: 2, fill: '#bdbdbd',}}),
-            //         h('circle', {attrs: {r: 2, cx: 2, cy: 7, transition: 'all 0.2s', fill: '#bdbdbd',}}),
-            //         h('rect', {attrs: {x: 6, y: 6, width: 8, transition: 'all 0.2s', height: 2, fill: '#bdbdbd',}}),
-            //         h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: '#bdbdbd',}}),
-            //         h('rect', {attrs: {x: 6, y: 11, width: 8, transition: 'all 0.2s', height: 2, fill:'#bdbdbd',}}),
-            //     ]),
-            // h('svg', {
-            //         attrs: {width: 14, height: 14},
-            //         style: { cursor: 'pointer', padding: '0 7px 0 0'},
-            //         on: {click: [ADD_NODE, state.selectedViewNode, 'if']}
-            //     }, [
-            //         h('text', {attrs: { x:3, y:14, fill: '#bdbdbd'}}, '?'),
-            //     ]
-            // ),
-            h('svg', {
-                    attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
-                    style: { cursor: 'pointer', padding: '0 7px 0 0'},
-                    on: {click: [ADD_NODE, state.selectedViewNode, 'input']}
-                },
-                [
-                    h('path', {attrs: {d: 'M 15,2 11,2 C 10.447,2 10,1.552 10,1 10,0.448 10.447,0 11,0 l 4,0 c 0.553,0 1,0.448 1,1 0,0.552 -0.447,1 -1,1 z m -2,14 c -0.553,0 -1,-0.447 -1,-1 L 12,1 c 0,-0.552 0.447,-1 1,-1 0.553,0 1,0.448 1,1 l 0,14 c 0,0.553 -0.447,1 -1,1 z m 2,0 -4,0 c -0.553,0 -1,-0.447 -1,-1 0,-0.553 0.447,-1 1,-1 l 4,0 c 0.553,0 1,0.447 1,1 0,0.553 -0.447,1 -1,1 z', fill:'#bdbdbd'}}),
-                    h('path', {attrs: {d: 'M 9.8114827,4.2360393 C 9.6547357,4.5865906 9.3039933,4.8295854 8.8957233,4.8288684 L 1.2968926,4.8115404 1.3169436,2.806447 8.9006377,2.828642 c 0.552448,0.00165 0.9993074,0.4501223 0.9976564,1.0025698 -2.1e-5,0.1445856 -0.0313,0.2806734 -0.08681,0.404827 z', fill: '#bdbdbd'}}),
-                    h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: '#bdbdbd'}}),
-                    h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: '#bdbdbd'}}),
-                ]),
-            h('svg', {
-                    attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
-                    style: { cursor: 'pointer', padding: '0 7px 0 0'},
-                    on: {click: [ADD_NODE, state.selectedViewNode, 'text']}
-                },
-                [
-                    h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: '#bdbdbd'}})
-                ])
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon])
         ])
 
         const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
