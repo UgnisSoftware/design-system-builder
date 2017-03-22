@@ -52,30 +52,25 @@ function editor(appDefinition){
         selectedStateNodeId: '',
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
-        activeEvent: '',
         viewFoldersClosed: {},
         dragMouseLocation: null,
         currentlyDragging: '',
+        eventStack: [],
         definition: savedDefinition || app.definition,
     }
     // undo/redo
-    let stateStack = [state]
-    function setState(newState, pushToStack){
+    let stateStack = [state.definition]
+    function setState(newState){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
-        }
-        // some actions should not be recorded and controlled through undo/redo
-        if(pushToStack){
-            const currentIndex = stateStack.findIndex((a)=>a===state)
-            stateStack = stateStack.slice(0, currentIndex+1).concat(newState);
-        } else {
-            // overwrite current
-            stateStack[stateStack.findIndex((a)=>a===state)] = newState;
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
         }
         if(state.definition !== newState.definition){
+            // undo/redo then render then save
+            const currentIndex = stateStack.findIndex((a)=>a===state.definition)
+            stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition);
             // TODO add garbage collection?
             app.render(newState.definition)
             localStorage.setItem('saved_app_'+version, JSON.stringify(newState.definition));
@@ -95,43 +90,44 @@ function editor(appDefinition){
         // 89 - y
         // 32 - space
         // 13 - enter
-        if(e.which == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        if(e.which === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             // TODO garbage collect
             e.preventDefault();
             fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
         }
-        if(e.which == 32 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        if(e.which === 32 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault()
             FREEZER_CLICKED()
         }
-        if(!e.shiftKey && e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+        if(!e.shiftKey && e.which === 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
-            const currentIndex = stateStack.findIndex((a)=>a===state)
+            const currentIndex = stateStack.findIndex((a)=>a===state.definition)
             if(currentIndex > 0){
-                const newState = stateStack[currentIndex-1]
-                if(state.definition !== newState.definition){
-                    app.render(newState.definition)
-                }
-                state = newState
+                const newDefinition = stateStack[currentIndex-1]
+                app.render(newDefinition)
+                state = {...state, definition: newDefinition}
                 render()
             }
         }
-        if((e.which == 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))) {
+        if((e.which === 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which === 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))) {
             e.preventDefault();
-            const currentIndex = stateStack.findIndex((a)=>a===state)
+            const currentIndex = stateStack.findIndex((a)=>a===state.definition)
             if(currentIndex < stateStack.length-1){
-                const newState = stateStack[currentIndex+1]
-                if(state.definition !== newState.definition){
-                    app.render(newState.definition)
-                }
-                state = newState
+                const newDefinition = stateStack[currentIndex+1]
+                app.render(newDefinition)
+                state = {...state, definition: newDefinition}
                 render()
             }
         }
-        if(e.which == 13) {
+        if(e.which === 13) {
             setState({...state, editingTitleNodeId: ''})
         }
+    })
+
+    // Listen to app
+    app.addListener((eventId, data, e, previousState, currentState, mutations)=>{
+        setState({...state, eventStack: state.eventStack.concat({eventId, data, e, previousState, currentState, mutations})})
     })
 
     // Actions
@@ -202,12 +198,12 @@ function editor(appDefinition){
             return setState({...state, definition: {
                 ...state.definition,
                 vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
-            }, selectedViewNode: {}}, true)
+            }, selectedViewNode: {}})
         }
         setState({...state, definition: {
             ...state.definition,
             [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
-        }, selectedViewNode: {}}, true)
+        }, selectedViewNode: {}})
     }
     function NODE_DRAGGED(type, e) {
         e.preventDefault()
@@ -242,7 +238,7 @@ function editor(appDefinition){
     }
     function ADD_NODE(nodeRef, type) {
         // TODO remove when dragging works
-        if(!nodeRef.ref || !state.definition[nodeRef.ref][nodeRef.id].children){
+        if(!nodeRef.ref || !state.definition[nodeRef.ref][nodeRef.id] || !state.definition[nodeRef.ref][nodeRef.id].children){
             nodeRef = {ref: 'vNodeBox', id: '_rootNode'}
         }
         const nodeId = nodeRef.id
@@ -270,7 +266,7 @@ function editor(appDefinition){
                     vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 }
-            }, true)
+            })
         }
         if(type === 'text'){
             const pipeId = uuid()
@@ -293,7 +289,7 @@ function editor(appDefinition){
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
-                }}, true)
+                }})
         }
         if(type === 'input') {
             const stateId = uuid()
@@ -351,7 +347,7 @@ function editor(appDefinition){
                     state: {...state.definition.state, [stateId]: newState},
                     mutator: {...state.definition.mutator, [mutatorId]: newMutator},
                     event: {...state.definition.event, [eventId]: newEvent},
-                }}, true)
+                }})
         }
     }
     function ADD_STATE(namespaceId, type) {
@@ -401,21 +397,21 @@ function editor(appDefinition){
             return setState({...state, definition: {
                 ...state.definition,
                 nameSpace: {...state.definition.nameSpace, [namespaceId]: {...state.definition.nameSpace[namespaceId], children: state.definition.nameSpace[namespaceId].children.concat({ref:'nameSpace', id:newStateId})}, [newStateId]: newState},
-            }}, true)
+            }})
         }
         setState({...state, definition: {
             ...state.definition,
             nameSpace: {...state.definition.nameSpace, [namespaceId]: {...state.definition.nameSpace[namespaceId], children: state.definition.nameSpace[namespaceId].children.concat({ref:'state', id:newStateId})}},
             state: {...state.definition.state, [newStateId]: newState},
-        }}, true)
+        }})
     }
     function CHANGE_STYLE(styleId, key, e) {
         e.preventDefault()
         // and now I really regret not using immutable or ramda lenses
-        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: e.target.value}}}}, true)
+        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: e.target.value}}}})
     }
     function ADD_DEFAULT_STYLE(styleId, key) {
-        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: 'default'}}}}, true)
+        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: 'default'}}}})
     }
     function SELECT_VIEW_SUBMENU(newId) {
         setState({...state, selectedViewSubMenu:newId})
@@ -437,7 +433,7 @@ function editor(appDefinition){
                     title: e.target.value
                 }
             },
-        }}, true)
+        }})
     }
     function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
         e.preventDefault();
@@ -446,21 +442,21 @@ function editor(appDefinition){
         setState({...state, definition: {
             ...state.definition,
             [nodeType]: {...state.definition[nodeType], [nodeId]: {...state.definition[nodeType][nodeId], title: e.target.value}},
-        }}, true)
+        }})
     }
     function CHANGE_STATE_NODE_TITLE(nodeId, e) {
         e.preventDefault();
         setState({...state, definition: {
             ...state.definition,
             state: {...state.definition.state, [nodeId]: {...state.definition.state[nodeId], title: e.target.value}},
-        }}, true)
+        }})
     }
     function CHANGE_NAMESPACE_TITLE(nodeId, e) {
         e.preventDefault();
         setState({...state, definition: {
             ...state.definition,
             nameSpace: {...state.definition.nameSpace, [nodeId]: {...state.definition.nameSpace[nodeId], title: e.target.value}},
-        }}, true)
+        }})
     }
     function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
         app.setCurrentState({...app.getCurrentState(), [stateId]: e.target.value})
@@ -505,7 +501,7 @@ function editor(appDefinition){
                     [propertyName]: value
                 }
             }
-        }}, true)
+        }})
     }
     function ADD_EVENT(propertyName) {
         const ref = state.selectedViewNode
@@ -526,7 +522,7 @@ function editor(appDefinition){
                     mutators: []
                 }
             }
-        }}, true)
+        }})
     }
     function ADD_MUTATOR(stateId, eventId) {
         const mutatorId = uuid();
@@ -578,7 +574,7 @@ function editor(appDefinition){
                     })
                 }
             }
-        }}, true)
+        }})
     }
     function MOVE_VIEW_NODE(parentRef, position, amount, e) {
         e.preventDefault()
@@ -598,7 +594,7 @@ function editor(appDefinition){
                     )
                 }
             }
-        }}, true)
+        }})
     }
     function SELECT_PIPE(pipeId) {
         setState({...state, selectedPipeId:pipeId})
@@ -617,7 +613,7 @@ function editor(appDefinition){
                     transformations: []
                 }
             }
-        }}, true)
+        }})
     }
     function ADD_TRANSFORMATION(pipeId, transformation) {
         if(transformation === 'join'){
@@ -643,7 +639,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'join', id:joinId})
                     }
                 }
-            }}, true)
+            }})
         }
         if(transformation === 'toUpperCase'){
             const newId = uuid();
@@ -660,7 +656,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toUpperCase', id:newId})
                     }
                 }
-            }}, true)
+            }})
         }
         if(transformation === 'toLowerCase'){
             const newId = uuid();
@@ -677,7 +673,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toLowerCase', id:newId})
                     }
                 }
-            }}, true)
+            }})
         }
         if(transformation === 'toText'){
             const newId = uuid();
@@ -694,7 +690,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toText', id:newId})
                     }
                 }
-            }}, true)
+            }})
         }
         if(transformation === 'add'){
             const newPipeId = uuid();
@@ -719,7 +715,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'add', id:addId})
                     }
                 }
-            }}, true)
+            }})
         }
         if(transformation === 'subtract'){
             const newPipeId = uuid();
@@ -744,7 +740,7 @@ function editor(appDefinition){
                         transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'subtract', id:subtractId})
                     }
                 }
-            }}, true)
+            }})
         }
     }
     function SHOW_VIEW_NODES(e){
@@ -754,23 +750,8 @@ function editor(appDefinition){
         })
     }
     function RESET_APP() {
-        setState({...state, definition: appDefinition}, true)
+        setState({...state, definition: appDefinition})
     }
-
-    // Listen to app and blink every action
-    let timer = null
-    const eventStack = []
-    app.addListener((eventName, data, e, previousState, currentState, mutations)=>{
-        eventStack.push({eventName, data, e, previousState, currentState, mutations})
-        setState({...state, activeEvent: eventName})
-        // yeah, I probably needed some observables too
-        if(timer){
-            clearTimeout(timer)
-        }
-        timer = setTimeout(()=> {
-            setState({...state, activeEvent: ''})
-        }, 500)
-    })
 
     // Render
     function render() {
@@ -1133,7 +1114,7 @@ function editor(appDefinition){
                     state.selectedStateNodeId === stateId ?
                         h('span', currentState.mutators.map(ref =>
                             h('div', {
-                                    style: {color: state.activeEvent === state.definition.mutator[ref.id].event.id ? '#5bcc5b': 'white', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutator[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
+                                    style: {color: 'white', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutator[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
                                     on: {
                                         click: [SELECT_EVENT, state.definition.mutator[ref.id].event.id],
                                         dblclick: [EDIT_EVENT_TITLE, state.definition.mutator[ref.id].event.id]
@@ -1569,7 +1550,7 @@ function editor(appDefinition){
                             h('div',
                                 {
                                     style: {
-                                        color: state.activeEvent === selectedNode[event.propertyName].id ? '#5bcc5b' : 'white',
+                                        color: 'white',
                                         transition: 'color 0.2s',
                                         fontSize: '0.8em',
                                         cursor: 'pointer',
@@ -1843,7 +1824,7 @@ function editor(appDefinition){
                         overflow: 'auto'
                     }
                 },
-                eventStack
+                state.eventStack
                     .map((a)=>a)
                     .reverse()
                     .map(event =>
