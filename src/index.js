@@ -802,7 +802,7 @@ function editor(appDefinition){
         ])
 
     function render() {
-        const currentState = app.getCurrentState()
+        const currentRunningState = app.getCurrentState()
         const dragComponentLeft = h('div', {
             on: {
                 mousedown: [WIDTH_DRAGGED, 'editorLeftWidth'],
@@ -1006,7 +1006,7 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): []) // TODO fix, a hack for demo, type should be last transformation not just text
+                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
                 ])
             }
             if(pipe.value.ref === 'eventData'){
@@ -1124,7 +1124,7 @@ function editor(appDefinition){
                     h('span', ': '),
                     (()=> {
                         const noStyleInput = {
-                            color: app.getCurrentState()[stateId] != state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
+                            color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
                             background: 'none',
                             outline: 'none',
                             boxShadow: 'none',
@@ -1132,12 +1132,12 @@ function editor(appDefinition){
                             border: 'none',
                             maxWidth: '50%',
                         }
-                        if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: app.getCurrentState()[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
+                        if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
                         if(currentState.type === 'number') return h('span', {style: {position: 'relative'}}, [
-                            h('input', {attrs: {type: 'number'}, liveProps: {value: app.getCurrentState()[stateId]}, style: {...noStyleInput, width: 9*app.getCurrentState()[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
+                            h('input', {attrs: {type: 'number'}, liveProps: {value: currentRunningState[stateId]}, style: {...noStyleInput, width: 9*currentRunningState[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
                         ])
                         if(currentState.type === 'table') {
-                            const table = app.getCurrentState()[stateId];
+                            const table = currentRunningState[stateId];
                             return h('div', {
                                     style: {
                                         marginTop: '3px',
@@ -1208,9 +1208,8 @@ function editor(appDefinition){
 
         const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
-        function listBoxNode(nodeRef, parentRef, depth) {
+        function listBoxNode(nodeRef, depth) {
             const nodeId = nodeRef.id
-            const parentId = parentRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             function editingNode() {
                 return h('input', {
@@ -1287,18 +1286,17 @@ function editor(appDefinition){
                     h('div', {
                         style: { display: closed ? 'none': 'block', transition: 'border-color 0.2s'},
                     }, [
-                        ...node.children.map((ref, index)=>{
-                            if(ref.ref === 'vNodeText') return simpleNode(ref, nodeRef, depth+1)
-                            if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, nodeRef, depth+1)
-                            if(ref.ref === 'vNodeInput') return simpleNode(ref, nodeRef, depth+1)
+                        ...node.children.map((ref)=>{
+                            if(ref.ref === 'vNodeText') return simpleNode(ref, depth+1)
+                            if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, depth+1)
+                            if(ref.ref === 'vNodeInput') return simpleNode(ref, depth+1)
                         }),
                     ]),
                 ]
             )
         }
-        function simpleNode(nodeRef, parentRef, depth) {
+        function simpleNode(nodeRef, depth) {
             const nodeId = nodeRef.id
-            const parentId = parentRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             function editingNode() {
                 return h('input', {
@@ -1716,7 +1714,7 @@ function editor(appDefinition){
         ])
 
         const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
-            listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
+            listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, 0),
         ])
 
         const rightComponent =
@@ -1834,7 +1832,7 @@ function editor(appDefinition){
                         const emitter = state.definition[event.emitter.ref][event.emitter.id]
                         return h('div', {style: {padding: '5px', color: '#ffffff'}}, [
 
-                            h('div', {style: {cursor: 'pointer', background: '#333', borderRadius: '10px', padding: '5px'}, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [event.emitter.ref + ': ' + event.type]),
+                            h('div', {style: {cursor: 'pointer', background: '#333', borderRadius: '10px', padding: '5px'}, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [emitter.title + ': ' + event.type]),
                             h('div', Object.keys(eventData.mutations).map(stateId => state.definition.state[stateId].title + ': ' + eventData.mutations[stateId].toString()))
                         ])
                     })
