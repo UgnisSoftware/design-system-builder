@@ -64,16 +64,23 @@ function editor(appDefinition){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
         }
-        if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
-            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
-        }
         if(state.definition !== newState.definition){
+            // unselect deleted components and state
+            if(newState.definition.state[newState.selectedStateNodeId] === undefined){
+                newState = {...newState, selectedStateNodeId: ''}
+            }
+            if(newState.selectedViewNode.ref !== undefined && newState.definition[newState.selectedViewNode.ref][newState.selectedViewNode.id] === undefined){
+                newState = {...newState, selectedViewNode: {}}
+            }
             // undo/redo then render then save
             const currentIndex = stateStack.findIndex((a)=>a===state.definition)
             stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition);
             // TODO add garbage collection?
             app.render(newState.definition)
             localStorage.setItem('saved_app_'+version, JSON.stringify(newState.definition));
+        }
+        if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
+            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
         }
         state = newState
         render()
@@ -1795,12 +1802,13 @@ function editor(appDefinition){
                     }
                 },
                 state.eventStack
-                    .map((a)=>a)
-                    .reverse()
-                    .map(eventData => {
+                    .filter((eventData)=>state.definition.event[eventData.eventId] !== undefined)
+                    .reverse() // mutates the array, but it was already copied with filter
+                    .map((eventData, index) => {
                         const event = state.definition.event[eventData.eventId]
                         const emitter = state.definition[event.emitter.ref][event.emitter.id]
-                        return h('div', {key: event.emitter.id, style: {marginBottom: '5px'}}, [
+                        // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
+                        return h('div', {key: event.emitter.id + index, style: {marginBottom: '5px'}}, [
                             h('div', {style: {
                                 display: 'flex',
                                 marginBottom: '5px',
@@ -1825,12 +1833,15 @@ function editor(appDefinition){
                                 h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
 
-                            h('div', Object.keys(eventData.mutations).map(stateId =>
-                                h('span', [
-                                    h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '0 0 0 5px', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
-                                    h('span', ': '+ eventData.mutations[stateId].toString()),
-                                ])
-                            ))
+                            h('div', Object.keys(eventData.mutations)
+                                .filter(stateId => state.definition.state[stateId] !== undefined)
+                                .map(stateId =>
+                                    h('span', [
+                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '0 0 0 5px', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                        h('span', ': '+ eventData.mutations[stateId].toString()),
+                                        h('span', {style: {color: '#adadad'}}, ' ('+ eventData.previousState[stateId].toString() + ')'),
+                                    ])
+                                ))
                         ])
                     })
             )
