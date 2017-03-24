@@ -1817,10 +1817,9 @@ function editor(appDefinition){
                                 background: '#444',
                                 paddingTop: '3px',
                                 paddingBottom: '3px',
-                                width: '100%',
                                 color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
                                 transition: '0.2s all',
-                                maxWidth: '100%',
+                                minWidth: '100%',
                             }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
                                 h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
                                     event.emitter.ref === 'vNodeBox' ? boxIcon :
@@ -1833,13 +1832,14 @@ function editor(appDefinition){
                                 h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
 
-                            h('div', Object.keys(eventData.mutations)
+                            h('div', {style: {whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
                                 .filter(stateId => state.definition.state[stateId] !== undefined)
                                 .map(stateId =>
                                     h('span', [
                                         h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '0 0 0 5px', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
-                                        h('span', ': '+ eventData.mutations[stateId].toString()),
-                                        h('span', {style: {color: '#adadad'}}, ' ('+ eventData.previousState[stateId].toString() + ')'),
+                                        h('span', ': '),
+                                        h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
+                                        h('span', eventData.mutations[stateId].toString()),
                                     ])
                                 ))
                         ])
