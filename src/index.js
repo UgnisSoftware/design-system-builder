@@ -26,7 +26,7 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
-const version = '0.0.24v'
+const version = '0.0.25v'
 editor(savedApp)
 
 function editor(appDefinition){

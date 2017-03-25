@@ -50,7 +50,7 @@
     "pipe": {
         "fw8jd6d2-00db-8ab5-c332-882575f25426": {
             "type": "text",
-            "value": "Current value: ",
+            "value": "Number currently is: ",
             "transformations": [
                 {
                     "ref": "join",
@@ -181,7 +181,7 @@
         },
         "84369aba-4a4d-4932-8a9a-8f9ca948b6a2": {
             "type": "text",
-            "value": "The number now is even 🎉",
+            "value": "The number is even 🎉",
             "transformations": []
         },
         "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070": {
@@ -309,7 +309,7 @@
     },
     "vNodeText": {
         "2471d6d2-00db-8ab5-c332-882575f25425": {
-            "title": "text",
+            "title": "Number currently",
             "style": {
                 "ref": "style",
                 "id": "8481d6d2-00db-8ab5-c332-882575f25426"
@@ -320,7 +320,7 @@
             }
         },
         "1481d6d2-00db-8ab5-c332-882575f25425": {
-            "title": "text",
+            "title": "+ button",
             "value": {
                 "ref": "pipe",
                 "id": "ui8jd6d2-00db-8ab5-c332-882575f25426"
@@ -335,7 +335,7 @@
             }
         },
         "3481d6d2-00db-8ab5-c332-882575f25425": {
-            "title": "text",
+            "title": "- button",
             "value": {
                 "ref": "pipe",
                 "id": "c8wed6d2-00db-8ab5-c332-882575f25426"
@@ -350,7 +350,7 @@
             }
         },
         "e8add1c7-8a01-4164-8604-722d8ab529f1": {
-            "title": "text",
+            "title": "is even",
             "style": {
                 "ref": "style",
                 "id": "4dca73b3-90eb-41e7-8651-2bdcc93f3871"
@@ -364,7 +364,7 @@
     "vNodeInput": {},
     "vNodeList": {
         "fl89d6d2-00db-8ab5-c332-882575f25425": {
-            "title": "list",
+            "title": "list of boxes",
             "value": {
                 "ref": "pipe",
                 "id": "f9qxd6d2-00db-8ab5-c332-882575f25426"
@@ -379,7 +379,7 @@
     },
     "vNodeIf": {
         "5787c15a-426b-41eb-831d-e3e074159582": {
-            "title": "if",
+            "title": "is number even",
             "value": {
                 "ref": "pipe",
                 "id": "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070"
@@ -492,7 +492,7 @@
     },
     "state": {
         "46vdd6d2-00db-8ab5-c332-882575f25426": {
-            "title": "count",
+            "title": "number",
             "ref": "46vdd6d2-00db-8ab5-c332-882575f25426",
             "type": "number",
             "defaultValue": 0,
