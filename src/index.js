@@ -1009,9 +1009,8 @@ function editor(appDefinition){
                     h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
                         // state.editingTitleNodeId === stateId ?
                         //     editingNode():
-                        h('span', {style: {color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', margin: '7px 3px 0 0', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
+                        h('span', {style: {color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', margin: '7px 5px 0 0', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
                     ]),
-                    h('span', ': '),
                     (()=> {
                         const noStyleInput = {
                             color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
@@ -1671,8 +1670,7 @@ function editor(appDefinition){
                                 .filter(stateId => state.definition.state[stateId] !== undefined)
                                 .map(stateId =>
                                     h('span', [
-                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
-                                        h('span', ': '),
+                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', marginRight: '5px', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                         h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                         h('span', eventData.mutations[stateId].toString()),
                                     ])
