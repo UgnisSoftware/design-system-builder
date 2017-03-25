@@ -574,7 +574,6 @@
     "event": {
         "d48rd6d2-00db-8ab5-c332-882575f25426": {
             "type": "click",
-            "title": "increment",
             "mutators": [
                 {
                     "ref": "mutator",
@@ -589,7 +588,6 @@
         },
         "3a54d6d2-00db-8ab5-c332-882575f25426": {
             "type": "click",
-            "title": "decrement",
             "mutators": [
                 {
                     "ref": "mutator",

@@ -50,102 +50,6 @@
         .logo_box{
             flex: 1;
         }
-        .login_box{
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            margin-top: 30px;
-            flex: 1;
-            background: white;
-            padding:20px;
-            border-radius: 6px;
-            font-family: 'Open Sans', sans-serif;
-        }
-        .label{
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .input{
-            width: 100%;
-            padding:6px;
-            box-sizing: border-box;
-            margin: 6px 0 16px 0;
-            line-height: 24px;
-            color: #333;
-            font-family: inherit;
-            vertical-align: middle;
-            border-radius: 3px;
-            background: white;
-            font-size: 15px;
-            border: 1px solid #ddd;
-        }
-        .button {
-            background: #AD5251;
-            border-radius: 3px;
-            color: white;
-            font-size: 20px;
-            display: inline-block;
-            padding: 9px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 15px;
-            font-family: 'Comfortaa', sans-serif;
-            text-align: center;
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            border: none;
-            cursor: pointer;
-        }
-        .button:hover{
-            background: #a25150;
-        }
-        .reset{
-            font-size: 12px;
-            color: #0072bc;
-            float: right;
-            margin-top:-10px;
-        }
-        .reset:hover{
-            text-decoration: underline;
-        }
-        .register{
-            flex: 1;
-            width: 320px;
-            margin-top: 5px;
-            padding:15px;
-            font-size: 15px;
-            color: #0072bc;
-            box-sizing: border-box;
-            border-radius: 6px;
-            text-align: center;
-            font-family: 'Open Sans', sans-serif;
-        }
-        .register:hover{
-            text-decoration: underline;
-        }
-        .footer{
-            font-size: 11px;
-            color: #959595;
-            text-align: center;
-            margin-top: 60px;
-        }
-        .footer a:hover{
-            text-decoration: underline;
-        }
-        .contacts{
-
-        }
-        .contacts:before{
-            content: '•';
-            padding: 0 10px;
-        }
-        #error {
-            border: 1px solid #AD5251;
-            margin-bottom: 20px;
-            padding: 5px;
-            box-sizing: border-box;
-            border-radius: 3px;
-            color: #4e4e4e;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -156,9 +60,15 @@
         </a>
         <h1 id="goals">Roadmap</h1>
 
-        <p>Goals (must be reached before releasing 1.0v)</p>
+        <p>Goals</p>
         <ul>
-            <li><input type="checkbox" disabled id="checkbox0" checked="true"><label for="checkbox0">zero configuration, Ugnis-only apps don’t need webpack or babel</label></li>
+            <li>Fully featured language so we wouldn't need JavaScript anymore</li>
+            <li>Zero configuration, no more webpack or babel</li>
+            <li>Fast development speed, growing applications are easy to maintain</li>
+            <li>Type system prevents runtime errors without getting in the way</li>
+        </ul>
+        <p>Code (must be done before releasing 1.0v)</p>
+        <ul>
             <li><input type="checkbox" disabled id="checkbox1"><label for="checkbox1">powerful enough to write any application, Ugnis editor is written with Ugnis itself</label>
                 <ul>
                     <li><input type="checkbox" disabled id="checkbox2" checked="true"><label for="checkbox2">string, number, boolean</label></li>
@@ -184,8 +94,9 @@
         </ul>
         <p>Future improvements</p>
         <ul>
-            <li><input type="checkbox" disabled id="checkbox13"><label for="checkbox13">support multiple developers working on a single project</label></li>
-            <li><input type="checkbox" disabled id="checkbox13"><label for="checkbox13">editor works well on mobile</label></li>
+            <li><input type="checkbox" disabled id="checkbox1sdf"><label for="checkbox1sdf">support multiple developers working on a single project</label></li>
+            <li><input type="checkbox" disabled id="checkbox1sdge"><label for="checkbox1sdge">editor works well on mobile</label></li>
+            <li><input type="checkbox" disabled id="checkbox1asdsdge"><label for="checkbox1asdsdge">basic backend integration</label></li>
             <li><input type="checkbox" disabled id="checkbox21"><label for="checkbox21">server side rendering</label></li>
             <li><input type="checkbox" disabled id="checkbox22"><label for="checkbox22">application splitting</label></li>
             <li><input type="checkbox" disabled id="checkbox23"><label for="checkbox23">WebAssembly compiler</label></li>

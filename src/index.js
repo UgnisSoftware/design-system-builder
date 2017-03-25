@@ -1,5 +1,5 @@
 function updateProps(oldVnode, vnode) {
-    var key, cur, old, elm = vnode.elm,
+    let key, cur, old, elm = vnode.elm,
         props = vnode.data.liveProps || {};
     for (key in props) {
         cur = props[key];
@@ -19,8 +19,8 @@ const patch = snabbdom.init([
     livePropsPlugin
 ]);
 
-function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/1|0/g,function(){return(0|Math.random()*16).toString(16)})}
-import big from 'big.js'
+function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/[10]/g,function(){return(0|Math.random()*16).toString(16)})}
+import big from '../node_modules/big.js'
 big.E_POS = 1e+6
 
 import ugnis from './ugnis'
@@ -45,7 +45,6 @@ function editor(appDefinition){
         editorLeftWidth: 350,
         subEditorWidth: 350,
         appIsFrozen: false,
-        showingViewNodes: false,
         selectedViewNode: {},
         selectedEventId: '',
         selectedPipeId: '',
@@ -53,8 +52,6 @@ function editor(appDefinition){
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
-        dragMouseLocation: null,
-        currentlyDragging: '',
         eventStack: [],
         definition: savedDefinition || app.definition,
     }
@@ -211,37 +208,6 @@ function editor(appDefinition){
             ...state.definition,
             [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
         }, selectedViewNode: {}})
-    }
-    function NODE_DRAGGED(type, e) {
-        e.preventDefault()
-        function showComponent(e){
-            e.preventDefault()
-            const x = e.touches? e.touches[0].pageX: e.pageX
-            const y = e.touches? e.touches[0].pageY: e.pageY
-            setState({...state, dragMouseLocation: {x, y}})
-            return false
-        }
-        window.addEventListener('mousemove', showComponent)
-        window.addEventListener('touchmove', showComponent)
-        function stopDragging(e){
-            e.preventDefault()
-            window.removeEventListener('mousemove', showComponent)
-            window.removeEventListener('touchmove', showComponent)
-            window.removeEventListener('mouseup', stopDragging)
-            window.removeEventListener('touchend', stopDragging)
-
-            setState({...state, dragMouseLocation: null, currentlyDragging: ''})
-            return false
-        }
-        window.addEventListener('mouseup', stopDragging)
-        window.addEventListener('touchend', stopDragging)
-        const x = e.touches? e.touches[0].pageX: e.pageX
-        const y = e.touches? e.touches[0].pageY: e.pageY
-        setState({...state, dragMouseLocation: {x, y}, currentlyDragging: type, showingViewNodes: false})
-        return false
-    }
-    function DRAGGED_OVER_ME(nodeRef) {
-        ADD_NODE(nodeRef, state.currentlyDragging)
     }
     function ADD_NODE(nodeRef, type) {
         // TODO remove when dragging works
@@ -484,14 +450,6 @@ function editor(appDefinition){
         } catch(err) {
         }
     }
-    function INCREMENT_CURRENT_STATE_NUMBER_VALUE(stateId) {
-        app.setCurrentState({...app.getCurrentState(), [stateId]: big(app.getCurrentState()[stateId]).add(1)})
-        render()
-    }
-    function DECREMENT_CURRENT_STATE_NUMBER_VALUE(stateId) {
-        app.setCurrentState({...app.getCurrentState(), [stateId]: big(app.getCurrentState()[stateId]).add(-1)})
-        render()
-    }
     function SELECT_EVENT(eventId) {
         setState({...state, selectedEventId:eventId})
     }
@@ -532,78 +490,6 @@ function editor(appDefinition){
                 [eventId]: {
                     title: 'On ' + propertyName,
                     mutators: []
-                }
-            }
-        }})
-    }
-    function ADD_MUTATOR(stateId, eventId) {
-        const mutatorId = uuid();
-        const pipeId = uuid();
-        setState({...state, definition:{
-            ...state.definition,
-            pipe:{
-                ...state.definition.pipe,
-                [pipeId]: {
-                    type: state.definition.state[stateId].type,
-                    value: state.definition.state[stateId].defaultValue,
-                    transformations: []
-                }
-            },
-            state: {
-                ...state.definition.state,
-                [stateId]: {
-                    ...state.definition.state[stateId],
-                    mutators: state.definition.state[stateId].mutators.concat({
-                        ref: 'mutator',
-                        id: mutatorId
-                    })
-                }
-            },
-            mutator: {
-                ...state.definition.mutator,
-                [mutatorId]: {
-                    event: {
-                        ref: "event",
-                        id: eventId
-                    },
-                    state: {
-                        ref: "state",
-                        id: stateId
-                    },
-                    mutation: {
-                        ref: "pipe",
-                        id: pipeId
-                    }
-                }
-            },
-            event: {
-                ...state.definition.event,
-                [eventId]: {
-                    ...state.definition.event[eventId],
-                    mutators: state.definition.event[eventId].mutators.concat({
-                        ref: 'mutator',
-                        id: mutatorId
-                    })
-                }
-            }
-        }})
-    }
-    function MOVE_VIEW_NODE(parentRef, position, amount, e) {
-        e.preventDefault()
-        e.stopPropagation()
-        setState({...state, definition:{
-            ...state.definition,
-            [parentRef.ref]: {
-                ...state.definition[parentRef.ref],
-                [parentRef.id]: {
-                    ...state.definition[parentRef.ref][parentRef.id],
-                    children: state.definition[parentRef.ref][parentRef.id].children.map( // functional swap
-                        (child,index)=> index === position + amount ?
-                            state.definition[parentRef.ref][parentRef.id].children[position]:
-                            index === position ?
-                                state.definition[parentRef.ref][parentRef.id].children[position + amount]:
-                                state.definition[parentRef.ref][parentRef.id].children[index]
-                    )
                 }
             }
         }})
@@ -754,12 +640,6 @@ function editor(appDefinition){
                 }
             }})
         }
-    }
-    function SHOW_VIEW_NODES(e){
-        setState({
-            ...state,
-            showingViewNodes: true
-        })
     }
     function RESET_APP() {
         setState({...state, definition: appDefinition})
@@ -1062,6 +942,9 @@ function editor(appDefinition){
                     }
                 })
             }
+            if(stateId === '_rootNameSpace'){
+                return h('div',  currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)))
+            }
             const closed = state.viewFoldersClosed[stateId] || (state.selectedStateNodeId !== stateId && currentNameSpace.children.length === 0)
             return h('div', {
                     style: {
@@ -1124,9 +1007,9 @@ function editor(appDefinition){
                 },
                 [
                     h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
-                        state.editingTitleNodeId === stateId ?
-                            editingNode():
-                            h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '7px 3px 2px 0', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
+                        // state.editingTitleNodeId === stateId ?
+                        //     editingNode():
+                        h('span', {style: {color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', margin: '7px 3px 0 0', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
                     ]),
                     h('span', ': '),
                     (()=> {
@@ -1147,7 +1030,6 @@ function editor(appDefinition){
                             const table = currentRunningState[stateId];
                             return h('div', {
                                     style: {
-                                        marginTop: '3px',
                                         background: '#828183',
                                         width: '100%',
                                     }
@@ -1166,54 +1048,41 @@ function editor(appDefinition){
                         }
                     })(),
                     state.selectedStateNodeId === stateId ?
-                        h('span', currentState.mutators.map(ref =>
-                            h('div', {
-                                    style: {color: 'white', transition: 'all 0.2s', boxShadow: state.selectedEventId === state.definition.mutator[ref.id].event.id ? '#5bcc5b 5px 0 0px 0px inset': 'none', padding: '0 0 0 7px'},
-                                    on: {
-                                        click: [SELECT_EVENT, state.definition.mutator[ref.id].event.id],
-                                        dblclick: [EDIT_EVENT_TITLE, state.definition.mutator[ref.id].event.id]
-                                    }
-                                },
-                                [
-                                    h('span', [
-                                            '• ',
-                                            state.editingTitleNodeId === state.definition.mutator[ref.id].event.id ?
-                                                h('input', {
-                                                    style: {
-                                                        background: 'none',
-                                                        color: 'white',
-                                                        outline: 'none',
-                                                        boxShadow: 'inset 0 -1px 0 0 white',
-                                                        padding: '0',
-                                                        margin:  '0',
-                                                        border: 'none',
-                                                        borderRadius: '0',
-                                                        display: 'inline',
-                                                        font: 'inherit'
-                                                    },
-                                                    on: {
-                                                        input: [CHANGE_EVENT_TITLE, state.definition.mutator[ref.id].event.id],
-                                                    },
-                                                    liveProps: {
-                                                        value: state.definition.event[state.definition.mutator[ref.id].event.id].title,
-                                                    },
-                                                    attrs: {
-                                                        autofocus: true,
-                                                        'data-istitleeditor': true
-                                                    }
-                                                })
-                                                : state.definition.event[state.definition.mutator[ref.id].event.id].title
-                                        ]
-                                    ),
-                                    state.selectedEventId === state.definition.mutator[ref.id].event.id ? h('div', {style: {marginLeft: '10px'}}, [emberEditor(state.definition.mutator[ref.id].mutation, currentState.type)]): h('div')
+                        h('span',
+                            currentState.mutators.map(mutatorRef => {
+                                const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                const event = state.definition[mutator.event.ref][mutator.event.id]
+                                const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                                return h('div', {style: {
+                                    display: 'flex',
+                                    marginBottom: '10px',
+                                    cursor: 'pointer',
+                                    alignItems: 'center',
+                                    background: '#444',
+                                    paddingTop: '3px',
+                                    paddingBottom: '3px',
+                                    color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
+                                    transition: '0.2s all',
+                                    minWidth: '100%',
+                                }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
+                                    h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
+                                        event.emitter.ref === 'vNodeBox' ? boxIcon :
+                                            event.emitter.ref === 'vNodeList' ? listIcon :
+                                                event.emitter.ref === 'vNodeList' ? ifIcon :
+                                                    event.emitter.ref === 'vNodeInput' ? inputIcon :
+                                                        textIcon,
+                                    ]),
+                                    h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
+                                    h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                                 ])
+                            }
                         )) :
                         h('span'),
                 ]
             )
         }
 
-        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '6px 15px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
+        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '5px 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
         function listBoxNode(nodeRef, depth) {
             const nodeId = nodeRef.id
@@ -1645,46 +1514,12 @@ function editor(appDefinition){
             ])
         }
 
-        const addStateComponent = h('div', {style: { cursor: 'pointer', flex: '0 auto', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state')
+        const addStateComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state todo')
         ])
 
-        // function generateSelectViewNodeComponent() {
-        //     return h('div', {
-        //         style: {
-        //             position: 'absolute',
-        //             left: '0px',
-        //             bottom: '0px',
-        //             height: '50%',
-        //             display: 'flex',
-        //             flexDirection: 'column',
-        //         }
-        //     }, [
-        //         h('div', {attrs: {class: 'better-scrollbar'}, style: {margin: '49px 3px 0 0', flex: '1', overflow: 'auto', background: '#333', width: state.editorRightWidth + 'px'}},[
-        //             h('div', {style: {padding: '5px', margin: '5px'}}, 'drag and drop components into the component tree or into live application'),
-        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-        //                     mousedown: [NODE_DRAGGED, 'box'],
-        //                     touchstart: [NODE_DRAGGED, 'box'],
-        //                 }},
-        //                 '+ box'
-        //             ),
-        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-        //                     mousedown: [NODE_DRAGGED, 'text'],
-        //                     touchstart: [NODE_DRAGGED, 'text'],
-        //                 }},
-        //                 '+ text'
-        //             ),
-        //             h('div', {style: {cursor: 'pointer', borderRadius: '5px', border: '3px solid #53B2ED', padding: '5px', margin: '5px'}, on: {
-        //                     mousedown: [NODE_DRAGGED, 'input'],
-        //                     touchstart: [NODE_DRAGGED, 'input'],
-        //                 }},
-        //                 '+ input'
-        //             ),
-        //         ])
-        //     ])
-        // }
 
-        const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}, on: {click: [SHOW_VIEW_NODES]}}, [
+        const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
             h('span', {style: { padding: '0 10px'}}, 'add component: '),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon]),
@@ -1808,10 +1643,10 @@ function editor(appDefinition){
                         const event = state.definition.event[eventData.eventId]
                         const emitter = state.definition[event.emitter.ref][event.emitter.id]
                         // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
-                        return h('div', {key: event.emitter.id + index, style: {marginBottom: '5px'}}, [
+                        return h('div', {key: event.emitter.id + index, style: {marginBottom: '10px'}}, [
                             h('div', {style: {
                                 display: 'flex',
-                                marginBottom: '5px',
+                                marginBottom: '10px',
                                 cursor: 'pointer',
                                 alignItems: 'center',
                                 background: '#444',
@@ -1832,11 +1667,11 @@ function editor(appDefinition){
                                 h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
 
-                            h('div', {style: {whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
+                            h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
                                 .filter(stateId => state.definition.state[stateId] !== undefined)
                                 .map(stateId =>
                                     h('span', [
-                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', padding: '2px 5px', margin: '0 0 0 5px', border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'), borderRadius: '10px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                         h('span', ': '),
                                         h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                         h('span', eventData.mutations[stateId].toString()),
