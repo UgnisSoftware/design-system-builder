@@ -41,6 +41,7 @@ function editor(appDefinition){
     let state = {
         leftOpen: true,
         rightOpen: true,
+        fullScreen: false,
         editorRightWidth: 350,
         editorLeftWidth: 350,
         subEditorWidth: 350,
@@ -94,6 +95,7 @@ function editor(appDefinition){
         // 89 - y
         // 32 - space
         // 13 - enter
+        // 27 - escape
         if(e.which === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             // TODO garbage collect
             e.preventDefault();
@@ -126,6 +128,9 @@ function editor(appDefinition){
         }
         if(e.which === 13) {
             setState({...state, editingTitleNodeId: ''})
+        }
+        if(e.which === 27) {
+            FULL_SCREEN_CLICKED(false)
         }
     })
 
@@ -643,6 +648,11 @@ function editor(appDefinition){
     }
     function RESET_APP() {
         setState({...state, definition: appDefinition})
+    }
+    function FULL_SCREEN_CLICKED(value) {
+        if(value !== state.fullScreen){
+            setState({...state, fullScreen: value})
+        }
     }
 
     const boxIcon = h('svg', {
@@ -1534,7 +1544,7 @@ function editor(appDefinition){
                 style: {
                     display: 'flex',
                     flexDirection: 'column',
-                    position: 'fixed',
+                    position: 'absolute',
                     top: '0',
                     right: '0',
                     color: 'white',
@@ -1597,7 +1607,7 @@ function editor(appDefinition){
             style: {
                 display: 'flex',
                 flexDirection: 'column',
-                position: 'fixed',
+                position: 'absolute',
                 top: '0',
                 left: '0',
                 height: '100%',
@@ -1689,7 +1699,6 @@ function editor(appDefinition){
                     radial-gradient(rgba(255,255,255,.1) 5%, transparent 20%) 8px 9px`,
                 backgroundColor:'#333',
                 backgroundSize:'16px 16px',
-                transform: 'translateZ(0)',
                 display:'relative',
                 overflow: 'auto',
             },
@@ -1708,17 +1717,26 @@ function editor(appDefinition){
                     scaleY = scaleX
                 }
                 return {
-                    width: desiredWidth +'px',
-                    height: desiredHeight + 'px',
+                    width: state.fullScreen ? '100vw' : desiredWidth +'px',
+                    height: state.fullScreen ? '100vh' :desiredHeight + 'px',
                     background: '#ffffff',
+                    zIndex: '99999',
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
-                    transform: 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
-                    position: 'absolute',
-                    top: (heightLeft-desiredHeight)/2 + 'px',
-                    left: (widthLeft-desiredWidth)/2+state.editorLeftWidth + 'px',
+                    transform: state.fullScreen ? '' : 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
+                    position: state.fullScreen ? 'fixed' : 'absolute',
+                    transition: state.fullScreen ?  'all 0.2s': 'none',
+                    top: state.fullScreen ? '0' : (heightLeft-desiredHeight)/2 + 'px',
+                    left: state.fullScreen ? '0' :(widthLeft-desiredWidth)/2+state.editorLeftWidth + 'px',
                 }
             })()}, [
-                h('div', {style: {background: '#93d1f7', width: '100%', height: '40px', position:'absolute', top: '-40px', display: 'flex', justifyContent: 'center', alignItems: 'center', left: '0', borderRadius: '5px 5px 0 0', boxShadow: 'inset 0 -3px 0 0 #b7b7b7'}}, 'todo: url, width and height, close button'),
+                state.fullScreen ?
+                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '20px', border: '2px solid #333', borderTop: 'none', background: '#444', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
+                    h('span'),
+                h('div', {style: {background: '#93d1f7', width: '100%', height: '40px', position:'absolute', top: '-40px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', left: '0', borderRadius: '5px 5px 0 0', boxShadow: 'inset 0 -3px 0 0 #b7b7b7'}}, [
+                    //h('span', {style: {}, on: {click: [()=>'']}}, '_'),
+                    h('span', {style: {padding: '10px', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, true]}}, '❐'),
+                    //h('span', {style: {}, on: {click: [()=>'']}}, '✖')
+                ]),
                 h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
             ])
         ])
@@ -1727,7 +1745,6 @@ function editor(appDefinition){
                 display: 'flex',
                 flex: '1',
                 position: 'relative',
-                transform: 'translateZ(0)',
             },
         }, [
             renderViewComponent,
