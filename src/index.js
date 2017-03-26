@@ -26,20 +26,12 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
-function utoa(str) {
-    return window.btoa(encodeURI(str));
-}
-function atou(str) {
-    return decodeURI(window.atob(str));
-}
-
-const version = '0.0.25v'
+const version = '0.0.26v'
 editor(savedApp)
 
 function editor(appDefinition){
 
-    const storedApp = localStorage.getItem('app_key_' + version)
-    const savedDefinition = storedApp ? JSON.parse(atou(storedApp)) : undefined
+    const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
     const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
@@ -83,7 +75,7 @@ function editor(appDefinition){
             stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition);
             // TODO add garbage collection?
             app.render(newState.definition)
-            setTimeout(()=>localStorage.setItem('app_key_'+version, utoa(JSON.stringify(newState.definition))), 0);
+            setTimeout(()=>localStorage.setItem('app_key_'+version, JSON.stringify(newState.definition)), 0);
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
@@ -1024,76 +1016,75 @@ function editor(appDefinition){
                     },
                 },
                 [
-                    h('span', {on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [
-                        // state.editingTitleNodeId === stateId ?
-                        //     editingNode():
-                        h('span', {style: {color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', margin: '7px 5px 0 0', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, currentState.title),
-                    ]),
-                    (()=> {
-                        const noStyleInput = {
-                            color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
-                            background: 'none',
-                            outline: 'none',
-                            boxShadow: 'none',
-                            display: 'inline',
-                            border: 'none',
-                            maxWidth: '50%',
-                        }
-                        if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
-                        if(currentState.type === 'number') return h('span', {style: {position: 'relative'}}, [
-                            h('input', {attrs: {type: 'number'}, liveProps: {value: currentRunningState[stateId]}, style: {...noStyleInput, width: 9*currentRunningState[stateId].toString().length + 'px'}, on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}),
-                        ])
-                        if(currentState.type === 'table') {
-                            const table = currentRunningState[stateId];
-                            return h('div', {
-                                    style: {
-                                        background: '#828183',
-                                        width: '100%',
-                                    }
-                                },[
-                                    h('div', {style: {display: 'flex'}},  Object.keys(currentState.definition).map(key =>
-                                            h('div', {style: {flex: '1', padding: '2px 5px', borderBottom: '2px solid white'}}, key)
+                    // state.editingTitleNodeId === stateId ?
+                    //     editingNode():
+                    h('span', {style: {display: 'flex', flexWrap: 'wrap'}}, [
+                        h('span', {style: {flex: '0 0 auto', color: 'white', padding: '4px 7px', margin: '7px 7px 0 0', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', display: 'inline-block', transition: 'all 0.2s'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
+                        (()=> {
+                            const noStyleInput = {
+                                color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
+                                background: 'none',
+                                outline: 'none',
+                                display: 'inline',
+                                flex: '1',
+                                border: 'none',
+                                padding: '10px 7px 4px 7px',
+                                boxShadow: 'inset 0 -2px 0 0 ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282')
+                            }
+                            if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
+                            if(currentState.type === 'number') return h('input', {attrs: {type: 'number'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput,  on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}})
+                            if(currentState.type === 'table') {
+                                const table = currentRunningState[stateId];
+                                return h('div', {
+                                        style: {
+                                            background: '#828183',
+                                            width: '100%',
+                                            flex: '0 0 100%'
+                                        }
+                                    },[
+                                        h('div', {style: {display: 'flex'}},  Object.keys(currentState.definition).map(key =>
+                                                h('div', {style: {flex: '1', padding: '2px 5px', borderBottom: '2px solid white'}}, key)
+                                            )
+                                        ),
+                                        ...Object.keys(table).map(id =>
+                                            h('div', {style: {display: 'flex'}}, Object.keys(table[id]).map(key =>
+                                                h('div', {style: {flex: '1', padding: '2px 5px'}}, table[id][key])
+                                            ))
                                         )
-                                    ),
-                                    ...Object.keys(table).map(id =>
-                                        h('div', {style: {display: 'flex'}}, Object.keys(table[id]).map(key =>
-                                            h('div', {style: {flex: '1', padding: '2px 5px'}}, table[id][key])
-                                        ))
-                                    )
-                                ]
-                            )
-                        }
-                    })(),
+                                    ]
+                                )
+                            }
+                        })(),
+                    ]),
                     state.selectedStateNodeId === stateId ?
                         h('span',
                             currentState.mutators.map(mutatorRef => {
-                                const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
-                                const event = state.definition[mutator.event.ref][mutator.event.id]
-                                const emitter = state.definition[event.emitter.ref][event.emitter.id]
-                                return h('div', {style: {
-                                    display: 'flex',
-                                    marginBottom: '10px',
-                                    cursor: 'pointer',
-                                    alignItems: 'center',
-                                    background: '#444',
-                                    paddingTop: '3px',
-                                    paddingBottom: '3px',
-                                    color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
-                                    transition: '0.2s all',
-                                    minWidth: '100%',
-                                }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
-                                    h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
-                                        event.emitter.ref === 'vNodeBox' ? boxIcon :
-                                            event.emitter.ref === 'vNodeList' ? listIcon :
-                                                event.emitter.ref === 'vNodeList' ? ifIcon :
-                                                    event.emitter.ref === 'vNodeInput' ? inputIcon :
-                                                        textIcon,
-                                    ]),
-                                    h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
-                                    h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
-                                ])
-                            }
-                        )) :
+                                    const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                    const event = state.definition[mutator.event.ref][mutator.event.id]
+                                    const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                                    return h('div', {style: {
+                                        display: 'flex',
+                                        cursor: 'pointer',
+                                        alignItems: 'center',
+                                        background: '#444',
+                                        paddingTop: '3px',
+                                        paddingBottom: '3px',
+                                        color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
+                                        transition: '0.2s all',
+                                        minWidth: '100%',
+                                    }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
+                                        h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
+                                            event.emitter.ref === 'vNodeBox' ? boxIcon :
+                                                event.emitter.ref === 'vNodeList' ? listIcon :
+                                                    event.emitter.ref === 'vNodeList' ? ifIcon :
+                                                        event.emitter.ref === 'vNodeInput' ? inputIcon :
+                                                            textIcon,
+                                        ]),
+                                        h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
+                                        h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
+                                    ])
+                                }
+                            )) :
                         h('span'),
                 ]
             )
@@ -1688,7 +1679,7 @@ function editor(appDefinition){
                                 .filter(stateId => state.definition.state[stateId] !== undefined)
                                 .map(stateId =>
                                     h('span', [
-                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: state.selectedStateNodeId === stateId ? 'black': 'white', padding: '2px 5px', marginRight: '5px', background: state.selectedStateNodeId === stateId ? '#eab65c': '#828183', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '0.8em', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                         h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                         h('span', eventData.mutations[stateId].toString()),
                                     ])
