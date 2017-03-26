@@ -1719,7 +1719,7 @@ function editor(appDefinition){
                     width: state.fullScreen ? '100vw' : desiredWidth +'px',
                     height: state.fullScreen ? '100vh' :desiredHeight + 'px',
                     background: '#ffffff',
-                    zIndex: '99999',
+                    zIndex: state.fullScreen ? '99999' : undefined,
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     transform: state.fullScreen ? '' : 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
                     position: state.fullScreen ? 'fixed' : 'absolute',
