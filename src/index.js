@@ -26,12 +26,20 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
+function utoa(str) {
+    return window.btoa(encodeURI(str));
+}
+function atou(str) {
+    return decodeURI(window.atob(str));
+}
+
 const version = '0.0.25v'
 editor(savedApp)
 
 function editor(appDefinition){
 
-    const savedDefinition = JSON.parse(localStorage.getItem('saved_app_' + version))
+    const storedApp = localStorage.getItem('app_key_' + version)
+    const savedDefinition = storedApp ? JSON.parse(atou(storedApp)) : undefined
     const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
@@ -75,7 +83,7 @@ function editor(appDefinition){
             stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition);
             // TODO add garbage collection?
             app.render(newState.definition)
-            localStorage.setItem('saved_app_'+version, JSON.stringify(newState.definition));
+            setTimeout(()=>localStorage.setItem('app_key_'+version, utoa(JSON.stringify(newState.definition))), 0);
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
