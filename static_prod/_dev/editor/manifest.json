@@ -8,7 +8,7 @@
       "type": "image/png"
     },
   ],
-  "start_url": ".",
+  "start_url": "/editor",
   "display": "fullscreen",
   "orientation": "landscape"
 }
