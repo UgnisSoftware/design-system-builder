@@ -92,9 +92,6 @@ function editor(appDefinition){
             setState({...state, editingTitleNodeId: ''})
         }
     })
-    window.addEventListener("resize", function() {
-        render()
-    }, false)
     window.addEventListener("orientationchange", function() {
         render()
     }, false)
