@@ -28,10 +28,7 @@ function flatten(arr) {
 
 export default (definition) => {
 
-    let currentState = Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
-        acc[def.ref] = def.defaultValue
-        return acc
-    }, {})
+    let currentState = createDefaultState()
 
     // Allows stoping application in development. This is not an application state
     let frozen = false
@@ -317,6 +314,13 @@ export default (definition) => {
         render()
     }
 
+    function createDefaultState() {
+        return Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
+            acc[def.ref] = def.defaultValue
+            return acc
+        }, {})
+    }
+
     return {
         definition,
         vdom,
@@ -327,5 +331,6 @@ export default (definition) => {
         addListener,
         _freeze,
         _resolve: resolve,
+        createDefaultState
     }
 }

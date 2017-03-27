@@ -646,8 +646,12 @@ function editor(appDefinition){
             }})
         }
     }
-    function RESET_APP() {
-        setState({...state, definition: appDefinition})
+    function RESET_APP_STATE() {
+        app.setCurrentState(app.createDefaultState())
+        setState({...state, eventStack: []})
+    }
+    function RESET_APP_DEFINITION() {
+        setState({...state, definition: {...appDefinition}})
     }
     function FULL_SCREEN_CLICKED(value) {
         if(value !== state.fullScreen){
@@ -1588,19 +1592,50 @@ function editor(appDefinition){
                 position: 'absolute',
                 top: '0',
                 right: '0',
-                background: '#9c4848',
-                borderRadius: '10px',
                 border: 'none',
                 color: 'white',
-                display: 'inline-block',
-                padding: '15px 20px',
-                margin: '13px',
-                cursor: 'pointer'
             },
-                on: {
-                    click: RESET_APP
-                }
-            }, 'reset demo')
+            }, [
+                h('div', {style: {
+                    background: '#444444',
+                    border: 'none',
+                    color: 'white',
+                    display: 'inline-block',
+                    padding: '15px 20px',
+                    margin: '13px 13px 0 0',
+                    cursor: 'pointer',
+                },
+                    on: {
+                        click: [FULL_SCREEN_CLICKED, true]
+                    }
+                }, 'full screen'),
+                h('div', {style: {
+                    background: '#444444',
+                    border: 'none',
+                    color: 'white',
+                    display: 'inline-block',
+                    padding: '15px 20px',
+                    margin: '13px 13px 0 0',
+                    cursor: 'pointer',
+                },
+                    on: {
+                        click: RESET_APP_STATE
+                    }
+                }, 'reset state'),
+                h('div', {style: {
+                    background: '#444444',
+                    border: 'none',
+                    color: 'white',
+                    display: 'inline-block',
+                    padding: '15px 20px',
+                    margin: '13px 13px 0 0',
+                    cursor: 'pointer',
+                },
+                    on: {
+                        click: RESET_APP_DEFINITION
+                    }
+                }, 'reset components')
+            ])
         ])
         const leftComponent = h('div', {
             style: {
@@ -1731,11 +1766,6 @@ function editor(appDefinition){
                 state.fullScreen ?
                     h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '20px', border: '2px solid #333', borderTop: 'none', background: '#444', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
                     h('span'),
-                h('div', {style: {background: '#93d1f7', width: '100%', height: '40px', position:'absolute', top: '-40px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', left: '0', borderRadius: '5px 5px 0 0', boxShadow: 'inset 0 -3px 0 0 #b7b7b7'}}, [
-                    //h('span', {style: {}, on: {click: [()=>'']}}, '_'),
-                    h('span', {style: {padding: '10px', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, true]}}, '❐'),
-                    //h('span', {style: {}, on: {click: [()=>'']}}, '✖')
-                ]),
                 h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
             ])
         ])
