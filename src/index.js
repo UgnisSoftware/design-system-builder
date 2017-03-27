@@ -32,10 +32,6 @@ attachFastClick(document.body)
 const version = '0.0.26v'
 editor(savedApp)
 
-document.body.style.height = '101vh'
-window.scrollTo(0,1)
-document.body.removeAttribute('style')
-
 function editor(appDefinition){
 
     const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
