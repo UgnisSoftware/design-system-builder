@@ -30,8 +30,8 @@
     }
   ],
   "start_url": "/_dev/editor",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "landscape",
   "manifest_version": 2,
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
