@@ -32,6 +32,8 @@ attachFastClick(document.body)
 const version = '0.0.26v'
 editor(savedApp)
 
+window.scrollTo(0,1);
+
 function editor(appDefinition){
 
     const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
@@ -92,6 +94,12 @@ function editor(appDefinition){
             setState({...state, editingTitleNodeId: ''})
         }
     })
+    window.addEventListener("resize", function() {
+        render()
+    }, false)
+    window.addEventListener("orientationchange", function() {
+        render()
+    }, false)
     document.addEventListener('keydown', (e)=>{
         // 83 - s
         // 90 - z

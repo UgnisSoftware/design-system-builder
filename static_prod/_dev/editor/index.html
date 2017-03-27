@@ -28,8 +28,100 @@
             border: 2px solid #555555;
         }
     </style>
+    <style type="text/css">
+        #rotate{
+            flex:1;
+            display: block;
+            margin: auto;
+            width: 50%;
+        }
+        #warning-text {
+            flex:1;
+        }
+        #warning-message {
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            font-size: 3vh;
+            display: none;
+            font-weight: 800;
+            background-color: #f5f5f5;
+            min-height: 100%;
+        }
+        @media only screen and (orientation:portrait){
+            #warning-message {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                overflow: hidden;
+            }}
+        }
+        @media only screen and (orientation:landscape){
+            #warning-message { display:none; }
+        }
+        #logo{
+            padding-top:100px;
+            width: 100px;
+            overflow: hidden;
+            display: inline-block;
+            height: 120px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:88px;
+        }
+        .center {
+            margin: auto
+        }
+        .logo_box{
+            color: inherit;
+            text-decoration: inherit;
+        }
+    </style>
 </head>
 <body>
     <script src="bundle.js"></script>
+    <div id="warning-message"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <a href="/_dev" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="120"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <svg
+   xmlns="http://www.w3.org/2000/svg"
+   xml:space="preserve"
+   viewBox="0 0 509.823 509.822"
+   height="509.822px"
+   width="509.823px"
+   y="0px"
+   x="0px"
+   id="rotate"
+   version="1.1"><defs
+                id="defs9"></defs><g
+     id="g3"><path
+       id="path5"
+       style="fill:#000000"
+       d="M 0.17033069,264.22816 C -4.9671812,123.76308 105.13078,5.3077874 245.59386,0.17034864 386.05894,-4.9671633 504.51516,105.12876 509.65267,245.59384 l -44.93995,1.64368 C 460.4817,131.55687 362.91989,40.871211 247.23724,45.102305 131.55759,49.33329 40.882259,146.90372 45.11328,262.58437 c 4.231094,115.68265 101.79253,206.35831 217.47118,202.12737 50.859,-1.86017 98.76997,-21.91575 135.74251,-56.55726 l -47.55511,-44.19436 141.66621,-27.97368 -17.54959,143.31221 -43.56584,-40.48469 c -45.2012,43.39212 -104.29549,68.54085 -167.0945,70.83773 C 123.76506,514.78913 5.307806,404.69224 0.17033069,264.22816 Z" ></path><rect
+       y="152.76036"
+       x="181.77682"
+       height="211.5638"
+       width="151.2261"
+       id="rect3339"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ></rect><path
+       id="path3341"
+       d="m 182.5176,258.63379 0,-105.20907 74.84928,0 74.84928,0 0,105.20907 0,105.20907 -74.84928,0 -74.84928,0 0,-105.20907 z"
+       style="fill:#a0a0a0;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ></path><path
+       id="path3343"
+       d="m 182.5176,258.63379 0,-105.20907 74.84928,0 74.84928,0 0,105.20907 0,105.20907 -74.84928,0 -74.84928,0 0,-105.20907 z"
+       style="fill:#000000;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" ></path><circle
+       r="6.4807916"
+       cy="353.20294"
+       cx="257.07129"
+       id="path3347"
+       style="fill:#ffffff"></circle></g></svg>
+        <div id="warning-text">Please rotate your device</div>
+    </div>
 </body>
 </html>
