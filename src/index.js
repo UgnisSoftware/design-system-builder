@@ -26,6 +26,9 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
+const attachFastClick = require('fastclick')
+attachFastClick(document.body)
+
 const version = '0.0.26v'
 editor(savedApp)
 

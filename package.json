@@ -22,6 +22,7 @@
     "body-parser": "^1.15.2",
     "braintree": "^1.47.0",
     "express": "^4.14.0",
+    "fastclick": "^1.0.6",
     "snabbdom": "^0.5.1"
   }
 }
