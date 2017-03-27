@@ -3,12 +3,14 @@
   "name": "Ugnis λ - visual programming language",
   "icons": [
     {
-      "src": "images/logo256x256.png",
+      "src": "/images/logo256x256.png",
       "sizes": "256x256",
       "type": "image/png"
-    },
+    }
   ],
-  "start_url": "/editor",
+  "start_url": "/_dev/editor",
   "display": "fullscreen",
-  "orientation": "landscape"
+  "orientation": "landscape",
+  "manifest_version": 2,
+  "version": "0.1"
 }
