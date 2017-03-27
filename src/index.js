@@ -26,11 +26,6 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
-// fuck apple (iOS 10 fix)
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
-});
-
 const version = '0.0.26v'
 editor(savedApp)
 
