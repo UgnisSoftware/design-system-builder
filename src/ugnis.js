@@ -158,10 +158,13 @@ export default (definition) => {
         return transformValue(resolve(def.value), def.transformations)
     }
 
+    const frozenShadow = 'inset 0 0 0 3px #3590df'
+
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
+        const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...style, transition:'box-shadow 0.2s', boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow: frozenShadow } : style,
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -183,8 +186,9 @@ export default (definition) => {
 
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
+        const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...style, transition:'box-shadow 0.2s', boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow: frozenShadow } : style,
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
@@ -201,8 +205,9 @@ export default (definition) => {
 
     function inputNode(ref) {
         const node = definition[ref.ref][ref.id]
+        const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...resolve(node.style), transition:'outline 0.1s',outline: '3px solid #3590df'} : resolve(node.style),
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...style, transition:'box-shadow 0.2s', boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow: frozenShadow } : style,
             on: frozen ?
                 {
                     mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,

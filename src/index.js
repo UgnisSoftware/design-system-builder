@@ -1634,7 +1634,7 @@ function editor(appDefinition){
                     on: {
                         click: RESET_APP_DEFINITION
                     }
-                }, 'reset components')
+                }, 'reset demo')
             ])
         ])
         const leftComponent = h('div', {
@@ -1738,29 +1738,19 @@ function editor(appDefinition){
             },
         }, [
             h('div', {style: (()=>{
-                const desiredWidth = 1920
-                const desiredHeight = 1080
                 const topMenuHeight = 75
-                const widthLeft = window.innerWidth - (state.editorLeftWidth + state.editorRightWidth)
+                const widthLeft = window.innerWidth - ((state.leftOpen ? state.editorLeftWidth: 0) + (state.rightOpen ? state.editorRightWidth : 0))
                 const heightLeft = window.innerHeight - topMenuHeight
-                let scaleX = widthLeft < desiredWidth ? widthLeft/desiredWidth: 1
-                let scaleY = heightLeft < desiredHeight ? heightLeft/desiredHeight: 1
-                if(scaleX > scaleY) {
-                    scaleX = scaleY
-                } else {
-                    scaleY = scaleX
-                }
                 return {
-                    width: state.fullScreen ? '100vw' : desiredWidth +'px',
-                    height: state.fullScreen ? '100vh' :desiredHeight + 'px',
+                    width: state.fullScreen ? '100vw' : widthLeft - 40 +'px',
+                    height: state.fullScreen ? '100vh' : heightLeft - 40 + 'px',
                     background: '#ffffff',
                     zIndex: state.fullScreen ? '99999' : undefined,
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
-                    transform: state.fullScreen ? '' : 'translateZ(0) scale('+ scaleX + ','+ scaleY +')',
-                    position: state.fullScreen ? 'fixed' : 'absolute',
-                    transition: state.fullScreen ?  'all 0.2s': 'none',
-                    top: state.fullScreen ? '0' : (heightLeft-desiredHeight)/2 + 'px',
-                    left: state.fullScreen ? '0' :(widthLeft-desiredWidth)/2+state.editorLeftWidth + 'px',
+                    position: 'fixed',
+                    transition: state.fullScreen ?  'all 0.3s': 'none',
+                    top: state.fullScreen ? '0px' : 20 + 75 + 'px',
+                    left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 20 + 'px',
                 }
             })()}, [
                 state.fullScreen ?
