@@ -83,6 +83,15 @@ function editor(appDefinition){
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
         }
+        if(newState.editingTitleNodeId && state.editingTitleNodeId !== newState.editingTitleNodeId){
+            // que auto focus
+            setTimeout(()=> {
+                const node = document.querySelectorAll('[data-istitleeditor]')[0]
+                if(node){
+                    node.focus()
+                }
+                }, 0)
+            }
         state = newState
         render()
     }
@@ -381,9 +390,9 @@ function editor(appDefinition){
                 mutators: [],
             }
         }
-        if(type === 'namespace') {
+        if(type === 'folder') {
             newState = {
-                title: 'new namespace',
+                title: 'new folder',
                 children: [],
             }
             return setState({...state, definition: {
@@ -660,7 +669,9 @@ function editor(appDefinition){
         setState({...state, eventStack: []})
     }
     function RESET_APP_DEFINITION() {
-        setState({...state, definition: {...appDefinition}})
+        if(state.definition !== appDefinition){
+            setState({...state, definition: {...appDefinition}})
+        }
     }
     function FULL_SCREEN_CLICKED(value) {
         if(value !== state.fullScreen){
@@ -680,6 +691,12 @@ function editor(appDefinition){
         style: { cursor: 'pointer', padding: '0 7px 0 0'},
     }, [
         h('text', {attrs: { x:3, y:14, fill: 'currentcolor'}}, '?'),
+    ])
+    const numberIcon = h('svg', {
+        attrs: {width: 14, height: 14},
+        style: { cursor: 'pointer', padding: '0 7px 0 0'},
+    }, [
+        h('text', {attrs: { x:0, y:14, fill: 'currentcolor'}}, '01'),
     ])
     const listIcon = h('svg', {
             attrs: {width: 14, height: 14},
@@ -709,6 +726,14 @@ function editor(appDefinition){
         },
         [
             h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: 'currentcolor'}})
+        ])
+    const folderIcon = h('svg', {
+            attrs: {viewBox: '0 0 24 24', width: 14, height: 14, fill: 'currentcolor'},
+            style: { cursor: 'pointer', padding: '0 7px 0 0'},
+        },
+        [
+            h('path', {attrs: {d: 'M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'}}),
+            h('path', {attrs: {d: 'M0 0h24v24H0z', fill:"none"}}),
         ])
 
     function render() {
@@ -977,7 +1002,7 @@ function editor(appDefinition){
                     h('div', [
                         h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-10px'},
+                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, stateId]
                                 },
@@ -998,16 +1023,19 @@ function editor(appDefinition){
             function editingNode() {
                 return h('input', {
                     style: {
-                        background: 'none',
-                        color: state.selectedStateNodeId === stateId ? '#eab65c': 'white',
+                        color: 'white',
                         outline: 'none',
+                        padding: '4px 7px',
                         boxShadow: 'none',
-                        padding: '2px 5px',
-                        margin: '3px 3px 0 0',
-                        border: '2px solid ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#bdbdbd'),
-                        borderRadius: '10px',
                         display: 'inline',
-                        font: 'inherit'
+                        border: 'none',
+                        background: 'none',
+                        font: 'inherit',
+                        position: 'absolute',
+                        top: '0',
+                        left: '0',
+                        width: '100%',
+                        flex: '0 0 auto',
                     },
                     on: {
                         input: [CHANGE_STATE_NODE_TITLE, stateId],
@@ -1016,7 +1044,6 @@ function editor(appDefinition){
                         value: currentState.title,
                     },
                     attrs: {
-                        autofocus: true,
                         'data-istitleeditor': true
                     }
                 })
@@ -1025,14 +1052,15 @@ function editor(appDefinition){
                     style: {
                         cursor: 'pointer',
                         position: 'relative',
-                        fontSize: '0.8em',
+                        fontSize: '14px',
                     },
                 },
                 [
-                    // state.editingTitleNodeId === stateId ?
-                    //     editingNode():
                     h('span', {style: {display: 'flex', flexWrap: 'wrap'}}, [
-                        h('span', {style: {flex: '0 0 auto', color: 'white', padding: '4px 7px', margin: '7px 7px 0 0', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', display: 'inline-block', transition: 'all 0.2s'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
+                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                            h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
+                            state.editingTitleNodeId === stateId ? editingNode(): h('span'),
+                        ]),
                         (()=> {
                             const noStyleInput = {
                                 color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'rgb(91, 204, 91)' : 'white',
@@ -1040,6 +1068,7 @@ function editor(appDefinition){
                                 outline: 'none',
                                 display: 'inline',
                                 flex: '1',
+                                minWidth: '50px',
                                 border: 'none',
                                 padding: '10px 7px 4px 7px',
                                 boxShadow: 'inset 0 -2px 0 0 ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282')
@@ -1465,7 +1494,7 @@ function editor(appDefinition){
                                     style: {
                                         color: 'white',
                                         transition: 'color 0.2s',
-                                        fontSize: '0.8em',
+                                        fontSize: '14px',
                                         cursor: 'pointer',
                                         padding: '5px 10px',
                                         boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset' : 'none'
@@ -1536,7 +1565,12 @@ function editor(appDefinition){
         }
 
         const addStateComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state todo')
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
+            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'folder']}}, [folderIcon]),
         ])
 
 
@@ -1723,7 +1757,7 @@ function editor(appDefinition){
                                 .filter(stateId => state.definition.state[stateId] !== undefined)
                                 .map(stateId =>
                                     h('span', [
-                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '0.8em', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '14px', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                         h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                         h('span', eventData.mutations[stateId].toString()),
                                     ])
