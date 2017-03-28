@@ -90,8 +90,8 @@ function editor(appDefinition){
                 if(node){
                     node.focus()
                 }
-                }, 0)
-            }
+            }, 0)
+        }
         state = newState
         render()
     }
@@ -1132,7 +1132,7 @@ function editor(appDefinition){
             )
         }
 
-        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '5px 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
+        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
         function listBoxNode(nodeRef, depth) {
             const nodeId = nodeRef.id
@@ -1258,34 +1258,24 @@ function editor(appDefinition){
         const propsComponent = h('div', {
             style: {
                 background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
-                padding: '12px 15px 8px',
-                position: 'absolute',
-                top: '0',
-                left: '6px',
-                zIndex: state.selectedViewSubMenu === 'props' ? '500': '0',
+                padding: '10px 0',
+                flex: '1',
                 cursor: 'pointer',
-                borderRadius: '15px 15px 0 0',
-                borderColor: '#222',
-                borderStyle: 'solid',
-                borderWidth: '3px 3px 0 3px',
+                textAlign: 'center',
             },
             on: {
                 click: [SELECT_VIEW_SUBMENU, 'props']
             }
-        }, 'props')
+        }, 'data')
         const styleComponent = h('div', {
             style: {
                 background: state.selectedViewSubMenu === 'style' ? '#4d4d4d': '#3d3d3d',
-                padding: '12px 15px 8px',
-                position: 'absolute',
-                top: '0',
-                left: '91px',
-                zIndex: state.selectedViewSubMenu === 'style' ? '500': '0',
+                padding: '10px 0',
+                flex: '1',
+                borderRight: '1px solid #222',
+                borderLeft: '1px solid #222',
+                textAlign: 'center',
                 cursor: 'pointer',
-                borderRadius: '15px 15px 0 0',
-                borderColor: '#222',
-                borderStyle: 'solid',
-                borderWidth: '3px 3px 0 3px',
             },
             on: {
                 click: [SELECT_VIEW_SUBMENU, 'style']
@@ -1294,39 +1284,15 @@ function editor(appDefinition){
         const eventsComponent = h('div', {
             style: {
                 background: state.selectedViewSubMenu === 'events' ? '#4d4d4d': '#3d3d3d',
-                padding: '12px 15px 8px',
-                position: 'absolute',
-                top: '0',
-                left: '165px',
-                zIndex: state.selectedViewSubMenu === 'events' ? '500': '0',
+                padding: '10px 0',
+                flex: '1',
+                textAlign: 'center',
                 cursor: 'pointer',
-                borderRadius: '15px 15px 0 0',
-                borderColor: '#222',
-                borderStyle: 'solid',
-                borderWidth: '3px 3px 0 3px',
             },
             on: {
                 click: [SELECT_VIEW_SUBMENU, 'events']
             }
         }, 'events')
-        const unselectComponent = h('div', {
-            style: {
-                background: '#4d4d4d',
-                padding: '15px 23px 5px',
-                position: 'absolute',
-                top: '0',
-                right: '16px',
-                zIndex: '100',
-                cursor: 'pointer',
-                borderRadius: '15px 15px 0 0',
-                borderColor: '#222',
-                borderStyle: 'solid',
-                borderWidth: '3px 3px 0 3px',
-            },
-            on: {
-                click: [UNSELECT_VIEW_NODE]
-            }
-        }, 'x')
 
         function generateEditNodeComponent() {
             const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
@@ -1342,7 +1308,7 @@ function editor(appDefinition){
                     }, 'Component has no props')
                 }
                 if (state.selectedViewNode.ref === 'vNodeText') {
-                    return h('div', {style: {paddingTop: '20px'}}, [
+                    return h('div', [
                         h('div', {
                             style: {
                                 display: 'flex',
@@ -1359,7 +1325,7 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeInput') {
-                    return h('div', {style: {paddingTop: '20px'}}, [
+                    return h('div',[
                         h('div', {
                             style: {
                                 display: 'flex',
@@ -1397,43 +1363,7 @@ function editor(appDefinition){
             const genstyleSubmenuComponent = () => {
                 const selectedStyle = state.definition.style[selectedNode.style.id]
                 return h('div', [
-                    (()=>{
-                        return h('div', {style: {}},
-                            Object.keys(selectedStyle).map((key) => h('div', [h('input', {
-                                style: {
-                                    border: 'none',
-                                    background: 'none',
-                                    color: 'white',
-                                    outline: 'none',
-                                    padding: '0',
-                                    boxShadow: 'inset 0 -1px 0 0 white',
-                                    display: 'inline-block',
-                                    width: '160px',
-                                    margin: '10px',
-                                },
-                                props: {value: selectedStyle[key]},
-                                on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}
-                            }),
-                                h('span', key)]))
-                        )
-                    })(),
-                    (()=>{
-                        return h('div', {style: {}},
-                            styles
-                                .filter((key) => !Object.keys(selectedStyle).includes(key))
-                                .map((key) => h('div', {
-                                    on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},
-                                    style: {
-                                        display: 'inline-block',
-                                        cursor: 'pointer',
-                                        borderRadius: '5px',
-                                        border: '3px solid white',
-                                        padding: '5px',
-                                        margin: '5px'
-                                    }
-                                }, '+ ' + key))
-                        )
-                    })(),
+                    'todo style menu'
                 ])
             }
             const geneventsSubmenuComponent = () => {
@@ -1544,17 +1474,38 @@ function editor(appDefinition){
             return h('div', {
                 style: {
                     position: 'absolute',
-                    left: '-8px',
+                    left: '-15px',
                     transform: 'translate(-100%, 0)',
                     marginRight: '8px',
-                    bottom: '6px',
-                    height: '50%',
+                    top: '50%',
+                    height: '49.5%',
                     display: 'flex',
-                    flexDirection: 'column',
                 }
             }, [
-                h('div', {style: {flex: '1', maxHeight: '43px', minHeight: '43px', position: 'relative', marginTop: '6px'}}, fullVNode ? [eventsComponent, styleComponent, propsComponent, unselectComponent]: [unselectComponent]),
-                h('div', {attrs: {class: 'better-scrollbar'}, style: {flex: '1', overflow: 'auto', background: '#4d4d4d', borderRadius: '10px', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
+                h('div', {attrs: {class: 'better-scrollbar'}, style: {flex: '1', overflow: 'auto', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
+                    h('div', {style: {}}, [
+                        h('div', {style: {
+                            display: 'flex',
+                            cursor: 'default',
+                            alignItems: 'center',
+                            background: '#222',
+                            paddingTop: '2px',
+                            paddingBottom: '5px',
+                            color: '#53B2ED',
+                            minWidth: '100%',
+                        }}, [
+                            h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
+                                state.selectedViewNode.ref === 'vNodeBox' ? boxIcon :
+                                    state.selectedViewNode.ref === 'vNodeList' ? listIcon :
+                                        state.selectedViewNode.ref === 'vNodeList' ? ifIcon :
+                                            state.selectedViewNode.ref === 'vNodeInput' ? inputIcon :
+                                                textIcon,
+                            ]),
+                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, selectedNode.title),
+                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white'}, on: {click: [UNSELECT_VIEW_NODE]}}, 'x'),
+                        ])
+                    ]),
+                    fullVNode ? h('div', {style: { display: 'flex', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
                     dragSubComponent,
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
                         state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
@@ -1565,7 +1516,7 @@ function editor(appDefinition){
         }
 
         const addStateComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
+            h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
             h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon]),
@@ -1575,7 +1526,7 @@ function editor(appDefinition){
 
 
         const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { padding: '0 10px'}}, 'add component: '),
+            h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', padding: '0 10px'}}, 'add component: '),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon])
@@ -1637,6 +1588,8 @@ function editor(appDefinition){
                 right: '0',
                 border: 'none',
                 color: 'white',
+                fontFamily: "'Comfortaa', sans-serif",
+                fontSize: '16px',
             },
             }, [
                 h('div', {style: {
@@ -1750,7 +1703,7 @@ function editor(appDefinition){
                                                     textIcon,
                                 ]),
                                 h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
-                                h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
+                                h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
 
                             h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
