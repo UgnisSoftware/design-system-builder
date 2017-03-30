@@ -107,14 +107,6 @@
         #divider {
             width: 30px
         }
-        @media (max-width: 1780px) {
-            #divider{
-                display: none;
-            }
-            #exampleimg {
-                display: none;
-            }
-        }
         .action_wrapper{
             margin: 20px 0 0 0;
             display: flex;
@@ -159,11 +151,6 @@
         .try_editor:hover{
             background: #a74e4d;
         }
-        @media (max-width: 1020px) {
-            .try_editor{
-                margin-right: 20px;
-            }
-        }
         #example_block{
             flex: 1;
             max-width: 30%;
@@ -191,6 +178,30 @@
         }
         .faq_title{
             font-size: 2em;
+        }
+        @media (max-width: 1780px) {
+            #example_block {
+                max-width: initial;
+                margin-right: -50px;
+            }
+            #divider{
+                display: none;
+            }
+            #exampleimg {
+                display: none;
+            }
+        }
+        @media (max-width: 1020px) {
+            #example_block {
+                margin: -50px 20px 0 20px ;
+            }
+            #examples {
+                background: white;
+                display: block;
+            }
+            .faq_block {
+                margin: 0;
+            }
         }
     </style>
 </head>
