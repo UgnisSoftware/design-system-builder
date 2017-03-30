@@ -696,7 +696,7 @@ function editor(appDefinition){
         attrs: {width: 14, height: 14},
         style: { cursor: 'pointer', padding: '0 7px 0 0'},
     }, [
-        h('text', {attrs: { x:0, y:14, fill: 'currentcolor'}}, '01'),
+        h('text', {attrs: { x:0, y:14, fill: 'currentcolor'}}, '№'),
     ])
     const listIcon = h('svg', {
             attrs: {width: 14, height: 14},
@@ -1122,7 +1122,7 @@ function editor(appDefinition){
                                                         event.emitter.ref === 'vNodeInput' ? inputIcon :
                                                             textIcon,
                                         ]),
-                                        h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
+                                        h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, emitter.title),
                                         h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                                     ])
                                 }
@@ -1174,6 +1174,7 @@ function editor(appDefinition){
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
                         paddingTop: '1px',
+                        whiteSpace: 'nowrap',
                         paddingBottom: '3px',
                     }}, [
                         nodeRef.ref === 'vNodeBox' && node.children.length > 0 ? h('svg', {
@@ -1240,6 +1241,7 @@ function editor(appDefinition){
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
                         paddingTop: '1px',
+                        whiteSpace: 'nowrap',
                         paddingBottom: '3px'
                     },
                     on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
@@ -1305,7 +1307,7 @@ function editor(appDefinition){
                             marginTop: '100px',
                             color: '#bdbdbd'
                         }
-                    }, 'Component has no props')
+                    }, 'no data required')
                 }
                 if (state.selectedViewNode.ref === 'vNodeText') {
                     return h('div', [
@@ -1362,8 +1364,44 @@ function editor(appDefinition){
             })()])
             const genstyleSubmenuComponent = () => {
                 const selectedStyle = state.definition.style[selectedNode.style.id]
-                return h('div', [
-                    'todo style menu'
+                return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
+                    ...Object.keys(selectedStyle).map((key) => h('div', {style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                    }}, [
+                        h('span', key),
+                        h('input', {
+                            style: {
+                                border: 'none',
+                                background: 'none',
+                                color: 'white',
+                                outline: 'none',
+                                padding: '0',
+                                boxShadow: 'inset 0 -1px 0 0 white',
+                                display: 'inline-block',
+                                width: '160px',
+                                margin: '10px',
+                            },
+                            props: {value: selectedStyle[key]},
+                            on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}
+                        }),
+                    ])),
+                    h('div', {style: {}},
+                        styles
+                            .filter((key) => !Object.keys(selectedStyle).includes(key))
+                            .map((key) => h('div', {
+                                on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},
+                                style: {
+                                    display: 'inline-block',
+                                    cursor: 'pointer',
+                                    borderRadius: '5px',
+                                    border: '3px solid white',
+                                    padding: '5px',
+                                    margin: '5px'
+                                }
+                            }, '+ ' + key))
+                    )
                 ])
             }
             const geneventsSubmenuComponent = () => {
@@ -1482,8 +1520,8 @@ function editor(appDefinition){
                     display: 'flex',
                 }
             }, [
-                h('div', {attrs: {class: 'better-scrollbar'}, style: {flex: '1', overflow: 'auto', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
-                    h('div', {style: {}}, [
+                h('div', {style: {flex: '1', display: 'flex', flexDirection: 'column', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
+                    h('div', {style: {flex: '0 0 auto',}}, [
                         h('div', {style: {
                             display: 'flex',
                             cursor: 'default',
@@ -1501,11 +1539,11 @@ function editor(appDefinition){
                                             state.selectedViewNode.ref === 'vNodeInput' ? inputIcon :
                                                 textIcon,
                             ]),
-                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, selectedNode.title),
+                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
                             h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white'}, on: {click: [UNSELECT_VIEW_NODE]}}, 'x'),
                         ])
                     ]),
-                    fullVNode ? h('div', {style: { display: 'flex', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
+                    fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
                     dragSubComponent,
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
                         state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
@@ -1702,7 +1740,7 @@ function editor(appDefinition){
                                                 event.emitter.ref === 'vNodeInput' ? inputIcon :
                                                     textIcon,
                                 ]),
-                                h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', textOverflow: 'ellipsis'}}, emitter.title),
+                                h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
                                 h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
 
