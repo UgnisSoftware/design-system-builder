@@ -1070,11 +1070,15 @@ function editor(appDefinition){
                                 flex: '1',
                                 minWidth: '50px',
                                 border: 'none',
-                                padding: '10px 7px 4px 7px',
+                                marginTop: '6px',
                                 boxShadow: 'inset 0 -2px 0 0 ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282')
                             }
                             if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
                             if(currentState.type === 'number') return h('input', {attrs: {type: 'number'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput,  on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}})
+                            if(currentState.type === 'boolean') return h('select', {liveProps: {value: currentRunningState[stateId].toString()}, style: noStyleInput,  on: {input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId]}}, [
+                                h('option', {attrs: {value: 'true'}, style: {color: 'black'}}, ['true']),
+                                h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
+                            ])
                             if(currentState.type === 'table') {
                                 const table = currentRunningState[stateId];
                                 return h('div', {
