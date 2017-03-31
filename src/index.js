@@ -29,7 +29,7 @@ import savedApp from '../ugnis_components/app.json'
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.26v'
+const version = '0.0.27v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1261,48 +1261,49 @@ function editor(appDefinition){
             )
         }
 
-        const propsComponent = h('div', {
-            style: {
-                background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
-                padding: '10px 0',
-                flex: '1',
-                cursor: 'pointer',
-                textAlign: 'center',
-            },
-            on: {
-                click: [SELECT_VIEW_SUBMENU, 'props']
-            }
-        }, 'data')
-        const styleComponent = h('div', {
-            style: {
-                background: state.selectedViewSubMenu === 'style' ? '#4d4d4d': '#3d3d3d',
-                padding: '10px 0',
-                flex: '1',
-                borderRight: '1px solid #222',
-                borderLeft: '1px solid #222',
-                textAlign: 'center',
-                cursor: 'pointer',
-            },
-            on: {
-                click: [SELECT_VIEW_SUBMENU, 'style']
-            }
-        }, 'style')
-        const eventsComponent = h('div', {
-            style: {
-                background: state.selectedViewSubMenu === 'events' ? '#4d4d4d': '#3d3d3d',
-                padding: '10px 0',
-                flex: '1',
-                textAlign: 'center',
-                cursor: 'pointer',
-            },
-            on: {
-                click: [SELECT_VIEW_SUBMENU, 'events']
-            }
-        }, 'events')
-
         function generateEditNodeComponent() {
             const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
+
+            const propsComponent = h('div', {
+                style: {
+                    background: state.selectedViewSubMenu === 'props' ? '#4d4d4d': '#3d3d3d',
+                    padding: '10px 0',
+                    flex: '1',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                },
+                on: {
+                    click: [SELECT_VIEW_SUBMENU, 'props']
+                }
+            }, 'data')
+            const styleComponent = h('div', {
+                style: {
+                    background: state.selectedViewSubMenu === 'style' ? '#4d4d4d': '#3d3d3d',
+                    padding: '10px 0',
+                    flex: '1',
+                    borderRight: '1px solid #222',
+                    borderLeft: '1px solid #222',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                },
+                on: {
+                    click: [SELECT_VIEW_SUBMENU, 'style']
+                }
+            }, 'style')
+            const eventsComponent = h('div', {
+                style: {
+                    background: state.selectedViewSubMenu === 'events' ? '#4d4d4d': '#3d3d3d',
+                    padding: '10px 0',
+                    flex: '1',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                },
+                on: {
+                    click: [SELECT_VIEW_SUBMENU, 'events']
+                }
+            }, 'events')
+
             const genpropsSubmenuComponent = () => h('div', [(()=>{
                 if (state.selectedViewNode.ref === 'vNodeBox') {
                     return h('div', {
@@ -1369,27 +1370,22 @@ function editor(appDefinition){
             const genstyleSubmenuComponent = () => {
                 const selectedStyle = state.definition.style[selectedNode.style.id]
                 return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
+                    h('div',{ style: {padding: '10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'style panel will change a lot in 1.0v, right now it\'s just CSS'),
                     ...Object.keys(selectedStyle).map((key) => h('div', {style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
                     }}, [
-                        h('span', key),
-                        h('input', {
+                        h('div', {
                             style: {
-                                border: 'none',
-                                background: 'none',
-                                color: 'white',
-                                outline: 'none',
-                                padding: '0',
-                                boxShadow: 'inset 0 -1px 0 0 white',
-                                display: 'inline-block',
-                                width: '160px',
-                                margin: '10px',
-                            },
-                            props: {value: selectedStyle[key]},
-                            on: {input: [CHANGE_STYLE, selectedNode.style.id, key]}
-                        }),
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
+                            h('span', {style: {flex: '1'}}, key),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedStyle[key], 'text')]),
                     ])),
                     h('div', {style: {}},
                         styles
