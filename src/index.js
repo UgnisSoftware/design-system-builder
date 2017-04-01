@@ -412,7 +412,32 @@ function editor(appDefinition){
         setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: e.target.value}}}})
     }
     function ADD_DEFAULT_STYLE(styleId, key) {
-        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: 'default'}}}})
+        const pipeId = uuid()
+        const defaults = {
+            'background': 'white',
+            'border': '1px solid black',
+            'outline': '1px solid black',
+            'cursor': 'pointer',
+            'color': 'black',
+            'display': 'block',
+            'top': '0px',
+            'bottom': '0px',
+            'left': '0px',
+            'right': '0px',
+            'maxWidth': '100%',
+            'maxHeight': '100%',
+            'position': 'absolute',
+            'overflow': 'auto',
+            'height': '500px',
+            'width': '500px',
+            'font': 'italic 2em "Comic Sans MS", cursive, sans-serif',
+            'margin': '10px',
+            'padding': '10px',
+        }
+        setState({...state, definition: {
+            ...state.definition,
+            pipe: {...state.definition.pipe, [pipeId]: {type: 'text', value: defaults[key], transformations:[]}},
+            style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: {ref: 'pipe', id: pipeId}}}}})
     }
     function SELECT_VIEW_SUBMENU(newId) {
         setState({...state, selectedViewSubMenu:newId})
@@ -1262,7 +1287,7 @@ function editor(appDefinition){
         }
 
         function generateEditNodeComponent() {
-            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'right', 'position', 'overflow', 'height', 'width', 'font', 'font', 'margin', 'padding', 'userSelect']
+            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'maxWidth', 'maxHeight', 'right', 'position', 'overflow', 'height', 'width', 'font', 'margin', 'padding']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h('div', {
@@ -1395,7 +1420,6 @@ function editor(appDefinition){
                                 style: {
                                     display: 'inline-block',
                                     cursor: 'pointer',
-                                    borderRadius: '5px',
                                     border: '3px solid white',
                                     padding: '5px',
                                     margin: '5px'

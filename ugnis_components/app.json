@@ -181,7 +181,7 @@
     },
     "84369aba-4a4d-4932-8a9a-8f9ca948b6a2": {
       "type": "text",
-      "value": "The number is even �",
+      "value": "The number is even 🎉",
       "transformations": []
     },
     "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070": {
@@ -659,10 +659,6 @@
         "ref": "pipe",
         "id": "d31c4746-2329-4404-8689-fbf2393efd44"
       },
-      "marginLeft": {
-        "ref": "pipe",
-        "id": "41685adc-3793-4566-8f61-2c2a42fdf86e"
-      },
       "borderRadius": {
         "ref": "pipe",
         "id": "d5754fdb-4689-4f87-87fc-51d60022b32c"
@@ -693,10 +689,6 @@
         "ref": "pipe",
         "id": "ae987bba-734a-46ae-8c82-c04896221179"
       },
-      "marginLeft": {
-        "ref": "pipe",
-        "id": "f0090f8d-87b4-4d83-8a53-039b21e2b594"
-      },
       "borderRadius": {
         "ref": "pipe",
         "id": "b7c791a6-2c91-4b62-8820-dbaaf9d5c179"
@@ -708,10 +700,6 @@
       "margin": {
         "ref": "pipe",
         "id": "7518524a-0bc2-465c-814e-0a5d39de25e3"
-      },
-      "userSelect": {
-        "ref": "pipe",
-        "id": "b24b1c18-8a82-4c8f-8180-6d062c78c9d9"
       }
     },
     "8092ac5e-dfd0-4492-a65d-8ac3eec325e0": {
@@ -735,10 +723,6 @@
         "ref": "pipe",
         "id": "72b559e9-2546-4bae-8a61-555567363b11"
       },
-      "paddingRight": {
-        "ref": "pipe",
-        "id": "30f8c701-7adf-4398-862e-55372e29c14d"
-      },
       "textAlign": {
         "ref": "pipe",
         "id": "6635dbb2-b364-4efd-8061-26432007eb1a"
@@ -746,10 +730,6 @@
       "maxWidth": {
         "ref": "pipe",
         "id": "042ccf7d-819b-4fac-8282-2f19069b5386"
-      },
-      "line-height": {
-        "ref": "pipe",
-        "id": "e7bc6e20-1510-4bac-859f-04ec3dcda66b"
       }
     },
     "cbcd8edb-4aa2-43fe-ad39-cee79b490295": {
