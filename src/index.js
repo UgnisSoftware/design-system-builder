@@ -50,7 +50,6 @@ function editor(appDefinition){
         subEditorWidth: 350,
         appIsFrozen: false,
         selectedViewNode: {},
-        selectedEventId: '',
         selectedPipeId: '',
         selectedStateNodeId: '',
         selectedViewSubMenu: 'props',
@@ -215,7 +214,7 @@ function editor(appDefinition){
     }
     function UNSELECT_STATE_NODE(e) {
         if(e.target === this.elm){
-            setState({...state, selectedStateNodeId:'', selectedEventId:''})
+            setState({...state, selectedStateNodeId:''})
         }
     }
     function DELETE_SELECTED_VIEW(nodeRef, parentRef, e) {
@@ -406,11 +405,6 @@ function editor(appDefinition){
             state: {...state.definition.state, [newStateId]: newState},
         }})
     }
-    function CHANGE_STYLE(styleId, key, e) {
-        e.preventDefault()
-        // and now I really regret not using immutable or ramda lenses
-        setState({...state, definition: {...state.definition, style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: e.target.value}}}})
-    }
     function ADD_DEFAULT_STYLE(styleId, key) {
         const pipeId = uuid()
         const defaults = {
@@ -426,6 +420,8 @@ function editor(appDefinition){
             'right': '0px',
             'maxWidth': '100%',
             'maxHeight': '100%',
+            'minWidth': '100%',
+            'minHeight': '100%',
             'position': 'absolute',
             'overflow': 'auto',
             'height': '500px',
@@ -498,9 +494,6 @@ function editor(appDefinition){
         } catch(err) {
         }
     }
-    function SELECT_EVENT(eventId) {
-        setState({...state, selectedEventId:eventId})
-    }
     function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
         let value = e.target.value
         if(type === 'number'){
@@ -521,7 +514,7 @@ function editor(appDefinition){
             }
         }})
     }
-    function ADD_EVENT(propertyName) {
+    function ADD_EVENT(propertyName, node) {
         const ref = state.selectedViewNode
         const eventId = uuid();
         setState({...state, definition:{
@@ -536,8 +529,10 @@ function editor(appDefinition){
             event: {
                 ...state.definition.event,
                 [eventId]: {
-                    title: 'On ' + propertyName,
-                    mutators: []
+                    type: propertyName,
+                    emitter: node,
+                    mutators: [],
+                    data: []
                 }
             }
         }})
@@ -956,11 +951,10 @@ function editor(appDefinition){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('div', {style: {flex: '1'}},
-                        [h('div',{
-                                style: { cursor: 'pointer', color: state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white', padding: '2px 5px', margin: '3px 3px 0 0', border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c': 'white'), borderRadius: '10px', display: 'inline-block'},
-                                on: {click: [STATE_NODE_SELECTED, pipe.value.id]}
-                            },
-                            [displState.title])
+                        [
+                            h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                                h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
+                            ]),
                         ]
                     ),
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
@@ -1282,12 +1276,13 @@ function editor(appDefinition){
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
+
                 ]
             )
         }
 
         function generateEditNodeComponent() {
-            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'maxWidth', 'maxHeight', 'right', 'position', 'overflow', 'height', 'width', 'font', 'margin', 'padding']
+            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h('div', {
@@ -1412,17 +1407,17 @@ function editor(appDefinition){
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedStyle[key], 'text')]),
                     ])),
-                    h('div', {style: {}},
+                    h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Style:'),
+                    h('div', {style: { padding: '5px 0 5px 10px'}},
                         styles
                             .filter((key) => !Object.keys(selectedStyle).includes(key))
                             .map((key) => h('div', {
                                 on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},
                                 style: {
-                                    display: 'inline-block',
                                     cursor: 'pointer',
                                     border: '3px solid white',
                                     padding: '5px',
-                                    margin: '5px'
+                                    marginTop: '5px'
                                 }
                             }, '+ ' + key))
                     )
@@ -1465,70 +1460,50 @@ function editor(appDefinition){
                 }
                 const currentEvents = availableEvents.filter((event) => selectedNode[event.propertyName])
                 const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
-
-                return h('div', {style: {paddingTop: '20px'}}, eventsLeft.map((event) =>
-                    h('div', {
-                        style: {
-                            display: 'inline-block',
-                            border: '3px solid #5bcc5b',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            padding: '5px',
-                            margin: '10px'
-                        }, on: {click: [ADD_EVENT, event.propertyName]}
-                    }, '+ ' + event.description),
-                ).concat(currentEvents.length ?
-                    currentEvents.map((event) =>
-                        h('div', [
-                            h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.description),
-                            h('div',
-                                {
-                                    style: {
-                                        color: 'white',
-                                        transition: 'color 0.2s',
-                                        fontSize: '14px',
-                                        cursor: 'pointer',
-                                        padding: '5px 10px',
-                                        boxShadow: state.selectedEventId === selectedNode[event.propertyName].id ? '#5bcc5b 5px 0 0px 0px inset' : 'none'
-                                    },
-                                    on: {
-                                        click: [SELECT_EVENT, selectedNode[event.propertyName].id],
-                                        dblclick: [EDIT_EVENT_TITLE, selectedNode[event.propertyName].id]
-                                    }
-                                }, [
-                                    h('span', {}, [
-                                        '• ',
-                                        state.editingTitleNodeId === selectedNode[event.propertyName].id ?
-                                            h('input', {
-                                                style: {
-                                                    background: 'none',
-                                                    color: 'white',
-                                                    outline: 'none',
-                                                    boxShadow: 'inset 0 -1px 0 0 white',
-                                                    padding: '0',
-                                                    margin: '0',
-                                                    border: 'none',
-                                                    borderRadius: '0',
-                                                    display: 'inline',
-                                                    font: 'inherit'
-                                                },
-                                                on: {
-                                                    input: [CHANGE_EVENT_TITLE, selectedNode[event.propertyName].id],
-                                                },
-                                                liveProps: {
-                                                    value: state.definition.event[selectedNode[event.propertyName].id].title,
-                                                },
-                                                attrs: {
-                                                    autofocus: true,
-                                                    'data-istitleeditor': true
-                                                }
-                                            })
-                                            : state.definition.event[selectedNode[event.propertyName].id].title]
+                console.log(currentEvents)
+                return h('div', {style: {paddingTop: '20px'}}, [
+                        ...(currentEvents.length ?
+                            currentEvents.map((eventDesc) => {
+                                const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
+                                return h('div', [
+                                    h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.type),
+                                    h('div',
+                                        {style: {
+                                            color: 'white',
+                                            transition: 'color 0.2s',
+                                            fontSize: '14px',
+                                            cursor: 'pointer',
+                                            padding: '5px 10px',
+                                        },
+                                        }, event.mutators.map(mutatorRef => {
+                                            const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                            const stateDef = state.definition[mutator.state.ref][mutator.state.id]
+                                            return h('div', {style: {marginTop: '10px'}}, [
+                                                h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                                                    h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
+                                                ]),
+                                                emberEditor(mutator.mutation, stateDef.type)
+                                            ])
+                                        })
                                     )
-                                ]
-                            )
-                        ])) :
-                    []))
+                                ])
+                            }) :
+                            []),
+                        h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Event:'),
+                        h('div',  {style: { padding: '5px 0 5px 10px'}}, [
+                            ...eventsLeft.map((event) =>
+                                h('div', {
+                                    style: {
+                                        border: '3px solid #5bcc5b',
+                                        cursor: 'pointer',
+                                        padding: '5px',
+                                        margin: '10px'
+                                    }, on: {click: [ADD_EVENT, event.propertyName, state.selectedViewNode]}
+                                }, '+ ' + event.description),
+                            ),
+                        ]),
+                    ]
+                )
             }
 
             const fullVNode = state.selectedViewNode.ref === 'vNodeBox' || state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
@@ -1767,16 +1742,17 @@ function editor(appDefinition){
                                 h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
                                 h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
-
-                            h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
-                                .filter(stateId => state.definition.state[stateId] !== undefined)
-                                .map(stateId =>
-                                    h('span', [
-                                        h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '14px', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
-                                        h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
-                                        h('span', eventData.mutations[stateId].toString()),
-                                    ])
-                                ))
+                            Object.keys(eventData.mutations).length === 0 ?
+                                h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'nothing has changed'):
+                                h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
+                                    .filter(stateId => state.definition.state[stateId] !== undefined)
+                                    .map(stateId =>
+                                        h('span', [
+                                            h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '14px', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                            h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
+                                            h('span', eventData.mutations[stateId].toString()),
+                                        ])
+                                    ))
                         ])
                     })
             )
