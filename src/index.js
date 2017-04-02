@@ -29,7 +29,7 @@ import savedApp from '../ugnis_components/app.json'
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.27v'
+const version = '0.0.28v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -963,6 +963,9 @@ function editor(appDefinition){
                     h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
                 ])
             }
+            if(pipe.value.ref === 'listValue'){
+                return h('div', 'TODO')
+            }
             if(pipe.value.ref === 'eventData'){
                 const eventData = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
@@ -1099,8 +1102,12 @@ function editor(appDefinition){
                                 h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
                             ])
                             if(currentState.type === 'table') {
+                                if(state.selectedStateNodeId !== stateId){
+                                    return h('div', {key: 'icon',on: {click: [STATE_NODE_SELECTED, stateId]}, style: {display: 'flex', alignItems: 'center', marginTop: '7px'}}, [listIcon])
+                                }
                                 const table = currentRunningState[stateId];
                                 return h('div', {
+                                        key: 'table',
                                         style: {
                                             background: '#828183',
                                             width: '100%',
@@ -1460,7 +1467,6 @@ function editor(appDefinition){
                 }
                 const currentEvents = availableEvents.filter((event) => selectedNode[event.propertyName])
                 const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
-                console.log(currentEvents)
                 return h('div', {style: {paddingTop: '20px'}}, [
                         ...(currentEvents.length ?
                             currentEvents.map((eventDesc) => {
