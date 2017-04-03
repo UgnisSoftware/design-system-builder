@@ -819,12 +819,12 @@ function editor(appDefinition){
             function listTransformations(transformations, transType) {
                 return transformations.map((transRef, index)=>{
                     const transformer = state.definition[transRef.ref][transRef.id]
-                    // if (transRef.ref === 'equal') {
-                    //     return h('div', {}, [
-                    //         h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0'}}, transType)]),
-                    //         emberEditor(transformer.value, type)
-                    //     ])
-                    // }
+                    if (transRef.ref === 'equal') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'true/false')]),
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                        ])
+                    }
                     if (transRef.ref === 'add') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
@@ -832,6 +832,24 @@ function editor(appDefinition){
                         ])
                     }
                     if (transRef.ref === 'subtract') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                        ])
+                    }
+                    if (transRef.ref === 'multiply') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                        ])
+                    }
+                    if (transRef.ref === 'divide') {
+                        return h('div', {}, [
+                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                        ])
+                    }
+                    if (transRef.ref === 'remainder') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
                             h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
@@ -1376,22 +1394,38 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeList') {
-                    return h('div', {
-                        style: {
-                            textAlign: 'center',
-                            marginTop: '100px',
-                            color: '#bdbdbd'
-                        }
-                    }, 'TODO ADD PROPS')
+                    return h('div',[
+                        h('div', {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
+                            h('span', {style: {flex: '1'}}, 'table'),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'table')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'table')])
+                    ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeIf') {
-                    return h('div', {
-                        style: {
-                            textAlign: 'center',
-                            marginTop: '100px',
-                            color: '#bdbdbd'
-                        }
-                    }, 'TODO ADD PROPS')
+                    return h('div',[
+                        h('div', {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
+                            h('span', {style: {flex: '1'}}, 'predicate'),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'true/false')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'boolean')])
+                    ])
                 }
             })()])
             const genstyleSubmenuComponent = () => {
