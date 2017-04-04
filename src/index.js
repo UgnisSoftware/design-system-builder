@@ -286,6 +286,33 @@ function editor(appDefinition){
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 }})
         }
+        if(type === 'if'){
+            const pipeId = uuid()
+            const newNode = {
+                title: 'conditional',
+                value: {ref:'pipe', id:pipeId},
+                children: [],
+            }
+            const newPipe = {
+                type: 'boolean',
+                value: true,
+                transformations: []
+            }
+            return setState({
+                ...state,
+                selectedViewNode: {ref:'vNodeIf', id: newNodeId},
+                definition: nodeRef.ref === 'vNodeIf' ? {
+                    ...state.definition,
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    vNodeIf: {...state.definition.vNodeIf, [nodeId]: {...state.definition.vNodeIf[nodeId], children: state.definition.vNodeIf[nodeId].children.concat({ref:'vNodeIf', id:newNodeId})}, [newNodeId]: newNode},
+                } : {
+                    ...state.definition,
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeIf', id:newNodeId})}},
+                    vNodeIf: {...state.definition.vNodeIf, [newNodeId]: newNode},
+                }
+            })
+        }
         if(type === 'input') {
             const stateId = uuid()
             const eventId = uuid()
@@ -502,6 +529,9 @@ function editor(appDefinition){
             } catch(err) {
                 return;
             }
+        }
+        if(type === 'boolean'){
+            value = (value === true || value === 'true') ? true : false
         }
         setState({...state, definition:{
             ...state.definition,
@@ -822,37 +852,37 @@ function editor(appDefinition){
                     if (transRef.ref === 'equal') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'true/false')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, type)])
                         ])
                     }
                     if (transRef.ref === 'add') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'subtract') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'multiply') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'divide') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'remainder') {
                         return h('div', {}, [
                             h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
+                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     // if (transRef.ref === 'branch') {
@@ -934,6 +964,13 @@ function editor(appDefinition){
                 ])
             }
 
+            if (pipe.value === true || pipe.value === false) {
+                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {input:  [CHANGE_STATIC_VALUE, ref, 'value', 'boolean']}}, [
+                    h('option', {attrs: {value: 'true'}, style: {color: 'black'}}, ['true']),
+                    h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
+                ])
+            }
+
             if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
                 return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
@@ -978,7 +1015,7 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
+                    //h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
                 ])
             }
             if(pipe.value.ref === 'listValue'){
@@ -1606,7 +1643,8 @@ function editor(appDefinition){
             h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', padding: '0 10px'}}, 'add component: '),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon])
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon]),
         ])
 
         const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
