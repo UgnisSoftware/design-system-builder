@@ -1,6 +1,8 @@
 
 filter _____               -> table
-map ____                   -> table
+? transform ____                   -> table
+? map ____                   -> table
+? each ____                   -> table
 
 set __id__                 -> table
 delete __id__              -> table
