@@ -468,21 +468,22 @@ function editor(appDefinition){
     function EDIT_VIEW_NODE_TITLE(nodeId) {
         setState({...state, editingTitleNodeId:nodeId})
     }
-    function EDIT_EVENT_TITLE(nodeId) {
-        setState({...state, editingTitleNodeId:nodeId})
-    }
-    function CHANGE_EVENT_TITLE(nodeId, e) {
-        e.preventDefault();
+    function DELETE_SELECTED_VIEW(nodeRef, parentRef, e) {
+        e.stopPropagation()
+        if(nodeRef.id === '_rootNode'){
+            if(state.definition.vNodeBox['_rootNode'].children.length === 0){
+                return;
+            }
+            // immutably remove all nodes except rootNode
+            return setState({...state, definition: {
+                ...state.definition,
+                vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
+            }, selectedViewNode: {}}, true)
+        }
         setState({...state, definition: {
             ...state.definition,
-            event: {
-                ...state.definition.event,
-                [nodeId]: {
-                    ...state.definition.event[nodeId],
-                    title: e.target.value
-                }
-            },
-        }})
+            [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
+        }, selectedViewNode: {}}, true)
     }
     function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
         e.preventDefault();
@@ -1015,7 +1016,7 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    //h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
+                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
                 ])
             }
             if(pipe.value.ref === 'listValue'){
@@ -1225,7 +1226,7 @@ function editor(appDefinition){
 
         const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
 
-        function listBoxNode(nodeRef, depth) {
+        function listBoxNode(nodeRef, parentRef, depth) {
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             function editingNode() {
@@ -1289,15 +1290,16 @@ function editor(appDefinition){
                         style: { display: closed ? 'none': 'block', transition: 'border-color 0.2s'},
                     }, [
                         ...node.children.map((ref)=>{
-                            if(ref.ref === 'vNodeText') return simpleNode(ref, depth+1)
-                            if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, depth+1)
-                            if(ref.ref === 'vNodeInput') return simpleNode(ref, depth+1)
+                            if(ref.ref === 'vNodeText') return simpleNode(ref, nodeRef, depth+1)
+                            if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, nodeRef, depth+1)
+                            if(ref.ref === 'vNodeInput') return simpleNode(ref, nodeRef, depth+1)
                         }),
+                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0', padding:'1px 5px'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                     ]),
                 ]
             )
         }
-        function simpleNode(nodeRef, depth) {
+        function simpleNode(nodeRef, parentRef, depth) {
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             function editingNode() {
@@ -1344,7 +1346,7 @@ function editor(appDefinition){
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
                         h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}}, node.title),
-
+                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0', padding:'1px 5px'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                 ]
             )
         }
@@ -1654,7 +1656,7 @@ function editor(appDefinition){
         ])
 
         const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
-            listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, 0),
+            listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
         const rightComponent =
