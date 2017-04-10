@@ -730,26 +730,26 @@ function editor(appDefinition){
         }
     }
 
-    const boxIcon = h('svg', {
+    const boxIcon = () => h('svg', {
             attrs: {width: 14, height: 15},
             style: { cursor: 'pointer', padding: '0 7px 0 0'},
         },
         [
             h('rect', {attrs: {x: 2, y: 2, width: 12, height: 12, fill: 'none', transition: 'all 0.2s', stroke: 'currentcolor', 'stroke-width': '2'}}),
         ])
-    const ifIcon = h('svg', {
+    const ifIcon = () => h('svg', {
         attrs: {width: 14, height: 14},
         style: { cursor: 'pointer', padding: '0 7px 0 0'},
     }, [
         h('text', {attrs: { x:3, y:14, fill: 'currentcolor'}}, '?'),
     ])
-    const numberIcon = h('svg', {
+    const numberIcon = () => h('svg', {
         attrs: {width: 14, height: 14},
         style: { cursor: 'pointer', padding: '0 7px 0 0'},
     }, [
         h('text', {attrs: { x:0, y:14, fill: 'currentcolor'}}, '№'),
     ])
-    const listIcon = h('svg', {
+    const listIcon = () => h('svg', {
             attrs: {width: 14, height: 14},
             style: { cursor: 'pointer', padding: '0 7px 0 0'},
         },
@@ -761,7 +761,7 @@ function editor(appDefinition){
             h('circle', {attrs: {r: 2, cx: 2, cy: 12, transition: 'all 0.2s', fill: 'currentcolor',}}),
             h('rect', {attrs: {x: 6, y: 11, width: 8, transition: 'all 0.2s', height: 2, fill:'currentcolor',}}),
         ])
-    const inputIcon = h('svg', {
+    const inputIcon = () => h('svg', {
             attrs: {viewBox: '0 0 16 16', width: 14, height: 14},
             style: { cursor: 'pointer', padding: '0 7px 0 0'},
         },
@@ -771,14 +771,14 @@ function editor(appDefinition){
             h('path', {attrs: {d: 'm 9.8114827,11.738562 c -0.156747,0.350551 -0.5074894,0.593546 -0.9157594,0.592829 l -7.5988307,-0.01733 0.020051,-2.005093 7.5836941,0.02219 c 0.552448,0.0016 0.9993074,0.450122 0.9976564,1.00257 -2.1e-5,0.144585 -0.0313,0.280673 -0.08681,0.404827 z', fill: 'currentcolor'}}),
             h('path', {attrs: {d: 'm 1.2940583,12.239836 0.01704,-9.4450947 1.9714852,0.024923 -0.021818,9.4262797 z', fill: 'currentcolor'}}),
         ])
-    const textIcon = h('svg', {
+    const textIcon = () => h('svg', {
             attrs: {viewBox: '0 0 300 300', width: 14, height: 14},
             style: { cursor: 'pointer', padding: '0 7px 0 0'},
         },
         [
             h('path', {attrs: {d: 'M 0 0 L 0 85.8125 L 27.03125 85.8125 C 36.617786 44.346316 67.876579 42.179793 106.90625 42.59375 L 106.90625 228.375 C 107.31101 279.09641 98.908386 277.33602 62.125 277.5 L 62.125 299.5625 L 149 299.5625 L 150.03125 299.5625 L 236.90625 299.5625 L 236.90625 277.5 C 200.12286 277.336 191.72024 279.09639 192.125 228.375 L 192.125 42.59375 C 231.15467 42.17975 262.41346 44.346304 272 85.8125 L 299.03125 85.8125 L 299.03125 0 L 150.03125 0 L 149 0 L 0 0 z', fill: 'currentcolor'}})
         ])
-    const folderIcon = h('svg', {
+    const folderIcon = () => h('svg', {
             attrs: {viewBox: '0 0 24 24', width: 14, height: 14, fill: 'currentcolor'},
             style: { cursor: 'pointer', padding: '0 7px 0 0'},
         },
@@ -1165,7 +1165,7 @@ function editor(appDefinition){
                             ])
                             if(currentState.type === 'table') {
                                 if(state.selectedStateNodeId !== stateId){
-                                    return h('div', {key: 'icon',on: {click: [STATE_NODE_SELECTED, stateId]}, style: {display: 'flex', alignItems: 'center', marginTop: '7px'}}, [listIcon])
+                                    return h('div', {key: 'icon',on: {click: [STATE_NODE_SELECTED, stateId]}, style: {display: 'flex', alignItems: 'center', marginTop: '7px'}}, [listIcon()])
                                 }
                                 const table = currentRunningState[stateId];
                                 return h('div', {
@@ -1208,11 +1208,11 @@ function editor(appDefinition){
                                         minWidth: '100%',
                                     }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
                                         h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
-                                            event.emitter.ref === 'vNodeBox' ? boxIcon :
-                                                event.emitter.ref === 'vNodeList' ? listIcon :
-                                                    event.emitter.ref === 'vNodeList' ? ifIcon :
-                                                        event.emitter.ref === 'vNodeInput' ? inputIcon :
-                                                            textIcon,
+                                            event.emitter.ref === 'vNodeBox' ? boxIcon() :
+                                                event.emitter.ref === 'vNodeList' ? listIcon() :
+                                                    event.emitter.ref === 'vNodeList' ? ifIcon() :
+                                                        event.emitter.ref === 'vNodeInput' ? inputIcon() :
+                                                            textIcon(),
                                         ]),
                                         h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, emitter.title),
                                         h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
@@ -1269,18 +1269,18 @@ function editor(appDefinition){
                         whiteSpace: 'nowrap',
                         paddingBottom: '3px',
                     }}, [
-                        nodeRef.ref === 'vNodeBox' && node.children.length > 0 ? h('svg', {
+                        h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-3px'},
+                                style: { cursor: 'pointer', display: nodeRef.ref === 'vNodeBox' && node.children.length > 0 ? 'initial': 'none', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s', marginLeft: '-3px'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, nodeId]
                                 },
                             },
-                            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]): h('span'),
-                        h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
-                            nodeRef.ref === 'vNodeBox' ? boxIcon :
-                                nodeRef.ref === 'vNodeList' ? listIcon :
-                                    ifIcon
+                            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
+                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
+                            nodeRef.ref === 'vNodeBox' ? boxIcon() :
+                                nodeRef.ref === 'vNodeList' ? listIcon() :
+                                    ifIcon()
                         ]),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
@@ -1340,8 +1340,8 @@ function editor(appDefinition){
                     on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
                 }, [
                     h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}}, [
-                        nodeRef.ref === 'vNodeInput' ? inputIcon :
-                            textIcon
+                        nodeRef.ref === 'vNodeInput' ? inputIcon() :
+                            textIcon()
                     ]),
                     state.editingTitleNodeId === nodeId ?
                         editingNode():
@@ -1617,11 +1617,11 @@ function editor(appDefinition){
                             minWidth: '100%',
                         }}, [
                             h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
-                                state.selectedViewNode.ref === 'vNodeBox' ? boxIcon :
-                                    state.selectedViewNode.ref === 'vNodeList' ? listIcon :
-                                        state.selectedViewNode.ref === 'vNodeList' ? ifIcon :
-                                            state.selectedViewNode.ref === 'vNodeInput' ? inputIcon :
-                                                textIcon,
+                                state.selectedViewNode.ref === 'vNodeBox' ? boxIcon() :
+                                    state.selectedViewNode.ref === 'vNodeList' ? listIcon() :
+                                        state.selectedViewNode.ref === 'vNodeList' ? ifIcon() :
+                                            state.selectedViewNode.ref === 'vNodeInput' ? inputIcon() :
+                                                textIcon(),
                             ]),
                             h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
                             h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white'}, on: {click: [UNSELECT_VIEW_NODE]}}, 'x'),
@@ -1639,20 +1639,20 @@ function editor(appDefinition){
 
         const addStateComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
             h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
-            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'folder']}}, [folderIcon]),
+            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'folder']}}, [folderIcon()]),
         ])
 
 
         const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
             h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', padding: '0 10px'}}, 'add component: '),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
         const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
@@ -1819,11 +1819,11 @@ function editor(appDefinition){
                                 minWidth: '100%',
                             }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
                                 h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
-                                    event.emitter.ref === 'vNodeBox' ? boxIcon :
-                                        event.emitter.ref === 'vNodeList' ? listIcon :
-                                            event.emitter.ref === 'vNodeList' ? ifIcon :
-                                                event.emitter.ref === 'vNodeInput' ? inputIcon :
-                                                    textIcon,
+                                    event.emitter.ref === 'vNodeBox' ? boxIcon() :
+                                        event.emitter.ref === 'vNodeList' ? listIcon() :
+                                            event.emitter.ref === 'vNodeList' ? ifIcon() :
+                                                event.emitter.ref === 'vNodeInput' ? inputIcon() :
+                                                    textIcon(),
                                 ]),
                                 h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
                                 h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
