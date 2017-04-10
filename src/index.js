@@ -1076,10 +1076,16 @@ function editor(appDefinition){
                         position: 'relative',
                     }
                 }, [
-                    h('div', [
+                    h('div',  {
+                        style: {
+                            fontSize: '0.8em',
+                            display: 'flex',
+                            alignItems: 'center',
+                        }
+                    }, [
                         h('svg', {
                                 attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '0 5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
+                                style: { cursor: 'pointer', padding: '5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
                                 on: {
                                     click: [VIEW_FOLDER_CLICKED, stateId]
                                 },
@@ -1087,7 +1093,7 @@ function editor(appDefinition){
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'fill 0.2s'}})]),
                         state.editingTitleNodeId === stateId ?
                             editingNode():
-                            h('span', { style: { cursor: 'pointer'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, [h('span', {style: {color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'color 0.2s'}}, currentNameSpace.title)]),
+                            h('span', {style: { cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'color 0.2s'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentNameSpace.title),
                     ]),
                     h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', paddingBottom: '5px', transition: 'border-color 0.2s'}}, [
                         ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
@@ -1647,7 +1653,7 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
             listBoxNode({ref: 'vNodeBox', id:'_rootNode'}, 0),
         ])
 
