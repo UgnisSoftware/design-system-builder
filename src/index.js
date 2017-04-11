@@ -55,6 +55,8 @@ function editor(appDefinition){
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
+        draggedComponent: null,
+        mousePosition: {},
         eventStack: [],
         definition: savedDefinition || app.definition,
     }
@@ -157,6 +159,42 @@ function editor(appDefinition){
     })
 
     // Actions
+    function VIEW_DRAGGED(nodeRef, e) {
+        e.preventDefault()
+        const initialX = e.touches? e.touches[0].pageX: e.pageX
+        const initialY = e.touches? e.touches[0].pageY: e.pageY
+
+        function drag(e){
+            e.preventDefault()
+            const x = e.touches? e.touches[0].pageX: e.pageX
+            const y = e.touches? e.touches[0].pageY: e.pageY
+            if(!state.draggedComponent){
+                if(Math.abs(initialY-y) > 3){
+                    setState({...state, draggedComponent: nodeRef, mousePosition: {x, y}})
+                }
+            } else {
+                setState({...state, mousePosition: {x, y}})
+            }
+            return false
+        }
+        window.addEventListener('mousemove', drag)
+        window.addEventListener('touchmove', drag)
+        function stopDragging(e){
+            e.preventDefault()
+            window.removeEventListener('mousemove', drag)
+            window.removeEventListener('touchmove', drag)
+            window.removeEventListener('mouseup', stopDragging)
+            window.removeEventListener('touchend', stopDragging)
+            if(!state.draggedComponent){
+                VIEW_NODE_SELECTED(nodeRef)
+            }
+            setState({...state, draggedComponent: null})
+            return false
+        }
+        window.addEventListener('mouseup', stopDragging)
+        window.addEventListener('touchend', stopDragging)
+        return false
+    }
     function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
         function resize(e){
@@ -1273,14 +1311,14 @@ function editor(appDefinition){
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
-                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
+                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef],}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
                                     ifIcon()
                         ]),
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
-                            h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
+                            h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                         h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0', padding:'1px 5px'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                     ]),
                     h('div', {
@@ -1331,9 +1369,9 @@ function editor(appDefinition){
                         borderBottom: '2px solid #333',
                         paddingTop: '1px',
                         whiteSpace: 'nowrap',
-                        paddingBottom: '3px'
+                        paddingBottom: '3px',
                     },
-                    on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
+                    on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
                 }, [
                     h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}}, [
                         nodeRef.ref === 'vNodeInput' ? inputIcon() :
@@ -1899,6 +1937,7 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
+            state.draggedComponent ? h('div', {style: {position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', background: '#4d4d4d', zIndex: '99999'}}, ['drag']): h('span'),
         ])
 
         node = patch(node, vnode)
