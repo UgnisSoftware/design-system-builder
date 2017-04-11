@@ -917,26 +917,22 @@ function editor(appDefinition){
                 })
             }
 
-            function genTransformators(type) {
-                if(type === 'text'){
-                    return [
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: state.selectedStateNodeId ? '2px solid white' : '2px solid #bdbdbd', color: state.selectedStateNodeId ? 'white' : '#bdbdbd',}, on: {click: [CHANGE_PIPE_VALUE_TO_STATE, ref.id]}}, 'change to state'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'join']}}, 'join'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toUpperCase']}}, 'to Upper case'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toLowerCase']}}, 'to Lower case'),
-                    ]
-                }
-                if(type === 'number'){
-                    return [
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: state.selectedStateNodeId ? '2px solid white' : '2px solid #bdbdbd', color: state.selectedStateNodeId  ? 'white' : '#bdbdbd',}, on: {click: [CHANGE_PIPE_VALUE_TO_STATE, ref.id]}}, 'change to state'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'toText']}}, 'to text'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'add']}}, 'add'),
-                        h('div', {style: {padding: '5px 10px', display: 'inline-block', borderRadius: '10px', margin: '5px', cursor: 'pointer', border: '2px solid white'}, on: {click: [ADD_TRANSFORMATION, ref.id, 'subtract']}}, 'subtract'),
-                    ]
-                }
+            function genTransformators() {
+                const selectedPipe = state.definition.pipe[state.selectedPipeId]
+                return [h('div', {style: {
+                    position: 'fixed',
+                    top: '0px',
+                    left: '-307px',
+                    height: '100%',
+                    width: '300px',
+                    display: 'flex',
+                }}, [
+                    h('div',{style: {border: '3px solid #222', flex: '1 1 0%', background: '#4d4d4d', marginBottom: '10px'}}, [selectedPipe.type])
+                ])]
             }
+            if(state.selectedPipeId === ref.id) console.log(ref.id)
             if (typeof pipe.value === 'string') {
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
                             style: {
                                 background: 'none',
@@ -961,7 +957,7 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators('text'): [])
+                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
 
@@ -973,7 +969,7 @@ function editor(appDefinition){
             }
 
             if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
                             attrs: {type:'number'},
                             style: {
@@ -999,13 +995,13 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators('number'): [])
+                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('div', {style: {flex: '1'}},
                         [
                             h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
@@ -1016,7 +1012,7 @@ function editor(appDefinition){
                     h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? pipe.transformations.length === 0 ? genTransformators(displState.type): pipe.transformations[pipe.transformations.length-1].ref === 'add' || pipe.transformations[pipe.transformations.length-1].ref === 'subtract'? genTransformators('number') : genTransformators('text'): [])
+                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
             if(pipe.value.ref === 'listValue'){
@@ -1601,11 +1597,11 @@ function editor(appDefinition){
                     transform: 'translate(-100%, 0)',
                     marginRight: '8px',
                     top: '50%',
-                    height: '49.5%',
+                    height: '50%',
                     display: 'flex',
                 }
             }, [
-                h('div', {style: {flex: '1', display: 'flex', flexDirection: 'column', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
+                h('div', {style: {flex: '1', display: 'flex', marginBottom: '10px', flexDirection: 'column', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
                     h('div', {style: {flex: '0 0 auto',}}, [
                         h('div', {style: {
                             display: 'flex',
