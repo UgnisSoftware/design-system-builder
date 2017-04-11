@@ -240,7 +240,6 @@ function editor(appDefinition){
         const newNodeId = uuid()
         const newStyleId = uuid()
         const newStyle = {
-            padding: '10px',
         }
         if(type === 'box') {
             const newNode = {
