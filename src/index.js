@@ -1266,6 +1266,7 @@ function editor(appDefinition){
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
                         paddingTop: '1px',
+                        position: 'relative',
                         whiteSpace: 'nowrap',
                         paddingBottom: '3px',
                     }}, [
@@ -1285,6 +1286,7 @@ function editor(appDefinition){
                         state.editingTitleNodeId === nodeId ?
                             editingNode():
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
+                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0', padding:'1px 5px'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                     ]),
                     h('div', {
                         style: { display: closed ? 'none': 'block', transition: 'border-color 0.2s'},
@@ -1294,7 +1296,6 @@ function editor(appDefinition){
                             if(ref.ref === 'vNodeBox' || ref.ref === 'vNodeList' || ref.ref === 'vNodeIf') return listBoxNode(ref, nodeRef, depth+1)
                             if(ref.ref === 'vNodeInput') return simpleNode(ref, nodeRef, depth+1)
                         }),
-                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'block': 'none', position: 'absolute', right: '5px', top: '0', padding:'1px 5px'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, 'x'),
                     ]),
                 ]
             )
