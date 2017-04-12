@@ -62,6 +62,7 @@ function editor(appDefinition){
     }
     // undo/redo
     let stateStack = [state.definition]
+    let currentAnimationFrameRequest = null;
     function setState(newState){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
@@ -94,7 +95,9 @@ function editor(appDefinition){
             }, 0)
         }
         state = newState
-        render()
+        if(!currentAnimationFrameRequest){
+            window.requestAnimationFrame(render)
+        }
     }
     document.addEventListener('click', (e)=> {
         // clicked outside
@@ -1311,7 +1314,7 @@ function editor(appDefinition){
                                 },
                             },
                             [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'fill 0.2s'}})]),
-                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef],}}, [
+                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef],}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
                                     ifIcon()
@@ -1370,10 +1373,12 @@ function editor(appDefinition){
                         paddingTop: '1px',
                         whiteSpace: 'nowrap',
                         paddingBottom: '3px',
+                        display: 'flex',
+                        alignItems: 'center',
                     },
                     on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
                 }, [
-                    h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd'}}, [
+                    h('span', {style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}}, [
                         nodeRef.ref === 'vNodeInput' ? inputIcon() :
                             textIcon()
                     ]),
@@ -1937,10 +1942,11 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponent ? h('div', {style: {position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', background: '#4d4d4d', zIndex: '99999'}}, ['drag']): h('span'),
+            state.draggedComponent ? h('div', {style: {position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', background: '#444', zIndex: '99999', width: state.editorRightWidth + 'px', height: '23px', borderTop: '2px solid #4d4d4d', borderBottom: '2px solid #333', color: 'white'}}, ['drag']): h('span'),
         ])
 
         node = patch(node, vnode)
+        currentAnimationFrameRequest = null;
     }
 
     render()
