@@ -164,6 +164,7 @@ function editor(appDefinition){
     // Actions
     function VIEW_DRAGGED(nodeRef, e) {
         e.preventDefault()
+        const isArrow = e.target.dataset.closearrow
         const initialX = e.touches? e.touches[0].pageX: e.pageX
         const initialY = e.touches? e.touches[0].pageY: e.pageY
         const position = this.elm.getBoundingClientRect()
@@ -184,14 +185,17 @@ function editor(appDefinition){
         }
         window.addEventListener('mousemove', drag)
         window.addEventListener('touchmove', drag)
-        function stopDragging(e){
-            e.preventDefault()
+        function stopDragging(event){
+            event.preventDefault()
             window.removeEventListener('mousemove', drag)
             window.removeEventListener('touchmove', drag)
             window.removeEventListener('mouseup', stopDragging)
             window.removeEventListener('touchend', stopDragging)
+            if(event.target === e.target && isArrow){
+                return VIEW_FOLDER_CLICKED(nodeRef.id)
+            }
             if(!state.draggedComponent){
-                VIEW_NODE_SELECTED(nodeRef)
+                return VIEW_NODE_SELECTED(nodeRef)
             }
             setState({...state, draggedComponent: null})
             return false
@@ -781,7 +785,7 @@ function editor(appDefinition){
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
-    const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons'}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
+    const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
 
     function render() {
         const currentRunningState = app.getCurrentState()
@@ -1307,7 +1311,7 @@ function editor(appDefinition){
                         paddingBottom: '2px',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                     }, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef]}}, [
-                        h('span', { style: {display: 'inline-flex'}, on: {click: [VIEW_FOLDER_CLICKED, nodeId]}}, [arrowIcon(state.viewFoldersClosed[nodeId])]),
+                        h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId])]),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
