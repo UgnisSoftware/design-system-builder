@@ -930,7 +930,6 @@ function editor(appDefinition){
                     h('div',{style: {border: '3px solid #222', flex: '1 1 0%', background: '#4d4d4d', marginBottom: '10px'}}, [selectedPipe.type])
                 ])]
             }
-            if(state.selectedPipeId === ref.id) console.log(ref.id)
             if (typeof pipe.value === 'string') {
                 return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('input', {
