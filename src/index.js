@@ -291,15 +291,9 @@ function editor(appDefinition){
         const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
         const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
         const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: 0}})
-        const insertAsLast  = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).length - 1}})
 
         if(nodeRef.id === '_rootNode'){
             return insertAsFirst()
-        }
-        if(nodeRef.id === '_lastChild'){
-            if(hitPosition > 0.8){
-                return insertAsLast()
-            }
         }
         // pray to god that you did not make a mistake here
         if(state.definition[nodeRef.ref][nodeRef.id].children){ // if box
