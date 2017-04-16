@@ -187,7 +187,7 @@ function editor(appDefinition){
 
     // Actions
     let openBoxTimeout = null
-    function VIEW_DRAGGED(nodeRef, parentRef, e) {
+    function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
         e.preventDefault()
         const isArrow = e.target.dataset.closearrow
         const initialX = e.touches? e.touches[0].pageX: e.pageX
@@ -201,7 +201,7 @@ function editor(appDefinition){
             const y = e.touches? e.touches[0].pageY: e.pageY
             if(!state.draggedComponent){
                 if(Math.abs(initialY-y) > 3){
-                    setState({...state, draggedComponent: nodeRef, mousePosition: {x: x - offsetX, y: y - offsetY}, viewFoldersClosed:{...state.viewFoldersClosed, [nodeRef.id]: true}})
+                    setState({...state, draggedComponent: {...nodeRef, depth: initialDepth}, mousePosition: {x: x - offsetX, y: y - offsetY}})
                 }
             } else {
                 setState({...state, mousePosition: {x: x - offsetX, y: y - offsetY}})
@@ -220,7 +220,6 @@ function editor(appDefinition){
                 clearTimeout(openBoxTimeout)
                 openBoxTimeout = null
             }
-
             if(!state.draggedComponent){
                 if(event.target === e.target && isArrow){
                     return VIEW_FOLDER_CLICKED(nodeRef.id)
@@ -289,26 +288,30 @@ function editor(appDefinition){
             return setState({...state, hoveredViewNode: null,})
         }
         const hitPosition = (e.touches? e.touches[0].layerY: e.layerY) / 28
-        const insertBefore = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
-        const insertAfter = ()=>  setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
-        const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth, position: 0}})
+        const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
+        const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
+        const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: 0}})
+        const insertAsLast  = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).length - 1}})
 
         if(nodeRef.id === '_rootNode'){
             return insertAsFirst()
         }
+        if(nodeRef.id === '_lastChild'){
+            if(hitPosition > 0.8){
+                return insertAsLast()
+            }
+        }
         // pray to god that you did not make a mistake here
         if(state.definition[nodeRef.ref][nodeRef.id].children){ // if box
             if(state.viewFoldersClosed[nodeRef.id] || state.definition[nodeRef.ref][nodeRef.id].children.length === 0){ // if closed or empty box
-                if(hitPosition < 0.2){
+                if(hitPosition < 0.3){
                     insertBefore()
-                } else if (hitPosition < 0.8){
+                } else {
                     if(!openBoxTimeout){
-                        openBoxTimeout = setTimeout(()=>VIEW_FOLDER_CLICKED(nodeRef.id), 500)
+                        openBoxTimeout = setTimeout(()=>VIEW_FOLDER_CLICKED(nodeRef.id, false), 500)
                     }
                     insertAsFirst()
                     return
-                } else {
-                    insertAfter()
                 }
             } else { // open box
                 if(hitPosition < 0.5){
@@ -370,8 +373,8 @@ function editor(appDefinition){
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
     }
-    function VIEW_FOLDER_CLICKED(nodeId) {
-        setState({...state, viewFoldersClosed:{...state.viewFoldersClosed, [nodeId]: !state.viewFoldersClosed[nodeId]}})
+    function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
+        setState({...state, viewFoldersClosed:{...state.viewFoldersClosed, [nodeId]: forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId]}})
     }
     function VIEW_NODE_SELECTED(ref) {
         setState({...state, selectedViewNode:ref})
@@ -1391,7 +1394,7 @@ function editor(appDefinition){
                         height: '26px',
                         whiteSpace: 'nowrap',
                     },
-                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 0], touchmove: [VIEW_HOVERED, nodeRef, {}, 0]}
+                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [VIEW_HOVERED, nodeRef, {}, 1]}
                     },  [
                         h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
                             appIcon()
@@ -1400,7 +1403,16 @@ function editor(appDefinition){
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
-                    ...node.children.map((ref)=>listNode(ref, nodeRef, 1)),
+                    h('div', state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) === state.hoveredViewNode.position) ?
+                        (()=>{
+                            // copy pasted from listBoxNode
+                            const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponent.id)
+                            const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                            const children = node.children.map((ref)=>listNode(ref, nodeRef, 1))
+                            return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
+                        })():
+                        node.children.map((ref)=>listNode(ref, nodeRef, 1))
+                    ),
                 ]
             )
         }
@@ -1411,20 +1423,23 @@ function editor(appDefinition){
             return h('div', {style: {
                     opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
                 }}, [
-                    h('div', {style: {
-                        display: 'flex',
-                        height: '26px',
-                        position: 'relative',
-                        alignItems: 'center',
-                        paddingLeft: (depth - (node.children.length > 0 ? 1: 0)) *20 + 8+ 'px',
-                        paddingRight: '8px',
-                        background: '#444',
-                        borderTop: '2px solid #4d4d4d',
-                        borderBottom: '2px solid #333',
-                        whiteSpace: 'nowrap',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
-                    }, on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef], touchstart: [VIEW_DRAGGED, nodeRef, parentRef], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}}, [
-                        node.children.length > 0 ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId])]): h('span'),
+                    h('div', {
+                        key: nodeId,
+                        style: {
+                            display: 'flex',
+                            height: '26px',
+                            position: 'relative',
+                            alignItems: 'center',
+                            paddingLeft: (depth - (node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? 1: 0)) *20 + 8+ 'px',
+                            paddingRight: '8px',
+                            background: '#444',
+                            borderTop: '2px solid #4d4d4d',
+                            borderBottom: '2px solid #333',
+                            whiteSpace: 'nowrap',
+                            color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
+                        },
+                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}}, [
+                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponent && nodeId === state.draggedComponent.id))]): h('span'),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
@@ -1436,10 +1451,17 @@ function editor(appDefinition){
                         h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
                     ]),
                     h('div', {
-                        style: { display: state.viewFoldersClosed[nodeId] ? 'none': 'block', transition: 'border-color 0.2s'},
-                    }, [
-                        ...node.children.map((ref)=>listNode(ref, nodeRef, depth+1)),
-                    ]),
+                            style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponent && nodeId === state.draggedComponent.id) ? 'none': 'block'},
+                        }, state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) === state.hoveredViewNode.position) ?
+                            (()=>{
+                                // adds a fake component
+                                const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) // this is needed because we still show the old node
+                                const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                                const children = node.children.map((ref)=>listNode(ref, nodeRef, depth+1))
+                                return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
+                            })():
+                            node.children.map((ref)=>listNode(ref, nodeRef, depth+1))
+                    ),
                 ]
             )
         }
@@ -1447,6 +1469,7 @@ function editor(appDefinition){
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             return h('div', {
+                    key: nodeId,
                     style: {
                         cursor: 'pointer',
                         opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
@@ -1462,7 +1485,7 @@ function editor(appDefinition){
                         alignItems: 'center',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
                     },
-                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef], touchstart: [VIEW_DRAGGED, nodeRef, parentRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}
+                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}
                 }, [
                     nodeRef.ref === 'vNodeInput' ? inputIcon() :
                         textIcon(),
@@ -1474,16 +1497,28 @@ function editor(appDefinition){
             )
         }
 
-        function fakeComponent(nodeRef, depth) {
+        function spacerComponent(){
+            return h('div', {
+                style: {
+                    //marginBottom: '-6px',
+                    zIndex: '100',
+                    height: '6px',
+                    boxShadow: 'inset 0 0 1px 1px #53B2ED',
+                },
+            })
+        }
+        function fakeComponent(nodeRef, depth,) {
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             return h('div', {
+                    key: '_fake'+nodeId,
                     style: {
                         cursor: 'pointer',
+                        transition: 'padding-left 0.2s',
                         height: '26px',
                         paddingLeft: (depth - (node.children && node.children.length > 0 ? 1: 0)) *20 + 8 +'px',
                         paddingRight: '8px',
-                        background: '#444',
+                        background: 'rgba(68,68,68,0.8)',
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
                         whiteSpace: 'nowrap',
@@ -1492,7 +1527,7 @@ function editor(appDefinition){
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
                     },
                 }, [
-                    (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0  ? arrowIcon(true): h('span'),
+                    (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0  ? arrowIcon(true): h('span', {key: '_fakeSpan'+nodeId}),
                     nodeRef.ref === 'vNodeBox' ? boxIcon() :
                         nodeRef.ref === 'vNodeList' ? listIcon() :
                             nodeRef.ref === 'vNodeIf' ? ifIcon():
@@ -2055,7 +2090,7 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponent ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', background: '#444', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponent, 0)])]): h('span'),
+            state.draggedComponent ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponent, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponent.depth)])]): h('span'),
         ])
 
         node = patch(node, vnode)
