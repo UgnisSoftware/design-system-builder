@@ -26,6 +26,29 @@ big.E_POS = 1e+6
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
 
+function moveInArray (array, moveIndex, toIndex) {
+    let item = array[moveIndex];
+    let length = array.length;
+    let diff = moveIndex - toIndex;
+
+    if (diff > 0) {
+        return [
+            ...array.slice(0, toIndex),
+            item,
+            ...array.slice(toIndex, moveIndex),
+            ...array.slice(moveIndex + 1, length)
+        ];
+    } else if (diff < 0) {
+        return [
+            ...array.slice(0, moveIndex),
+            ...array.slice(moveIndex + 1, toIndex + 1),
+            item,
+            ...array.slice(toIndex + 1, length)
+        ];
+    }
+    return array;
+}
+
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
@@ -56,6 +79,7 @@ function editor(appDefinition){
         editingTitleNodeId: '',
         viewFoldersClosed: {},
         draggedComponent: null,
+        hoveredViewNode: null,
         mousePosition: {},
         eventStack: [],
         definition: savedDefinition || app.definition,
@@ -162,7 +186,8 @@ function editor(appDefinition){
     })
 
     // Actions
-    function VIEW_DRAGGED(nodeRef, e) {
+    let openBoxTimeout = null
+    function VIEW_DRAGGED(nodeRef, parentRef, e) {
         e.preventDefault()
         const isArrow = e.target.dataset.closearrow
         const initialX = e.touches? e.touches[0].pageX: e.pageX
@@ -176,7 +201,7 @@ function editor(appDefinition){
             const y = e.touches? e.touches[0].pageY: e.pageY
             if(!state.draggedComponent){
                 if(Math.abs(initialY-y) > 3){
-                    setState({...state, draggedComponent: nodeRef, mousePosition: {x: x - offsetX, y: y - offsetY}})
+                    setState({...state, draggedComponent: nodeRef, mousePosition: {x: x - offsetX, y: y - offsetY}, viewFoldersClosed:{...state.viewFoldersClosed, [nodeRef.id]: true}})
                 }
             } else {
                 setState({...state, mousePosition: {x: x - offsetX, y: y - offsetY}})
@@ -191,18 +216,118 @@ function editor(appDefinition){
             window.removeEventListener('touchmove', drag)
             window.removeEventListener('mouseup', stopDragging)
             window.removeEventListener('touchend', stopDragging)
-            if(event.target === e.target && isArrow){
-                return VIEW_FOLDER_CLICKED(nodeRef.id)
+            if(openBoxTimeout){
+                clearTimeout(openBoxTimeout)
+                openBoxTimeout = null
             }
+
             if(!state.draggedComponent){
+                if(event.target === e.target && isArrow){
+                    return VIEW_FOLDER_CLICKED(nodeRef.id)
+                }
                 return VIEW_NODE_SELECTED(nodeRef)
             }
-            setState({...state, draggedComponent: null})
+            if(!state.hoveredViewNode){
+                return setState({...state, draggedComponent: null,})
+            }
+            const newParentRef = state.hoveredViewNode.parent
+            setState({
+                ...state,
+                draggedComponent: null,
+                hoveredViewNode: null,
+                definition: parentRef.id === newParentRef.id ? { // moving in the same parent
+                    ...state.definition,
+                    [parentRef.ref]: {
+                        ...state.definition[parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definition[parentRef.ref][parentRef.id],
+                            children: moveInArray(state.definition[parentRef.ref][parentRef.id].children, state.definition[parentRef.ref][parentRef.id].children.findIndex((ref)=> ref.id === nodeRef.id), state.hoveredViewNode.position)
+                        }
+                    }
+                } : parentRef.ref === newParentRef.ref ? { // moving in the similar parent (same type)
+                    ...state.definition,
+                    [parentRef.ref]: {
+                        ...state.definition[parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definition[parentRef.ref][parentRef.id],
+                            children: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== nodeRef.id)
+                        },
+                        [newParentRef.id]: {
+                            ...state.definition[newParentRef.ref][newParentRef.id],
+                            children: state.definition[newParentRef.ref][newParentRef.id].children.slice(0, state.hoveredViewNode.position).concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position))
+                        }
+                    },
+                } : { // moving to a new type parent
+                    ...state.definition,
+                    [parentRef.ref]: {
+                        ...state.definition[parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definition[parentRef.ref][parentRef.id],
+                            children: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== nodeRef.id)
+                        },
+                    },
+                    [newParentRef.ref]: {
+                        ...state.definition[newParentRef.ref],
+                        [newParentRef.id]: {
+                            ...state.definition[newParentRef.ref][newParentRef.id],
+                            children: state.definition[newParentRef.ref][newParentRef.id].children.slice(0, state.hoveredViewNode.position).concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position))
+                        },
+                    },
+                }
+            })
             return false
         }
         window.addEventListener('mouseup', stopDragging)
         window.addEventListener('touchend', stopDragging)
         return false
+    }
+    function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
+        if(!state.draggedComponent){
+            return;
+        }
+        if(nodeRef.id === state.draggedComponent.id){
+            return setState({...state, hoveredViewNode: null,})
+        }
+        const hitPosition = (e.touches? e.touches[0].layerY: e.layerY) / 28
+        const insertBefore = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
+        const insertAfter = ()=>  setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
+        const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth, position: 0}})
+
+        if(nodeRef.id === '_rootNode'){
+            return insertAsFirst()
+        }
+        // pray to god that you did not make a mistake here
+        if(state.definition[nodeRef.ref][nodeRef.id].children){ // if box
+            if(state.viewFoldersClosed[nodeRef.id] || state.definition[nodeRef.ref][nodeRef.id].children.length === 0){ // if closed or empty box
+                if(hitPosition < 0.2){
+                    insertBefore()
+                } else if (hitPosition < 0.8){
+                    if(!openBoxTimeout){
+                        openBoxTimeout = setTimeout(()=>VIEW_FOLDER_CLICKED(nodeRef.id), 500)
+                    }
+                    insertAsFirst()
+                    return
+                } else {
+                    insertAfter()
+                }
+            } else { // open box
+                if(hitPosition < 0.5){
+                    insertBefore()
+                } else {
+                    insertAsFirst()
+                }
+            }
+        } else { // simple node
+            if(hitPosition < 0.5){
+                insertBefore()
+            } else {
+                insertAfter()
+            }
+        }
+        if(openBoxTimeout){
+            clearTimeout(openBoxTimeout)
+            openBoxTimeout = null
+        }
     }
     function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
@@ -251,10 +376,11 @@ function editor(appDefinition){
     function VIEW_NODE_SELECTED(ref) {
         setState({...state, selectedViewNode:ref})
     }
-    function UNSELECT_VIEW_NODE(e) {
-        if(e.target === this.elm){
-            setState({...state, selectedViewNode:{}})
+    function UNSELECT_VIEW_NODE(selfOnly, e) {
+        if(selfOnly && e.target !== this.elm){
+            return
         }
+        setState({...state, selectedViewNode:{}})
     }
     function STATE_NODE_SELECTED(nodeId) {
         setState({...state, selectedStateNodeId:nodeId})
@@ -263,20 +389,6 @@ function editor(appDefinition){
         if(e.target === this.elm){
             setState({...state, selectedStateNodeId:''})
         }
-    }
-    function DELETE_SELECTED_VIEW(nodeRef, parentRef, e) {
-        e.stopPropagation()
-        if(nodeRef.id === '_rootNode'){
-            // immutably remove all nodes except rootNode
-            return setState({...state, definition: {
-                ...state.definition,
-                vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
-            }, selectedViewNode: {}})
-        }
-        setState({...state, definition: {
-            ...state.definition,
-            [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
-        }, selectedViewNode: {}})
     }
     function ADD_NODE(nodeRef, type) {
         // TODO remove when dragging works
@@ -782,6 +894,7 @@ function editor(appDefinition){
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
     const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'text_fields')
+    const deleteIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
@@ -1235,7 +1348,7 @@ function editor(appDefinition){
             return h('input', {
                 style: {
                     border: 'none',
-                    height: '24px',
+                    height: '26px',
                     background: 'none',
                     color: '#53B2ED',
                     outline: 'none',
@@ -1265,7 +1378,7 @@ function editor(appDefinition){
             return h('div', {
                     style: {
                         position: 'relative',
-                    }
+                    },
                 }, [
                     h('div', {style: {
                         display: 'flex',
@@ -1275,10 +1388,11 @@ function editor(appDefinition){
                         background: '#444',
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
-                        paddingTop: '2px',
-                        paddingBottom: '2px',
+                        height: '26px',
                         whiteSpace: 'nowrap',
-                    }}, [
+                    },
+                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 0], touchmove: [VIEW_HOVERED, nodeRef, {}, 0]}
+                    },  [
                         h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
                             appIcon()
                         ]),
@@ -1294,23 +1408,23 @@ function editor(appDefinition){
         function listBoxNode(nodeRef, parentRef, depth) {
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
-            return h('div', [
+            return h('div', {style: {
+                    opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
+                }}, [
                     h('div', {style: {
                         display: 'flex',
-                        height: '24px',
+                        height: '26px',
                         position: 'relative',
                         alignItems: 'center',
-                        paddingLeft: depth *20 + 8+ 'px',
+                        paddingLeft: (depth - (node.children.length > 0 ? 1: 0)) *20 + 8+ 'px',
                         paddingRight: '8px',
                         background: '#444',
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
-                        paddingTop: '2px',
                         whiteSpace: 'nowrap',
-                        paddingBottom: '2px',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
-                    }, on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef]}}, [
-                        h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId])]),
+                    }, on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef], touchstart: [VIEW_DRAGGED, nodeRef, parentRef], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}}, [
+                        node.children.length > 0 ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId])]): h('span'),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
@@ -1319,7 +1433,7 @@ function editor(appDefinition){
                         state.editingTitleNodeId === nodeId ?
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
-                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [clearIcon()]),
+                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
                     ]),
                     h('div', {
                         style: { display: state.viewFoldersClosed[nodeId] ? 'none': 'block', transition: 'border-color 0.2s'},
@@ -1335,28 +1449,56 @@ function editor(appDefinition){
             return h('div', {
                     style: {
                         cursor: 'pointer',
+                        opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
                         position: 'relative',
-                        height: '24px',
+                        height: '26px',
                         paddingLeft: depth *20 + 8 +'px',
                         paddingRight: '8px',
                         background: '#444',
                         borderTop: '2px solid #4d4d4d',
                         borderBottom: '2px solid #333',
-                        paddingTop: '2px',
                         whiteSpace: 'nowrap',
-                        paddingBottom: '2px',
                         display: 'flex',
                         alignItems: 'center',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
                     },
-                    on: {mousedown: [VIEW_DRAGGED, nodeRef], touchstart: [VIEW_DRAGGED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}
+                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef], touchstart: [VIEW_DRAGGED, nodeRef, parentRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}
                 }, [
                     nodeRef.ref === 'vNodeInput' ? inputIcon() :
                         textIcon(),
                     state.editingTitleNodeId === nodeId ?
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
-                    h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [clearIcon()]),
+                    h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
+                ]
+            )
+        }
+
+        function fakeComponent(nodeRef, depth) {
+            const nodeId = nodeRef.id
+            const node = state.definition[nodeRef.ref][nodeId]
+            return h('div', {
+                    style: {
+                        cursor: 'pointer',
+                        height: '26px',
+                        paddingLeft: (depth - (node.children && node.children.length > 0 ? 1: 0)) *20 + 8 +'px',
+                        paddingRight: '8px',
+                        background: '#444',
+                        borderTop: '2px solid #4d4d4d',
+                        borderBottom: '2px solid #333',
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
+                    },
+                }, [
+                    (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0  ? arrowIcon(true): h('span'),
+                    nodeRef.ref === 'vNodeBox' ? boxIcon() :
+                        nodeRef.ref === 'vNodeList' ? listIcon() :
+                            nodeRef.ref === 'vNodeIf' ? ifIcon():
+                                nodeRef.ref === 'vNodeInput' ? inputIcon() :
+                                    textIcon(),
+                    h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
                 ]
             )
         }
@@ -1635,7 +1777,7 @@ function editor(appDefinition){
                                                     textIcon(),
                             ]),
                             h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
-                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white'}, on: {click: [UNSELECT_VIEW_NODE]}}, 'x'),
+                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {click: [UNSELECT_VIEW_NODE, false]}}, [clearIcon()]),
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
@@ -1666,7 +1808,7 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE]}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE, true]}}, [
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
@@ -1913,7 +2055,7 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponent ? h('div', {style: {fontFamily: "Open Sans", position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', background: '#444', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [listNode(state.draggedComponent, {}, 1)])]): h('span'),
+            state.draggedComponent ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', background: '#444', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponent, 0)])]): h('span'),
         ])
 
         node = patch(node, vnode)
