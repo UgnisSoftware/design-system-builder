@@ -287,7 +287,7 @@ function editor(appDefinition){
         if(nodeRef.id === state.draggedComponent.id){
             return setState({...state, hoveredViewNode: null,})
         }
-        const hitPosition = (e.touches? e.touches[0].layerY: e.layerY) / 28
+        const hitPosition = (e.touches? 28: e.layerY) / 28
         const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
         const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
         const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: 0}})
