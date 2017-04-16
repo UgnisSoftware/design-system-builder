@@ -1499,9 +1499,9 @@ function editor(appDefinition){
 
         function spacerComponent(){
             return h('div', {
+                key: 'spacer',
                 style: {
-                    //marginBottom: '-6px',
-                    zIndex: '100',
+                    cursor: 'pointer',
                     height: '6px',
                     boxShadow: 'inset 0 0 1px 1px #53B2ED',
                 },
