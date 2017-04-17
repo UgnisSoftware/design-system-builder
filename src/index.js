@@ -280,6 +280,13 @@ function editor(appDefinition){
         window.addEventListener('touchend', stopDragging)
         return false
     }
+
+    function VIEW_HOVER_MOBILE(nodeRef, parentRef, depth, e) {
+        const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        const moveEvent = new MouseEvent('mousemove', {...e});
+        elem.dispatchEvent(moveEvent);
+    }
+
     function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
         if(!state.draggedComponent){
             return;
@@ -1388,7 +1395,7 @@ function editor(appDefinition){
                         height: '26px',
                         whiteSpace: 'nowrap',
                     },
-                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [VIEW_HOVERED, nodeRef, {}, 1]}
+                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [VIEW_HOVER_MOBILE, nodeRef, {}, 1]}
                     },  [
                         h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
                             appIcon()
@@ -1432,7 +1439,7 @@ function editor(appDefinition){
                             whiteSpace: 'nowrap',
                             color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                         },
-                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}}, [
+                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE, nodeRef, parentRef, depth]}}, [
                         node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponent && nodeId === state.draggedComponent.id))]): h('span'),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
@@ -1479,7 +1486,7 @@ function editor(appDefinition){
                         alignItems: 'center',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
                     },
-                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVERED, nodeRef, parentRef, depth]}
+                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE, nodeRef, parentRef, depth]}
                 }, [
                     nodeRef.ref === 'vNodeInput' ? inputIcon() :
                         textIcon(),
