@@ -282,7 +282,7 @@ function editor(appDefinition){
     }
 
     function VIEW_HOVER_MOBILE(e) {
-        const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
         const moveEvent = new MouseEvent('mousemove', {
             bubbles: true,
             cancelable: true,
@@ -291,8 +291,8 @@ function editor(appDefinition){
             clientY: e.touches[0].clientY,
             screenX: e.touches[0].screenX,
             screenY: e.touches[0].screenY,
-        });
-        elem.dispatchEvent(moveEvent);
+        })
+        elem.dispatchEvent(moveEvent)
     }
 
     function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
