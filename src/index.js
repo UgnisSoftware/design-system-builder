@@ -78,7 +78,7 @@ function editor(appDefinition){
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
-        draggedComponent: null,
+        draggedComponentView: null,
         hoveredViewNode: null,
         mousePosition: {},
         eventStack: [],
@@ -199,9 +199,9 @@ function editor(appDefinition){
             e.preventDefault()
             const x = e.touches? e.touches[0].pageX: e.pageX
             const y = e.touches? e.touches[0].pageY: e.pageY
-            if(!state.draggedComponent){
+            if(!state.draggedComponentView){
                 if(Math.abs(initialY-y) > 3){
-                    setState({...state, draggedComponent: {...nodeRef, depth: initialDepth}, mousePosition: {x: x - offsetX, y: y - offsetY}})
+                    setState({...state, draggedComponentView: {...nodeRef, depth: initialDepth}, mousePosition: {x: x - offsetX, y: y - offsetY}})
                 }
             } else {
                 setState({...state, mousePosition: {x: x - offsetX, y: y - offsetY}})
@@ -220,19 +220,19 @@ function editor(appDefinition){
                 clearTimeout(openBoxTimeout)
                 openBoxTimeout = null
             }
-            if(!state.draggedComponent){
+            if(!state.draggedComponentView){
                 if(event.target === e.target && isArrow){
                     return VIEW_FOLDER_CLICKED(nodeRef.id)
                 }
                 return VIEW_NODE_SELECTED(nodeRef)
             }
             if(!state.hoveredViewNode){
-                return setState({...state, draggedComponent: null,})
+                return setState({...state, draggedComponentView: null,})
             }
             const newParentRef = state.hoveredViewNode.parent
             setState({
                 ...state,
-                draggedComponent: null,
+                draggedComponentView: null,
                 hoveredViewNode: null,
                 definition: parentRef.id === newParentRef.id ? { // moving in the same parent
                     ...state.definition,
@@ -296,15 +296,15 @@ function editor(appDefinition){
     }
 
     function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
-        if(!state.draggedComponent){
+        if(!state.draggedComponentView){
             return;
         }
-        if(nodeRef.id === state.draggedComponent.id){
+        if(nodeRef.id === state.draggedComponentView.id){
             return setState({...state, hoveredViewNode: null,})
         }
         const hitPosition = (e.touches? 28: e.layerY) / 28
-        const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id)}})
-        const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponent.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
+        const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponentView.id).findIndex((ref)=>ref.id === nodeRef.id)}})
+        const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponentView.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
         const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: 0}})
 
         if(nodeRef.id === '_rootNode'){
@@ -1412,10 +1412,10 @@ function editor(appDefinition){
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
-                    h('div', state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) === state.hoveredViewNode.position) ?
+                    h('div', state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position) ?
                         (()=>{
                             // copy pasted from listBoxNode
-                            const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponent.id)
+                            const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponentView.id)
                             const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
                             const children = node.children.map((ref)=>listNode(ref, nodeRef, 1))
                             return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
@@ -1430,7 +1430,7 @@ function editor(appDefinition){
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
             return h('div', {style: {
-                    opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
+                    opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
                 }}, [
                     h('div', {
                         key: nodeId,
@@ -1448,7 +1448,7 @@ function editor(appDefinition){
                             color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                         },
                         on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE]}}, [
-                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponent && nodeId === state.draggedComponent.id))]): h('span'),
+                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
@@ -1460,11 +1460,11 @@ function editor(appDefinition){
                         h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
                     ]),
                     h('div', {
-                            style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponent && nodeId === state.draggedComponent.id) ? 'none': 'block'},
-                        }, state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) === state.hoveredViewNode.position) ?
+                            style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none': 'block'},
+                        }, state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position) ?
                             (()=>{
                                 // adds a fake component
-                                const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponent.id) // this is needed because we still show the old node
+                                const oldPosition = node.children.findIndex((ref)=> ref.id === state.draggedComponentView.id) // this is needed because we still show the old node
                                 const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
                                 const children = node.children.map((ref)=>listNode(ref, nodeRef, depth+1))
                                 return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
@@ -1481,7 +1481,7 @@ function editor(appDefinition){
                     key: nodeId,
                     style: {
                         cursor: 'pointer',
-                        opacity: state.draggedComponent && state.draggedComponent.id === nodeId ? '0.5' : '1.0',
+                        opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
                         position: 'relative',
                         height: '26px',
                         paddingLeft: depth *20 + 8 +'px',
@@ -2099,7 +2099,7 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponent ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponent, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponent.depth)])]): h('span'),
+            state.draggedComponentView ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
         ])
 
         node = patch(node, vnode)
