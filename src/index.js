@@ -283,7 +283,15 @@ function editor(appDefinition){
 
     function VIEW_HOVER_MOBILE(e) {
         const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-        const moveEvent = new MouseEvent('mousemove', {...e});
+        const moveEvent = new MouseEvent('mousemove', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            clientX: e.touches[0].clientX,
+            clientY: e.touches[0].clientY,
+            screenX: e.touches[0].screenX,
+            screenY: e.touches[0].screenY,
+        });
         elem.dispatchEvent(moveEvent);
     }
 
