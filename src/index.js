@@ -65,7 +65,7 @@ function editor(appDefinition){
 
     // State
     let state = {
-        leftOpen: true,
+        leftOpen: false,
         rightOpen: true,
         fullScreen: false,
         editorRightWidth: 350,
@@ -375,6 +375,14 @@ function editor(appDefinition){
         window.addEventListener('mouseup', stopDragging)
         window.addEventListener('touchend', stopDragging)
         return false
+    }
+    function OPEN_SIDEBAR(side) {
+        if(side === 'left'){
+            return setState({...state, leftOpen: !state.leftOpen})
+        }
+        if(side === 'right'){
+            return setState({...state, rightOpen: !state.rightOpen})
+        }
     }
     function FREEZER_CLICKED() {
         setState({...state, appIsFrozen: !state.appIsFrozen})
@@ -919,7 +927,7 @@ function editor(appDefinition){
     }
     function FULL_SCREEN_CLICKED(value) {
         if(value !== state.fullScreen){
-            setState({...state, fullScreen: value})
+            setState({...state, fullScreen: value, selectedViewNode: {}})
         }
     }
 
@@ -954,6 +962,46 @@ function editor(appDefinition){
                 fontSize: '1em',
                 opacity: '0',
                 cursor: 'col-resize',
+            },
+        })
+        const openComponentLeft = h('div', {
+            on: {
+                mousedown: [OPEN_SIDEBAR, 'left'],
+                touchstart: [OPEN_SIDEBAR, 'left'],
+            },
+            style: {
+                position: 'absolute',
+                right: '-3px',
+                top: '50%',
+                transform: 'translateZ(0) translateX(100%) translateY(-50%)',
+                width: '15px',
+                height: '10%',
+                textAlign: 'center',
+                fontSize: '1em',
+                borderRadius: '0 5px 5px 0',
+                background: '#5d5d5d',
+                boxShadow: 'inset 0 0 2px 7px #222',
+                cursor: 'pointer',
+            },
+        })
+        const openComponentRight = h('div', {
+            on: {
+                mousedown: [OPEN_SIDEBAR, 'right'],
+                touchstart: [OPEN_SIDEBAR, 'right'],
+            },
+            style: {
+                position: 'absolute',
+                left: '-3px',
+                top: '50%',
+                transform: 'translateZ(0) translateX(-100%) translateY(-50%)',
+                width: '15px',
+                height: '10%',
+                textAlign: 'center',
+                fontSize: '1em',
+                borderRadius: '5px 0 0 5px',
+                background: '#5d5d5d',
+                boxShadow: 'inset 0 0 2px 7px #222',
+                cursor: 'pointer',
             },
         })
         const dragComponentRight = h('div', {
@@ -1771,13 +1819,16 @@ function editor(appDefinition){
 
             return h('div', {
                 style: {
-                    position: 'absolute',
-                    left: '-15px',
-                    transform: 'translate(-100%, 0)',
-                    marginRight: '8px',
+                    position: 'fixed',
+                    font: "300 1.2em 'Open Sans'",
+                    lineHeight: '1.2em',
+                    color: 'white',
+                    right: (state.rightOpen ? state.editorRightWidth: 0) + 10 + 'px',
                     top: '50%',
                     height: '50%',
                     display: 'flex',
+                    zIndex: '1000',
+                    transition: 'all 0.5s'
                 }
             }, [
                 h('div', {style: {flex: '1', display: 'flex', marginBottom: '10px', flexDirection: 'column', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
@@ -1858,13 +1909,12 @@ function editor(appDefinition){
                 },
             }, [
                 dragComponentRight,
+                openComponentRight,
                 addStateComponent,
                 stateComponent,
                 addViewNodeComponent,
                 viewComponent,
-                state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
             ])
-
 
         const topComponent = h('div', {
             style: {
@@ -1953,6 +2003,7 @@ function editor(appDefinition){
             },
         }, [
             dragComponentLeft,
+            openComponentLeft,
             h('div', {
                 on: {
                     click: FREEZER_CLICKED
@@ -2041,10 +2092,10 @@ function editor(appDefinition){
                     width: state.fullScreen ? '100vw' : widthLeft - 40 +'px',
                     height: state.fullScreen ? '100vh' : heightLeft - 40 + 'px',
                     background: '#ffffff',
-                    zIndex: state.fullScreen ? '99999' : undefined,
+                    zIndex: state.fullScreen ? '99999' : '100',
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     position: 'fixed',
-                    transition: state.fullScreen ?  'all 0.3s': 'none',
+                    transition: 'all 0.5s',
                     top: state.fullScreen ? '0px' : 20 + 75 + 'px',
                     left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 20 + 'px',
                 }
@@ -2064,7 +2115,8 @@ function editor(appDefinition){
         }, [
             renderViewComponent,
             leftComponent,
-            rightComponent
+            rightComponent,
+            state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
         ])
         const vnode = h('div', {
             style: {
