@@ -187,6 +187,7 @@ function editor(appDefinition){
     function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
         e.preventDefault()
         const isArrow = e.target.dataset.closearrow
+        const isTrashcan = e.target.dataset.trashcan
         const initialX = e.touches? e.touches[0].pageX: e.pageX
         const initialY = e.touches? e.touches[0].pageY: e.pageY
         const position = this.elm.getBoundingClientRect()
@@ -220,6 +221,9 @@ function editor(appDefinition){
             if(!state.draggedComponentView){
                 if(event.target === e.target && isArrow){
                     return VIEW_FOLDER_CLICKED(nodeRef.id)
+                }
+                if(event.target === e.target && isTrashcan){
+                    return DELETE_SELECTED_VIEW(nodeRef, parentRef)
                 }
                 return VIEW_NODE_SELECTED(nodeRef)
             }
@@ -669,8 +673,7 @@ function editor(appDefinition){
     function EDIT_VIEW_NODE_TITLE(nodeId) {
         setState({...state, editingTitleNodeId:nodeId})
     }
-    function DELETE_SELECTED_VIEW(nodeRef, parentRef, e) {
-        e.stopPropagation()
+    function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
         if(nodeRef.id === '_rootNode'){
             if(state.definition.vNodeBox['_rootNode'].children.length === 0){
                 return;
@@ -679,12 +682,12 @@ function editor(appDefinition){
             return setState({...state, definition: {
                 ...state.definition,
                 vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
-            }, selectedViewNode: {}}, true)
+            }, selectedViewNode: {}})
         }
         setState({...state, definition: {
             ...state.definition,
             [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
-        }, selectedViewNode: {}}, true)
+        }, selectedViewNode: {}})
     }
     function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
         e.preventDefault();
@@ -937,7 +940,7 @@ function editor(appDefinition){
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
     const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'text_fields')
-    const deleteIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'delete_forever')
+    const deleteIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
@@ -1468,7 +1471,7 @@ function editor(appDefinition){
                         state.editingTitleNodeId === nodeId ?
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
-                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
+                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
                     ]),
                     h('div', {
                             style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none': 'block'},
@@ -1512,7 +1515,7 @@ function editor(appDefinition){
                     state.editingTitleNodeId === nodeId ?
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
-                    h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}, on: {click: [DELETE_SELECTED_VIEW, nodeRef, parentRef]}}, [deleteIcon()]),
+                    h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
                 ]
             )
         }
