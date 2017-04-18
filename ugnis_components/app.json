@@ -229,7 +229,7 @@
     },
     "945f0818-7743-4edd-8c76-3dd5a8ba7fa9": {
       "type": "text",
-      "value": "\'Comfortaa\', cursive",
+      "value": "'Comfortaa', cursive",
       "transformations": []
     },
     "a60899ee-9925-4e05-890e-b9428b02dbf9": {
@@ -431,6 +431,16 @@
       "type": "text",
       "value": "10px",
       "transformations": []
+    },
+    "a9cw9a9b-25bb-4e8b-80c0-cf51b8506070": {
+      "type": "text",
+      "value": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Schonach_-_Paradies_-_Sonnenaufgang.jpg/1280px-Schonach_-_Paradies_-_Sonnenaufgang.jpg",
+      "transformations": []
+    },
+    "d1314274-5efc-4be1-830b-0ff8c92b5029": {
+      "type": "text",
+      "value": "block",
+      "transformations": []
     }
   },
   "join": {
@@ -512,6 +522,10 @@
         {
           "ref": "vNodeIf",
           "id": "5787c15a-426b-41eb-831d-e3e074159582"
+        },
+        {
+          "ref": "vNodeImage",
+          "id": "sd8vc15a-426b-41eb-831d-e3e074159582"
         },
         {
           "ref": "vNodeList",
@@ -611,6 +625,19 @@
           "id": "e8add1c7-8a01-4164-8604-722d8ab529f1"
         }
       ]
+    }
+  },
+  "vNodeImage": {
+    "sd8vc15a-426b-41eb-831d-e3e074159582": {
+      "title": "hills",
+      "src": {
+        "ref": "pipe",
+        "id": "a9cw9a9b-25bb-4e8b-80c0-cf51b8506070"
+      },
+      "style": {
+        "ref": "style",
+        "id": "wf8d73b3-90eb-41e7-8651-2bdcc93f3871"
+      }
     }
   },
   "style": {
@@ -796,6 +823,12 @@
       "padding": {
         "ref": "pipe",
         "id": "a8f5c1ce-783b-4626-826a-473ab434c0b2"
+      }
+    },
+    "wf8d73b3-90eb-41e7-8651-2bdcc93f3871": {
+      "display": {
+        "ref": "pipe",
+        "id": "d1314274-5efc-4be1-830b-0ff8c92b5029"
       }
     }
   },

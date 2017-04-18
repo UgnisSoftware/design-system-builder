@@ -88,6 +88,9 @@ export default (definition) => {
         if (ref.ref === 'vNodeIf') {
             return ifNode(ref)
         }
+        if (ref.ref === 'vNodeImage') {
+            return imageNode(ref)
+        }
         if (ref.ref === 'style') {
             return Object.keys(def).reduce((acc, val)=> {
                 acc[val] = resolve(def[val])
@@ -201,6 +204,28 @@ export default (definition) => {
                 },
         }
         return h('span', data, resolve(node.value))
+    }
+
+    function imageNode(ref) {
+        const node = definition[ref.ref][ref.id]
+        const style = resolve(node.style)
+        const data = {
+            attrs: {
+                src: resolve(node.src)
+            },
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {...style, transition:'box-shadow 0.2s', boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow: frozenShadow } : style,
+            on: frozen ?
+                {
+                    mouseover: selectHoverActive ? [selectNodeHover, ref]: undefined,
+                    click: [selectNodeClick, ref]
+                }:{
+                    click: node.click ? [emitEvent, node.click] : undefined,
+                    dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                    mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                    mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
+                },
+        }
+        return h('img', data)
     }
 
     function inputNode(ref) {

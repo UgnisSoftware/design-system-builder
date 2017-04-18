@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.28v'
+const version = '0.0.29v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -87,11 +87,12 @@ function editor(appDefinition){
     // undo/redo
     let stateStack = [state.definition]
     let currentAnimationFrameRequest = null;
-    function setState(newState){
+    function setState(newState, timeTraveling){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
         }
         if(state.definition !== newState.definition){
+            console.log(newState.definition)
             // unselect deleted components and state
             if(newState.definition.state[newState.selectedStateNodeId] === undefined){
                 newState = {...newState, selectedStateNodeId: ''}
@@ -100,9 +101,10 @@ function editor(appDefinition){
                 newState = {...newState, selectedViewNode: {}}
             }
             // undo/redo then render then save
-            const currentIndex = stateStack.findIndex((a)=>a===state.definition)
-            stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition);
-            // TODO add garbage collection?
+            if(!timeTraveling){
+                const currentIndex = stateStack.findIndex((a)=>a===state.definition)
+                stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition)
+            }
             app.render(newState.definition)
             setTimeout(()=>localStorage.setItem('app_key_'+version, JSON.stringify(newState.definition)), 0);
         }
@@ -157,9 +159,7 @@ function editor(appDefinition){
             const currentIndex = stateStack.findIndex((a)=>a===state.definition)
             if(currentIndex > 0){
                 const newDefinition = stateStack[currentIndex-1]
-                app.render(newDefinition)
-                state = {...state, definition: newDefinition}
-                render()
+                setState({...state, definition: newDefinition}, true)
             }
         }
         if((e.which === 89 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which === 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey))) {
@@ -167,9 +167,7 @@ function editor(appDefinition){
             const currentIndex = stateStack.findIndex((a)=>a===state.definition)
             if(currentIndex < stateStack.length-1){
                 const newDefinition = stateStack[currentIndex+1]
-                app.render(newDefinition)
-                state = {...state, definition: newDefinition}
-                render()
+                setState({...state, definition: newDefinition}, true)
             }
         }
         if(e.which === 13) {
@@ -456,6 +454,29 @@ function editor(appDefinition){
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 }})
         }
+        if(type === 'image'){
+            const pipeId = uuid()
+            const newNode = {
+                title: 'image',
+                style: {ref:'style', id:newStyleId},
+                src: {ref:'pipe', id:pipeId}
+            }
+            const newPipe = {
+                type: 'text',
+                value: 'https://www.ugnis.com/images/logo256x256.png',
+                transformations: []
+            }
+            return setState({
+                ...state,
+                selectedViewNode: {ref:'vNodeImage', id: newNodeId},
+                definition: {
+                    ...state.definition,
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeImage', id:newNodeId})}},
+                    vNodeImage: {...state.definition.vNodeImage, [newNodeId]: newNode},
+                    style: {...state.definition.style, [newStyleId]: newStyle},
+                }})
+        }
         if(type === 'if'){
             const pipeId = uuid()
             const newNode = {
@@ -615,6 +636,9 @@ function editor(appDefinition){
             'bottom': '0px',
             'left': '0px',
             'right': '0px',
+            'flex': '1 1 auto',
+            'justifyContent': 'center',
+            'alignItems': 'center',
             'maxWidth': '100%',
             'maxHeight': '100%',
             'minWidth': '100%',
@@ -909,6 +933,7 @@ function editor(appDefinition){
     const deleteIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
+    const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
 
@@ -1287,6 +1312,7 @@ function editor(appDefinition){
         function listNode(nodeRef, parentRef, depth){
             if(nodeRef.id === '_rootNode') return listRootNode(nodeRef)
             if(nodeRef.ref === 'vNodeText') return simpleNode(nodeRef, parentRef, depth)
+            if(nodeRef.ref === 'vNodeImage') return simpleNode(nodeRef, parentRef, depth)
             if(nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') return listBoxNode(nodeRef, parentRef, depth)
             if(nodeRef.ref === 'vNodeInput') return simpleNode(nodeRef, parentRef, depth)
         }
@@ -1486,7 +1512,7 @@ function editor(appDefinition){
         }
 
         function generateEditNodeComponent() {
-            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
+            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h('div', {
@@ -1553,6 +1579,23 @@ function editor(appDefinition){
                             h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
+                    ])
+                }
+                if (state.selectedViewNode.ref === 'vNodeImage') {
+                    return h('div', [
+                        h('div', {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                background: '#676767',
+                                padding: '5px 10px',
+                                marginBottom: '10px'
+                            }
+                        }, [
+                            h('span', {style: {flex: '1'}}, 'source (url)'),
+                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
+                        ]),
+                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.src, 'text')])
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeInput') {
@@ -1725,7 +1768,7 @@ function editor(appDefinition){
                 )
             }
 
-            const fullVNode = state.selectedViewNode.ref === 'vNodeBox' || state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
+            const fullVNode = ['vNodeBox','vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
 
             return h('div', {
                 style: {
@@ -1786,6 +1829,7 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
