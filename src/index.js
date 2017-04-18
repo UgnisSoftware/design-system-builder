@@ -381,7 +381,7 @@ function editor(appDefinition){
                 newWidth = e.touches? e.touches[0].pageX: e.pageX
             }
             if(widthName === 'subEditorWidth'){
-                newWidth = state.componentEditorPosition  ? (e.touches? e.touches[0].pageX: e.pageX) - state.componentEditorPosition.x : state.editorRightWidth
+                newWidth = (e.touches? e.touches[0].pageX: e.pageX) - state.componentEditorPosition.x
             }
             // I probably was drunk
             if(widthName !== 'subEditorWidth' && ( (widthName === 'editorLeftWidth' ? state.leftOpen: state.rightOpen) ? newWidth < 180: newWidth > 180)){
@@ -1893,7 +1893,7 @@ function editor(appDefinition){
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
-                    dragSubComponent,
+                    state.componentEditorPosition  ? dragSubComponent : h('span'),
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
                         state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
                             state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent():
