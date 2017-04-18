@@ -92,7 +92,6 @@ function editor(appDefinition){
             console.warn('state was mutated, search for a bug')
         }
         if(state.definition !== newState.definition){
-            console.log(newState.definition)
             // unselect deleted components and state
             if(newState.definition.state[newState.selectedStateNodeId] === undefined){
                 newState = {...newState, selectedStateNodeId: ''}
