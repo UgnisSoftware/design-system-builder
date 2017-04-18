@@ -71,6 +71,7 @@ function editor(appDefinition){
         editorRightWidth: 350,
         editorLeftWidth: 350,
         subEditorWidth: 350,
+        componentEditorPosition: null,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedPipeId: '',
@@ -342,6 +343,35 @@ function editor(appDefinition){
             openBoxTimeout = null
         }
     }
+
+    function COMPONENT_VIEW_DRAGGED(e) {
+        const initialX = e.touches ? e.touches[0].pageX : e.pageX
+        const initialY = e.touches ? e.touches[0].pageY : e.pageY
+        const position = this.elm.getBoundingClientRect()
+        const offsetX = initialX - position.left
+        const offsetY = initialY - position.top
+
+        function drag(e) {
+            e.preventDefault()
+            const x = e.touches ? e.touches[0].pageX : e.pageX
+            const y = e.touches ? e.touches[0].pageY : e.pageY
+            setState({
+                ...state,
+                componentEditorPosition: {x: x - offsetX, y: y - offsetY}
+            })
+        }
+        window.addEventListener('mousemove', drag)
+        window.addEventListener('touchmove', drag)
+        function stopDragging(event) {
+            event.preventDefault()
+            window.removeEventListener('mousemove', drag)
+            window.removeEventListener('touchmove', drag)
+            window.removeEventListener('mouseup', stopDragging)
+            window.removeEventListener('touchend', stopDragging)
+        }
+        window.addEventListener('mouseup', stopDragging)
+        window.addEventListener('touchend', stopDragging)
+    }
     function WIDTH_DRAGGED(widthName, e) {
         e.preventDefault()
         function resize(e){
@@ -398,6 +428,7 @@ function editor(appDefinition){
         setState({...state, selectedViewNode:ref})
     }
     function UNSELECT_VIEW_NODE(selfOnly, e) {
+        e.stopPropagation()
         if(selfOnly && e.target !== this.elm){
             return
         }
@@ -930,7 +961,7 @@ function editor(appDefinition){
     }
     function FULL_SCREEN_CLICKED(value) {
         if(value !== state.fullScreen){
-            setState({...state, fullScreen: value, selectedViewNode: {}})
+            setState({...state, fullScreen: value})
         }
     }
 
@@ -1826,12 +1857,12 @@ function editor(appDefinition){
                     font: "300 1.2em 'Open Sans'",
                     lineHeight: '1.2em',
                     color: 'white',
-                    right: (state.rightOpen ? state.editorRightWidth: 0) + 10 + 'px',
-                    top: '50%',
+                    left: state.componentEditorPosition ? state.componentEditorPosition.x + 'px' : undefined,
+                    right: state.componentEditorPosition ? undefined : (state.rightOpen ? state.editorRightWidth: 0) + 10 + 'px',
+                    top: state.componentEditorPosition ?  state.componentEditorPosition.y + 'px': '50%',
                     height: '50%',
                     display: 'flex',
-                    zIndex: '1000',
-                    transition: 'all 0.5s'
+                    zIndex: '3000',
                 }
             }, [
                 h('div', {style: {flex: '1', display: 'flex', marginBottom: '10px', flexDirection: 'column', background: '#4d4d4d', width: state.subEditorWidth + 'px', border: '3px solid #222'}},[
@@ -1845,7 +1876,10 @@ function editor(appDefinition){
                             paddingBottom: '5px',
                             color: '#53B2ED',
                             minWidth: '100%',
-                        }}, [
+                        }, on: {
+                            mousedown: [COMPONENT_VIEW_DRAGGED],
+                            touchstart: [COMPONENT_VIEW_DRAGGED],
+                        },}, [
                             h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px', display: 'inline-flex'}}, [
                                 state.selectedViewNode.id === '_rootNode' ? appIcon() :
                                     state.selectedViewNode.ref === 'vNodeBox' ? boxIcon() :
@@ -1855,7 +1889,7 @@ function editor(appDefinition){
                                                     textIcon(),
                             ]),
                             h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
-                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {click: [UNSELECT_VIEW_NODE, false]}}, [clearIcon()]),
+                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false], touchstart: [UNSELECT_VIEW_NODE, false]}}, [clearIcon()]),
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
@@ -2095,7 +2129,7 @@ function editor(appDefinition){
                     width: state.fullScreen ? '100vw' : widthLeft - 40 +'px',
                     height: state.fullScreen ? '100vh' : heightLeft - 40 + 'px',
                     background: '#ffffff',
-                    zIndex: state.fullScreen ? '99999' : '100',
+                    zIndex: state.fullScreen ? '2000' : '100',
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     position: 'fixed',
                     transition: 'all 0.5s',
