@@ -1893,7 +1893,7 @@ function editor(appDefinition){
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
-                    dragSubComponent,
+                    //dragSubComponent, turned off because of bugs
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
                         state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
                             state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent():
