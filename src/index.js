@@ -1160,68 +1160,6 @@ function editor(appDefinition){
             }
         }
 
-        function listNameSpace(stateId) {
-            const currentNameSpace = state.definition.nameSpace[stateId]
-            function editingNode() {
-                return h('input', {
-                    style: {
-                        background: 'none',
-                        color: state.selectedStateNodeId === stateId ? '#eab65c': 'white',
-                        outline: 'none',
-                        boxShadow: 'inset 0 -1px 0 0 white',
-                        padding: '0',
-                        margin:  '0',
-                        border: 'none',
-                        borderRadius: '0',
-                        display: 'inline',
-                        font: 'inherit'
-                    },
-                    on: {
-                        input: [CHANGE_NAMESPACE_TITLE, stateId],
-                    },
-                    liveProps: {
-                        value: currentNameSpace.title,
-                    },
-                    attrs: {
-                        autofocus: true,
-                        'data-istitleeditor': true
-                    }
-                })
-            }
-            if(stateId === '_rootNameSpace'){
-                return h('div',  currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)))
-            }
-            const closed = state.viewFoldersClosed[stateId] || (state.selectedStateNodeId !== stateId && currentNameSpace.children.length === 0)
-            return h('div', {
-                    style: {
-                        position: 'relative',
-                    }
-                }, [
-                    h('div',  {
-                        style: {
-                            fontSize: '0.8em',
-                            display: 'flex',
-                            alignItems: 'center',
-                        }
-                    }, [
-                        h('svg', {
-                                attrs: {width: 12, height: 16},
-                                style: { cursor: 'pointer', padding: '5px', transform: closed ? 'rotate(0deg)': 'rotate(90deg)', transition: 'all 0.2s'},
-                                on: {
-                                    click: [VIEW_FOLDER_CLICKED, stateId]
-                                },
-                            },
-                            [h('polygon', {attrs: {points: '12,8 0,1 3,8 0,15'}, style: {fill: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'fill 0.2s'}})]),
-                        state.editingTitleNodeId === stateId ?
-                            editingNode():
-                            h('span', {style: { cursor: 'pointer', color: state.selectedStateNodeId === stateId ? '#eab65c': 'white', transition: 'color 0.2s'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentNameSpace.title),
-                    ]),
-                    h('div', {style: { display: closed ? 'none': 'block', paddingLeft: '10px', paddingBottom: '5px', transition: 'border-color 0.2s'}}, [
-                        ...currentNameSpace.children.map((ref)=> ref.ref === 'state' ? listState(ref.id): listNameSpace(ref.id)),
-                    ]),
-                ]
-            )
-        }
         function listState(stateId) {
             const currentState = state.definition.state[stateId]
             function editingNode() {
@@ -1344,7 +1282,7 @@ function editor(appDefinition){
             )
         }
 
-        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [listNameSpace('_rootNameSpace')])
+        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id)))
 
         function listNode(nodeRef, parentRef, depth){
             if(nodeRef.id === '_rootNode') return listRootNode(nodeRef)
@@ -1840,7 +1778,6 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'folder']}}, [folderIcon()]),
         ])
 
 
