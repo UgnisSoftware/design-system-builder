@@ -80,6 +80,7 @@ function editor(appDefinition){
         editingTitleNodeId: '',
         viewFoldersClosed: {},
         draggedComponentView: null,
+        draggedComponentStateId: null,
         hoveredViewNode: null,
         mousePosition: {},
         eventStack: [],
@@ -409,6 +410,46 @@ function editor(appDefinition){
         window.addEventListener('mouseup', stopDragging)
         window.addEventListener('touchend', stopDragging)
         return false
+    }
+
+    function STATE_DRAGGED(stateId, e) {
+        e.preventDefault()
+        const initialX = e.touches? e.touches[0].pageX: e.pageX
+        const initialY = e.touches? e.touches[0].pageY: e.pageY
+        const position = this.elm.getBoundingClientRect()
+        const offsetX = initialX - position.left
+        const offsetY = initialY - position.top
+        function drag(e){
+            e.preventDefault()
+            const x = e.touches? e.touches[0].pageX: e.pageX
+            const y = e.touches? e.touches[0].pageY: e.pageY
+            if(!state.draggedComponentView){
+                if(Math.abs(initialY-y) > 3){
+                    setState({...state, draggedComponentStateId: stateId, mousePosition: {x: x - offsetX, y: y - offsetY}})
+                }
+            } else {
+                setState({...state, mousePosition: {x: x - offsetX, y: y - offsetY}})
+            }
+            return false
+        }
+        window.addEventListener('mousemove', drag)
+        window.addEventListener('touchmove', drag)
+        function stopDragging(event){
+            event.preventDefault()
+            window.removeEventListener('mousemove', drag)
+            window.removeEventListener('touchmove', drag)
+            window.removeEventListener('mouseup', stopDragging)
+            window.removeEventListener('touchend', stopDragging)
+            if(!state.draggedComponentStateId) {
+                return STATE_NODE_SELECTED(stateId)
+            }
+            setState({
+                ...state,
+                draggedComponentStateId: null,
+            })
+        }
+        window.addEventListener('mouseup', stopDragging)
+        window.addEventListener('touchend', stopDragging)
     }
     function OPEN_SIDEBAR(side) {
         if(side === 'left'){
@@ -1306,7 +1347,7 @@ function editor(appDefinition){
                 [
                     h('span', {style: {display: 'flex', flexWrap: 'wrap'}}, [
                         h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
-                            h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
+                            h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
                         ]),
                         (()=> {
@@ -1386,6 +1427,13 @@ function editor(appDefinition){
                         h('span'),
                 ]
             )
+        }
+
+        function fakeState(stateId) {
+            const currentState = state.definition.state[stateId]
+            return h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                h('span', {style: {color: 'white', display: 'inline-block'}}, currentState.title),
+            ])
         }
 
         const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id)))
@@ -2169,6 +2217,7 @@ function editor(appDefinition){
             topComponent,
             mainRowComponent,
             state.draggedComponentView ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
+            state.draggedComponentStateId ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '16px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [fakeState(state.draggedComponentStateId)]): h('span'),
         ])
 
         node = patch(node, vnode)
