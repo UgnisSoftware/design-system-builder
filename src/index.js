@@ -1166,24 +1166,21 @@ function editor(appDefinition){
                     //     }
                     // }
                     if (transRef.ref === 'join') {
-                        return h('div', {}, [
-                            h('div', {style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, transType)])
-                        ])
+                        return h('span', {}, [emberEditor(transformer.value, transType)])
                     }
                     if (transRef.ref === 'toUpperCase') {
                         return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                     if (transRef.ref === 'toLowerCase') {
                         return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                     if (transRef.ref === 'toText') {
                         return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'text')]),
+                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                 })
@@ -1203,18 +1200,23 @@ function editor(appDefinition){
                 ])]
             }
             if (typeof pipe.value === 'string') {
-                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
-                    h('input', {
+                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                    h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
+                        h('span', {style: {opacity: '0', display: 'inline-block'}}, pipe.value),
+                        h('input', {
                             style: {
-                                background: 'none',
-                                outline: 'none',
-                                padding: '0',
-                                margin:  '0',
-                                border: 'none',
-                                borderRadius: '0',
-                                display: 'inline-block',
-                                width: '100%',
                                 color: 'white',
+                                outline: 'none',
+                                boxShadow: 'none',
+                                display: 'inline',
+                                border: 'none',
+                                background: 'none',
+                                font: 'inherit',
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                flex: '0 0 auto',
                                 textDecoration: 'underline',
                             },
                             on: {
@@ -1223,12 +1225,10 @@ function editor(appDefinition){
                             liveProps: {
                                 value: pipe.value,
                             },
-                        }
-                    ),
-                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'text' ? 'green': 'red'}}, 'text')
+                        }),
+                    ]),
+                    h('div', {style: {paddingLeft: '3px'}}, listTransformations(pipe.transformations, pipe.type)),
                 ]),
-                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
 
@@ -1280,7 +1280,6 @@ function editor(appDefinition){
                             ]),
                         ]
                     ),
-                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': displState.type === type ? 'green': 'red'}}, displState.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                     h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
@@ -1694,7 +1693,7 @@ function editor(appDefinition){
                     }, 'no data required')
                 }
                 if (state.selectedViewNode.ref === 'vNodeText') {
-                    return h('div', [
+                    return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
                         h('div', {
                             style: {
                                 display: 'flex',
