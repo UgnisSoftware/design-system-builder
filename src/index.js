@@ -1209,6 +1209,7 @@ function editor(appDefinition){
                             },
                             style: {
                                 borderRadius: 'none',
+                                WebkitAppearance: 'none',
                                 color: 'white',
                                 outline: 'none',
                                 boxShadow: 'none',
