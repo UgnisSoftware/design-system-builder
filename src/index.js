@@ -1208,12 +1208,10 @@ function editor(appDefinition){
                                 type: 'text'
                             },
                             style: {
-                                borderRadius: 'none',
-                                WebkitAppearance: 'none',
                                 color: 'white',
                                 outline: 'none',
                                 boxShadow: 'none',
-                                padding: '0 0 2px 5px',
+                                textAlign: 'center',
                                 display: 'inline',
                                 border: 'none',
                                 borderBottom: '2px solid white',
@@ -1716,7 +1714,7 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeImage') {
-                    return h('div', [
+                    return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
                         h('div', {
                             style: {
                                 display: 'flex',
@@ -1733,7 +1731,7 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeInput') {
-                    return h('div',[
+                    return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
                         h('div', {
                             style: {
                                 display: 'flex',
@@ -1750,7 +1748,7 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeList') {
-                    return h('div',[
+                    return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
                         h('div', {
                             style: {
                                 display: 'flex',
@@ -1767,7 +1765,7 @@ function editor(appDefinition){
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeIf') {
-                    return h('div',[
+                    return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
                         h('div', {
                             style: {
                                 display: 'flex',
