@@ -1204,7 +1204,11 @@ function editor(appDefinition){
                     h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
                         h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, pipe.value),
                         h('input', {
+                            attrs: {
+                                type: 'text'
+                            },
                             style: {
+                                borderRadius: 'none',
                                 color: 'white',
                                 outline: 'none',
                                 boxShadow: 'none',
