@@ -55,6 +55,10 @@
         {
           "ref": "join",
           "id": "p9s3d6d2-00db-8ab5-c332-882575f25426"
+        },
+        {
+          "ref": "join",
+          "id": "8a6cd6d2-00db-8ab5-c332-882575f25426"
         }
       ]
     },
@@ -441,6 +445,11 @@
       "type": "text",
       "value": "block",
       "transformations": []
+    },
+    "9qc84274-5efc-4be1-830b-0ff8c92b5029": {
+      "type": "text",
+      "value": "",
+      "transformations": []
     }
   },
   "join": {
@@ -460,6 +469,12 @@
       "value": {
         "ref": "pipe",
         "id": "qdw7c6d2-00db-8ab5-c332-882575f25426"
+      }
+    },
+    "8a6cd6d2-00db-8ab5-c332-882575f25426": {
+      "value": {
+        "ref": "pipe",
+        "id": "9qc84274-5efc-4be1-830b-0ff8c92b5029"
       }
     }
   },

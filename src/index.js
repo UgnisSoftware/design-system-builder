@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.29v'
+const version = '0.0.30v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1202,14 +1202,16 @@ function editor(appDefinition){
             if (typeof pipe.value === 'string') {
                 return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
-                        h('span', {style: {opacity: '0', display: 'inline-block'}}, pipe.value),
+                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, pipe.value),
                         h('input', {
                             style: {
                                 color: 'white',
                                 outline: 'none',
                                 boxShadow: 'none',
+                                padding: '0 0 2px 5px',
                                 display: 'inline',
                                 border: 'none',
+                                borderBottom: '2px solid white',
                                 background: 'none',
                                 font: 'inherit',
                                 position: 'absolute',
@@ -1217,7 +1219,6 @@ function editor(appDefinition){
                                 left: '0',
                                 width: '100%',
                                 flex: '0 0 auto',
-                                textDecoration: 'underline',
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
@@ -1227,7 +1228,7 @@ function editor(appDefinition){
                             },
                         }),
                     ]),
-                    h('div', {style: {paddingLeft: '3px'}}, listTransformations(pipe.transformations, pipe.type)),
+                    ...listTransformations(pipe.transformations, pipe.type),
                 ]),
                 ])
             }
