@@ -1006,8 +1006,8 @@ function editor(appDefinition){
         }
     }
 
-    const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers') // dashboard ?
-    const ifIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'done')
+    const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
+    const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
     const numberIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'looks_one')
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
