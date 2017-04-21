@@ -1006,7 +1006,7 @@ function editor(appDefinition){
         }
     }
 
-    const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'crop_square') // dashboard ?
+    const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers') // dashboard ?
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'done')
     const numberIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'looks_one')
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
@@ -1593,7 +1593,8 @@ function editor(appDefinition){
                     on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE]}
                 }, [
                     nodeRef.ref === 'vNodeInput' ? inputIcon() :
-                        textIcon(),
+                        nodeRef.ref === 'vNodeImage' ? imageIcon() :
+                            textIcon(),
                     state.editingTitleNodeId === nodeId ?
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
