@@ -2161,11 +2161,9 @@ function editor(appDefinition){
         const renderViewComponent = h('div', {
             style: {
                 flex: '1 auto',
-                background: `
-                    radial-gradient(black 5%, transparent 16%) 0 0,
-                    radial-gradient(black 5%, transparent 16%) 8px 8px,
-                    radial-gradient(rgba(255,255,255,.1) 5%, transparent 20%) 0 1px,
-                    radial-gradient(rgba(255,255,255,.1) 5%, transparent 20%) 8px 9px`,
+                backgroundImage: 'radial-gradient(black 15%, transparent 16%), radial-gradient(black 15%, transparent 16%), radial-gradient(rgba(255, 255, 255, 0.0980392) 15%, transparent 20%), radial-gradient(rgba(255, 255, 255, 0.0980392) 15%, transparent 20%)',
+                backgroundPositionX: '0px, 8px, 0px, 8px',
+                backgroundPositionY: '0px, 8px, 1px, 9px',
                 backgroundColor:'#333',
                 backgroundSize:'16px 16px',
                 display:'relative',
