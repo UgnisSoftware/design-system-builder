@@ -71,7 +71,7 @@ function editor(appDefinition){
         editorRightWidth: 350,
         editorLeftWidth: 350,
         subEditorWidth: 350,
-        componentEditorPosition: null,
+        componentEditorPosition: {x: window.innerWidth - 710, y: window.innerHeight / 2} ,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedPipeId: '',
@@ -377,6 +377,7 @@ function editor(appDefinition){
         e.preventDefault()
         function resize(e){
             e.preventDefault()
+            // TODO refactor
             let newWidth = window.innerWidth - (e.touches? e.touches[0].pageX: e.pageX)
             if(widthName === 'editorLeftWidth'){
                 newWidth = e.touches? e.touches[0].pageX: e.pageX
@@ -384,8 +385,15 @@ function editor(appDefinition){
             if(widthName === 'subEditorWidth'){
                 newWidth = (e.touches? e.touches[0].pageX: e.pageX) - state.componentEditorPosition.x
             }
+            if(widthName === 'subEditorWidthLeft'){
+                newWidth = state.componentEditorPosition.x + state.subEditorWidth - (e.touches? e.touches[0].pageX: e.pageX)
+                if(newWidth < 250){
+                    return
+                }
+                return setState({...state, subEditorWidth: newWidth, componentEditorPosition: {...state.componentEditorPosition, x: e.touches? e.touches[0].pageX: e.pageX}})
+            }
             // I probably was drunk
-            if(widthName !== 'subEditorWidth' && ( (widthName === 'editorLeftWidth' ? state.leftOpen: state.rightOpen) ? newWidth < 180: newWidth > 180)){
+            if(widthName !== 'subEditorWidth' && widthName !== 'subEditorWidth' && ( (widthName === 'editorLeftWidth' ? state.leftOpen: state.rightOpen) ? newWidth < 180: newWidth > 180)){
                 if(widthName === 'editorLeftWidth'){
                     return setState({...state, leftOpen: !state.leftOpen})
                 }
@@ -844,7 +852,8 @@ function editor(appDefinition){
             }
         }})
     }
-    function SELECT_PIPE(pipeId) {
+    function SELECT_PIPE(pipeId, e) {
+        e.stopPropagation()
         setState({...state, selectedPipeId:pipeId})
     }
     function CHANGE_PIPE_VALUE_TO_STATE(pipeId) {
@@ -1097,15 +1106,33 @@ function editor(appDefinition){
                 cursor: 'col-resize',
             },
         })
-        const dragSubComponent = h('div', {
+        const dragSubComponentRight = h('div', {
             on: {
                 mousedown: [WIDTH_DRAGGED, 'subEditorWidth'],
                 touchstart: [WIDTH_DRAGGED, 'subEditorWidth'],
             },
             style: {
                 position: 'absolute',
-                right: '0px',
+                right: '2px',
                 transform: 'translateX(100%)',
+                top: '0',
+                width: '10px',
+                height: '100%',
+                textAlign: 'center',
+                fontSize: '1em',
+                opacity: 0,
+                cursor: 'col-resize',
+            },
+        })
+        const dragSubComponentLeft = h('div', {
+            on: {
+                mousedown: [WIDTH_DRAGGED, 'subEditorWidthLeft'],
+                touchstart: [WIDTH_DRAGGED, 'subEditorWidthLeft'],
+            },
+            style: {
+                position: 'absolute',
+                left: '2px',
+                transform: 'translateX(-100%)',
                 top: '0',
                 width: '10px',
                 height: '100%',
@@ -1233,6 +1260,7 @@ function editor(appDefinition){
                     ]),
                     ...listTransformations(pipe.transformations, pipe.type),
                 ]),
+                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
 
@@ -1909,9 +1937,8 @@ function editor(appDefinition){
                     font: "300 1.2em 'Open Sans'",
                     lineHeight: '1.2em',
                     color: 'white',
-                    left: state.componentEditorPosition ? state.componentEditorPosition.x + 'px' : undefined,
-                    right: state.componentEditorPosition ? undefined : (state.rightOpen ? state.editorRightWidth: 0) + 10 + 'px',
-                    top: state.componentEditorPosition ?  state.componentEditorPosition.y + 'px': '50%',
+                    left: state.componentEditorPosition.x + 'px',
+                    top: state.componentEditorPosition.y + 'px',
                     height: '50%',
                     display: 'flex',
                     zIndex: '3000',
@@ -1945,7 +1972,8 @@ function editor(appDefinition){
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
-                    state.componentEditorPosition  ? dragSubComponent : h('span'),
+                    dragSubComponentRight,
+                    dragSubComponentLeft,
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
                         state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent():
                             state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent():
