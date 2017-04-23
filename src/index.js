@@ -81,6 +81,7 @@ function editor(appDefinition){
         viewFoldersClosed: {},
         draggedComponentView: null,
         draggedComponentStateId: null,
+        hoveredPipe: null,
         hoveredViewNode: null,
         mousePosition: {},
         eventStack: [],
@@ -345,6 +346,13 @@ function editor(appDefinition){
         }
     }
 
+    function PIPE_HOVERED(pipeRef, e) {
+        if(!state.draggedComponentStateId){
+            return;
+        }
+        setState({...state, hoveredPipe: pipeRef})
+    }
+
     function COMPONENT_VIEW_DRAGGED(e) {
         const initialX = e.touches ? e.touches[0].pageX : e.pageX
         const initialY = e.touches ? e.touches[0].pageY : e.pageY
@@ -451,9 +459,53 @@ function editor(appDefinition){
             if(!state.draggedComponentStateId) {
                 return STATE_NODE_SELECTED(stateId)
             }
+            if(!state.hoveredPipe) {
+                return setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredPipe: null,
+                })
+            }
+            const joinIdState = uuid()
+            const joinIdText = uuid()
+            const pipeIdState = uuid()
+            const pipeIdText = uuid()
             setState({
                 ...state,
                 draggedComponentStateId: null,
+                hoveredPipe: null,
+                definition : {
+                    ...state.definition,
+                    pipe: {
+                        ...state.definition.pipe,
+                        [state.hoveredPipe.id]: {
+                            ...state.definition.pipe[state.hoveredPipe.id],
+                            transformations: [{ref: 'join', id: joinIdState}, {ref: 'join', id: joinIdText}].concat(state.definition.pipe[state.hoveredPipe.id].transformations)
+                        },
+                        [pipeIdState]: {
+                            type: 'text',
+                            value: {ref: 'state', id:state.draggedComponentStateId},
+                            transformations: [{
+                                ref: 'toText',
+                                id: 'noop'
+                            }]
+                        },
+                        [pipeIdText]: {
+                            type: 'text',
+                            value: '',
+                            transformations: []
+                        },
+                    },
+                    join: {
+                        ...state.definition.join,
+                        [joinIdState]: {
+                            value: {ref: 'pipe', id: pipeIdState}
+                        },
+                        [joinIdText]: {
+                            value: {ref: 'pipe', id: pipeIdText}
+                        },
+                    },
+                }
             })
         }
         window.addEventListener('mouseup', stopDragging)
@@ -1217,13 +1269,28 @@ function editor(appDefinition){
                 const selectedPipe = state.definition.pipe[state.selectedPipeId]
                 return [h('div', {style: {
                     position: 'fixed',
-                    top: '0px',
-                    left: '-307px',
-                    height: '100%',
+                    top: state.componentEditorPosition.y + 'px',
+                    left: state.componentEditorPosition.x - 307 + 'px',
+                    height: '50%',
                     width: '300px',
                     display: 'flex',
                 }}, [
-                    h('div',{style: {border: '3px solid #222', flex: '1 1 0%', background: '#4d4d4d', marginBottom: '10px'}}, [selectedPipe.type])
+                    h('div',{style: {border: '3px solid #222', flex: '1 1 0%', background: '#4d4d4d', marginBottom: '10px'}}, [
+                        h('div', {style: {
+                            display: 'flex',
+                            cursor: 'default',
+                            alignItems: 'center',
+                            background: '#222',
+                            paddingTop: '2px',
+                            paddingBottom: '5px',
+                            color: '#53B2ED',
+                            minWidth: '100%',
+                        },}, [
+                            h('span', {style: {flex: '5 5 auto', margin: '0 5px', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, 'Ugnis Toolbox'),
+                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [SELECT_PIPE, ''], touchstart: [SELECT_PIPE, '']}}, [clearIcon()]),
+                        ]),
+
+                    ]),
                 ])]
             }
             if (typeof pipe.value === 'string') {
@@ -1252,6 +1319,7 @@ function editor(appDefinition){
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
+                                mousemove: [PIPE_HOVERED, ref],
                             },
                             liveProps: {
                                 value: pipe.value,
@@ -1304,7 +1372,7 @@ function editor(appDefinition){
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('div', {style: {flex: '1'}},
                         [
                             h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
@@ -1959,7 +2027,7 @@ function editor(appDefinition){
                             mousedown: [COMPONENT_VIEW_DRAGGED],
                             touchstart: [COMPONENT_VIEW_DRAGGED],
                         },}, [
-                            h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px', display: 'inline-flex'}}, [
+                            h('span', {style: {flex: '0 0 auto', margin: '0 2px 0 5px', display: 'inline-flex'}}, [
                                 state.selectedViewNode.id === '_rootNode' ? appIcon() :
                                     state.selectedViewNode.ref === 'vNodeBox' ? boxIcon() :
                                         state.selectedViewNode.ref === 'vNodeList' ? listIcon() :
@@ -1967,7 +2035,7 @@ function editor(appDefinition){
                                                 state.selectedViewNode.ref === 'vNodeInput' ? inputIcon() :
                                                     textIcon(),
                             ]),
-                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
+                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, selectedNode.title),
                             h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false], touchstart: [UNSELECT_VIEW_NODE, false]}}, [clearIcon()]),
                         ])
                     ]),
