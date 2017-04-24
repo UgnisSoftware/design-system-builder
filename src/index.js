@@ -1102,6 +1102,32 @@ function editor(appDefinition){
             setState({...state, fullScreen: value})
         }
     }
+    function SAVE_DEFAULT(stateId) {
+        setState({...state, definition:{
+            ...state.definition,
+            state: {
+                ...state.definition.state,
+                [stateId]: {
+                    ...state.definition.state[stateId],
+                    defaultValue: app.getCurrentState()[stateId]
+                }
+            }
+        }})
+    }
+    function DELETE_STATE(stateId) {
+        const {[stateId]: deletedState, ...newState} = state.definition.state
+        setState({...state, definition:{
+            ...state.definition,
+            state: newState,
+            nameSpace: {
+                ...state.definition.nameSpace,
+                '_rootNameSpace': {
+                    ...state.definition.nameSpace['_rootNameSpace'],
+                    children: state.definition.nameSpace['_rootNameSpace'].children.filter((ref)=> ref.id !== stateId)
+                }
+            }
+        }})
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -1112,6 +1138,7 @@ function editor(appDefinition){
     const deleteIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
+    const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
@@ -1480,8 +1507,8 @@ function editor(appDefinition){
                     },
                 },
                 [
-                    h('span', {style: {display: 'flex', flexWrap: 'wrap'}}, [
-                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                    h('span', {style: {display: 'flex', flexWrap: 'wrap', marginTop: '6px'}}, [
+                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                             h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], touchmove: [HOVER_MOBILE], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
                         ]),
@@ -1494,7 +1521,6 @@ function editor(appDefinition){
                                 flex: '1',
                                 minWidth: '50px',
                                 border: 'none',
-                                marginTop: '6px',
                                 boxShadow: 'inset 0 -2px 0 0 ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282')
                             }
                             if(currentState.type === 'text') return h('input', {attrs: {type: 'text'}, liveProps: {value: currentRunningState[stateId]}, style: noStyleInput, on: {input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId]}})
@@ -1529,6 +1555,8 @@ function editor(appDefinition){
                                 )
                             }
                         })(),
+                        state.selectedStateNodeId === stateId && currentState.type !== 'table' && currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
+                        state.selectedStateNodeId === stateId && currentState.type !== 'table' ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
                     ]),
                     state.selectedStateNodeId === stateId ?
                         h('span',
