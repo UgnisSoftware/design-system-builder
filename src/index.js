@@ -556,8 +556,10 @@ function editor(appDefinition){
     function VIEW_NODE_SELECTED(ref) {
         setState({...state, selectedViewNode:ref})
     }
-    function UNSELECT_VIEW_NODE(selfOnly, e) {
-        e.stopPropagation()
+    function UNSELECT_VIEW_NODE(selfOnly, stopPropagation, e) {
+        if(stopPropagation){
+            e.stopPropagation()
+        }
         if(selfOnly && e.target !== this.elm){
             return
         }
@@ -2109,7 +2111,7 @@ function editor(appDefinition){
                                                     textIcon(),
                             ]),
                             h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, selectedNode.title),
-                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false], touchstart: [UNSELECT_VIEW_NODE, false]}}, [clearIcon()]),
+                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false, true], touchstart: [UNSELECT_VIEW_NODE, false, true]}}, [clearIcon()]),
                         ])
                     ]),
                     fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
@@ -2141,7 +2143,7 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE, true]}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE, true, false]}}, [
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
