@@ -1555,7 +1555,7 @@ function editor(appDefinition){
                                 )
                             }
                         })(),
-                        state.selectedStateNodeId === stateId && currentState.type !== 'table' && currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
+                        currentState.type !== 'table' && currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
                         state.selectedStateNodeId === stateId && currentState.type !== 'table' ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
                     ]),
                     state.selectedStateNodeId === stateId ?
