@@ -572,9 +572,12 @@ function editor(appDefinition){
         }
     }
     function ADD_NODE(nodeRef, type) {
-        // TODO remove when dragging works
         if(!nodeRef.ref || !state.definition[nodeRef.ref][nodeRef.id] || !state.definition[nodeRef.ref][nodeRef.id].children){
-            nodeRef = {ref: 'vNodeBox', id: '_rootNode'}
+            if(state.selectedViewNode.id && state.selectedViewNode.id !== '_rootNode'){
+                nodeRef = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id].parent
+            } else {
+                nodeRef = {ref: 'vNodeBox', id: '_rootNode'}
+            }
         }
         const nodeId = nodeRef.id
         const newNodeId = uuid()
