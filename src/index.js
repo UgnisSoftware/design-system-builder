@@ -1681,13 +1681,13 @@ function editor(appDefinition){
                         node.children.map((ref)=>listNode(ref, nodeRef, 1))
                     ),
                     h('div', {style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingLeft: '8px',
-                        paddingRight: '8px',
-                        height: '15px',
-                    },
-                        on: {mousemove: [VIEW_HOVERED, {id: '_lastNode'}, {}, 1], touchmove: [HOVER_MOBILE]}}
+                            display: 'flex',
+                            alignItems: 'center',
+                            paddingLeft: '8px',
+                            paddingRight: '8px',
+                            height: '15px',
+                        },
+                            on: {mousemove: [VIEW_HOVERED, {id: '_lastNode'}, {}, 1], touchmove: [HOVER_MOBILE]}}
                     ),
                 ]
             )
@@ -1809,7 +1809,8 @@ function editor(appDefinition){
                         nodeRef.ref === 'vNodeList' ? listIcon() :
                             nodeRef.ref === 'vNodeIf' ? ifIcon():
                                 nodeRef.ref === 'vNodeInput' ? inputIcon() :
-                                    textIcon(),
+                                    nodeRef.ref === 'vNodeImage' ? imageIcon() :
+                                        textIcon(),
                     h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
                 ]
             )
@@ -2108,7 +2109,8 @@ function editor(appDefinition){
                                         state.selectedViewNode.ref === 'vNodeList' ? listIcon() :
                                             state.selectedViewNode.ref === 'vNodeList' ? ifIcon() :
                                                 state.selectedViewNode.ref === 'vNodeInput' ? inputIcon() :
-                                                    textIcon(),
+                                                    state.selectedViewNode.ref === 'vNodeImage' ? imageIcon() :
+                                                        textIcon(),
                             ]),
                             h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, selectedNode.title),
                             h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false, true], touchstart: [UNSELECT_VIEW_NODE, false, true]}}, [clearIcon()]),
