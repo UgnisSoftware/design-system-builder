@@ -1575,7 +1575,7 @@ function editor(appDefinition){
                                         transition: '0.2s all',
                                         minWidth: '100%',
                                     }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
-                                        h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px'}}, [
+                                        h('span', {style: {flex: '0 0 auto', margin: '0 3px 0 5px', display: 'inline-flex'}}, [
                                             event.emitter.ref === 'vNodeBox' ? boxIcon() :
                                                 event.emitter.ref === 'vNodeList' ? listIcon() :
                                                     event.emitter.ref === 'vNodeList' ? ifIcon() :
