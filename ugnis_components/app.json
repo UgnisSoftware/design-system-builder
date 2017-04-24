@@ -521,6 +521,7 @@
         "ref": "style",
         "id": "_rootStyle"
       },
+      "parent": {},
       "children": [
         {
           "ref": "vNodeText",
@@ -554,6 +555,10 @@
         "ref": "style",
         "id": "fq9dd6d2-00db-8ab5-c332-882575f25426"
       },
+      "parent": {
+        "ref": "vNodeList",
+        "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
+      },
       "children": []
     }
   },
@@ -563,6 +568,10 @@
       "style": {
         "ref": "style",
         "id": "8481d6d2-00db-8ab5-c332-882575f25426"
+      },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
       },
       "value": {
         "ref": "pipe",
@@ -579,6 +588,10 @@
         "ref": "style",
         "id": "9481d6d2-00db-8ab5-c332-882575f25426"
       },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
+      },
       "click": {
         "ref": "event",
         "id": "d48rd6d2-00db-8ab5-c332-882575f25426"
@@ -594,6 +607,10 @@
         "ref": "style",
         "id": "7481d6d2-00db-8ab5-c332-882575f25426"
       },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
+      },
       "click": {
         "ref": "event",
         "id": "3a54d6d2-00db-8ab5-c332-882575f25426"
@@ -604,6 +621,10 @@
       "style": {
         "ref": "style",
         "id": "4dca73b3-90eb-41e7-8651-2bdcc93f3871"
+      },
+      "parent": {
+        "ref": "vNodeIf",
+        "id": "5787c15a-426b-41eb-831d-e3e074159582"
       },
       "value": {
         "ref": "pipe",
@@ -618,6 +639,10 @@
       "value": {
         "ref": "pipe",
         "id": "f9qxd6d2-00db-8ab5-c332-882575f25426"
+      },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
       },
       "children": [
         {
@@ -634,6 +659,10 @@
         "ref": "pipe",
         "id": "c2fb9a9b-25bb-4e8b-80c0-cf51b8506070"
       },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
+      },
       "children": [
         {
           "ref": "vNodeText",
@@ -648,6 +677,10 @@
       "src": {
         "ref": "pipe",
         "id": "a9cw9a9b-25bb-4e8b-80c0-cf51b8506070"
+      },
+      "parent": {
+        "ref": "vNodeBox",
+        "id": "_rootNode"
       },
       "style": {
         "ref": "style",

@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.30v'
+const version = '0.0.31v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -234,7 +234,8 @@ function editor(appDefinition){
                 return setState({...state, draggedComponentView: null,})
             }
             const newParentRef = state.hoveredViewNode.parent
-            setState({
+            // frame this somewhere on how not to write code
+            const fixedParents = {
                 ...state,
                 draggedComponentView: null,
                 hoveredViewNode: null,
@@ -277,6 +278,19 @@ function editor(appDefinition){
                         },
                     },
                 }
+            }
+            setState({
+                ...fixedParents,
+                definition: {
+                    ...fixedParents.definition,
+                    [nodeRef.ref]: {
+                        ...fixedParents.definition[nodeRef.ref],
+                        [nodeRef.id]: {
+                            ...fixedParents.definition[nodeRef.ref][nodeRef.id],
+                            parent: newParentRef
+                        }
+                    },
+                }
             })
             return false
         }
@@ -285,7 +299,7 @@ function editor(appDefinition){
         return false
     }
 
-    function VIEW_HOVER_MOBILE(e) {
+    function HOVER_MOBILE(e) {
         const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
         const moveEvent = new MouseEvent('mousemove', {
             bubbles: true,
@@ -303,16 +317,30 @@ function editor(appDefinition){
         if(!state.draggedComponentView){
             return;
         }
-        if(nodeRef.id === state.draggedComponentView.id){
-            return setState({...state, hoveredViewNode: null,})
-        }
         const hitPosition = (e.touches? 28: e.layerY) / 28
         const insertBefore  = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponentView.id).findIndex((ref)=>ref.id === nodeRef.id)}})
         const insertAfter   = ()=> setState({...state, hoveredViewNode: {parent: parentRef, depth, position: state.definition[parentRef.ref][parentRef.id].children.filter((ref)=> ref.id !== state.draggedComponentView.id).findIndex((ref)=>ref.id === nodeRef.id) + 1}})
         const insertAsFirst = ()=> setState({...state, hoveredViewNode: {parent: nodeRef, depth: depth+1, position: 0}})
+        const insertAsLast = ()=> setState({...state, hoveredViewNode: {parent: {ref: 'vNodeBox', id: '_rootNode'}, depth: 1, position: state.definition['vNodeBox']['_rootNode'].children.length}})
+        const insertAt = (toPutRef, index)=> setState({...state, hoveredViewNode: {parent: toPutRef, depth: depth-1, position: index+1}})
 
+        if(nodeRef.id === state.draggedComponentView.id){
+            const parent = state.definition[parentRef.ref][parentRef.id]
+            // check if the last child, if yes, go to grandparent and drop there after parent
+            if(parent.children[parent.children.length - 1].id === nodeRef.id){
+                if(parentRef.id !== '_rootNode') {
+                    const grandparent = state.definition[parent.parent.ref][parent.parent.id]
+                    const parentPosition = grandparent.children.findIndex((childRef)=> childRef.id === parentRef.id)
+                    return insertAt(parent.parent, parentPosition)
+                }
+            }
+            return setState({...state, hoveredViewNode: null,})
+        }
         if(nodeRef.id === '_rootNode'){
             return insertAsFirst()
+        }
+        if(nodeRef.id === '_lastNode'){
+            return insertAsLast()
         }
         // pray to god that you did not make a mistake here
         if(state.definition[nodeRef.ref][nodeRef.id].children){ // if box
@@ -556,6 +584,7 @@ function editor(appDefinition){
         if(type === 'box') {
             const newNode = {
                 title: 'box',
+                parent: nodeRef,
                 style: {ref:'style', id:newStyleId},
                 children: [],
             }
@@ -578,6 +607,7 @@ function editor(appDefinition){
             const pipeId = uuid()
             const newNode = {
                 title: 'text',
+                parent: nodeRef,
                 style: {ref:'style', id:newStyleId},
                 value: {ref:'pipe', id:pipeId}
             }
@@ -601,6 +631,7 @@ function editor(appDefinition){
             const pipeId = uuid()
             const newNode = {
                 title: 'image',
+                parent: nodeRef,
                 style: {ref:'style', id:newStyleId},
                 src: {ref:'pipe', id:pipeId}
             }
@@ -624,6 +655,7 @@ function editor(appDefinition){
             const pipeId = uuid()
             const newNode = {
                 title: 'conditional',
+                parent: nodeRef,
                 value: {ref:'pipe', id:pipeId},
                 children: [],
             }
@@ -655,6 +687,7 @@ function editor(appDefinition){
             const pipeMutatorId = uuid()
             const newNode = {
                 title: 'input',
+                parent: nodeRef,
                 style: {ref:'style', id:newStyleId},
                 value: {ref:'pipe', id:pipeInputId},
                 input: {ref:'event', id:eventId}
@@ -1446,7 +1479,7 @@ function editor(appDefinition){
                 [
                     h('span', {style: {display: 'flex', flexWrap: 'wrap'}}, [
                         h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
-                            h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
+                            h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], touchmove: [HOVER_MOBILE], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
                         ]),
                         (()=> {
@@ -1595,7 +1628,7 @@ function editor(appDefinition){
                         height: '26px',
                         whiteSpace: 'nowrap',
                     },
-                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [VIEW_HOVER_MOBILE]}
+                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [HOVER_MOBILE]}
                     },  [
                         h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', display: 'inline-flex'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
                             appIcon()
@@ -1613,6 +1646,15 @@ function editor(appDefinition){
                             return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
                         })():
                         node.children.map((ref)=>listNode(ref, nodeRef, 1))
+                    ),
+                    h('div', {style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
+                        height: '15px',
+                    },
+                        on: {mousemove: [VIEW_HOVERED, {id: '_lastNode'}, {}, 1], touchmove: [HOVER_MOBILE]}}
                     ),
                 ]
             )
@@ -1639,7 +1681,7 @@ function editor(appDefinition){
                             whiteSpace: 'nowrap',
                             color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                         },
-                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE]}}, [
+                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}}, [
                         node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
                         h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
@@ -1686,7 +1728,7 @@ function editor(appDefinition){
                         alignItems: 'center',
                         color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
                     },
-                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [VIEW_HOVER_MOBILE]}
+                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
                 }, [
                     nodeRef.ref === 'vNodeInput' ? inputIcon() :
                         nodeRef.ref === 'vNodeImage' ? imageIcon() :
