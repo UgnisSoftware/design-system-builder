@@ -494,47 +494,204 @@ function editor(appDefinition){
                     hoveredPipe: null,
                 })
             }
-            const joinIdState = uuid()
-            const joinIdText = uuid()
-            const pipeIdState = uuid()
-            const pipeIdText = uuid()
-            setState({
-                ...state,
-                draggedComponentStateId: null,
-                hoveredPipe: null,
-                definition : {
-                    ...state.definition,
-                    pipe: {
-                        ...state.definition.pipe,
-                        [state.hoveredPipe.id]: {
-                            ...state.definition.pipe[state.hoveredPipe.id],
-                            transformations: [{ref: 'join', id: joinIdState}, {ref: 'join', id: joinIdText}].concat(state.definition.pipe[state.hoveredPipe.id].transformations)
-                        },
-                        [pipeIdState]: {
-                            type: 'text',
-                            value: {ref: 'state', id:state.draggedComponentStateId},
-                            transformations: [{
-                                ref: 'toText',
-                                id: 'noop'
-                            }]
-                        },
-                        [pipeIdText]: {
-                            type: 'text',
-                            value: '',
-                            transformations: []
-                        },
-                    },
-                    join: {
-                        ...state.definition.join,
-                        [joinIdState]: {
-                            value: {ref: 'pipe', id: pipeIdState}
-                        },
-                        [joinIdText]: {
-                            value: {ref: 'pipe', id: pipeIdText}
-                        },
-                    },
+            const pipeDropped = state.definition.pipe[state.hoveredPipe.id]
+            if(pipeDropped.type === 'text'){
+                if(state.definition.pipe[state.hoveredPipe.id].value.ref && state.definition.pipe[state.hoveredPipe.id].value.ref === 'state'){
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredPipe: null,
+                        definition : {
+                            ...state.definition,
+                            pipe: {
+                                ...state.definition.pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definition.pipe[state.hoveredPipe.id],
+                                    value: {ref: 'state', id:state.draggedComponentStateId},
+                                    transformations: []
+                                },
+                            },
+                        }
+                    })
                 }
-            })
+                const joinIdState = uuid()
+                const joinIdText = uuid()
+                const pipeIdState = uuid()
+                const pipeIdText = uuid()
+                setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredPipe: null,
+                    definition : {
+                        ...state.definition,
+                        pipe: {
+                            ...state.definition.pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definition.pipe[state.hoveredPipe.id],
+                                transformations: [{ref: 'join', id: joinIdState}, {ref: 'join', id: joinIdText}].concat(state.definition.pipe[state.hoveredPipe.id].transformations)
+                            },
+                            [pipeIdState]: {
+                                type: 'text',
+                                value: {ref: 'state', id:state.draggedComponentStateId},
+                                transformations: []
+                            },
+                            [pipeIdText]: {
+                                type: 'text',
+                                value: '',
+                                transformations: []
+                            },
+                        },
+                        join: {
+                            ...state.definition.join,
+                            [joinIdState]: {
+                                value: {ref: 'pipe', id: pipeIdState}
+                            },
+                            [joinIdText]: {
+                                value: {ref: 'pipe', id: pipeIdText}
+                            },
+                        },
+                    }
+                })
+            }
+            if(pipeDropped.type === 'number'){
+                // you can't drop boolean into number
+                if(state.definition.state[state.draggedComponentStateId].type === 'boolean'){
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredPipe: null,
+                    })
+                }
+                // you can't drop boolean into number
+                if(state.definition.state[state.draggedComponentStateId].type === 'text'){
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredPipe: null,
+                        definition : {
+                            ...state.definition,
+                            pipe: {
+                                ...state.definition.pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definition.pipe[state.hoveredPipe.id],
+                                    value: {ref: 'state', id:state.draggedComponentStateId},
+                                    transformations: [{
+                                        ref: 'length',
+                                        id: 'noop'
+                                    }]
+                                },
+                            },
+                        }
+                    })
+                }
+                setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredPipe: null,
+                    definition : {
+                        ...state.definition,
+                        pipe: {
+                            ...state.definition.pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definition.pipe[state.hoveredPipe.id],
+                                value: {ref: 'state', id:state.draggedComponentStateId}
+                            },
+                        },
+                    }
+                })
+            }
+            if(pipeDropped.type === 'boolean'){
+                if(state.definition.state[state.draggedComponentStateId].type === 'number'){
+                    const eqId = uuid()
+                    const pipeId = uuid()
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredPipe: null,
+                        definition : {
+                            ...state.definition,
+                            pipe: {
+                                ...state.definition.pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definition.pipe[state.hoveredPipe.id],
+                                    value: {ref: 'state', id:state.draggedComponentStateId},
+                                    transformations: [{
+                                        ref: 'equal',
+                                        id: eqId
+                                    }]
+                                },
+                                [pipeId]: {
+                                    type: 'number',
+                                    value: 0,
+                                    transformations: [],
+                                }
+                            },
+                            equal: {
+                                ...state.definition.equal,
+                                [eqId]: {
+                                    value: {
+                                        ref: 'pipe',
+                                        id: pipeId
+                                    }
+                                },
+                            },
+                        }
+                    })
+                }
+                // you can't drop boolean into number
+                if(state.definition.state[state.draggedComponentStateId].type === 'text'){
+                    const eqId = uuid()
+                    const pipeId = uuid()
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredPipe: null,
+                        definition : {
+                            ...state.definition,
+                            pipe: {
+                                ...state.definition.pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definition.pipe[state.hoveredPipe.id],
+                                    value: {ref: 'state', id:state.draggedComponentStateId},
+                                    transformations: [{
+                                        ref: 'equal',
+                                        id: eqId
+                                    }]
+                                },
+                                [pipeId]: {
+                                    type: 'text',
+                                    value: 'Default text',
+                                    transformations: [],
+                                }
+                            },
+                            equal: {
+                                ...state.definition.equal,
+                                [eqId]: {
+                                    value: {
+                                        ref: 'pipe',
+                                        id: pipeId
+                                    }
+                                },
+                            },
+                        }
+                    })
+                }
+                setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredPipe: null,
+                    definition : {
+                        ...state.definition,
+                        pipe: {
+                            ...state.definition.pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definition.pipe[state.hoveredPipe.id],
+                                value: {ref: 'state', id:state.draggedComponentStateId}
+                            },
+                        },
+                    }
+                })
+            }
         }
         window.addEventListener('mouseup', stopDragging)
         window.addEventListener('touchend', stopDragging)
@@ -1022,23 +1179,6 @@ function editor(appDefinition){
                 }
             }})
         }
-        if(transformation === 'toText'){
-            const newId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                toText: {
-                    ...state.definition.toText,
-                    [newId]: {}
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toText', id:newId})
-                    }
-                }
-            }})
-        }
         if(transformation === 'add'){
             const newPipeId = uuid();
             const addId = uuid();
@@ -1322,7 +1462,7 @@ function editor(appDefinition){
                             h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
-                    if (transRef.ref === 'toText') {
+                    if (transRef.ref === 'length') {
                         return h('div', {}, [
                             h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
                         ])
@@ -1332,6 +1472,7 @@ function editor(appDefinition){
 
             function genTransformators() {
                 const selectedPipe = state.definition.pipe[state.selectedPipeId]
+                return [h('span')] // TODO rethink
                 return [h('div', {style: {
                     position: 'fixed',
                     top: state.componentEditorPosition.y + 'px',
@@ -1398,7 +1539,7 @@ function editor(appDefinition){
             }
 
             if (pipe.value === true || pipe.value === false) {
-                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {input:  [CHANGE_STATIC_VALUE, ref, 'value', 'boolean']}}, [
+                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {click: [SELECT_PIPE, ref.id], input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'], mousemove: [PIPE_HOVERED, ref]}}, [
                     h('option', {attrs: {value: 'true'}, style: {color: 'black'}}, ['true']),
                     h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
                 ])
@@ -1422,6 +1563,7 @@ function editor(appDefinition){
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
+                                mousemove: [PIPE_HOVERED, ref]
                             },
                             liveProps: {
                                 value: Number(pipe.value),
@@ -1437,10 +1579,10 @@ function editor(appDefinition){
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref]}}, [
                     h('div', {style: {flex: '1'}},
                         [
-                            h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                            h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                                 h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                             ]),
                         ]
@@ -2145,7 +2287,7 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}, on: {click: [UNSELECT_VIEW_NODE, true, false]}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 

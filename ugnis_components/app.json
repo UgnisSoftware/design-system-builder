@@ -17,10 +17,8 @@
     }
   },
   "not": {},
+  "length": {},
   "list": {},
-  "toText": {
-    "7bs9d6d2-00db-8ab5-c332-882575f25426": {}
-  },
   "listValue": {
     "pz7hd6d2-00db-8ab5-c332-882575f25426": {
       "type": "number",
@@ -68,12 +66,7 @@
         "ref": "state",
         "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
       },
-      "transformations": [
-        {
-          "ref": "toText",
-          "id": "7bs9d6d2-00db-8ab5-c332-882575f25426"
-        }
-      ]
+      "transformations": []
     },
     "ui8jd6d2-00db-8ab5-c332-882575f25426": {
       "type": "text",
@@ -130,10 +123,6 @@
           "id": "wbr7d6d2-00db-8ab5-c332-882575f25426"
         },
         {
-          "ref": "toText",
-          "id": "noop"
-        },
-        {
           "ref": "join",
           "id": "s258d6d2-00db-8ab5-c332-882575f25426"
         }
@@ -146,10 +135,6 @@
         {
           "ref": "add",
           "id": "vq8dd6d2-00db-8ab5-c332-882575f25426"
-        },
-        {
-          "ref": "toText",
-          "id": "noop"
         },
         {
           "ref": "join",

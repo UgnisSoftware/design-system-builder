@@ -133,15 +133,8 @@ export default (definition) => {
             if (ref.ref === 'remainder') {
                 value = big(value).mod(resolve(transformer.value))
             }
-            if (ref.ref === 'branch') {
-                if(resolve(transformer.predicate)){
-                    value = transformValue(value, transformer.then)
-                } else {
-                    value = transformValue(value, transformer.else)
-                }
-            }
             if (ref.ref === 'join') {
-                value = value.concat(resolve(transformer.value))
+                value = value.toString().concat(resolve(transformer.value))
             }
             if (ref.ref === 'toUpperCase') {
                 value = value.toUpperCase()
@@ -149,8 +142,8 @@ export default (definition) => {
             if (ref.ref === 'toLowerCase') {
                 value = value.toLowerCase()
             }
-            if (ref.ref === 'toText') {
-                value = value.toString()
+            if (ref.ref === 'length') {
+                value = value.length
             }
         }
         return value;
