@@ -83,6 +83,7 @@ function editor(appDefinition){
         draggedComponentStateId: null,
         hoveredPipe: null,
         hoveredViewNode: null,
+        hoveredEvent: null,
         mousePosition: {},
         eventStack: [],
         definition: savedDefinition || app.definition,
@@ -487,11 +488,61 @@ function editor(appDefinition){
             if(!state.draggedComponentStateId) {
                 return STATE_NODE_SELECTED(stateId)
             }
-            if(!state.hoveredPipe) {
+            if(!state.hoveredPipe && !state.hoveredEvent) {
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
                     hoveredPipe: null,
+                })
+            }
+            if(state.hoveredEvent){
+                // check if event already changes the state
+                if(state.definition.state[state.draggedComponentStateId].mutators.map(mutatorRef=>state.definition.mutator[mutatorRef.id].event.id).filter(eventid=>eventid === state.hoveredEvent.id).length){
+                    return setState({
+                        ...state,
+                        draggedComponentStateId: null,
+                        hoveredEvent: null,
+                    })
+                }
+                const mutatorId = uuid()
+                const pipeId = uuid()
+                return setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredEvent: null,
+                    definition: {
+                        ...state.definition,
+                        pipe: {
+                            ...state.definition.pipe,
+                            [pipeId]: {
+                                type: state.definition.state[state.draggedComponentStateId].type,
+                                value: {ref: 'state', id: state.draggedComponentStateId},
+                                transformations: []
+                            }
+                        },
+                        state: {
+                            ...state.definition.state,
+                            [state.draggedComponentStateId]: {
+                                ...state.definition.state[state.draggedComponentStateId],
+                                mutators: state.definition.state[state.draggedComponentStateId].mutators.concat({ref: 'mutator', id:mutatorId})
+                            }
+                        },
+                        mutator: {
+                            ...state.definition.mutator,
+                            [mutatorId]: {
+                                event: state.hoveredEvent,
+                                state: {ref: 'state', id: state.draggedComponentStateId},
+                                mutation: {ref: 'pipe', id: pipeId}
+                            }
+                        },
+                        event: {
+                            ...state.definition.event,
+                            [state.hoveredEvent.id]: {
+                                ...state.definition.event[state.hoveredEvent.id],
+                                mutators: state.definition.event[state.hoveredEvent.id].mutators.concat({ref: 'mutator', id:mutatorId})
+                            }
+                        }
+                    }
                 })
             }
             const pipeDropped = state.definition.pipe[state.hoveredPipe.id]
@@ -1269,6 +1320,20 @@ function editor(appDefinition){
                 }
             }
         }})
+    }
+    function EVENT_HOVERED(eventRef) {
+        setState({
+            ...state,
+            hoveredEvent: eventRef
+        })
+    }
+    function EVENT_UNHOVERED() {
+        if(state.hoveredEvent){
+            setState({
+                ...state,
+                hoveredEvent: null
+            })
+        }
     }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
@@ -2174,7 +2239,7 @@ function editor(appDefinition){
                         ...(currentEvents.length ?
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
-                                return h('div', [
+                                return h('div', {on: {mouseover: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, [
                                     h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.type),
                                     h('div',
                                         {style: {
@@ -2187,10 +2252,11 @@ function editor(appDefinition){
                                         }, event.mutators.map(mutatorRef => {
                                             const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
                                             const stateDef = state.definition[mutator.state.ref][mutator.state.id]
-                                            return h('div', {style: {marginTop: '10px'}}, [
+                                            return h('div', {style: {marginTop: '10px', display: 'flex', alignItems: 'center'}}, [
                                                 h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                                                     h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
                                                 ]),
+                                                h('span', {style: {color: '#8e8e8e', fontSize: '1.2em'}}, '‹–'),
                                                 emberEditor(mutator.mutation, stateDef.type)
                                             ])
                                         })
