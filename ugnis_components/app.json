@@ -19,32 +19,7 @@
   "not": {},
   "length": {},
   "list": {},
-  "listValue": {
-    "pz7hd6d2-00db-8ab5-c332-882575f25426": {
-      "type": "number",
-      "list": {
-        "ref": "vNodeList",
-        "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
-      },
-      "property": "x"
-    },
-    "hj9wd6d2-00db-8ab5-c332-882575f25426": {
-      "type": "number",
-      "list": {
-        "ref": "vNodeList",
-        "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
-      },
-      "property": "y"
-    },
-    "hhr8b6d2-00db-8ab5-c332-882575f25426": {
-      "type": "text",
-      "list": {
-        "ref": "vNodeList",
-        "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
-      },
-      "property": "color"
-    }
-  },
+  "listValue": {},
   "pipe": {
     "fw8jd6d2-00db-8ab5-c332-882575f25426": {
       "type": "text",
@@ -163,14 +138,6 @@
       "value": {
         "ref": "listValue",
         "id": "hhr8b6d2-00db-8ab5-c332-882575f25426"
-      },
-      "transformations": []
-    },
-    "f9qxd6d2-00db-8ab5-c332-882575f25426": {
-      "type": "table",
-      "value": {
-        "ref": "state",
-        "id": "c8q9d6d2-00db-8ab5-c332-882575f25426"
       },
       "transformations": []
     },
@@ -527,24 +494,8 @@
         {
           "ref": "vNodeImage",
           "id": "sd8vc15a-426b-41eb-831d-e3e074159582"
-        },
-        {
-          "ref": "vNodeList",
-          "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
         }
       ]
-    },
-    "gw9dd6d2-00db-8ab5-c332-882575f25426": {
-      "title": "box",
-      "style": {
-        "ref": "style",
-        "id": "fq9dd6d2-00db-8ab5-c332-882575f25426"
-      },
-      "parent": {
-        "ref": "vNodeList",
-        "id": "fl89d6d2-00db-8ab5-c332-882575f25425"
-      },
-      "children": []
     }
   },
   "vNodeText": {
@@ -618,25 +569,7 @@
     }
   },
   "vNodeInput": {},
-  "vNodeList": {
-    "fl89d6d2-00db-8ab5-c332-882575f25425": {
-      "title": "list of boxes",
-      "value": {
-        "ref": "pipe",
-        "id": "f9qxd6d2-00db-8ab5-c332-882575f25426"
-      },
-      "parent": {
-        "ref": "vNodeBox",
-        "id": "_rootNode"
-      },
-      "children": [
-        {
-          "ref": "vNodeBox",
-          "id": "gw9dd6d2-00db-8ab5-c332-882575f25426"
-        }
-      ]
-    }
-  },
+  "vNodeList": {},
   "vNodeIf": {
     "5787c15a-426b-41eb-831d-e3e074159582": {
       "title": "is number even",
@@ -872,10 +805,6 @@
         {
           "ref": "state",
           "id": "46vdd6d2-00db-8ab5-c332-882575f25426"
-        },
-        {
-          "ref": "state",
-          "id": "c8q9d6d2-00db-8ab5-c332-882575f25426"
         }
       ]
     }
@@ -896,39 +825,6 @@
           "id": "9dq8d6d2-00db-8ab5-c332-882575f25426"
         }
       ]
-    },
-    "c8q9d6d2-00db-8ab5-c332-882575f25426": {
-      "title": "tiles",
-      "ref": "c8q9d6d2-00db-8ab5-c332-882575f25426",
-      "type": "table",
-      "definition": {
-        "x": "number",
-        "y": "number",
-        "color": "text"
-      },
-      "defaultValue": {
-        "ops6d6d2-00db-8ab5-c332-882575f25426": {
-          "x": 120,
-          "y": 100,
-          "color": "#eab65c"
-        },
-        "wpv5d6d2-00db-8ab5-c332-882575f25426": {
-          "x": 200,
-          "y": 120,
-          "color": "#53B2ED"
-        },
-        "qn27d6d2-00db-8ab5-c332-882575f25426": {
-          "x": 130,
-          "y": 200,
-          "color": "#5bcc5b"
-        },
-        "ca9rd6d2-00db-8ab5-c332-882575f25426": {
-          "x": 150,
-          "y": 150,
-          "color": "#4d4d4d"
-        }
-      },
-      "mutators": []
     }
   },
   "mutator": {

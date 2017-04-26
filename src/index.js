@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.31v'
+const version = '0.0.32v'
 editor(savedApp)
 
 function editor(appDefinition){
