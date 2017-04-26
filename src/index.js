@@ -1335,6 +1335,29 @@ function editor(appDefinition){
             })
         }
     }
+    function RESET_PIPE(pipeId,e) {
+        e.stopPropagation()
+        const defaultValues = {
+            text: 'Default text',
+            number: 0,
+            boolean: true
+        }
+        setState({
+            ...state,
+            selectedPipeId: '',
+            definition: {
+                ...state.definition,
+                pipe: {
+                    ...state.definition.pipe,
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        value: defaultValues[state.definition.pipe[pipeId].type],
+                        transformations: []
+                    }
+                }
+            }
+        })
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -1344,6 +1367,7 @@ function editor(appDefinition){
     const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'text_fields')
     const deleteIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
+    const closeIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'close')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
@@ -1644,22 +1668,22 @@ function editor(appDefinition){
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref]}}, [
-                    h('div', {style: {flex: '1'}},
-                        [
-                            h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
-                                h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
-                            ]),
-                        ]
-                    ),
-                ]),
+                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [
+                    h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref]}}, [
+                        h('div', {style: {flex: '1'}},
+                            [
+                                h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                                    h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
+                                    state.selectedPipeId === ref.id ? h('div', {style: {position: 'absolute', top: '0', right: '0', width: '20px', height: '20px', fontSize: '18px', lineHeight: '20px', transform: 'translate(50%, -50%)', borderRadius: '100px', backgroundColor: '#444', border: '2px solid #eab65c'}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [closeIcon()]): h('span')
+                                ]),
+                            ]
+                        ),
+                    ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
+                    //h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
-            if(pipe.value.ref === 'listValue'){
-                return h('div', 'TODO')
-            }
+
             if(pipe.value.ref === 'eventData'){
                 const eventData = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
@@ -2239,8 +2263,8 @@ function editor(appDefinition){
                         ...(currentEvents.length ?
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
-                                return h('div', {on: {mouseover: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, [
-                                    h('div', {style: {background: '#676767', padding: '5px 10px'}}, event.type),
+                                return h('div', [
+                                    h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mouseover: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
                                     h('div',
                                         {style: {
                                             color: 'white',
