@@ -1365,9 +1365,11 @@ function editor(appDefinition){
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
     const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'text_fields')
+    const textReverseIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'format_size')
     const deleteIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'delete_forever')
     const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
     const closeIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'close')
+    const addCircleIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'add_circle')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
@@ -1496,100 +1498,66 @@ function editor(appDefinition){
                 return transformations.map((transRef, index)=>{
                     const transformer = state.definition[transRef.ref][transRef.id]
                     if (transRef.ref === 'equal') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'true/false')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, type)])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, type)])
                         ])
                     }
                     if (transRef.ref === 'add') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'subtract') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'multiply') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'divide') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
                         ])
                     }
                     if (transRef.ref === 'remainder') {
-                        return h('div', {}, [
-                            h('div', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1'}}, transRef.ref), h('span', {style: {flex: '0', color: transformations.length-1 !== index ? '#bdbdbd': transType === type ? 'green': 'red'}}, 'number')]),
-                            h('div', {style: {paddingLeft: '15px'}}, [emberEditor(transformer.value, 'number')])
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}}, [emberEditor(transformer.value)])
                         ])
                     }
-                    // if (transRef.ref === 'branch') {
-                    //     if(resolve(transformer.predicate)){
-                    //         value = transformValue(value, transformer.then)
-                    //     } else {
-                    //         value = transformValue(value, transformer.else)
-                    //     }
-                    // }
                     if (transRef.ref === 'join') {
                         return h('span', {}, [emberEditor(transformer.value, transType)])
                     }
                     if (transRef.ref === 'toUpperCase') {
-                        return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {cursor: 'default'}}, [h('span', {style:{color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                     if (transRef.ref === 'toLowerCase') {
-                        return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {cursor: 'default'}}, [h('span', {style: {color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                     if (transRef.ref === 'length') {
-                        return h('div', {}, [
-                            h('div', {style: {cursor: 'default', display:'flex'}}, [h('span', {style: {flex: '1', color: '#bdbdbd'}}, transRef.ref)]),
+                        return h('div', {style: {paddingTop: '5px'}}, [
+                            h('div', {style: {cursor: 'default'}}, [h('span', {style: {color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
                 })
             }
 
-            function genTransformators() {
-                const selectedPipe = state.definition.pipe[state.selectedPipeId]
-                return [h('span')] // TODO rethink
-                return [h('div', {style: {
-                    position: 'fixed',
-                    top: state.componentEditorPosition.y + 'px',
-                    left: state.componentEditorPosition.x - 307 + 'px',
-                    height: '50%',
-                    width: '300px',
-                    display: 'flex',
-                }}, [
-                    h('div',{style: {border: '3px solid #222', flex: '1 1 0%', background: '#4d4d4d', marginBottom: '10px'}}, [
-                        h('div', {style: {
-                            display: 'flex',
-                            cursor: 'default',
-                            alignItems: 'center',
-                            background: '#222',
-                            paddingTop: '2px',
-                            paddingBottom: '5px',
-                            color: '#53B2ED',
-                            minWidth: '100%',
-                        },}, [
-                            h('span', {style: {flex: '5 5 auto', margin: '0 5px', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, 'Ugnis Toolbox'),
-                            h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [SELECT_PIPE, ''], touchstart: [SELECT_PIPE, '']}}, [clearIcon()]),
-                        ]),
-
-                    ]),
-                ])]
-            }
             if (typeof pipe.value === 'string') {
-                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                return h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
                         h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, pipe.value),
                         h('input', {
@@ -1622,8 +1590,6 @@ function editor(appDefinition){
                         }),
                     ]),
                     ...listTransformations(pipe.transformations, pipe.type),
-                ]),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
 
@@ -1635,20 +1601,26 @@ function editor(appDefinition){
             }
 
             if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
-                return h('div', {style: {position: 'relative'}}, [h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id]}}, [
-                    h('input', {
+                return h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
+                    h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
+                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, Number(pipe.value)),
+                        h('input', {
                             attrs: {type:'number'},
                             style: {
-                                background: 'none',
-                                outline: 'none',
-                                padding: '0',
-                                margin:  '0',
-                                border: 'none',
-                                borderRadius: '0',
-                                display: 'inline-block',
-                                width: '100%',
                                 color: 'white',
-                                textDecoration: 'underline',
+                                outline: 'none',
+                                boxShadow: 'none',
+                                textAlign: 'center',
+                                display: 'inline',
+                                border: 'none',
+                                borderBottom: '2px solid white',
+                                background: 'none',
+                                font: 'inherit',
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                flex: '0 0 auto',
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
@@ -1657,29 +1629,24 @@ function editor(appDefinition){
                             liveProps: {
                                 value: Number(pipe.value),
                             },
-                        }
-                    ),
-                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': type === 'number' ? 'green': 'red'}}, 'number')
-                ]),
-                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
-                    h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
+                        }),
+                    ]),
+                    ...listTransformations(pipe.transformations, pipe.type),
                 ])
             }
 
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
-                return h('div', {style: {position: 'relative', cursor: 'pointer'}}, [
+                return h('div', {style: {flex: '1'}}, [
                     h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref]}}, [
-                        h('div', {style: {flex: '1'}},
-                            [
-                                h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
-                                    h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
-                                    state.selectedPipeId === ref.id ? h('div', {style: {position: 'absolute', top: '0', right: '0', width: '20px', height: '20px', fontSize: '18px', lineHeight: '20px', transform: 'translate(50%, -50%)', borderRadius: '100px', backgroundColor: '#444', border: '2px solid #eab65c'}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [closeIcon()]): h('span')
-                                ]),
-                            ]
-                        ),
+                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                            h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
+                        ]),
+                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_TRANSFORMATION, state.selectedPipeId, 'add']}}, [addCircleIcon()]): h('span'),
+                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [deleteIcon()]): h('span'),
+
                     ]),
-                    h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
+                    ...listTransformations(pipe.transformations, pipe.type),
                     //h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
                 ])
             }
