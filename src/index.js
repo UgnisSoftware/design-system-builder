@@ -1504,8 +1504,8 @@ function editor(appDefinition){
                         ])
                     }
                     if (transRef.ref === 'add') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                        return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
+                            h('span', {key: index, style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
                             h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
                         ])
                     }
