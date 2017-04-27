@@ -2259,7 +2259,7 @@ function editor(appDefinition){
                 }
                 const currentEvents = availableEvents.filter((event) => selectedNode[event.propertyName])
                 const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
-                return h('div', {style: {paddingTop: '20px'}}, [
+                return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
                         ...(currentEvents.length ?
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
