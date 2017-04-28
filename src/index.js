@@ -2521,7 +2521,7 @@ function editor(appDefinition){
                                 h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
                                     .filter(stateId => state.definition.state[stateId] !== undefined)
                                     .map(stateId =>
-                                        h('span', [
+                                        h('div', [
                                             h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '14px', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                             h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                             h('span', eventData.mutations[stateId].toString()),
