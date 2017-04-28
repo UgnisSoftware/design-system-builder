@@ -1171,6 +1171,14 @@ function editor(appDefinition){
         }})
     }
     function ADD_TRANSFORMATION(pipeId, transformation) {
+        if(transformation === '_default'){
+            const defaults = {
+                text: 'toUpperCase',
+                number: 'add',
+                boolean: 'not'
+            }
+            transformation = defaults[state.definition.pipe[pipeId].type]
+        }
         if(transformation === 'join'){
             const newPipeId = uuid();
             const joinId = uuid();
@@ -1538,7 +1546,6 @@ function editor(appDefinition){
                     }
                     if (transRef.ref === 'toUpperCase') {
                         return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
                             h('span', {style: {cursor: 'default'}}, [h('span', {style:{color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
@@ -1642,7 +1649,7 @@ function editor(appDefinition){
                         h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
-                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_TRANSFORMATION, state.selectedPipeId, 'add']}}, [addCircleIcon()]): h('span'),
+                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_TRANSFORMATION, state.selectedPipeId, '_default']}}, [addCircleIcon()]): h('span'),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [deleteIcon()]): h('span'),
 
                     ]),
