@@ -1343,6 +1343,14 @@ function editor(appDefinition){
             })
         }
     }
+    function PIPE_UNHOVERED() {
+        if(state.hoveredPipe){
+            setState({
+                ...state,
+                hoveredPipe: null
+            })
+        }
+    }
     function RESET_PIPE(pipeId,e) {
         e.stopPropagation()
         const defaultValues = {
@@ -1499,50 +1507,26 @@ function editor(appDefinition){
             },
         })
 
-        function emberEditor(ref, type){
+        function emberEditor(ref){
             const pipe = state.definition[ref.ref][ref.id]
 
-            function listTransformations(transformations, transType) {
+            function listTransformations(transformations) {
                 return transformations.map((transRef, index)=>{
                     const transformer = state.definition[transRef.ref][transRef.id]
                     if (transRef.ref === 'equal') {
                         return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, type)])
+                            h('span', {style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
                         ])
                     }
-                    if (transRef.ref === 'add') {
+                    if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
-                        ])
-                    }
-                    if (transRef.ref === 'subtract') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
-                        ])
-                    }
-                    if (transRef.ref === 'multiply') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
-                        ])
-                    }
-                    if (transRef.ref === 'divide') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value, 'number')])
-                        ])
-                    }
-                    if (transRef.ref === 'remainder') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}}, [emberEditor(transformer.value)])
+                            h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
                         ])
                     }
                     if (transRef.ref === 'join') {
-                        return h('span', {}, [emberEditor(transformer.value, transType)])
+                        return h('span', {}, [emberEditor(transformer.value)])
                     }
                     if (transRef.ref === 'toUpperCase') {
                         return h('div', {style: {paddingTop: '5px'}}, [
@@ -1551,7 +1535,6 @@ function editor(appDefinition){
                     }
                     if (transRef.ref === 'toLowerCase') {
                         return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {key: index, style: {color: '#bdbdbd', cursor: 'default', display:'inline-block'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
                             h('span', {style: {cursor: 'default'}}, [h('span', {style: {color: '#bdbdbd'}}, transRef.ref)]),
                         ])
                     }
@@ -1590,6 +1573,7 @@ function editor(appDefinition){
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
                                 mousemove: [PIPE_HOVERED, ref],
+                                mouseout: [PIPE_UNHOVERED],
                             },
                             liveProps: {
                                 value: pipe.value,
@@ -1601,7 +1585,7 @@ function editor(appDefinition){
             }
 
             if (pipe.value === true || pipe.value === false) {
-                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {click: [SELECT_PIPE, ref.id], input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'], mousemove: [PIPE_HOVERED, ref]}}, [
+                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {click: [SELECT_PIPE, ref.id], input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED]}}, [
                     h('option', {attrs: {value: 'true'}, style: {color: 'black'}}, ['true']),
                     h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
                 ])
@@ -1631,7 +1615,8 @@ function editor(appDefinition){
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
-                                mousemove: [PIPE_HOVERED, ref]
+                                mousemove: [PIPE_HOVERED, ref],
+                                mouseout: [PIPE_UNHOVERED],
                             },
                             liveProps: {
                                 value: Number(pipe.value),
@@ -1645,7 +1630,7 @@ function editor(appDefinition){
             if(pipe.value.ref === 'state'){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', {style: {flex: '1'}}, [
-                    h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref]}}, [
+                    h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED],}}, [
                         h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
@@ -1669,7 +1654,6 @@ function editor(appDefinition){
                             [eventData.title])
                         ]
                     ),
-                    h('div', {style: {flex: '0', cursor: 'default', color: pipe.transformations.length > 0 ? '#bdbdbd': eventData.type === type ? 'green': 'red'}}, eventData.type)
                 ]),
                     h('div', {style: {paddingLeft: '15px'}}, listTransformations(pipe.transformations, pipe.type)),
                 ])
@@ -2238,7 +2222,7 @@ function editor(appDefinition){
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                 return h('div', [
-                                    h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mouseover: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
+                                    h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
                                     h('div',
                                         {style: {
                                             color: 'white',
@@ -2254,7 +2238,7 @@ function editor(appDefinition){
                                                 h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                                                     h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
                                                 ]),
-                                                h('span', {style: {color: '#8e8e8e', fontSize: '1.2em'}}, '‹–'),
+                                                h('span', {style: {color: 'white', fontSize: '1.8em', padding: '10px'}}, '='),
                                                 emberEditor(mutator.mutation, stateDef.type)
                                             ])
                                         })
@@ -2598,7 +2582,7 @@ function editor(appDefinition){
             topComponent,
             mainRowComponent,
             state.draggedComponentView ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
-            state.draggedComponentStateId ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '16px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [fakeState(state.draggedComponentStateId)]): h('span'),
+            state.draggedComponentStateId ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '16px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
         ])
 
         node = patch(node, vnode)
