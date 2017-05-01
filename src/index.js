@@ -1337,8 +1337,71 @@ function editor(appDefinition){
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
+    const warningIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'whatshot') // priority_high
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
+
+    const fields = {
+        vNodeBox: ['style', 'children', 'mouseout', 'mouseover', 'dblclick', 'click'],
+        vNodeText: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click'],
+        vNodeInput: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click', 'input', 'focus', 'blur'],
+        vNodeIf: ['value', 'children'],
+        vNodeImage: ['style', 'src', 'mouseout', 'mouseover', 'dblclick', 'click'],
+        add: ['value'],
+        subtract: ['value'],
+        multiply: ['value'],
+        divide: ['value'],
+        remainder: ['value'],
+        join: ['value'],
+        and: ['value'],
+        or: ['value'],
+        equal: ['value'],
+        event: ['mutators'],
+        mutator: ['mutation'],
+        style: ['background', 'border', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
+        state: [],
+        length: [],
+        toLowerCase: [],
+        toUpperCase: [],
+        pipe: ['value', 'transformations'],
+    }
+    const memoizedRefs = {}
+    function lookForSelectedState(nodeRef){
+        // check if node was memoized, has not changed (immutable reference) and has an answer for seleted state
+        if(memoizedRefs[nodeRef.id] && memoizedRefs[nodeRef.id].stateDefinition === state.definition && memoizedRefs[nodeRef.id][state.selectedStateNodeId] !== undefined){
+            return memoizedRefs[nodeRef.id][state.selectedStateNodeId]
+        }
+        // check data, style, event mutations
+        const value = (()=> {
+            const node = state.definition[nodeRef.ref][nodeRef.id]
+            const fieldsToCheck = fields[nodeRef.ref]
+            for (let i = 0; i < fieldsToCheck.length; i++) {
+                const fieldName = fieldsToCheck[i]
+                if (node[fieldName] === undefined) continue;
+                if (node[fieldName].id === state.selectedStateNodeId) return true
+                // transformations, children, mutators
+                if ((fieldName === 'children' && state.viewFoldersClosed[nodeRef.id]) || fieldName === 'mutators' || fieldName === 'transformations') {
+                    for (let j = 0; j < node[fieldName].length; j++) {
+                        if (lookForSelectedState(node[fieldName][j]) === true) {
+                            return true
+                        }
+                    }
+                }
+                if (node[fieldName].ref) {
+                    if (lookForSelectedState(node[fieldName]) === true) {
+                        return true
+                    }
+                }
+            }
+            return false
+        })()
+        memoizedRefs[nodeRef.id] = {
+            ...memoizedRefs[nodeRef.id],
+            stateDefinition: state.definition,
+            [state.selectedStateNodeId]: value,
+        }
+        return value
+    }
 
     function render() {
         const currentRunningState = app.getCurrentState()
@@ -1883,6 +1946,7 @@ function editor(appDefinition){
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                         h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
+                        h('div', {style: {color: '#eab65c', cursor: 'pointer', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
                     ]),
                     h('div', {
                             style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none': 'block'},
@@ -1928,6 +1992,7 @@ function editor(appDefinition){
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
                     h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
+                    h('div', {style: {color: '#eab65c', cursor: 'pointer', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
                 ]
             )
         }
@@ -1975,7 +2040,7 @@ function editor(appDefinition){
         }
 
         function generateEditNodeComponent() {
-            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
+            const styles = fields.style
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h('div', {
