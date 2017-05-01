@@ -150,6 +150,12 @@ export default (definition) => {
             if (ref.ref === 'length') {
                 value = value.length
             }
+            if (ref.ref === 'and') {
+                value = value && resolve(transformer.value)
+            }
+            if (ref.ref === 'or') {
+                value = value || resolve(transformer.value)
+            }
         }
         return value;
     }

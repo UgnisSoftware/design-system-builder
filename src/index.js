@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.35v'
+const version = '0.0.36v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1171,149 +1171,47 @@ function editor(appDefinition){
             }
         }})
     }
-    function ADD_TRANSFORMATION(pipeId, transformation) {
-        if(transformation === '_default'){
-            const defaults = {
-                text: 'toUpperCase',
-                number: 'add',
-                boolean: 'and'
+    function ADD_DEFAULT_TRANSFORMATION(pipeId) {
+        const defaultTransformations = {
+            text: 'toUpperCase',
+            number: 'add',
+            boolean: 'and'
+        }
+        const defaultValues = {
+            text: 'Default text',
+            number: 0,
+            boolean: true
+        }
+        const pipe = state.definition.pipe[pipeId]
+        const stateInPipe = state.definition.state[pipe.value.id]
+        const transformation = defaultTransformations[stateInPipe.type]
+        const value = defaultValues[stateInPipe.type]
+        const newPipeId = uuid();
+        const newId = uuid();
+
+        const oldTransformations = state.definition.pipe[pipeId].transformations
+        const newPipeTransformations = pipe.type === 'text' || pipe.type === stateInPipe.type ? oldTransformations.concat({ref: transformation, id:newId}): oldTransformations.slice(0, oldTransformations.length - 1).concat({ref: transformation, id:newId}).concat(oldTransformations.slice(oldTransformations.length - 1))
+        setState({...state, definition: {
+            ...state.definition,
+            [transformation]: {
+                ...state.definition[transformation],
+                [newId]: {
+                    value: {ref: 'pipe', id:newPipeId}
+                }
+            },
+            pipe: {
+                ...state.definition.pipe,
+                [newPipeId]: {
+                    type: pipe.type,
+                    value: value,
+                    transformations: []
+                },
+                [pipeId]: {
+                    ...state.definition.pipe[pipeId],
+                    transformations: newPipeTransformations
+                }
             }
-            transformation = defaults[state.definition.pipe[pipeId].type]
-        }
-        if(transformation === 'join'){
-            const newPipeId = uuid();
-            const joinId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                join: {
-                    ...state.definition.join,
-                    [joinId]: {
-                        value: {ref: 'pipe', id:newPipeId}
-                    }
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [newPipeId]: {
-                        type: 'text',
-                        value: 'Default text',
-                        transformations: []
-                    },
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'join', id:joinId})
-                    }
-                }
-            }})
-        }
-        if(transformation === 'toUpperCase'){
-            const newId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                toUpperCase: {
-                    ...state.definition.toUpperCase,
-                    [newId]: {}
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toUpperCase', id:newId})
-                    }
-                }
-            }})
-        }
-        if(transformation === 'toLowerCase'){
-            const newId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                toLowerCase: {
-                    ...state.definition.toLowerCase,
-                    [newId]: {}
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'toLowerCase', id:newId})
-                    }
-                }
-            }})
-        }
-        if(transformation === 'add'){
-            const newPipeId = uuid();
-            const addId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                add: {
-                    ...state.definition.add,
-                    [addId]: {
-                        value: {ref: 'pipe', id:newPipeId}
-                    }
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [newPipeId]: {
-                        type: 'number',
-                        value: 0,
-                        transformations: []
-                    },
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'add', id:addId})
-                    }
-                }
-            }})
-        }
-        if(transformation === 'subtract'){
-            const newPipeId = uuid();
-            const subtractId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                subtract: {
-                    ...state.definition.subtract,
-                    [subtractId]: {
-                        value: {ref: 'pipe', id:newPipeId}
-                    }
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [newPipeId]: {
-                        type: 'number',
-                        value: 0,
-                        transformations: []
-                    },
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'subtract', id:subtractId})
-                    }
-                }
-            }})
-        }
-        if(transformation === 'and'){
-            const newPipeId = uuid();
-            const subtractId = uuid();
-            setState({...state, definition: {
-                ...state.definition,
-                and: {
-                    ...state.definition.and,
-                    [subtractId]: {
-                        value: {ref: 'pipe', id:newPipeId}
-                    }
-                },
-                pipe: {
-                    ...state.definition.pipe,
-                    [newPipeId]: {
-                        type: 'boolean',
-                        value: true,
-                        transformations: []
-                    },
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'and', id:subtractId})
-                    }
-                }
-            }})
-        }
+        }})
     }
     function RESET_APP_STATE() {
         app.setCurrentState(app.createDefaultState())
@@ -1705,7 +1603,7 @@ function editor(appDefinition){
                         h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
-                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_TRANSFORMATION, state.selectedPipeId, '_default']}}, [addCircleIcon()]): h('span'),
+                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId]}}, [addCircleIcon()]): h('span'),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [deleteIcon()]): h('span'),
 
                     ]),
