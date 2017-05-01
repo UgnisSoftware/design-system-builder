@@ -1053,19 +1053,29 @@ function editor(appDefinition){
         setState({...state, editingTitleNodeId:nodeId})
     }
     function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
-        if(nodeRef.id === '_rootNode'){
-            if(state.definition.vNodeBox['_rootNode'].children.length === 0){
-                return;
+        // remove all events from state
+        const events = getAvailableEvents(nodeRef.ref)
+        let newState = state.definition.state
+        events.forEach((event)=>{
+            const eventRef = state.definition[nodeRef.ref][nodeRef.id][event.propertyName]
+            if(eventRef){
+                // event -> mutators -> states
+                state.definition[eventRef.ref][eventRef.id].mutators.forEach((mutatorRef)=> {
+                    const stateRef = state.definition[mutatorRef.ref][mutatorRef.id].state
+                    newState = {
+                        ... newState,
+                        [stateRef.id]: {
+                            ...newState[stateRef.id],
+                            mutators: newState[stateRef.id].mutators.filter((mutator)=> mutator.id !== mutatorRef.id)
+                        }
+                    }
+                })
             }
-            // immutably remove all nodes except rootNode
-            return setState({...state, definition: {
-                ...state.definition,
-                vNodeBox: {'_rootNode': {...state.definition.vNodeBox['_rootNode'], children: []}},
-            }, selectedViewNode: {}})
-        }
+        })
         setState({...state, definition: {
             ...state.definition,
             [parentRef.ref]: {...state.definition[parentRef.ref], [parentRef.id]: {...state.definition[parentRef.ref][parentRef.id], children:state.definition[parentRef.ref][parentRef.id].children.filter((ref)=>ref.id !== nodeRef.id)}},
+            state: newState,
         }, selectedViewNode: {}})
     }
     function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
@@ -1282,40 +1292,38 @@ function editor(appDefinition){
             number: 0,
             boolean: true
         }
-        if(state.definition.pipe[pipeId].type === 'text'){
-            let parentJoinId;
-            Object.keys(state.definition.join).forEach((joinId) => {
-                if(state.definition.join[joinId].value.id === pipeId){
-                    parentJoinId = joinId
-                }
-            })
-            if(parentJoinId){
-                Object.keys(state.definition.pipe).forEach((parentPipeId) => {
-                    state.definition.pipe[parentPipeId].transformations.forEach((ref, index) => {
-                        if(ref.id === parentJoinId){
-                            const joinRef = state.definition.pipe[parentPipeId].transformations[index+1]
-                            const secondPipeRef = state.definition.join[joinRef.id].value
-                            const text = state.definition.pipe[secondPipeRef.id].value
-                            setState({
-                                ...state,
-                                selectedPipeId: '',
-                                definition: {
-                                    ...state.definition,
-                                    pipe: {
-                                        ...state.definition.pipe,
-                                        [parentPipeId]: {
-                                            ...state.definition.pipe[parentPipeId],
-                                            value: state.definition.pipe[parentPipeId].value + text,
-                                            transformations: state.definition.pipe[parentPipeId].transformations.slice(0, index).concat(state.definition.pipe[secondPipeRef.id].transformations).concat(state.definition.pipe[parentPipeId].transformations.slice(index+2))
-                                        }
+        let parentJoinId;
+        Object.keys(state.definition.join).forEach((joinId) => {
+            if(state.definition.join[joinId].value.id === pipeId){
+                parentJoinId = joinId
+            }
+        })
+        if(parentJoinId){
+            Object.keys(state.definition.pipe).forEach((parentPipeId) => {
+                state.definition.pipe[parentPipeId].transformations.forEach((ref, index) => {
+                    if(ref.id === parentJoinId){
+                        const joinRef = state.definition.pipe[parentPipeId].transformations[index+1]
+                        const secondPipeRef = state.definition.join[joinRef.id].value
+                        const text = state.definition.pipe[secondPipeRef.id].value
+                        setState({
+                            ...state,
+                            selectedPipeId: '',
+                            definition: {
+                                ...state.definition,
+                                pipe: {
+                                    ...state.definition.pipe,
+                                    [parentPipeId]: {
+                                        ...state.definition.pipe[parentPipeId],
+                                        value: state.definition.pipe[parentPipeId].value + text,
+                                        transformations: state.definition.pipe[parentPipeId].transformations.slice(0, index).concat(state.definition.pipe[secondPipeRef.id].transformations).concat(state.definition.pipe[parentPipeId].transformations.slice(index+2))
                                     }
                                 }
-                            })
-                        }
-                    })
+                            }
+                        })
+                    }
                 })
-            }
-        } else{
+            })
+        } else {
             setState({
                 ...state,
                 selectedPipeId: '',
@@ -1376,6 +1384,43 @@ function editor(appDefinition){
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
 
+    function getAvailableEvents(type) {
+        let availableEvents = [
+            {
+                description: 'on click',
+                propertyName: 'click'
+            },
+            {
+                description: 'double clicked',
+                propertyName: 'dblclick'
+            },
+            {
+                description: 'mouse over',
+                propertyName: 'mouseover'
+            },
+            {
+                description: 'mouse out',
+                propertyName: 'mouseout'
+            },
+        ]
+        if (type === 'vNodeInput') {
+            availableEvents = availableEvents.concat([
+                {
+                    description: 'input',
+                    propertyName: 'input'
+                },
+                {
+                    description: 'focus',
+                    propertyName: 'focus'
+                },
+                {
+                    description: 'blur',
+                    propertyName: 'blur'
+                },
+            ])
+        }
+        return availableEvents
+    }
     const fields = {
         vNodeBox: ['style', 'children', 'mouseout', 'mouseover', 'dblclick', 'click'],
         vNodeText: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click'],
@@ -2251,40 +2296,8 @@ function editor(appDefinition){
                 ])
             }
             const geneventsSubmenuComponent = () => {
-                let availableEvents = [
-                    {
-                        description: 'on click',
-                        propertyName: 'click'
-                    },
-                    {
-                        description: 'double clicked',
-                        propertyName: 'dblclick'
-                    },
-                    {
-                        description: 'mouse over',
-                        propertyName: 'mouseover'
-                    },
-                    {
-                        description: 'mouse out',
-                        propertyName: 'mouseout'
-                    },
-                ]
-                if (state.selectedViewNode.ref === 'vNodeInput') {
-                    availableEvents = availableEvents.concat([
-                        {
-                            description: 'input',
-                            propertyName: 'input'
-                        },
-                        {
-                            description: 'focus',
-                            propertyName: 'focus'
-                        },
-                        {
-                            description: 'blur',
-                            propertyName: 'blur'
-                        },
-                    ])
-                }
+
+                const availableEvents = getAvailableEvents(state.selectedViewNode.ref)
                 const currentEvents = availableEvents.filter((event) => selectedNode[event.propertyName])
                 const eventsLeft = availableEvents.filter((event) => !selectedNode[event.propertyName])
                 return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
