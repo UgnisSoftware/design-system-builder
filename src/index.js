@@ -2294,7 +2294,7 @@ function editor(appDefinition){
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                 return h('div', [
                                     h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
-                                    eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are still working on this part. Some functionality might still be missing') : h('span'),
+                                    eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing') : h('span'),
                                     h('div',
                                         {style: {
                                             color: 'white',
