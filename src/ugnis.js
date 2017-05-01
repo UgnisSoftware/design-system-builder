@@ -278,7 +278,6 @@ export default (definition) => {
     }
 
     function emitEvent(eventRef, e) {
-        e.preventDefault()
         const eventId = eventRef.id
         const event = definition.event[eventId]
         currentEvent = e

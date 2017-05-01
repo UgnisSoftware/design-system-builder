@@ -241,6 +241,11 @@
       "value": "none",
       "transformations": []
     },
+    "asd90ef8-c1be-4706-8a71-f444f18f0f82": {
+      "type": "text",
+      "value": "none",
+      "transformations": []
+    },
     "b0a10497-ec26-4ff7-8739-a193755cbcae": {
       "type": "text",
       "value": "10px 5px",
@@ -643,6 +648,10 @@
       "display": {
         "ref": "pipe",
         "id": "ae987bba-734a-46ae-8c82-c04896221179"
+      },
+      "userSelect": {
+        "ref": "pipe",
+        "id": "asd90ef8-c1be-4706-8a71-f444f18f0f82"
       },
       "borderRadius": {
         "ref": "pipe",
