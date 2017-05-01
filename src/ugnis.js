@@ -128,7 +128,12 @@ export default (definition) => {
                 value = big(value).times(resolve(transformer.value))
             }
             if (ref.ref === 'divide') {
-                value = big(value).div(resolve(transformer.value))
+                const divider = resolve(transformer.value)
+                if(big(divider).eq(0)){
+                    value = 0
+                } else {
+                    value = big(value).div(divider)
+                }
             }
             if (ref.ref === 'remainder') {
                 value = big(value).mod(resolve(transformer.value))

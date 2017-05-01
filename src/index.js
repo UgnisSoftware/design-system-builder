@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.32v'
+const version = '0.0.33v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1023,6 +1023,7 @@ function editor(appDefinition){
             'display': 'block',
             'top': '0px',
             'bottom': '0px',
+            'transition': '0.5s all',
             'left': '0px',
             'right': '0px',
             'flex': '1 1 auto',
@@ -1175,7 +1176,7 @@ function editor(appDefinition){
             const defaults = {
                 text: 'toUpperCase',
                 number: 'add',
-                boolean: 'not'
+                boolean: 'and'
             }
             transformation = defaults[state.definition.pipe[pipeId].type]
         }
@@ -1288,6 +1289,31 @@ function editor(appDefinition){
                 }
             }})
         }
+        if(transformation === 'and'){
+            const newPipeId = uuid();
+            const subtractId = uuid();
+            setState({...state, definition: {
+                ...state.definition,
+                and: {
+                    ...state.definition.and,
+                    [subtractId]: {
+                        value: {ref: 'pipe', id:newPipeId}
+                    }
+                },
+                pipe: {
+                    ...state.definition.pipe,
+                    [newPipeId]: {
+                        type: 'boolean',
+                        value: true,
+                        transformations: []
+                    },
+                    [pipeId]: {
+                        ...state.definition.pipe[pipeId],
+                        transformations: state.definition.pipe[pipeId].transformations.concat({ref: 'and', id:subtractId})
+                    }
+                }
+            }})
+        }
     }
     function RESET_APP_STATE() {
         app.setCurrentState(app.createDefaultState())
@@ -1370,6 +1396,30 @@ function editor(appDefinition){
                         value: defaultValues[state.definition.pipe[pipeId].type],
                         transformations: []
                     }
+                }
+            }
+        })
+    }
+    function CHANGE_TRANSFORMATION(pipeRef, transformationRef, index, e) {
+        if(transformationRef.ref === e.target.value){
+            return
+        }
+        const {[transformationRef.id]: actualTransform, ...left} = state.definition[transformationRef.ref]
+        setState({
+            ...state,
+            definition: {
+                ...state.definition,
+                pipe: {
+                    ...state.definition.pipe,
+                    [pipeRef.id]: {
+                        ...state.definition.pipe[pipeRef.id],
+                        transformations: state.definition.pipe[pipeRef.id].transformations.map((transf)=> transf.id === transformationRef.id ? {ref: e.target.value, id: transformationRef.id}: transf)
+                    }
+                },
+                [transformationRef.ref]: left,
+                [e.target.value]: {
+                    ...state.definition[e.target.value],
+                    [transformationRef.id]: actualTransform
                 }
             }
         })
@@ -1519,28 +1569,49 @@ function editor(appDefinition){
                             h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
                         ])
                     }
-                    if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
-                        return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
-                            h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}}, transRef.ref)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
-                        ])
-                    }
                     if (transRef.ref === 'join') {
                         return h('span', {}, [emberEditor(transformer.value)])
-                    }
-                    if (transRef.ref === 'toUpperCase') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {style: {cursor: 'default'}}, [h('span', {style:{color: '#bdbdbd'}}, transRef.ref)]),
-                        ])
-                    }
-                    if (transRef.ref === 'toLowerCase') {
-                        return h('div', {style: {paddingTop: '5px'}}, [
-                            h('span', {style: {cursor: 'default'}}, [h('span', {style: {color: '#bdbdbd'}}, transRef.ref)]),
-                        ])
                     }
                     if (transRef.ref === 'length') {
                         return h('div', {style: {paddingTop: '5px'}}, [
                             h('div', {style: {cursor: 'default'}}, [h('span', {style: {color: '#bdbdbd'}}, transRef.ref)]),
+                        ])
+                    }
+
+                    const numberTransf = [{title: 'add', sign: '+'}, {title: 'subtract', sign: '-'}, {title: 'multiply', sign: '*'}, {title: 'divide', sign: '/'}, {title: 'remainder', sign: '%'}]
+                    const textTransf = [{title: 'toUpperCase', sign: 'to upper case'}, {title: 'toLowerCase', sign: 'to lower case'}]
+                    const boolTransf = [{title: 'and', sign: 'and'}, {title: 'or', sign: 'or'}]
+
+                    if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
+                        return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
+                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                                numberTransf.map((description) =>
+                                    h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
+                                )
+                            ),
+                            h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}},)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
+                        ])
+                    }
+                    if (transRef.ref === 'toUpperCase' || transRef.ref === 'toLowerCase') {
+                        return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
+                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                                textTransf.map((description) =>
+                                    h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
+                                )
+                            ),
+                            h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', marginRight: '5px'}}, [h('span', {style: {flex: '1'}},)]),
+                        ])
+                    }
+                    if (transRef.ref === 'and' || transRef.ref === 'or') {
+                        return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
+                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                                boolTransf.map((description) =>
+                                    h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
+                                )
+                            ),
+                            h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}},)]),
+                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
                         ])
                     }
                 })
@@ -2006,7 +2077,7 @@ function editor(appDefinition){
         }
 
         function generateEditNodeComponent() {
-            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
+            const styles = ['background', 'border', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding']
             const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h('div', {
@@ -2223,6 +2294,7 @@ function editor(appDefinition){
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                 return h('div', [
                                     h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
+                                    eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are still working on this part. Some functionality might still be missing') : h('span'),
                                     h('div',
                                         {style: {
                                             color: 'white',

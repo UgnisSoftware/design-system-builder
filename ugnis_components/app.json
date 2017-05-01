@@ -7,7 +7,6 @@
   },
   "toLowerCase": {},
   "toUpperCase": {},
-  "conditional": {},
   "equal": {
     "a7251af0-50a7-4823-85a0-66ce09d8a3cc": {
       "value": {
@@ -16,10 +15,9 @@
       }
     }
   },
-  "not": {},
+  "and": {},
+  "or": {},
   "length": {},
-  "list": {},
-  "listValue": {},
   "pipe": {
     "fw8jd6d2-00db-8ab5-c332-882575f25426": {
       "type": "text",
@@ -448,6 +446,8 @@
       }
     }
   },
+  "multiply": {},
+  "divide": {},
   "remainder": {
     "34780d22-f521-4c30-89a5-3e7f5b5af7c2": {
       "value": {
