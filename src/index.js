@@ -1282,21 +1282,56 @@ function editor(appDefinition){
             number: 0,
             boolean: true
         }
-        setState({
-            ...state,
-            selectedPipeId: '',
-            definition: {
-                ...state.definition,
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        value: defaultValues[state.definition.pipe[pipeId].type],
-                        transformations: []
+        if(state.definition.pipe[pipeId].type === 'text'){
+            let parentJoinId;
+            Object.keys(state.definition.join).forEach((joinId) => {
+                if(state.definition.join[joinId].value.id === pipeId){
+                    parentJoinId = joinId
+                }
+            })
+            if(parentJoinId){
+                Object.keys(state.definition.pipe).forEach((parentPipeId) => {
+                    state.definition.pipe[parentPipeId].transformations.forEach((ref, index) => {
+                        if(ref.id === parentJoinId){
+                            const joinRef = state.definition.pipe[parentPipeId].transformations[index+1]
+                            const secondPipeRef = state.definition.join[joinRef.id].value
+                            const text = state.definition.pipe[secondPipeRef.id].value
+                            setState({
+                                ...state,
+                                selectedPipeId: '',
+                                definition: {
+                                    ...state.definition,
+                                    pipe: {
+                                        ...state.definition.pipe,
+                                        [parentPipeId]: {
+                                            ...state.definition.pipe[parentPipeId],
+                                            value: state.definition.pipe[parentPipeId].value + text,
+                                            transformations: state.definition.pipe[parentPipeId].transformations.slice(0, index).concat(state.definition.pipe[secondPipeRef.id].transformations).concat(state.definition.pipe[parentPipeId].transformations.slice(index+2))
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    })
+                })
+            }
+        } else{
+            setState({
+                ...state,
+                selectedPipeId: '',
+                definition: {
+                    ...state.definition,
+                    pipe: {
+                        ...state.definition.pipe,
+                        [pipeId]: {
+                            ...state.definition.pipe[pipeId],
+                            value: defaultValues[state.definition.pipe[pipeId].type],
+                            transformations: []
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
     function CHANGE_TRANSFORMATION(pipeRef, transformationRef, index, e) {
         if(transformationRef.ref === e.target.value){
@@ -1668,7 +1703,7 @@ function editor(appDefinition){
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId]}}, [addCircleIcon()]): h('span'),
-                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, state.selectedPipeId]}}, [deleteIcon()]): h('span'),
+                        state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, ref.id]}}, [deleteIcon()]): h('span'),
 
                     ]),
                     ...listTransformations(pipe.transformations, pipe.type),
