@@ -1368,7 +1368,7 @@ function editor(appDefinition){
     const memoizedRefs = {}
     function lookForSelectedState(nodeRef){
         // check if node was memoized, has not changed (immutable reference) and has an answer for seleted state
-        if(memoizedRefs[nodeRef.id] && memoizedRefs[nodeRef.id].stateDefinition === state.definition && memoizedRefs[nodeRef.id][state.selectedStateNodeId] !== undefined){
+        if(memoizedRefs[nodeRef.id] && memoizedRefs[nodeRef.id].stateDefinition === state.definition && memoizedRefs[nodeRef.id].isClosed === state.viewFoldersClosed[nodeRef.id] && memoizedRefs[nodeRef.id][state.selectedStateNodeId] !== undefined){
             return memoizedRefs[nodeRef.id][state.selectedStateNodeId]
         }
         // check data, style, event mutations
@@ -1398,6 +1398,7 @@ function editor(appDefinition){
         memoizedRefs[nodeRef.id] = {
             ...memoizedRefs[nodeRef.id],
             stateDefinition: state.definition,
+            isClosed: state.viewFoldersClosed[nodeRef.id],
             [state.selectedStateNodeId]: value,
         }
         return value
@@ -1779,7 +1780,7 @@ function editor(appDefinition){
                             }
                         })(),
                         currentState.type !== 'table' && currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
-                        state.selectedStateNodeId === stateId && currentState.type !== 'table' ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
+                        state.selectedStateNodeId === stateId && currentState.type !== 'table' ? h('div', {style: {color: '#eab65c', display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
                     ]),
                     state.selectedStateNodeId === stateId ?
                         h('span',
