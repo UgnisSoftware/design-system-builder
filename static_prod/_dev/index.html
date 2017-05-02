@@ -68,8 +68,6 @@
         }
         #main {
             margin-top: 75px;
-            background: white;
-            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
         #shoutout{
             margin: 0;
@@ -94,15 +92,14 @@
         #examples{
             margin:80px 0 60px;
             display:flex;
+            align-items: stretch;
+            justify-content: center;
             background: #f5f5f5;
         }
         #exampleimg {
-            flex:1;
-            align-self:center;
+            flex: 0 0 50%;
+            margin-left: 20px;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            margin-right: -50px;
-            margin-top: -50px;
-            transform: translateY(25px);
         }
         #divider {
             width: 30px
@@ -135,7 +132,6 @@
             font-size: 0.6em;
         }
         .faq {
-            padding: 20px;
         }
         .try_editor{
             align-self: center;
@@ -152,15 +148,11 @@
             background: #a74e4d;
         }
         #example_block{
-            flex: 1;
-            max-width: 30%;
+            flex: 0 0 50%;
+            max-width: 35%;
             box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
-            align-self:stretch;
             padding: 40px;
-            margin-top: -50px;
-            transform: translateY(25px);
             font-size: 1.1em;
-            margin-left: -50px;
             background: white;
             font-family: 'Open Sans', sans-serif;
         }
@@ -171,18 +163,16 @@
             padding: 20px;
             transform: translateY(25px);
             font-size: 1.1em;
-            margin-left: -50px;
-            margin-right: -50px;
             background: white;
             font-family: 'Open Sans', sans-serif;
         }
         .faq_title{
+            padding-left: 20px;
             font-size: 2em;
         }
         @media (max-width: 1780px) {
             #example_block {
                 max-width: initial;
-                margin-right: -50px;
             }
             #divider{
                 display: none;
@@ -190,18 +180,36 @@
             #exampleimg {
                 display: none;
             }
-        }
-        @media (max-width: 1020px) {
-            #example_block {
-                margin: -50px 20px 0 20px ;
-            }
             #examples {
-                background: white;
                 display: block;
             }
+        }
+        @media (max-width: 1020px) {
             .faq_block {
                 margin: 0;
             }
+        }
+        #roadmapLink {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 1.2em;
+            color: #AD5251;
+        }
+        #docs {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 1.2em;
+            color: #AD5251;
+        }
+        #propaganda {
+            //list-style: none;
+            padding-left: 20px;
+        }
+        #propaganda li {
+            padding-bottom: 7px;
+        }
+        #newWay {
+            font-family: 'Comfortaa', sans-serif;
         }
     </style>
 </head>
@@ -213,7 +221,8 @@
                 <span id="logo_text">ugnis</span>
             </a>
             <div>
-                <a href="./roadmap">road map</a>
+                <a id="docs" href="./docs">docs</a>
+                <a id="roadmapLink" href="./roadmap">road map</a>
                 <a class="try_editor" href="./editor">open editor</a>
             </div>
         </div>
@@ -223,18 +232,21 @@
         <h2 id="subshoutout">type less, achieve more</h2>
         <section id="examples">
             <div id="example_block">
-                <h3>Visual front-end tool</h3>
-                <div>Example 1</div>
-                <div>Example 2</div>
-                <div>Example 3</div><br/>
-                TODO: when user clicks on an example, it builds that program on the right (where now is a static image)
+                <h3 id="newWay">Ugnis is a new way to express logic</h3>
+                <p>We designed Ugnis to simplify our work: </p>
+                <ul id="propaganda">
+                    <li>Applications should not crash. Period.</li>
+                    <li>Ugnis shows how logic is connected in a way that text never could</li>
+                    <li>Establish a stable platform away from the madness of current front-end development</li>
+                    <li>Starting and exporting new projects should take seconds and require no configuration</li>
+                </ul>
                 <div class="action_wrapper">
                     <b class="show_not_tell">Try it for yourself</b>
-                    <a class="action" href="./editor">Start a quick tutorial</a>
+                    <a class="action" href="./editor">Start a quick overview</a>
                 </div>
             </div>
             <div id="divider"></div>
-            <img id="exampleimg" width="50%" height="50%" src="/images/example.jpg">
+            <img id="exampleimg" width="50%" height="50%" src="/images/editorHow.jpg">
         </section>
         <section>
         <div class="faq">
@@ -264,7 +276,7 @@
                 <p>Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
             </div>
             <div class="faq_block">
-                <h3>Is this that time of the year when we rewrite our front-end on a new framework again?</h3>
+                <h3>Do we have to rewrite our front-end on a new framework again?</h3>
                 <p>Yes. JavaScript fatigue must never end.</p>
             </div>
             <div class="faq_block">
