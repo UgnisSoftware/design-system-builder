@@ -2710,7 +2710,7 @@ function editor(appDefinition){
             ]
             const stepPositions = [
                 {top: '120px', right: '40px'},
-                {top: window.innerHeight - 500 + 'px', right:  '400px'},
+                {top: window.innerHeight - window.innerHeight/4 - 130 + 'px', right:  '400px'},
                 {top: '120px', right: '400px'},
                 {top: window.innerHeight/2 - 100 + 'px', right: window.innerWidth - 950 + 'px'},
             ]
