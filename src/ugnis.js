@@ -136,7 +136,12 @@ export default (definition) => {
                 }
             }
             if (ref.ref === 'remainder') {
-                value = big(value).mod(resolve(transformer.value))
+                const mod = resolve(transformer.value)
+                if(big(mod).eq(0)){
+                    value = 0
+                } else {
+                    value = big(value).mod(mod)
+                }
             }
             if (ref.ref === 'join') {
                 value = value.toString().concat(resolve(transformer.value))

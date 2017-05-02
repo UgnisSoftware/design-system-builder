@@ -1250,18 +1250,39 @@ function editor(appDefinition){
         }})
     }
     function DELETE_STATE(stateId) {
-        const {[stateId]: deletedState, ...newState} = state.definition.state
-        setState({...state, definition:{
-            ...state.definition,
-            state: newState,
-            nameSpace: {
-                ...state.definition.nameSpace,
-                '_rootNameSpace': {
-                    ...state.definition.nameSpace['_rootNameSpace'],
-                    children: state.definition.nameSpace['_rootNameSpace'].children.filter((ref)=> ref.id !== stateId)
+        let removedPipeState = state
+        Object.keys(state.definition.pipe).forEach((pipeid)=> {
+            if(state.definition.pipe[pipeid].value.id === stateId){
+                removedPipeState = resetPipeFunc(pipeid, removedPipeState)
+            }
+        })
+        const {[stateId]: deletedState, ...newState} = removedPipeState.definition.state
+        let events = removedPipeState.definition.event
+        deletedState.mutators.forEach((mutatorRef)=>{
+            const mutator = removedPipeState.definition[mutatorRef.ref][mutatorRef.id]
+            const event = mutator.event
+            events = {
+                ...events,
+                [event.id]: {
+                    ...events[event.id],
+                    mutators: events[event.id].mutators.filter((mutRef)=> mutRef.id !== mutatorRef.id)
                 }
             }
-        }})
+        })
+        setState({...removedPipeState,
+            selectedStateNodeId: '',
+            definition:{
+                ...removedPipeState.definition,
+                state: newState,
+                nameSpace: {
+                    ...removedPipeState.definition.nameSpace,
+                    '_rootNameSpace': {
+                        ...removedPipeState.definition.nameSpace['_rootNameSpace'],
+                        children: removedPipeState.definition.nameSpace['_rootNameSpace'].children.filter((ref)=> ref.id !== stateId)
+                    }
+                },
+                event: events
+            }})
     }
     function EVENT_HOVERED(eventRef) {
         setState({
@@ -1285,8 +1306,7 @@ function editor(appDefinition){
             })
         }
     }
-    function RESET_PIPE(pipeId,e) {
-        e.stopPropagation()
+    function resetPipeFunc(pipeId, state){
         const defaultValues = {
             text: 'Default text',
             number: 0,
@@ -1299,13 +1319,16 @@ function editor(appDefinition){
             }
         })
         if(parentJoinId){
-            Object.keys(state.definition.pipe).forEach((parentPipeId) => {
-                state.definition.pipe[parentPipeId].transformations.forEach((ref, index) => {
-                    if(ref.id === parentJoinId){
-                        const joinRef = state.definition.pipe[parentPipeId].transformations[index+1]
+            const pipes = Object.keys(state.definition.pipe)
+            for(let i = 0; i<pipes.length; i++ ) {
+                const parentPipeId = pipes[i]
+                for (let index = 0; index < state.definition.pipe[parentPipeId].transformations.length; index++) {
+                    const ref = state.definition.pipe[parentPipeId].transformations[index]
+                    if (ref.id === parentJoinId) {
+                        const joinRef = state.definition.pipe[parentPipeId].transformations[index + 1]
                         const secondPipeRef = state.definition.join[joinRef.id].value
                         const text = state.definition.pipe[secondPipeRef.id].value
-                        setState({
+                        return {
                             ...state,
                             selectedPipeId: '',
                             definition: {
@@ -1315,16 +1338,16 @@ function editor(appDefinition){
                                     [parentPipeId]: {
                                         ...state.definition.pipe[parentPipeId],
                                         value: state.definition.pipe[parentPipeId].value + text,
-                                        transformations: state.definition.pipe[parentPipeId].transformations.slice(0, index).concat(state.definition.pipe[secondPipeRef.id].transformations).concat(state.definition.pipe[parentPipeId].transformations.slice(index+2))
+                                        transformations: state.definition.pipe[parentPipeId].transformations.slice(0, index).concat(state.definition.pipe[secondPipeRef.id].transformations).concat(state.definition.pipe[parentPipeId].transformations.slice(index + 2))
                                     }
                                 }
                             }
-                        })
+                        }
                     }
-                })
-            })
+                }
+            }
         } else {
-            setState({
+            return {
                 ...state,
                 selectedPipeId: '',
                 definition: {
@@ -1338,8 +1361,13 @@ function editor(appDefinition){
                         }
                     }
                 }
-            })
+            }
         }
+    }
+    function RESET_PIPE(pipeId,e) {
+        e.stopPropagation()
+
+        setState(resetPipeFunc(pipeId, state))
     }
     function CHANGE_TRANSFORMATION(pipeRef, transformationRef, index, e) {
         if(transformationRef.ref === e.target.value){
@@ -1859,8 +1887,8 @@ function editor(appDefinition){
                                 )
                             }
                         })(),
-                        currentState.type !== 'table' && currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
-                        state.selectedStateNodeId === stateId && currentState.type !== 'table' ? h('div', {style: {color: '#eab65c', display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
+                        currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? h('div', {style: {display: 'inline-flex', alignSelf: 'center'}, on: {click: [SAVE_DEFAULT, stateId]}}, [saveIcon()]): h('span'),
+                        state.selectedStateNodeId === stateId ? h('div', {style: {color: '#eab65c', display: 'inline-flex', alignSelf: 'center'}, on: {click: [DELETE_STATE, stateId]}}, [deleteIcon()]): h('span')
                     ]),
                     state.selectedStateNodeId === stateId ?
                         h('span',
@@ -2564,6 +2592,7 @@ function editor(appDefinition){
                 state.eventStack
                     .filter((eventData)=>state.definition.event[eventData.eventId] !== undefined)
                     .reverse() // mutates the array, but it was already copied with filter
+                    .slice(0, 21)
                     .map((eventData, index) => {
                         const event = state.definition.event[eventData.eventId]
                         const emitter = state.definition[event.emitter.ref][event.emitter.id]
@@ -2591,7 +2620,7 @@ function editor(appDefinition){
                                 h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
                                 h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
-                            Object.keys(eventData.mutations).length === 0 ?
+                            Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0 ?
                                 h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'nothing has changed'):
                                 h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
                                     .filter(stateId => state.definition.state[stateId] !== undefined)
