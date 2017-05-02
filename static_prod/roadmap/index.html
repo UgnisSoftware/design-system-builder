@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding: 2vh 20px;
+            max-width: 820px;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo_box{
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <section class="center login">
+        <a href="/" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <h1 id="goals">Roadmap</h1>
+        <h2>Ugnis goal is to simplify front-end development</h2>
+        <ul>
+            <li>Preview, usable for tiny apps, should not be used in production</li>
+        </ul>
+        <p>Currently working on:</p>
+        <ol>
+            <li>Implementing 1.0v features</li>
+            <li>Rewriting Ugnis Editor to use Ugnis</li>
+            <li>Saving app definitions on the server</li>
+        </ol>
+        <p>1.0v Features left:</p>
+        <ul>
+            <li><input type="checkbox" disabled id="checkbox1"><label for="checkbox1">powerful enough to write any application, Ugnis editor is written with Ugnis itself</label>
+                <ul>
+                    <li><input type="checkbox" disabled id="checkbox3"><label for="checkbox3">tables</label></li>
+                    <li><input type="checkbox" disabled id="checkbox4"><label for="checkbox4">variants, boolean becomes a variant</label></li>
+                    <li><input type="checkbox" disabled id="checkbox5"><label for="checkbox5">connected tables - graphs</label></li>
+                    <li><input type="checkbox" disabled id="checkbox9"><label for="checkbox9">recursion</label></li>
+                    <li><input type="checkbox" disabled id="checkbox6"><label for="checkbox6">conditionals inside components</label></li>
+                </ul>
+            </li>
+            <li><input type="checkbox" disabled id="checkbox66"><label for="checkbox66">performance:</label>
+                <ul>
+                    <li><input type="checkbox" disabled id="checkbox10"><label for="checkbox10">Remove virtual dom - Ugnis already knows how view nodes are connected with state</label></li>
+                    <li><input type="checkbox" disabled id="checkbox11"><label for="checkbox11">synthetic events, fiber-like event prioritization</label></li>
+                </ul>
+            </li>
+            <li><input type="checkbox" disabled id="checkbox984"><label for="checkbox984">stabilize the number implementation (probably take <a href="http://dec64.com/">DEC64</a> as a standard)</label></li>
+            <li><input type="checkbox" disabled id="checkbox7"><label for="checkbox7">style editor does not require css knowledge</label></li>
+            <li><input type="checkbox" disabled id="checkbox16"><label for="checkbox16">animations / timed events / keyboard events</label></li>
+            <li><input type="checkbox" disabled id="checkbox17"><label for="checkbox17">router</label></li>
+            <li><input type="checkbox" disabled id="checkbox18"><label for="checkbox18">http fetch</label></li>
+        </ul>
+        <p>Future improvements</p>
+        <ul>
+            <li><input type="checkbox" disabled id="checkbox1sdf"><label for="checkbox1sdf">support multiple developers working on a single project</label></li>
+            <li><input type="checkbox" disabled id="checkbox1sdge"><label for="checkbox1sdge">editor works well on mobile</label></li>
+            <li><input type="checkbox" disabled id="checkbox21"><label for="checkbox21">server side rendering</label></li>
+            <li><input type="checkbox" disabled id="checkbox22"><label for="checkbox22">application splitting</label></li>
+            <li><input type="checkbox" disabled id="checkbox23"><label for="checkbox23">WebAssembly compiler</label></li>
+            <li><input type="checkbox" disabled id="checkbox24"><label for="checkbox24">iOS and Android components</label></li>
+            <li><input type="checkbox" disabled id="checkbox14"><label for="checkbox14">rebindable shortcuts</label></li>
+        </ul>
+    </section>
+</body>
+</html>

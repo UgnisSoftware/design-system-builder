@@ -1,233 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ugnis">
-    <link rel="icon" type="image/png" sizes="256x256" href="images/logo256x256.png">
+    <meta charset="UTF-8">
+    <meta name="description" content="Ugnis λ - visual programming language">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
     <title>Ugnis λ</title>
     <style>
         body {
-            color: #cccccc;
-            font-family: 'Comfortaa', sans-serif;
-            background-color: #000000;
-            margin: 0px;
-            overflow: hidden;
-        }
-        .name {
-            background-color: #A94545;
-            color: #ffffff;
-            font-size: 10vh;
-            font-weight: 300;
-            padding: 10px 30px;
-            margin-bottom: 2vh;
-            display: inline-block;
-        }
-        .message {
-            background-color: #ffffff;
             color: #000000;
-            font-size: 5vh;
-            font-weight: 300;
-            padding: 10px 30px;
-            margin-right: 20px;
-            margin-bottom: 2vh;
-            display: inline-block;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            margin:0;
         }
-        .contacts {
-            background-color: #A94545;
-            color: #ffffff;
-            font-size: 3vh;
-            font-weight: 300;
-            padding: 10px 30px;
-            margin-right: 20px;
-            display: inline-block;
+        header{
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            background-color: #fff;
+            height: 75px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
         }
-        .textContainer {
-            position: absolute;
-            top: 15vh;
-            left: 5vw;
-        }
-        @media screen and (max-width: 500px), screen and (max-height: 700px) {
-            .name {
-                font-size: 7vh;
-                top: 12vh;
-            }
-            .message {
-                font-size: 3vh;
-                top: 24vh;
-
-            }
-            .contacts {
-                font-size: 2vh;
-                top: 31vh;
-            }
+        h1 {
+            font-size: 2em;
         }
         a {
-            text-decoration: none;
-            color: #ffffff;
+            text-decoration: inherit;
         }
-        #container {
-            opacity: 0;
-            -webkit-transition: opacity 1s;
-            -moz-transition: opacity 1s;
-            -ms-transition: opacity 1s;
-            -o-transition: opacity 1s;
-            transition: opacity 1s;
+        .col_12{
+            max-width: 1780px;
+            margin: auto;
+        }
+        @media (max-width: 1780px) {
+            .col_12{
+                max-width: 1220px;
+            }
+        }
+        .col_8{
+            max-width: 1500px;
+            margin: auto;
+        }
+        @media (max-width: 1780px) {
+            .col_8{
+                max-width: 940px;
+            }
+        }
+        #logo{
+            padding-top: 7px;
+            display: inline-block;
+            margin-right: -7px;
+            margin-bottom: -3px;
+        }
+        #logo_text {
+            font-size:44px;
+            vertical-align: bottom;
+            color: #000;
+        }
+        #home_button{
+            width: 190px;
+        }
+        .menu{
+            justify-content: space-between;
+            display: flex;
+        }
+        #main {
+            margin-top: 75px;
+        }
+        #shoutout{
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            padding-top: 45px;
+            font-size: 3em;
+        }
+        #shoutout b {
+            font-size: 1.2em;
+        }
+        #subshoutout{
+            margin: 0;
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.2em;
+            padding-top: 16px;
+        }
+        .dot {
+            user-select: none;
+        }
+        #examples{
+            margin:80px 0 60px;
+            display:flex;
+            align-items: stretch;
+            justify-content: center;
+            background: #f5f5f5;
+        }
+        #exampleimg {
+            flex: 0 0 50%;
+            margin-left: 20px;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        #divider {
+            width: 30px
+        }
+        .action_wrapper{
+            margin: 20px 0 0 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items:center;
+        }
+        .action {
+            background: #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 15px 20px;
+        }
+        .action:hover{
+            background: #a74e4d;
+        }
+        .show_not_tell {
+            flex: 1;
+        }
+        .grey{
+            color: #aaaaaa;
+        }
+        .support_font{
+            font-size: 0.6em;
+        }
+        .faq {
+        }
+        .try_editor{
+            align-self: center;
+            background: #AD5251;
+            border: none;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            color: white;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 15px 20px;
+            margin-top: 10px;
+        }
+        .try_editor:hover{
+            background: #a74e4d;
+        }
+        #example_block{
+            flex: 0 0 50%;
+            max-width: 35%;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            padding: 40px;
+            font-size: 1.1em;
+            background: white;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .faq_block {
+            flex: 1;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+            align-self:stretch;
+            padding: 20px;
+            transform: translateY(25px);
+            font-size: 1.1em;
+            background: white;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .faq_title{
+            padding-left: 20px;
+            font-size: 2em;
+        }
+        @media (max-width: 1780px) {
+            #example_block {
+                max-width: initial;
+            }
+            #divider{
+                display: none;
+            }
+            #exampleimg {
+                display: none;
+            }
+            #examples {
+                display: block;
+            }
+        }
+        @media (max-width: 1020px) {
+            .faq_block {
+                margin: 0;
+            }
+        }
+        #roadmapLink {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 1.2em;
+            color: #AD5251;
+        }
+        #docs {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 1.2em;
+            color: #AD5251;
+        }
+        #propaganda {
+            //list-style: none;
+            padding-left: 20px;
+        }
+        #propaganda li {
+            padding-bottom: 7px;
+        }
+        #newWay {
+            font-family: 'Comfortaa', sans-serif;
         }
     </style>
 </head>
 <body>
-<div id="container"></div>
-<div class="textContainer">
-    <div class="name">Ugnis</div><br/>
-    <div class="message">Indie developers</div><br/>
-    <div class="contacts">Follow on twitter <a href="https://twitter.com/UgnisSoftware" target="_blank">@UgnisSoftware</a></div><br/>
-</div>
-<script src="three.min.js"></script>
-<script>
-    var group;
-    var container;
-    var particlesData = [];
-    var camera, scene, renderer;
-    var positions, colors;
-    var particles;
-    var pointCloud;
-    var particlePositions;
-    var linesMesh;
-    var maxParticleCount = 400;
-    var particleCount = 400;
-    var r = 2200;
-    var rHalf = r / 2;
-    var effectController = {
-        showDots: true, //commented out
-        showLines: true,
-        minDistance: 300,
-        limitConnections: false,
-        maxConnections: 5,
-        particleCount: 500
-    };
-    init();
-    animate();
-    function init() {
-        container = document.getElementById( 'container' );
-        container.style.opacity = 1;
-        //
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 4000 );
-        camera.position.z = 1750;
-        scene = new THREE.Scene();
-        group = new THREE.Group();
-        scene.add( group );
-        var segments = maxParticleCount * maxParticleCount;
-        positions = new Float32Array( segments * 3 );
-        colors = new Float32Array( segments * 3 );
-        var pMaterial = new THREE.PointsMaterial( {
-            color: 0xFFFFFF,
-            size: 3,
-            blending: THREE.AdditiveBlending,
-            transparent: true,
-            sizeAttenuation: false
-        } );
-        particles = new THREE.BufferGeometry();
-        particlePositions = new Float32Array( maxParticleCount * 3 );
-        for ( var i = 0; i < maxParticleCount; i++ ) {
-            var x = Math.random() * r - r / 2;
-            var y = Math.random() * r - r / 2;
-            var z = Math.random() * r - r / 2;
-            particlePositions[ i * 3     ] = x;
-            particlePositions[ i * 3 + 1 ] = y;
-            particlePositions[ i * 3 + 2 ] = z;
-            // add it to the geometry
-            particlesData.push( {
-                velocity: new THREE.Vector3( -1 + Math.random() * 2, -1 + Math.random() * 2,  -1 + Math.random() * 2 ),
-                numConnections: 0
-            } );
-        }
-        particles.setDrawRange( 0, particleCount );
-        particles.addAttribute( 'position', new THREE.BufferAttribute( particlePositions, 3 ).setDynamic( true ) );
-        // create the particle system
-        //pointCloud = new THREE.Points( particles, pMaterial );
-        //group.add( pointCloud );
-        var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).setDynamic( true ) );
-        geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).setDynamic( true ) );
-        geometry.computeBoundingSphere();
-        geometry.setDrawRange( 0, 0 );
-        var material = new THREE.LineBasicMaterial( {
-            vertexColors: THREE.VertexColors,
-            blending: THREE.AdditiveBlending,
-            transparent: true
-        } );
-        linesMesh = new THREE.LineSegments( geometry, material );
-        group.add( linesMesh );
-        //
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        renderer.gammaInput = true;
-        renderer.gammaOutput = true;
-        container.appendChild( renderer.domElement );
-        //
-        window.addEventListener( 'resize', onWindowResize, false );
-    }
-    function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
-    }
-    function animate() {
-        var vertexpos = 0;
-        var colorpos = 0;
-        var numConnected = 0;
-        for ( var i = 0; i < particleCount; i++ ) {
-            // get the particle
-            var particleData = particlesData[i];
-            particlePositions[ i * 3     ] += particleData.velocity.x;
-            particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
-            particlePositions[ i * 3 + 2 ] += particleData.velocity.z;
-            if ( particlePositions[ i * 3 + 1 ] < -rHalf || particlePositions[ i * 3 + 1 ] > rHalf )
-                particleData.velocity.y = -particleData.velocity.y;
-            if ( particlePositions[ i * 3 ] < -rHalf || particlePositions[ i * 3 ] > rHalf )
-                particleData.velocity.x = -particleData.velocity.x;
-            if ( particlePositions[ i * 3 + 2 ] < -rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
-                particleData.velocity.z = -particleData.velocity.z;
-            if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
-                continue;
-            // Check collision
-            for ( var j = i + 1; j < particleCount; j++ ) {
-                var dx = particlePositions[ i * 3     ] - particlePositions[ j * 3     ];
-                var dy = particlePositions[ i * 3 + 1 ] - particlePositions[ j * 3 + 1 ];
-                var dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
-                var dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
-                if ( dist < effectController.minDistance ) {
-                    var alpha = 1.0 - dist / effectController.minDistance;
-                    positions[ vertexpos++ ] = particlePositions[ i * 3     ];
-                    positions[ vertexpos++ ] = particlePositions[ i * 3 + 1 ];
-                    positions[ vertexpos++ ] = particlePositions[ i * 3 + 2 ];
-                    positions[ vertexpos++ ] = particlePositions[ j * 3     ];
-                    positions[ vertexpos++ ] = particlePositions[ j * 3 + 1 ];
-                    positions[ vertexpos++ ] = particlePositions[ j * 3 + 2 ];
-                    colors[ colorpos++ ] = alpha;
-                    colors[ colorpos++ ] = alpha;
-                    colors[ colorpos++ ] = alpha;
-                    colors[ colorpos++ ] = alpha;
-                    colors[ colorpos++ ] = alpha;
-                    colors[ colorpos++ ] = alpha;
-                    numConnected++;
-                }
-            }
-        }
-        linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
-        linesMesh.geometry.attributes.position.needsUpdate = true;
-        linesMesh.geometry.attributes.color.needsUpdate = true;
-        requestAnimationFrame( animate );
-        render();
-    }
-    function render() {
-        var time = Date.now() * 0.001;
-        group.rotation.y = time * 0.1;
-        renderer.render( scene, camera );
-    }
-</script>
+    <header>
+        <div class="col_8 menu">
+            <a href="/" id="home_button">
+                <img id="logo" src="/images/logo256x256.png" height="57"/>
+                <span id="logo_text">ugnis</span>
+            </a>
+            <div>
+                <a id="docs" href="./docs">docs</a>
+                <a id="roadmapLink" href="./roadmap">road map</a>
+                <a class="try_editor" href="./editor">open editor</a>
+            </div>
+        </div>
+    </header>
+    <section class="col_8" id="main">
+        <h1 id="shoutout">build web apps <b>visually</b></h1>
+        <h2 id="subshoutout">type less, achieve more</h2>
+        <section id="examples">
+            <div id="example_block">
+                <h3 id="newWay">Ugnis is a new way to express logic</h3>
+                <p>We designed Ugnis to simplify our work: </p>
+                <ul id="propaganda">
+                    <li>Applications should not crash. Period.</li>
+                    <li>Ugnis shows how logic is connected in a way that text never could</li>
+                    <li>Establish a stable platform away from the madness of current front-end development</li>
+                    <li>Starting and exporting new projects should take seconds and require no configuration</li>
+                </ul>
+                <div class="action_wrapper">
+                    <b class="show_not_tell">Try it for yourself</b>
+                    <a class="action" href="./editor">Start a quick overview</a>
+                </div>
+            </div>
+            <div id="divider"></div>
+            <img id="exampleimg" width="50%" height="50%" src="/images/editorHow.jpg">
+        </section>
+        <section>
+        <div class="faq">
+            <h2 class="faq_title">FAQ <span class="grey support_font">support@ugnis.com <span class="dot"> • </span> <a class="grey" href="https://twitter.com/UgnisSoftware">@UgnisSoftware</a></span></h2>
+            <div class="faq_block">
+                <h3>How do I use Ugnis?</h3>
+                <p>You use the visual editor to create the definition of your application. Once your app is ready, you can export a minified JavaScript code and put it in your website.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Can I build production apps with Ugnis right now?</h3>
+                <p>Please wait for the 1.0v release. You can be sure that exported code will work, but Ugnis Editor is changing rapidly and we might have to reset existing definitions. Right now we temporarily store a single definition in your browsers local storage. Do not rely on this feature.</p>
+            </div>
+            <div class="faq_block">
+                <h3>How does Ugnis work internally?</h3>
+                <p>Ugnis is declarative programming taken to the extreme. Declarative code is difficult to read and write, so we have created a visual editor to write declarative code for you. In development we use an interpreter for your definition but in production that would be pretty slow, so when exporting, Ugnis compiles your application to an optimized low-level JavaScript.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Will ugnis do ...?</h3>
+                <p>Check out our <b><a href="./roadmap">road map</a></b>.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Can Ugnis create an app for Windows, Linux and Mac?</h3>
+                <p>We are planing to allow automatic wrapping with Electron but right now that would have to be done manually.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Can Ugnis create iOS or Android app?</h3>
+                <p>Not yet, though in the future a slightly changed editor with more specialized components will be able to export to iOS and Android.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Do we have to rewrite our front-end on a new framework again?</h3>
+                <p>Yes. JavaScript fatigue must never end.</p>
+            </div>
+            <div class="faq_block">
+                <h3>Visual programming will never work.</h3>
+                <p>But it already does. Ugnis did not start as a visual tool. It became one when we needed more than one dimension to express the cyclical nature of applications.</p>
+            </div>
+        </div>
+        </section>
+    </section>
 </body>
 </html>

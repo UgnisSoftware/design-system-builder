@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Ugnis λ - editor" />
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/normalize.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=0.6, user-scalable=no" />
+    <link rel="manifest" href="./manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Ugnis λ</title>
+    <style type="text/css">
+        .better-scrollbar::-webkit-scrollbar-track
+        {
+            opacity: 0;
+        }
+
+        .better-scrollbar::-webkit-scrollbar
+        {
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+
+        .better-scrollbar::-webkit-scrollbar-thumb
+        {
+            background-color: #c1c1c1;
+            border: 2px solid #555555;
+        }
+    </style>
+    <style type="text/css">
+        #rotate{
+            flex:1;
+            display: block;
+            margin: auto;
+            width: 50%;
+        }
+        #warning-text {
+            flex:1;
+        }
+        #warning-message {
+            font-family: 'Comfortaa', sans-serif;
+            text-align: center;
+            font-size: 3vh;
+            display: none;
+            font-weight: 800;
+            background-color: #f5f5f5;
+            min-height: 100%;
+        }
+        @media only screen and (orientation:portrait){
+            #warning-message {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                overflow: hidden;
+            }
+        }
+        @media only screen and (orientation:landscape){
+            #warning-message { display:none; }
+        }
+        #logo{
+            padding-top:100px;
+            width: 100px;
+            overflow: hidden;
+            display: inline-block;
+            height: 120px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-weight: 400;
+            font-size:88px;
+        }
+        .center {
+            margin: auto
+        }
+        .logo_box{
+            color: inherit;
+            text-decoration: inherit;
+            flex: 1;
+        }
+        .material-icons {
+            line-height:inherit;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .icon{
+            flex: 1;
+            font-size: 420px;
+        }
+    </style>
+</head>
+<body>
+    <script src="bundle.min.js"></script>
+    <div id="warning-message">
+        <a href="/" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="120"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <i class="material-icons icon">screen_rotation</i>
+        <div id="warning-text">Please rotate your device</div>
+    </div>
+</body>
+</html>

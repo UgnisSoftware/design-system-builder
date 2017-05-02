@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_prod/_dev/editor/bundle.js",
     "start": "node server.prod.js",
-    "compile": "browserify -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js | uglifyjs -c > ./static_prod/_dev/editor/bundle.min.js"
+    "compile": "browserify -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js | uglifyjs -c > ./static_prod/editor/bundle.min.js"
   },
   "author": "Karolis Masiulis",
   "devDependencies": {
