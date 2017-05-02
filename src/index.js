@@ -2372,30 +2372,30 @@ function editor(appDefinition){
                                 return h('div', [
                                     h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
                                     eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing') : h('span'),
-                                    h('div',
-                                        {style: {
-                                            color: 'white',
-                                            transition: 'color 0.2s',
-                                            fontSize: '14px',
-                                            cursor: 'pointer',
-                                            padding: '5px 10px',
-                                        },
-                                        }, event.mutators.map(mutatorRef => {
-                                            const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
-                                            const stateDef = state.definition[mutator.state.ref][mutator.state.id]
-                                            return h('div', {style: {marginTop: '10px', display: 'flex', alignItems: 'center'}}, [
-                                                h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
-                                                    h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
-                                                ]),
-                                                h('span', {style: {color: 'white', fontSize: '1.8em', padding: '10px'}}, '='),
-                                                emberEditor(mutator.mutation, stateDef.type)
-                                            ])
-                                        })
-                                    )
+                                    event.mutators.length === 0 ? h('div', {style: { margin: '10px 0', padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, ['No transformations. Drag state on event']) :
+                                        h('div',
+                                            {style: {
+                                                color: 'white',
+                                                transition: 'color 0.2s',
+                                                fontSize: '14px',
+                                                cursor: 'pointer',
+                                            },
+                                            }, event.mutators.map(mutatorRef => {
+                                                const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                                const stateDef = state.definition[mutator.state.ref][mutator.state.id]
+                                                return h('div', {style: {padding: '15px 10px', borderBottom: '2px solid #929292', display: 'flex', alignItems: 'center'}}, [
+                                                    h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                                                        h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
+                                                    ]),
+                                                    h('span', {style: {color: 'white', fontSize: '1.8em', padding: '10px'}}, '='),
+                                                    emberEditor(mutator.mutation, stateDef.type)
+                                                ])
+                                            })
+                                        )
                                 ])
                             }) :
                             []),
-                        h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Event:'),
+                        h('div', {style: { marginTop: '10px', padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Event:'),
                         h('div',  {style: { padding: '5px 0 5px 10px'}}, [
                             ...eventsLeft.map((event) =>
                                 h('div', {
