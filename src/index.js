@@ -1417,7 +1417,8 @@ function editor(appDefinition){
             }
         })
     }
-    function NEXT_TUTORIAL_STEP(){
+    function NEXT_TUTORIAL_STEP(e){
+        e.preventDefault()
         if(state.tutorialStep === 3){
             setState({
                 ...state,
@@ -2680,7 +2681,7 @@ function editor(appDefinition){
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
                         h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}}, '1/4'),
-                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
                 h('span', [
                     h('p', 'In the right bottom is the component tree. Components are the visible part of your application.'),
@@ -2688,7 +2689,7 @@ function editor(appDefinition){
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
                         h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'2/4'),
-                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
                 h('span', [
                     h('p', 'State is the dynamic part of your application that is invisible to the users.'),
@@ -2697,14 +2698,14 @@ function editor(appDefinition){
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
                         h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'3/4'),
-                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
                 h('span', [
                     h('p', 'Finally there\'s the sidebar which allows you to pause your application in order to inspect your components, and to view the actions that have been executed so far.'),
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
                         h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'4/4'),
-                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'close')]),
+                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'close')]),
                 ]),
             ]
             const stepPositions = [
