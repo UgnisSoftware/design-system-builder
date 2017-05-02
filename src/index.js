@@ -2711,7 +2711,7 @@ function editor(appDefinition){
                 {top: '120px', right: '40px'},
                 {top: window.innerHeight - 500 + 'px', right:  '400px'},
                 {top: '120px', right: '400px'},
-                {top: '300px', right: window.innerWidth - 950 + 'px'},
+                {top: window.innerHeight/2 - 100 + 'px', right: window.innerWidth - 950 + 'px'},
             ]
             return h('div', {style: {position: 'fixed', zIndex: '9999999', transition: 'all 500ms', font: "300 1.2em 'Comfortaa', sans-serif", ...stepPositions[state.tutorialStep], backgroundColor:'white', color: 'black', border: '5px solid #53B2ED', maxWidth: '500px', padding: '20px'}}, [steps[state.tutorialStep]])
         }
