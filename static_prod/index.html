@@ -5,6 +5,7 @@
     <meta name="description" content="Ugnis λ - visual programming language">
     <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ugnis λ</title>
     <style>
         body {
@@ -189,6 +190,14 @@
                 margin: 0;
             }
         }
+        @media (max-width: 500px) {
+            #navigation {
+                display: none;
+            }
+            .menu{
+                justify-content: center;
+            }
+        }
         #roadmapLink {
             margin-right: 10px;
             padding: 10px;
@@ -220,7 +229,7 @@
                 <img id="logo" src="/images/logo256x256.png" height="57"/>
                 <span id="logo_text">ugnis</span>
             </a>
-            <div>
+            <div id="navigation">
                 <a id="docs" href="./docs">docs</a>
                 <a id="roadmapLink" href="./roadmap">road map</a>
                 <a class="try_editor" href="./editor">open editor</a>
