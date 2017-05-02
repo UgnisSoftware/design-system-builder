@@ -2679,7 +2679,7 @@ function editor(appDefinition){
                     h('p', 'This is only a preview version and we do not recommend using it in production yet.'),
                     h('p', 'For now, you can make sure that the clicker works. Click "exit fullscreen" or "next" to see how it it is made.'),
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}}, '1/4'),
                         h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
@@ -2687,7 +2687,7 @@ function editor(appDefinition){
                     h('p', 'In the right bottom is the component tree. Components are the visible part of your application.'),
                     h('p', 'You can change how components look and react to events by selecting a component.'),
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'2/4'),
                         h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
@@ -2696,14 +2696,14 @@ function editor(appDefinition){
                     h('p', 'Everything that can change or is shared across the components should be in state.'),
                     h('p', 'Components can use and change the state, you just need to drag and drop it into a place where you want to use it.'),
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'3/4'),
                         h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
                 ]),
                 h('span', [
                     h('p', 'Finally there\'s the sidebar which allows you to pause your application in order to inspect your components, and to view the actions that have been executed so far.'),
                     h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
                         h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'4/4'),
                         h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'close')]),
                 ]),
