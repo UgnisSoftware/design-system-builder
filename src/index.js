@@ -1691,7 +1691,7 @@ function editor(appDefinition){
 
                     if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
-                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                            h('select', {key: transRef.id, liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
                                 numberTransf.map((description) =>
                                     h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
                                 )
@@ -1702,7 +1702,7 @@ function editor(appDefinition){
                     }
                     if (transRef.ref === 'toUpperCase' || transRef.ref === 'toLowerCase') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
-                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                            h('select', {key: transRef.id, liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
                                 textTransf.map((description) =>
                                     h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
                                 )
@@ -1712,7 +1712,7 @@ function editor(appDefinition){
                     }
                     if (transRef.ref === 'and' || transRef.ref === 'or') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
-                            h('select', {liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
+                            h('select', {key: transRef.id, liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
                                 boolTransf.map((description) =>
                                     h('option', {attrs: {value: description.title}, style: {color: 'black'}}, description.sign),
                                 )
