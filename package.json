@@ -1,11 +1,11 @@
 {
   "name": "Ugnis",
-  "version": "0.0.26",
+  "version": "0.0.1",
   "description": "Ugnis",
   "main": "index.js",
   "scripts": {
-    "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_prod/_dev/editor/bundle.js",
-    "start": "node server.prod.js",
+    "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_dev/editor/bundle.js",
+    "start": "node server.dev.js",
     "compile": "browserify -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js | uglifyjs -c > ./static_prod/editor/bundle.min.js"
   },
   "author": "Karolis Masiulis",

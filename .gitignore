@@ -1,3 +1,4 @@
 node_modules
 .idea
-static/bundle.js
+static_prod/editor/bundle.min.js
+static_dev/editor/bundle.js
