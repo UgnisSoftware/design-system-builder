@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ugnis">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/logo256x256.png">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans" rel="stylesheet">
+    <title>Ugnis λ</title>
+    <style>
+        body {
+            color: #000000;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #f5f5f5;
+            margin:0;
+        }
+        header{
+            height: 70px;
+            border-bottom: 2px solid #AD5251;
+            box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+        #logo{
+            padding-top:10px;
+            width: 50px;
+            overflow: hidden;
+            display: inline-block;
+            height: 60px;
+            margin-left: -25px;
+        }
+        #logo_text {
+            font-size:44px;
+        }
+        .center {
+            margin: auto
+        }
+        .login {
+            padding: 2vh 20px;
+            max-width: 820px;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo_box{
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <section class="center login">
+        <a href="/_dev" class="center logo_box">
+            <div id="logo"><img src="/images/logo256x256.png" height="60"/></div>
+            <span id="logo_text">ugnis</span>
+        </a>
+        <h1 id="goals">Docs</h1>
+        <h2>What is Ugnis?</h2>
+        <p>Ugnis is a visual front-end development framework. It allows you to easily create applications, while providing immediate feedback to you as a developer and helping you to avoid errors. Our vision for this tool is for it to be as powerful as any programming language, while also being easier to use due to the way information is presented, however Ugnis is still in its early stages and we are still adding more functionality to it.</p>
+        <p>You can look through our plans and future functionality of Ugnis via our <a href="https://www.ugnis.com/roadmap">roadmap</a></p>
+        <h2>Component tree</h2>
+        <p>Component tree contains all the things that your application will represent. You can drag and drop component to rearrange them.</p>
+        <h3>Adding components</h3>
+        <p>To add a component to component tree, simply click on one of the icons next to the "add component" bar. Currently the available components are - boxes, input (work in progress), text, images and conditionals (if's). Components are added to the end of the component tree or within a selected component layer.</p>
+
+        <h3>Order</h3>
+        <p>Components are represented on the app by their order in the component tree with a top-down approach. Dragging allows you to change the order of components and even create interactions between them, which may influence the component functionality and representation.</p>
+
+        <h3>Conditionals / if's</h3>
+        <p>Conditionals are a special type of component that are not represented directly, but creates logic within a component tree that dictates how and when certain components, that are dependant on the conditional, are represented. </p>
+
+        <h3>Deleting</h3>
+        <p>You can delete a component by simply selecting it and clicking the trash bin icon that appears. Do note, that all the components children will also be deleted.</p>
+
+        <h2>Component editor</h2>
+        <p>This part allows you to edit each component individually. Most of components have or will have 3 parts in the editor screen, which help you customise how, what and when something is shown, or how components relate to states, via data, style and events.</p>
+
+        <h3>Data</h3>
+        <p>Some components have data, which can act differently based on the type of component selected. Mostly the type of data you enter will be in the form of text.</p>
+
+        <h3>Style</h3>
+        <p>Style affects the visuals of the component. You can select the style features from an extensive list presented to you and change them based on CSS rules, however we are working to change it into a more intuitive system.</p>
+
+        <h3>Events</h3>
+        <p>Events is the only way to change the state. Components have different events that user can trigger.</p>
+
+        <h3>State dragging</h3>
+        <p>You can add state to the components in the component editor by simply clicking and dragging the selected state into the data, style or event parts. Do note that the state will be dragged to the part that is currently open.</p>
+
+        <h3>Writing logic</h3>
+        <p>Once you've added state to a certain part, you can add logical transformations to it. To add a new transformation, select the state inside the component editor and click the + symbol. Ugnis will automatically add a new logical transformation based on the state type to the queue, where you can further edit its options. The logic is executed in a top-down approach.</p>
+
+        <h2>State</h2>
+        <p>Everything that can be shared or changed within the app is represented in state. You can add a new state by clicking on the appropriate icon next to the state bar. Currently there are 3 state types - text, number and true/false. Each type has its own logical transformations: text - to uppercase and to lowercase; number has +, -, *, ?, %; true/false has and + or transformations.</p>
+
+        <h3>Component connections and saving/removing state</h3>
+        <p>Once you select a state, Ugnis automatically shows all the components that are currently affecting it. You may also freely change the state, save it by clicking the "check" icon or delete the state by clicking the "trash bin" icon. If you remove the state, all components were using automatically lose their events</p>
+
+    </section>
+</body>
+</html>
