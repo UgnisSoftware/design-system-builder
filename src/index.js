@@ -58,6 +58,7 @@ editor(savedApp)
 function editor(appDefinition){
 
     const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
+    const tutorialPassed = localStorage.getItem('tutorial_passed')
     const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
@@ -67,7 +68,7 @@ function editor(appDefinition){
     let state = {
         leftOpen: false,
         rightOpen: true,
-        fullScreen: false,
+        fullScreen: !tutorialPassed,
         editorRightWidth: 350,
         editorLeftWidth: 350,
         subEditorWidth: 350,
@@ -87,6 +88,8 @@ function editor(appDefinition){
         mousePosition: {},
         eventStack: [],
         definition: savedDefinition || app.definition,
+        tutorialPassed: tutorialPassed,
+        tutorialStep: 0
     }
     // undo/redo
     let stateStack = [state.definition]
@@ -94,6 +97,27 @@ function editor(appDefinition){
     function setState(newState, timeTraveling){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
+        }
+        if(!state.tutorialPassed){
+            if(state.tutorialStep === 0 && newState.fullScreen === false){
+                newState.tutorialStep = 1
+            }
+            if(newState.fullScreen === true && state.tutorialStep === 0 && newState.tutorialStep === 1){
+                newState.fullScreen = false
+            }
+            if(state.tutorialStep === 1 && newState.selectedViewNode.id){
+                newState.tutorialStep = 2
+            }
+            if(state.tutorialStep === 1 && newState.tutorialStep === 2 && !newState.selectedViewNode.id){
+                newState.selectedViewNode = {ref: 'vNodeBox', id: '_rootNode'}
+            }
+            if(state.tutorialStep === 2 && newState.tutorialStep === 3){
+                newState.leftOpen = true
+            }
+            if(newState.tutorialPassed){
+                localStorage.setItem('tutorial_passed', 'true')
+                newState.leftOpen = false
+            }
         }
         if(state.definition !== newState.definition){
             // unselect deleted components and state
@@ -1393,6 +1417,18 @@ function editor(appDefinition){
             }
         })
     }
+    function NEXT_TUTORIAL_STEP(){
+        if(state.tutorialStep === 3){
+            setState({
+                ...state,
+                tutorialPassed: true
+            })
+        }
+        setState({
+            ...state,
+            tutorialStep: state.tutorialStep + 1
+        })
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -1408,7 +1444,7 @@ function editor(appDefinition){
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
-    const warningIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'whatshot') // priority_high
+    const warningIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {cursor: 'default'}}, 'whatshot') // priority_high
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
 
@@ -2055,7 +2091,7 @@ function editor(appDefinition){
                             editingNode(nodeRef):
                             h('span', { style: {flex: '1', cursor: 'pointer', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                         h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
-                        h('div', {style: {color: '#eab65c', cursor: 'pointer', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
+                        h('div', {style: {color: '#eab65c', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
                     ]),
                     h('div', {
                             style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none': 'block'},
@@ -2101,7 +2137,7 @@ function editor(appDefinition){
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '2px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
                     h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
-                    h('div', {style: {color: '#eab65c', cursor: 'pointer', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
+                    h('div', {style: {color: '#eab65c', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
                 ]
             )
         }
@@ -2635,6 +2671,51 @@ function editor(appDefinition){
                     })
             )
         ])
+        const tutorialComponent = () => {
+            const steps = [
+                h('span', [
+                    h('p', 'Ugnis is a visual tool for creating front-end applications. The clicker demo above was written with this tool.'),
+                    h('p', 'This is only a preview version and we do not recommend using it in production yet.'),
+                    h('p', 'For now, you can make sure that the clicker works. Click "exit fullscreen" or "next" to see how it it is made.'),
+                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
+                        h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}}, '1/4'),
+                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                ]),
+                h('span', [
+                    h('p', 'In the right bottom is the component tree. Components are the visible part of your application.'),
+                    h('p', 'You can change how components look and react to events by selecting a component.'),
+                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
+                        h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'2/4'),
+                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                ]),
+                h('span', [
+                    h('p', 'State is the dynamic part of your application that is invisible to the users.'),
+                    h('p', 'Everything that can change or is shared across the components should be in state.'),
+                    h('p', 'Components can use and change the state, you just need to drag and drop it into a place where you want to use it.'),
+                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
+                        h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'3/4'),
+                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
+                ]),
+                h('span', [
+                    h('p', 'Finally there\'s the sidebar which allows you to pause your application in order to inspect your components, and to view the actions that have been executed so far.'),
+                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
+                        h('a', {attrs: {href: 'https://www.ugnis.com'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
+                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'4/4'),
+                        h('div', {style: {cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'close')]),
+                ]),
+            ]
+            const stepPositions = [
+                {top: '120px', right: '40px'},
+                {top: window.innerHeight - 500 + 'px', right:  '400px'},
+                {top: '120px', right: '400px'},
+                {top: '300px', right: window.innerWidth - 950 + 'px'},
+            ]
+            return h('div', {style: {position: 'fixed', zIndex: '9999999', transition: 'all 500ms', font: "300 1.2em 'Comfortaa', sans-serif", ...stepPositions[state.tutorialStep], backgroundColor:'white', color: 'black', border: '5px solid #53B2ED', maxWidth: '500px', padding: '20px'}}, [steps[state.tutorialStep]])
+        }
+
         const renderViewComponent = h('div', {
             style: {
                 flex: '1 auto',
@@ -2655,6 +2736,7 @@ function editor(appDefinition){
                     width: state.fullScreen ? '100vw' : widthLeft - 40 +'px',
                     height: state.fullScreen ? '100vh' : heightLeft - 40 + 'px',
                     background: '#ffffff',
+                    transform: 'translateZ(0)',
                     zIndex: state.fullScreen ? '2000' : '100',
                     boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
                     position: 'fixed',
@@ -2664,7 +2746,7 @@ function editor(appDefinition){
                 }
             })()}, [
                 state.fullScreen ?
-                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '20px', border: '2px solid #333', borderTop: 'none', background: '#444', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
+                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '40px', border: '2px solid #333', borderTop: 'none', background: '#444', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
                     h('span'),
                 h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
             ])
@@ -2696,6 +2778,7 @@ function editor(appDefinition){
             mainRowComponent,
             state.draggedComponentView ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
             state.draggedComponentStateId ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '16px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
+            state.tutorialPassed ? h('span'): tutorialComponent(),
         ])
 
         node = patch(node, vnode)
