@@ -161,6 +161,9 @@ export default (definition) => {
             if (ref.ref === 'or') {
                 value = value || resolve(transformer.value)
             }
+            if (ref.ref === 'not') {
+                value = !value
+            }
         }
         return value;
     }

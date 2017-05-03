@@ -52,7 +52,7 @@ function moveInArray (array, moveIndex, toIndex) {
 const attachFastClick = require('fastclick')
 attachFastClick(document.body)
 
-const version = '0.0.36v'
+const version = '0.0.37v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1674,7 +1674,7 @@ function editor(appDefinition){
 
                     const numberTransf = [{title: 'add', sign: '+'}, {title: 'subtract', sign: '-'}, {title: 'multiply', sign: '*'}, {title: 'divide', sign: '/'}, {title: 'remainder', sign: '%'}]
                     const textTransf = [{title: 'toUpperCase', sign: 'to upper case'}, {title: 'toLowerCase', sign: 'to lower case'}]
-                    const boolTransf = [{title: 'and', sign: 'and'}, {title: 'or', sign: 'or'}]
+                    const boolTransf = [{title: 'and', sign: 'and'}, {title: 'or', sign: 'or'}, {title: 'not', sign: 'not'}]
 
                     if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
@@ -1697,7 +1697,7 @@ function editor(appDefinition){
                             h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', marginRight: '5px'}}, [h('span', {style: {flex: '1'}},)]),
                         ])
                     }
-                    if (transRef.ref === 'and' || transRef.ref === 'or') {
+                    if (transRef.ref === 'and' || transRef.ref === 'or' || transRef.ref === 'not') {
                         return h('div', {style: {paddingTop: '5px', display: 'flex', alignItems: 'stretch'}}, [
                             h('select', {key: transRef.id, liveProps: {value: transRef.ref}, style: {color: 'white', background: 'none', outline: 'none', display: 'inline', border: 'none',}, on: {input: [CHANGE_TRANSFORMATION, ref, transRef, index]}},
                                 boolTransf.map((description) =>
@@ -1705,7 +1705,7 @@ function editor(appDefinition){
                                 )
                             ),
                             h('span', {style: {color: '#bdbdbd', display: 'flex',  cursor: 'default', paddingRight: '5px', borderRight: '2px solid #bdbdbd', marginRight: '5px'}}, [h('span', {style: {flex: '1'}},)]),
-                            h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
+                            transRef.ref === 'not'? h('span') : h('span', {style: {display: 'inline-block'}},  [emberEditor(transformer.value)])
                         ])
                     }
                 })
