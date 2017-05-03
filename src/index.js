@@ -1750,7 +1750,16 @@ function editor(appDefinition){
             }
 
             if (pipe.value === true || pipe.value === false) {
-                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {},  on: {click: [SELECT_PIPE, ref.id], input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED]}}, [
+                return h('select', {liveProps: {value:  pipe.value.toString()}, style: {
+                    background: 'none',
+                    outline: 'none',
+                    display: 'inline',
+                    flex: '1',
+                    minWidth: '50px',
+                    border: 'none',
+                    color: 'white',
+                    boxShadow: 'inset 0 -2px 0 0 #828282',
+                },  on: {click: [SELECT_PIPE, ref.id], input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED]}}, [
                     h('option', {attrs: {value: 'true'}, style: {color: 'black'}}, ['true']),
                     h('option', {attrs: {value: 'false'}, style: {color: 'black'}}, ['false']),
                 ])
