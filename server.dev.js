@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('./static_dev'))
+app.use(express.static('./static_prod'))
 
 app.post('/save', (req, res)=> {
     fs.writeFile("./ugnis_components/app-" + uuid.v4() + '.json', JSON.stringify(req.body, undefined, 4), function(err) {
