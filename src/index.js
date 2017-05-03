@@ -637,7 +637,6 @@ function editor(appDefinition){
                         hoveredPipe: null,
                     })
                 }
-                // you can't drop boolean into number
                 if(state.definition.state[state.draggedComponentStateId].type === 'text'){
                     return setState({
                         ...state,
@@ -713,7 +712,6 @@ function editor(appDefinition){
                         }
                     })
                 }
-                // you can't drop boolean into number
                 if(state.definition.state[state.draggedComponentStateId].type === 'text'){
                     const eqId = uuid()
                     const pipeId = uuid()
@@ -761,7 +759,8 @@ function editor(appDefinition){
                             ...state.definition.pipe,
                             [state.hoveredPipe.id]: {
                                 ...state.definition.pipe[state.hoveredPipe.id],
-                                value: {ref: 'state', id:state.draggedComponentStateId}
+                                value: {ref: 'state', id:state.draggedComponentStateId},
+                                transformations: [] // TODO leave for state
                             },
                         },
                     }
@@ -1192,22 +1191,6 @@ function editor(appDefinition){
     function SELECT_PIPE(pipeId, e) {
         e.stopPropagation()
         setState({...state, selectedPipeId:pipeId})
-    }
-    function CHANGE_PIPE_VALUE_TO_STATE(pipeId) {
-        if(!state.selectedStateNodeId || state.selectedStateNodeId === state.definition.pipe[pipeId].value.id ){
-            return;
-        }
-        setState({...state, definition: {
-            ...state.definition,
-            pipe: {
-                ...state.definition.pipe,
-                [pipeId]: {
-                    ...state.definition.pipe[pipeId],
-                    value: {ref: 'state', id: state.selectedStateNodeId},
-                    transformations: []
-                }
-            }
-        }})
     }
     function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         const defaultTransformations = {
