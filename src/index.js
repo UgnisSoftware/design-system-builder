@@ -2370,7 +2370,7 @@ function editor(appDefinition){
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                 return h('div', [
-                                    h('div', {style: {background: '#676767', padding: '5px 10px'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, event.type),
+                                    h('div', {style: {background: '#676767', padding: '5px 10px', display: 'flex', justifyContent: 'space-between'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, [h('span', event.type), h('span', {style:{color: '#bdbdbd', fontSize: '0.8em'}}, '(drop state here)')]),
                                     eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing') : h('span'),
                                     event.mutators.length === 0 ? h('div', {style: { margin: '10px 0', padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, ['No transformations. Drag state on event']) :
                                         h('div',
