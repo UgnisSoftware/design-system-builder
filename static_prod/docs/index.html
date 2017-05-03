@@ -46,8 +46,30 @@
             display: flex;
             flex-direction: column;
         }
+        .textImageWrapper {
+            display: flex;
+        }
+        .textImageWrapper p {
+            flex: 0 0 50%;
+            padding-right: 10px;
+        }
+        .textImageWrapper img {
+            width: 50%;
+            height: 50%;
+        }
         .logo_box{
             flex: 1;
+        }
+        .multipleImg {
+            flex: 0 0 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        .multipleImg img{
+            flex: 1 1 auto;
+            margin-bottom: 20px;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -59,24 +81,39 @@
         </a>
         <h1 id="goals">Docs</h1>
         <h2>What is Ugnis?</h2>
+
         <p>Ugnis is a visual front-end development framework. It allows you to easily create applications, while providing immediate feedback to you as a developer and helping you to avoid errors. Our vision for this tool is for it to be as powerful as any programming language, while also being easier to use due to the way information is presented, however Ugnis is still in its early stages and we are still adding more functionality to it.</p>
+
         <p>You can look through our plans and future functionality of Ugnis via our <a href="https://www.ugnis.com/roadmap">roadmap</a></p>
+
         <h2>Component tree</h2>
-        <p>Component tree contains all the things that your application will represent. You can drag and drop component to rearrange them.</p>
+        <div class="textImageWrapper">
+            <p>Component tree contains all the things that your application will represent. You can drag and drop component to rearrange them.</p>
+            <img src="/images/tutorial/component-tree.png" />
+        </div>
         <h3>Adding components</h3>
-        <p>To add a component to component tree, simply click on one of the icons next to the "add component" bar. Currently the available components are - boxes, input (work in progress), text, images and conditionals (if's). Components are added to the end of the component tree or within a selected component layer.</p>
+        <div class="textImageWrapper">
+            <p>To add a component to component tree, simply click on one of the icons next to the "add component" bar. Currently the available components are - boxes, input (work in progress), text, images and conditionals (if's). Components are added to the end of the component tree or within a selected component layer.</p>
+            <img src="/images/tutorial/components.png" />
+        </div>
 
         <h3>Order</h3>
         <p>Components are represented on the app by their order in the component tree with a top-down approach. Dragging allows you to change the order of components and even create interactions between them, which may influence the component functionality and representation.</p>
 
         <h3>Conditionals / if's</h3>
-        <p>Conditionals are a special type of component that are not represented directly, but creates logic within a component tree that dictates how and when certain components, that are dependant on the conditional, are represented. </p>
+        <div class="textImageWrapper">
+            <p>Conditionals are a special type of component that are not represented directly, but creates logic within a component tree that dictates how and when certain components, that are dependant on the conditional, are represented. </p>
+            <img src="/images/tutorial/conditional.png" />
+        </div>
 
         <h3>Deleting</h3>
         <p>You can delete a component by simply selecting it and clicking the trash bin icon that appears. Do note, that all the components children will also be deleted.</p>
 
         <h2>Component editor</h2>
-        <p>This part allows you to edit each component individually. Most of components have or will have 3 parts in the editor screen, which help you customise how, what and when something is shown, or how components relate to states, via data, style and events.</p>
+        <div class="textImageWrapper">
+            <p>This part allows you to edit each component individually. Most of components have or will have 3 parts in the editor screen, which help you customise how, what and when something is shown, or how components relate to states, via data, style and events.</p>
+            <img src="/images/tutorial/component-editor.png" />
+        </div>
 
         <h3>Data</h3>
         <p>Some components have data, which can act differently based on the type of component selected. Mostly the type of data you enter will be in the form of text.</p>
@@ -88,16 +125,32 @@
         <p>Events is the only way to change the state. Components have different events that user can trigger.</p>
 
         <h3>State dragging</h3>
-        <p>You can add state to the components in the component editor by simply clicking and dragging the selected state into the data, style or event parts. Do note that the state will be dragged to the part that is currently open.</p>
+        <div class="textImageWrapper">
+            <p>You can add state to the components in the component editor by simply clicking and dragging the selected state into the data, style or event parts. Do note that the state will be dragged to the part that is currently open.</p>
+            <img src="/images/tutorial/state-drag.png" />
+        </div>
 
         <h3>Writing logic</h3>
-        <p>Once you've added state to a certain part, you can add logical transformations to it. To add a new transformation, select the state inside the component editor and click the + symbol. Ugnis will automatically add a new logical transformation based on the state type to the queue, where you can further edit its options. The logic is executed in a top-down approach.</p>
+        <div class="textImageWrapper">
+            <p>Once you've added state to a certain part, you can add logical transformations to it. To add a new transformation, select the state inside the component editor and click the + symbol. Ugnis will automatically add a new logical transformation based on the state type to the queue, where you can further edit its options. The logic is executed in a top-down approach.</p>
+            <img src="/images/tutorial/writing-logic.png" />
+        </div>
 
         <h2>State</h2>
-        <p>Everything that can be shared or changed within the app is represented in state. You can add a new state by clicking on the appropriate icon next to the state bar. Currently there are 3 state types - text, number and true/false. Each type has its own logical transformations: text - to uppercase and to lowercase; number has +, -, *, ?, %; true/false has and + or transformations.</p>
+        <div class="textImageWrapper">
+            <p>Everything that can be shared or changed within the app is represented in state. You can add a new state by clicking on the appropriate icon next to the state bar. Currently there are 3 state types - text, number and true/false. Each type has its own logical transformations: text - to uppercase and to lowercase; number has +, -, *, ?, %; true/false has and + or transformations.</p>
+            <img src="/images/tutorial/state.png" />
+        </div>
 
-        <h3>Component connections and saving/removing state</h3>
-        <p>Once you select a state, Ugnis automatically shows all the components that are currently affecting it. You may also freely change the state, save it by clicking the "check" icon or delete the state by clicking the "trash bin" icon. If you remove the state, all components were using automatically lose their events</p>
+        <h3>Component connections, saving default state and removing</h3>
+        <div class="textImageWrapper">
+            <p>Once you select a state, Ugnis automatically shows all the components that are currently affecting it. You may also freely change the state, save it by clicking the "check" icon or delete the state by clicking the "trash bin" icon. If you remove the state, all components were using automatically lose their events</p>
+            <div class="multipleImg">
+                <img src="/images/tutorial/state-connections.png" />
+                <img src="/images/tutorial/state-connections2.png" />
+            </div>
+        </div>
+
 
     </section>
 </body>
