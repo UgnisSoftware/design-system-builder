@@ -1,3 +1,7 @@
+/*
+ * Hi, ugnis editor is being rewritten on ugnis, so please don't create pull requests trying to improve this code
+ */
+
 function updateProps(oldVnode, vnode) {
     let key, cur, old, elm = vnode.elm,
         props = vnode.data.liveProps || {};
@@ -58,7 +62,6 @@ editor(savedApp)
 function editor(appDefinition){
 
     const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
-    const tutorialPassed = localStorage.getItem('tutorial_passed')
     const app = ugnis(savedDefinition || appDefinition)
 
     let node = document.createElement('div')
@@ -68,15 +71,16 @@ function editor(appDefinition){
     let state = {
         leftOpen: false,
         rightOpen: true,
-        fullScreen: !tutorialPassed,
-        editorRightWidth: 350,
-        editorLeftWidth: 350,
-        subEditorWidth: 350,
+        fullScreen: false,
+        editorRightWidth: 450,
+        editorLeftWidth: 450,
+        subEditorWidth: 450,
         componentEditorPosition: {x: window.innerWidth - 710, y: window.innerHeight / 2} ,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedPipeId: '',
         selectedStateNodeId: '',
+        selectedMenu: 'view', // view | state | events
         selectedViewSubMenu: 'props',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
@@ -88,8 +92,6 @@ function editor(appDefinition){
         mousePosition: {},
         eventStack: [],
         definition: savedDefinition || app.definition,
-        tutorialPassed: tutorialPassed,
-        tutorialStep: 0
     }
     // undo/redo
     let stateStack = [state.definition]
@@ -97,27 +99,6 @@ function editor(appDefinition){
     function setState(newState, timeTraveling){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
-        }
-        if(!state.tutorialPassed){
-            if(state.tutorialStep === 0 && newState.fullScreen === false){
-                newState.tutorialStep = 1
-            }
-            if(newState.fullScreen === true && state.tutorialStep === 0 && newState.tutorialStep === 1){
-                newState.fullScreen = false
-            }
-            if(state.tutorialStep === 1 && newState.selectedViewNode.id){
-                newState.tutorialStep = 2
-            }
-            if(state.tutorialStep === 1 && newState.tutorialStep === 2 && !newState.selectedViewNode.id){
-                newState.selectedViewNode = {ref: 'vNodeBox', id: '_rootNode'}
-            }
-            if(state.tutorialStep === 2 && newState.tutorialStep === 3){
-                newState.leftOpen = true
-            }
-            if(newState.tutorialPassed){
-                localStorage.setItem('tutorial_passed', 'true')
-                newState.leftOpen = false
-            }
         }
         if(state.definition !== newState.definition){
             // unselect deleted components and state
@@ -1404,19 +1385,6 @@ function editor(appDefinition){
             }
         })
     }
-    function NEXT_TUTORIAL_STEP(e){
-        e.preventDefault()
-        if(state.tutorialStep === 3){
-            setState({
-                ...state,
-                tutorialPassed: true
-            })
-        }
-        setState({
-            ...state,
-            tutorialStep: state.tutorialStep + 1
-        })
-    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -1431,7 +1399,7 @@ function editor(appDefinition){
     const addCircleIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'add_circle')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
-    const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'image')
+    const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'crop_original')
     const warningIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {cursor: 'default'}}, 'whatshot') // priority_high
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer'}}, 'expand_more')
@@ -1551,7 +1519,6 @@ function editor(appDefinition){
                 width: '10px',
                 height: '100%',
                 textAlign: 'center',
-                fontSize: '1em',
                 opacity: '0',
                 cursor: 'col-resize',
             },
@@ -1569,7 +1536,6 @@ function editor(appDefinition){
                 width: '15px',
                 height: '10%',
                 textAlign: 'center',
-                fontSize: '1em',
                 borderRadius: '0 5px 5px 0',
                 background: '#5d5d5d',
                 boxShadow: 'inset 0 0 2px 7px #222',
@@ -1589,7 +1555,6 @@ function editor(appDefinition){
                 width: '15px',
                 height: '10%',
                 textAlign: 'center',
-                fontSize: '1em',
                 borderRadius: '5px 0 0 5px',
                 background: '#5d5d5d',
                 boxShadow: 'inset 0 0 2px 7px #222',
@@ -1609,7 +1574,6 @@ function editor(appDefinition){
                 width: '10px',
                 height: '100%',
                 textAlign: 'center',
-                fontSize: '1em',
                 opacity: '0',
                 cursor: 'col-resize',
             },
@@ -1627,7 +1591,6 @@ function editor(appDefinition){
                 width: '10px',
                 height: '100%',
                 textAlign: 'center',
-                fontSize: '1em',
                 opacity: 0,
                 cursor: 'col-resize',
             },
@@ -1645,7 +1608,6 @@ function editor(appDefinition){
                 width: '10px',
                 height: '100%',
                 textAlign: 'center',
-                fontSize: '1em',
                 opacity: 0,
                 cursor: 'col-resize',
             },
@@ -1868,7 +1830,6 @@ function editor(appDefinition){
                     style: {
                         cursor: 'pointer',
                         position: 'relative',
-                        fontSize: '14px',
                     },
                 },
                 [
@@ -1964,7 +1925,7 @@ function editor(appDefinition){
             ])
         }
 
-        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id)))
+        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [addStateComponent, ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))])
 
         function listNode(nodeRef, parentRef, depth){
             if(nodeRef.id === '_rootNode') return listRootNode(nodeRef)
@@ -2018,9 +1979,6 @@ function editor(appDefinition){
                         alignItems: 'center',
                         paddingLeft: '8px',
                         paddingRight: '8px',
-                        background: '#444',
-                        borderTop: '2px solid #4d4d4d',
-                        borderBottom: '2px solid #333',
                         height: '26px',
                         whiteSpace: 'nowrap',
                     },
@@ -2071,9 +2029,6 @@ function editor(appDefinition){
                             alignItems: 'center',
                             paddingLeft: (depth - (node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? 1: 0)) *20 + 8+ 'px',
                             paddingRight: '8px',
-                            background: '#444',
-                            borderTop: '2px solid #4d4d4d',
-                            borderBottom: '2px solid #333',
                             whiteSpace: 'nowrap',
                             color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                         },
@@ -2117,9 +2072,6 @@ function editor(appDefinition){
                         height: '26px',
                         paddingLeft: depth *20 + 8 +'px',
                         paddingRight: '8px',
-                        background: '#444',
-                        borderTop: '2px solid #4d4d4d',
-                        borderBottom: '2px solid #333',
                         whiteSpace: 'nowrap',
                         display: 'flex',
                         alignItems: 'center',
@@ -2160,9 +2112,6 @@ function editor(appDefinition){
                         height: '26px',
                         paddingLeft: (depth - (node.children && node.children.length > 0 ? 1: 0)) *20 + 8 +'px',
                         paddingRight: '8px',
-                        background: 'rgba(68,68,68,0.8)',
-                        borderTop: '2px solid #4d4d4d',
-                        borderBottom: '2px solid #333',
                         whiteSpace: 'nowrap',
                         display: 'flex',
                         alignItems: 'center',
@@ -2323,7 +2272,7 @@ function editor(appDefinition){
             const genstyleSubmenuComponent = () => {
                 const selectedStyle = state.definition.style[selectedNode.style.id]
                 return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
-                    h('div',{ style: {padding: '10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'style panel will change a lot in 1.0v, right now it\'s just CSS'),
+                    h('div',{ style: {padding: '10px', color: '#bdbdbd'}}, 'style panel will change a lot in 1.0v, right now it\'s just CSS'),
                     ...Object.keys(selectedStyle).map((key) => h('div', {style: {
                     }}, [
                         h('div', {
@@ -2340,7 +2289,7 @@ function editor(appDefinition){
                         ]),
                         h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedStyle[key], 'text')]),
                     ])),
-                    h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Style:'),
+                    h('div', {style: { padding: '5px 10px', color: '#bdbdbd'}}, 'add Style:'),
                     h('div', {style: { padding: '5px 0 5px 10px'}},
                         styles
                             .filter((key) => !Object.keys(selectedStyle).includes(key))
@@ -2366,14 +2315,13 @@ function editor(appDefinition){
                             currentEvents.map((eventDesc) => {
                                 const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                 return h('div', [
-                                    h('div', {style: {background: '#676767', padding: '5px 10px', display: 'flex', justifyContent: 'space-between'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, [h('span', event.type), h('span', {style:{color: '#bdbdbd', fontSize: '0.8em'}}, '(drop state here)')]),
-                                    eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing') : h('span'),
-                                    event.mutators.length === 0 ? h('div', {style: { margin: '10px 0', padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, ['No transformations. Drag state on event']) :
+                                    h('div', {style: {background: '#676767', padding: '5px 10px', display: 'flex', justifyContent: 'space-between'}, on: {mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]], mouseout: [EVENT_UNHOVERED]}}, [h('span', event.type), h('span', {style:{color: '#bdbdbd'}}, '(drop state here)')]),
+                                    eventDesc.description === 'input' ? h('div',{ style: {padding: '10px 10px 0 10px', color: '#bdbdbd'}}, 'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing') : h('span'),
+                                    event.mutators.length === 0 ? h('div', {style: { margin: '10px 0', padding: '5px 10px', color: '#bdbdbd'}}, ['No transformations. Drag state on event']) :
                                         h('div',
                                             {style: {
                                                 color: 'white',
                                                 transition: 'color 0.2s',
-                                                fontSize: '14px',
                                                 cursor: 'pointer',
                                             },
                                             }, event.mutators.map(mutatorRef => {
@@ -2391,7 +2339,7 @@ function editor(appDefinition){
                                 ])
                             }) :
                             []),
-                        h('div', {style: { marginTop: '10px', padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'add Event:'),
+                        h('div', {style: { marginTop: '10px', padding: '5px 10px',  color: '#bdbdbd'}}, 'add Event:'),
                         h('div',  {style: { padding: '5px 0 5px 10px'}}, [
                             ...eventsLeft.map((event) =>
                                 h('div', {
@@ -2413,7 +2361,6 @@ function editor(appDefinition){
             return h('div', {
                 style: {
                     position: 'fixed',
-                    font: "300 1.2em 'Open Sans'",
                     lineHeight: '1.2em',
                     color: 'white',
                     left: state.componentEditorPosition.x + 'px',
@@ -2447,11 +2394,11 @@ function editor(appDefinition){
                                                     state.selectedViewNode.ref === 'vNodeImage' ? imageIcon() :
                                                         textIcon(),
                             ]),
-                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '0.8em'}}, selectedNode.title),
+                            h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, selectedNode.title),
                             h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', cursor: 'pointer', marginRight: '5px', color: 'white', display: 'inline-flex'}, on: {mousedown: [UNSELECT_VIEW_NODE, false, true], touchstart: [UNSELECT_VIEW_NODE, false, true]}}, [clearIcon()]),
                         ])
                     ]),
-                    fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif"}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
+                    fullVNode ? h('div', {style: { display: 'flex', flex: '0 0 auto'}}, [propsComponent, styleComponent, eventsComponent]) : h('span'),
                     dragSubComponentRight,
                     dragSubComponentLeft,
                     state.selectedViewSubMenu === 'props' || !fullVNode ? genpropsSubmenuComponent():
@@ -2462,17 +2409,16 @@ function editor(appDefinition){
             ])
         }
 
-        const addStateComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
+        const addStateComponent = h('div', {style: { flex: '0 auto', borderRight: 'none', height: '40px', display: 'flex', alignItems: 'center'}}, [
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
             h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
             //h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
         ])
 
-
-        const addViewNodeComponent = h('div', {style: { flex: '0 auto', marginLeft: state.rightOpen ? '-10px': '0', border: '3px solid #222', borderRight: 'none', background: '#333', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', padding: '0 10px'}}, 'add component: '),
+        const addViewNodeComponent = h('div', {style: { flex: '0 auto', eight: '40px', display: 'flex', alignItems: 'center'}}, [
+            h('span', {style: { padding: '0 10px'}}, 'add component: '),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
@@ -2480,127 +2426,12 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [
+        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
+            addViewNodeComponent,
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
-        const rightComponent =
-            h('div', {
-                style: {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'absolute',
-                    top: '0',
-                    right: '0',
-                    color: 'white',
-                    height: '100%',
-                    font: "300 1.2em 'Open Sans'",
-                    lineHeight: '1.2em',
-                    width: state.editorRightWidth + 'px',
-                    background: '#4d4d4d',
-                    boxSizing: "border-box",
-                    borderLeft: '3px solid #222',
-                    transition: '0.5s transform',
-                    transform: state.rightOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
-                    userSelect: 'none',
-                },
-            }, [
-                dragComponentRight,
-                openComponentRight,
-                addStateComponent,
-                stateComponent,
-                addViewNodeComponent,
-                viewComponent,
-            ])
-
-        const topComponent = h('div', {
-            style: {
-                flex: '1 auto',
-                height: '75px',
-                maxHeight: '75px',
-                minHeight: '75px',
-                background: '#222',
-                display:'flex',
-                justifyContent: 'center',
-                fontFamily: "'Comfortaa', sans-serif",
-            }
-        }, [
-            h('a', {style: {flex: '0 auto', width: '190px', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
-                h('img',{style: { margin: '7px -2px -3px 5px', display: 'inline-block'}, attrs: {src: '/images/logo256x256.png', height: '57'}}),
-                h('span',{style: { fontSize:'44px',  verticalAlign: 'bottom', color: '#fff'}}, 'ugnis')
-            ]),
-            h('div', {style: {
-                position: 'absolute',
-                top: '0',
-                right: '0',
-                border: 'none',
-                color: 'white',
-                fontFamily: "'Comfortaa', sans-serif",
-                fontSize: '16px',
-            },
-            }, [
-                h('div', {style: {
-                    background: '#444444',
-                    border: 'none',
-                    color: 'white',
-                    display: 'inline-block',
-                    padding: '15px 20px',
-                    margin: '13px 13px 0 0',
-                    cursor: 'pointer',
-                },
-                    on: {
-                        click: [FULL_SCREEN_CLICKED, true]
-                    }
-                }, 'full screen'),
-                h('div', {style: {
-                    background: '#444444',
-                    border: 'none',
-                    color: 'white',
-                    display: 'inline-block',
-                    padding: '15px 20px',
-                    margin: '13px 13px 0 0',
-                    cursor: 'pointer',
-                },
-                    on: {
-                        click: RESET_APP_STATE
-                    }
-                }, 'reset state'),
-                h('div', {style: {
-                    background: '#444444',
-                    border: 'none',
-                    color: 'white',
-                    display: 'inline-block',
-                    padding: '15px 20px',
-                    margin: '13px 13px 0 0',
-                    cursor: 'pointer',
-                },
-                    on: {
-                        click: RESET_APP_DEFINITION
-                    }
-                }, 'reset demo')
-            ])
-        ])
-        const leftComponent = h('div', {
-            style: {
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                height: '100%',
-                color: 'white',
-                font: "300 1.2em 'Open Sans'",
-                width: state.editorLeftWidth + 'px',
-                background: '#4d4d4d',
-                boxSizing: "border-box",
-                borderRight: '3px solid #222',
-                transition: '0.5s transform',
-                transform: state.leftOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(-100%)',
-                userSelect: 'none',
-            },
-        }, [
-            dragComponentLeft,
-            openComponentLeft,
+        const eventComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
             h('div', {
                 on: {
                     click: FREEZER_CLICKED
@@ -2651,15 +2482,15 @@ function editor(appDefinition){
                                                     textIcon(),
                                 ]),
                                 h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
-                                h('span', {style: {flex: '0 0 auto', fontFamily: "'Comfortaa', sans-serif", fontSize: '0.9em', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
+                                h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                             ]),
                             Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0 ?
-                                h('div', {style: { padding: '5px 10px', fontFamily: "'Comfortaa', sans-serif",  color: '#bdbdbd'}}, 'nothing has changed'):
+                                h('div', {style: { padding: '5px 10px', color: '#bdbdbd'}}, 'nothing has changed'):
                                 h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
                                     .filter(stateId => state.definition.state[stateId] !== undefined)
                                     .map(stateId =>
                                         h('div', [
-                                            h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', fontSize: '14px', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                            h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                             h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
                                             h('span', eventData.mutations[stateId].toString()),
                                         ])
@@ -2668,78 +2499,76 @@ function editor(appDefinition){
                     })
             )
         ])
-        const tutorialComponent = () => {
-            const steps = [
-                h('span', [
-                    h('p', 'Ugnis is a visual tool for creating front-end applications. The clicker demo above was written with this tool.'),
-                    h('p', 'This is only a preview version and we do not recommend using it in production yet.'),
-                    h('p', 'For now, you can make sure that the clicker works. Click "exit fullscreen" or "next" to see how it it is made.'),
-                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
-                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}}, '1/4'),
-                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
-                ]),
-                h('span', [
-                    h('p', 'In the right bottom is the component tree. Components are the visible part of your application.'),
-                    h('p', 'You can change how components look and react to events by selecting a component.'),
-                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
-                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'2/4'),
-                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
-                ]),
-                h('span', [
-                    h('p', 'State is the dynamic part of your application that is invisible to the users.'),
-                    h('p', 'Everything that can change or is shared across the components should be in state.'),
-                    h('p', 'Components can use and change the state, you just need to drag and drop it into a place where you want to use it.'),
-                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
-                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'3/4'),
-                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'next')]),
-                ]),
-                h('span', [
-                    h('p', 'Finally there\'s the sidebar which allows you to pause your application in order to inspect your components, and to view the actions that have been executed so far.'),
-                    h('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}, [
-                        h('a', {attrs: {target: '_blank', href: 'https://www.ugnis.com/docs'}, style: {background: '#f4f4f4', cursor: 'pointer', color: '#444', textDecoration: 'none', padding: '12px 17px', border: '3px solid #ddd'}}, 'learn more...'),
-                        h('span', {style: {marginLeft: 'auto', marginRight: '10px'}},'4/4'),
-                        h('div', {style: {userSelect: 'none',cursor: 'pointer', color: 'white', backgroundColor: '#AD5251', padding: '15px 20px'}, on: {click: NEXT_TUTORIAL_STEP}}, 'close')]),
-                ]),
-            ]
-            const stepPositions = [
-                {top: '120px', right: '40px'},
-                {top: window.innerHeight - window.innerHeight/4 - 130 + 'px', right:  '400px'},
-                {top: '120px', right: '400px'},
-                {top: window.innerHeight/2 - 100 + 'px', right: window.innerWidth - 950 + 'px'},
-            ]
-            return h('div', {style: {position: 'fixed', zIndex: '9999999', transition: 'all 500ms', font: "300 1.2em 'Comfortaa', sans-serif", ...stepPositions[state.tutorialStep], backgroundColor:'white', color: 'black', border: '5px solid #53B2ED', maxWidth: '500px', padding: '20px'}}, [steps[state.tutorialStep]])
-        }
+
+        const rightComponent =
+            h('div', {
+                style: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'fixed',
+                    top: '50px',
+                    right: '0',
+                    color: 'white',
+                    height: '100%',
+                    lineHeight: '1.2em',
+                    width: state.editorRightWidth + 'px',
+                    background: '#1e1e1e',
+                    boxSizing: "border-box",
+                    borderLeft: '3px solid #222',
+                    transition: '0.5s transform',
+                    transform: state.rightOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
+                    userSelect: 'none',
+                },
+            }, [
+                dragComponentRight,
+                state.selectedMenu === 'view' ? viewComponent:
+                    state.selectedMenu === 'state' ? stateComponent:
+                        eventComponent,
+            ])
+
+        const topComponent = h('div', {
+            style: {
+                flex: '1 auto',
+                height: '50px',
+                maxHeight: '50px',
+                minHeight: '50px',
+                background: '#f8f8f8',
+                boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+                display:'flex',
+                justifyContent: 'center',
+            }
+        }, [
+            h('a', {style: {flex: '0 auto', display: 'flex', alignItems: 'center', width: '190px', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
+                h('img',{ attrs: {src: '/images/logo_new256x256.png', height: '37'}}),
+            ]),
+        ])
 
         const renderViewComponent = h('div', {
             style: {
                 flex: '1 auto',
-                //backgroundImage: 'radial-gradient(black 15%, transparent 16%), radial-gradient(black 15%, transparent 16%), radial-gradient(rgba(255, 255, 255, 0.0980392) 15%, transparent 20%), radial-gradient(rgba(255, 255, 255, 0.0980392) 15%, transparent 20%)',
                 backgroundPositionX: '0px, 8px, 0px, 8px',
                 backgroundPositionY: '0px, 8px, 1px, 9px',
-                backgroundColor:'#333',
+                backgroundColor:'#e9e9e9',
                 backgroundSize:'16px 16px',
                 display:'relative',
                 overflow: 'auto',
             },
         }, [
             h('div', {style: (()=>{
-                const topMenuHeight = 75
+                const topMenuHeight = 50
                 const widthLeft = window.innerWidth - ((state.leftOpen ? state.editorLeftWidth: 0) + (state.rightOpen ? state.editorRightWidth : 0))
                 const heightLeft = window.innerHeight - topMenuHeight
                 return {
-                    width: state.fullScreen ? '100vw' : widthLeft - 40 +'px',
-                    height: state.fullScreen ? '100vh' : heightLeft - 40 + 'px',
+                    width: state.fullScreen ? '100vw' : widthLeft - 30 +'px',
+                    height: state.fullScreen ? '100vh' : heightLeft - 30 + 'px',
                     background: '#ffffff',
                     transform: 'translateZ(0)',
                     zIndex: state.fullScreen ? '2000' : '100',
-                    boxShadow: 'rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px',
+                    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
                     position: 'fixed',
-                    transition: 'all 0.5s',
-                    top: state.fullScreen ? '0px' : 20 + 75 + 'px',
-                    left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 20 + 'px',
+                    transition: state.fullScreen || state.editorRightWidth === 450 ? 'all 0.5s': 'none', // messes up the closing of full screen, but works in 99% of cases
+                    top: state.fullScreen ? '0px' : 15 + 50 + 'px',
+                    left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 15 + 'px',
                 }
             })()}, [
                 state.fullScreen ?
@@ -2756,26 +2585,17 @@ function editor(appDefinition){
             },
         }, [
             renderViewComponent,
-            leftComponent,
             rightComponent,
             state.selectedViewNode.ref ? generateEditNodeComponent(): h('span')
         ])
         const vnode = h('div', {
             style: {
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'fixed',
-                top: '0',
-                right: '0',
-                width: '100vw',
-                height: '100vh',
             },
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponentView ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1', fontSize: '0.8em'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
-            state.draggedComponentStateId ? h('div', {style: {fontFamily: "Open Sans", pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', fontSize: '16px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
-            state.tutorialPassed ? h('span'): tutorialComponent(),
+            state.draggedComponentView ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1'}}, [fakeComponent(state.draggedComponentView, state.hoveredViewNode ? state.hoveredViewNode.depth : state.draggedComponentView.depth)])]): h('span'),
+            state.draggedComponentStateId ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
         ])
 
         node = patch(node, vnode)

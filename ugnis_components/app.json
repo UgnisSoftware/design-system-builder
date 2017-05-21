@@ -158,11 +158,6 @@
       "value": 0,
       "transformations": []
     },
-    "945f0818-7743-4edd-8c76-3dd5a8ba7fa9": {
-      "type": "text",
-      "value": "'Comfortaa', cursive",
-      "transformations": []
-    },
     "a60899ee-9925-4e05-890e-b9428b02dbf9": {
       "type": "text",
       "value": "#f5f5f5",
@@ -560,10 +555,6 @@
   "vNodeImage": {},
   "style": {
     "_rootStyle": {
-      "fontFamily": {
-        "ref": "pipe",
-        "id": "945f0818-7743-4edd-8c76-3dd5a8ba7fa9"
-      },
       "background": {
         "ref": "pipe",
         "id": "a60899ee-9925-4e05-890e-b9428b02dbf9"
