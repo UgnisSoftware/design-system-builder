@@ -1385,6 +1385,9 @@ function editor(appDefinition){
             }
         })
     }
+    function CHANGE_MENU(type) {
+        setState({...state, selectedMenu: type})
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -1399,6 +1402,8 @@ function editor(appDefinition){
     const addCircleIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'add_circle')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
+    const storageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'storage')
+    const eventListIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'event_note')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'crop_original')
     const warningIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {cursor: 'default'}}, 'whatshot') // priority_high
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
@@ -1924,8 +1929,15 @@ function editor(appDefinition){
                 h('span', {style: {color: 'white', display: 'inline-block'}}, currentState.title),
             ])
         }
+        const addStateComponent = h('div', {style: { flex: '0 auto', borderRight: 'none', height: '40px', display: 'flex', alignItems: 'center'}}, [
+            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
+            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
+            //h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
+        ])
 
-        const stateComponent = h('div', { attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [addStateComponent, ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))])
+        const stateComponent = h('div', {key: 'state', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [addStateComponent, ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))])
 
         function listNode(nodeRef, parentRef, depth){
             if(nodeRef.id === '_rootNode') return listRootNode(nodeRef)
@@ -2409,14 +2421,6 @@ function editor(appDefinition){
             ])
         }
 
-        const addStateComponent = h('div', {style: { flex: '0 auto', borderRight: 'none', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
-            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
-            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
-            //h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
-        ])
-
         const addViewNodeComponent = h('div', {style: { flex: '0 auto', eight: '40px', display: 'flex', alignItems: 'center'}}, [
             h('span', {style: { padding: '0 10px'}}, 'add component: '),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
@@ -2426,12 +2430,12 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
         ])
 
-        const viewComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
+        const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', paddingTop: '20px'}}, [
             addViewNodeComponent,
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
-        const eventComponent = h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
+        const eventComponent = h('div', {key: 'event', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
             h('div', {
                 on: {
                     click: FREEZER_CLICKED
@@ -2500,6 +2504,11 @@ function editor(appDefinition){
             )
         ])
 
+        const rightTabsComponent = h('div', {style: {height: '50px', fontSize: '14px', display: 'flex'}}, [
+            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'view'? 'inherit': '#303030'}, on: {click: [CHANGE_MENU, 'view']}}, [h('span', 'VIEW')]),
+            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', borderLeft: '2px solid #1e1e1e', borderRight: '2px solid #1e1e1e'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
+            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030'}, on: {click: [CHANGE_MENU, 'events']}}, [h('span', 'EVENT LOG')]),
+        ])
         const rightComponent =
             h('div', {
                 style: {
@@ -2521,6 +2530,7 @@ function editor(appDefinition){
                 },
             }, [
                 dragComponentRight,
+                rightTabsComponent,
                 state.selectedMenu === 'view' ? viewComponent:
                     state.selectedMenu === 'state' ? stateComponent:
                         eventComponent,
@@ -2567,7 +2577,7 @@ function editor(appDefinition){
                     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
                     position: 'fixed',
                     transition: state.fullScreen || state.editorRightWidth === 450 ? 'all 0.5s': 'none', // messes up the closing of full screen, but works in 99% of cases
-                    top: state.fullScreen ? '0px' : 15 + 50 + 'px',
+                    top: state.fullScreen ? '0px' : 15 + topMenuHeight + 'px',
                     left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 15 + 'px',
                 }
             })()}, [
