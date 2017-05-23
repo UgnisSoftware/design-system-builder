@@ -435,7 +435,7 @@
   },
   "vNodeBox": {
     "_rootNode": {
-      "title": "app",
+      "title": "component",
       "style": {
         "ref": "style",
         "id": "_rootStyle"

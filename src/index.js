@@ -1391,6 +1391,7 @@ function editor(appDefinition){
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
+    const moreIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'more_horiz')
     const numberIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'looks_one')
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
@@ -2421,16 +2422,17 @@ function editor(appDefinition){
             ])
         }
 
-        const addViewNodeComponent = h('div', {style: { flex: '0 auto', eight: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { padding: '0 10px'}}, 'add component: '),
+        const addViewNodeComponent = h('div', {style: {fontSize: '32px', flex: '0 auto', height: '40px', display: 'flex', alignItems: 'center', padding: '20px 0', justifyContent: 'space-between'}}, [
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [moreIcon()]), // TODO
         ])
 
-        const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', paddingTop: '20px'}}, [
+        const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
+            h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e'}}, 'ADD NEW'),
             addViewNodeComponent,
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
@@ -2504,10 +2506,10 @@ function editor(appDefinition){
             )
         ])
 
-        const rightTabsComponent = h('div', {style: {height: '50px', fontSize: '14px', display: 'flex'}}, [
-            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'view'? 'inherit': '#303030'}, on: {click: [CHANGE_MENU, 'view']}}, [h('span', 'VIEW')]),
-            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', borderLeft: '2px solid #1e1e1e', borderRight: '2px solid #1e1e1e'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
-            h('div', {style: {flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030'}, on: {click: [CHANGE_MENU, 'events']}}, [h('span', 'EVENT LOG')]),
+        const rightTabsComponent = h('div', {style: {height: '50px', fontSize: '15px', fontWeight: '500', display: 'flex', letterSpacing: '1px', fontKerning: 'none'}}, [
+            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'view'? 'inherit': '#303030', color: state.selectedMenu === 'view'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'view']}}, [h('span', 'VIEW')]),
+            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', borderLeft: '2px solid #1e1e1e', borderRight: '2px solid #1e1e1e', color: state.selectedMenu === 'state'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
+            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030', color: state.selectedMenu === 'events'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'events']}}, [h('span', 'EVENT LOG')]),
         ])
         const rightComponent =
             h('div', {
