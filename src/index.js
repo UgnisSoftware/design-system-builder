@@ -2511,6 +2511,7 @@ function editor(appDefinition){
             h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', borderLeft: '2px solid #1e1e1e', borderRight: '2px solid #1e1e1e', color: state.selectedMenu === 'state'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
             h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030', color: state.selectedMenu === 'events'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'events']}}, [h('span', 'EVENT LOG')]),
         ])
+        
         const rightComponent =
             h('div', {
                 style: {
