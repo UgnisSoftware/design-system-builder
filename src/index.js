@@ -53,9 +53,6 @@ function moveInArray (array, moveIndex, toIndex) {
     return array;
 }
 
-const attachFastClick = require('fastclick')
-attachFastClick(document.body)
-
 const version = '0.0.37v'
 editor(savedApp)
 
