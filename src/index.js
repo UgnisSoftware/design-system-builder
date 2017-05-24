@@ -2428,7 +2428,7 @@ function editor(appDefinition){
             ])
         }
 
-        const addViewNodeComponent = h('div', {style: {fontSize: '32px', flex: '0 auto', height: '40px', display: 'flex', alignItems: 'center', padding: '20px 0', justifyContent: 'space-between'}}, [
+        const addViewNodeComponent = h('div', {style: {fontSize: '32px', flex: '0 auto', height: '40px', display: 'flex', alignItems: 'center', padding: '15px 0px 10px 0px', justifyContent: 'space-between'}}, [
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
@@ -2440,7 +2440,7 @@ function editor(appDefinition){
         const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
             h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e'}}, 'ADD NEW'),
             addViewNodeComponent,
-            h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e', marginBottom: '20px'}}, 'NAVIGATOR'),
+            h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e', marginBottom: '10px'}}, 'NAVIGATOR'),
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
