@@ -1987,7 +1987,7 @@ function editor(appDefinition){
                     style: {
                         position: 'relative',
                         fontSize: '18px',
-                        fontWeight: '400',
+                        fontWeight: '300',
                     },
                 }, [
                     h('div', {style: {
@@ -2048,8 +2048,8 @@ function editor(appDefinition){
                             color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
                         },
                         on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}}, [
-                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
-                        h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd', transition: 'color 0.2s'}}, [
+                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
+                        h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e', transition: 'color 0.2s'}}, [
                             nodeRef.ref === 'vNodeBox' ? boxIcon() :
                                 nodeRef.ref === 'vNodeList' ? listIcon() :
                                     ifIcon()
@@ -2094,9 +2094,11 @@ function editor(appDefinition){
                     },
                     on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
                 }, [
-                    nodeRef.ref === 'vNodeInput' ? inputIcon() :
-                        nodeRef.ref === 'vNodeImage' ? imageIcon() :
-                            textIcon(),
+                    h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',}}, [
+                        nodeRef.ref === 'vNodeInput' ? inputIcon() :
+                            nodeRef.ref === 'vNodeImage' ? imageIcon() :
+                                textIcon(),
+                    ]),
                     state.editingTitleNodeId === nodeId ?
                         editingNode(nodeRef):
                         h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
@@ -2380,8 +2382,8 @@ function editor(appDefinition){
                     position: 'fixed',
                     lineHeight: '1.2em',
                     color: 'white',
-                    left: state.componentEditorPosition.x + 'px',
-                    top: state.componentEditorPosition.y + 'px',
+                    right: state.editorRightWidth + 'px',
+                    top: '50px',
                     height: '50%',
                     display: 'flex',
                     zIndex: '3000',
