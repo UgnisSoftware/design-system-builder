@@ -12,6 +12,8 @@ Default components use google material design.
 2.) Create a uniform component library for your company/project.
 3.) Your components will work with any new JavaScript framework that comes out.
 
+# Keyboard shortcuts
+
 # How does Ugnis work?
 
 # How to use it

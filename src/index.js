@@ -69,9 +69,9 @@ function editor(appDefinition){
         leftOpen: false,
         rightOpen: true,
         fullScreen: false,
-        editorRightWidth: 450,
+        editorRightWidth: 425,
         editorLeftWidth: 450,
-        subEditorWidth: 450,
+        subEditorWidth: 425,
         componentEditorPosition: {x: window.innerWidth - 710, y: window.innerHeight / 2} ,
         appIsFrozen: false,
         selectedViewNode: {},
@@ -1931,15 +1931,18 @@ function editor(appDefinition){
                 h('span', {style: {color: 'white', display: 'inline-block'}}, currentState.title),
             ])
         }
-        const addStateComponent = h('div', {style: { flex: '0 auto', borderRight: 'none', height: '40px', display: 'flex', alignItems: 'center'}}, [
-            h('span', {style: { cursor: 'pointer', padding: '0 5px'}}, 'add state: '),
-            h('span', {style: {display: 'inline-block'}, on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
+
+        const addStateComponent = h('div', {style: {fontSize: '32px', flex: '0 auto', height: '40px', maxWidth: '175px', display: 'flex', alignItems: 'center', padding: '15px 0px 10px 0px', justifyContent: 'space-between'}}, [
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
-            //h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
         ])
 
-        const stateComponent = h('div', {key: 'state', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '0 10px'}, on: {click: [UNSELECT_STATE_NODE]}}, [addStateComponent, ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))])
+        const stateComponent = h('div', {key: 'state', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '20px'}, on: {click: [UNSELECT_STATE_NODE]}}, [
+            h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e'}}, 'ADD NEW'),
+            addStateComponent,
+            ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))
+        ])
 
         function listNode(nodeRef, parentRef, depth){
             if(nodeRef.id === '_rootNode') return listRootNode(nodeRef)
@@ -2428,7 +2431,7 @@ function editor(appDefinition){
             ])
         }
 
-        const addViewNodeComponent = h('div', {style: {fontSize: '32px', flex: '0 auto', height: '40px', display: 'flex', alignItems: 'center', padding: '15px 0px 10px 0px', justifyContent: 'space-between'}}, [
+        const addViewNodeComponent = h('div', {style: {fontSize: '32px', maxWidth: '385px', flex: '0 auto', height: '40px', display: 'flex', alignItems: 'center', padding: '15px 0px 10px 0px', justifyContent: 'space-between'}}, [
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'box']}}, [boxIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
