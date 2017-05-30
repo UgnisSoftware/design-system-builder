@@ -8,9 +8,10 @@ Default components use google material design.
 
 # Why use Ugnis?
 
-1.) Own your components - usually adapting external components is difficult, but visual editor makes it easy.
-2.) Create a uniform component library for your company/project.
-3.) *Future proof* - writing Ugnis to <insert a new framework name here> transformer is trivial.
+1.) Works across frameworks. Useful when migrating to a new framework.
+2.) Own your components - usually adapting external components is difficult, but visual editor makes it easy.
+3.) Create a uniform component library for your company/project.
+4.) *Future proof* - writing Ugnis to <insert a new framework name here> transformer is trivial. As is updating to a new Ugnis version.
 
 # Why have we created Ugnis
 
