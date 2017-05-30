@@ -2,7 +2,7 @@
 
 Ugnis is a cross framework UI component library + visual editor. TODO download
 
-Supports React, React-Native, Vue, Cycle.js, Angular 1/2+, Ember, Elm, Moon.
+Supports React, React-Native, Vue, pure JS. Vote for more integrations in this issue // TODO Cycle.js, Angular 1/2+, Ember, Elm, Moon, etc
 
 Default components use google material design.
 
@@ -10,7 +10,12 @@ Default components use google material design.
 
 1.) Own your components - usually adapting external components is difficult, but visual editor makes it easy.
 2.) Create a uniform component library for your company/project.
-3.) Your components will work with any new JavaScript framework that comes out.
+3.) *Future proof* - writing Ugnis to <insert a new framework name here> transformer is trivial.
+
+# Why have we created Ugnis
+
+
+
 
 # Keyboard shortcuts
 

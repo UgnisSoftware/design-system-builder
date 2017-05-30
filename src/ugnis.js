@@ -18,7 +18,6 @@ const patch = snabbdom.init([
     livePropsPlugin
 ]);
 import h from 'snabbdom/h';
-import big from 'big.js';
 
 function flatten(arr) {
     return arr.reduce(function (flat, toFlatten) {
@@ -111,37 +110,22 @@ export default (definition) => {
             const ref = transformations[i];
             const transformer = definition[ref.ref][ref.id]
             if (ref.ref === 'equal') {
-                const compareValue = resolve(transformer.value)
-                if(value instanceof big || compareValue instanceof big){
-                    value = big(value).eq(compareValue)
-                } else{
-                    value = value === compareValue
-                }
+                value = value === resolve(transformer.value)
             }
             if (ref.ref === 'add') {
-                value = big(value).plus(resolve(transformer.value))
+                value = value + resolve(transformer.value)
             }
             if (ref.ref === 'subtract') {
-                value = big(value).minus(resolve(transformer.value))
+                value = value - resolve(transformer.value)
             }
             if (ref.ref === 'multiply') {
-                value = big(value).times(resolve(transformer.value))
+                value = value * resolve(transformer.value)
             }
             if (ref.ref === 'divide') {
-                const divider = resolve(transformer.value)
-                if(big(divider).eq(0)){
-                    value = 0
-                } else {
-                    value = big(value).div(divider)
-                }
+                value = value / resolve(transformer.value)
             }
             if (ref.ref === 'remainder') {
-                const mod = resolve(transformer.value)
-                if(big(mod).eq(0)){
-                    value = 0
-                } else {
-                    value = big(value).mod(mod)
-                }
+                value = value % resolve(transformer.value)
             }
             if (ref.ref === 'join') {
                 value = value.toString().concat(resolve(transformer.value))
@@ -173,7 +157,7 @@ export default (definition) => {
         return transformValue(resolve(def.value), def.transformations)
     }
 
-    const frozenShadow = 'inset 0 0 0 3px #3590df'
+    const frozenShadow = 'inset 0 0 0 3px #53d486'
 
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]

@@ -33,6 +33,15 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
         }
+        [type="number"]::-webkit-outer-spin-button,
+        [type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+            height: auto;
+        }
+        input { /* 1 */
+            overflow: visible;
+        }
         #rotate{
             flex:1;
             display: block;

@@ -1,5 +1,6 @@
 /*
- * Hi, ugnis editor is being rewritten on ugnis, so please don't create pull requests trying to improve this code
+ * Hi, this is a glue app that we use to manipulate ugnis definitions right now.
+ * Ugnis editor is being rewritten on ugnis, so please don't create pull requests trying to improve this code
  */
 
 function updateProps(oldVnode, vnode) {
@@ -24,8 +25,6 @@ const patch = snabbdom.init([
 ]);
 
 function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/[10]/g,function(){return(0|Math.random()*16).toString(16)})}
-import big from '../node_modules/big.js'
-big.E_POS = 1e+6
 
 import ugnis from './ugnis'
 import savedApp from '../ugnis_components/app.json'
@@ -70,9 +69,9 @@ function editor(appDefinition){
         rightOpen: true,
         fullScreen: false,
         editorRightWidth: 425,
-        editorLeftWidth: 450,
-        subEditorWidth: 425,
-        componentEditorPosition: {x: window.innerWidth - 710, y: window.innerHeight / 2} ,
+        editorLeftWidth: 425,
+        subEditorWidth: 375,
+        componentEditorPosition: {x: window.innerWidth - 800, y: 50} ,
         appIsFrozen: false,
         selectedViewNode: {},
         selectedPipeId: '',
@@ -1115,23 +1114,15 @@ function editor(appDefinition){
         render()
     }
     function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
-        // todo big throws error instead of returning NaN... fix, rewrite or hack
-        try {
-            if(big(e.target.value).toString() !== app.getCurrentState()[stateId].toString()){
-                app.setCurrentState({...app.getCurrentState(), [stateId]: big(e.target.value)})
-                render()
-            }
-        } catch(err) {
+        if(e.target.value.toString() !== app.getCurrentState()[stateId].toString()){
+            app.setCurrentState({...app.getCurrentState(), [stateId]: big(e.target.value)})
+            render()
         }
     }
     function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
         let value = e.target.value
         if(type === 'number'){
-            try {
-                value = big(e.target.value)
-            } catch(err) {
-                return;
-            }
+                value = Number(e.target.value)
         }
         if(type === 'boolean'){
             value = (value === true || value === 'true') ? true : false
@@ -1396,19 +1387,23 @@ function editor(appDefinition){
     const numberIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'looks_one')
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
-    const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'text_fields')
+    const textIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'title')
     const textReverseIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'format_size')
-    const deleteIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'delete_forever')
-    const clearIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'clear')
+    const deleteIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'delete_forever')
+    const clearIcon = () => h('i', {attrs: {class: 'material-icons', 'data-trashcan': true}}, 'clear')
     const closeIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'close')
     const addCircleIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'add_circle')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
+    const historyIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'history')
+    const pauseIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'pause')
+    const playIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'play_arrow')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const storageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'storage')
     const eventListIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'event_note')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'crop_original')
     const warningIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {cursor: 'default'}}, 'whatshot') // priority_high
     const appIcon = () => h('i', {attrs: {class: 'material-icons'}, style: { fontSize: '18px'}}, 'description')
+    const arrowRightIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'arrow_forward')
     const arrowIcon = (rotate) => h('i', {attrs: {class: 'material-icons', 'data-closearrow': true}, style: {transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)': 'rotate(0deg)', cursor: 'pointer'}}, 'arrow_drop_down')
 
     function getAvailableEvents(type) {
@@ -1774,7 +1769,7 @@ function editor(appDefinition){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', {style: {flex: '1'}}, [
                     h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED],}}, [
-                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId]}}, [addCircleIcon()]): h('span'),
@@ -1841,7 +1836,7 @@ function editor(appDefinition){
                 },
                 [
                     h('span', {style: {display: 'flex', flexWrap: 'wrap', marginTop: '6px'}}, [
-                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
                             h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], touchmove: [HOVER_MOBILE], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
                         ]),
@@ -1901,10 +1896,10 @@ function editor(appDefinition){
                                         display: 'flex',
                                         cursor: 'pointer',
                                         alignItems: 'center',
-                                        background: '#444',
+                                        background: '##1e1e1e',
                                         paddingTop: '3px',
                                         paddingBottom: '3px',
-                                        color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
+                                        color: state.selectedViewNode.id === event.emitter.id ? '#53d486': 'white',
                                         transition: '0.2s all',
                                         minWidth: '100%',
                                     }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
@@ -1927,7 +1922,7 @@ function editor(appDefinition){
 
         function fakeState(stateId) {
             const currentState = state.definition.state[stateId]
-            return h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+            return h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
                 h('span', {style: {color: 'white', display: 'inline-block'}}, currentState.title),
             ])
         }
@@ -1959,7 +1954,6 @@ function editor(appDefinition){
             return h('input', {
                 style: {
                     border: 'none',
-                    height: '25px',
                     background: 'none',
                     color: '#53d486',
                     outline: 'none',
@@ -1994,20 +1988,20 @@ function editor(appDefinition){
                     },
                 }, [
                     h('div', {style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        height: '36px',
+                        padding: '3px 0',
                         borderBottom: '3px solid #292929',
                         whiteSpace: 'nowrap',
                     },
                         on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [HOVER_MOBILE]}
                     },  [
-                        h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e', display: 'inline-flex'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
-                            boxIcon()
+                        h('div', {style: {padding: '0 3px', height: '30px', display: 'flex', alignItems: 'center', borderRadius: '3px', background: state.selectedViewNode.id === nodeId ? '#303030': 'none'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
+                            h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',display: 'inline-flex'}}, [
+                                boxIcon()
+                            ]),
+                            state.editingTitleNodeId === nodeId ?
+                                editingNode(nodeRef):
+                                h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53d486': 'white', transition: 'color 0.2s', paddingLeft: '5px'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                         ]),
-                        state.editingTitleNodeId === nodeId ?
-                            editingNode(nodeRef):
-                            h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53d486': 'white', transition: 'color 0.2s', paddingLeft: '5px'}, on: {click: [VIEW_NODE_SELECTED, nodeRef], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
                     ]),
                     h('div', state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex((ref)=> ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position) ?
                         (()=>{
@@ -2038,30 +2032,32 @@ function editor(appDefinition){
             return h('div', {style: {
                     opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
                 }}, [
-                    h('div', {
-                        key: nodeId,
-                        style: {
-                            display: 'flex',
-                            height: '36px',
-                            position: 'relative',
-                            alignItems: 'center',
-                            borderBottom: '3px solid #292929',
-                            marginLeft: depth *20 + 'px',
-                            whiteSpace: 'nowrap',
-                            color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white'
-                        },
-                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}}, [
-                        node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
-                        h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e', transition: 'color 0.2s'}}, [
-                            nodeRef.ref === 'vNodeBox' ? boxIcon() :
-                                nodeRef.ref === 'vNodeList' ? listIcon() :
-                                    ifIcon()
+                    h('div', {style: {borderBottom: '3px solid #292929', padding: '3px 0',  marginLeft: depth *20 + 'px',}}, [
+                        h('div', {
+                            key: nodeId,
+                            style: {
+                                display: 'flex',
+                                height: '30px',
+                                borderRadius: '3px',
+                                padding: '0 3px',
+                                position: 'relative',
+                                alignItems: 'center',
+                                whiteSpace: 'nowrap',
+                                background: state.selectedViewNode.id === nodeId ? '#303030': 'none',
+                                color: state.selectedViewNode.id === nodeId ? '#53d486': 'white'
+                            },
+                            on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}}, [
+                            node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
+                            h('span', {key: nodeId, style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e', transition: 'color 0.2s'}}, [
+                                nodeRef.ref === 'vNodeBox' ? boxIcon() :
+                                    nodeRef.ref === 'vNodeList' ? listIcon() :
+                                        ifIcon()
+                            ]),
+                            state.editingTitleNodeId === nodeId ?
+                                editingNode(nodeRef):
+                                h('span', { style: {flex: '1', cursor: 'pointer', color: state.selectedViewNode.id === nodeId ? '#53d486': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
+                            h('div', {style: {color: '#53d486', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [clearIcon()]),
                         ]),
-                        state.editingTitleNodeId === nodeId ?
-                            editingNode(nodeRef):
-                            h('span', { style: {flex: '1', cursor: 'pointer', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}, on: {dblclick: [EDIT_VIEW_NODE_TITLE, nodeId]}}, node.title),
-                        h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
-                        h('div', {style: {color: '#eab65c', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
                     ]),
                     h('div', {
                             style: { display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none': 'block'},
@@ -2081,34 +2077,33 @@ function editor(appDefinition){
         function simpleNode(nodeRef, parentRef, depth) {
             const nodeId = nodeRef.id
             const node = state.definition[nodeRef.ref][nodeId]
-            return h('div', {
-                    key: nodeId,
-                    style: {
-                        cursor: 'pointer',
-                        opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
-                        position: 'relative',
-                        height: '36px',
-                        marginLeft: depth *20 +'px',
-                        borderBottom: '3px solid #292929',
-                        whiteSpace: 'nowrap',
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
-                    },
-                    on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
-                }, [
-                    h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',}}, [
-                        nodeRef.ref === 'vNodeInput' ? inputIcon() :
-                            nodeRef.ref === 'vNodeImage' ? imageIcon() :
-                                textIcon(),
-                    ]),
-                    state.editingTitleNodeId === nodeId ?
-                        editingNode(nodeRef):
-                        h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
-                    h('div', {style: {color: '#53B2ED', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [deleteIcon()]),
-                    h('div', {style: {color: '#eab65c', display: state.selectedStateNodeId && lookForSelectedState(nodeRef) ? 'inline-flex': 'none', flex: '0 0 auto'}}, [warningIcon()]),
-                ]
-            )
+            return  h('div', {style: {borderBottom: '3px solid #292929', padding: '3px 0',  marginLeft: depth *20 + 'px', opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',}}, [
+                h('div', {
+                        key: nodeId,
+                        style: {
+                            cursor: 'pointer',
+                            position: 'relative',
+                            background: state.selectedViewNode.id === nodeId ? '#303030': 'none',
+                            height: '30px',
+                            padding: '0 3px',
+                            whiteSpace: 'nowrap',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
+                    }, [
+                        h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',}}, [
+                            nodeRef.ref === 'vNodeInput' ? inputIcon() :
+                                nodeRef.ref === 'vNodeImage' ? imageIcon() :
+                                    textIcon(),
+                        ]),
+                        state.editingTitleNodeId === nodeId ?
+                            editingNode(nodeRef):
+                            h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53d486': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
+                        h('div', {style: {color: '#53d486', cursor: 'pointer', display: state.selectedViewNode.id === nodeId ? 'inline-flex': 'none', flex: '0 0 auto'}}, [clearIcon()]),
+                    ]
+                )
+            ])
         }
 
         function spacerComponent(){
@@ -2117,7 +2112,7 @@ function editor(appDefinition){
                 style: {
                     cursor: 'pointer',
                     height: '6px',
-                    boxShadow: 'inset 0 0 1px 1px #53B2ED',
+                    boxShadow: 'inset 0 0 1px 1px #53d486',
                 },
             })
         }
@@ -2137,7 +2132,7 @@ function editor(appDefinition){
                         whiteSpace: 'nowrap',
                         display: 'flex',
                         alignItems: 'center',
-                        color: state.selectedViewNode.id === nodeId ? '#53B2ED': '#bdbdbd',
+                        color: state.selectedViewNode.id === nodeId ? '#53d486': '#bdbdbd',
                     },
                 }, [
                     (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0  ? arrowIcon(true): h('span', {key: '_fakeSpan'+nodeId}),
@@ -2147,7 +2142,7 @@ function editor(appDefinition){
                                 nodeRef.ref === 'vNodeInput' ? inputIcon() :
                                     nodeRef.ref === 'vNodeImage' ? imageIcon() :
                                         textIcon(),
-                    h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53B2ED': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
+                    h('span', {style: {flex: '1', color: state.selectedViewNode.id === nodeId ? '#53d486': 'white', transition: 'color 0.2s', paddingLeft: '5px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}, node.title),
                 ]
             )
         }
@@ -2350,7 +2345,7 @@ function editor(appDefinition){
                                                 const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
                                                 const stateDef = state.definition[mutator.state.ref][mutator.state.id]
                                                 return h('div', {style: {padding: '15px 10px', borderBottom: '2px solid #929292', display: 'flex', alignItems: 'center'}}, [
-                                                    h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#444', padding: '4px 7px',}}, [
+                                                    h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
                                                         h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
                                                     ]),
                                                     h('span', {style: {color: 'white', fontSize: '1.8em', padding: '10px'}}, '='),
@@ -2385,8 +2380,8 @@ function editor(appDefinition){
                     position: 'fixed',
                     lineHeight: '1.2em',
                     color: 'white',
-                    right: state.editorRightWidth + 'px',
-                    top: '50px',
+                    left: state.componentEditorPosition.x + 'px',
+                    top: state.componentEditorPosition.y + 'px',
                     height: '50%',
                     display: 'flex',
                     zIndex: '3000',
@@ -2401,7 +2396,7 @@ function editor(appDefinition){
                             background: '#222',
                             paddingTop: '2px',
                             paddingBottom: '5px',
-                            color: '#53B2ED',
+                            color: '#53d486',
                             minWidth: '100%',
                         }, on: {
                             mousedown: [COMPONENT_VIEW_DRAGGED],
@@ -2447,80 +2442,86 @@ function editor(appDefinition){
             listNode({ref: 'vNodeBox', id:'_rootNode'}, {}, 0),
         ])
 
-        const eventComponent = h('div', {key: 'event', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1'}}, [
-            h('div', {
-                on: {
-                    click: FREEZER_CLICKED
-                },
-                style: {
-                    flex: '0 auto',
-                    padding: '10px',
-                    textAlign: 'center',
-                    background: '#333',
-                    cursor: 'pointer',
-                },
-            }, [
-                h('span', {style: { padding: '15px 15px 10px 15px', color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'}}, state.appIsFrozen ? '►' : '❚❚'),
-            ]),
-            h('div', {
-                    attrs: {class: 'better-scrollbar'},
-                    style: {
-                        flex: '1 auto',
-                        overflow: 'auto'
-                    }
-                },
-                state.eventStack
-                    .filter((eventData)=>state.definition.event[eventData.eventId] !== undefined)
-                    .reverse() // mutates the array, but it was already copied with filter
-                    .slice(0, 21)
-                    .map((eventData, index) => {
-                        const event = state.definition.event[eventData.eventId]
-                        const emitter = state.definition[event.emitter.ref][event.emitter.id]
-                        // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
-                        return h('div', {key: event.emitter.id + index, style: {marginBottom: '10px'}}, [
-                            h('div', {style: {
-                                display: 'flex',
-                                marginBottom: '10px',
-                                cursor: 'pointer',
-                                alignItems: 'center',
-                                background: '#444',
-                                paddingTop: '3px',
-                                paddingBottom: '3px',
-                                color: state.selectedViewNode.id === event.emitter.id ? '#53B2ED': 'white',
-                                transition: '0.2s all',
-                                minWidth: '100%',
-                            }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
-                                h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px', display: 'inline-flex'}}, [
-                                    event.emitter.ref === 'vNodeBox' ? boxIcon() :
-                                        event.emitter.ref === 'vNodeList' ? listIcon() :
-                                            event.emitter.ref === 'vNodeList' ? ifIcon() :
-                                                event.emitter.ref === 'vNodeInput' ? inputIcon() :
-                                                    textIcon(),
+        const eventComponent = h('div', {key: 'event', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
+            h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e', paddingBottom: '15px'}}, 'PAST EVENTS'),
+            state.eventStack.length === 0 ?
+                h('span', 'No events has happened yet'):
+                h('div', {
+                        attrs: {class: 'better-scrollbar'},
+                        style: {
+                            flex: '1 auto',
+                            overflow: 'auto'
+                        }
+                    },
+                    state.eventStack
+                        .filter((eventData)=>state.definition.event[eventData.eventId] !== undefined)
+                        .reverse() // mutates the array, but it was already copied with filter
+                        .slice(0, 21)
+                        .map((eventData, index) => {
+                            const event = state.definition.event[eventData.eventId]
+                            const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                            // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
+                            return h('div', {key: event.emitter.id + index, style: {marginBottom: '10px'}}, [
+                                h('div', {style: {
+                                    display: 'flex',
+                                    marginBottom: '10px',
+                                    cursor: 'pointer',
+                                    alignItems: 'center',
+                                    background: '##1e1e1e',
+                                    paddingTop: '3px',
+                                    paddingBottom: '3px',
+                                    color: state.selectedViewNode.id === event.emitter.id ? '#53d486': 'white',
+                                    transition: '0.2s all',
+                                    minWidth: '100%',
+                                }, on: {click: [VIEW_NODE_SELECTED, event.emitter]}}, [
+                                    h('span', {style: {flex: '0 0 auto', margin: '0 0 0 5px', display: 'inline-flex'}}, [
+                                        event.emitter.ref === 'vNodeBox' ? boxIcon() :
+                                            event.emitter.ref === 'vNodeList' ? listIcon() :
+                                                event.emitter.ref === 'vNodeList' ? ifIcon() :
+                                                    event.emitter.ref === 'vNodeInput' ? inputIcon() :
+                                                        textIcon(),
+                                    ]),
+                                    h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
+                                    h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
                                 ]),
-                                h('span', {style: {flex: '5 5 auto', margin: '0 5px 0 0', minWidth: '0', overflow: 'hidden', whiteSpace: 'nowrap',  textOverflow: 'ellipsis'}}, emitter.title),
-                                h('span', {style: {flex: '0 0 auto', marginLeft: 'auto', marginRight: '5px', color: '#5bcc5b'}}, event.type),
-                            ]),
-                            Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0 ?
-                                h('div', {style: { padding: '5px 10px', color: '#bdbdbd'}}, 'nothing has changed'):
-                                h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
-                                    .filter(stateId => state.definition.state[stateId] !== undefined)
-                                    .map(stateId =>
-                                        h('div', [
-                                            h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#444', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
-                                            h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' –› '),
-                                            h('span', eventData.mutations[stateId].toString()),
-                                        ])
-                                    ))
-                        ])
-                    })
-            )
+                                Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0 ?
+                                    h('div', {style: { padding: '5px 10px', color: '#bdbdbd'}}, 'nothing has changed'):
+                                    h('div', {style: {paddingLeft: '10px', whiteSpace: 'nowrap'}}, Object.keys(eventData.mutations)
+                                        .filter(stateId => state.definition.state[stateId] !== undefined)
+                                        .map(stateId =>
+                                            h('div', [
+                                                h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                                h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' → '),
+                                                h('span', eventData.mutations[stateId].toString()),
+                                            ])
+                                        ))
+                            ])
+                        })
+                )
         ])
 
         const rightTabsComponent = h('div', {style: {height: '50px', fontSize: '15px', fontWeight: '500', display: 'flex', letterSpacing: '1px', fontKerning: 'none'}}, [
             h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'view'? 'inherit': '#303030', color: state.selectedMenu === 'view'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'view']}}, [h('span', 'VIEW')]),
-            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', borderLeft: '2px solid #1e1e1e', borderRight: '2px solid #1e1e1e', color: state.selectedMenu === 'state'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
-            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030', color: state.selectedMenu === 'events'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'events']}}, [h('span', 'EVENT LOG')]),
+            h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', color: state.selectedMenu === 'state'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
+            h('div', {style: {cursor: 'pointer', flex: '0 0 60px', fontSize: '30px', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030', color: state.selectedMenu === 'events'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'events']}}, [historyIcon()]),
         ])
+
+        const stopPlayComponent = h('div', {
+                on: {
+                    click: FREEZER_CLICKED
+                },
+                style: {
+                    position: 'absolute',
+                    left: '-65px',
+                    top: '0px',
+                    fontSize: '30px',
+                    height: '30px',
+                    cursor: 'pointer',
+                    padding: '10px',
+                    color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)'
+                },
+            }, state.appIsFrozen ? [playIcon()] : [pauseIcon()]
+        )
 
         const rightComponent =
             h('div', {
@@ -2528,19 +2529,19 @@ function editor(appDefinition){
                     display: 'flex',
                     flexDirection: 'column',
                     position: 'fixed',
-                    top: '50px',
+                    top: '0px',
                     right: '0',
                     color: 'white',
                     height: '100%',
                     width: state.editorRightWidth + 'px',
                     background: '#1e1e1e',
                     boxSizing: "border-box",
-                    borderLeft: '3px solid #222',
                     transition: '0.5s transform',
                     transform: state.rightOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(100%)',
                     userSelect: 'none',
                 },
             }, [
+                stopPlayComponent,
                 dragComponentRight,
                 rightTabsComponent,
                 state.selectedMenu === 'view' ? viewComponent:
@@ -2594,7 +2595,7 @@ function editor(appDefinition){
                 }
             })()}, [
                 state.fullScreen ?
-                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '40px', border: '2px solid #333', borderTop: 'none', background: '#444', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
+                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '40px', border: '2px solid #333', borderTop: 'none', background: '##1e1e1e', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
                     h('span'),
                 h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
             ])
