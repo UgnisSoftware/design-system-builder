@@ -1397,6 +1397,8 @@ function editor(appDefinition){
     const historyIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'history')
     const pauseIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'pause')
     const playIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'play_arrow')
+    const fullscreenIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'fullscreen')
+    const fullscreenExitIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'fullscreen_exit')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
     const storageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'storage')
     const eventListIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'event_note')
@@ -1769,7 +1771,7 @@ function editor(appDefinition){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', {style: {flex: '1'}}, [
                     h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED],}}, [
-                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
+                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
                             h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
                         ]),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId]}}, [addCircleIcon()]): h('span'),
@@ -1836,7 +1838,7 @@ function editor(appDefinition){
                 },
                 [
                     h('span', {style: {display: 'flex', flexWrap: 'wrap', marginTop: '6px'}}, [
-                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
+                        h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
                             h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], touchmove: [HOVER_MOBILE], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
                         ]),
@@ -1896,7 +1898,7 @@ function editor(appDefinition){
                                         display: 'flex',
                                         cursor: 'pointer',
                                         alignItems: 'center',
-                                        background: '##1e1e1e',
+                                        background: '#1e1e1e',
                                         paddingTop: '3px',
                                         paddingBottom: '3px',
                                         color: state.selectedViewNode.id === event.emitter.id ? '#53d486': 'white',
@@ -1922,7 +1924,7 @@ function editor(appDefinition){
 
         function fakeState(stateId) {
             const currentState = state.definition.state[stateId]
-            return h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
+            return h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '7px 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
                 h('span', {style: {color: 'white', display: 'inline-block'}}, currentState.title),
             ])
         }
@@ -2345,7 +2347,7 @@ function editor(appDefinition){
                                                 const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
                                                 const stateDef = state.definition[mutator.state.ref][mutator.state.id]
                                                 return h('div', {style: {padding: '15px 10px', borderBottom: '2px solid #929292', display: 'flex', alignItems: 'center'}}, [
-                                                    h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '4px 7px',}}, [
+                                                    h('span', {style: {flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
                                                         h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, mutator.state.id]}}, stateDef.title),
                                                     ]),
                                                     h('span', {style: {color: 'white', fontSize: '1.8em', padding: '10px'}}, '='),
@@ -2445,7 +2447,7 @@ function editor(appDefinition){
         const eventComponent = h('div', {key: 'event', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
             h('div', {style: {fontSize: '14px', fontWeight: 'bold', color: '#8e8e8e', paddingBottom: '15px'}}, 'PAST EVENTS'),
             state.eventStack.length === 0 ?
-                h('span', 'No events has happened yet'):
+                h('span', 'This component has not emitted any events yet'):
                 h('div', {
                         attrs: {class: 'better-scrollbar'},
                         style: {
@@ -2467,7 +2469,7 @@ function editor(appDefinition){
                                     marginBottom: '10px',
                                     cursor: 'pointer',
                                     alignItems: 'center',
-                                    background: '##1e1e1e',
+                                    background: '#1e1e1e',
                                     paddingTop: '3px',
                                     paddingBottom: '3px',
                                     color: state.selectedViewNode.id === event.emitter.id ? '#53d486': 'white',
@@ -2490,7 +2492,7 @@ function editor(appDefinition){
                                         .filter(stateId => state.definition.state[stateId] !== undefined)
                                         .map(stateId =>
                                             h('div', [
-                                                h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '##1e1e1e', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
+                                                h('span', {on: {click: [STATE_NODE_SELECTED, stateId]}, style: {cursor: 'pointer', color: 'white', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#1e1e1e', padding: '2px 5px', marginRight: '5px', display: 'inline-block', transition: 'all 0.2s'}}, state.definition.state[stateId].title),
                                                 h('span', {style: {color: '#8e8e8e'}}, eventData.previousState[stateId].toString() + ' → '),
                                                 h('span', eventData.mutations[stateId].toString()),
                                             ])
@@ -2505,6 +2507,23 @@ function editor(appDefinition){
             h('div', {style: {cursor: 'pointer', flex: '1', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'state'? 'inherit': '#303030', color: state.selectedMenu === 'state'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'state']}}, [h('span', 'STATE')]),
             h('div', {style: {cursor: 'pointer', flex: '0 0 60px', fontSize: '30px', display:'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: state.selectedMenu === 'events'? 'inherit': '#303030', color: state.selectedMenu === 'events'? '#53d486': '#d4d4d4'}, on: {click: [CHANGE_MENU, 'events']}}, [historyIcon()]),
         ])
+
+        const fullscreenComponent = h('div', {
+                on: {
+                    click: FULL_SCREEN_CLICKED
+                },
+                style: {
+                    position: 'absolute',
+                    left: '-115px',
+                    top: '0px',
+                    fontSize: '30px',
+                    height: '30px',
+                    cursor: 'pointer',
+                    padding: '10px',
+                    color: '#303030'
+                },
+            }, [fullscreenIcon()]
+        )
 
         const stopPlayComponent = h('div', {
                 on: {
@@ -2541,6 +2560,7 @@ function editor(appDefinition){
                     userSelect: 'none',
                 },
             }, [
+                fullscreenComponent,
                 stopPlayComponent,
                 dragComponentRight,
                 rightTabsComponent,
@@ -2559,9 +2579,10 @@ function editor(appDefinition){
                 boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
                 display:'flex',
                 justifyContent: 'center',
+                paddingRight: state.editorRightWidth + 'px',
             }
         }, [
-            h('a', {style: {flex: '0 auto', display: 'flex', alignItems: 'center', width: '190px', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
+            h('a', {style: {flex: '0 auto', display: 'flex', alignItems: 'center', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
                 h('img',{ attrs: {src: '/images/logo_new256x256.png', height: '37'}}),
             ]),
         ])
@@ -2589,13 +2610,16 @@ function editor(appDefinition){
                     zIndex: state.fullScreen ? '2000' : '100',
                     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
                     position: 'fixed',
-                    transition: state.fullScreen || state.editorRightWidth === 450 ? 'all 0.5s': 'none', // messes up the closing of full screen, but works in 99% of cases
+                    transition: state.fullScreen || state.editorRightWidth === 425 ? 'all 0.5s': 'none', // messes up the closing of full screen, but works in 99% of cases
                     top: state.fullScreen ? '0px' : 15 + topMenuHeight + 'px',
                     left: state.fullScreen ? '0px' : (state.leftOpen ?state.editorLeftWidth : 0) + 15 + 'px',
                 }
             })()}, [
                 state.fullScreen ?
-                    h('span', {style: {position: 'fixed', padding: '12px 10px', top: '0', right: '40px', border: '2px solid #333', borderTop: 'none', background: '##1e1e1e', color: 'white', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, 'exit full screen'):
+                    h('span', {style: {position: 'fixed', top: '0', right: '40px', border: '2px solid #333', borderTop: 'none', background: '#1e1e1e', fontSize: '30px',
+                        height: '30px',
+                        padding: '10px',
+                        color: '#dadada', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, [fullscreenExitIcon()]):
                     h('span'),
                 h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
             ])
