@@ -2187,6 +2187,7 @@ function editor(appDefinition){
                     cursor: 'pointer',
                     letterSpacing: '1px',
                     textAlign: 'center',
+                    color: state.selectedViewSubMenu === 'props' ? 'white' : '#acacac',
                 },
                 on: {
                     click: [SELECT_VIEW_SUBMENU, 'props']
@@ -2202,6 +2203,7 @@ function editor(appDefinition){
                     textAlign: 'center',
                     letterSpacing: '1px',
                     cursor: 'pointer',
+                    color: state.selectedViewSubMenu === 'style' ? 'white' : '#acacac',
                 },
                 on: {
                     click: [SELECT_VIEW_SUBMENU, 'style']
@@ -2215,6 +2217,7 @@ function editor(appDefinition){
                     textAlign: 'center',
                     letterSpacing: '1px',
                     cursor: 'pointer',
+                    color: state.selectedViewSubMenu === 'events' ? 'white' : '#acacac',
                 },
                 on: {
                     click: [SELECT_VIEW_SUBMENU, 'events']
