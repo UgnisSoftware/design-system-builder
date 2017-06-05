@@ -53,7 +53,7 @@ function moveInArray (array, moveIndex, toIndex) {
     return array;
 }
 
-const version = '0.0.39v'
+const version = '0.0.40v'
 editor(savedApp)
 
 function editor(appDefinition){

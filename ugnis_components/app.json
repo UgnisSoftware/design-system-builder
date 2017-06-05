@@ -371,7 +371,7 @@
         },
         "8acb18a0-f61d-49a6-813f-77e31439bc67": {
             "type": "text",
-            "value": "2px solid black",
+            "value": "2px solid #ccc",
             "transformations": []
         },
         "f3d7c713-4a0e-406a-8d4e-b7baf0586eb7": {
