@@ -2629,7 +2629,7 @@ function editor(appDefinition){
                 //paddingLeft: state.editorLeftWidth + 'px',
             }
         }, [
-            h('div', {style: {fontSize: '20px', fontWeight: '300', color: '#8e8e8e', position:'absolute', top: '20px', left: '20px'}}, 'Components'),
+            h('div', {style: {fontSize: '20px', fontWeight: '300', color: '#8e8e8e', position:'absolute', top: '17px', left: '20px'}}, 'Components'),
             h('a', {style: {flex: '0 auto', display: 'flex', alignItems: 'center', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
                 h('img',{ attrs: {src: '/images/logo_new256x256.png', height: '37'}}),
             ]),
@@ -2680,13 +2680,11 @@ function editor(appDefinition){
 
         const leftComponent = h('div', {
             style: {
-                display: 'flex',
-                flexDirection: 'column',
                 position: 'fixed',
                 top: '50px',
                 left: '0',
+                overflow: 'auto',
                 height: 'calc(100% - 50px)',
-                paddingTop: '20px',
                 width: state.editorLeftWidth + 'px',
                 background: '#ffffff',
                 boxSizing: "border-box",
@@ -2695,10 +2693,11 @@ function editor(appDefinition){
                 transform: state.leftOpen ? 'translateZ(0) translateX(0%)': 'translateZ(0) translateX(-100%)',
                 userSelect: 'none',
             },
+            attrs: {class: 'better-scrollbar-light'},
         }, [
             //dragComponentLeft,
             ...componentMockList.map((name)=>
-                h('div', {style: {fontSize: '16px', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
+                h('div', {style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
             ),
             h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}}, '+ create new')
         ])
