@@ -555,16 +555,7 @@
   },
   "vNodeImage": {},
   "style": {
-    "_rootStyle": {
-      "background": {
-        "ref": "pipe",
-        "id": "a60899ee-9925-4e05-890e-b9428b02dbf9"
-      },
-      "minHeight": {
-        "ref": "pipe",
-        "id": "1e465403-5382-4a45-89da-8d88e2eb2fb9"
-      }
-    },
+    "_rootStyle": {},
     "8481d6d2-00db-8ab5-c332-882575f25426": {
       "padding": {
         "ref": "pipe",
