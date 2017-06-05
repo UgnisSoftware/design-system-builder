@@ -53,7 +53,7 @@ function moveInArray (array, moveIndex, toIndex) {
     return array;
 }
 
-const version = '0.0.38v'
+const version = '0.0.39v'
 editor(savedApp)
 
 function editor(appDefinition){
@@ -1022,6 +1022,7 @@ function editor(appDefinition){
         const defaults = {
             'background': 'white',
             'border': '1px solid black',
+            'borderRadius': '5px',
             'outline': '1px solid black',
             'cursor': 'pointer',
             'color': 'black',
@@ -1463,7 +1464,7 @@ function editor(appDefinition){
         equal: ['value'],
         event: ['mutators'],
         mutator: ['mutation'],
-        style: ['background', 'border', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
+        style: ['background', 'border', 'borderRadius', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
         state: [],
         length: [],
         toLowerCase: [],
