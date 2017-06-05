@@ -79,6 +79,7 @@ function editor(appDefinition){
         selectedStateNodeId: '',
         selectedMenu: 'view', // view | state | events
         selectedViewSubMenu: 'props',
+        hoveredComponent: '',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
         draggedComponentView: null,
@@ -1381,6 +1382,12 @@ function editor(appDefinition){
     }
     function CHANGE_MENU(type) {
         setState({...state, selectedMenu: type})
+    }
+    function COMPONENT_HOVERED(id) {
+        setState({...state, hoveredComponent: id})
+    }
+    function COMPONENT_UNHOVERED() {
+        setState({...state, hoveredComponent: ''})
     }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
@@ -2691,7 +2698,7 @@ function editor(appDefinition){
         }, [
             //dragComponentLeft,
             ...componentMockList.map((name)=>
-                h('div', {style: {fontSize: '16px', fontWeight: '300', height: '30px', paddingLeft: '20px', cursor: 'pointer'}}, name)
+                h('div', {style: {fontSize: '16px', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 500ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
             ),
             h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}}, '+ create new')
         ])
