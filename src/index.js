@@ -80,6 +80,7 @@ function editor(appDefinition){
         selectedMenu: 'view', // view | state | events
         selectedViewSubMenu: 'props',
         hoveredComponent: '',
+        hoveredViewWithoutDrag: '',
         editingTitleNodeId: '',
         viewFoldersClosed: {},
         draggedComponentView: null,
@@ -317,9 +318,13 @@ function editor(appDefinition){
         elem.dispatchEvent(moveEvent)
     }
 
+    function VIEW_UNHOVERED(){
+        setState({...state, hoveredViewWithoutDrag: ''})
+    }
+
     function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
         if(!state.draggedComponentView){
-            return;
+            return setState({...state, hoveredViewWithoutDrag: nodeRef.id})
         }
 
         const target = e.target || e.srcElement;
@@ -1393,6 +1398,7 @@ function editor(appDefinition){
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
     const moreIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'more_horiz')
+    const linkIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'link')
     const numberIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'looks_one')
     const listIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'view_list')
     const inputIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'input')
@@ -1846,7 +1852,7 @@ function editor(appDefinition){
                     },
                 },
                 [
-                    h('span', {style: {display: 'flex', flexWrap: 'wrap', marginBottom: '5px',}}, [
+                    h('span', {style: {display: 'flex', flexWrap: 'wrap', marginBottom: '5px',cursor: 'pointer',}}, [
                         h('span', {style: {flex: '0 0 auto',  position: 'relative', transform: 'translateZ(0)', margin: '0 7px 0 0',  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
                             h('span', {style: {opacity: state.editingTitleNodeId === stateId ? '0': '1', color: 'white', display: 'inline-block'}, on: {mousedown: [STATE_DRAGGED, stateId], touchstart: [STATE_DRAGGED, stateId], touchmove: [HOVER_MOBILE], dblclick: [EDIT_VIEW_NODE_TITLE, stateId]}}, currentState.title),
                             state.editingTitleNodeId === stateId ? editingNode(): h('span'),
@@ -2028,10 +2034,11 @@ function editor(appDefinition){
                         padding: '3px 0',
                         borderBottom: '3px solid #292929',
                         whiteSpace: 'nowrap',
+                        cursor: 'pointer',
                     },
-                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], touchmove: [HOVER_MOBILE]}
+                        on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], mouseout: [VIEW_UNHOVERED], touchmove: [HOVER_MOBILE]}
                     },  [
-                        h('div', {style: {padding: '0 3px', height: '30px', display: 'flex', alignItems: 'center', borderRadius: '3px', background: state.selectedViewNode.id === nodeId ? '#303030': 'none'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
+                        h('div', {style: {padding: '0 3px', height: '30px', display: 'flex', alignItems: 'center', borderRadius: '3px', background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030': 'none'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
                             h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',display: 'inline-flex'}}, [
                                 boxIcon()
                             ]),
@@ -2071,7 +2078,7 @@ function editor(appDefinition){
                 }}, [
                     h('div', {
                         style: {borderBottom: '3px solid #292929', padding: '3px 0', cursor: 'pointer', marginLeft: depth *20 + 'px'},
-                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
+                        on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], mouseout: [VIEW_UNHOVERED], touchmove: [HOVER_MOBILE]}
                     }, [
                         h('div', {
                             key: nodeId,
@@ -2083,7 +2090,7 @@ function editor(appDefinition){
                                 position: 'relative',
                                 alignItems: 'center',
                                 whiteSpace: 'nowrap',
-                                background: state.selectedViewNode.id === nodeId ? '#303030': 'none',
+                                background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030': 'none',
                                 color: state.selectedViewNode.id === nodeId ? '#53d486': 'white'
                             }}, [
                             node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId) ? h('span', {style: {display: 'inline-flex', color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e'}}, [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]): h('span'),
@@ -2118,13 +2125,13 @@ function editor(appDefinition){
             const node = state.definition[nodeRef.ref][nodeId]
             return  h('div', {
                 style: {borderBottom: '3px solid #292929', padding: '3px 0', cursor: 'pointer', marginLeft: depth *20 + 'px', opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',},
-                on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], touchmove: [HOVER_MOBILE]}
+                on: {mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth], touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth], dblclick: [EDIT_VIEW_NODE_TITLE, nodeId], mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth], mouseout: [VIEW_UNHOVERED], touchmove: [HOVER_MOBILE]}
             }, [
                 h('div', {
                         key: nodeId,
                         style: {
                             position: 'relative',
-                            background: state.selectedViewNode.id === nodeId ? '#303030': 'none',
+                            background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030': 'none',
                             height: '30px',
                             padding: '0 3px',
                             whiteSpace: 'nowrap',
@@ -2481,7 +2488,8 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [moreIcon()]), // TODO
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'list']}}, [listIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [linkIcon()]),
         ])
 
         const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
@@ -2629,7 +2637,7 @@ function editor(appDefinition){
                 //paddingLeft: state.editorLeftWidth + 'px',
             }
         }, [
-            h('div', {style: {fontSize: '20px', fontWeight: '300', color: '#8e8e8e', position:'absolute', top: '17px', left: '20px'}}, 'Components'),
+            h('div', {style: {fontSize: '20px', fontWeight: '300', color: '#8e8e8e', position:'absolute', top: '17px', left: '20px', cursor: 'default', userSelect: 'none'}}, 'Components'),
             h('a', {style: {flex: '0 auto', display: 'flex', alignItems: 'center', textDecoration: 'inherit', userSelect: 'none'}, attrs: {href:'/'}}, [
                 h('img',{ attrs: {src: '/images/logo_new256x256.png', height: '37'}}),
             ]),
