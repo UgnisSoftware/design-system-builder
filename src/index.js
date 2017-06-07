@@ -2630,7 +2630,7 @@ function editor(appDefinition){
                 height: '50px',
                 maxHeight: '50px',
                 minHeight: '50px',
-                background: '#ffffff',
+                background: '#f8f8f8',
                 boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
                 display:'flex',
                 justifyContent: 'center',
@@ -2664,7 +2664,7 @@ function editor(appDefinition){
                 return {
                     width: state.fullScreen ? '100vw' : widthLeft - 30 +'px',
                     height: state.fullScreen ? '100vh' : heightLeft - 30 + 'px',
-                    background: state.fullScreen ? '#ffffff': 'none',
+                    background: '#ffffff',
                     transform: 'translateZ(0)',
                     zIndex: state.fullScreen ? '2000' : '100',
                     //boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
@@ -2695,7 +2695,7 @@ function editor(appDefinition){
                 overflow: 'auto',
                 height: 'calc(100% - 50px)',
                 width: state.editorLeftWidth + 'px',
-                background: '#ffffff',
+                background: '#f8f8f8',
                 boxSizing: "border-box",
                 transition: '0.5s transform',
                 boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.12)",
@@ -2725,7 +2725,7 @@ function editor(appDefinition){
         ])
         const vnode = h('div', {
             style: {
-                background: '#f8f8f8',
+                background: '#ffffff',
                 width: '100vw',
                 height: '100vh',
                 overflow: 'hidden',
