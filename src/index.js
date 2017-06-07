@@ -53,13 +53,11 @@ function moveInArray (array, moveIndex, toIndex) {
     return array;
 }
 
-const version = '0.0.40v'
 editor(savedApp)
 
 function editor(appDefinition){
 
-    const savedDefinition = JSON.parse(localStorage.getItem('app_key_' + version))
-    const app = ugnis(savedDefinition || appDefinition)
+    const app = ugnis(appDefinition)
 
     let node = document.createElement('div')
     document.body.appendChild(node)
@@ -90,7 +88,7 @@ function editor(appDefinition){
         hoveredEvent: null,
         mousePosition: {},
         eventStack: [],
-        definition: savedDefinition || app.definition,
+        definition: app.definition,
     }
     // undo/redo
     let stateStack = [state.definition]
@@ -113,7 +111,8 @@ function editor(appDefinition){
                 stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition)
             }
             app.render(newState.definition)
-            setTimeout(()=>localStorage.setItem('app_key_'+version, JSON.stringify(newState.definition)), 0);
+
+            //setTimeout(()=>localStorage.setItem('app_key_'+version, JSON.stringify(newState.definition)), 0);
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
