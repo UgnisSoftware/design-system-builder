@@ -1409,6 +1409,7 @@ function editor(appDefinition){
     const closeIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'close')
     const addCircleIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'add_circle')
     const folderIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'folder')
+    const repeatIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'loop')
     const historyIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'history')
     const pauseIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'pause')
     const playIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'play_arrow')
@@ -2487,9 +2488,10 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'image']}}, [imageIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'input']}}, [inputIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'link']}}, [linkIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [ifIcon()]),
             h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'list']}}, [listIcon()]),
-            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'if']}}, [linkIcon()]),
+            h('span', {on: {click: [ADD_NODE, state.selectedViewNode, 'repeat']}}, [repeatIcon()]),
         ])
 
         const viewComponent = h('div', {key: 'view', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
