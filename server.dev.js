@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./static_prod'))
 
 // app.post('/save', (req, res)=> {
-//     fs.writeFile("./ugnis_components/app-" + uuid.v4() + '.json', JSON.stringify(req.body, undefined, 4), function(err) {
+//     fs.writeFile("./ugnis_components/app.json", JSON.stringify(req.body, undefined, 4), function(err) {
 //         if(err) {
 //             return console.log(err);
 //         }

@@ -1,0 +1,47 @@
+{
+    "version": "1.0.0",
+    "title": "New component",
+    "eventData": {},
+    "toLowerCase": {},
+    "toUpperCase": {},
+    "equal": {},
+    "and": {},
+    "or": {},
+    "not": {},
+    "length": {},
+    "pipe": {},
+    "join": {},
+    "add": {},
+    "subtract": {},
+    "multiply": {},
+    "divide": {},
+    "remainder": {},
+    "vNodeBox": {
+        "_rootNode": {
+            "title": "component",
+            "style": {
+                "ref": "style",
+                "id": "_rootStyle"
+            },
+            "parent": {},
+            "children": []
+        }
+    },
+    "vNodeText": {},
+    "vNodeInput": {},
+    "vNodeList": {},
+    "vNodeIf": {},
+    "vNodeImage": {},
+    "style": {
+        "_rootStyle": {}
+    },
+    "nameSpace": {
+        "_rootNameSpace": {
+            "title": "",
+            "children": []
+        }
+    },
+    "state": {},
+    "mutator": {},
+    "event": {}
+}

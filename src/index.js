@@ -28,7 +28,7 @@ const patch = snabbdom.init([
 function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/[10]/g,function(){return(0|Math.random()*16).toString(16)})}
 
 import ugnis from './ugnis'
-import savedApp from '../ugnis_components/app.json'
+import savedApp from '../ugnis_components/button.json'
 
 function moveInArray (array, moveIndex, toIndex) {
     let item = array[moveIndex];
@@ -802,8 +802,279 @@ function editor(appDefinition){
         const nodeId = nodeRef.id
         const newNodeId = uuid()
         const newStyleId = uuid()
-        const newStyle = {
+        // style: ['background', 'border', 'borderRadius', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
+        const styleIds = {
+            flex: uuid(),
+            display: uuid(),
+            height: uuid(),
+            maxHeight: uuid(),
+            minHeight: uuid(),
+            width: uuid(),
+            maxWidth: uuid(),
+            minWidth: uuid(),
+            marginTop: uuid(),
+            marginBottom: uuid(),
+            marginLeft: uuid(),
+            marginRight: uuid(),
+            paddingTop: uuid(),
+            paddingBottom: uuid(),
+            paddingLeft: uuid(),
+            paddingRight: uuid(),
+            zIndex: uuid(),
+            position: uuid(),
+            top: uuid(),
+            bottom: uuid(),
+            left: uuid(),
+            right: uuid(),
+            alignItems: uuid(),
+            justifyContent: uuid(),
+            flexDirection: uuid(),
+            flexWrap: uuid(),
+            borderTop: uuid(),
+            borderBottom: uuid(),
+            borderLeft: uuid(),
+            borderRight: uuid(),
+            borderRadius: uuid(),
+            backgroundColor: uuid(),
+            opacity: uuid(),
+            overflow: uuid(),
+            boxShadow: uuid(),
         }
+        const boxStylePipes = {
+            [styleIds.flex]: {
+                type: 'text',
+                value: '1',
+                transformations: []
+            },
+            [styleIds.display]: {
+                type: 'text',
+                value: 'flex',
+                transformations: []
+            },
+            [styleIds.zIndex]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.height]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.maxHeight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.minHeight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.width]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.maxWidth]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.minWidth]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.marginTop]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.marginBottom]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.marginLeft]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.marginRight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.paddingTop]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.paddingBottom]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.paddingLeft]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.paddingRight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.position]: {
+                type: 'text',
+                value: 'relative',
+                transformations: []
+            },
+            [styleIds.top]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.bottom]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.left]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.right]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.alignItems]: {
+                type: 'text',
+                value: 'flex-start',
+                transformations: []
+            },
+            [styleIds.justifyContent]: {
+                type: 'text',
+                value: 'flex-start',
+                transformations: []
+            },
+            [styleIds.flexDirection]: {
+                type: 'text',
+                value: 'row',
+                transformations: []
+            },
+            [styleIds.flexWrap]: {
+                type: 'text',
+                value: 'wrap',
+                transformations: []
+            },
+            [styleIds.backgroundColor]: {
+                type: 'text',
+                value: 'none',
+                transformations: []
+            },
+            [styleIds.opacity]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.overflow]: {
+                type: 'text',
+                value: 'visible',
+                transformations: []
+            },
+            [styleIds.boxShadow]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.borderTop]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.borderBottom]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.borderLeft]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.borderRight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.borderRadius]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+        }
+        const textStyleIds = {
+            ...styleIds,
+            color: uuid(),
+            fontFamily: uuid(),
+            fontStyle: uuid(),
+            fontSize: uuid(),
+            fontWeight: uuid(),
+            lineHeight: uuid(),
+            textDecorationLine: uuid(),
+            letterSpacing: uuid(),
+        }
+        const textStylePipes = {
+            ...boxStylePipes,
+            [textStyleIds.color]: {
+                type: 'text',
+                value: '#000000',
+                transformations: []
+            },
+            [textStyleIds.fontFamily]: {
+                type: 'text',
+                value: 'inherit',
+                transformations: []
+            },
+            [textStyleIds.fontStyle]: {
+                type: 'text',
+                value: 'normal',
+                transformations: []
+            },
+            [textStyleIds.fontWeight]: {
+                type: 'text',
+                value: 'normal',
+                transformations: []
+            },
+            [textStyleIds.fontSize]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [textStyleIds.textDecorationLine]: {
+                type: 'text',
+                value: 'none',
+                transformations: []
+            },
+            [textStyleIds.lineHeight]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [textStyleIds.letterSpacing]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+        }
+        const newStyle = type === 'text' || type === 'input' ?
+            Object.keys(textStyleIds).reduce((acc, val) => { acc[val] = {ref: 'pipe', id: textStyleIds[val]}; return acc}, {}):
+            Object.keys(styleIds).reduce((acc, val) => { acc[val] = {ref: 'pipe', id: styleIds[val]}; return acc}, {})
+
         if(type === 'box') {
             const newNode = {
                 title: 'box',
@@ -816,11 +1087,13 @@ function editor(appDefinition){
                 selectedViewNode: {ref:'vNodeBox', id: newNodeId},
                 definition: nodeRef.ref === 'vNodeBox' ? {
                     ...state.definition,
+                    pipe: {...state.definition.pipe, ...boxStylePipes},
                     vNodeBox: {...state.definition.vNodeBox, [nodeId]: {...state.definition.vNodeBox[nodeId], children: state.definition.vNodeBox[nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 } : {
                     ...state.definition,
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeBox', id:newNodeId})}},
+                    pipe: {...state.definition.pipe, ...boxStylePipes},
                     vNodeBox: {...state.definition.vNodeBox, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
                 }
@@ -844,7 +1117,7 @@ function editor(appDefinition){
                 selectedViewNode: {ref:'vNodeText', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe, ...textStylePipes},
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeText', id:newNodeId})}},
                     vNodeText: {...state.definition.vNodeText, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -868,7 +1141,7 @@ function editor(appDefinition){
                 selectedViewNode: {ref:'vNodeImage', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    pipe: {...state.definition.pipe, [pipeId]: newPipe},
+                    pipe: {...state.definition.pipe, [pipeId]: newPipe, ...boxStylePipes},
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeImage', id:newNodeId})}},
                     vNodeImage: {...state.definition.vNodeImage, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -956,7 +1229,7 @@ function editor(appDefinition){
                 selectedViewNode: {ref:'vNodeInput', id: newNodeId},
                 definition: {
                     ...state.definition,
-                    pipe: {...state.definition.pipe, [pipeInputId]: newPipeInput, [pipeMutatorId]: newPipeMutator},
+                    pipe: {...state.definition.pipe, [pipeInputId]: newPipeInput, [pipeMutatorId]: newPipeMutator, ...textStylePipes},
                     [nodeRef.ref]: {...state.definition[nodeRef.ref], [nodeId]: {...state.definition[nodeRef.ref][nodeId], children: state.definition[nodeRef.ref][nodeId].children.concat({ref:'vNodeInput', id:newNodeId})}},
                     vNodeInput: {...state.definition.vNodeInput, [newNodeId]: newNode},
                     style: {...state.definition.style, [newStyleId]: newStyle},
@@ -1021,41 +1294,6 @@ function editor(appDefinition){
             nameSpace: {...state.definition.nameSpace, [namespaceId]: {...state.definition.nameSpace[namespaceId], children: state.definition.nameSpace[namespaceId].children.concat({ref:'state', id:newStateId})}},
             state: {...state.definition.state, [newStateId]: newState},
         }})
-    }
-    function ADD_DEFAULT_STYLE(styleId, key) {
-        const pipeId = uuid()
-        const defaults = {
-            'background': 'white',
-            'border': '1px solid black',
-            'borderRadius': '5px',
-            'outline': '1px solid black',
-            'cursor': 'pointer',
-            'color': 'black',
-            'display': 'block',
-            'top': '0px',
-            'bottom': '0px',
-            'transition': '0.5s all',
-            'left': '0px',
-            'right': '0px',
-            'flex': '1 1 auto',
-            'justifyContent': 'center',
-            'alignItems': 'center',
-            'maxWidth': '100%',
-            'maxHeight': '100%',
-            'minWidth': '100%',
-            'minHeight': '100%',
-            'position': 'absolute',
-            'overflow': 'auto',
-            'height': '500px',
-            'width': '500px',
-            'font': 'italic 2em "Comic Sans MS", cursive, sans-serif',
-            'margin': '10px',
-            'padding': '10px',
-        }
-        setState({...state, definition: {
-            ...state.definition,
-            pipe: {...state.definition.pipe, [pipeId]: {type: 'text', value: defaults[key], transformations:[]}},
-            style: {...state.definition.style, [styleId]: {...state.definition.style[styleId], [key]: {ref: 'pipe', id: pipeId}}}}})
     }
     function SELECT_VIEW_SUBMENU(newId) {
         setState({...state, selectedViewSubMenu:newId})
@@ -1415,6 +1653,8 @@ function editor(appDefinition){
     const fullscreenIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'fullscreen')
     const fullscreenExitIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'fullscreen_exit')
     const saveIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'check')
+    const dotIcon = () => h('img', {attrs: {src: '/images/ugn.png', width: '18', height: '18'}},)
+    //const dotIcon = () => h('div', {style: {borderRadius: '20px', height: '6px', width: '6px', backgroundColor: '#53d486'}})
     const storageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'storage')
     const eventListIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'event_note')
     const imageIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'crop_original')
@@ -1694,20 +1934,20 @@ function editor(appDefinition){
 
             if (typeof pipe.value === 'string') {
                 return h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
-                    h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
-                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, pipe.value),
+                    h('span', {style: {flex: '0 0 auto', minWidth: '50px', position: 'relative', transform: 'translateZ(0)'}}, [
+                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', borderBottom: '2px solid white'}}, pipe.value),
                         h('input', {
                             attrs: {
                                 type: 'text'
                             },
                             style: {
-                                color: 'white',
+                                color: '#ffffff',
                                 outline: 'none',
                                 boxShadow: 'none',
-                                textAlign: 'center',
+                                textAlign: 'left',
                                 display: 'inline',
                                 border: 'none',
-                                borderBottom: '2px solid white',
+                                borderBottom: '2px solid #ccc',
                                 background: 'none',
                                 font: 'inherit',
                                 position: 'absolute',
@@ -1715,6 +1955,7 @@ function editor(appDefinition){
                                 left: '0',
                                 width: '100%',
                                 flex: '0 0 auto',
+                                padding: '0px',
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
@@ -1749,7 +1990,7 @@ function editor(appDefinition){
             if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
                 return h('div', {style:{display:'flex', alignItems: 'baseline'}, on: {click: [SELECT_PIPE, ref.id]}}, [
                     h('span', {style: {flex: '0 0 auto', position: 'relative', transform: 'translateZ(0)'}}, [
-                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', padding: '0 5px 2px 5px', borderBottom: '2px solid white'}}, Number(pipe.value)),
+                        h('span', {style: {opacity: '0', display: 'inline-block', whiteSpace: 'pre', borderBottom: '2px solid white'}}, Number(pipe.value)),
                         h('input', {
                             attrs: {type:'number'},
                             style: {
@@ -1767,6 +2008,7 @@ function editor(appDefinition){
                                 left: '0',
                                 width: '100%',
                                 flex: '0 0 auto',
+                                padding: '0px',
                             },
                             on: {
                                 input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
@@ -1786,16 +2028,12 @@ function editor(appDefinition){
                 const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', {style: {flex: '1'}}, [
                     h('div', {style:{display:'flex', alignItems: 'center'}, on: {click: [SELECT_PIPE, ref.id], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED],}}, [
-                        h('span', {style: {whiteSpace: 'nowrap',flex: '0 0 auto', display: 'inline-block', position: 'relative', transform: 'translateZ(0)', boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === pipe.value.id? '#eab65c': '#828282') , background: '#1e1e1e', padding: '4px 7px',}}, [
-                            h('span', {style: {color: 'white', display: 'inline-block'}, on: {click: [STATE_NODE_SELECTED, pipe.value.id]}}, displState.title),
-                        ]),
+                        h('span', {style:{color: state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c', transition: '200ms all', cursor: 'pointer', padding: '2px 0 0 0',borderBottom: '2px solid ' + (pipe.transformations.length > 0? state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c': '#ccc')}, on: {click: [STATE_NODE_SELECTED, pipe.value.id], mousemove: [PIPE_HOVERED, ref], mouseout: [PIPE_UNHOVERED],}}, displState.title),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto', marginLeft: 'auto'}, on: {click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId]}}, [addCircleIcon()]): h('span'),
                         state.selectedPipeId === ref.id ? h('span', {style: {flex: '0 0 auto',}, on: {click: [RESET_PIPE, ref.id]}}, [deleteIcon()]): h('span'),
 
                     ]),
-                    ...listTransformations(pipe.transformations, pipe.type),
-                    //h('div', state.selectedPipeId === ref.id ? genTransformators(): [])
-                ])
+                ].concat(state.selectedPipeId === ref.id ? listTransformations(pipe.transformations, pipe.type): []))
             }
 
             if(pipe.value.ref === 'eventData'){
@@ -1973,13 +2211,14 @@ function editor(appDefinition){
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'text']}}, [textIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'number']}}, [numberIcon()]),
             h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'boolean']}}, [ifIcon()]),
+            h('span', {on: {click: [ADD_STATE, '_rootNameSpace', 'table']}}, [listIcon()]),
         ])
 
         const stateComponent = h('div', {key: 'state', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', flex: '1', padding: '20px'}, on: {click: [UNSELECT_STATE_NODE]}}, [
             h('div', {style: {fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'ADD NEW'),
             addStateComponent,
-            h('div', {style: {fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e', marginBottom: '15px'}}, 'COMPONENT STATES'),
-            ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id))
+            h('div', {style: {fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e', marginBottom: '15px'}}, 'GLOBAL STATE'),
+            ...state.definition.nameSpace['_rootNameSpace'].children.map((ref)=> listState(ref.id)),
         ])
 
         function listNode(nodeRef, parentRef, depth){
@@ -2039,8 +2278,8 @@ function editor(appDefinition){
                         on: {mousemove: [VIEW_HOVERED, nodeRef, {}, 1], mouseout: [VIEW_UNHOVERED], touchmove: [HOVER_MOBILE]}
                     },  [
                         h('div', {style: {padding: '0 3px', height: '30px', display: 'flex', alignItems: 'center', borderRadius: '3px', background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030': 'none'}, on: {click: [VIEW_NODE_SELECTED, nodeRef]}}, [
-                            h('span', {key: nodeId, style: {color: state.selectedViewNode.id === nodeId ? '#fff': '#8e8e8e',display: 'inline-flex'}}, [
-                                boxIcon()
+                            h('span', {key: nodeId, style: {color: '#53d486',display: 'inline-flex'}}, [
+                                dotIcon()
                             ]),
                             state.editingTitleNodeId === nodeId ?
                                 editingNode(nodeRef):
@@ -2257,19 +2496,8 @@ function editor(appDefinition){
                 }
                 if (state.selectedViewNode.ref === 'vNodeText') {
                     return h('div', {style: {overflow: 'auto'}, attrs: {"class": 'better-scrollbar'}}, [
-                        h('div', {
-                            style: {
-                                display: 'flex',
-                                alignItems: 'center',
-                                background: '#676767',
-                                padding: '5px 10px',
-                                marginBottom: '10px'
-                            }
-                        }, [
-                            h('span', {style: {flex: '1'}}, 'text value'),
-                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
-                        ]),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')])
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'text'),
+                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'text')])
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeImage') {
@@ -2344,37 +2572,120 @@ function editor(appDefinition){
             const genstyleSubmenuComponent = () => {
                 const selectedStyle = state.definition.style[selectedNode.style.id]
                 return h('div', {attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto'}}, [
-                    h('div',{ style: {padding: '10px', color: '#bdbdbd'}}, 'style panel will change a lot in 1.0v, right now it\'s just CSS'),
-                    ...Object.keys(selectedStyle).map((key) => h('div', {style: {
+                    h('div', {
+                        style: {
+                            padding: '10px 15px 5px',
+                            borderBottom: '2px solid #888',
+                            letterSpacing: '1px',
+                            cursor: 'pointer',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {
+                            //click: [SELECT_VIEW_SUBMENU, 'events']
+                        }
+                    }, [arrowIcon(), 'Layout']),
+                    h('div', {style: {
                     }}, [
-                        h('div', {
-                            style: {
-                                display: 'flex',
-                                alignItems: 'center',
-                                background: '#676767',
-                                padding: '5px 10px',
-                                marginBottom: '10px'
-                            }
-                        }, [
-                            h('span', {style: {flex: '1'}}, key),
-                            h('div', {style: {flex: '0', cursor: 'default', color: '#bdbdbd'}}, 'text')
-                        ]),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedStyle[key], 'text')]),
-                    ])),
-                    h('div', {style: { padding: '5px 10px', color: '#bdbdbd'}}, 'add Style:'),
-                    h('div', {style: { padding: '5px 0 5px 10px'}},
-                        styles
-                            .filter((key) => !Object.keys(selectedStyle).includes(key))
-                            .map((key) => h('div', {
-                                on: {click: [ADD_DEFAULT_STYLE, selectedNode.style.id, key]},
-                                style: {
-                                    cursor: 'pointer',
-                                    border: '3px solid white',
-                                    padding: '5px',
-                                    marginTop: '5px'
-                                }
-                            }, '+ ' + key))
-                    )
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Flex'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flex'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Height'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['height'], 'text'), emberEditor(selectedStyle['minHeight'], 'text'), emberEditor(selectedStyle['maxHeight'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Width Min Max'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['width'], 'text'), emberEditor(selectedStyle['minWidth'], 'text'), emberEditor(selectedStyle['maxWidth'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Margin'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['marginTop'], 'text'), emberEditor(selectedStyle['marginRight'], 'text'), emberEditor(selectedStyle['marginBottom'], 'text'), emberEditor(selectedStyle['marginLeft'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Padding'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['paddingTop'], 'text'), emberEditor(selectedStyle['paddingRight'], 'text'), emberEditor(selectedStyle['paddingBottom'], 'text'), emberEditor(selectedStyle['paddingLeft'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Position'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['position'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Top Right Bottom Left'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['top'], 'text'), emberEditor(selectedStyle['right'], 'text'), emberEditor(selectedStyle['bottom'], 'text'), emberEditor(selectedStyle['left'], 'text')]),
+                    ]),
+                    h('div', {
+                        style: {
+                            padding: '10px 15px 5px',
+                            borderBottom: '2px solid #888',
+                            letterSpacing: '1px',
+                            cursor: 'pointer',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {
+                            //click: [SELECT_VIEW_SUBMENU, 'events']
+                        }
+                    }, [arrowIcon(), 'Children Layout']),
+                    h('div', {style: {
+                    }}, [
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Horizontal Align'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['justifyContent'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Vertical Align'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['alignItems'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Direction'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexDirection'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Wrap'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexWrap'], 'text')]),
+                    ]),
+                    h('div', {
+                        style: {
+                            padding: '10px 15px 5px',
+                            borderBottom: '2px solid #888',
+                            letterSpacing: '1px',
+                            cursor: 'pointer',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {
+                            //click: [SELECT_VIEW_SUBMENU, 'events']
+                        }
+                    }, [arrowIcon(), 'Design']),
+                    h('div', {style: {
+                    }}, [
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Background Color'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['backgroundColor'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Opacity'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['opacity'], 'number')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Borders'),
+                        h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['borderTop'], 'text'), emberEditor(selectedStyle['borderRight'], 'text'), emberEditor(selectedStyle['borderBottom'], 'text'), emberEditor(selectedStyle['borderLeft'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Box Shadow'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['boxShadow'], 'text')]),
+                    ]),
+                    h('div', {
+                        style: {
+                            padding: '10px 15px 5px',
+                            borderBottom: '2px solid #888',
+                            letterSpacing: '1px',
+                            cursor: 'pointer',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {
+                            //click: [SELECT_VIEW_SUBMENU, 'events']
+                        }
+                    }, [arrowIcon(), 'Text']),
+                    state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput' ? h('div', {style: {
+                    }}, [
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Font Color'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['color'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Font size'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['fontSize'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Font Family'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['fontFamily'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Font Weight'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['fontWeight'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Font Style'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['fontStyle'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Line Height'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['lineHeight'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Text decoration line'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['textDecorationLine'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Letter spacing'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['letterSpacing'], 'text')]),
+                    ]): h('div'),
                 ])
             }
             const geneventsSubmenuComponent = () => {
@@ -2428,12 +2739,11 @@ function editor(appDefinition){
                 )
             }
 
-            const fullVNode = ['vNodeBox','vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
+            const fullVNode = state.selectedViewNode.id !== '_rootNode' && ['vNodeBox','vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
 
             return h('div', {
                 style: {
                     position: 'fixed',
-                    lineHeight: '1.2em',
                     color: 'white',
                     left: state.componentEditorPosition.x + 'px',
                     top: state.componentEditorPosition.y + 'px',
@@ -2453,7 +2763,7 @@ function editor(appDefinition){
                             paddingBottom: '5px',
                             color: '#53d486',
                             fontSize: '18px',
-                            padding: '15px 10px',
+                            padding: '13px 10px',
                         }, on: {
                             mousedown: [COMPONENT_VIEW_DRAGGED],
                             touchstart: [COMPONENT_VIEW_DRAGGED],
@@ -2503,7 +2813,7 @@ function editor(appDefinition){
         const eventComponent = h('div', {key: 'event', attrs: {class: 'better-scrollbar'}, style: {overflow: 'auto', position: 'relative', flex: '1', padding: '20px'}}, [
             h('div', {style: {fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e', paddingBottom: '15px'}}, 'PAST EVENTS'),
             state.eventStack.length === 0 ?
-                h('span', 'This component has not emitted any events yet'):
+                h('span', {style: {color: '#ccc',}}, 'The component has not emitted any events yet'):
                 h('div', {
                         attrs: {class: 'better-scrollbar'},
                         style: {
@@ -2733,8 +3043,8 @@ function editor(appDefinition){
         }, [
             topComponent,
             mainRowComponent,
-            state.draggedComponentView ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1'}}, [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)])]): h('span'),
-            state.draggedComponentStateId ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', lineHeight: '1.2em', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
+            state.draggedComponentView ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, [h('div', {style: {overflow: 'auto', position: 'relative', flex: '1'}}, [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)])]): h('span'),
+            state.draggedComponentStateId ? h('div', {style: {pointerEvents: 'none', position: 'fixed', top: state.mousePosition.y + 'px', left: state.mousePosition.x + 'px', zIndex: '99999', width: state.editorRightWidth + 'px'}}, state.hoveredEvent || state.hoveredPipe ? [h('span', {style: {color: '#5bcc5b', position: 'absolute', top: '0', left: '-20px'}},[addCircleIcon()]), fakeState(state.draggedComponentStateId)]: [fakeState(state.draggedComponentStateId)]): h('span'),
         ])
 
         node = patch(node, vnode)
