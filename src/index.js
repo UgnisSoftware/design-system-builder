@@ -69,7 +69,6 @@ function editor(appDefinitions){
 
     // State
     let state = {
-        currentComponent: definitionNames[0],
         leftOpen: true,
         rightOpen: true,
         fullScreen: false,
@@ -95,6 +94,8 @@ function editor(appDefinitions){
         mousePosition: {},
         eventStack: [],
         definition: app.definition,
+        currentDefinition: definitionNames[0],
+        definitionList: appDefinitions,
     }
     // undo/redo
     let stateStack = [state.definition]
@@ -118,7 +119,7 @@ function editor(appDefinitions){
             }
             app.render(newState.definition)
 
-            fetch('/save/'+newState.currentComponent, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
+            fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
@@ -1634,6 +1635,9 @@ function editor(appDefinitions){
     function COMPONENT_UNHOVERED() {
         setState({...state, hoveredComponent: ''})
     }
+    function ADD_NEW_COMPONENT() {
+        setState({...state, hoveredComponent: ''})
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -3023,7 +3027,7 @@ function editor(appDefinitions){
             ...definitionNames.map((name)=>
                 h('div', {style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
             ),
-            h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}}, '+ create new')
+            h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}, on: {click: [ADD_NEW_COMPONENT]}}, '+ create new')
         ])
 
         const mainRowComponent = h('div', {

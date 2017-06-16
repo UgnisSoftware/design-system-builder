@@ -18,6 +18,16 @@ app.post('/save/:name', (req, res)=> {
     res.send('OK')
 })
 
+app.post('/new/:name', (req, res)=> {
+    fs.writeFile("./ugnis_components/"+ req.params.name + ".json", fs.readFileSync('./src/_empty.json', 'utf8'), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
+    res.send('OK')
+})
+
 app.get('/definitions', (req, res)=> {
     let files = {}
     fs.readdirSync('./ugnis_components/').forEach(file => {
