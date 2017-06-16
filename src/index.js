@@ -1649,7 +1649,7 @@ function editor(appDefinitions){
     function ADD_NEW_COMPONENT() {
         var newComponentName = 'component'+ uuid().substr(0, 6)
         fetch('/new/'+newComponentName, {method: 'POST', body: '', headers: {"Content-Type": "application/json"}})
-        setState({...state, definitionList: {...state.definitionList, [newComponentName]:{...emptyApp}}})
+        setState({...state, definitionList: {...state.definitionList, [newComponentName]:emptyApp}, currentDefinition: newComponentName, definition: emptyApp})
     }
     function SELECT_COMPONENT(name) {
         setState({...state, currentDefinition: name, definition: state.definitionList[name]})
