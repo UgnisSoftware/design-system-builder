@@ -28,7 +28,13 @@ const patch = snabbdom.init([
 function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/[10]/g,function(){return(0|Math.random()*16).toString(16)})}
 
 import ugnis from './ugnis'
-import savedApp from '../ugnis_components/button.json'
+import emptyApp from './_empty.json'
+
+fetch('/definitions').then(function(response) {
+    return response.json();
+}).then(function(definitions) {
+    editor(definitions)
+});
 
 function moveInArray (array, moveIndex, toIndex) {
     let item = array[moveIndex];
@@ -53,17 +59,17 @@ function moveInArray (array, moveIndex, toIndex) {
     return array;
 }
 
-editor(savedApp)
+function editor(appDefinitions){
 
-function editor(appDefinition){
-
-    const app = ugnis(appDefinition)
+    const definitionNames = Object.keys(appDefinitions)
+    let app = ugnis(definitionNames.length ? appDefinitions[definitionNames[0]]: emptyApp)
 
     let node = document.createElement('div')
     document.body.appendChild(node)
 
     // State
     let state = {
+        currentComponent: definitionNames[0],
         leftOpen: true,
         rightOpen: true,
         fullScreen: false,
@@ -112,7 +118,7 @@ function editor(appDefinition){
             }
             app.render(newState.definition)
 
-            //setTimeout(()=>localStorage.setItem('app_key_'+version, JSON.stringify(newState.definition)), 0);
+            fetch('/save/'+newState.currentComponent, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
@@ -839,6 +845,7 @@ function editor(appDefinition){
             opacity: uuid(),
             overflow: uuid(),
             boxShadow: uuid(),
+            cursor: uuid(),
         }
         const boxStylePipes = {
             [styleIds.flex]: {
@@ -1012,6 +1019,11 @@ function editor(appDefinition){
                 transformations: []
             },
             [styleIds.borderRadius]: {
+                type: 'text',
+                value: '',
+                transformations: []
+            },
+            [styleIds.cursor]: {
                 type: 'text',
                 value: '',
                 transformations: []
@@ -1451,15 +1463,6 @@ function editor(appDefinition){
                 }
             }
         }})
-    }
-    function RESET_APP_STATE() {
-        app.setCurrentState(app.createDefaultState())
-        setState({...state, eventStack: []})
-    }
-    function RESET_APP_DEFINITION() {
-        if(state.definition !== appDefinition){
-            setState({...state, definition: {...appDefinition}})
-        }
     }
     function FULL_SCREEN_CLICKED(value) {
         if(value !== state.fullScreen){
@@ -2652,6 +2655,8 @@ function editor(appDefinition){
                         h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['borderTop'], 'text'), emberEditor(selectedStyle['borderRight'], 'text'), emberEditor(selectedStyle['borderBottom'], 'text'), emberEditor(selectedStyle['borderLeft'], 'text')]),
                         h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Box Shadow'),
                         h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['boxShadow'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Cursor'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['cursor'], 'text')]),
                     ]),
                     h('div', {
                         style: {
@@ -2990,12 +2995,12 @@ function editor(appDefinition){
                         padding: '10px',
                         color: '#dadada', opacity: '0.8', cursor: 'pointer'}, on: {click: [FULL_SCREEN_CLICKED, false]}}, [fullscreenExitIcon()]):
                     h('span'),
-                h('div', {style: {overflow: 'auto', width: '100%', height: '100%'}}, [app.vdom])
+                h('div', {style: {overflow: 'auto', display: 'flex', width: '100%', height: '100%'}}, [app.vdom])
             ])
         ])
 
-        const componentMockList = ['App bar', 'Avatar', 'Breadcrumbs', 'Button - flat', 'Button - raised', 'Button - round', 'Card', 'Dialog', 'Drawer', 'Input - auto complete', 'Input - text', 'Input - multiline', 'Input - number',
-            'Input - checkbox', 'Input - radio', 'Input - toggle', 'Input - slider', 'Input - datepicker', 'List', 'Menu', 'Progress - linear', 'Progress - circular', 'Snackbar', 'Table', 'Tabs', 'Time picker']
+        // const componentMockList = ['App bar', 'Avatar', 'Breadcrumbs', 'Button - flat', 'Button - raised', 'Button - round', 'Card', 'Dialog', 'Drawer', 'Input - auto complete', 'Input - text', 'Input - multiline', 'Input - number',
+        //     'Input - checkbox', 'Input - radio', 'Input - toggle', 'Input - slider', 'Input - datepicker', 'List', 'Menu', 'Progress - linear', 'Progress - circular', 'Snackbar', 'Table', 'Tabs', 'Time picker']
 
         const leftComponent = h('div', {
             style: {
@@ -3015,7 +3020,7 @@ function editor(appDefinition){
             attrs: {class: 'better-scrollbar-light'},
         }, [
             //dragComponentLeft,
-            ...componentMockList.map((name)=>
+            ...definitionNames.map((name)=>
                 h('div', {style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
             ),
             h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}}, '+ create new')
