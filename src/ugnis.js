@@ -1,13 +1,3 @@
-function updateProps(oldVnode, vnode) {
-    var key, cur, old, elm = vnode.elm,
-        props = vnode.data.liveProps || {};
-    for (key in props) {
-        cur = props[key];
-        old = elm[key];
-        if (old !== cur) elm[key] = cur;
-    }
-}
-const livePropsPlugin = {create: updateProps, update: updateProps};
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([
     require('snabbdom/modules/class'),
@@ -15,7 +5,6 @@ const patch = snabbdom.init([
     require('snabbdom/modules/style'),
     require('snabbdom/modules/eventlisteners'),
     require('snabbdom/modules/attributes'),
-    livePropsPlugin
 ]);
 import h from 'snabbdom/h';
 
@@ -163,6 +152,7 @@ export default (definition) => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
+            key: Math.random().toString(), // TODO FIX FORCE RERENDER ON APP DEFINITION CHANGE
             style: frozen && selectedNodeInDevelopment.id === ref.id ? {...style, transition:'box-shadow 0.2s', boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow: frozenShadow } : style,
             on: frozen ?
                 {

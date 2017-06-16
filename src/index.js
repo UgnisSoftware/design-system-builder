@@ -99,10 +99,20 @@ function editor(appDefinitions){
 
     // undo/redo
     let stateStack = [state.definition]
+    // soooo meta
+    let stateStackHistory = {[state.currentDefinition]: stateStack}
     let currentAnimationFrameRequest = null;
     function setState(newState, timeTraveling){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
+        }
+        if(state.currentDefinition !== newState.currentDefinition){
+            if(stateStackHistory[newState.currentDefinition]){
+                stateStack = stateStackHistory[newState.currentDefinition]
+            } else {
+                stateStack = [newState.definition]
+                stateStackHistory[newState.currentDefinition] = [newState.definition]
+            }
         }
         if(state.definition !== newState.definition){
             // unselect deleted components and state
@@ -113,9 +123,10 @@ function editor(appDefinitions){
                 newState = {...newState, selectedViewNode: {}}
             }
             // undo/redo then render then save
-            if(!timeTraveling){
+            if(!timeTraveling && (state.currentDefinition === newState.currentDefinition)){
                 const currentIndex = stateStack.findIndex((a)=>a===state.definition)
                 stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition)
+                stateStackHistory[newState.currentDefinition] = stateStack
             }
             app.render(newState.definition)
             newState.definitionList[newState.currentDefinition] = newState.definition
