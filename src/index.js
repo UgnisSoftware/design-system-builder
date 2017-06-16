@@ -61,8 +61,7 @@ function moveInArray (array, moveIndex, toIndex) {
 
 function editor(appDefinitions){
 
-    const definitionNames = Object.keys(appDefinitions)
-    let app = ugnis(definitionNames.length ? appDefinitions[definitionNames[0]]: emptyApp)
+    let app = ugnis(appDefinitions[Object.keys(appDefinitions)[0]])
 
     let node = document.createElement('div')
     document.body.appendChild(node)
@@ -94,7 +93,7 @@ function editor(appDefinitions){
         mousePosition: {},
         eventStack: [],
         definition: app.definition,
-        currentDefinition: definitionNames[0],
+        currentDefinition: Object.keys(appDefinitions)[0],
         definitionList: appDefinitions,
     }
     // undo/redo
@@ -1636,7 +1635,9 @@ function editor(appDefinitions){
         setState({...state, hoveredComponent: ''})
     }
     function ADD_NEW_COMPONENT() {
-        setState({...state, hoveredComponent: ''})
+        var newComponentName = 'component'+ uuid().substr(0, 6)
+        fetch('/new/'+newComponentName, {method: 'POST', body: '', headers: {"Content-Type": "application/json"}})
+        setState({...state, definitionList: {...state.definitionList, [newComponentName]:{...emptyApp}}})
     }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
@@ -3024,7 +3025,7 @@ function editor(appDefinitions){
             attrs: {class: 'better-scrollbar-light'},
         }, [
             //dragComponentLeft,
-            ...definitionNames.map((name)=>
+            ...Object.keys(state.definitionList).map((name)=>
                 h('div', {style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
             ),
             h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}, on: {click: [ADD_NEW_COMPONENT]}}, '+ create new')
