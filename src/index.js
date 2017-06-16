@@ -61,11 +61,6 @@ function moveInArray (array, moveIndex, toIndex) {
 
 function editor(appDefinitions){
 
-    let app = ugnis(appDefinitions[Object.keys(appDefinitions)[0]])
-
-    let node = document.createElement('div')
-    document.body.appendChild(node)
-
     // State
     let state = {
         leftOpen: true,
@@ -92,10 +87,16 @@ function editor(appDefinitions){
         hoveredEvent: null,
         mousePosition: {},
         eventStack: [],
-        definition: app.definition,
+        definition: appDefinitions[Object.keys(appDefinitions)[0]],
         currentDefinition: Object.keys(appDefinitions)[0],
         definitionList: appDefinitions,
     }
+
+    const app = ugnis(state.definition)
+
+    let node = document.createElement('div')
+    document.body.appendChild(node)
+
     // undo/redo
     let stateStack = [state.definition]
     let currentAnimationFrameRequest = null;
@@ -117,7 +118,7 @@ function editor(appDefinitions){
                 stateStack = stateStack.slice(0, currentIndex+1).concat(newState.definition)
             }
             app.render(newState.definition)
-
+            newState.definitionList[newState.currentDefinition] = newState.definition
             fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
@@ -1639,6 +1640,9 @@ function editor(appDefinitions){
         fetch('/new/'+newComponentName, {method: 'POST', body: '', headers: {"Content-Type": "application/json"}})
         setState({...state, definitionList: {...state.definitionList, [newComponentName]:{...emptyApp}}})
     }
+    function SELECT_COMPONENT(name) {
+        setState({...state, currentDefinition: name, definition: state.definitionList[name]})
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -3026,9 +3030,9 @@ function editor(appDefinitions){
         }, [
             //dragComponentLeft,
             ...Object.keys(state.definitionList).map((name)=>
-                h('div', {style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED]}}, name)
+                h('div', {key: name, style: {fontSize: '16px', display: 'flex', alignItems: 'center', fontWeight: '300', height: '30px', background: state.currentDefinition === name ? '#ccc': state.hoveredComponent === name ? '#e5e5e5' : 'none', transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', paddingLeft: '20px', paddingTop: '5px', paddingBottom: '5px', cursor: 'pointer'}, on: {mouseover: [COMPONENT_HOVERED, name], mouseout: [COMPONENT_UNHOVERED], click: [SELECT_COMPONENT, name]}}, state.definitionList[name]['vNodeBox']['_rootNode'].title)
             ),
-            h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', cursor: 'pointer'}, on: {click: [ADD_NEW_COMPONENT]}}, '+ create new')
+            h('div', {style: {fontSize: '16px', height: '30px', paddingLeft: '20px', paddingTop: '10px', cursor: 'pointer'}, on: {click: [ADD_NEW_COMPONENT]}}, '+ create new')
         ])
 
         const mainRowComponent = h('div', {
