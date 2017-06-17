@@ -1654,6 +1654,9 @@ function editor(appDefinitions){
     function SELECT_COMPONENT(name) {
         setState({...state, currentDefinition: name, definition: state.definitionList[name]})
     }
+    function CHANGE_COMPONENT_PATH(name, e) {
+        setState({...state, definition: {...state.definition, [name]: e.target.value}})
+    }
 
     const boxIcon = () => h('i', {attrs: {class: 'material-icons'}}, 'layers')
     const ifIcon = () => h('i', {attrs: {class: 'material-icons'}, style: {transform: 'rotate(90deg)'}}, 'call_split')
@@ -2508,6 +2511,49 @@ function editor(appDefinitions){
             const tagComponent = h('div', {style: {position: 'absolute', bottom: '0', transition: 'all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000)', left: state.selectedViewSubMenu === 'props' ? '0' : state.selectedViewSubMenu === 'style' ? '33.334%' : '66.667%', background: '#53d486', height: '3px', width: '33.33%'}})
 
             const genpropsSubmenuComponent = () => h('div', [(()=>{
+                if(state.selectedViewNode.id === '_rootNode') {
+                    const inputStyle = {
+                        color: 'white',
+                        background: 'none',
+                        outline: 'none',
+                        border: 'none',
+                        boxShadow: 'inset 0 -2px 0 0 #ccc'
+                    }
+                    return h('div', {
+                        style: { display: 'flex', flexDirection:'column', padding: '10px 20px'}
+                    }, [
+                        h('div', {style: {padding: '20px 20px 0 0', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'react path'),
+                        h('input', {
+                            style: inputStyle,
+                            on: {
+                                input: [CHANGE_COMPONENT_PATH, 'reactPath'],
+                            },
+                            liveProps: {
+                                value: state.definition['reactPath'],
+                            },
+                        }),
+                        h('div', {style: {padding: '20px 20px 0 0', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'react native path'),
+                        h('input', {
+                            style: inputStyle,
+                            on: {
+                                input: [CHANGE_COMPONENT_PATH, 'reactNativePath'],
+                            },
+                            liveProps: {
+                                value: state.definition['reactNativePath'],
+                            },
+                        }),
+                        h('div', {style: {padding: '20px 20px 0 0', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'vue path'),
+                        h('input', {
+                            style: inputStyle,
+                            on: {
+                                input: [CHANGE_COMPONENT_PATH, 'vuePath'],
+                            },
+                            liveProps: {
+                                value: state.definition['vuePath'],
+                            },
+                        }),
+                    ])
+                }
                 if (state.selectedViewNode.ref === 'vNodeBox') {
                     return h('div', {
                         style: {
@@ -2764,7 +2810,7 @@ function editor(appDefinitions){
                 )
             }
 
-            const fullVNode = state.selectedViewNode.id !== '_rootNode' && ['vNodeBox','vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
+            const fullVNode = ['vNodeBox','vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
 
             return h('div', {
                 style: {
