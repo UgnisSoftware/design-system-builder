@@ -1,0 +1,2338 @@
+{
+    "version": "1.0.0",
+    "reactPath": "./react-src/",
+    "reactNativePath": "./react-native-src/",
+    "vuePath": "./vue-src/",
+    "eventData": {},
+    "toLowerCase": {},
+    "toUpperCase": {},
+    "equal": {},
+    "and": {},
+    "or": {},
+    "not": {},
+    "length": {},
+    "pipe": {
+        "d598c126-a2b2-485f-8b05-f9395c834344": {
+            "type": "text",
+            "value": "Default Text",
+            "transformations": []
+        },
+        "d2fda43f-49a3-4bb6-8fd6-878573c5139e": {
+            "type": "text",
+            "value": "1",
+            "transformations": []
+        },
+        "b162d2ac-3b57-44f5-8e72-8a3be8babb24": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "a7d0e07f-d89e-4792-84e7-5f5c8fad9776": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "81328d14-b68a-49a3-806d-147746058671": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6c0c7c85-e470-4aaa-869c-28a1f566d892": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d27199ba-2b41-4b1f-883d-576c0e0c988c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d391c914-7aff-4bf5-80b8-ce38a4b03363": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "0607a69a-57e6-4133-8bbd-e064cdba3b38": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "adff239c-bd82-477c-8a68-ef4f5ce0088b": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f45e0237-9f05-4de9-8720-34d6f109c012": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e1d642a4-734f-49eb-8a36-39feef9171d1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "5855a19e-53ca-4e62-8312-b0da56970105": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ce7f697d-558a-4b55-8334-7922fb7395f5": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "697eb4e4-13ae-4e5e-82b6-1317b1dacda4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c7a46398-ea3e-4231-8fa2-563a957b91f4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ecc069df-52f7-4acb-8a92-218d4ac3997d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9eaa8dd5-8f08-48e6-85c0-548a51fd5e33": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "4d67ad19-19f3-4045-8186-d7ea5a01da02": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "5215ffff-2b3f-4897-8760-4221a78d4b50": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "67258cee-ec4f-4ec6-810c-225a31593b56": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a17eea79-155a-446c-8032-f1afd6d98c41": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "1bd3f94c-0ce3-4331-8bdb-402f1bd55a30": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "aa1c1516-5466-4ca4-8e10-a7b4e525e041": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "5da660bd-9c04-4790-859f-c1ac41da9ddb": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "9e87e1ce-00ba-42b4-8fa2-722c91fe5dab": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "8bcbd1dc-593a-41fc-8099-a7f063c32089": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "4b16a843-a26a-4034-8d4b-3af86fcdda25": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "32a7c558-6285-4d5f-8ef5-6f684e1690a3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "2fbbee68-9d4e-4f16-8863-743a141cb929": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "6dc77562-5f00-40f1-84ac-f05044c10911": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6a10497d-62d5-44be-8704-78cacdd3f149": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9c5db14d-1a0c-4f1e-8d81-1757e0916b24": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3020e7c5-f196-472e-8d3b-7fb83febf3ec": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d97d41bb-bdbf-4db2-82e3-50c11f846658": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f8623096-3d48-44c1-8437-2f6d2928580a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "365fadeb-f196-4fb9-8764-e721a6b89f6e": {
+            "type": "text",
+            "value": "#000000",
+            "transformations": []
+        },
+        "c655e8e3-49a2-400a-8094-43443d606405": {
+            "type": "text",
+            "value": "inherit",
+            "transformations": []
+        },
+        "dc74c6b2-2098-4465-84b3-3eaba5273f26": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "a78ea3ca-2793-44fc-8cb4-c11464a22f19": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "e92f0265-ad31-4f5d-8cbb-bb7f0d823288": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ec8d5623-4c02-4ebb-822f-2462230a0d93": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "a51bfa7d-7981-4216-8da6-dc1295be6c6e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a0e816e3-1a4a-4264-81e6-e94ba410b389": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "fa1d8fd7-240f-44b3-8f06-d4324569d253": {
+            "type": "text",
+            "value": "Default Text",
+            "transformations": []
+        },
+        "7ef0d6a7-d032-4258-8b31-77ff3d2ce837": {
+            "type": "text",
+            "value": "1",
+            "transformations": []
+        },
+        "86f820f8-876b-43bb-82f7-82c0bc7e0b59": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "3505e837-f484-4f67-838b-d2badeb5e7a4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "500d529b-0806-408d-863e-cf81c2d6fa5e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6f2bb819-f38b-4f50-8826-5fa9e73a5319": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e2676511-56ad-4c59-8713-1eb5306c93b3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6a22d7f0-66e4-46d4-8f5f-0e250bd3f8e2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7f970d64-ea4a-46fd-84f0-09021ea6195f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "63dabf1b-d043-4adf-8a4a-a8ccdf053dcf": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "517f2c42-163e-40d9-8ab8-474173d5ae0f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a5b6ebdd-219c-4f01-8c0e-ba271c99d0fc": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "68cb48f2-d0d5-416e-8754-6d03d6a8a462": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "34985c26-b98b-4f78-8388-d2952074e0b2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f64fc30f-8b7a-4dc3-8ea6-756552bf4400": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "eb1d76be-23aa-4a49-82c6-4979bd0013b0": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3e06a5f8-29d0-48f8-8012-8d0188fdacaf": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9b20adf1-c6dd-47f3-8758-2f73f2f5cb71": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6ae6ae2a-a6ed-436d-8c2e-e21dd50a3bd2": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "84c21f3a-afb8-4d9a-87fc-b56b3aeb5660": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6adfad6a-b233-4762-8fa6-5b9fc79575d6": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "fe6424c7-7ef3-458b-8b18-a9fea9b5a327": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "cb9a01d6-56e4-449f-8be4-84193799018a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "75c3218e-c293-4f0c-84fa-3fec8e04188a": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "feeff721-11ec-4bf7-820b-6ab6754c7a0e": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "513dfdad-f2e2-407e-85a5-788ee9c1441d": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "e72b8a75-bf00-4263-8a10-a960bf2152af": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "d742a177-e3bd-4bdb-8e17-ac859423309b": {
+            "type": "text",
+            "value": "rgb(0, 188, 212)",
+            "transformations": []
+        },
+        "e1ecbdd1-bdc7-4adf-8165-261019a26db0": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f2719130-79fe-4458-8332-9f19070a43a4": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "5fd268df-b9d1-42f7-8359-cbb6eac7c007": {
+            "type": "text",
+            "value": "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+            "transformations": []
+        },
+        "0f776441-e634-41d8-8735-81eb59c7d37c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f6e856cc-9419-41b6-8372-2a68824b6c88": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3c208482-96cb-4df4-8a7f-774dc264fa07": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6ae57c0f-2743-4044-8f75-8a8f64851903": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "1b0a1b96-c88b-4077-8f1b-9af38a5b28cc": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a5beccf6-ce36-45fa-8988-f55ba4147fcf": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "2238d06c-6013-4dac-84cc-49e07f4d6a08": {
+            "type": "text",
+            "value": "white",
+            "transformations": []
+        },
+        "5e1250a4-d52b-4fe9-8d5b-d92b0f6da45c": {
+            "type": "text",
+            "value": "inherit",
+            "transformations": []
+        },
+        "0c0ed682-daf6-439c-8ca7-7689726c4311": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "990ff1d0-ff4c-4cc0-8235-e67b2a99c2c8": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "a76380a9-10d5-4316-8dd1-be4bbe36c1be": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "df08980f-b945-4b75-81f9-9698bc2d8594": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "7414e393-716a-4ae6-875f-cb55aefbb8bb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a1c5b1dc-39f1-49c9-8740-20d9d014f5c4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c6627941-a24c-43b2-80c1-c0f28744e133": {
+            "type": "text",
+            "value": "/images/list_icon.png",
+            "transformations": []
+        },
+        "ded7d021-e480-4e63-88a2-60d21d3bed96": {
+            "type": "text",
+            "value": "0 0 auto",
+            "transformations": []
+        },
+        "55470ccd-42c6-40f2-84be-060c63d4fd44": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "6be5ace6-3ff5-46fe-8a77-fcaf7a70065b": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e936e43e-b530-4672-844f-c7935e17f4c2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a48f600d-fa42-4878-84fe-6879caafec8a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "cfa3bb74-4424-4358-8979-eb87fd88ce5d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "01167962-ae5c-446a-85a8-07515d4dcbdd": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "09866de8-194f-40bb-8cc5-79c8163ac553": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b070db5b-8e14-4a5b-82cc-eef3291a32a9": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "54824c93-35a7-4f64-8c76-e40fb78aa58a": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "3658e8a1-6190-47bd-8403-1e44c2fa2409": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "cb365adb-ed57-4eec-82ee-c7440fd11c2a": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "45b0c694-0969-4788-8c40-fc3cbeee9059": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "42ca70f6-c161-487a-859e-6842189574ec": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "e45373bf-bb73-4ec0-8997-011cca5ef8be": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "1302cb0d-a191-41fe-87c4-42e7c98257a9": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "aa117f06-83e9-4aa4-88e0-c469cd4ae58c": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "911cc22d-aade-494a-8039-28a9a9b63db2": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "51140cdd-eb37-4e05-821a-8299a8985bcc": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "258de727-7ada-432f-8e32-01219908acea": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "74962474-0630-4c00-8056-7f0c0d9e9fe7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "877fd563-291d-4b20-83de-2511dc866b0c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c32f9cf8-8d63-4940-870f-a760baf44f8a": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "ce33046d-bebc-4822-85d1-3fc70290d239": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "7d6da12f-b207-4f71-80e2-e84b5a8103de": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "afd4de14-1abe-4174-85ba-07da13f454ab": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "a4b105f0-a521-405a-8596-d62567ee89e0": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "bbb793c1-79a7-4c67-87e4-bcf2e531beac": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "488a5835-275b-4702-8942-13ce0dd2d703": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "9718e959-d645-4f2e-871b-2fa2e39bc9c4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "13e88578-b5ca-4e7c-86b7-30b0a17e1fd0": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d1dae91d-5781-4c06-894b-d53797f1bb78": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "fb34b346-eba6-46c3-8976-8cc80cfc989d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3cc44f6e-9131-4656-89b7-cd7cddb80ddf": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b82ea1a0-4ae3-465f-8794-ec66981ca0bb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "1af31627-8221-41bc-8526-1f94bbeccfe5": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "963c1d0e-8705-4452-86fb-037955ddfec1": {
+            "type": "text",
+            "value": "1",
+            "transformations": []
+        },
+        "f1fec9fe-9b5d-46bc-817c-17b4ad262ac7": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "a3d66449-8bac-4b09-84f3-8c1eeb4e3ff1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9ba58408-47b2-4c20-8776-5e4feeaa264a": {
+            "type": "text",
+            "value": "68px",
+            "transformations": []
+        },
+        "ebde1787-1646-49f0-88aa-6bd286d5d8e2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c58518e8-9c3c-48e6-8bc2-c299ffca278f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "526cc6b8-586f-4293-8543-76ff417d3fc9": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3a7b1d2f-4d0c-452b-89ee-42d4b559e1e3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "3b8287fc-e4e2-49f1-823e-892a6079b3f1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6e378e37-979b-48b3-8ec5-707a4c207176": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "4b5b40f2-1c7e-46a4-8984-9438153b2b43": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "15b37b2b-1412-4900-88a4-d64d54d7a360": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "bcf6c5d5-d2ed-423a-8606-96803c0f5806": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ca37e9f1-d19d-4f52-8d17-47d8a8824e29": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "14ce4532-b163-44ee-86ad-66c06d5a3863": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b448d301-855d-492e-829d-5679df1d5644": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "14c3e8c5-41e6-40f6-8ec6-f6c381ad04ba": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6a334397-30e9-4ee5-87a3-60c65fa82ac4": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "33c71a5f-8e14-4ca1-8241-1219911c863a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ea423008-2085-449e-840b-9614ffd02d8d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "426a703f-2b8a-4e5d-8473-9de75c8ec9de": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9d69c78b-146f-41bc-8e8d-b469c03b2182": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c14a2672-dd60-42bc-823f-da57b6cc34c3": {
+            "type": "text",
+            "value": "center",
+            "transformations": []
+        },
+        "8e86f305-f346-489f-8627-4120ee5c4b05": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "e9764184-2b52-439b-8e38-53b0357a076e": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "b18a65a8-90ad-49ea-87bd-b5f3631564bd": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "e55ac605-f1fc-45be-8c67-34a599f12f02": {
+            "type": "text",
+            "value": "rgb(0, 188, 212)",
+            "transformations": []
+        },
+        "02cb18ec-3c96-45ba-8b74-caaeda46dd6c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a1d828fc-8d8a-4404-842d-5a662afac26d": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "eb0fe554-7e2f-4ea1-8c91-411de5a0f57f": {
+            "type": "text",
+            "value": "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+            "transformations": []
+        },
+        "baa9dbfc-a94f-4f6c-8a1f-5b4d1a9e12e4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d1b4baa7-4687-4a0b-8b3d-c6a70e1d0ae1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d5b4be75-1e9e-4376-8ee3-3ec9b58ec750": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "0357ee4e-2bc7-444a-8ceb-b856a0086832": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "817f14d9-0d40-42ab-85e9-121dff15a735": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b83d9828-e186-449f-8beb-917b0b8509ea": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "20b085e9-dfde-4bfa-8322-9a635219b647": {
+            "type": "text",
+            "value": "Title",
+            "transformations": []
+        },
+        "50eaa591-e037-4451-878f-195666fc7fa7": {
+            "type": "text",
+            "value": "1",
+            "transformations": []
+        },
+        "f56cea73-be9e-435b-8a5f-65d112912ba7": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "e90a84fc-03b6-4677-8ace-616cc7adeb13": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ffcbbfa2-9046-4bfb-8590-906e5fd7a58d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "11f0e2ea-3067-4145-8ada-b03216b65213": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "57b18ff2-eed7-44a3-83c6-3be10e396af5": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "27873719-df63-44f8-8614-523eed9387bb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b2ada9e3-f89e-446b-8729-1a731532aaad": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "057cf0b4-9734-4c37-8ce8-593bd1338e6c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "03a5c5b7-2ee3-4209-8382-f441203a1aae": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e73edae0-d90b-4fee-8a80-9e8f83e80791": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "19272cc5-2ce8-4a99-8ae2-6833d80293b2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "926f936d-cb59-4ed1-80a1-e43231c9e00c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7f4b5a17-09c4-4d8e-8990-f84bd989481a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7cf40902-aefa-4cf8-81d2-4bd960ee376b": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "889b12fe-c4c7-49d4-87bf-a13941ae5e02": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "0ba8ce67-463a-403f-819e-b8aec5dc6687": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a53f3bfe-d2c1-48bc-8db9-ffed2478d6b4": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "c34d1a59-44fa-4dff-8b0e-055860cd5105": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "36c0c720-97d6-4360-84ae-03bdd48ab15a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "0f3ed5e9-37e8-4968-841a-36f04dc37e5d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "fc02399a-4530-4d5a-8668-e7fad3b28a23": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "bb636e13-7d4e-4054-8340-82865518453d": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "3adbc841-47ea-4948-89a6-c54443e16f0b": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "75a5801e-7160-4af0-86ad-6176ca2bad7d": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "5f97ead1-007a-40e1-8819-5e0433043ba1": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "5d46e8dc-0e83-42b6-802c-9a7b599c8c1b": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "5a721bde-083f-4d3d-8be2-b16e18ffdc43": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "8c3e925e-3a7f-4d69-85e2-d3b3c4561c66": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "ce6a9495-af79-4166-8438-83e421d77e89": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9bdf5816-12fc-40bf-8dec-2b7975f2bbf1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ff9a11c8-a7d9-43e3-8378-72e6dcb7d71d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6fdee0a0-c9c8-49ba-8eb9-f085ad88c9d3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "8a47ce9d-0618-490a-8f0c-daaf3f323723": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "02557b89-e1dc-4aab-84a8-849d9c06727a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d780fe81-6dad-4bc0-863b-8b833d75b2bc": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e696baeb-2342-46f3-8041-b22168139cb9": {
+            "type": "text",
+            "value": "rgb(255, 255, 255)",
+            "transformations": []
+        },
+        "410f4b29-f5e5-4728-8733-b56faa91c1af": {
+            "type": "text",
+            "value": "inherit",
+            "transformations": []
+        },
+        "a8b04394-3f9b-45eb-8905-e4b11f14f1f0": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "5d8a1f97-6271-4965-8bf0-bb3c07323ed0": {
+            "type": "text",
+            "value": "400",
+            "transformations": []
+        },
+        "8f18fa97-3c1d-4cd3-8e18-fc7683cd3378": {
+            "type": "text",
+            "value": "24px",
+            "transformations": []
+        },
+        "286cbc62-ea17-4f23-867e-8ce6ae17b6ac": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "c1aceefc-cdd0-43db-85af-1e2b6e5cfe0c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7bae627a-6d11-4780-8d32-5a7e131732ad": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "cbfcec2c-c243-4d3e-8783-66c1b4a038f5": {
+            "type": "text",
+            "value": "/images/ic_expand_more_white_24dp.png",
+            "transformations": []
+        },
+        "3f2ab0aa-5f5e-45f1-8807-acc53faea370": {
+            "type": "text",
+            "value": "0 0 auto",
+            "transformations": []
+        },
+        "e50553fc-0bed-4057-8034-e6afb921db9a": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
+        "7e8378b4-3ed6-49e3-8f27-9f9704b1ffc7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f3d98924-aecf-4d8b-840b-f42d63869fbf": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "2cf30ee0-0c90-4acb-8415-b909ba3f9d5c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "5ecde791-881b-4e45-8b53-c2b08a243d1e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "0007178f-80e5-40d9-8026-5609f7291460": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6e0a7c97-d8fa-4a5b-8e22-f1abc439e92e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f8e0a42e-46e7-4875-8720-823e9ddba377": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f7c8c041-ec99-4c82-8bd6-7e7ae7de08cf": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "b71ea191-d084-4347-8344-841686621db7": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "5b07d2c1-4614-40d4-805b-a429a50380ec": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "54b2fee7-b093-44b4-89cf-2a011b8f55c5": {
+            "type": "text",
+            "value": "8px",
+            "transformations": []
+        },
+        "de21895f-750d-4219-8641-48d3c12ebc12": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "8ba11285-0bf8-4055-8895-b7bf923b86d1": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "a5b774dc-5821-4d8c-844d-a8a120582e66": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "9de57bec-2d91-4be8-8675-63161a8f741d": {
+            "type": "text",
+            "value": "12px",
+            "transformations": []
+        },
+        "409002f1-54ff-46b8-801b-4ed8b37ff7a6": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "7bddda1c-efaa-43c7-8945-a78e3c93e9cb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7fa1bba2-b1cd-4417-8e22-4ca48d1a6d8f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9aa0d33a-9be8-4126-80fd-66f867361dd8": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a71cdfc2-b24e-44cf-857b-ef1260b21c57": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "37db1141-a6fe-4c08-89b3-8ba9c7ba9e94": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "0be56f1f-34db-4c2e-8a6d-e88e72f334ab": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "a8df90fb-18e8-4dcd-852c-1f994f2d0384": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "4fa1ab13-acfb-48e4-8e64-02faad550f9b": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "219ecca9-e60e-411d-851c-66283b9d0b06": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "77da5fc5-b072-40b2-8900-7709a9ccc6b9": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c1d6c503-3919-4827-82b3-229b785bb992": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "cabff5ef-e57c-4c47-8eeb-94eebca8618e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6dbff085-d551-4353-8951-17c17f83f798": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "1f1dd028-9b68-4acd-89c2-0ba8f4a11fe4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "d8e38912-1c00-4fdb-8d62-b3fdadf1db26": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "bba6add8-f3f3-497c-8070-09d752868600": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "58518096-1fd1-4aa4-8528-0a022fd80dcc": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7578ea91-9da5-4033-8fc4-177e5f5534fd": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        }
+    },
+    "join": {},
+    "add": {},
+    "subtract": {},
+    "multiply": {},
+    "divide": {},
+    "remainder": {},
+    "vNodeBox": {
+        "_rootNode": {
+            "title": "App Bar",
+            "style": {
+                "ref": "style",
+                "id": "_rootStyle"
+            },
+            "parent": {},
+            "children": [
+                {
+                    "ref": "vNodeBox",
+                    "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
+                }
+            ]
+        },
+        "be65cb8a-f8f1-479c-8fac-f526e39c8d36": {
+            "title": "box",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "_rootNode"
+            },
+            "style": {
+                "ref": "style",
+                "id": "f352afe6-23eb-423c-81b1-0cef5b13a0d4"
+            },
+            "children": [
+                {
+                    "ref": "vNodeImage",
+                    "id": "c5757142-8d89-443c-8a27-2dc24b24c86e"
+                },
+                {
+                    "ref": "vNodeText",
+                    "id": "25461dab-9484-4762-8f53-0676d01bca31"
+                },
+                {
+                    "ref": "vNodeImage",
+                    "id": "cb513100-42d5-427a-8ee6-57fccbed4e84"
+                }
+            ]
+        }
+    },
+    "vNodeText": {
+        "fb1c17e9-956f-4bad-8bf9-25a53ad01346": {
+            "title": "text",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
+            },
+            "style": {
+                "ref": "style",
+                "id": "e5531b34-e44d-40ee-89d0-a59cf8f55aa3"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "fa1d8fd7-240f-44b3-8f06-d4324569d253"
+            }
+        },
+        "25461dab-9484-4762-8f53-0676d01bca31": {
+            "title": "text",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
+            },
+            "style": {
+                "ref": "style",
+                "id": "5614f223-dfed-48a3-8995-bf7b5fcc157d"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "20b085e9-dfde-4bfa-8322-9a635219b647"
+            }
+        }
+    },
+    "vNodeInput": {},
+    "vNodeList": {},
+    "vNodeIf": {},
+    "vNodeImage": {
+        "c5757142-8d89-443c-8a27-2dc24b24c86e": {
+            "title": "image",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
+            },
+            "style": {
+                "ref": "style",
+                "id": "aa1848b6-8d50-486d-894f-6473cf77d52d"
+            },
+            "src": {
+                "ref": "pipe",
+                "id": "c6627941-a24c-43b2-80c1-c0f28744e133"
+            }
+        },
+        "cb513100-42d5-427a-8ee6-57fccbed4e84": {
+            "title": "image",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
+            },
+            "style": {
+                "ref": "style",
+                "id": "f4be8675-89d8-45c6-8ebf-3d8e7c3becc7"
+            },
+            "src": {
+                "ref": "pipe",
+                "id": "cbfcec2c-c243-4d3e-8783-66c1b4a038f5"
+            }
+        }
+    },
+    "style": {
+        "_rootStyle": {
+            "flex": {
+                "ref": "pipe",
+                "id": "d2fda43f-49a3-4bb6-8fd6-878573c5139e"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "b162d2ac-3b57-44f5-8e72-8a3be8babb24"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "81328d14-b68a-49a3-806d-147746058671"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "6c0c7c85-e470-4aaa-869c-28a1f566d892"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "d27199ba-2b41-4b1f-883d-576c0e0c988c"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "d391c914-7aff-4bf5-80b8-ce38a4b03363"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "0607a69a-57e6-4133-8bbd-e064cdba3b38"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "f45e0237-9f05-4de9-8720-34d6f109c012"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "e1d642a4-734f-49eb-8a36-39feef9171d1"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "5855a19e-53ca-4e62-8312-b0da56970105"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "ce7f697d-558a-4b55-8334-7922fb7395f5"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "697eb4e4-13ae-4e5e-82b6-1317b1dacda4"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "c7a46398-ea3e-4231-8fa2-563a957b91f4"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "ecc069df-52f7-4acb-8a92-218d4ac3997d"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "9eaa8dd5-8f08-48e6-85c0-548a51fd5e33"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "a7d0e07f-d89e-4792-84e7-5f5c8fad9776"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "4d67ad19-19f3-4045-8186-d7ea5a01da02"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "5215ffff-2b3f-4897-8760-4221a78d4b50"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "67258cee-ec4f-4ec6-810c-225a31593b56"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "a17eea79-155a-446c-8032-f1afd6d98c41"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "1bd3f94c-0ce3-4331-8bdb-402f1bd55a30"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "aa1c1516-5466-4ca4-8e10-a7b4e525e041"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "5da660bd-9c04-4790-859f-c1ac41da9ddb"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "9e87e1ce-00ba-42b4-8fa2-722c91fe5dab"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "8bcbd1dc-593a-41fc-8099-a7f063c32089"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "6a10497d-62d5-44be-8704-78cacdd3f149"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "9c5db14d-1a0c-4f1e-8d81-1757e0916b24"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "3020e7c5-f196-472e-8d3b-7fb83febf3ec"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "d97d41bb-bdbf-4db2-82e3-50c11f846658"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "4b16a843-a26a-4034-8d4b-3af86fcdda25"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "32a7c558-6285-4d5f-8ef5-6f684e1690a3"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "2fbbee68-9d4e-4f16-8863-743a141cb929"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "6dc77562-5f00-40f1-84ac-f05044c10911"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "f8623096-3d48-44c1-8437-2f6d2928580a"
+            },
+            "color": {
+                "ref": "pipe",
+                "id": "365fadeb-f196-4fb9-8764-e721a6b89f6e"
+            },
+            "fontFamily": {
+                "ref": "pipe",
+                "id": "c655e8e3-49a2-400a-8094-43443d606405"
+            },
+            "fontStyle": {
+                "ref": "pipe",
+                "id": "dc74c6b2-2098-4465-84b3-3eaba5273f26"
+            },
+            "fontSize": {
+                "ref": "pipe",
+                "id": "e92f0265-ad31-4f5d-8cbb-bb7f0d823288"
+            },
+            "fontWeight": {
+                "ref": "pipe",
+                "id": "a78ea3ca-2793-44fc-8cb4-c11464a22f19"
+            },
+            "lineHeight": {
+                "ref": "pipe",
+                "id": "a51bfa7d-7981-4216-8da6-dc1295be6c6e"
+            },
+            "textDecorationLine": {
+                "ref": "pipe",
+                "id": "ec8d5623-4c02-4ebb-822f-2462230a0d93"
+            },
+            "letterSpacing": {
+                "ref": "pipe",
+                "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            }
+        },
+        "e5531b34-e44d-40ee-89d0-a59cf8f55aa3": {
+            "flex": {
+                "ref": "pipe",
+                "id": "7ef0d6a7-d032-4258-8b31-77ff3d2ce837"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "86f820f8-876b-43bb-82f7-82c0bc7e0b59"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "500d529b-0806-408d-863e-cf81c2d6fa5e"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "6f2bb819-f38b-4f50-8826-5fa9e73a5319"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "e2676511-56ad-4c59-8713-1eb5306c93b3"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "6a22d7f0-66e4-46d4-8f5f-0e250bd3f8e2"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "7f970d64-ea4a-46fd-84f0-09021ea6195f"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "63dabf1b-d043-4adf-8a4a-a8ccdf053dcf"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "517f2c42-163e-40d9-8ab8-474173d5ae0f"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "a5b6ebdd-219c-4f01-8c0e-ba271c99d0fc"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "68cb48f2-d0d5-416e-8754-6d03d6a8a462"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "34985c26-b98b-4f78-8388-d2952074e0b2"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "f64fc30f-8b7a-4dc3-8ea6-756552bf4400"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "eb1d76be-23aa-4a49-82c6-4979bd0013b0"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "3e06a5f8-29d0-48f8-8012-8d0188fdacaf"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "9b20adf1-c6dd-47f3-8758-2f73f2f5cb71"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "3505e837-f484-4f67-838b-d2badeb5e7a4"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "6ae6ae2a-a6ed-436d-8c2e-e21dd50a3bd2"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "84c21f3a-afb8-4d9a-87fc-b56b3aeb5660"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "6adfad6a-b233-4762-8fa6-5b9fc79575d6"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "fe6424c7-7ef3-458b-8b18-a9fea9b5a327"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "cb9a01d6-56e4-449f-8be4-84193799018a"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "75c3218e-c293-4f0c-84fa-3fec8e04188a"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "feeff721-11ec-4bf7-820b-6ab6754c7a0e"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "513dfdad-f2e2-407e-85a5-788ee9c1441d"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "e72b8a75-bf00-4263-8a10-a960bf2152af"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "0f776441-e634-41d8-8735-81eb59c7d37c"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "f6e856cc-9419-41b6-8372-2a68824b6c88"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "3c208482-96cb-4df4-8a7f-774dc264fa07"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "6ae57c0f-2743-4044-8f75-8a8f64851903"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "1b0a1b96-c88b-4077-8f1b-9af38a5b28cc"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "d742a177-e3bd-4bdb-8e17-ac859423309b"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "e1ecbdd1-bdc7-4adf-8165-261019a26db0"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "f2719130-79fe-4458-8332-9f19070a43a4"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "5fd268df-b9d1-42f7-8359-cbb6eac7c007"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "a5beccf6-ce36-45fa-8988-f55ba4147fcf"
+            },
+            "color": {
+                "ref": "pipe",
+                "id": "2238d06c-6013-4dac-84cc-49e07f4d6a08"
+            },
+            "fontFamily": {
+                "ref": "pipe",
+                "id": "5e1250a4-d52b-4fe9-8d5b-d92b0f6da45c"
+            },
+            "fontStyle": {
+                "ref": "pipe",
+                "id": "0c0ed682-daf6-439c-8ca7-7689726c4311"
+            },
+            "fontSize": {
+                "ref": "pipe",
+                "id": "a76380a9-10d5-4316-8dd1-be4bbe36c1be"
+            },
+            "fontWeight": {
+                "ref": "pipe",
+                "id": "990ff1d0-ff4c-4cc0-8235-e67b2a99c2c8"
+            },
+            "lineHeight": {
+                "ref": "pipe",
+                "id": "7414e393-716a-4ae6-875f-cb55aefbb8bb"
+            },
+            "textDecorationLine": {
+                "ref": "pipe",
+                "id": "df08980f-b945-4b75-81f9-9698bc2d8594"
+            },
+            "letterSpacing": {
+                "ref": "pipe",
+                "id": "a1c5b1dc-39f1-49c9-8740-20d9d014f5c4"
+            }
+        },
+        "aa1848b6-8d50-486d-894f-6473cf77d52d": {
+            "flex": {
+                "ref": "pipe",
+                "id": "ded7d021-e480-4e63-88a2-60d21d3bed96"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "55470ccd-42c6-40f2-84be-060c63d4fd44"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "e936e43e-b530-4672-844f-c7935e17f4c2"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "a48f600d-fa42-4878-84fe-6879caafec8a"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "cfa3bb74-4424-4358-8979-eb87fd88ce5d"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "01167962-ae5c-446a-85a8-07515d4dcbdd"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "09866de8-194f-40bb-8cc5-79c8163ac553"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "b070db5b-8e14-4a5b-82cc-eef3291a32a9"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "54824c93-35a7-4f64-8c76-e40fb78aa58a"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "3658e8a1-6190-47bd-8403-1e44c2fa2409"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "cb365adb-ed57-4eec-82ee-c7440fd11c2a"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "45b0c694-0969-4788-8c40-fc3cbeee9059"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "42ca70f6-c161-487a-859e-6842189574ec"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "e45373bf-bb73-4ec0-8997-011cca5ef8be"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "1302cb0d-a191-41fe-87c4-42e7c98257a9"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "aa117f06-83e9-4aa4-88e0-c469cd4ae58c"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "6be5ace6-3ff5-46fe-8a77-fcaf7a70065b"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "911cc22d-aade-494a-8039-28a9a9b63db2"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "51140cdd-eb37-4e05-821a-8299a8985bcc"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "258de727-7ada-432f-8e32-01219908acea"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "74962474-0630-4c00-8056-7f0c0d9e9fe7"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "877fd563-291d-4b20-83de-2511dc866b0c"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "c32f9cf8-8d63-4940-870f-a760baf44f8a"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "ce33046d-bebc-4822-85d1-3fc70290d239"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "7d6da12f-b207-4f71-80e2-e84b5a8103de"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "afd4de14-1abe-4174-85ba-07da13f454ab"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "13e88578-b5ca-4e7c-86b7-30b0a17e1fd0"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "d1dae91d-5781-4c06-894b-d53797f1bb78"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "fb34b346-eba6-46c3-8976-8cc80cfc989d"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "3cc44f6e-9131-4656-89b7-cd7cddb80ddf"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "b82ea1a0-4ae3-465f-8794-ec66981ca0bb"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "a4b105f0-a521-405a-8596-d62567ee89e0"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "bbb793c1-79a7-4c67-87e4-bcf2e531beac"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "488a5835-275b-4702-8942-13ce0dd2d703"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "9718e959-d645-4f2e-871b-2fa2e39bc9c4"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "1af31627-8221-41bc-8526-1f94bbeccfe5"
+            }
+        },
+        "f352afe6-23eb-423c-81b1-0cef5b13a0d4": {
+            "flex": {
+                "ref": "pipe",
+                "id": "963c1d0e-8705-4452-86fb-037955ddfec1"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "f1fec9fe-9b5d-46bc-817c-17b4ad262ac7"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "9ba58408-47b2-4c20-8776-5e4feeaa264a"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "ebde1787-1646-49f0-88aa-6bd286d5d8e2"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "c58518e8-9c3c-48e6-8bc2-c299ffca278f"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "526cc6b8-586f-4293-8543-76ff417d3fc9"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "3a7b1d2f-4d0c-452b-89ee-42d4b559e1e3"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "3b8287fc-e4e2-49f1-823e-892a6079b3f1"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "6e378e37-979b-48b3-8ec5-707a4c207176"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "4b5b40f2-1c7e-46a4-8984-9438153b2b43"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "15b37b2b-1412-4900-88a4-d64d54d7a360"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "bcf6c5d5-d2ed-423a-8606-96803c0f5806"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "ca37e9f1-d19d-4f52-8d17-47d8a8824e29"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "14ce4532-b163-44ee-86ad-66c06d5a3863"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "b448d301-855d-492e-829d-5679df1d5644"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "14c3e8c5-41e6-40f6-8ec6-f6c381ad04ba"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "a3d66449-8bac-4b09-84f3-8c1eeb4e3ff1"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "6a334397-30e9-4ee5-87a3-60c65fa82ac4"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "33c71a5f-8e14-4ca1-8241-1219911c863a"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "ea423008-2085-449e-840b-9614ffd02d8d"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "426a703f-2b8a-4e5d-8473-9de75c8ec9de"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "9d69c78b-146f-41bc-8e8d-b469c03b2182"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "c14a2672-dd60-42bc-823f-da57b6cc34c3"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "8e86f305-f346-489f-8627-4120ee5c4b05"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "e9764184-2b52-439b-8e38-53b0357a076e"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "b18a65a8-90ad-49ea-87bd-b5f3631564bd"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "baa9dbfc-a94f-4f6c-8a1f-5b4d1a9e12e4"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "d1b4baa7-4687-4a0b-8b3d-c6a70e1d0ae1"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "d5b4be75-1e9e-4376-8ee3-3ec9b58ec750"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "0357ee4e-2bc7-444a-8ceb-b856a0086832"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "817f14d9-0d40-42ab-85e9-121dff15a735"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "e55ac605-f1fc-45be-8c67-34a599f12f02"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "02cb18ec-3c96-45ba-8b74-caaeda46dd6c"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "a1d828fc-8d8a-4404-842d-5a662afac26d"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "eb0fe554-7e2f-4ea1-8c91-411de5a0f57f"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "b83d9828-e186-449f-8beb-917b0b8509ea"
+            }
+        },
+        "5614f223-dfed-48a3-8995-bf7b5fcc157d": {
+            "flex": {
+                "ref": "pipe",
+                "id": "50eaa591-e037-4451-878f-195666fc7fa7"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "f56cea73-be9e-435b-8a5f-65d112912ba7"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "ffcbbfa2-9046-4bfb-8590-906e5fd7a58d"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "11f0e2ea-3067-4145-8ada-b03216b65213"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "57b18ff2-eed7-44a3-83c6-3be10e396af5"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "27873719-df63-44f8-8614-523eed9387bb"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "b2ada9e3-f89e-446b-8729-1a731532aaad"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "057cf0b4-9734-4c37-8ce8-593bd1338e6c"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "03a5c5b7-2ee3-4209-8382-f441203a1aae"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "e73edae0-d90b-4fee-8a80-9e8f83e80791"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "19272cc5-2ce8-4a99-8ae2-6833d80293b2"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "926f936d-cb59-4ed1-80a1-e43231c9e00c"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "7f4b5a17-09c4-4d8e-8990-f84bd989481a"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "7cf40902-aefa-4cf8-81d2-4bd960ee376b"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "889b12fe-c4c7-49d4-87bf-a13941ae5e02"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "0ba8ce67-463a-403f-819e-b8aec5dc6687"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "e90a84fc-03b6-4677-8ace-616cc7adeb13"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "a53f3bfe-d2c1-48bc-8db9-ffed2478d6b4"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "c34d1a59-44fa-4dff-8b0e-055860cd5105"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "36c0c720-97d6-4360-84ae-03bdd48ab15a"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "0f3ed5e9-37e8-4968-841a-36f04dc37e5d"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "fc02399a-4530-4d5a-8668-e7fad3b28a23"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "bb636e13-7d4e-4054-8340-82865518453d"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "3adbc841-47ea-4948-89a6-c54443e16f0b"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "75a5801e-7160-4af0-86ad-6176ca2bad7d"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "5f97ead1-007a-40e1-8819-5e0433043ba1"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "9bdf5816-12fc-40bf-8dec-2b7975f2bbf1"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "ff9a11c8-a7d9-43e3-8378-72e6dcb7d71d"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "6fdee0a0-c9c8-49ba-8eb9-f085ad88c9d3"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "8a47ce9d-0618-490a-8f0c-daaf3f323723"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "02557b89-e1dc-4aab-84a8-849d9c06727a"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "5d46e8dc-0e83-42b6-802c-9a7b599c8c1b"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "5a721bde-083f-4d3d-8be2-b16e18ffdc43"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "8c3e925e-3a7f-4d69-85e2-d3b3c4561c66"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "ce6a9495-af79-4166-8438-83e421d77e89"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "d780fe81-6dad-4bc0-863b-8b833d75b2bc"
+            },
+            "color": {
+                "ref": "pipe",
+                "id": "e696baeb-2342-46f3-8041-b22168139cb9"
+            },
+            "fontFamily": {
+                "ref": "pipe",
+                "id": "410f4b29-f5e5-4728-8733-b56faa91c1af"
+            },
+            "fontStyle": {
+                "ref": "pipe",
+                "id": "a8b04394-3f9b-45eb-8905-e4b11f14f1f0"
+            },
+            "fontSize": {
+                "ref": "pipe",
+                "id": "8f18fa97-3c1d-4cd3-8e18-fc7683cd3378"
+            },
+            "fontWeight": {
+                "ref": "pipe",
+                "id": "5d8a1f97-6271-4965-8bf0-bb3c07323ed0"
+            },
+            "lineHeight": {
+                "ref": "pipe",
+                "id": "c1aceefc-cdd0-43db-85af-1e2b6e5cfe0c"
+            },
+            "textDecorationLine": {
+                "ref": "pipe",
+                "id": "286cbc62-ea17-4f23-867e-8ce6ae17b6ac"
+            },
+            "letterSpacing": {
+                "ref": "pipe",
+                "id": "7bae627a-6d11-4780-8d32-5a7e131732ad"
+            }
+        },
+        "f4be8675-89d8-45c6-8ebf-3d8e7c3becc7": {
+            "flex": {
+                "ref": "pipe",
+                "id": "3f2ab0aa-5f5e-45f1-8807-acc53faea370"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "e50553fc-0bed-4057-8034-e6afb921db9a"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "f3d98924-aecf-4d8b-840b-f42d63869fbf"
+            },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "2cf30ee0-0c90-4acb-8415-b909ba3f9d5c"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "5ecde791-881b-4e45-8b53-c2b08a243d1e"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "0007178f-80e5-40d9-8026-5609f7291460"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "6e0a7c97-d8fa-4a5b-8e22-f1abc439e92e"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "f8e0a42e-46e7-4875-8720-823e9ddba377"
+            },
+            "marginTop": {
+                "ref": "pipe",
+                "id": "f7c8c041-ec99-4c82-8bd6-7e7ae7de08cf"
+            },
+            "marginBottom": {
+                "ref": "pipe",
+                "id": "b71ea191-d084-4347-8344-841686621db7"
+            },
+            "marginLeft": {
+                "ref": "pipe",
+                "id": "5b07d2c1-4614-40d4-805b-a429a50380ec"
+            },
+            "marginRight": {
+                "ref": "pipe",
+                "id": "54b2fee7-b093-44b4-89cf-2a011b8f55c5"
+            },
+            "paddingTop": {
+                "ref": "pipe",
+                "id": "de21895f-750d-4219-8641-48d3c12ebc12"
+            },
+            "paddingBottom": {
+                "ref": "pipe",
+                "id": "8ba11285-0bf8-4055-8895-b7bf923b86d1"
+            },
+            "paddingLeft": {
+                "ref": "pipe",
+                "id": "a5b774dc-5821-4d8c-844d-a8a120582e66"
+            },
+            "paddingRight": {
+                "ref": "pipe",
+                "id": "9de57bec-2d91-4be8-8675-63161a8f741d"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "7e8378b4-3ed6-49e3-8f27-9f9704b1ffc7"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "409002f1-54ff-46b8-801b-4ed8b37ff7a6"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "7bddda1c-efaa-43c7-8945-a78e3c93e9cb"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "7fa1bba2-b1cd-4417-8e22-4ca48d1a6d8f"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "9aa0d33a-9be8-4126-80fd-66f867361dd8"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "a71cdfc2-b24e-44cf-857b-ef1260b21c57"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "37db1141-a6fe-4c08-89b3-8ba9c7ba9e94"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "0be56f1f-34db-4c2e-8a6d-e88e72f334ab"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "a8df90fb-18e8-4dcd-852c-1f994f2d0384"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "4fa1ab13-acfb-48e4-8e64-02faad550f9b"
+            },
+            "borderTop": {
+                "ref": "pipe",
+                "id": "6dbff085-d551-4353-8951-17c17f83f798"
+            },
+            "borderBottom": {
+                "ref": "pipe",
+                "id": "1f1dd028-9b68-4acd-89c2-0ba8f4a11fe4"
+            },
+            "borderLeft": {
+                "ref": "pipe",
+                "id": "d8e38912-1c00-4fdb-8d62-b3fdadf1db26"
+            },
+            "borderRight": {
+                "ref": "pipe",
+                "id": "bba6add8-f3f3-497c-8070-09d752868600"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "58518096-1fd1-4aa4-8528-0a022fd80dcc"
+            },
+            "backgroundColor": {
+                "ref": "pipe",
+                "id": "219ecca9-e60e-411d-851c-66283b9d0b06"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "77da5fc5-b072-40b2-8900-7709a9ccc6b9"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "c1d6c503-3919-4827-82b3-229b785bb992"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "cabff5ef-e57c-4c47-8eeb-94eebca8618e"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "7578ea91-9da5-4033-8fc4-177e5f5534fd"
+            }
+        }
+    },
+    "nameSpace": {
+        "_rootNameSpace": {
+            "title": "",
+            "children": []
+        }
+    },
+    "state": {},
+    "mutator": {},
+    "event": {}
+}
