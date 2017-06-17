@@ -120,7 +120,6 @@ function editor(appDefinitions){
             }
             fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
             delete newState.definitionList[state.currentDefinition]
-            newState = {...newState, definition: {...newState.definition, vNodeBox: {...newState.definition.vNodeBox, '_rootNode': {...newState.definition.vNodeBox['_rootNode'], title: newName}}}}
             newState.definitionList[newName] = newState.definition
             newState.currentDefinition = newName
         }
