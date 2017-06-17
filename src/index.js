@@ -106,6 +106,20 @@ function editor(appDefinitions){
         if(newState === state){
             console.warn('state was mutated, search for a bug')
         }
+        if(state.editingTitleNodeId === '_rootNode' && newState.editingTitleNodeId === ''){
+            let newName = newState.definition.vNodeBox['_rootNode'].title
+            if(newState.definitionList[newName] !== undefined){
+                const duplicateNumber = Object.keys(newState.definitionList).filter((name)=> name !== state.currentDefinition).filter((name)=> name.startsWith(newName)).length
+                if(duplicateNumber > 0){
+                    newName = newName+'_'+duplicateNumber
+                }
+            }
+            fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
+            delete newState.definitionList[state.currentDefinition]
+            newState = {...newState, definition: {...newState.definition, vNodeBox: {...newState.definition.vNodeBox, '_rootNode': {...newState.definition.vNodeBox['_rootNode'], title: newName}}}}
+            newState.definitionList[newName] = newState.definition
+            newState.currentDefinition = newName
+        }
         if(state.currentDefinition !== newState.currentDefinition){
             if(stateStackHistory[newState.currentDefinition]){
                 stateStack = stateStackHistory[newState.currentDefinition]

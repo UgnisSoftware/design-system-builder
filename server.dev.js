@@ -16,6 +16,13 @@ app.post('/save/:name', (req, res)=> {
     res.send('OK')
 })
 
+app.post('/rename', (req, res)=> {
+    fs.rename('./ugnis_components/'+ req.body.oldName + ".json", './ugnis_components/'+ req.body.newName + ".json", function(err) {
+        if ( err ) console.log('ERROR: ' + err);
+    });
+    res.send('OK')
+})
+
 app.post('/new/:name', (req, res)=> {
     fs.writeFile("./ugnis_components/"+ req.params.name + ".json", fs.readFileSync('./src/_empty.json', 'utf8'), function(err) {
         if(err) {
