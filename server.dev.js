@@ -12,8 +12,6 @@ app.post('/save/:name', (req, res)=> {
         if(err) {
             return console.log(err);
         }
-
-        console.log("The file was saved!");
     });
     res.send('OK')
 })
@@ -23,7 +21,6 @@ app.post('/new/:name', (req, res)=> {
         if(err) {
             return console.log(err);
         }
-        console.log("The file was saved!");
     });
     res.send('OK')
 })
