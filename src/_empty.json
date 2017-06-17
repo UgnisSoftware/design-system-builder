@@ -1,5 +1,8 @@
 {
     "version": "1.0.0",
+    "reactPath": "./react-test/",
+    "reactNativePath": "./react-native-test/",
+    "vuePath": "./vue-test/",
     "eventData": {},
     "toLowerCase": {},
     "toUpperCase": {},

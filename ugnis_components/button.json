@@ -1738,18 +1738,6 @@
                 {
                     "ref": "vNodeBox",
                     "id": "f6a92e0a-4bed-419b-8197-00089e74666a"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "4bef5048-bed8-4b79-8ab4-07ca42ba8fb3"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "df2f1869-0e41-45f6-8bf8-c3a13f69bc18"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "e9d1d56f-5f49-4e9a-8978-b45e4971264f"
                 }
             ]
         },
