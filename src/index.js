@@ -108,10 +108,14 @@ function editor(appDefinitions){
         }
         if(state.editingTitleNodeId === '_rootNode' && newState.editingTitleNodeId === ''){
             let newName = newState.definition.vNodeBox['_rootNode'].title
-            if(newState.definitionList[newName] !== undefined){
-                const duplicateNumber = Object.keys(newState.definitionList).filter((name)=> name !== state.currentDefinition).filter((name)=> name.startsWith(newName)).length
-                if(duplicateNumber > 0){
-                    newName = newName+'_'+duplicateNumber
+            if(state.currentDefinition !== newName && newState.definitionList[newName] !== undefined){
+                let i = 1
+                while(true){
+                    if(newState.definitionList[newName+'_'+i] === undefined){
+                        newName = newName+'_'+i
+                        break
+                    }
+                    i++
                 }
             }
             fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
