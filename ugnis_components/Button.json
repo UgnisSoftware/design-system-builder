@@ -239,17 +239,8 @@
         },
         "8d81c452-809d-48f1-8aba-263c062db1a4": {
             "type": "text",
-            "value": "",
-            "transformations": [
-                {
-                    "ref": "join",
-                    "id": "19b114c6-34b6-4b27-866c-d7037e3c7d8a"
-                },
-                {
-                    "ref": "join",
-                    "id": "8e9289f4-ee36-4bc3-8817-640336184769"
-                }
-            ]
+            "value": "Button",
+            "transformations": []
         },
         "757840ac-84af-40bf-870d-b90b11938335": {
             "type": "text",
@@ -902,23 +893,10 @@
     "nameSpace": {
         "_rootNameSpace": {
             "title": "",
-            "children": [
-                {
-                    "ref": "state",
-                    "id": "057d4117-c226-4a79-8c5c-3f5c3976921e"
-                }
-            ]
+            "children": []
         }
     },
-    "state": {
-        "057d4117-c226-4a79-8c5c-3f5c3976921e": {
-            "title": "new text",
-            "ref": "057d4117-c226-4a79-8c5c-3f5c3976921e",
-            "type": "text",
-            "defaultValue": "Button",
-            "mutators": []
-        }
-    },
+    "state": {},
     "mutator": {},
     "event": {}
 }
