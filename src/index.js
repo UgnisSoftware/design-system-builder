@@ -2726,6 +2726,8 @@ function editor(appDefinitions){
                         h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['opacity'], 'number')]),
                         h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Borders'),
                         h('div', {style: {padding: '0px 20px', display: 'flex', justifyContent: 'space-between'}}, [emberEditor(selectedStyle['borderTop'], 'text'), emberEditor(selectedStyle['borderRight'], 'text'), emberEditor(selectedStyle['borderBottom'], 'text'), emberEditor(selectedStyle['borderLeft'], 'text')]),
+                        h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Border Radius'),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['borderRadius'], 'text')]),
                         h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Box Shadow'),
                         h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['boxShadow'], 'text')]),
                         h('div', {style: {padding: '20px 20px 5px 20px', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'Cursor'),
