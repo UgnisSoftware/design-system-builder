@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "reactPath": "./react-src/src/components/",
+    "reactPath": "./react-src/",
     "reactNativePath": "./react-native-src/",
     "vuePath": "./vue-src/",
     "eventData": {},
@@ -594,7 +594,7 @@
         },
         "3770df86-fb74-417b-80d3-1bb877f5dc50": {
             "type": "text",
-            "value": "50%",
+            "value": "100px",
             "transformations": []
         },
         "e2722fc1-3f18-4537-8776-706f2d5efe94": {
