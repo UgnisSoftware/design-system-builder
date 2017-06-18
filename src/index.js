@@ -2559,16 +2559,6 @@ function editor(appDefinitions){
                                 value: state.definition['reactNativePath'],
                             },
                         }),
-                        h('div', {style: {padding: '20px 20px 0 0', fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '1px', color: '#8e8e8e'}}, 'vue path'),
-                        h('input', {
-                            style: inputStyle,
-                            on: {
-                                input: [CHANGE_COMPONENT_PATH, 'vuePath'],
-                            },
-                            liveProps: {
-                                value: state.definition['vuePath'],
-                            },
-                        }),
                     ])
                 }
                 if (state.selectedViewNode.ref === 'vNodeBox') {

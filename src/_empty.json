@@ -1,8 +1,7 @@
 {
     "version": "1.0.0",
-    "reactPath": "./react-src/",
-    "reactNativePath": "./react-native-src/",
-    "vuePath": "./vue-src/",
+    "reactPath": "./react-src/src/components/",
+    "reactNativePath": "./react-native-src/src/components/",
     "eventData": {},
     "toLowerCase": {},
     "toUpperCase": {},
