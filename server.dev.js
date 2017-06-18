@@ -2,6 +2,7 @@ const fs = require('fs')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const reactExporter = require('./src/exporters/react')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
@@ -9,6 +10,11 @@ app.use(express.static('./static_prod'))
 
 app.post('/save/:name', (req, res)=> {
     fs.writeFile("./ugnis_components/"+ req.params.name + ".json", JSON.stringify(req.body, undefined, 4), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    });
+    fs.writeFile(req.body.reactPath+ req.params.name + ".js", reactExporter(req.body), function(err) {
         if(err) {
             return console.log(err);
         }
