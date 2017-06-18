@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const reactExporter = require('./src/exporters/react')
+const reactNativeExporter = require('./src/exporters/react-native')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,6 +16,11 @@ app.post('/save/:name', (req, res)=> {
         }
     });
     fs.writeFile(req.body.reactPath+ req.params.name + ".js", reactExporter(req.body), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    });
+    fs.writeFile(req.body.reactNativePath+ req.params.name + ".js", reactNativeExporter(req.body), function(err) {
         if(err) {
             return console.log(err);
         }

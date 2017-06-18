@@ -26,7 +26,7 @@ class App extends Component {
  */
 
 function flatten(arr) {
-    return arr.join(' ')
+    return arr.join('')
 }
 
 module.exports = (definition) => {
@@ -38,6 +38,8 @@ module.exports = (definition) => {
             return acc
         }, {})
     }
+
+    let styles = {}
 
     const state = JSON.stringify(createDefaultState())
 
@@ -147,13 +149,13 @@ module.exports = (definition) => {
     
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
+        styles[ref.id] = resolve(node.style)
         // const events = '' +
         //         node.click ? `onClick={click-${node.click.ref}.bind(this)}` : '' +
         //         node.dblclick ? `onDoubleClick={dblclick-${node.dblclick.ref}.bind(this)}` : '' +
         //         node.mouseover ? `mouseOver={mouseover-${node.mouseover.ref}.bind(this)}` : '' +
         //         node.mouseout ? `mouseOut={mouseout-${node.mouseout.ref}.bind(this)}` : ''
-        return `<View style={${style}} ${events}>${resolve(flatten(node.children.map(resolve)))}</View>`
+        return `<View style={styles["${ref.id}"]}>${resolve(flatten(node.children.map(resolve)))}</View>`
     }
     
     function ifNode(ref) {
@@ -163,15 +165,15 @@ module.exports = (definition) => {
     
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
-        return `<Text style={${style}}>${resolve(node.value)}</Text>`
+        styles[ref.id] = resolve(node.style)
+        return `<Text style={styles["${ref.id}"]} >${resolve(node.value)}</Text>`
     }
     
     function imageNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
+        styles[ref.id] = resolve(node.style)
 
-        return `<Image style={${style}} src="${resolve(node.src)}" />`
+        return `<Image style={styles["${ref.id}"]} source={require(".${resolve(node.src)}")} />`
     }
     
     function inputNode(ref) {
@@ -201,10 +203,31 @@ module.exports = (definition) => {
 
     const components = resolve({ref:'vNodeBox', id:'_rootNode'})
 
+    const cleaneUpStyle = Object.keys(styles).reduce((acc, id)=> {
+        const fixedStyle = Object.keys(styles[id]).reduce((acc, style)=> {
+            if(styles[id][style] === '' || styles[id][style] === 'none' || style === 'boxShadow' || style === 'cursor' || style === 'fontFamily'){
+                return acc
+            }
+            if(style === 'fontWeight'){
+                acc[style] = styles[id][style]
+                return acc
+            }
+            if(style === 'flex'){
+                acc[style] = parseInt(styles[id][style][0])
+                return acc
+            }
+            acc[style] = parseInt(styles[id][style]) ? parseInt(styles[id][style]) :
+                parseInt(styles[id][style].slice(0, -2)) ? parseInt(styles[id][style].slice(0, -2)):
+                    styles[id][style]
+            return acc
+        }, {})
+        acc[id] = fixedStyle
+        return acc
+    }, {})
     return `
     
 import React from 'react'
-import {View, Text} from 'react-native'
+import {StyleSheet, View, Text, Image} from 'react-native'
 
 class App extends React.Component {
   constructor(){
@@ -222,6 +245,10 @@ class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create(
+    ${JSON.stringify(cleaneUpStyle, undefined, 4)}
+);
 
 export default App;
     `

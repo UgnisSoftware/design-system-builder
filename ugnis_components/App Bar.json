@@ -1497,38 +1497,6 @@
             "cursor": {
                 "ref": "pipe",
                 "id": "f8623096-3d48-44c1-8437-2f6d2928580a"
-            },
-            "color": {
-                "ref": "pipe",
-                "id": "365fadeb-f196-4fb9-8764-e721a6b89f6e"
-            },
-            "fontFamily": {
-                "ref": "pipe",
-                "id": "c655e8e3-49a2-400a-8094-43443d606405"
-            },
-            "fontStyle": {
-                "ref": "pipe",
-                "id": "dc74c6b2-2098-4465-84b3-3eaba5273f26"
-            },
-            "fontSize": {
-                "ref": "pipe",
-                "id": "e92f0265-ad31-4f5d-8cbb-bb7f0d823288"
-            },
-            "fontWeight": {
-                "ref": "pipe",
-                "id": "a78ea3ca-2793-44fc-8cb4-c11464a22f19"
-            },
-            "lineHeight": {
-                "ref": "pipe",
-                "id": "a51bfa7d-7981-4216-8da6-dc1295be6c6e"
-            },
-            "textDecorationLine": {
-                "ref": "pipe",
-                "id": "ec8d5623-4c02-4ebb-822f-2462230a0d93"
-            },
-            "letterSpacing": {
-                "ref": "pipe",
-                "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
             }
         },
         "e5531b34-e44d-40ee-89d0-a59cf8f55aa3": {

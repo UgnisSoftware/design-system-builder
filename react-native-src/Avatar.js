@@ -1,0 +1,197 @@
+
+    
+import React from 'react'
+import {StyleSheet, View, Text, Image} from 'react-native'
+
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+       
+    }
+  }
+  
+  
+
+  render() {
+    return (
+      <View style={style["_rootNode"]}><View style={style["9712b8be-eb07-455d-846c-b6de3e093f11"]}><Image style={style["4558840d-9d72-499b-81b2-1023c79ff663"]} source="/images/uxceo-128.jpg" /> <Text style={style["6870eb05-e861-41c1-8590-c29272b0a9cd"]} >Image Avatar</Text></View></View>
+    );
+  }
+}
+
+const styles = StyleSheet.create(
+    {
+    "_rootNode": {
+        "flex": 1,
+        "display": "flex",
+        "height": "",
+        "maxHeight": "",
+        "minHeight": "",
+        "width": "",
+        "maxWidth": "",
+        "minWidth": "",
+        "marginTop": "",
+        "marginBottom": "",
+        "marginLeft": "",
+        "marginRight": "",
+        "paddingTop": "",
+        "paddingBottom": "",
+        "paddingLeft": "",
+        "paddingRight": "",
+        "zIndex": "",
+        "position": "relative",
+        "top": "",
+        "bottom": "",
+        "left": "",
+        "right": "",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "borderTop": "",
+        "borderBottom": "",
+        "borderLeft": "",
+        "borderRight": "",
+        "borderRadius": "",
+        "backgroundColor": "none",
+        "opacity": "",
+        "overflow": "visible",
+        "boxShadow": "",
+        "cursor": "",
+        "color": "#000000",
+        "fontFamily": "inherit",
+        "fontStyle": "normal",
+        "fontSize": "",
+        "fontWeight": "normal",
+        "lineHeight": "",
+        "textDecorationLine": "none",
+        "letterSpacing": ""
+    },
+    "9712b8be-eb07-455d-846c-b6de3e093f11": {
+        "flex": 1,
+        "display": "flex",
+        "height": "",
+        "maxHeight": "",
+        "minHeight": "",
+        "width": "",
+        "maxWidth": "",
+        "minWidth": "",
+        "marginTop": "",
+        "marginBottom": "",
+        "marginLeft": "",
+        "marginRight": "",
+        "paddingTop": 8,
+        "paddingBottom": 8,
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "zIndex": "",
+        "position": "relative",
+        "top": "",
+        "bottom": "",
+        "left": "",
+        "right": "",
+        "alignItems": "center",
+        "justifyContent": "flex-start",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "borderTop": "",
+        "borderBottom": "",
+        "borderLeft": "",
+        "borderRight": "",
+        "borderRadius": "",
+        "backgroundColor": "",
+        "opacity": "",
+        "overflow": "visible",
+        "boxShadow": "",
+        "cursor": ""
+    },
+    "4558840d-9d72-499b-81b2-1023c79ff663": {
+        "flex": "0 0 auto",
+        "display": "flex",
+        "height": 40,
+        "maxHeight": "",
+        "minHeight": "",
+        "width": 40,
+        "maxWidth": "",
+        "minWidth": "",
+        "marginTop": "",
+        "marginBottom": "",
+        "marginLeft": "",
+        "marginRight": "",
+        "paddingTop": "",
+        "paddingBottom": "",
+        "paddingLeft": "",
+        "paddingRight": "",
+        "zIndex": "",
+        "position": "relative",
+        "top": "",
+        "bottom": "",
+        "left": "",
+        "right": "",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "borderTop": "",
+        "borderBottom": "",
+        "borderLeft": "",
+        "borderRight": "",
+        "borderRadius": 100,
+        "backgroundColor": "none",
+        "opacity": "",
+        "overflow": "visible",
+        "boxShadow": "",
+        "cursor": ""
+    },
+    "6870eb05-e861-41c1-8590-c29272b0a9cd": {
+        "flex": 1,
+        "display": "flex",
+        "height": "",
+        "maxHeight": "",
+        "minHeight": "",
+        "width": "",
+        "maxWidth": "",
+        "minWidth": "",
+        "marginTop": "",
+        "marginBottom": "",
+        "marginLeft": "",
+        "marginRight": "",
+        "paddingTop": 20,
+        "paddingBottom": 20,
+        "paddingLeft": 40,
+        "paddingRight": 16,
+        "zIndex": "",
+        "position": "absolute",
+        "top": "",
+        "bottom": "",
+        "left": 16,
+        "right": 8,
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "borderTop": "",
+        "borderBottom": "",
+        "borderLeft": "",
+        "borderRight": "",
+        "borderRadius": "",
+        "backgroundColor": "none",
+        "opacity": "",
+        "overflow": "visible",
+        "boxShadow": "",
+        "cursor": "",
+        "color": "rgba(0, 0, 0, 0.87)",
+        "fontFamily": "inherit",
+        "fontStyle": "normal",
+        "fontSize": 16,
+        "fontWeight": "normal",
+        "lineHeight": 16,
+        "textDecorationLine": "none",
+        "letterSpacing": ""
+    }
+}
+);
+
+export default App;
+    
