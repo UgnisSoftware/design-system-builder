@@ -1174,7 +1174,7 @@ function editor(appDefinitions){
             }
             const newPipe = {
                 type: 'text',
-                value: 'https://www.ugnis.com/images/logo256x256.png',
+                value: 'https://www.ugnis.com/images/logo_new256x256.png',
                 transformations: []
             }
             return setState({
