@@ -29,12 +29,20 @@ function uuid(){return(""+1e7+-1e3+-4e3+-8e3+-1e11).replace(/[10]/g,function(){r
 
 import ugnis from './ugnis'
 import emptyApp from './_empty.json'
+import AppBar from '../ugnis_components/App Bar.json'
+import Avatar from '../ugnis_components/Avatar.json'
+import Badge from '../ugnis_components/Badge.json'
+import Button from '../ugnis_components/Button.json'
+import Paper from '../ugnis_components/Paper.json'
 
-fetch('/definitions').then(function(response) {
-    return response.json();
-}).then(function(definitions) {
-    editor(definitions)
-});
+const definitions = {
+    AppBar,
+    Avatar,
+    Badge,
+    Button,
+    Paper
+}
+editor(definitions)
 
 function moveInArray (array, moveIndex, toIndex) {
     let item = array[moveIndex];
@@ -118,7 +126,7 @@ function editor(appDefinitions){
                     i++
                 }
             }
-            fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
+            //fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
             delete newState.definitionList[state.currentDefinition]
             newState.definitionList[newName] = newState.definition
             newState.currentDefinition = newName
@@ -147,7 +155,7 @@ function editor(appDefinitions){
             }
             app.render(newState.definition)
             newState.definitionList[newState.currentDefinition] = newState.definition
-            fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
+            //fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
         }
         if(state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode ){
             app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
@@ -188,7 +196,7 @@ function editor(appDefinitions){
         if(e.which === 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             // TODO garbage collect
             e.preventDefault();
-            fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
+            //fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false;
         }
         if(e.which === 32 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -1665,7 +1673,7 @@ function editor(appDefinitions){
     }
     function ADD_NEW_COMPONENT() {
         var newComponentName = 'component'+ uuid().substr(0, 6)
-        fetch('/new/'+newComponentName, {method: 'POST', body: '', headers: {"Content-Type": "application/json"}})
+        //fetch('/new/'+newComponentName, {method: 'POST', body: '', headers: {"Content-Type": "application/json"}})
         setState({...state, definitionList: {...state.definitionList, [newComponentName]:emptyApp}, currentDefinition: newComponentName, definition: emptyApp})
     }
     function SELECT_COMPONENT(name) {
