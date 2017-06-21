@@ -29,21 +29,21 @@ function flatten(arr) {
     return arr.join(' ')
 }
 
-module.exports = (definition) => {
-
-
+module.exports = definition => {
     function createDefaultState() {
-        return Object.keys(definition.state).map(key=>definition.state[key]).reduce((acc, def)=> {
-            acc[def.ref] = def.defaultValue
-            return acc
-        }, {})
+        return Object.keys(definition.state)
+            .map(key => definition.state[key])
+            .reduce((acc, def) => {
+                acc[def.ref] = def.defaultValue
+                return acc
+            }, {})
     }
 
     const state = JSON.stringify(createDefaultState())
 
-    function resolve(ref){
+    function resolve(ref) {
         // static value (string/number)
-        if(ref.ref === undefined){
+        if (ref.ref === undefined) {
             return ref
         }
         const def = definition[ref.ref][ref.id]
@@ -51,7 +51,9 @@ module.exports = (definition) => {
             return pipe(ref)
         }
         if (ref.ref === 'conditional') {
-            return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
+            return resolve(def.predicate)
+                ? resolve(def.then)
+                : resolve(def.else)
         }
         if (ref.ref === 'state') {
             return currentState[ref.id]
@@ -75,7 +77,7 @@ module.exports = (definition) => {
             return imageNode(ref)
         }
         if (ref.ref === 'style') {
-            return Object.keys(def).reduce((acc, val)=> {
+            return Object.keys(def).reduce((acc, val) => {
                 acc[val] = resolve(def[val])
                 return acc
             }, {})
@@ -88,10 +90,10 @@ module.exports = (definition) => {
         }
         throw Error(ref)
     }
-    
-    function transformValue(value, transformations){
-        for(let i = 0; i < transformations.length; i++) {
-            const ref = transformations[i];
+
+    function transformValue(value, transformations) {
+        for (let i = 0; i < transformations.length; i++) {
+            const ref = transformations[i]
             const transformer = definition[ref.ref][ref.id]
             if (ref.ref === 'equal') {
                 value = value === resolve(transformer.value)
@@ -133,18 +135,18 @@ module.exports = (definition) => {
                 value = !value
             }
         }
-        return value;
+        return value
     }
-    
+
     function pipe(ref) {
         return definition[ref.ref][ref.id].value
 
         //const def = definition[ref.ref][ref.id]
         //return transformValue(resolve(def.value), def.transformations)
     }
-    
+
     const frozenShadow = 'inset 0 0 0 3px #53d486'
-    
+
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
         const style = JSON.stringify(resolve(node.style))
@@ -153,53 +155,57 @@ module.exports = (definition) => {
         //         node.dblclick ? `onDoubleClick={dblclick-${node.dblclick.ref}.bind(this)}` : '' +
         //         node.mouseover ? `mouseOver={mouseover-${node.mouseover.ref}.bind(this)}` : '' +
         //         node.mouseout ? `mouseOut={mouseout-${node.mouseout.ref}.bind(this)}` : ''
-        return `<div style={${style}} ${events}>${resolve(flatten(node.children.map(resolve)))}</div>`
+        return `<div style={${style}} ${events}>${resolve(
+            flatten(node.children.map(resolve))
+        )}</div>`
     }
-    
+
     function ifNode(ref) {
         const node = definition[ref.ref][ref.id]
-        return resolve(node.value) ? node.children.map(resolve): []
+        return resolve(node.value) ? node.children.map(resolve) : []
     }
-    
+
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
         const style = JSON.stringify(resolve(node.style))
         return `<span style={${style}}>${resolve(node.value)}</span>`
     }
-    
+
     function imageNode(ref) {
         const node = definition[ref.ref][ref.id]
         const style = JSON.stringify(resolve(node.style))
 
         return `<img style={${style}} src="${resolve(node.src)}" />`
     }
-    
+
     function inputNode(ref) {
         const node = definition[ref.ref][ref.id]
         const style = JSON.stringify(resolve(node.style))
 
         return h('input', data)
     }
-    
+
     function listNode(ref) {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
-        
-        const children = Object.keys(list).map(key=>list[key]).map((value, index)=> {
-            currentMapValue[ref.id] = value
-            currentMapIndex[ref.id] = index
-            
-            return node.children.map(resolve)
-        })
-        delete currentMapValue[ref.id];
-        delete currentMapIndex[ref.id];
-        
+
+        const children = Object.keys(list)
+            .map(key => list[key])
+            .map((value, index) => {
+                currentMapValue[ref.id] = value
+                currentMapIndex[ref.id] = index
+
+                return node.children.map(resolve)
+            })
+        delete currentMapValue[ref.id]
+        delete currentMapIndex[ref.id]
+
         return children
     }
 
     const events = ''
 
-    const components = resolve({ref:'vNodeBox', id:'_rootNode'})
+    const components = resolve({ ref: 'vNodeBox', id: '_rootNode' })
 
     return `
     
