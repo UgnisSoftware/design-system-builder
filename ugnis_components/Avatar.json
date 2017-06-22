@@ -324,7 +324,7 @@
         },
         "aa5533b9-3af1-47b5-8557-2730e9b7c819": {
             "type": "text",
-            "value": "relative",
+            "value": "",
             "transformations": []
         },
         "6641c4d4-1b0d-43b9-8980-8d83bae371ae": {
@@ -419,7 +419,7 @@
         },
         "5c585aff-42e1-4d37-81cc-3259a1f69203": {
             "type": "text",
-            "value": "/images/uxceo-128.jpg",
+            "value": "/images/avatar2.jpg",
             "transformations": []
         },
         "55503d6b-276e-42d0-81a7-d6cf77a13aca": {
@@ -439,7 +439,7 @@
         },
         "d8e5e450-ddbb-49d0-8eea-0822aa557151": {
             "type": "text",
-            "value": "40px",
+            "value": "60px",
             "transformations": []
         },
         "68c4b17e-67e8-4cd6-863d-0b54e7305321": {
@@ -454,7 +454,7 @@
         },
         "2c42b2c8-1c30-43c6-8f4a-138b2953b8cb": {
             "type": "text",
-            "value": "40px",
+            "value": "60px",
             "transformations": []
         },
         "aebeda02-f988-4904-8dec-41342d7dc51e": {
@@ -664,7 +664,7 @@
         },
         "48d68f4b-75fb-488d-8eec-b6701d11c900": {
             "type": "text",
-            "value": "",
+            "value": "5px",
             "transformations": []
         },
         "db6e65d1-d55c-43c8-8a77-0aaabd980da9": {
@@ -674,27 +674,27 @@
         },
         "9ef380c6-ec9c-4f21-80fc-94bcb662f1b9": {
             "type": "text",
-            "value": "20px",
+            "value": "",
             "transformations": []
         },
         "6ceba954-eb80-4f48-8c27-4e7ed3b062df": {
             "type": "text",
-            "value": "20px",
+            "value": "",
             "transformations": []
         },
         "e2ebcee4-d598-47f8-845c-b3a86f07f356": {
             "type": "text",
-            "value": "40px",
+            "value": "",
             "transformations": []
         },
         "950e18c5-ad20-4a80-8929-489bc865e586": {
             "type": "text",
-            "value": "16px",
+            "value": "",
             "transformations": []
         },
         "a9fac3ce-66d1-465d-8bdd-aa9144303a89": {
             "type": "text",
-            "value": "absolute",
+            "value": "",
             "transformations": []
         },
         "06f33dcf-d084-4fff-8bc9-cc2f4b7007b8": {
@@ -709,12 +709,12 @@
         },
         "31f0a311-f023-4d80-82a6-2ab699812651": {
             "type": "text",
-            "value": "16px",
+            "value": "",
             "transformations": []
         },
         "c215b18f-d887-4fa7-8294-ef74646f607d": {
             "type": "text",
-            "value": "8px",
+            "value": "",
             "transformations": []
         },
         "9a07dbb9-3bcf-492b-8a7b-7dfe147917c3": {
@@ -809,7 +809,7 @@
         },
         "832982b1-9764-4998-83fd-d5c0341a879c": {
             "type": "text",
-            "value": "16px",
+            "value": "18px",
             "transformations": []
         },
         "2409f8e5-b4ba-4191-84ee-8d3432c4d15e": {
@@ -819,7 +819,7 @@
         },
         "bd35f53e-6ff8-4419-849e-07f99ed69403": {
             "type": "text",
-            "value": "16px",
+            "value": "18px",
             "transformations": []
         },
         "65bb6beb-c7a0-4b49-818f-e361f06ad095": {

@@ -43,7 +43,7 @@ import Button from '../ugnis_components/Button.json'
 import Paper from '../ugnis_components/Paper.json'
 
 const definitions = {
-    AppBar,
+    "App Bar": AppBar,
     Avatar,
     Badge,
     Button,
