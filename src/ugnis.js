@@ -155,7 +155,6 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            key: Math.random().toString(), // TODO FIX FORCE RERENDER ON APP DEFINITION CHANGE
             style: frozen && selectedNodeInDevelopment.id === ref.id
                 ? {
                       ...style,
