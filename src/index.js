@@ -6871,31 +6871,6 @@ function editor(appDefinitions) {
                         })(),
                     },
                     [
-                        state.fullScreen
-                            ? h(
-                                  'span',
-                                  {
-                                      style: {
-                                          position: 'fixed',
-                                          top: '0',
-                                          right: '5px',
-                                          border: '2px solid #333',
-                                          borderTop: 'none',
-                                          background: '#1e1e1e',
-                                          fontSize: '30px',
-                                          height: '30px',
-                                          padding: '10px',
-                                          color: '#dadada',
-                                          opacity: '0.8',
-                                          cursor: 'pointer',
-                                      },
-                                      on: {
-                                          click: [FULL_SCREEN_CLICKED, false],
-                                      },
-                                  },
-                                  [fullscreenExitIcon()]
-                              )
-                            : h('span'),
                         h(
                             'div',
                             {
