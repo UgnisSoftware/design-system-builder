@@ -155,6 +155,7 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
+            key: ref.id,
             style: frozen && selectedNodeInDevelopment.id === ref.id
                 ? {
                       ...style,
