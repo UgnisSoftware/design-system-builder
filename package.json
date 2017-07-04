@@ -7,7 +7,7 @@
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static_prod/editor/bundle.min.js",
     "start": "node server.dev.js",
     "compile": "browserify -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js | uglifyjs -c > ./static_prod/editor/bundle.min.js",
-    "makeItPretty": "prettier --single-quote --trailing-comma es5 --tab-width 4 --no-semi --write './*.js'"
+    "makeItPretty": "prettier --single-quote --trailing-comma es5 --tab-width 4 --no-semi --print-width 240 --write \"./src/*.js\""
   },
   "author": "Karolis Masiulis",
   "devDependencies": {

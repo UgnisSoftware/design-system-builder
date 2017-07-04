@@ -1,18 +1,10 @@
 import snabbdom from 'snabbdom'
-const patch = snabbdom.init([
-    require('snabbdom/modules/class'),
-    require('snabbdom/modules/props'),
-    require('snabbdom/modules/style'),
-    require('snabbdom/modules/eventlisteners'),
-    require('snabbdom/modules/attributes'),
-])
+const patch = snabbdom.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')])
 import h from 'snabbdom/h'
 
 function flatten(arr) {
     return arr.reduce(function(flat, toFlatten) {
-        return flat.concat(
-            Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
-        )
+        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten)
     }, [])
 }
 
@@ -57,9 +49,7 @@ export default definition => {
             return pipe(ref)
         }
         if (ref.ref === 'conditional') {
-            return resolve(def.predicate)
-                ? resolve(def.then)
-                : resolve(def.else)
+            return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
         if (ref.ref === 'state') {
             return currentState[ref.id]
@@ -160,29 +150,19 @@ export default definition => {
                 ? {
                       ...style,
                       transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow
-                          ? style.boxShadow + ' , ' + frozenShadow
-                          : frozenShadow,
+                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
                   }
                 : style,
             on: frozen
                 ? {
-                      mouseover: selectHoverActive
-                          ? [selectNodeHover, ref]
-                          : undefined,
+                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                       click: [selectNodeClick, ref],
                   }
                 : {
                       click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick
-                          ? [emitEvent, node.dblclick]
-                          : undefined,
-                      mouseover: node.mouseover
-                          ? [emitEvent, node.mouseover]
-                          : undefined,
-                      mouseout: node.mouseout
-                          ? [emitEvent, node.mouseout]
-                          : undefined,
+                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                   },
         }
         return h('div', data, flatten(node.children.map(resolve)))
@@ -201,29 +181,19 @@ export default definition => {
                 ? {
                       ...style,
                       transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow
-                          ? style.boxShadow + ' , ' + frozenShadow
-                          : frozenShadow,
+                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
                   }
                 : style,
             on: frozen
                 ? {
-                      mouseover: selectHoverActive
-                          ? [selectNodeHover, ref]
-                          : undefined,
+                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                       click: [selectNodeClick, ref],
                   }
                 : {
                       click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick
-                          ? [emitEvent, node.dblclick]
-                          : undefined,
-                      mouseover: node.mouseover
-                          ? [emitEvent, node.mouseover]
-                          : undefined,
-                      mouseout: node.mouseout
-                          ? [emitEvent, node.mouseout]
-                          : undefined,
+                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                   },
         }
         return h('span', data, resolve(node.value))
@@ -240,29 +210,19 @@ export default definition => {
                 ? {
                       ...style,
                       transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow
-                          ? style.boxShadow + ' , ' + frozenShadow
-                          : frozenShadow,
+                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
                   }
                 : style,
             on: frozen
                 ? {
-                      mouseover: selectHoverActive
-                          ? [selectNodeHover, ref]
-                          : undefined,
+                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                       click: [selectNodeClick, ref],
                   }
                 : {
                       click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick
-                          ? [emitEvent, node.dblclick]
-                          : undefined,
-                      mouseover: node.mouseover
-                          ? [emitEvent, node.mouseover]
-                          : undefined,
-                      mouseout: node.mouseout
-                          ? [emitEvent, node.mouseout]
-                          : undefined,
+                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                   },
         }
         return h('img', data)
@@ -276,30 +236,20 @@ export default definition => {
                 ? {
                       ...style,
                       transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow
-                          ? style.boxShadow + ' , ' + frozenShadow
-                          : frozenShadow,
+                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
                   }
                 : style,
             on: frozen
                 ? {
-                      mouseover: selectHoverActive
-                          ? [selectNodeHover, ref]
-                          : undefined,
+                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                       click: [selectNodeClick, ref],
                   }
                 : {
                       click: node.click ? [emitEvent, node.click] : undefined,
                       input: node.input ? [emitEvent, node.input] : undefined,
-                      dblclick: node.dblclick
-                          ? [emitEvent, node.dblclick]
-                          : undefined,
-                      mouseover: node.mouseover
-                          ? [emitEvent, node.mouseover]
-                          : undefined,
-                      mouseout: node.mouseout
-                          ? [emitEvent, node.mouseout]
-                          : undefined,
+                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
+                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
+                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
                       focus: node.focus ? [emitEvent, node.focus] : undefined,
                       blur: node.blur ? [emitEvent, node.blur] : undefined,
                   },
@@ -315,14 +265,12 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list)
-            .map(key => list[key])
-            .map((value, index) => {
-                currentMapValue[ref.id] = value
-                currentMapIndex[ref.id] = index
+        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
+            currentMapValue[ref.id] = value
+            currentMapIndex[ref.id] = index
 
-                return node.children.map(resolve)
-            })
+            return node.children.map(resolve)
+        })
         delete currentMapValue[ref.id]
         delete currentMapIndex[ref.id]
 
@@ -355,16 +303,7 @@ export default definition => {
             mutations[state.id] = resolve(mutator.mutation)
         })
         currentState = Object.assign({}, currentState, mutations)
-        listeners.forEach(callback =>
-            callback(
-                eventId,
-                eventData,
-                e,
-                previousState,
-                currentState,
-                mutations
-            )
-        )
+        listeners.forEach(callback => callback(eventId, eventData, e, previousState, currentState, mutations))
         currentEvent = {}
         eventData = {}
         if (Object.keys(mutations).length) {
@@ -377,12 +316,10 @@ export default definition => {
         if (newDefinition) {
             if (definition.state !== newDefinition.state) {
                 definition = newDefinition
-                const newState = Object.keys(definition.state)
-                    .map(key => definition.state[key])
-                    .reduce((acc, def) => {
-                        acc[def.ref] = def.defaultValue
-                        return acc
-                    }, {})
+                const newState = Object.keys(definition.state).map(key => definition.state[key]).reduce((acc, def) => {
+                    acc[def.ref] = def.defaultValue
+                    return acc
+                }, {})
                 currentState = { ...newState, ...currentState }
             } else {
                 definition = newDefinition
@@ -415,12 +352,10 @@ export default definition => {
     }
 
     function createDefaultState() {
-        return Object.keys(definition.state)
-            .map(key => definition.state[key])
-            .reduce((acc, def) => {
-                acc[def.ref] = def.defaultValue
-                return acc
-            }, {})
+        return Object.keys(definition.state).map(key => definition.state[key]).reduce((acc, def) => {
+            acc[def.ref] = def.defaultValue
+            return acc
+        }, {})
     }
 
     return {

@@ -19,14 +19,7 @@ function updateProps(oldVnode, vnode) {
 const livePropsPlugin = { create: updateProps, update: updateProps }
 import snabbdom from 'snabbdom'
 import h from 'snabbdom/h'
-const patch = snabbdom.init([
-    require('snabbdom/modules/class'),
-    require('snabbdom/modules/props'),
-    require('snabbdom/modules/style'),
-    require('snabbdom/modules/eventlisteners'),
-    require('snabbdom/modules/attributes'),
-    livePropsPlugin,
-])
+const patch = snabbdom.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes'), livePropsPlugin])
 
 function uuid() {
     return ('' + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[10]/g, function() {
@@ -57,19 +50,9 @@ function moveInArray(array, moveIndex, toIndex) {
     let diff = moveIndex - toIndex
 
     if (diff > 0) {
-        return [
-            ...array.slice(0, toIndex),
-            item,
-            ...array.slice(toIndex, moveIndex),
-            ...array.slice(moveIndex + 1, length),
-        ]
+        return [...array.slice(0, toIndex), item, ...array.slice(toIndex, moveIndex), ...array.slice(moveIndex + 1, length)]
     } else if (diff < 0) {
-        return [
-            ...array.slice(0, moveIndex),
-            ...array.slice(moveIndex + 1, toIndex + 1),
-            item,
-            ...array.slice(toIndex + 1, length),
-        ]
+        return [...array.slice(0, moveIndex), ...array.slice(moveIndex + 1, toIndex + 1), item, ...array.slice(toIndex + 1, length)]
     }
     return array
 }
@@ -120,27 +103,19 @@ function editor(appDefinitions) {
         if (newState === state) {
             console.warn('state was mutated, search for a bug')
         }
-        if (
-            state.editingTitleNodeId === '_rootNode' &&
-            newState.editingTitleNodeId === ''
-        ) {
+        if (state.editingTitleNodeId === '_rootNode' && newState.editingTitleNodeId === '') {
             let newName = newState.definition.vNodeBox['_rootNode'].title
-            if (
-                state.currentDefinition !== newName &&
-                newState.definitionList[newName] !== undefined
-            ) {
+            if (state.currentDefinition !== newName && newState.definitionList[newName] !== undefined) {
                 let i = 1
                 while (true) {
-                    if (
-                        newState.definitionList[newName + '_' + i] === undefined
-                    ) {
+                    if (newState.definitionList[newName + '_' + i] === undefined) {
                         newName = newName + '_' + i
                         break
                     }
                     i++
                 }
             }
-            fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
+            fetch('/rename/', { method: 'POST', body: JSON.stringify({ oldName: state.currentDefinition, newName: newName }), headers: { 'Content-Type': 'application/json' } })
             delete newState.definitionList[state.currentDefinition]
             newState.definitionList[newName] = newState.definition
             newState.currentDefinition = newName
@@ -150,64 +125,34 @@ function editor(appDefinitions) {
                 stateStack = stateStackHistory[newState.currentDefinition]
             } else {
                 stateStack = [newState.definition]
-                stateStackHistory[newState.currentDefinition] = [
-                    newState.definition,
-                ]
+                stateStackHistory[newState.currentDefinition] = [newState.definition]
             }
         }
         if (state.definition !== newState.definition) {
             // unselect deleted components and state
-            if (
-                newState.definition.state[newState.selectedStateNodeId] ===
-                undefined
-            ) {
+            if (newState.definition.state[newState.selectedStateNodeId] === undefined) {
                 newState = { ...newState, selectedStateNodeId: '' }
             }
-            if (
-                newState.selectedViewNode.ref !== undefined &&
-                newState.definition[newState.selectedViewNode.ref][
-                    newState.selectedViewNode.id
-                ] === undefined
-            ) {
+            if (newState.selectedViewNode.ref !== undefined && newState.definition[newState.selectedViewNode.ref][newState.selectedViewNode.id] === undefined) {
                 newState = { ...newState, selectedViewNode: {} }
             }
             // undo/redo then render then save
-            if (
-                !timeTraveling &&
-                state.currentDefinition === newState.currentDefinition
-            ) {
-                const currentIndex = stateStack.findIndex(
-                    a => a === state.definition
-                )
-                stateStack = stateStack
-                    .slice(0, currentIndex + 1)
-                    .concat(newState.definition)
+            if (!timeTraveling && state.currentDefinition === newState.currentDefinition) {
+                const currentIndex = stateStack.findIndex(a => a === state.definition)
+                stateStack = stateStack.slice(0, currentIndex + 1).concat(newState.definition)
                 stateStackHistory[newState.currentDefinition] = stateStack
             }
             app.render(newState.definition)
-            newState.definitionList[newState.currentDefinition] =
-                newState.definition
-            fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
+            newState.definitionList[newState.currentDefinition] = newState.definition
+            fetch('/save/' + newState.currentDefinition, { method: 'POST', body: JSON.stringify(newState.definition), headers: { 'Content-Type': 'application/json' } })
         }
-        if (
-            state.appIsFrozen !== newState.appIsFrozen ||
-            state.selectedViewNode !== newState.selectedViewNode
-        ) {
-            app._freeze(
-                newState.appIsFrozen,
-                VIEW_NODE_SELECTED,
-                newState.selectedViewNode
-            )
+        if (state.appIsFrozen !== newState.appIsFrozen || state.selectedViewNode !== newState.selectedViewNode) {
+            app._freeze(newState.appIsFrozen, VIEW_NODE_SELECTED, newState.selectedViewNode)
         }
-        if (
-            newState.editingTitleNodeId &&
-            state.editingTitleNodeId !== newState.editingTitleNodeId
-        ) {
+        if (newState.editingTitleNodeId && state.editingTitleNodeId !== newState.editingTitleNodeId) {
             // que auto focus
             setTimeout(() => {
-                const node = document.querySelectorAll(
-                    '[data-istitleeditor]'
-                )[0]
+                const node = document.querySelectorAll('[data-istitleeditor]')[0]
                 if (node) {
                     node.focus()
                 }
@@ -245,47 +190,27 @@ function editor(appDefinitions) {
         // 32 - space
         // 13 - enter
         // 27 - escape
-        if (
-            e.which === 83 &&
-            (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
-        ) {
+        if (e.which === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
             // TODO garbage collect
             e.preventDefault()
             //fetch('/save', {method: 'POST', body: JSON.stringify(state.definition), headers: {"Content-Type": "application/json"}})
             return false
         }
-        if (
-            e.which === 32 &&
-            (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
-        ) {
+        if (e.which === 32 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
             e.preventDefault()
             FREEZER_CLICKED()
         }
-        if (
-            !e.shiftKey &&
-            e.which === 90 &&
-            (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
-        ) {
+        if (!e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
             e.preventDefault()
-            const currentIndex = stateStack.findIndex(
-                a => a === state.definition
-            )
+            const currentIndex = stateStack.findIndex(a => a === state.definition)
             if (currentIndex > 0) {
                 const newDefinition = stateStack[currentIndex - 1]
                 setState({ ...state, definition: newDefinition }, true)
             }
         }
-        if (
-            (e.which === 89 &&
-                (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) ||
-            (e.shiftKey &&
-                e.which === 90 &&
-                (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))
-        ) {
+        if ((e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))) {
             e.preventDefault()
-            const currentIndex = stateStack.findIndex(
-                a => a === state.definition
-            )
+            const currentIndex = stateStack.findIndex(a => a === state.definition)
             if (currentIndex < stateStack.length - 1) {
                 const newDefinition = stateStack[currentIndex + 1]
                 setState({ ...state, definition: newDefinition }, true)
@@ -300,21 +225,19 @@ function editor(appDefinitions) {
     })
 
     // Listen to app
-    app.addListener(
-        (eventId, data, e, previousState, currentState, mutations) => {
-            setState({
-                ...state,
-                eventStack: state.eventStack.concat({
-                    eventId,
-                    data,
-                    e,
-                    previousState,
-                    currentState,
-                    mutations,
-                }),
-            })
-        }
-    )
+    app.addListener((eventId, data, e, previousState, currentState, mutations) => {
+        setState({
+            ...state,
+            eventStack: state.eventStack.concat({
+                eventId,
+                data,
+                e,
+                previousState,
+                currentState,
+                mutations,
+            }),
+        })
+    })
 
     // Actions
     let openBoxTimeout = null
@@ -387,20 +310,8 @@ function editor(appDefinitions) {
                           [parentRef.ref]: {
                               ...state.definition[parentRef.ref],
                               [parentRef.id]: {
-                                  ...state.definition[parentRef.ref][
-                                      parentRef.id
-                                  ],
-                                  children: moveInArray(
-                                      state.definition[parentRef.ref][
-                                          parentRef.id
-                                      ].children,
-                                      state.definition[parentRef.ref][
-                                          parentRef.id
-                                      ].children.findIndex(
-                                          ref => ref.id === nodeRef.id
-                                      ),
-                                      state.hoveredViewNode.position
-                                  ),
+                                  ...state.definition[parentRef.ref][parentRef.id],
+                                  children: moveInArray(state.definition[parentRef.ref][parentRef.id].children, state.definition[parentRef.ref][parentRef.id].children.findIndex(ref => ref.id === nodeRef.id), state.hoveredViewNode.position),
                               },
                           },
                       }
@@ -411,34 +322,14 @@ function editor(appDefinitions) {
                             [parentRef.ref]: {
                                 ...state.definition[parentRef.ref],
                                 [parentRef.id]: {
-                                    ...state.definition[parentRef.ref][
-                                        parentRef.id
-                                    ],
-                                    children: state.definition[parentRef.ref][
-                                        parentRef.id
-                                    ].children.filter(
-                                        ref => ref.id !== nodeRef.id
-                                    ),
+                                    ...state.definition[parentRef.ref][parentRef.id],
+                                    children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
                                 },
                                 [newParentRef.id]: {
-                                    ...state.definition[newParentRef.ref][
-                                        newParentRef.id
-                                    ],
-                                    children: state.definition[
-                                        newParentRef.ref
-                                    ][newParentRef.id].children
-                                        .slice(
-                                            0,
-                                            state.hoveredViewNode.position
-                                        )
-                                        .concat(
-                                            nodeRef,
-                                            state.definition[newParentRef.ref][
-                                                newParentRef.id
-                                            ].children.slice(
-                                                state.hoveredViewNode.position
-                                            )
-                                        ),
+                                    ...state.definition[newParentRef.ref][newParentRef.id],
+                                    children: state.definition[newParentRef.ref][newParentRef.id].children
+                                        .slice(0, state.hoveredViewNode.position)
+                                        .concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
                                 },
                             },
                         }
@@ -448,37 +339,17 @@ function editor(appDefinitions) {
                             [parentRef.ref]: {
                                 ...state.definition[parentRef.ref],
                                 [parentRef.id]: {
-                                    ...state.definition[parentRef.ref][
-                                        parentRef.id
-                                    ],
-                                    children: state.definition[parentRef.ref][
-                                        parentRef.id
-                                    ].children.filter(
-                                        ref => ref.id !== nodeRef.id
-                                    ),
+                                    ...state.definition[parentRef.ref][parentRef.id],
+                                    children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
                                 },
                             },
                             [newParentRef.ref]: {
                                 ...state.definition[newParentRef.ref],
                                 [newParentRef.id]: {
-                                    ...state.definition[newParentRef.ref][
-                                        newParentRef.id
-                                    ],
-                                    children: state.definition[
-                                        newParentRef.ref
-                                    ][newParentRef.id].children
-                                        .slice(
-                                            0,
-                                            state.hoveredViewNode.position
-                                        )
-                                        .concat(
-                                            nodeRef,
-                                            state.definition[newParentRef.ref][
-                                                newParentRef.id
-                                            ].children.slice(
-                                                state.hoveredViewNode.position
-                                            )
-                                        ),
+                                    ...state.definition[newParentRef.ref][newParentRef.id],
+                                    children: state.definition[newParentRef.ref][newParentRef.id].children
+                                        .slice(0, state.hoveredViewNode.position)
+                                        .concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
                                 },
                             },
                         },
@@ -504,10 +375,7 @@ function editor(appDefinitions) {
     }
 
     function HOVER_MOBILE(e) {
-        const elem = document.elementFromPoint(
-            e.touches[0].clientX,
-            e.touches[0].clientY
-        )
+        const elem = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
         const moveEvent = new MouseEvent('mousemove', {
             bubbles: true,
             cancelable: true,
@@ -540,11 +408,7 @@ function editor(appDefinitions) {
                 hoveredViewNode: {
                     parent: parentRef,
                     depth,
-                    position: state.definition[parentRef.ref][
-                        parentRef.id
-                    ].children
-                        .filter(ref => ref.id !== state.draggedComponentView.id)
-                        .findIndex(ref => ref.id === nodeRef.id),
+                    position: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id),
                 },
             })
         const insertAfter = () =>
@@ -553,12 +417,7 @@ function editor(appDefinitions) {
                 hoveredViewNode: {
                     parent: parentRef,
                     depth,
-                    position:
-                        state.definition[parentRef.ref][parentRef.id].children
-                            .filter(
-                                ref => ref.id !== state.draggedComponentView.id
-                            )
-                            .findIndex(ref => ref.id === nodeRef.id) + 1,
+                    position: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id) + 1,
                 },
             })
         const insertAsFirst = () =>
@@ -576,9 +435,7 @@ function editor(appDefinitions) {
                 hoveredViewNode: {
                     parent: { ref: 'vNodeBox', id: '_rootNode' },
                     depth: 1,
-                    position:
-                        state.definition['vNodeBox']['_rootNode'].children
-                            .length,
+                    position: state.definition['vNodeBox']['_rootNode'].children.length,
                 },
             })
         const insertAt = (toPutRef, index) =>
@@ -595,11 +452,8 @@ function editor(appDefinitions) {
             // check if the last child, if yes, go to grandparent and drop there after parent
             if (parent.children[parent.children.length - 1].id === nodeRef.id) {
                 if (parentRef.id !== '_rootNode') {
-                    const grandparent =
-                        state.definition[parent.parent.ref][parent.parent.id]
-                    const parentPosition = grandparent.children.findIndex(
-                        childRef => childRef.id === parentRef.id
-                    )
+                    const grandparent = state.definition[parent.parent.ref][parent.parent.id]
+                    const parentPosition = grandparent.children.findIndex(childRef => childRef.id === parentRef.id)
                     return insertAt(parent.parent, parentPosition)
                 }
             }
@@ -614,19 +468,13 @@ function editor(appDefinitions) {
         // pray to god that you did not make a mistake here
         if (state.definition[nodeRef.ref][nodeRef.id].children) {
             // if box
-            if (
-                state.viewFoldersClosed[nodeRef.id] ||
-                state.definition[nodeRef.ref][nodeRef.id].children.length === 0
-            ) {
+            if (state.viewFoldersClosed[nodeRef.id] || state.definition[nodeRef.ref][nodeRef.id].children.length === 0) {
                 // if closed or empty box
                 if (offsetY < 0.3) {
                     insertBefore()
                 } else {
                     if (!openBoxTimeout) {
-                        openBoxTimeout = setTimeout(
-                            () => VIEW_FOLDER_CLICKED(nodeRef.id, false),
-                            500
-                        )
+                        openBoxTimeout = setTimeout(() => VIEW_FOLDER_CLICKED(nodeRef.id, false), 500)
                     }
                     insertAsFirst()
                     return
@@ -693,21 +541,15 @@ function editor(appDefinitions) {
         function resize(e) {
             e.preventDefault()
             // TODO refactor
-            let newWidth =
-                window.innerWidth - (e.touches ? e.touches[0].pageX : e.pageX)
+            let newWidth = window.innerWidth - (e.touches ? e.touches[0].pageX : e.pageX)
             if (widthName === 'editorLeftWidth') {
                 newWidth = e.touches ? e.touches[0].pageX : e.pageX
             }
             if (widthName === 'subEditorWidth') {
-                newWidth =
-                    (e.touches ? e.touches[0].pageX : e.pageX) -
-                    state.componentEditorPosition.x
+                newWidth = (e.touches ? e.touches[0].pageX : e.pageX) - state.componentEditorPosition.x
             }
             if (widthName === 'subEditorWidthLeft') {
-                newWidth =
-                    state.componentEditorPosition.x +
-                    state.subEditorWidth -
-                    (e.touches ? e.touches[0].pageX : e.pageX)
+                newWidth = state.componentEditorPosition.x + state.subEditorWidth - (e.touches ? e.touches[0].pageX : e.pageX)
                 if (newWidth < 250) {
                     return
                 }
@@ -795,17 +637,7 @@ function editor(appDefinitions) {
             }
             if (state.hoveredEvent) {
                 // check if event already changes the state
-                if (
-                    state.definition.state[
-                        state.draggedComponentStateId
-                    ].mutators
-                        .map(
-                            mutatorRef =>
-                                state.definition.mutator[mutatorRef.id].event.id
-                        )
-                        .filter(eventid => eventid === state.hoveredEvent.id)
-                        .length
-                ) {
+                if (state.definition.state[state.draggedComponentStateId].mutators.map(mutatorRef => state.definition.mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
                     return setState({
                         ...state,
                         draggedComponentStateId: null,
@@ -823,10 +655,7 @@ function editor(appDefinitions) {
                         pipe: {
                             ...state.definition.pipe,
                             [pipeId]: {
-                                type:
-                                    state.definition.state[
-                                        state.draggedComponentStateId
-                                    ].type,
+                                type: state.definition.state[state.draggedComponentStateId].type,
                                 value: {
                                     ref: 'state',
                                     id: state.draggedComponentStateId,
@@ -837,12 +666,8 @@ function editor(appDefinitions) {
                         state: {
                             ...state.definition.state,
                             [state.draggedComponentStateId]: {
-                                ...state.definition.state[
-                                    state.draggedComponentStateId
-                                ],
-                                mutators: state.definition.state[
-                                    state.draggedComponentStateId
-                                ].mutators.concat({
+                                ...state.definition.state[state.draggedComponentStateId],
+                                mutators: state.definition.state[state.draggedComponentStateId].mutators.concat({
                                     ref: 'mutator',
                                     id: mutatorId,
                                 }),
@@ -862,12 +687,8 @@ function editor(appDefinitions) {
                         event: {
                             ...state.definition.event,
                             [state.hoveredEvent.id]: {
-                                ...state.definition.event[
-                                    state.hoveredEvent.id
-                                ],
-                                mutators: state.definition.event[
-                                    state.hoveredEvent.id
-                                ].mutators.concat({
+                                ...state.definition.event[state.hoveredEvent.id],
+                                mutators: state.definition.event[state.hoveredEvent.id].mutators.concat({
                                     ref: 'mutator',
                                     id: mutatorId,
                                 }),
@@ -878,11 +699,7 @@ function editor(appDefinitions) {
             }
             const pipeDropped = state.definition.pipe[state.hoveredPipe.id]
             if (pipeDropped.type === 'text') {
-                if (
-                    state.definition.pipe[state.hoveredPipe.id].value.ref &&
-                    state.definition.pipe[state.hoveredPipe.id].value.ref ===
-                        'state'
-                ) {
+                if (state.definition.pipe[state.hoveredPipe.id].value.ref && state.definition.pipe[state.hoveredPipe.id].value.ref === 'state') {
                     return setState({
                         ...state,
                         draggedComponentStateId: null,
@@ -892,9 +709,7 @@ function editor(appDefinitions) {
                             pipe: {
                                 ...state.definition.pipe,
                                 [state.hoveredPipe.id]: {
-                                    ...state.definition.pipe[
-                                        state.hoveredPipe.id
-                                    ],
+                                    ...state.definition.pipe[state.hoveredPipe.id],
                                     value: {
                                         ref: 'state',
                                         id: state.draggedComponentStateId,
@@ -919,13 +734,7 @@ function editor(appDefinitions) {
                             ...state.definition.pipe,
                             [state.hoveredPipe.id]: {
                                 ...state.definition.pipe[state.hoveredPipe.id],
-                                transformations: [
-                                    { ref: 'join', id: joinIdState },
-                                    { ref: 'join', id: joinIdText },
-                                ].concat(
-                                    state.definition.pipe[state.hoveredPipe.id]
-                                        .transformations
-                                ),
+                                transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definition.pipe[state.hoveredPipe.id].transformations),
                             },
                             [pipeIdState]: {
                                 type: 'text',
@@ -955,20 +764,14 @@ function editor(appDefinitions) {
             }
             if (pipeDropped.type === 'number') {
                 // you can't drop boolean into number
-                if (
-                    state.definition.state[state.draggedComponentStateId]
-                        .type === 'boolean'
-                ) {
+                if (state.definition.state[state.draggedComponentStateId].type === 'boolean') {
                     return setState({
                         ...state,
                         draggedComponentStateId: null,
                         hoveredPipe: null,
                     })
                 }
-                if (
-                    state.definition.state[state.draggedComponentStateId]
-                        .type === 'text'
-                ) {
+                if (state.definition.state[state.draggedComponentStateId].type === 'text') {
                     return setState({
                         ...state,
                         draggedComponentStateId: null,
@@ -978,9 +781,7 @@ function editor(appDefinitions) {
                             pipe: {
                                 ...state.definition.pipe,
                                 [state.hoveredPipe.id]: {
-                                    ...state.definition.pipe[
-                                        state.hoveredPipe.id
-                                    ],
+                                    ...state.definition.pipe[state.hoveredPipe.id],
                                     value: {
                                         ref: 'state',
                                         id: state.draggedComponentStateId,
@@ -1016,10 +817,7 @@ function editor(appDefinitions) {
                 })
             }
             if (pipeDropped.type === 'boolean') {
-                if (
-                    state.definition.state[state.draggedComponentStateId]
-                        .type === 'number'
-                ) {
+                if (state.definition.state[state.draggedComponentStateId].type === 'number') {
                     const eqId = uuid()
                     const pipeId = uuid()
                     return setState({
@@ -1031,9 +829,7 @@ function editor(appDefinitions) {
                             pipe: {
                                 ...state.definition.pipe,
                                 [state.hoveredPipe.id]: {
-                                    ...state.definition.pipe[
-                                        state.hoveredPipe.id
-                                    ],
+                                    ...state.definition.pipe[state.hoveredPipe.id],
                                     value: {
                                         ref: 'state',
                                         id: state.draggedComponentStateId,
@@ -1063,10 +859,7 @@ function editor(appDefinitions) {
                         },
                     })
                 }
-                if (
-                    state.definition.state[state.draggedComponentStateId]
-                        .type === 'text'
-                ) {
+                if (state.definition.state[state.draggedComponentStateId].type === 'text') {
                     const eqId = uuid()
                     const pipeId = uuid()
                     return setState({
@@ -1078,9 +871,7 @@ function editor(appDefinitions) {
                             pipe: {
                                 ...state.definition.pipe,
                                 [state.hoveredPipe.id]: {
-                                    ...state.definition.pipe[
-                                        state.hoveredPipe.id
-                                    ],
+                                    ...state.definition.pipe[state.hoveredPipe.id],
                                     value: {
                                         ref: 'state',
                                         id: state.draggedComponentStateId,
@@ -1150,9 +941,7 @@ function editor(appDefinitions) {
             ...state,
             viewFoldersClosed: {
                 ...state.viewFoldersClosed,
-                [nodeId]: forcedValue !== undefined
-                    ? forcedValue
-                    : !state.viewFoldersClosed[nodeId],
+                [nodeId]: forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId],
             },
         })
     }
@@ -1177,19 +966,9 @@ function editor(appDefinitions) {
         }
     }
     function ADD_NODE(nodeRef, type) {
-        if (
-            !nodeRef.ref ||
-            !state.definition[nodeRef.ref][nodeRef.id] ||
-            !state.definition[nodeRef.ref][nodeRef.id].children
-        ) {
-            if (
-                state.selectedViewNode.id &&
-                state.selectedViewNode.id !== '_rootNode'
-            ) {
-                nodeRef =
-                    state.definition[state.selectedViewNode.ref][
-                        state.selectedViewNode.id
-                    ].parent
+        if (!nodeRef.ref || !state.definition[nodeRef.ref][nodeRef.id] || !state.definition[nodeRef.ref][nodeRef.id].children) {
+            if (state.selectedViewNode.id && state.selectedViewNode.id !== '_rootNode') {
+                nodeRef = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id].parent
             } else {
                 nodeRef = { ref: 'vNodeBox', id: '_rootNode' }
             }
@@ -1197,7 +976,8 @@ function editor(appDefinitions) {
         const nodeId = nodeRef.id
         const newNodeId = uuid()
         const newStyleId = uuid()
-        // style: ['background', 'border', 'borderRadius', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth', 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
+        // style: ['background', 'border', 'borderRadius', 'outline', 'cursor', 'color', 'transition', 'display', 'top', 'bottom', 'left', 'flex', 'justifyContent', 'alignItems', 'width', 'height', 'maxWidth',
+        // 'maxHeight', 'minWidth', 'minHeight', 'right', 'position', 'overflow', 'font', 'margin', 'padding'],
         const styleIds = {
             flex: uuid(),
             display: uuid(),
@@ -1500,9 +1280,7 @@ function editor(appDefinitions) {
                               ...state.definition.vNodeBox,
                               [nodeId]: {
                                   ...state.definition.vNodeBox[nodeId],
-                                  children: state.definition.vNodeBox[
-                                      nodeId
-                                  ].children.concat({
+                                  children: state.definition.vNodeBox[nodeId].children.concat({
                                       ref: 'vNodeBox',
                                       id: newNodeId,
                                   }),
@@ -1520,9 +1298,7 @@ function editor(appDefinitions) {
                               ...state.definition[nodeRef.ref],
                               [nodeId]: {
                                   ...state.definition[nodeRef.ref][nodeId],
-                                  children: state.definition[nodeRef.ref][
-                                      nodeId
-                                  ].children.concat({
+                                  children: state.definition[nodeRef.ref][nodeId].children.concat({
                                       ref: 'vNodeBox',
                                       id: newNodeId,
                                   }),
@@ -1567,9 +1343,7 @@ function editor(appDefinitions) {
                         ...state.definition[nodeRef.ref],
                         [nodeId]: {
                             ...state.definition[nodeRef.ref][nodeId],
-                            children: state.definition[nodeRef.ref][
-                                nodeId
-                            ].children.concat({
+                            children: state.definition[nodeRef.ref][nodeId].children.concat({
                                 ref: 'vNodeText',
                                 id: newNodeId,
                             }),
@@ -1613,9 +1387,7 @@ function editor(appDefinitions) {
                         ...state.definition[nodeRef.ref],
                         [nodeId]: {
                             ...state.definition[nodeRef.ref][nodeId],
-                            children: state.definition[nodeRef.ref][
-                                nodeId
-                            ].children.concat({
+                            children: state.definition[nodeRef.ref][nodeId].children.concat({
                                 ref: 'vNodeImage',
                                 id: newNodeId,
                             }),
@@ -1656,9 +1428,7 @@ function editor(appDefinitions) {
                               ...state.definition.vNodeIf,
                               [nodeId]: {
                                   ...state.definition.vNodeIf[nodeId],
-                                  children: state.definition.vNodeIf[
-                                      nodeId
-                                  ].children.concat({
+                                  children: state.definition.vNodeIf[nodeId].children.concat({
                                       ref: 'vNodeIf',
                                       id: newNodeId,
                                   }),
@@ -1673,9 +1443,7 @@ function editor(appDefinitions) {
                               ...state.definition[nodeRef.ref],
                               [nodeId]: {
                                   ...state.definition[nodeRef.ref][nodeId],
-                                  children: state.definition[nodeRef.ref][
-                                      nodeId
-                                  ].children.concat({
+                                  children: state.definition[nodeRef.ref][nodeId].children.concat({
                                       ref: 'vNodeIf',
                                       id: newNodeId,
                                   }),
@@ -1748,9 +1516,7 @@ function editor(appDefinitions) {
                         ...state.definition[nodeRef.ref],
                         [nodeId]: {
                             ...state.definition[nodeRef.ref][nodeId],
-                            children: state.definition[nodeRef.ref][
-                                nodeId
-                            ].children.concat({
+                            children: state.definition[nodeRef.ref][nodeId].children.concat({
                                 ref: 'vNodeInput',
                                 id: newNodeId,
                             }),
@@ -1768,9 +1534,7 @@ function editor(appDefinitions) {
                         ...state.definition.nameSpace,
                         ['_rootNameSpace']: {
                             ...state.definition.nameSpace['_rootNameSpace'],
-                            children: state.definition.nameSpace[
-                                '_rootNameSpace'
-                            ].children.concat({ ref: 'state', id: stateId }),
+                            children: state.definition.nameSpace['_rootNameSpace'].children.concat({ ref: 'state', id: stateId }),
                         },
                     },
                     state: { ...state.definition.state, [stateId]: newState },
@@ -1835,9 +1599,7 @@ function editor(appDefinitions) {
                         ...state.definition.nameSpace,
                         [namespaceId]: {
                             ...state.definition.nameSpace[namespaceId],
-                            children: state.definition.nameSpace[
-                                namespaceId
-                            ].children.concat({
+                            children: state.definition.nameSpace[namespaceId].children.concat({
                                 ref: 'nameSpace',
                                 id: newStateId,
                             }),
@@ -1855,9 +1617,7 @@ function editor(appDefinitions) {
                     ...state.definition.nameSpace,
                     [namespaceId]: {
                         ...state.definition.nameSpace[namespaceId],
-                        children: state.definition.nameSpace[
-                            namespaceId
-                        ].children.concat({
+                        children: state.definition.nameSpace[namespaceId].children.concat({
                             ref: 'state',
                             id: newStateId,
                         }),
@@ -1878,22 +1638,16 @@ function editor(appDefinitions) {
         const events = getAvailableEvents(nodeRef.ref)
         let newState = state.definition.state
         events.forEach(event => {
-            const eventRef =
-                state.definition[nodeRef.ref][nodeRef.id][event.propertyName]
+            const eventRef = state.definition[nodeRef.ref][nodeRef.id][event.propertyName]
             if (eventRef) {
                 // event -> mutators -> states
-                state.definition[eventRef.ref][
-                    eventRef.id
-                ].mutators.forEach(mutatorRef => {
-                    const stateRef =
-                        state.definition[mutatorRef.ref][mutatorRef.id].state
+                state.definition[eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
+                    const stateRef = state.definition[mutatorRef.ref][mutatorRef.id].state
                     newState = {
                         ...newState,
                         [stateRef.id]: {
                             ...newState[stateRef.id],
-                            mutators: newState[stateRef.id].mutators.filter(
-                                mutator => mutator.id !== mutatorRef.id
-                            ),
+                            mutators: newState[stateRef.id].mutators.filter(mutator => mutator.id !== mutatorRef.id),
                         },
                     }
                 })
@@ -1907,9 +1661,7 @@ function editor(appDefinitions) {
                     ...state.definition[parentRef.ref],
                     [parentRef.id]: {
                         ...state.definition[parentRef.ref][parentRef.id],
-                        children: state.definition[parentRef.ref][
-                            parentRef.id
-                        ].children.filter(ref => ref.id !== nodeRef.id),
+                        children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
                     },
                 },
                 state: newState,
@@ -1982,10 +1734,7 @@ function editor(appDefinitions) {
         render()
     }
     function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
-        if (
-            e.target.value.toString() !==
-            app.getCurrentState()[stateId].toString()
-        ) {
+        if (e.target.value.toString() !== app.getCurrentState()[stateId].toString()) {
             app.setCurrentState({
                 ...app.getCurrentState(),
                 [stateId]: Number(e.target.value),
@@ -2064,15 +1813,9 @@ function editor(appDefinitions) {
         const newId = uuid()
 
         const oldTransformations = state.definition.pipe[pipeId].transformations
-        const newPipeTransformations = pipe.type === 'text' ||
-            pipe.type === stateInPipe.type
+        const newPipeTransformations = pipe.type === 'text' || pipe.type === stateInPipe.type
             ? oldTransformations.concat({ ref: transformation, id: newId })
-            : oldTransformations
-                  .slice(0, oldTransformations.length - 1)
-                  .concat({ ref: transformation, id: newId })
-                  .concat(
-                      oldTransformations.slice(oldTransformations.length - 1)
-                  )
+            : oldTransformations.slice(0, oldTransformations.length - 1).concat({ ref: transformation, id: newId }).concat(oldTransformations.slice(oldTransformations.length - 1))
         setState({
             ...state,
             definition: {
@@ -2125,22 +1868,16 @@ function editor(appDefinitions) {
                 removedPipeState = resetPipeFunc(pipeid, removedPipeState)
             }
         })
-        const {
-            [stateId]: deletedState,
-            ...newState
-        } = removedPipeState.definition.state
+        const { [stateId]: deletedState, ...newState } = removedPipeState.definition.state
         let events = removedPipeState.definition.event
         deletedState.mutators.forEach(mutatorRef => {
-            const mutator =
-                removedPipeState.definition[mutatorRef.ref][mutatorRef.id]
+            const mutator = removedPipeState.definition[mutatorRef.ref][mutatorRef.id]
             const event = mutator.event
             events = {
                 ...events,
                 [event.id]: {
                     ...events[event.id],
-                    mutators: events[event.id].mutators.filter(
-                        mutRef => mutRef.id !== mutatorRef.id
-                    ),
+                    mutators: events[event.id].mutators.filter(mutRef => mutRef.id !== mutatorRef.id),
                 },
             }
         })
@@ -2153,12 +1890,8 @@ function editor(appDefinitions) {
                 nameSpace: {
                     ...removedPipeState.definition.nameSpace,
                     _rootNameSpace: {
-                        ...removedPipeState.definition.nameSpace[
-                            '_rootNameSpace'
-                        ],
-                        children: removedPipeState.definition.nameSpace[
-                            '_rootNameSpace'
-                        ].children.filter(ref => ref.id !== stateId),
+                        ...removedPipeState.definition.nameSpace['_rootNameSpace'],
+                        children: removedPipeState.definition.nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
                     },
                 },
                 event: events,
@@ -2203,25 +1936,12 @@ function editor(appDefinitions) {
             const pipes = Object.keys(state.definition.pipe)
             for (let i = 0; i < pipes.length; i++) {
                 const parentPipeId = pipes[i]
-                for (
-                    let index = 0;
-                    index <
-                    state.definition.pipe[parentPipeId].transformations.length;
-                    index++
-                ) {
-                    const ref =
-                        state.definition.pipe[parentPipeId].transformations[
-                            index
-                        ]
+                for (let index = 0; index < state.definition.pipe[parentPipeId].transformations.length; index++) {
+                    const ref = state.definition.pipe[parentPipeId].transformations[index]
                     if (ref.id === parentJoinId) {
-                        const joinRef =
-                            state.definition.pipe[parentPipeId].transformations[
-                                index + 1
-                            ]
-                        const secondPipeRef =
-                            state.definition.join[joinRef.id].value
-                        const text =
-                            state.definition.pipe[secondPipeRef.id].value
+                        const joinRef = state.definition.pipe[parentPipeId].transformations[index + 1]
+                        const secondPipeRef = state.definition.join[joinRef.id].value
+                        const text = state.definition.pipe[secondPipeRef.id].value
                         return {
                             ...state,
                             selectedPipeId: '',
@@ -2231,25 +1951,11 @@ function editor(appDefinitions) {
                                     ...state.definition.pipe,
                                     [parentPipeId]: {
                                         ...state.definition.pipe[parentPipeId],
-                                        value:
-                                            state.definition.pipe[parentPipeId]
-                                                .value + text,
-                                        transformations: state.definition.pipe[
-                                            parentPipeId
-                                        ].transformations
+                                        value: state.definition.pipe[parentPipeId].value + text,
+                                        transformations: state.definition.pipe[parentPipeId].transformations
                                             .slice(0, index)
-                                            .concat(
-                                                state.definition.pipe[
-                                                    secondPipeRef.id
-                                                ].transformations
-                                            )
-                                            .concat(
-                                                state.definition.pipe[
-                                                    parentPipeId
-                                                ].transformations.slice(
-                                                    index + 2
-                                                )
-                                            ),
+                                            .concat(state.definition.pipe[secondPipeRef.id].transformations)
+                                            .concat(state.definition.pipe[parentPipeId].transformations.slice(index + 2)),
                                     },
                                 },
                             },
@@ -2267,10 +1973,7 @@ function editor(appDefinitions) {
                         ...state.definition.pipe,
                         [pipeId]: {
                             ...state.definition.pipe[pipeId],
-                            value:
-                                defaultValues[
-                                    state.definition.pipe[pipeId].type
-                                ],
+                            value: defaultValues[state.definition.pipe[pipeId].type],
                             transformations: [],
                         },
                     },
@@ -2287,10 +1990,7 @@ function editor(appDefinitions) {
         if (transformationRef.ref === e.target.value) {
             return
         }
-        const {
-            [transformationRef.id]: actualTransform,
-            ...left
-        } = state.definition[transformationRef.ref]
+        const { [transformationRef.id]: actualTransform, ...left } = state.definition[transformationRef.ref]
         setState({
             ...state,
             definition: {
@@ -2299,9 +1999,7 @@ function editor(appDefinitions) {
                     ...state.definition.pipe,
                     [pipeRef.id]: {
                         ...state.definition.pipe[pipeRef.id],
-                        transformations: state.definition.pipe[
-                            pipeRef.id
-                        ].transformations.map(
+                        transformations: state.definition.pipe[pipeRef.id].transformations.map(
                             transf =>
                                 transf.id === transformationRef.id
                                     ? {
@@ -2356,8 +2054,7 @@ function editor(appDefinitions) {
         })
     }
 
-    const boxIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'layers')
+    const boxIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'layers')
     const ifIcon = () =>
         h(
             'i',
@@ -2367,59 +2064,33 @@ function editor(appDefinitions) {
             },
             'call_split'
         )
-    const moreIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'more_horiz')
-    const linkIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'link')
-    const numberIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'looks_one')
-    const listIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'view_list')
-    const inputIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'input')
-    const textIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'title')
-    const textReverseIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'format_size')
-    const deleteIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'delete_forever')
-    const clearIcon = () =>
-        h(
-            'i',
-            { attrs: { class: 'material-icons', 'data-trashcan': true } },
-            'clear'
-        )
-    const closeIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'close')
-    const addCircleIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'add_circle')
-    const folderIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'folder')
-    const repeatIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'loop')
-    const historyIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'history')
-    const pauseIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'pause')
-    const playIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'play_arrow')
-    const fullscreenIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'fullscreen')
-    const fullscreenExitIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'fullscreen_exit')
-    const saveIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'check')
+    const moreIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'more_horiz')
+    const linkIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'link')
+    const numberIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'looks_one')
+    const listIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'view_list')
+    const inputIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'input')
+    const textIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'title')
+    const textReverseIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'format_size')
+    const deleteIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'delete_forever')
+    const clearIcon = () => h('i', { attrs: { class: 'material-icons', 'data-trashcan': true } }, 'clear')
+    const closeIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'close')
+    const addCircleIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'add_circle')
+    const folderIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'folder')
+    const repeatIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'loop')
+    const historyIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'history')
+    const pauseIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'pause')
+    const playIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'play_arrow')
+    const fullscreenIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'fullscreen')
+    const fullscreenExitIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'fullscreen_exit')
+    const saveIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'check')
     const dotIcon = () =>
         h('img', {
             attrs: { src: '/images/ugn.png', width: '18', height: '18' },
         })
     //const dotIcon = () => h('div', {style: {borderRadius: '20px', height: '6px', width: '6px', backgroundColor: '#53d486'}})
-    const storageIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'storage')
-    const eventListIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'event_note')
-    const imageIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'crop_original')
+    const storageIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'storage')
+    const eventListIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'event_note')
+    const imageIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'crop_original')
     const warningIcon = () =>
         h(
             'i',
@@ -2429,14 +2100,8 @@ function editor(appDefinitions) {
             },
             'whatshot'
         ) // priority_high
-    const appIcon = () =>
-        h(
-            'i',
-            { attrs: { class: 'material-icons' }, style: { fontSize: '18px' } },
-            'description'
-        )
-    const arrowRightIcon = () =>
-        h('i', { attrs: { class: 'material-icons' } }, 'arrow_forward')
+    const appIcon = () => h('i', { attrs: { class: 'material-icons' }, style: { fontSize: '18px' } }, 'description')
+    const arrowRightIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'arrow_forward')
     const arrowIcon = rotate =>
         h(
             'i',
@@ -2489,42 +2154,11 @@ function editor(appDefinitions) {
         return availableEvents
     }
     const fields = {
-        vNodeBox: [
-            'style',
-            'children',
-            'mouseout',
-            'mouseover',
-            'dblclick',
-            'click',
-        ],
-        vNodeText: [
-            'style',
-            'value',
-            'mouseout',
-            'mouseover',
-            'dblclick',
-            'click',
-        ],
-        vNodeInput: [
-            'style',
-            'value',
-            'mouseout',
-            'mouseover',
-            'dblclick',
-            'click',
-            'input',
-            'focus',
-            'blur',
-        ],
+        vNodeBox: ['style', 'children', 'mouseout', 'mouseover', 'dblclick', 'click'],
+        vNodeText: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click'],
+        vNodeInput: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click', 'input', 'focus', 'blur'],
         vNodeIf: ['value', 'children'],
-        vNodeImage: [
-            'style',
-            'src',
-            'mouseout',
-            'mouseover',
-            'dblclick',
-            'click',
-        ],
+        vNodeImage: ['style', 'src', 'mouseout', 'mouseover', 'dblclick', 'click'],
         add: ['value'],
         subtract: ['value'],
         multiply: ['value'],
@@ -2576,8 +2210,7 @@ function editor(appDefinitions) {
         if (
             memoizedRefs[nodeRef.id] &&
             memoizedRefs[nodeRef.id].stateDefinition === state.definition &&
-            memoizedRefs[nodeRef.id].isClosed ===
-                state.viewFoldersClosed[nodeRef.id] &&
+            memoizedRefs[nodeRef.id].isClosed === state.viewFoldersClosed[nodeRef.id] &&
             memoizedRefs[nodeRef.id][state.selectedStateNodeId] !== undefined
         ) {
             return memoizedRefs[nodeRef.id][state.selectedStateNodeId]
@@ -2589,15 +2222,9 @@ function editor(appDefinitions) {
             for (let i = 0; i < fieldsToCheck.length; i++) {
                 const fieldName = fieldsToCheck[i]
                 if (node[fieldName] === undefined) continue
-                if (node[fieldName].id === state.selectedStateNodeId)
-                    return true
+                if (node[fieldName].id === state.selectedStateNodeId) return true
                 // transformations, children, mutators
-                if (
-                    (fieldName === 'children' &&
-                        state.viewFoldersClosed[nodeRef.id]) ||
-                    fieldName === 'mutators' ||
-                    fieldName === 'transformations'
-                ) {
+                if ((fieldName === 'children' && state.viewFoldersClosed[nodeRef.id]) || fieldName === 'mutators' || fieldName === 'transformations') {
                     for (let j = 0; j < node[fieldName].length; j++) {
                         if (lookForSelectedState(node[fieldName][j]) === true) {
                             return true
@@ -2735,8 +2362,7 @@ function editor(appDefinitions) {
 
             function listTransformations(transformations) {
                 return transformations.map((transRef, index) => {
-                    const transformer =
-                        state.definition[transRef.ref][transRef.id]
+                    const transformer = state.definition[transRef.ref][transRef.id]
                     if (transRef.ref === 'equal') {
                         return h('div', { style: { paddingTop: '5px' } }, [
                             h(
@@ -2748,58 +2374,23 @@ function editor(appDefinitions) {
                                         display: 'inline-block',
                                     },
                                 },
-                                [
-                                    h(
-                                        'span',
-                                        { style: { flex: '1' } },
-                                        transRef.ref
-                                    ),
-                                ]
+                                [h('span', { style: { flex: '1' } }, transRef.ref)]
                             ),
-                            h('span', { style: { display: 'inline-block' } }, [
-                                emberEditor(transformer.value),
-                            ]),
+                            h('span', { style: { display: 'inline-block' } }, [emberEditor(transformer.value)]),
                         ])
                     }
                     if (transRef.ref === 'join') {
                         return h('span', {}, [emberEditor(transformer.value)])
                     }
                     if (transRef.ref === 'length') {
-                        return h('div', { style: { paddingTop: '5px' } }, [
-                            h('div', { style: { cursor: 'default' } }, [
-                                h(
-                                    'span',
-                                    { style: { color: '#bdbdbd' } },
-                                    transRef.ref
-                                ),
-                            ]),
-                        ])
+                        return h('div', { style: { paddingTop: '5px' } }, [h('div', { style: { cursor: 'default' } }, [h('span', { style: { color: '#bdbdbd' } }, transRef.ref)])])
                     }
 
-                    const numberTransf = [
-                        { title: 'add', sign: '+' },
-                        { title: 'subtract', sign: '-' },
-                        { title: 'multiply', sign: '*' },
-                        { title: 'divide', sign: '/' },
-                        { title: 'remainder', sign: '%' },
-                    ]
-                    const textTransf = [
-                        { title: 'toUpperCase', sign: 'to upper case' },
-                        { title: 'toLowerCase', sign: 'to lower case' },
-                    ]
-                    const boolTransf = [
-                        { title: 'and', sign: 'and' },
-                        { title: 'or', sign: 'or' },
-                        { title: 'not', sign: 'not' },
-                    ]
+                    const numberTransf = [{ title: 'add', sign: '+' }, { title: 'subtract', sign: '-' }, { title: 'multiply', sign: '*' }, { title: 'divide', sign: '/' }, { title: 'remainder', sign: '%' }]
+                    const textTransf = [{ title: 'toUpperCase', sign: 'to upper case' }, { title: 'toLowerCase', sign: 'to lower case' }]
+                    const boolTransf = [{ title: 'and', sign: 'and' }, { title: 'or', sign: 'or' }, { title: 'not', sign: 'not' }]
 
-                    if (
-                        transRef.ref === 'add' ||
-                        transRef.ref === 'subtract' ||
-                        transRef.ref === 'multiply' ||
-                        transRef.ref === 'divide' ||
-                        transRef.ref === 'remainder'
-                    ) {
+                    if (transRef.ref === 'add' || transRef.ref === 'subtract' || transRef.ref === 'multiply' || transRef.ref === 'divide' || transRef.ref === 'remainder') {
                         return h(
                             'div',
                             {
@@ -2823,12 +2414,7 @@ function editor(appDefinitions) {
                                             border: 'none',
                                         },
                                         on: {
-                                            input: [
-                                                CHANGE_TRANSFORMATION,
-                                                ref,
-                                                transRef,
-                                                index,
-                                            ],
+                                            input: [CHANGE_TRANSFORMATION, ref, transRef, index],
                                         },
                                     },
                                     numberTransf.map(description =>
@@ -2858,18 +2444,11 @@ function editor(appDefinitions) {
                                     },
                                     [h('span', { style: { flex: '1' } })]
                                 ),
-                                h(
-                                    'span',
-                                    { style: { display: 'inline-block' } },
-                                    [emberEditor(transformer.value)]
-                                ),
+                                h('span', { style: { display: 'inline-block' } }, [emberEditor(transformer.value)]),
                             ]
                         )
                     }
-                    if (
-                        transRef.ref === 'toUpperCase' ||
-                        transRef.ref === 'toLowerCase'
-                    ) {
+                    if (transRef.ref === 'toUpperCase' || transRef.ref === 'toLowerCase') {
                         return h(
                             'div',
                             {
@@ -2893,12 +2472,7 @@ function editor(appDefinitions) {
                                             border: 'none',
                                         },
                                         on: {
-                                            input: [
-                                                CHANGE_TRANSFORMATION,
-                                                ref,
-                                                transRef,
-                                                index,
-                                            ],
+                                            input: [CHANGE_TRANSFORMATION, ref, transRef, index],
                                         },
                                     },
                                     textTransf.map(description =>
@@ -2930,11 +2504,7 @@ function editor(appDefinitions) {
                             ]
                         )
                     }
-                    if (
-                        transRef.ref === 'and' ||
-                        transRef.ref === 'or' ||
-                        transRef.ref === 'not'
-                    ) {
+                    if (transRef.ref === 'and' || transRef.ref === 'or' || transRef.ref === 'not') {
                         return h(
                             'div',
                             {
@@ -2958,12 +2528,7 @@ function editor(appDefinitions) {
                                             border: 'none',
                                         },
                                         on: {
-                                            input: [
-                                                CHANGE_TRANSFORMATION,
-                                                ref,
-                                                transRef,
-                                                index,
-                                            ],
+                                            input: [CHANGE_TRANSFORMATION, ref, transRef, index],
                                         },
                                     },
                                     boolTransf.map(description =>
@@ -3063,12 +2628,7 @@ function editor(appDefinitions) {
                                         padding: '0px',
                                     },
                                     on: {
-                                        input: [
-                                            CHANGE_STATIC_VALUE,
-                                            ref,
-                                            'value',
-                                            'text',
-                                        ],
+                                        input: [CHANGE_STATIC_VALUE, ref, 'value', 'text'],
                                         mousemove: [PIPE_HOVERED, ref],
                                         mouseout: [PIPE_UNHOVERED],
                                     },
@@ -3100,12 +2660,7 @@ function editor(appDefinitions) {
                         },
                         on: {
                             click: [SELECT_PIPE, ref.id],
-                            input: [
-                                CHANGE_STATIC_VALUE,
-                                ref,
-                                'value',
-                                'boolean',
-                            ],
+                            input: [CHANGE_STATIC_VALUE, ref, 'value', 'boolean'],
                             mousemove: [PIPE_HOVERED, ref],
                             mouseout: [PIPE_UNHOVERED],
                         },
@@ -3131,10 +2686,7 @@ function editor(appDefinitions) {
                 )
             }
 
-            if (
-                !isNaN(parseFloat(Number(pipe.value))) &&
-                isFinite(Number(pipe.value))
-            ) {
+            if (!isNaN(parseFloat(Number(pipe.value))) && isFinite(Number(pipe.value))) {
                 return h(
                     'div',
                     {
@@ -3184,12 +2736,7 @@ function editor(appDefinitions) {
                                         padding: '0px',
                                     },
                                     on: {
-                                        input: [
-                                            CHANGE_STATIC_VALUE,
-                                            ref,
-                                            'value',
-                                            'number',
-                                        ],
+                                        input: [CHANGE_STATIC_VALUE, ref, 'value', 'number'],
                                         mousemove: [PIPE_HOVERED, ref],
                                         mouseout: [PIPE_UNHOVERED],
                                     },
@@ -3205,8 +2752,7 @@ function editor(appDefinitions) {
             }
 
             if (pipe.value.ref === 'state') {
-                const displState =
-                    state.definition[pipe.value.ref][pipe.value.id]
+                const displState = state.definition[pipe.value.ref][pipe.value.id]
                 return h(
                     'div',
                     { style: { flex: '1' } },
@@ -3229,28 +2775,14 @@ function editor(appDefinitions) {
                                     'span',
                                     {
                                         style: {
-                                            color: state.selectedStateNodeId ===
-                                                pipe.value.id
-                                                ? '#53d486'
-                                                : '#eab65c',
+                                            color: state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c',
                                             transition: '200ms all',
                                             cursor: 'pointer',
                                             padding: '2px 0 0 0',
-                                            borderBottom:
-                                                '2px solid ' +
-                                                    (pipe.transformations
-                                                        .length > 0
-                                                        ? state.selectedStateNodeId ===
-                                                              pipe.value.id
-                                                          ? '#53d486'
-                                                          : '#eab65c'
-                                                        : '#ccc'),
+                                            borderBottom: '2px solid ' + (pipe.transformations.length > 0 ? (state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c') : '#ccc'),
                                         },
                                         on: {
-                                            click: [
-                                                STATE_NODE_SELECTED,
-                                                pipe.value.id,
-                                            ],
+                                            click: [STATE_NODE_SELECTED, pipe.value.id],
                                             mousemove: [PIPE_HOVERED, ref],
                                             mouseout: [PIPE_UNHOVERED],
                                         },
@@ -3266,10 +2798,7 @@ function editor(appDefinitions) {
                                                   marginLeft: 'auto',
                                               },
                                               on: {
-                                                  click: [
-                                                      ADD_DEFAULT_TRANSFORMATION,
-                                                      state.selectedPipeId,
-                                                  ],
+                                                  click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
                                               },
                                           },
                                           [addCircleIcon()]
@@ -3289,20 +2818,12 @@ function editor(appDefinitions) {
                                     : h('span'),
                             ]
                         ),
-                    ].concat(
-                        state.selectedPipeId === ref.id
-                            ? listTransformations(
-                                  pipe.transformations,
-                                  pipe.type
-                              )
-                            : []
-                    )
+                    ].concat(state.selectedPipeId === ref.id ? listTransformations(pipe.transformations, pipe.type) : [])
                 )
             }
 
             if (pipe.value.ref === 'eventData') {
-                const eventData =
-                    state.definition[pipe.value.ref][pipe.value.id]
+                const eventData = state.definition[pipe.value.ref][pipe.value.id]
                 return h('div', [
                     h(
                         'div',
@@ -3317,25 +2838,14 @@ function editor(appDefinitions) {
                                     {
                                         style: {
                                             cursor: 'pointer',
-                                            color: state.selectedStateNodeId ===
-                                                pipe.value.id
-                                                ? '#eab65c'
-                                                : 'white',
+                                            color: state.selectedStateNodeId === pipe.value.id ? '#eab65c' : 'white',
                                             padding: '2px 5px',
                                             margin: '3px 3px 0 0',
-                                            border:
-                                                '2px solid ' +
-                                                    (state.selectedStateNodeId ===
-                                                        pipe.value.id
-                                                        ? '#eab65c'
-                                                        : 'white'),
+                                            border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c' : 'white'),
                                             display: 'inline-block',
                                         },
                                         on: {
-                                            click: [
-                                                STATE_NODE_SELECTED,
-                                                pipe.value.id,
-                                            ],
+                                            click: [STATE_NODE_SELECTED, pipe.value.id],
                                         },
                                     },
                                     [eventData.title]
@@ -3343,11 +2853,7 @@ function editor(appDefinitions) {
                             ]),
                         ]
                     ),
-                    h(
-                        'div',
-                        { style: { paddingLeft: '15px' } },
-                        listTransformations(pipe.transformations, pipe.type)
-                    ),
+                    h('div', { style: { paddingLeft: '15px' } }, listTransformations(pipe.transformations, pipe.type)),
                 ])
             }
         }
@@ -3410,12 +2916,7 @@ function editor(appDefinitions) {
                                         position: 'relative',
                                         transform: 'translateZ(0)',
                                         margin: '0 7px 0 0',
-                                        boxShadow:
-                                            'inset 0 0 0 2px ' +
-                                                (state.selectedStateNodeId ===
-                                                    stateId
-                                                    ? '#eab65c'
-                                                    : '#828282'),
+                                        boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
                                         background: '#1e1e1e',
                                         padding: '4px 7px',
                                     },
@@ -3425,34 +2926,20 @@ function editor(appDefinitions) {
                                         'span',
                                         {
                                             style: {
-                                                opacity: state.editingTitleNodeId ===
-                                                    stateId
-                                                    ? '0'
-                                                    : '1',
+                                                opacity: state.editingTitleNodeId === stateId ? '0' : '1',
                                                 color: 'white',
                                                 display: 'inline-block',
                                             },
                                             on: {
-                                                mousedown: [
-                                                    STATE_DRAGGED,
-                                                    stateId,
-                                                ],
-                                                touchstart: [
-                                                    STATE_DRAGGED,
-                                                    stateId,
-                                                ],
+                                                mousedown: [STATE_DRAGGED, stateId],
+                                                touchstart: [STATE_DRAGGED, stateId],
                                                 touchmove: [HOVER_MOBILE],
-                                                dblclick: [
-                                                    EDIT_VIEW_NODE_TITLE,
-                                                    stateId,
-                                                ],
+                                                dblclick: [EDIT_VIEW_NODE_TITLE, stateId],
                                             },
                                         },
                                         currentState.title
                                     ),
-                                    state.editingTitleNodeId === stateId
-                                        ? editingNode()
-                                        : h('span'),
+                                    state.editingTitleNodeId === stateId ? editingNode() : h('span'),
                                 ]
                             ),
                             state.selectedStateNodeId === stateId
@@ -3512,8 +2999,7 @@ function editor(appDefinitions) {
                                                   style: {
                                                       flex: '0 0 auto',
                                                       position: 'relative',
-                                                      transform:
-                                                          'translateZ(0)',
+                                                      transform: 'translateZ(0)',
                                                   },
                                               },
                                               [
@@ -3523,28 +3009,19 @@ function editor(appDefinitions) {
                                                           style: {
                                                               opacity: '0',
                                                               minWidth: '50px',
-                                                              display:
-                                                                  'inline-block',
+                                                              display: 'inline-block',
                                                           },
                                                       },
-                                                      currentRunningState[
-                                                          stateId
-                                                      ].toString()
+                                                      currentRunningState[stateId].toString()
                                                   ),
                                                   h('input', {
                                                       attrs: { type: 'text' },
                                                       liveProps: {
-                                                          value:
-                                                              currentRunningState[
-                                                                  stateId
-                                                              ],
+                                                          value: currentRunningState[stateId],
                                                       },
                                                       style: noStyleInput,
                                                       on: {
-                                                          input: [
-                                                              CHANGE_CURRENT_STATE_TEXT_VALUE,
-                                                              stateId,
-                                                          ],
+                                                          input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId],
                                                       },
                                                   }),
                                               ]
@@ -3557,8 +3034,7 @@ function editor(appDefinitions) {
                                                   style: {
                                                       flex: '0 0 auto',
                                                       position: 'relative',
-                                                      transform:
-                                                          'translateZ(0)',
+                                                      transform: 'translateZ(0)',
                                                   },
                                               },
                                               [
@@ -3568,28 +3044,19 @@ function editor(appDefinitions) {
                                                           style: {
                                                               opacity: '0',
                                                               minWidth: '50px',
-                                                              display:
-                                                                  'inline-block',
+                                                              display: 'inline-block',
                                                           },
                                                       },
-                                                      currentRunningState[
-                                                          stateId
-                                                      ].toString()
+                                                      currentRunningState[stateId].toString()
                                                   ),
                                                   h('input', {
                                                       attrs: { type: 'number' },
                                                       liveProps: {
-                                                          value:
-                                                              currentRunningState[
-                                                                  stateId
-                                                              ],
+                                                          value: currentRunningState[stateId],
                                                       },
                                                       style: noStyleInput,
                                                       on: {
-                                                          input: [
-                                                              CHANGE_CURRENT_STATE_NUMBER_VALUE,
-                                                              stateId,
-                                                          ],
+                                                          input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId],
                                                       },
                                                   }),
                                               ]
@@ -3602,8 +3069,7 @@ function editor(appDefinitions) {
                                                   style: {
                                                       flex: '0 0 auto',
                                                       position: 'relative',
-                                                      transform:
-                                                          'translateZ(0)',
+                                                      transform: 'translateZ(0)',
                                                   },
                                               },
                                               [
@@ -3611,24 +3077,17 @@ function editor(appDefinitions) {
                                                       'select',
                                                       {
                                                           liveProps: {
-                                                              value: currentRunningState[
-                                                                  stateId
-                                                              ].toString(),
+                                                              value: currentRunningState[stateId].toString(),
                                                           },
                                                           style: {
                                                               color: 'white',
-                                                              background:
-                                                                  'none',
+                                                              background: 'none',
                                                               border: 'none',
                                                               outline: 'none',
-                                                              boxShadow:
-                                                                  'inset 0 -2px 0 0 #ccc',
+                                                              boxShadow: 'inset 0 -2px 0 0 #ccc',
                                                           },
                                                           on: {
-                                                              input: [
-                                                                  CHANGE_CURRENT_STATE_BOOLEAN_VALUE,
-                                                                  stateId,
-                                                              ],
+                                                              input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE, stateId],
                                                           },
                                                       },
                                                       [
@@ -3636,12 +3095,10 @@ function editor(appDefinitions) {
                                                               'option',
                                                               {
                                                                   attrs: {
-                                                                      value:
-                                                                          'true',
+                                                                      value: 'true',
                                                                   },
                                                                   style: {
-                                                                      color:
-                                                                          'black',
+                                                                      color: 'black',
                                                                   },
                                                               },
                                                               ['true']
@@ -3650,12 +3107,10 @@ function editor(appDefinitions) {
                                                               'option',
                                                               {
                                                                   attrs: {
-                                                                      value:
-                                                                          'false',
+                                                                      value: 'false',
                                                                   },
                                                                   style: {
-                                                                      color:
-                                                                          'black',
+                                                                      color: 'black',
                                                                   },
                                                               },
                                                               ['false']
@@ -3666,19 +3121,13 @@ function editor(appDefinitions) {
                                           )
                                       }
                                       if (currentState.type === 'table') {
-                                          if (
-                                              state.selectedStateNodeId !==
-                                              stateId
-                                          ) {
+                                          if (state.selectedStateNodeId !== stateId) {
                                               return h(
                                                   'div',
                                                   {
                                                       key: 'icon',
                                                       on: {
-                                                          click: [
-                                                              STATE_NODE_SELECTED,
-                                                              stateId,
-                                                          ],
+                                                          click: [STATE_NODE_SELECTED, stateId],
                                                       },
                                                       style: {
                                                           display: 'flex',
@@ -3689,8 +3138,7 @@ function editor(appDefinitions) {
                                                   [listIcon()]
                                               )
                                           }
-                                          const table =
-                                              currentRunningState[stateId]
+                                          const table = currentRunningState[stateId]
                                           return h(
                                               'div',
                                               {
@@ -3709,46 +3157,35 @@ function editor(appDefinitions) {
                                                               display: 'flex',
                                                           },
                                                       },
-                                                      Object.keys(
-                                                          currentState.definition
-                                                      ).map(key =>
+                                                      Object.keys(currentState.definition).map(key =>
                                                           h(
                                                               'div',
                                                               {
                                                                   style: {
                                                                       flex: '1',
-                                                                      padding:
-                                                                          '2px 5px',
-                                                                      borderBottom:
-                                                                          '2px solid white',
+                                                                      padding: '2px 5px',
+                                                                      borderBottom: '2px solid white',
                                                                   },
                                                               },
                                                               key
                                                           )
                                                       )
                                                   ),
-                                                  ...Object.keys(
-                                                      table
-                                                  ).map(id =>
+                                                  ...Object.keys(table).map(id =>
                                                       h(
                                                           'div',
                                                           {
                                                               style: {
-                                                                  display:
-                                                                      'flex',
+                                                                  display: 'flex',
                                                               },
                                                           },
-                                                          Object.keys(
-                                                              table[id]
-                                                          ).map(key =>
+                                                          Object.keys(table[id]).map(key =>
                                                               h(
                                                                   'div',
                                                                   {
                                                                       style: {
-                                                                          flex:
-                                                                              '1',
-                                                                          padding:
-                                                                              '2px 5px',
+                                                                          flex: '1',
+                                                                          padding: '2px 5px',
                                                                       },
                                                                   },
                                                                   table[id][key]
@@ -3765,13 +3202,7 @@ function editor(appDefinitions) {
                                   'div',
                                   {
                                       style: {
-                                          color: currentRunningState[
-                                              stateId
-                                          ] !==
-                                              state.definition.state[stateId]
-                                                  .defaultValue
-                                              ? 'white'
-                                              : '#aaa',
+                                          color: currentRunningState[stateId] !== state.definition.state[stateId].defaultValue ? 'white' : '#aaa',
                                           display: 'inline-flex',
                                           alignSelf: 'center',
                                       },
@@ -3796,18 +3227,9 @@ function editor(appDefinitions) {
                               h(
                                   'span',
                                   currentState.mutators.map(mutatorRef => {
-                                      const mutator =
-                                          state.definition[mutatorRef.ref][
-                                              mutatorRef.id
-                                          ]
-                                      const event =
-                                          state.definition[mutator.event.ref][
-                                              mutator.event.id
-                                          ]
-                                      const emitter =
-                                          state.definition[event.emitter.ref][
-                                              event.emitter.id
-                                          ]
+                                      const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                      const event = state.definition[mutator.event.ref][mutator.event.id]
+                                      const emitter = state.definition[event.emitter.ref][event.emitter.id]
                                       return h(
                                           'div',
                                           {
@@ -3818,18 +3240,12 @@ function editor(appDefinitions) {
                                                   background: '#1e1e1e',
                                                   paddingTop: '3px',
                                                   paddingBottom: '3px',
-                                                  color: state.selectedViewNode
-                                                      .id === event.emitter.id
-                                                      ? '#53d486'
-                                                      : 'white',
+                                                  color: state.selectedViewNode.id === event.emitter.id ? '#53d486' : 'white',
                                                   transition: '0.2s all',
                                                   minWidth: '100%',
                                               },
                                               on: {
-                                                  click: [
-                                                      VIEW_NODE_SELECTED,
-                                                      event.emitter,
-                                                  ],
+                                                  click: [VIEW_NODE_SELECTED, event.emitter],
                                               },
                                           },
                                           [
@@ -3839,27 +3255,13 @@ function editor(appDefinitions) {
                                                       style: {
                                                           flex: '0 0 auto',
                                                           margin: '0 3px 0 5px',
-                                                          display:
-                                                              'inline-flex',
+                                                          display: 'inline-flex',
                                                       },
                                                   },
                                                   [
-                                                      event.emitter.ref ===
-                                                          'vNodeBox'
+                                                      event.emitter.ref === 'vNodeBox'
                                                           ? boxIcon()
-                                                          : event.emitter
-                                                                .ref ===
-                                                                'vNodeList'
-                                                            ? listIcon()
-                                                            : event.emitter
-                                                                  .ref ===
-                                                                  'vNodeList'
-                                                              ? ifIcon()
-                                                              : event.emitter
-                                                                    .ref ===
-                                                                    'vNodeInput'
-                                                                ? inputIcon()
-                                                                : textIcon(),
+                                                          : event.emitter.ref === 'vNodeList' ? listIcon() : event.emitter.ref === 'vNodeList' ? ifIcon() : event.emitter.ref === 'vNodeInput' ? inputIcon() : textIcon(),
                                                   ]
                                               ),
                                               h(
@@ -3871,8 +3273,7 @@ function editor(appDefinitions) {
                                                           minWidth: '0',
                                                           overflow: 'hidden',
                                                           whiteSpace: 'nowrap',
-                                                          textOverflow:
-                                                              'ellipsis',
+                                                          textOverflow: 'ellipsis',
                                                       },
                                                   },
                                                   emitter.title
@@ -3922,22 +3323,12 @@ function editor(appDefinitions) {
                         position: 'relative',
                         transform: 'translateZ(0)',
                         margin: '7px 7px 0 0',
-                        boxShadow:
-                            'inset 0 0 0 2px ' +
-                                (state.selectedStateNodeId === stateId
-                                    ? '#eab65c'
-                                    : '#828282'),
+                        boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
                         background: '#1e1e1e',
                         padding: '4px 7px',
                     },
                 },
-                [
-                    h(
-                        'span',
-                        { style: { color: 'white', display: 'inline-block' } },
-                        currentState.title
-                    ),
-                ]
+                [h('span', { style: { color: 'white', display: 'inline-block' } }, currentState.title)]
             )
         }
 
@@ -3956,26 +3347,10 @@ function editor(appDefinitions) {
                 },
             },
             [
-                h(
-                    'span',
-                    { on: { click: [ADD_STATE, '_rootNameSpace', 'text'] } },
-                    [textIcon()]
-                ),
-                h(
-                    'span',
-                    { on: { click: [ADD_STATE, '_rootNameSpace', 'number'] } },
-                    [numberIcon()]
-                ),
-                h(
-                    'span',
-                    { on: { click: [ADD_STATE, '_rootNameSpace', 'boolean'] } },
-                    [ifIcon()]
-                ),
-                h(
-                    'span',
-                    { on: { click: [ADD_STATE, '_rootNameSpace', 'table'] } },
-                    [listIcon()]
-                ),
+                h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'text'] } }, [textIcon()]),
+                h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'number'] } }, [numberIcon()]),
+                h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'boolean'] } }, [ifIcon()]),
+                h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'table'] } }, [listIcon()]),
             ]
         )
 
@@ -4014,26 +3389,16 @@ function editor(appDefinitions) {
                     },
                     'GLOBAL STATE'
                 ),
-                ...state.definition.nameSpace[
-                    '_rootNameSpace'
-                ].children.map(ref => listState(ref.id)),
+                ...state.definition.nameSpace['_rootNameSpace'].children.map(ref => listState(ref.id)),
             ]
         )
 
         function listNode(nodeRef, parentRef, depth) {
             if (nodeRef.id === '_rootNode') return listRootNode(nodeRef)
-            if (nodeRef.ref === 'vNodeText')
-                return simpleNode(nodeRef, parentRef, depth)
-            if (nodeRef.ref === 'vNodeImage')
-                return simpleNode(nodeRef, parentRef, depth)
-            if (
-                nodeRef.ref === 'vNodeBox' ||
-                nodeRef.ref === 'vNodeList' ||
-                nodeRef.ref === 'vNodeIf'
-            )
-                return listBoxNode(nodeRef, parentRef, depth)
-            if (nodeRef.ref === 'vNodeInput')
-                return simpleNode(nodeRef, parentRef, depth)
+            if (nodeRef.ref === 'vNodeText') return simpleNode(nodeRef, parentRef, depth)
+            if (nodeRef.ref === 'vNodeImage') return simpleNode(nodeRef, parentRef, depth)
+            if (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') return listBoxNode(nodeRef, parentRef, depth)
+            if (nodeRef.ref === 'vNodeInput') return simpleNode(nodeRef, parentRef, depth)
         }
 
         function prevent_bubbling(e) {
@@ -4104,12 +3469,7 @@ function editor(appDefinitions) {
                                         display: 'flex',
                                         alignItems: 'center',
                                         borderRadius: '3px',
-                                        background: state.selectedViewNode
-                                            .id === nodeId ||
-                                            state.hoveredViewWithoutDrag ===
-                                                nodeId
-                                            ? '#303030'
-                                            : 'none',
+                                        background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030' : 'none',
                                     },
                                     on: {
                                         click: [VIEW_NODE_SELECTED, nodeRef],
@@ -4135,19 +3495,12 @@ function editor(appDefinitions) {
                                                   style: {
                                                       flex: '1',
                                                       cursor: 'pointer',
-                                                      color: state
-                                                          .selectedViewNode
-                                                          .id === nodeId
-                                                          ? '#53d486'
-                                                          : 'white',
+                                                      color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
                                                       transition: 'color 0.2s',
                                                       paddingLeft: '5px',
                                                   },
                                                   on: {
-                                                      dblclick: [
-                                                          EDIT_VIEW_NODE_TITLE,
-                                                          nodeId,
-                                                      ],
+                                                      dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
                                                   },
                                               },
                                               node.title
@@ -4158,39 +3511,15 @@ function editor(appDefinitions) {
                     ),
                     h(
                         'div',
-                        state.hoveredViewNode &&
-                            state.hoveredViewNode.parent.id === nodeId &&
-                            !(
-                                node.children.findIndex(
-                                    ref =>
-                                        ref.id === state.draggedComponentView.id
-                                ) === state.hoveredViewNode.position
-                            )
+                        state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position)
                             ? (() => {
                                   // copy pasted from listBoxNode
-                                  const oldPosition = node.children.findIndex(
-                                      ref =>
-                                          ref.id ===
-                                          state.draggedComponentView.id
-                                  )
-                                  const newPosition = oldPosition === -1 ||
-                                      state.hoveredViewNode.position <
-                                          oldPosition
-                                      ? state.hoveredViewNode.position
-                                      : state.hoveredViewNode.position + 1
-                                  const children = node.children.map(ref =>
-                                      listNode(ref, nodeRef, 1)
-                                  )
-                                  return children
-                                      .slice(0, newPosition)
-                                      .concat(
-                                          spacerComponent(),
-                                          children.slice(newPosition)
-                                      )
+                                  const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id)
+                                  const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                                  const children = node.children.map(ref => listNode(ref, nodeRef, 1))
+                                  return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
                               })()
-                            : node.children.map(ref =>
-                                  listNode(ref, nodeRef, 1)
-                              )
+                            : node.children.map(ref => listNode(ref, nodeRef, 1))
                     ),
                     h('div', {
                         style: {
@@ -4201,12 +3530,7 @@ function editor(appDefinitions) {
                             height: '15px',
                         },
                         on: {
-                            mousemove: [
-                                VIEW_HOVERED,
-                                { id: '_lastNode' },
-                                {},
-                                1,
-                            ],
+                            mousemove: [VIEW_HOVERED, { id: '_lastNode' }, {}, 1],
                             touchmove: [HOVER_MOBILE],
                         },
                     }),
@@ -4221,10 +3545,7 @@ function editor(appDefinitions) {
                 'div',
                 {
                     style: {
-                        opacity: state.draggedComponentView &&
-                            state.draggedComponentView.id === nodeId
-                            ? '0.5'
-                            : '1.0',
+                        opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
                     },
                 },
                 [
@@ -4238,24 +3559,9 @@ function editor(appDefinitions) {
                                 marginLeft: depth * 20 + 'px',
                             },
                             on: {
-                                mousedown: [
-                                    VIEW_DRAGGED,
-                                    nodeRef,
-                                    parentRef,
-                                    depth,
-                                ],
-                                touchstart: [
-                                    VIEW_DRAGGED,
-                                    nodeRef,
-                                    parentRef,
-                                    depth,
-                                ],
-                                mousemove: [
-                                    VIEW_HOVERED,
-                                    nodeRef,
-                                    parentRef,
-                                    depth,
-                                ],
+                                mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth],
+                                touchstart: [VIEW_DRAGGED, nodeRef, parentRef, depth],
+                                mousemove: [VIEW_HOVERED, nodeRef, parentRef, depth],
                                 mouseout: [VIEW_UNHOVERED],
                                 touchmove: [HOVER_MOBILE],
                             },
@@ -4273,47 +3579,21 @@ function editor(appDefinitions) {
                                         position: 'relative',
                                         alignItems: 'center',
                                         whiteSpace: 'nowrap',
-                                        background: state.selectedViewNode
-                                            .id === nodeId ||
-                                            state.hoveredViewWithoutDrag ===
-                                                nodeId
-                                            ? '#303030'
-                                            : 'none',
-                                        color: state.selectedViewNode.id ===
-                                            nodeId
-                                            ? '#53d486'
-                                            : 'white',
+                                        background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030' : 'none',
+                                        color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
                                     },
                                 },
                                 [
-                                    node.children.length > 0 ||
-                                        (state.hoveredViewNode &&
-                                            state.hoveredViewNode.parent.id ===
-                                                nodeId)
+                                    node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId)
                                         ? h(
                                               'span',
                                               {
                                                   style: {
                                                       display: 'inline-flex',
-                                                      color: state
-                                                          .selectedViewNode
-                                                          .id === nodeId
-                                                          ? '#fff'
-                                                          : '#8e8e8e',
+                                                      color: state.selectedViewNode.id === nodeId ? '#fff' : '#8e8e8e',
                                                   },
                                               },
-                                              [
-                                                  arrowIcon(
-                                                      state.viewFoldersClosed[
-                                                          nodeId
-                                                      ] ||
-                                                          (state.draggedComponentView &&
-                                                              nodeId ===
-                                                                  state
-                                                                      .draggedComponentView
-                                                                      .id)
-                                                  ),
-                                              ]
+                                              [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]
                                           )
                                         : h('span'),
                                     h(
@@ -4322,20 +3602,11 @@ function editor(appDefinitions) {
                                             key: nodeId,
                                             style: {
                                                 display: 'inline-flex',
-                                                color: state.selectedViewNode
-                                                    .id === nodeId
-                                                    ? '#fff'
-                                                    : '#8e8e8e',
+                                                color: state.selectedViewNode.id === nodeId ? '#fff' : '#8e8e8e',
                                                 transition: 'color 0.2s',
                                             },
                                         },
-                                        [
-                                            nodeRef.ref === 'vNodeBox'
-                                                ? boxIcon()
-                                                : nodeRef.ref === 'vNodeList'
-                                                  ? listIcon()
-                                                  : ifIcon(),
-                                        ]
+                                        [nodeRef.ref === 'vNodeBox' ? boxIcon() : nodeRef.ref === 'vNodeList' ? listIcon() : ifIcon()]
                                     ),
                                     state.editingTitleNodeId === nodeId
                                         ? editingNode(nodeRef)
@@ -4344,11 +3615,7 @@ function editor(appDefinitions) {
                                               {
                                                   style: {
                                                       flex: '1',
-                                                      color: state
-                                                          .selectedViewNode
-                                                          .id === nodeId
-                                                          ? '#53d486'
-                                                          : 'white',
+                                                      color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
                                                       transition: 'color 0.2s',
                                                       paddingLeft: '5px',
                                                       overflow: 'hidden',
@@ -4356,10 +3623,7 @@ function editor(appDefinitions) {
                                                       textOverflow: 'ellipsis',
                                                   },
                                                   on: {
-                                                      dblclick: [
-                                                          EDIT_VIEW_NODE_TITLE,
-                                                          nodeId,
-                                                      ],
+                                                      dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
                                                   },
                                               },
                                               node.title
@@ -4369,10 +3633,7 @@ function editor(appDefinitions) {
                                         {
                                             style: {
                                                 color: '#53d486',
-                                                display: state.selectedViewNode
-                                                    .id === nodeId
-                                                    ? 'inline-flex'
-                                                    : 'none',
+                                                display: state.selectedViewNode.id === nodeId ? 'inline-flex' : 'none',
                                                 flex: '0 0 auto',
                                             },
                                         },
@@ -4386,47 +3647,18 @@ function editor(appDefinitions) {
                         'div',
                         {
                             style: {
-                                display: state.viewFoldersClosed[nodeId] ||
-                                    (state.draggedComponentView &&
-                                        nodeId ===
-                                            state.draggedComponentView.id)
-                                    ? 'none'
-                                    : 'block',
+                                display: state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id) ? 'none' : 'block',
                             },
                         },
-                        state.hoveredViewNode &&
-                            state.hoveredViewNode.parent.id === nodeId &&
-                            !(
-                                node.children.findIndex(
-                                    ref =>
-                                        ref.id === state.draggedComponentView.id
-                                ) === state.hoveredViewNode.position
-                            )
+                        state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position)
                             ? (() => {
                                   // adds a fake component
-                                  const oldPosition = node.children.findIndex(
-                                      ref =>
-                                          ref.id ===
-                                          state.draggedComponentView.id
-                                  ) // this is needed because we still show the old node
-                                  const newPosition = oldPosition === -1 ||
-                                      state.hoveredViewNode.position <
-                                          oldPosition
-                                      ? state.hoveredViewNode.position
-                                      : state.hoveredViewNode.position + 1
-                                  const children = node.children.map(ref =>
-                                      listNode(ref, nodeRef, depth + 1)
-                                  )
-                                  return children
-                                      .slice(0, newPosition)
-                                      .concat(
-                                          spacerComponent(),
-                                          children.slice(newPosition)
-                                      )
+                                  const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id) // this is needed because we still show the old node
+                                  const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                                  const children = node.children.map(ref => listNode(ref, nodeRef, depth + 1))
+                                  return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
                               })()
-                            : node.children.map(ref =>
-                                  listNode(ref, nodeRef, depth + 1)
-                              )
+                            : node.children.map(ref => listNode(ref, nodeRef, depth + 1))
                     ),
                 ]
             )
@@ -4442,10 +3674,7 @@ function editor(appDefinitions) {
                         padding: '3px 0',
                         cursor: 'pointer',
                         marginLeft: depth * 20 + 'px',
-                        opacity: state.draggedComponentView &&
-                            state.draggedComponentView.id === nodeId
-                            ? '0.5'
-                            : '1.0',
+                        opacity: state.draggedComponentView && state.draggedComponentView.id === nodeId ? '0.5' : '1.0',
                     },
                     on: {
                         mousedown: [VIEW_DRAGGED, nodeRef, parentRef, depth],
@@ -4463,11 +3692,7 @@ function editor(appDefinitions) {
                             key: nodeId,
                             style: {
                                 position: 'relative',
-                                background: state.selectedViewNode.id ===
-                                    nodeId ||
-                                    state.hoveredViewWithoutDrag === nodeId
-                                    ? '#303030'
-                                    : 'none',
+                                background: state.selectedViewNode.id === nodeId || state.hoveredViewWithoutDrag === nodeId ? '#303030' : 'none',
                                 height: '30px',
                                 padding: '0 3px',
                                 whiteSpace: 'nowrap',
@@ -4481,19 +3706,10 @@ function editor(appDefinitions) {
                                 {
                                     style: {
                                         display: 'inline-flex',
-                                        color: state.selectedViewNode.id ===
-                                            nodeId
-                                            ? '#fff'
-                                            : '#8e8e8e',
+                                        color: state.selectedViewNode.id === nodeId ? '#fff' : '#8e8e8e',
                                     },
                                 },
-                                [
-                                    nodeRef.ref === 'vNodeInput'
-                                        ? inputIcon()
-                                        : nodeRef.ref === 'vNodeImage'
-                                          ? imageIcon()
-                                          : textIcon(),
-                                ]
+                                [nodeRef.ref === 'vNodeInput' ? inputIcon() : nodeRef.ref === 'vNodeImage' ? imageIcon() : textIcon()]
                             ),
                             state.editingTitleNodeId === nodeId
                                 ? editingNode(nodeRef)
@@ -4502,10 +3718,7 @@ function editor(appDefinitions) {
                                       {
                                           style: {
                                               flex: '1',
-                                              color: state.selectedViewNode
-                                                  .id === nodeId
-                                                  ? '#53d486'
-                                                  : 'white',
+                                              color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
                                               transition: 'color 0.2s',
                                               paddingLeft: '5px',
                                               overflow: 'hidden',
@@ -4521,10 +3734,7 @@ function editor(appDefinitions) {
                                     style: {
                                         color: '#53d486',
                                         cursor: 'pointer',
-                                        display: state.selectedViewNode.id ===
-                                            nodeId
-                                            ? 'inline-flex'
-                                            : 'none',
+                                        display: state.selectedViewNode.id === nodeId ? 'inline-flex' : 'none',
                                         flex: '0 0 auto',
                                     },
                                 },
@@ -4564,37 +3774,20 @@ function editor(appDefinitions) {
                         whiteSpace: 'nowrap',
                         display: 'flex',
                         alignItems: 'center',
-                        color: state.selectedViewNode.id === nodeId
-                            ? '#53d486'
-                            : '#bdbdbd',
+                        color: state.selectedViewNode.id === nodeId ? '#53d486' : '#bdbdbd',
                     },
                 },
                 [
-                    (nodeRef.ref === 'vNodeBox' ||
-                        nodeRef.ref === 'vNodeList' ||
-                        nodeRef.ref === 'vNodeIf') &&
-                        node.children.length > 0
-                        ? arrowIcon(true)
-                        : h('span', { key: '_fakeSpan' + nodeId }),
+                    (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0 ? arrowIcon(true) : h('span', { key: '_fakeSpan' + nodeId }),
                     nodeRef.ref === 'vNodeBox'
                         ? boxIcon()
-                        : nodeRef.ref === 'vNodeList'
-                          ? listIcon()
-                          : nodeRef.ref === 'vNodeIf'
-                            ? ifIcon()
-                            : nodeRef.ref === 'vNodeInput'
-                              ? inputIcon()
-                              : nodeRef.ref === 'vNodeImage'
-                                ? imageIcon()
-                                : textIcon(),
+                        : nodeRef.ref === 'vNodeList' ? listIcon() : nodeRef.ref === 'vNodeIf' ? ifIcon() : nodeRef.ref === 'vNodeInput' ? inputIcon() : nodeRef.ref === 'vNodeImage' ? imageIcon() : textIcon(),
                     h(
                         'span',
                         {
                             style: {
                                 flex: '1',
-                                color: state.selectedViewNode.id === nodeId
-                                    ? '#53d486'
-                                    : 'white',
+                                color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
                                 transition: 'color 0.2s',
                                 paddingLeft: '5px',
                                 overflow: 'hidden',
@@ -4610,10 +3803,7 @@ function editor(appDefinitions) {
 
         function generateEditNodeComponent() {
             const styles = fields.style
-            const selectedNode =
-                state.definition[state.selectedViewNode.ref][
-                    state.selectedViewNode.id
-                ]
+            const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
 
             const propsComponent = h(
                 'div',
@@ -4625,9 +3815,7 @@ function editor(appDefinitions) {
                         cursor: 'pointer',
                         letterSpacing: '1px',
                         textAlign: 'center',
-                        color: state.selectedViewSubMenu === 'props'
-                            ? 'white'
-                            : '#acacac',
+                        color: state.selectedViewSubMenu === 'props' ? 'white' : '#acacac',
                     },
                     on: {
                         click: [SELECT_VIEW_SUBMENU, 'props'],
@@ -4647,9 +3835,7 @@ function editor(appDefinitions) {
                         textAlign: 'center',
                         letterSpacing: '1px',
                         cursor: 'pointer',
-                        color: state.selectedViewSubMenu === 'style'
-                            ? 'white'
-                            : '#acacac',
+                        color: state.selectedViewSubMenu === 'style' ? 'white' : '#acacac',
                     },
                     on: {
                         click: [SELECT_VIEW_SUBMENU, 'style'],
@@ -4667,9 +3853,7 @@ function editor(appDefinitions) {
                         textAlign: 'center',
                         letterSpacing: '1px',
                         cursor: 'pointer',
-                        color: state.selectedViewSubMenu === 'events'
-                            ? 'white'
-                            : '#acacac',
+                        color: state.selectedViewSubMenu === 'events' ? 'white' : '#acacac',
                     },
                     on: {
                         click: [SELECT_VIEW_SUBMENU, 'events'],
@@ -4682,13 +3866,8 @@ function editor(appDefinitions) {
                 style: {
                     position: 'absolute',
                     bottom: '0',
-                    transition:
-                        'all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000)',
-                    left: state.selectedViewSubMenu === 'props'
-                        ? '0'
-                        : state.selectedViewSubMenu === 'style'
-                          ? '33.334%'
-                          : '66.667%',
+                    transition: 'all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                    left: state.selectedViewSubMenu === 'props' ? '0' : state.selectedViewSubMenu === 'style' ? '33.334%' : '66.667%',
                     background: '#53d486',
                     height: '3px',
                     width: '33.33%',
@@ -4733,14 +3912,10 @@ function editor(appDefinitions) {
                                     h('input', {
                                         style: inputStyle,
                                         on: {
-                                            input: [
-                                                CHANGE_COMPONENT_PATH,
-                                                'reactPath',
-                                            ],
+                                            input: [CHANGE_COMPONENT_PATH, 'reactPath'],
                                         },
                                         liveProps: {
-                                            value:
-                                                state.definition['reactPath'],
+                                            value: state.definition['reactPath'],
                                         },
                                     }),
                                     h(
@@ -4760,16 +3935,10 @@ function editor(appDefinitions) {
                                     h('input', {
                                         style: inputStyle,
                                         on: {
-                                            input: [
-                                                CHANGE_COMPONENT_PATH,
-                                                'reactNativePath',
-                                            ],
+                                            input: [CHANGE_COMPONENT_PATH, 'reactNativePath'],
                                         },
                                         liveProps: {
-                                            value:
-                                                state.definition[
-                                                    'reactNativePath'
-                                                ],
+                                            value: state.definition['reactNativePath'],
                                         },
                                     }),
                                 ]
@@ -4810,9 +3979,7 @@ function editor(appDefinitions) {
                                         },
                                         'text'
                                     ),
-                                    h('div', { style: { padding: '0 20px' } }, [
-                                        emberEditor(selectedNode.value, 'text'),
-                                    ]),
+                                    h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.value, 'text')]),
                                 ]
                             )
                         }
@@ -4836,11 +4003,7 @@ function editor(appDefinitions) {
                                             },
                                         },
                                         [
-                                            h(
-                                                'span',
-                                                { style: { flex: '1' } },
-                                                'source (url)'
-                                            ),
+                                            h('span', { style: { flex: '1' } }, 'source (url)'),
                                             h(
                                                 'div',
                                                 {
@@ -4854,11 +4017,7 @@ function editor(appDefinitions) {
                                             ),
                                         ]
                                     ),
-                                    h(
-                                        'div',
-                                        { style: { padding: '5px 10px' } },
-                                        [emberEditor(selectedNode.src, 'text')]
-                                    ),
+                                    h('div', { style: { padding: '5px 10px' } }, [emberEditor(selectedNode.src, 'text')]),
                                 ]
                             )
                         }
@@ -4882,11 +4041,7 @@ function editor(appDefinitions) {
                                             },
                                         },
                                         [
-                                            h(
-                                                'span',
-                                                { style: { flex: '1' } },
-                                                'input value'
-                                            ),
+                                            h('span', { style: { flex: '1' } }, 'input value'),
                                             h(
                                                 'div',
                                                 {
@@ -4900,16 +4055,7 @@ function editor(appDefinitions) {
                                             ),
                                         ]
                                     ),
-                                    h(
-                                        'div',
-                                        { style: { padding: '5px 10px' } },
-                                        [
-                                            emberEditor(
-                                                selectedNode.value,
-                                                'text'
-                                            ),
-                                        ]
-                                    ),
+                                    h('div', { style: { padding: '5px 10px' } }, [emberEditor(selectedNode.value, 'text')]),
                                 ]
                             )
                         }
@@ -4933,11 +4079,7 @@ function editor(appDefinitions) {
                                             },
                                         },
                                         [
-                                            h(
-                                                'span',
-                                                { style: { flex: '1' } },
-                                                'table'
-                                            ),
+                                            h('span', { style: { flex: '1' } }, 'table'),
                                             h(
                                                 'div',
                                                 {
@@ -4951,16 +4093,7 @@ function editor(appDefinitions) {
                                             ),
                                         ]
                                     ),
-                                    h(
-                                        'div',
-                                        { style: { padding: '5px 10px' } },
-                                        [
-                                            emberEditor(
-                                                selectedNode.value,
-                                                'table'
-                                            ),
-                                        ]
-                                    ),
+                                    h('div', { style: { padding: '5px 10px' } }, [emberEditor(selectedNode.value, 'table')]),
                                 ]
                             )
                         }
@@ -4984,11 +4117,7 @@ function editor(appDefinitions) {
                                             },
                                         },
                                         [
-                                            h(
-                                                'span',
-                                                { style: { flex: '1' } },
-                                                'predicate'
-                                            ),
+                                            h('span', { style: { flex: '1' } }, 'predicate'),
                                             h(
                                                 'div',
                                                 {
@@ -5002,24 +4131,14 @@ function editor(appDefinitions) {
                                             ),
                                         ]
                                     ),
-                                    h(
-                                        'div',
-                                        { style: { padding: '5px 10px' } },
-                                        [
-                                            emberEditor(
-                                                selectedNode.value,
-                                                'boolean'
-                                            ),
-                                        ]
-                                    ),
+                                    h('div', { style: { padding: '5px 10px' } }, [emberEditor(selectedNode.value, 'boolean')]),
                                 ]
                             )
                         }
                     })(),
                 ])
             const genstyleSubmenuComponent = () => {
-                const selectedStyle =
-                    state.definition.style[selectedNode.style.id]
+                const selectedStyle = state.definition.style[selectedNode.style.id]
                 return h(
                     'div',
                     {
@@ -5065,9 +4184,7 @@ function editor(appDefinitions) {
                                     },
                                     'Flex'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(selectedStyle['flex'], 'text'),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['flex'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5091,20 +4208,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['height'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['minHeight'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['maxHeight'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['height'], 'text'), emberEditor(selectedStyle['minHeight'], 'text'), emberEditor(selectedStyle['maxHeight'], 'text')]
                                 ),
                                 h(
                                     'div',
@@ -5129,20 +4233,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['width'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['minWidth'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['maxWidth'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['width'], 'text'), emberEditor(selectedStyle['minWidth'], 'text'), emberEditor(selectedStyle['maxWidth'], 'text')]
                                 ),
                                 h(
                                     'div',
@@ -5167,24 +4258,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['marginTop'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['marginRight'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['marginBottom'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['marginLeft'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['marginTop'], 'text'), emberEditor(selectedStyle['marginRight'], 'text'), emberEditor(selectedStyle['marginBottom'], 'text'), emberEditor(selectedStyle['marginLeft'], 'text')]
                                 ),
                                 h(
                                     'div',
@@ -5210,22 +4284,10 @@ function editor(appDefinitions) {
                                         },
                                     },
                                     [
-                                        emberEditor(
-                                            selectedStyle['paddingTop'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['paddingRight'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['paddingBottom'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['paddingLeft'],
-                                            'text'
-                                        ),
+                                        emberEditor(selectedStyle['paddingTop'], 'text'),
+                                        emberEditor(selectedStyle['paddingRight'], 'text'),
+                                        emberEditor(selectedStyle['paddingBottom'], 'text'),
+                                        emberEditor(selectedStyle['paddingLeft'], 'text'),
                                     ]
                                 ),
                                 h(
@@ -5251,12 +4313,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['position'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['position'], 'text')]
                                 ),
                                 h(
                                     'div',
@@ -5281,24 +4338,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['top'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['right'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['bottom'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['left'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['top'], 'text'), emberEditor(selectedStyle['right'], 'text'), emberEditor(selectedStyle['bottom'], 'text'), emberEditor(selectedStyle['left'], 'text')]
                                 ),
                             ]
                         ),
@@ -5340,12 +4380,7 @@ function editor(appDefinitions) {
                                     },
                                     'Horizontal Align'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['justifyContent'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['justifyContent'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5360,12 +4395,7 @@ function editor(appDefinitions) {
                                     },
                                     'Vertical Align'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['alignItems'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['alignItems'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5380,12 +4410,7 @@ function editor(appDefinitions) {
                                     },
                                     'Direction'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['flexDirection'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['flexDirection'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5400,12 +4425,7 @@ function editor(appDefinitions) {
                                     },
                                     'Wrap'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['flexWrap'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['flexWrap'], 'text')]),
                             ]
                         ),
                         h(
@@ -5446,12 +4466,7 @@ function editor(appDefinitions) {
                                     },
                                     'Background Color'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['backgroundColor'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['backgroundColor'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5466,12 +4481,7 @@ function editor(appDefinitions) {
                                     },
                                     'Opacity'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['opacity'],
-                                        'number'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['opacity'], 'number')]),
                                 h(
                                     'div',
                                     {
@@ -5495,24 +4505,7 @@ function editor(appDefinitions) {
                                             justifyContent: 'space-between',
                                         },
                                     },
-                                    [
-                                        emberEditor(
-                                            selectedStyle['borderTop'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['borderRight'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['borderBottom'],
-                                            'text'
-                                        ),
-                                        emberEditor(
-                                            selectedStyle['borderLeft'],
-                                            'text'
-                                        ),
-                                    ]
+                                    [emberEditor(selectedStyle['borderTop'], 'text'), emberEditor(selectedStyle['borderRight'], 'text'), emberEditor(selectedStyle['borderBottom'], 'text'), emberEditor(selectedStyle['borderLeft'], 'text')]
                                 ),
                                 h(
                                     'div',
@@ -5528,12 +4521,7 @@ function editor(appDefinitions) {
                                     },
                                     'Border Radius'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['borderRadius'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['borderRadius'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5548,12 +4536,7 @@ function editor(appDefinitions) {
                                     },
                                     'Box Shadow'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['boxShadow'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['boxShadow'], 'text')]),
                                 h(
                                     'div',
                                     {
@@ -5568,12 +4551,7 @@ function editor(appDefinitions) {
                                     },
                                     'Cursor'
                                 ),
-                                h('div', { style: { padding: '0px 20px' } }, [
-                                    emberEditor(
-                                        selectedStyle['cursor'],
-                                        'text'
-                                    ),
-                                ]),
+                                h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['cursor'], 'text')]),
                             ]
                         ),
                         h(
@@ -5594,8 +4572,7 @@ function editor(appDefinitions) {
                             },
                             [arrowIcon(), 'Text']
                         ),
-                        state.selectedViewNode.ref === 'vNodeText' ||
-                            state.selectedViewNode.ref === 'vNodeInput'
+                        state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
                             ? h(
                                   'div',
                                   {
@@ -5616,16 +4593,7 @@ function editor(appDefinitions) {
                                           },
                                           'Font Color'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['color'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['color'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5640,16 +4608,7 @@ function editor(appDefinitions) {
                                           },
                                           'Font size'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['fontSize'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['fontSize'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5664,16 +4623,7 @@ function editor(appDefinitions) {
                                           },
                                           'Font Family'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['fontFamily'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['fontFamily'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5688,16 +4638,7 @@ function editor(appDefinitions) {
                                           },
                                           'Font Weight'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['fontWeight'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['fontWeight'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5712,16 +4653,7 @@ function editor(appDefinitions) {
                                           },
                                           'Font Style'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['fontStyle'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['fontStyle'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5736,16 +4668,7 @@ function editor(appDefinitions) {
                                           },
                                           'Line Height'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle['lineHeight'],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['lineHeight'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5760,18 +4683,7 @@ function editor(appDefinitions) {
                                           },
                                           'Text decoration line'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle[
-                                                      'textDecorationLine'
-                                                  ],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['textDecorationLine'], 'text')]),
                                       h(
                                           'div',
                                           {
@@ -5786,18 +4698,7 @@ function editor(appDefinitions) {
                                           },
                                           'Letter spacing'
                                       ),
-                                      h(
-                                          'div',
-                                          { style: { padding: '0px 20px' } },
-                                          [
-                                              emberEditor(
-                                                  selectedStyle[
-                                                      'letterSpacing'
-                                                  ],
-                                                  'text'
-                                              ),
-                                          ]
-                                      ),
+                                      h('div', { style: { padding: '0px 20px' } }, [emberEditor(selectedStyle['letterSpacing'], 'text')]),
                                   ]
                               )
                             : h('div'),
@@ -5805,15 +4706,9 @@ function editor(appDefinitions) {
                 )
             }
             const geneventsSubmenuComponent = () => {
-                const availableEvents = getAvailableEvents(
-                    state.selectedViewNode.ref
-                )
-                const currentEvents = availableEvents.filter(
-                    event => selectedNode[event.propertyName]
-                )
-                const eventsLeft = availableEvents.filter(
-                    event => !selectedNode[event.propertyName]
-                )
+                const availableEvents = getAvailableEvents(state.selectedViewNode.ref)
+                const currentEvents = availableEvents.filter(event => selectedNode[event.propertyName])
+                const eventsLeft = availableEvents.filter(event => !selectedNode[event.propertyName])
                 return h(
                     'div',
                     {
@@ -5823,11 +4718,7 @@ function editor(appDefinitions) {
                     [
                         ...(currentEvents.length
                             ? currentEvents.map(eventDesc => {
-                                  const event =
-                                      state.definition[
-                                          selectedNode[eventDesc.propertyName]
-                                              .ref
-                                      ][selectedNode[eventDesc.propertyName].id]
+                                  const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                                   return h('div', [
                                       h(
                                           'div',
@@ -5836,16 +4727,10 @@ function editor(appDefinitions) {
                                                   background: '#676767',
                                                   padding: '5px 10px',
                                                   display: 'flex',
-                                                  justifyContent:
-                                                      'space-between',
+                                                  justifyContent: 'space-between',
                                               },
                                               on: {
-                                                  mousemove: [
-                                                      EVENT_HOVERED,
-                                                      selectedNode[
-                                                          eventDesc.propertyName
-                                                      ],
-                                                  ],
+                                                  mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]],
                                                   mouseout: [EVENT_UNHOVERED],
                                               },
                                           },
@@ -5867,8 +4752,7 @@ function editor(appDefinitions) {
                                                 'div',
                                                 {
                                                     style: {
-                                                        padding:
-                                                            '10px 10px 0 10px',
+                                                        padding: '10px 10px 0 10px',
                                                         color: '#bdbdbd',
                                                     },
                                                 },
@@ -5885,117 +4769,75 @@ function editor(appDefinitions) {
                                                         color: '#bdbdbd',
                                                     },
                                                 },
-                                                [
-                                                    'No transformations. Drag state on event',
-                                                ]
+                                                ['No transformations. Drag state on event']
                                             )
                                           : h(
                                                 'div',
                                                 {
                                                     style: {
                                                         color: 'white',
-                                                        transition:
-                                                            'color 0.2s',
+                                                        transition: 'color 0.2s',
                                                         cursor: 'pointer',
                                                     },
                                                 },
-                                                event.mutators.map(
-                                                    mutatorRef => {
-                                                        const mutator =
-                                                            state.definition[
-                                                                mutatorRef.ref
-                                                            ][mutatorRef.id]
-                                                        const stateDef =
-                                                            state.definition[
-                                                                mutator.state
-                                                                    .ref
-                                                            ][mutator.state.id]
-                                                        return h(
-                                                            'div',
-                                                            {
-                                                                style: {
-                                                                    padding:
-                                                                        '15px 10px',
-                                                                    borderBottom:
-                                                                        '2px solid #929292',
-                                                                    display:
-                                                                        'flex',
-                                                                    alignItems:
-                                                                        'center',
-                                                                },
+                                                event.mutators.map(mutatorRef => {
+                                                    const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
+                                                    const stateDef = state.definition[mutator.state.ref][mutator.state.id]
+                                                    return h(
+                                                        'div',
+                                                        {
+                                                            style: {
+                                                                padding: '15px 10px',
+                                                                borderBottom: '2px solid #929292',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
                                                             },
-                                                            [
-                                                                h(
-                                                                    'span',
-                                                                    {
-                                                                        style: {
-                                                                            flex:
-                                                                                '0 0 auto',
-                                                                            display:
-                                                                                'inline-block',
-                                                                            position:
-                                                                                'relative',
-                                                                            transform:
-                                                                                'translateZ(0)',
-                                                                            boxShadow:
-                                                                                'inset 0 0 0 2px ' +
-                                                                                    (state.selectedStateNodeId ===
-                                                                                        mutator
-                                                                                            .state
-                                                                                            .id
-                                                                                        ? '#eab65c'
-                                                                                        : '#828282'),
-                                                                            background:
-                                                                                '#1e1e1e',
-                                                                            padding:
-                                                                                '4px 7px',
-                                                                        },
+                                                        },
+                                                        [
+                                                            h(
+                                                                'span',
+                                                                {
+                                                                    style: {
+                                                                        flex: '0 0 auto',
+                                                                        display: 'inline-block',
+                                                                        position: 'relative',
+                                                                        transform: 'translateZ(0)',
+                                                                        boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c' : '#828282'),
+                                                                        background: '#1e1e1e',
+                                                                        padding: '4px 7px',
                                                                     },
-                                                                    [
-                                                                        h(
-                                                                            'span',
-                                                                            {
-                                                                                style: {
-                                                                                    color:
-                                                                                        'white',
-                                                                                    display:
-                                                                                        'inline-block',
-                                                                                },
-                                                                                on: {
-                                                                                    click: [
-                                                                                        STATE_NODE_SELECTED,
-                                                                                        mutator
-                                                                                            .state
-                                                                                            .id,
-                                                                                    ],
-                                                                                },
+                                                                },
+                                                                [
+                                                                    h(
+                                                                        'span',
+                                                                        {
+                                                                            style: {
+                                                                                color: 'white',
+                                                                                display: 'inline-block',
                                                                             },
-                                                                            stateDef.title
-                                                                        ),
-                                                                    ]
-                                                                ),
-                                                                h(
-                                                                    'span',
-                                                                    {
-                                                                        style: {
-                                                                            color:
-                                                                                'white',
-                                                                            fontSize:
-                                                                                '1.8em',
-                                                                            padding:
-                                                                                '10px',
+                                                                            on: {
+                                                                                click: [STATE_NODE_SELECTED, mutator.state.id],
+                                                                            },
                                                                         },
+                                                                        stateDef.title
+                                                                    ),
+                                                                ]
+                                                            ),
+                                                            h(
+                                                                'span',
+                                                                {
+                                                                    style: {
+                                                                        color: 'white',
+                                                                        fontSize: '1.8em',
+                                                                        padding: '10px',
                                                                     },
-                                                                    '='
-                                                                ),
-                                                                emberEditor(
-                                                                    mutator.mutation,
-                                                                    stateDef.type
-                                                                ),
-                                                            ]
-                                                        )
-                                                    }
-                                                )
+                                                                },
+                                                                '='
+                                                            ),
+                                                            emberEditor(mutator.mutation, stateDef.type),
+                                                        ]
+                                                    )
+                                                })
                                             ),
                                   ])
                               })
@@ -6023,11 +4865,7 @@ function editor(appDefinitions) {
                                             margin: '10px',
                                         },
                                         on: {
-                                            click: [
-                                                ADD_EVENT,
-                                                event.propertyName,
-                                                state.selectedViewNode,
-                                            ],
+                                            click: [ADD_EVENT, event.propertyName, state.selectedViewNode],
                                         },
                                     },
                                     '+ ' + event.description
@@ -6038,12 +4876,7 @@ function editor(appDefinitions) {
                 )
             }
 
-            const fullVNode = [
-                'vNodeBox',
-                'vNodeText',
-                'vNodeImage',
-                'vNodeInput',
-            ].includes(state.selectedViewNode.ref)
+            const fullVNode = ['vNodeBox', 'vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
 
             return h(
                 'div',
@@ -6089,9 +4922,7 @@ function editor(appDefinitions) {
                                         },
                                         on: {
                                             mousedown: [COMPONENT_VIEW_DRAGGED],
-                                            touchstart: [
-                                                COMPONENT_VIEW_DRAGGED,
-                                            ],
+                                            touchstart: [COMPONENT_VIEW_DRAGGED],
                                         },
                                     },
                                     [
@@ -6105,30 +4936,15 @@ function editor(appDefinitions) {
                                                 },
                                             },
                                             [
-                                                state.selectedViewNode.id ===
-                                                    '_rootNode'
+                                                state.selectedViewNode.id === '_rootNode'
                                                     ? appIcon()
-                                                    : state.selectedViewNode
-                                                          .ref === 'vNodeBox'
+                                                    : state.selectedViewNode.ref === 'vNodeBox'
                                                       ? boxIcon()
-                                                      : state.selectedViewNode
-                                                            .ref === 'vNodeList'
+                                                      : state.selectedViewNode.ref === 'vNodeList'
                                                         ? listIcon()
-                                                        : state.selectedViewNode
-                                                              .ref ===
-                                                              'vNodeList'
+                                                        : state.selectedViewNode.ref === 'vNodeList'
                                                           ? ifIcon()
-                                                          : state
-                                                                .selectedViewNode
-                                                                .ref ===
-                                                                'vNodeInput'
-                                                            ? inputIcon()
-                                                            : state
-                                                                  .selectedViewNode
-                                                                  .ref ===
-                                                                  'vNodeImage'
-                                                              ? imageIcon()
-                                                              : textIcon(),
+                                                          : state.selectedViewNode.ref === 'vNodeInput' ? inputIcon() : state.selectedViewNode.ref === 'vNodeImage' ? imageIcon() : textIcon(),
                                             ]
                                         ),
                                         h(
@@ -6158,16 +4974,8 @@ function editor(appDefinitions) {
                                                     fontSize: '24px',
                                                 },
                                                 on: {
-                                                    mousedown: [
-                                                        UNSELECT_VIEW_NODE,
-                                                        false,
-                                                        true,
-                                                    ],
-                                                    touchstart: [
-                                                        UNSELECT_VIEW_NODE,
-                                                        false,
-                                                        true,
-                                                    ],
+                                                    mousedown: [UNSELECT_VIEW_NODE, false, true],
+                                                    touchstart: [UNSELECT_VIEW_NODE, false, true],
                                                 },
                                             },
                                             [clearIcon()]
@@ -6185,23 +4993,14 @@ function editor(appDefinitions) {
                                               position: 'relative',
                                           },
                                       },
-                                      [
-                                          propsComponent,
-                                          styleComponent,
-                                          eventsComponent,
-                                          tagComponent,
-                                      ]
+                                      [propsComponent, styleComponent, eventsComponent, tagComponent]
                                   )
                                 : h('span'),
                             dragSubComponentRight,
                             dragSubComponentLeft,
                             state.selectedViewSubMenu === 'props' || !fullVNode
                                 ? genpropsSubmenuComponent()
-                                : state.selectedViewSubMenu === 'style'
-                                  ? genstyleSubmenuComponent()
-                                  : state.selectedViewSubMenu === 'events'
-                                    ? geneventsSubmenuComponent()
-                                    : h('span', 'Error, no such menu'),
+                                : state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent() : state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent() : h('span', 'Error, no such menu'),
                         ]
                     ),
                 ]
@@ -6268,11 +5067,7 @@ function editor(appDefinitions) {
                     },
                     [linkIcon()]
                 ),
-                h(
-                    'span',
-                    { on: { click: [ADD_NODE, state.selectedViewNode, 'if'] } },
-                    [ifIcon()]
-                ),
+                h('span', { on: { click: [ADD_NODE, state.selectedViewNode, 'if'] } }, [ifIcon()]),
                 h(
                     'span',
                     {
@@ -6364,11 +5159,7 @@ function editor(appDefinitions) {
                     'PAST EVENTS'
                 ),
                 state.eventStack.length === 0
-                    ? h(
-                          'span',
-                          { style: { color: '#ccc' } },
-                          'The component has not emitted any events yet'
-                      )
+                    ? h('span', { style: { color: '#ccc' } }, 'The component has not emitted any events yet')
                     : h(
                           'div',
                           {
@@ -6379,21 +5170,12 @@ function editor(appDefinitions) {
                               },
                           },
                           state.eventStack
-                              .filter(
-                                  eventData =>
-                                      state.definition.event[
-                                          eventData.eventId
-                                      ] !== undefined
-                              )
+                              .filter(eventData => state.definition.event[eventData.eventId] !== undefined)
                               .reverse() // mutates the array, but it was already copied with filter
                               .slice(0, 21)
                               .map((eventData, index) => {
-                                  const event =
-                                      state.definition.event[eventData.eventId]
-                                  const emitter =
-                                      state.definition[event.emitter.ref][
-                                          event.emitter.id
-                                      ]
+                                  const event = state.definition.event[eventData.eventId]
+                                  const emitter = state.definition[event.emitter.ref][event.emitter.id]
                                   // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
                                   return h(
                                       'div',
@@ -6413,20 +5195,12 @@ function editor(appDefinitions) {
                                                       background: '#1e1e1e',
                                                       paddingTop: '3px',
                                                       paddingBottom: '3px',
-                                                      color: state
-                                                          .selectedViewNode
-                                                          .id ===
-                                                          event.emitter.id
-                                                          ? '#53d486'
-                                                          : 'white',
+                                                      color: state.selectedViewNode.id === event.emitter.id ? '#53d486' : 'white',
                                                       transition: '0.2s all',
                                                       minWidth: '100%',
                                                   },
                                                   on: {
-                                                      click: [
-                                                          VIEW_NODE_SELECTED,
-                                                          event.emitter,
-                                                      ],
+                                                      click: [VIEW_NODE_SELECTED, event.emitter],
                                                   },
                                               },
                                               [
@@ -6435,30 +5209,14 @@ function editor(appDefinitions) {
                                                       {
                                                           style: {
                                                               flex: '0 0 auto',
-                                                              margin:
-                                                                  '0 0 0 5px',
-                                                              display:
-                                                                  'inline-flex',
+                                                              margin: '0 0 0 5px',
+                                                              display: 'inline-flex',
                                                           },
                                                       },
                                                       [
-                                                          event.emitter.ref ===
-                                                              'vNodeBox'
+                                                          event.emitter.ref === 'vNodeBox'
                                                               ? boxIcon()
-                                                              : event.emitter
-                                                                    .ref ===
-                                                                    'vNodeList'
-                                                                ? listIcon()
-                                                                : event.emitter
-                                                                      .ref ===
-                                                                      'vNodeList'
-                                                                  ? ifIcon()
-                                                                  : event
-                                                                        .emitter
-                                                                        .ref ===
-                                                                        'vNodeInput'
-                                                                    ? inputIcon()
-                                                                    : textIcon(),
+                                                              : event.emitter.ref === 'vNodeList' ? listIcon() : event.emitter.ref === 'vNodeList' ? ifIcon() : event.emitter.ref === 'vNodeInput' ? inputIcon() : textIcon(),
                                                       ]
                                                   ),
                                                   h(
@@ -6466,15 +5224,11 @@ function editor(appDefinitions) {
                                                       {
                                                           style: {
                                                               flex: '5 5 auto',
-                                                              margin:
-                                                                  '0 5px 0 0',
+                                                              margin: '0 5px 0 0',
                                                               minWidth: '0',
-                                                              overflow:
-                                                                  'hidden',
-                                                              whiteSpace:
-                                                                  'nowrap',
-                                                              textOverflow:
-                                                                  'ellipsis',
+                                                              overflow: 'hidden',
+                                                              whiteSpace: 'nowrap',
+                                                              textOverflow: 'ellipsis',
                                                           },
                                                       },
                                                       emitter.title
@@ -6484,10 +5238,8 @@ function editor(appDefinitions) {
                                                       {
                                                           style: {
                                                               flex: '0 0 auto',
-                                                              marginLeft:
-                                                                  'auto',
-                                                              marginRight:
-                                                                  '5px',
+                                                              marginLeft: 'auto',
+                                                              marginRight: '5px',
                                                               color: '#5bcc5b',
                                                           },
                                                       },
@@ -6495,14 +5247,7 @@ function editor(appDefinitions) {
                                                   ),
                                               ]
                                           ),
-                                          Object.keys(
-                                              eventData.mutations
-                                          ).filter(
-                                              stateId =>
-                                                  state.definition.state[
-                                                      stateId
-                                                  ] !== undefined
-                                          ).length === 0
+                                          Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0
                                               ? h(
                                                     'div',
                                                     {
@@ -6518,81 +5263,42 @@ function editor(appDefinitions) {
                                                     {
                                                         style: {
                                                             paddingLeft: '10px',
-                                                            whiteSpace:
-                                                                'nowrap',
+                                                            whiteSpace: 'nowrap',
                                                         },
                                                     },
-                                                    Object.keys(
-                                                        eventData.mutations
+                                                    Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).map(stateId =>
+                                                        h('div', [
+                                                            h(
+                                                                'span',
+                                                                {
+                                                                    on: {
+                                                                        click: [STATE_NODE_SELECTED, stateId],
+                                                                    },
+                                                                    style: {
+                                                                        cursor: 'pointer',
+                                                                        color: 'white',
+                                                                        boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
+                                                                        background: '#1e1e1e',
+                                                                        padding: '2px 5px',
+                                                                        marginRight: '5px',
+                                                                        display: 'inline-block',
+                                                                        transition: 'all 0.2s',
+                                                                    },
+                                                                },
+                                                                state.definition.state[stateId].title
+                                                            ),
+                                                            h(
+                                                                'span',
+                                                                {
+                                                                    style: {
+                                                                        color: '#8e8e8e',
+                                                                    },
+                                                                },
+                                                                eventData.previousState[stateId].toString() + ' → '
+                                                            ),
+                                                            h('span', eventData.mutations[stateId].toString()),
+                                                        ])
                                                     )
-                                                        .filter(
-                                                            stateId =>
-                                                                state.definition
-                                                                    .state[
-                                                                    stateId
-                                                                ] !== undefined
-                                                        )
-                                                        .map(stateId =>
-                                                            h('div', [
-                                                                h(
-                                                                    'span',
-                                                                    {
-                                                                        on: {
-                                                                            click: [
-                                                                                STATE_NODE_SELECTED,
-                                                                                stateId,
-                                                                            ],
-                                                                        },
-                                                                        style: {
-                                                                            cursor:
-                                                                                'pointer',
-                                                                            color:
-                                                                                'white',
-                                                                            boxShadow:
-                                                                                'inset 0 0 0 2px ' +
-                                                                                    (state.selectedStateNodeId ===
-                                                                                        stateId
-                                                                                        ? '#eab65c'
-                                                                                        : '#828282'),
-                                                                            background:
-                                                                                '#1e1e1e',
-                                                                            padding:
-                                                                                '2px 5px',
-                                                                            marginRight:
-                                                                                '5px',
-                                                                            display:
-                                                                                'inline-block',
-                                                                            transition:
-                                                                                'all 0.2s',
-                                                                        },
-                                                                    },
-                                                                    state
-                                                                        .definition
-                                                                        .state[
-                                                                        stateId
-                                                                    ].title
-                                                                ),
-                                                                h(
-                                                                    'span',
-                                                                    {
-                                                                        style: {
-                                                                            color:
-                                                                                '#8e8e8e',
-                                                                        },
-                                                                    },
-                                                                    eventData.previousState[
-                                                                        stateId
-                                                                    ].toString() +
-                                                                        ' → '
-                                                                ),
-                                                                h(
-                                                                    'span',
-                                                                    eventData.mutations[
-                                                                        stateId
-                                                                    ].toString()
-                                                                ),
-                                                            ])
-                                                        )
                                                 ),
                                       ]
                                   )
@@ -6623,12 +5329,8 @@ function editor(appDefinitions) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: state.selectedMenu === 'view'
-                                ? 'inherit'
-                                : '#303030',
-                            color: state.selectedMenu === 'view'
-                                ? '#53d486'
-                                : '#d4d4d4',
+                            backgroundColor: state.selectedMenu === 'view' ? 'inherit' : '#303030',
+                            color: state.selectedMenu === 'view' ? '#53d486' : '#d4d4d4',
                         },
                         on: { click: [CHANGE_MENU, 'view'] },
                     },
@@ -6643,12 +5345,8 @@ function editor(appDefinitions) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: state.selectedMenu === 'state'
-                                ? 'inherit'
-                                : '#303030',
-                            color: state.selectedMenu === 'state'
-                                ? '#53d486'
-                                : '#d4d4d4',
+                            backgroundColor: state.selectedMenu === 'state' ? 'inherit' : '#303030',
+                            color: state.selectedMenu === 'state' ? '#53d486' : '#d4d4d4',
                         },
                         on: { click: [CHANGE_MENU, 'state'] },
                     },
@@ -6664,12 +5362,8 @@ function editor(appDefinitions) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: state.selectedMenu === 'events'
-                                ? 'inherit'
-                                : '#303030',
-                            color: state.selectedMenu === 'events'
-                                ? '#53d486'
-                                : '#d4d4d4',
+                            backgroundColor: state.selectedMenu === 'events' ? 'inherit' : '#303030',
+                            color: state.selectedMenu === 'events' ? '#53d486' : '#d4d4d4',
                         },
                         on: { click: [CHANGE_MENU, 'events'] },
                     },
@@ -6712,9 +5406,7 @@ function editor(appDefinitions) {
                     height: '30px',
                     cursor: 'pointer',
                     padding: '10px',
-                    color: state.appIsFrozen
-                        ? 'rgb(91, 204, 91)'
-                        : 'rgb(204, 91, 91)',
+                    color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)',
                 },
             },
             state.appIsFrozen ? [playIcon()] : [pauseIcon()]
@@ -6736,21 +5428,11 @@ function editor(appDefinitions) {
                     boxSizing: 'border-box',
                     boxShadow: 'inset 3px 0 0 #161616',
                     transition: '0.5s transform',
-                    transform: state.rightOpen
-                        ? 'translateZ(0) translateX(0%)'
-                        : 'translateZ(0) translateX(100%)',
+                    transform: state.rightOpen ? 'translateZ(0) translateX(0%)' : 'translateZ(0) translateX(100%)',
                     userSelect: 'none',
                 },
             },
-            [
-                dragComponentRight,
-                rightTabsComponent,
-                state.selectedMenu === 'view'
-                    ? viewComponent
-                    : state.selectedMenu === 'state'
-                      ? stateComponent
-                      : eventComponent,
-            ]
+            [dragComponentRight, rightTabsComponent, state.selectedMenu === 'view' ? viewComponent : state.selectedMenu === 'state' ? stateComponent : eventComponent]
         )
 
         const topComponent = h(
@@ -6762,8 +5444,7 @@ function editor(appDefinitions) {
                     maxHeight: '50px',
                     minHeight: '50px',
                     background: '#f8f8f8',
-                    boxShadow:
-                        'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
+                    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
                     display: 'flex',
                     justifyContent: 'center',
                     //paddingRight: state.editorRightWidth + 'px',
@@ -6832,41 +5513,19 @@ function editor(appDefinitions) {
                     {
                         style: (() => {
                             const topMenuHeight = 50
-                            const widthLeft =
-                                window.innerWidth -
-                                ((state.leftOpen ? state.editorLeftWidth : 0) +
-                                    (state.rightOpen
-                                        ? state.editorRightWidth
-                                        : 0))
-                            const heightLeft =
-                                window.innerHeight - topMenuHeight
+                            const widthLeft = window.innerWidth - ((state.leftOpen ? state.editorLeftWidth : 0) + (state.rightOpen ? state.editorRightWidth : 0))
+                            const heightLeft = window.innerHeight - topMenuHeight
                             return {
-                                width: state.fullScreen
-                                    ? '100vw'
-                                    : widthLeft - 30 + 'px',
-                                height: state.fullScreen
-                                    ? '100vh'
-                                    : heightLeft - 30 + 'px',
+                                width: state.fullScreen ? '100vw' : widthLeft - 30 + 'px',
+                                height: state.fullScreen ? '100vh' : heightLeft - 30 + 'px',
                                 background: '#ffffff',
                                 transform: 'translateZ(0)',
                                 zIndex: state.fullScreen ? '2000' : '100',
                                 //boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
                                 position: 'fixed',
-                                transition: state.fullScreen ||
-                                    (state.editorRightWidth === 425 &&
-                                        state.editorLeftWidth === 200)
-                                    ? 'all 0.5s'
-                                    : 'none', // messes up the closing of full screen, but works in 99% of cases
-                                top: state.fullScreen
-                                    ? '0px'
-                                    : 15 + topMenuHeight + 'px',
-                                left: state.fullScreen
-                                    ? '0px'
-                                    : (state.leftOpen
-                                          ? state.editorLeftWidth
-                                          : 0) +
-                                          15 +
-                                          'px',
+                                transition: state.fullScreen || (state.editorRightWidth === 425 && state.editorLeftWidth === 200) ? 'all 0.5s' : 'none', // messes up the closing of full screen, but works in 99% of cases
+                                top: state.fullScreen ? '0px' : 15 + topMenuHeight + 'px',
+                                left: state.fullScreen ? '0px' : (state.leftOpen ? state.editorLeftWidth : 0) + 15 + 'px',
                             }
                         })(),
                     },
@@ -6905,9 +5564,7 @@ function editor(appDefinitions) {
                     boxSizing: 'border-box',
                     transition: '0.5s transform',
                     boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.12)',
-                    transform: state.leftOpen
-                        ? 'translateZ(0) translateX(0%)'
-                        : 'translateZ(0) translateX(-100%)',
+                    transform: state.leftOpen ? 'translateZ(0) translateX(0%)' : 'translateZ(0) translateX(-100%)',
                     userSelect: 'none',
                 },
                 attrs: { class: 'better-scrollbar-light' },
@@ -6925,13 +5582,8 @@ function editor(appDefinitions) {
                                 alignItems: 'center',
                                 fontWeight: '300',
                                 height: '30px',
-                                background: state.currentDefinition === name
-                                    ? '#ccc'
-                                    : state.hoveredComponent === name
-                                      ? '#e5e5e5'
-                                      : 'none',
-                                transition:
-                                    'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+                                background: state.currentDefinition === name ? '#ccc' : state.hoveredComponent === name ? '#e5e5e5' : 'none',
+                                transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
                                 paddingLeft: '20px',
                                 paddingTop: '5px',
                                 paddingBottom: '5px',
@@ -6943,8 +5595,7 @@ function editor(appDefinitions) {
                                 click: [SELECT_COMPONENT, name],
                             },
                         },
-                        state.definitionList[name]['vNodeBox']['_rootNode']
-                            .title
+                        state.definitionList[name]['vNodeBox']['_rootNode'].title
                     )
                 ),
                 h(
@@ -6973,14 +5624,7 @@ function editor(appDefinitions) {
                     position: 'relative',
                 },
             },
-            [
-                renderViewComponent,
-                leftComponent,
-                rightComponent,
-                state.selectedViewNode.ref
-                    ? generateEditNodeComponent()
-                    : h('span'),
-            ]
+            [renderViewComponent, leftComponent, rightComponent, state.selectedViewNode.ref ? generateEditNodeComponent() : h('span')]
         )
         const vnode = h(
             'div',
@@ -7018,12 +5662,7 @@ function editor(appDefinitions) {
                                           flex: '1',
                                       },
                                   },
-                                  [
-                                      fakeComponent(
-                                          state.draggedComponentView,
-                                          state.draggedComponentView.depth
-                                      ),
-                                  ]
+                                  [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)]
                               ),
                           ]
                       )
