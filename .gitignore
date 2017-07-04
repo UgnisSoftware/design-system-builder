@@ -1,3 +1,4 @@
 node_modules
+ugnis_components
 .idea
 static_prod/editor/bundle.min.js
