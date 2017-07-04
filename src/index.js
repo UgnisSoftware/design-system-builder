@@ -140,7 +140,7 @@ function editor(appDefinitions) {
                     i++
                 }
             }
-            //fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
+            fetch('/rename/', {method: 'POST', body: JSON.stringify({oldName: state.currentDefinition, newName: newName}), headers: {"Content-Type": "application/json"}})
             delete newState.definitionList[state.currentDefinition]
             newState.definitionList[newName] = newState.definition
             newState.currentDefinition = newName
@@ -187,7 +187,7 @@ function editor(appDefinitions) {
             app.render(newState.definition)
             newState.definitionList[newState.currentDefinition] =
                 newState.definition
-            //fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
+            fetch('/save/'+newState.currentDefinition, {method: 'POST', body: JSON.stringify(newState.definition), headers: {"Content-Type": "application/json"}})
         }
         if (
             state.appIsFrozen !== newState.appIsFrozen ||
