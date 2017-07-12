@@ -12,7 +12,6 @@ const definitions = {
     [Paper.id]: Paper,
 }
 
-// state is global because I am lazy, TODO move to an npm module and deglobalize, when writing tests
 export let state = {
     leftOpen: true,
     rightOpen: true,
@@ -57,16 +56,4 @@ export function setState(newState) {
     state = newState
     
     listenerList.forEach((callback)=> callback())
-
-    // // new definition - render
-    // if (state.definition !== newState.definition) {
-    //     // unselect deleted components and state
-    //     if (newState.definition.state[newState.selectedStateNodeId] === undefined) {
-    //         newState = { ...newState, selectedStateNodeId: '' }
-    //     }
-    //     if (newState.selectedViewNode.ref !== undefined && newState.definition[newState.selectedViewNode.ref][newState.selectedViewNode.id] === undefined) {
-    //         newState = { ...newState, selectedViewNode: {} }
-    //     }
-
-
 }

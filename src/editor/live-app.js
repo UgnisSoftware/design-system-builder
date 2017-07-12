@@ -3,7 +3,6 @@ import ugnis from '../ugnis'
 
 const app = ugnis(state.definition)
 
-// Listen to app
 app.addListener((eventId, data, e, previousState, currentState, mutations) => {
     setState({
         ...state,

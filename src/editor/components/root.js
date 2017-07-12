@@ -5,6 +5,7 @@ import topBar from './top-bar'
 import preview from './preview'
 import left from './left'
 import right from './right'
+import nodeEditor from './node-editor'
 
 function fakeComponent(nodeRef, depth) {
     const nodeId = nodeRef.id
@@ -92,7 +93,7 @@ export default ()=> h(
                     position: 'relative',
                 },
             },
-            [preview(), left(), right(),]// rightComponent, state.selectedViewNode.ref ? generateEditNodeComponent() : h('span')]
+            [preview(), left(), right(), state.selectedViewNode.ref ? nodeEditor() : h('span')]
         ),
         state.draggedComponentView
             ? h(

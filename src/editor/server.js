@@ -1,10 +1,5 @@
 import {state, listen} from './state'
 
-
-// rename
-// new
-// save
-
 let oldState = state
 listen(()=>{
     if (oldState.editingTitleNodeId === '_rootNode' && state.editingTitleNodeId === '') {
