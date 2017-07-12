@@ -1,4 +1,5 @@
 {
+    "id": "2d1c3f3a-7efb-48a5-8ea5-6d5cd72e16e0",
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/",

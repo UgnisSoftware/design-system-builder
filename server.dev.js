@@ -9,34 +9,64 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./static_prod'))
 
-app.post('/save/:name', (req, res)=> {
-    fs.writeFile("./ugnis_components/"+ req.params.name + ".json", JSON.stringify(req.body, undefined, 4), function(err) {
+
+const idsToNames = {}
+
+fs.readdirSync('./ugnis_components/').forEach(file => {
+    const definition = JSON.parse(fs.readFileSync('./ugnis_components/'+file, 'utf8'))
+    idsToNames[definition.id] = file
+})
+
+app.post('/save/:id', (req, res)=> {
+    fs.writeFile("./ugnis_components/"+ idsToNames[req.params.id], JSON.stringify(req.body, undefined, 4), function(err) {
         if(err) {
             return console.log(err);
         }
     });
-    fs.writeFile(req.body.reactPath+ req.params.name + ".js", reactExporter(req.body), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
-    fs.writeFile(req.body.reactNativePath+ req.params.name + ".js", reactNativeExporter(req.body), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
+    // fs.writeFile(req.body.reactPath+ req.params.name + ".js", reactExporter(req.body), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
+    // fs.writeFile(req.body.reactNativePath+ req.params.name + ".js", reactNativeExporter(req.body), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
     res.send('OK')
 })
 
 app.post('/rename', (req, res)=> {
-    fs.rename('./ugnis_components/'+ req.body.oldName + ".json", './ugnis_components/'+ req.body.newName + ".json", function(err) {
-        if ( err ) console.log('ERROR: ' + err);
-    });
+    let newName = req.body.newName
+    let i = 1
+    if(fs.existsSync("./ugnis_components/"+ newName + ".json")){
+        while (true) {
+            if (!fs.existsSync("./ugnis_components/"+ newName + '_' + i + ".json")) {
+                newName = newName + '_' + i
+                break
+            }
+            i++
+        }
+    }
+    idsToNames[req.body.oldId] = newName + ".json"
+    fs.renameSync('./ugnis_components/'+ idsToNames[req.body.oldId], './ugnis_components/'+ newName + ".json")
     res.send('OK')
 })
 
 app.post('/new/:name', (req, res)=> {
-    fs.writeFile("./ugnis_components/"+ req.params.name + ".json", fs.readFileSync('./src/_empty.json', 'utf8'), function(err) {
+    let newName = req.params.name
+    let i = 1
+    if(fs.existsSync("./ugnis_components/"+ newName + ".json")){
+        while (true) {
+            if (!fs.existsSync("./ugnis_components/"+ newName + '_' + i + ".json")) {
+                newName = newName + '_' + i
+                break
+            }
+            i++
+        }
+    }
+    idsToNames[req.body.id] = newName + ".json"
+    fs.writeFile("./ugnis_components/"+ newName + ".json", JSON.stringify(req.body, undefined, 4), function(err) {
         if(err) {
             return console.log(err);
         }

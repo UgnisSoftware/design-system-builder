@@ -342,6 +342,10 @@ export default definition => {
         }
     }
 
+    function getCurrentDefinition() {
+        return definition
+    }
+    
     function getCurrentState() {
         return currentState
     }
@@ -359,7 +363,7 @@ export default definition => {
     }
 
     return {
-        definition,
+        getCurrentDefinition,
         vdom,
         getCurrentState,
         setCurrentState,
