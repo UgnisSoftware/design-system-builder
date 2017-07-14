@@ -2,7 +2,7 @@ import h from 'snabbdom/h'
 import {state} from '../state'
 import {WIDTH_DRAGGED, SELECT_VIEW_SUBMENU, CHANGE_COMPONENT_PATH, EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, ADD_EVENT, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE} from '../events'
 import {
-    listIcon, ifIcon, inputIcon, textIcon, boxIcon, arrowIcon, clearIcon, imageIcon
+    listIcon, ifIcon, inputIcon, textIcon, boxIcon, arrowIcon, clearIcon, imageIcon, appIcon
 } from './icons'
 import emberEditor from './ember'
 

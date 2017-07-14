@@ -48,9 +48,9 @@ app.post('/rename', (req, res)=> {
             i++
         }
     }
-    idsToNames[req.body.oldId] = newName + ".json"
     fs.renameSync('./ugnis_components/'+ idsToNames[req.body.oldId], './ugnis_components/'+ newName + ".json")
     res.send('OK')
+    idsToNames[req.body.oldId] = newName + ".json"
 })
 
 app.post('/new/:name', (req, res)=> {
@@ -65,13 +65,13 @@ app.post('/new/:name', (req, res)=> {
             i++
         }
     }
-    idsToNames[req.body.id] = newName + ".json"
     fs.writeFile("./ugnis_components/"+ newName + ".json", JSON.stringify(req.body, undefined, 4), function(err) {
         if(err) {
             return console.log(err);
         }
     });
     res.send('OK')
+    idsToNames[req.body.id] = newName + ".json"
 })
 
 app.get('/definitions', (req, res)=> {
