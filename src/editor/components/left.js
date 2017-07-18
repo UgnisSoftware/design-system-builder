@@ -35,7 +35,7 @@ export default ()=> h(
                         fontSize: '16px',
                         display: 'flex',
                         alignItems: 'center',
-                        fontWeight: '300',
+                        fontWeight:  state.currentDefinitionId === name ? '400' : '300',
                         height: '30px',
                         background: state.currentDefinitionId === name ? '#ccc' : state.hoveredComponent === name ? '#e5e5e5' : 'none',
                         transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
@@ -59,13 +59,17 @@ export default ()=> h(
                 style: {
                     fontSize: '16px',
                     height: '30px',
-                    paddingLeft: '20px',
-                    paddingTop: '10px',
+                    margin: '5px 10px',
+                    padding: '7px 10px',
                     cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: '#c8c8c8',
                 },
                 on: { click: [ADD_NEW_COMPONENT] },
             },
-            '+ create new'
+            'create new'
         ),
     ]
 )
