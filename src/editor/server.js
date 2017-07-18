@@ -1,4 +1,17 @@
-import {state, listen} from './state'
+import {state, listen, setState} from './state'
+
+fetch('/definitions').then(function(response) {
+    return response.json();
+}).then(function(definitions) {
+    setTimeout(()=>{
+        setState({
+            ...state,
+            definition: definitions[Object.keys(definitions)[0]],
+            currentDefinitionId: Object.keys(definitions)[0],
+            definitionList: definitions,
+        })
+    }, 2000)
+});
 
 let oldState = state
 listen(()=>{
@@ -6,10 +19,12 @@ listen(()=>{
         let newName = state.definition.vNodeBox['_rootNode'].title
         fetch('/rename/', { method: 'POST', body: JSON.stringify({ oldId: oldState.definition.id, newName: newName }), headers: { 'Content-Type': 'application/json' } })
     }
-    if(oldState.definition !== state.definition && oldState.definitionList === state.definitionList){
+    if(oldState.definition !== null && oldState.definition !== state.definition && oldState.currentDefinitionId === state.currentDefinitionId  && oldState.definitionList === state.definitionList){
+        console.log(oldState.definition, state.definition)
         fetch('/save/' + state.definition.id, { method: 'POST', body: JSON.stringify(state.definition), headers: { 'Content-Type': 'application/json' } })
     }
-    if(oldState.definitionList !== state.definitionList){
+    if(oldState.definitionList !== null && oldState.definitionList !== state.definitionList){
+        console.log(oldState.definitionList, state.definitionList)
         fetch('/new/' + state.definition.vNodeBox['_rootNode'].title, { method: 'POST', body: JSON.stringify(state.definition), headers: { 'Content-Type': 'application/json' } })
     }
     oldState = state

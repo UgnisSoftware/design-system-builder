@@ -37,7 +37,7 @@ export default ()=> h(
                         alignItems: 'center',
                         fontWeight: '300',
                         height: '30px',
-                        background: state.currentDefinition === name ? '#ccc' : state.hoveredComponent === name ? '#e5e5e5' : 'none',
+                        background: state.currentDefinitionId === name ? '#ccc' : state.hoveredComponent === name ? '#e5e5e5' : 'none',
                         transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
                         paddingLeft: '20px',
                         paddingTop: '5px',

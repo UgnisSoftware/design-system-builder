@@ -6,6 +6,7 @@ import preview from './preview'
 import left from './left'
 import right from './right'
 import nodeEditor from './node-editor'
+import loading from './loading'
 
 function fakeComponent(nodeRef, depth) {
     const nodeId = nodeRef.id
@@ -72,88 +73,96 @@ function fakeState(stateId) {
     )
 }
 
-export default ()=> h(
-    'div',
-    {
-        style: {
-            background: '#ffffff',
-            width: '100vw',
-            height: '100vh',
-            overflow: 'hidden',
+export default ()=> {
+    // loading
+    if(state.definition === null){
+        return h('div', [loading()])
+    }
+
+    return h(
+        'div',
+        {
+            style: {
+                background: '#ffffff',
+                width: '100vw',
+                height: '100vh',
+                overflow: 'hidden',
+            },
         },
-    },
-    [
-        topBar(),
-        h(
-            'div',
-            {
-                style: {
-                    display: 'flex',
-                    flex: '1',
-                    position: 'relative',
-                },
-            },
-            [preview(), left(), right(), state.selectedViewNode.ref ? nodeEditor() : h('span')]
-        ),
-        state.draggedComponentView
-            ? h(
-            'div',
-            {
-                style: {
-                    pointerEvents: 'none',
-                    position: 'fixed',
-                    top: state.mousePosition.y + 'px',
-                    left: state.mousePosition.x + 'px',
-                    zIndex: '99999',
-                    width: state.editorRightWidth + 'px',
-                },
-            },
-            [
-                h(
-                    'div',
-                    {
-                        style: {
-                            overflow: 'auto',
-                            position: 'relative',
-                            flex: '1',
-                        },
+        [
+            loading(),
+            topBar(),
+            h(
+                'div',
+                {
+                    style: {
+                        display: 'flex',
+                        flex: '1',
+                        position: 'relative',
                     },
-                    [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)]
-                ),
-            ]
-        )
-            : h('span'),
-        state.draggedComponentStateId
-            ? h(
-            'div',
-            {
-                style: {
-                    pointerEvents: 'none',
-                    position: 'fixed',
-                    top: state.mousePosition.y + 'px',
-                    left: state.mousePosition.x + 'px',
-                    zIndex: '99999',
-                    width: state.editorRightWidth + 'px',
                 },
-            },
-            state.hoveredEvent || state.hoveredPipe
-                ? [
-                h(
-                    'span',
-                    {
-                        style: {
-                            color: '#5bcc5b',
-                            position: 'absolute',
-                            top: '0',
-                            left: '-20px',
-                        },
+                [preview(), left(), right(), state.selectedViewNode.ref ? nodeEditor() : h('span')]
+            ),
+            state.draggedComponentView
+                ? h(
+                'div',
+                {
+                    style: {
+                        pointerEvents: 'none',
+                        position: 'fixed',
+                        top: state.mousePosition.y + 'px',
+                        left: state.mousePosition.x + 'px',
+                        zIndex: '99999',
+                        width: state.editorRightWidth + 'px',
                     },
-                    [addCircleIcon()]
-                ),
-                fakeState(state.draggedComponentStateId),
-            ]
-                : [fakeState(state.draggedComponentStateId)]
-        )
-            : h('span'),
-    ]
-)
+                },
+                [
+                    h(
+                        'div',
+                        {
+                            style: {
+                                overflow: 'auto',
+                                position: 'relative',
+                                flex: '1',
+                            },
+                        },
+                        [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)]
+                    ),
+                ]
+            )
+                : h('span'),
+            state.draggedComponentStateId
+                ? h(
+                'div',
+                {
+                    style: {
+                        pointerEvents: 'none',
+                        position: 'fixed',
+                        top: state.mousePosition.y + 'px',
+                        left: state.mousePosition.x + 'px',
+                        zIndex: '99999',
+                        width: state.editorRightWidth + 'px',
+                    },
+                },
+                state.hoveredEvent || state.hoveredPipe
+                    ? [
+                    h(
+                        'span',
+                        {
+                            style: {
+                                color: '#5bcc5b',
+                                position: 'absolute',
+                                top: '0',
+                                left: '-20px',
+                            },
+                        },
+                        [addCircleIcon()]
+                    ),
+                    fakeState(state.draggedComponentStateId),
+                ]
+                    : [fakeState(state.draggedComponentStateId)]
+            )
+                : h('span'),
+        ]
+    )
+}

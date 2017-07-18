@@ -1,17 +1,3 @@
-import AppBar from '../../ugnis_components/App Bar.json'
-import Avatar from '../../ugnis_components/Avatar.json'
-import Badge from '../../ugnis_components/Badge.json'
-import Button from '../../ugnis_components/Button.json'
-import Paper from '../../ugnis_components/Paper.json'
-
-const definitions = {
-    [AppBar.id]: AppBar,
-    [Avatar.id]: Avatar,
-    [Badge.id]: Badge,
-    [Button.id]: Button,
-    [Paper.id]: Paper,
-}
-
 export let state = {
     leftOpen: true,
     rightOpen: true,
@@ -37,9 +23,9 @@ export let state = {
     hoveredEvent: null,
     mousePosition: {},
     eventStack: [],
-    definition: definitions[Object.keys(definitions)[0]],
-    currentDefinition: Object.keys(definitions)[0],
-    definitionList: definitions,
+    definition: null,
+    currentDefinitionId: '',
+    definitionList: null,
 }
 
 let listenerList = []

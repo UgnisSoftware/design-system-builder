@@ -1,7 +1,8 @@
 import {state, setState, listen} from './state'
 import ugnis from '../ugnis'
+import emptyDef from '../_empty.json'
 
-const app = ugnis(state.definition)
+const app = ugnis(emptyDef)
 
 app.addListener((eventId, data, e, previousState, currentState, mutations) => {
     setState({

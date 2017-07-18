@@ -1850,7 +1850,7 @@ export function ADD_NEW_COMPONENT() {
             ...state.definitionList,
             [newApp.id]: newApp,
         },
-        currentDefinition: newApp.id,
+        currentDefinitionId: newApp.id,
         definition: newApp,
         selectedViewNode: {},
         selectedPipeId: '',
@@ -1860,7 +1860,7 @@ export function ADD_NEW_COMPONENT() {
 export function SELECT_COMPONENT(name) {
     setState({
         ...state,
-        currentDefinition: name,
+        currentDefinitionId: name,
         definition: state.definitionList[name],
         selectedViewNode: {},
         selectedPipeId: '',

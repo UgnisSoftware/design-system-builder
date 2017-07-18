@@ -3,20 +3,20 @@ import {state, listen, setState} from './state'
 // undo/redo
 let stateStack = [state.definition]
 // implement state stack for every component separately
-let stateStackHistory = { [state.currentDefinition]: stateStack }
+let stateStackHistory = { [state.currentDefinitionId]: stateStack }
 
 let oldState = state
 listen(()=>{
-    const sameComponent = oldState.currentDefinition === state.currentDefinition
+    const sameComponent = oldState.currentDefinitionId === state.currentDefinitionId
     const definitionChanged = oldState.definition !== state.definition
     const timeTravelling = stateStack.includes(state.definition) // not a new definition
     // changed which component is selected, switch current stateStack to the new components stack or if first time, create new
     if (!sameComponent) {
-        if (stateStackHistory[state.currentDefinition]) {
-            stateStack = stateStackHistory[state.currentDefinition]
+        if (stateStackHistory[state.currentDefinitionId]) {
+            stateStack = stateStackHistory[state.currentDefinitionId]
         } else {
             stateStack = [state.definition]
-            stateStackHistory[state.currentDefinition] = [state.definition]
+            stateStackHistory[state.currentDefinitionId] = [state.definition]
         }
     }
     // add to state stack
@@ -24,7 +24,7 @@ listen(()=>{
         // add the new definition as the last definition
         const currentIndex = stateStack.findIndex(a => a === oldState.definition)
         stateStack = stateStack.slice(0, currentIndex + 1).concat(state.definition)
-        stateStackHistory[state.currentDefinition] = stateStack
+        stateStackHistory[state.currentDefinitionId] = stateStack
     }
     oldState = state
 })

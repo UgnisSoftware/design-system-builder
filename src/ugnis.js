@@ -326,7 +326,9 @@ export default definition => {
             }
         }
         const newvdom = resolve({ ref: 'vNodeBox', id: '_rootNode' })
-        patch(vdom, newvdom)
+        if(vdom.elm){
+            patch(vdom, newvdom)
+        }
         vdom = newvdom
     }
 
@@ -344,6 +346,10 @@ export default definition => {
 
     function getCurrentDefinition() {
         return definition
+    }
+    
+    function getVDom() {
+        return vdom
     }
     
     function getCurrentState() {
@@ -364,7 +370,7 @@ export default definition => {
 
     return {
         getCurrentDefinition,
-        vdom,
+        getVDom,
         getCurrentState,
         setCurrentState,
         render,
