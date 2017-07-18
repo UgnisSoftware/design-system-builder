@@ -15,7 +15,7 @@ Default components use google material design.
   - Works across frameworks. Useful when migrating to a new framework.
   - Create a uniform component library for your company/project.
   - Adapt components to fit your needs with the visual editor.
-  - *Future proof* - writing Ugnis to <insert a new framework name here> transformer is trivial. As is updating to a new Ugnis version.
+  - *Future proof* - writing Ugnis to \<insert a new framework name here\> transformer is trivial. As is updating to a new Ugnis version.
 
 # Why have we created Ugnis
 
