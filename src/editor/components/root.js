@@ -4,7 +4,7 @@ import {boxIcon, arrowIcon, listIcon, ifIcon, inputIcon, imageIcon, textIcon, ad
 import topBar from './top-bar'
 import preview from './preview'
 import left from './left'
-import right from './right'
+import right from './right-bar/right'
 import nodeEditor from './node-editor'
 import loading from './loading'
 
