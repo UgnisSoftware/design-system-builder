@@ -1548,14 +1548,14 @@ export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
         ...app.getCurrentState(),
         [stateId]: e.target.value,
     })
-    render()
+    setState({...state})
 }
 export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE(stateId, e) {
     app.setCurrentState({
         ...app.getCurrentState(),
         [stateId]: e.target.value === 'true',
     })
-    render()
+    setState({...state})
 }
 export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
     if (e.target.value.toString() !== app.getCurrentState()[stateId].toString()) {
@@ -1563,7 +1563,7 @@ export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
             ...app.getCurrentState(),
             [stateId]: Number(e.target.value),
         })
-        render()
+        setState({...state})
     }
 }
 export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
