@@ -1,14 +1,8 @@
 import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
-    WIDTH_DRAGGED, CHANGE_STATE_NODE_TITLE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, DELETE_STATE, CHANGE_CURRENT_STATE_BOOLEAN_VALUE, STATE_NODE_SELECTED,
-    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, CHANGE_VIEW_NODE_TITLE,
-    VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED, CHANGE_MENU,
+    WIDTH_DRAGGED
 } from '../../events'
-import {
-    deleteIcon, listIcon, saveIcon, ifIcon, inputIcon, textIcon, boxIcon, numberIcon, dotIcon, arrowIcon, clearIcon, imageIcon, repeatIcon, linkIcon, historyIcon
-} from '../icons'
-import app from '../../live-app'
 
 import stateComponent from './state-tab'
 import viewComponent from './view-tab'
