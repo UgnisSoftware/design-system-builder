@@ -344,6 +344,7 @@ function listState(stateId) {
                                 color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'white' : '#aaa',
                                 display: 'inline-flex',
                                 alignSelf: 'center',
+                                padding: '0 2px 0 5px'
                             },
                             on: { click: [SAVE_DEFAULT, stateId] },
                         },
