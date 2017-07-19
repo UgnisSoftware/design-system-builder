@@ -75,7 +75,7 @@ function listState(stateId) {
                 {
                     style: {
                         display: 'flex',
-                        flexWrap: 'wrap',
+                        alignItems: 'center',
                         marginBottom: '5px',
                         cursor: 'pointer',
                     },
@@ -88,7 +88,7 @@ function listState(stateId) {
                                 flex: '0 0 auto',
                                 position: 'relative',
                                 transform: 'translateZ(0)',
-                                margin: '0 7px 0 0',
+                                margin: '0 auto 0 0',
                                 boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
                                 background: '#1e1e1e',
                                 padding: '4px 7px',
@@ -501,9 +501,14 @@ export default ()=> h(
                     letterSpacing: '1px',
                     color: '#8e8e8e',
                     marginBottom: '15px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                 },
             },
-            'GLOBAL STATE'
+            [
+                h('span', 'GLOBAL STATE'),
+                h('span', 'CURRENT VALUE'),
+            ]
         ),
         ...state.definition.nameSpace['_rootNameSpace'].children.map(ref => listState(ref.id)),
     ]
