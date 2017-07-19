@@ -1,5 +1,6 @@
 import emptyApp from '../_empty.json'
 import { state, setState} from './state'
+import app from './live-app'
 
 function moveInArray(array, moveIndex, toIndex) {
     let item = array[moveIndex]

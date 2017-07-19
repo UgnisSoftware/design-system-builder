@@ -9,6 +9,28 @@ import {
 } from '../icons'
 import app from '../../live-app'
 
+const addStateComponent = ()=> h(
+    'div',
+    {
+        style: {
+            fontSize: '32px',
+            flex: '0 auto',
+            height: '40px',
+            maxWidth: '175px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '15px 0px 10px 0px',
+            justifyContent: 'space-between',
+        },
+    },
+    [
+        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'text'] } }, [textIcon()]),
+        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'number'] } }, [numberIcon()]),
+        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'boolean'] } }, [ifIcon()]),
+        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'table'] } }, [listIcon()]),
+    ]
+)
+
 function listState(stateId) {
     const currentState = state.definition.state[stateId]
     function editingNode() {
@@ -93,8 +115,241 @@ function listState(stateId) {
                             state.editingTitleNodeId === stateId ? editingNode() : h('span'),
                         ]
                     ),
-                    state.selectedStateNodeId === stateId
-                        ? h(
+                    h('div', { style: { display: 'inline-flex' } }, [
+                        (() => {
+                            const noStyleInput = {
+                                color: 'white',
+                                background: 'none',
+                                outline: 'none',
+                                display: 'inline',
+                                border: 'none',
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                flex: '0 0 auto',
+                                textAlign: 'right',
+                                boxShadow: 'inset 0 -2px 0 0 #ccc',
+                            }
+                            if (currentState.type === 'text') {
+                                return h(
+                                    'span',
+                                    {
+                                        style: {
+                                            flex: '0 0 auto',
+                                            position: 'relative',
+                                            transform: 'translateZ(0)',
+                                        },
+                                    },
+                                    [
+                                        h(
+                                            'span',
+                                            {
+                                                style: {
+                                                    opacity: '0',
+                                                    minWidth: '50px',
+                                                    display: 'inline-block',
+                                                },
+                                            },
+                                            app.getCurrentState()[stateId].toString()
+                                        ),
+                                        h('input', {
+                                            attrs: { type: 'text' },
+                                            liveProps: {
+                                                value: app.getCurrentState()[stateId],
+                                            },
+                                            style: noStyleInput,
+                                            on: {
+                                                input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId],
+                                            },
+                                        }),
+                                    ]
+                                )
+                            }
+                            if (currentState.type === 'number') {
+                                return h(
+                                    'span',
+                                    {
+                                        style: {
+                                            flex: '0 0 auto',
+                                            position: 'relative',
+                                            transform: 'translateZ(0)',
+                                        },
+                                    },
+                                    [
+                                        h(
+                                            'span',
+                                            {
+                                                style: {
+                                                    opacity: '0',
+                                                    minWidth: '50px',
+                                                    display: 'inline-block',
+                                                },
+                                            },
+                                            app.getCurrentState()[stateId].toString()
+                                        ),
+                                        h('input', {
+                                            attrs: { type: 'number' },
+                                            liveProps: {
+                                                value: app.getCurrentState()[stateId],
+                                            },
+                                            style: noStyleInput,
+                                            on: {
+                                                input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId],
+                                            },
+                                        }),
+                                    ]
+                                )
+                            }
+                            if (currentState.type === 'boolean') {
+                                return h(
+                                    'span',
+                                    {
+                                        style: {
+                                            flex: '0 0 auto',
+                                            position: 'relative',
+                                            transform: 'translateZ(0)',
+                                        },
+                                    },
+                                    [
+                                        h(
+                                            'select',
+                                            {
+                                                liveProps: {
+                                                    value: app.getCurrentState()[stateId].toString(),
+                                                },
+                                                style: {
+                                                    color: 'white',
+                                                    background: 'none',
+                                                    border: 'none',
+                                                    outline: 'none',
+                                                    boxShadow: 'inset 0 -2px 0 0 #ccc',
+                                                },
+                                                on: {
+                                                    input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE, stateId],
+                                                },
+                                            },
+                                            [
+                                                h(
+                                                    'option',
+                                                    {
+                                                        attrs: {
+                                                            value: 'true',
+                                                        },
+                                                        style: {
+                                                            color: 'black',
+                                                        },
+                                                    },
+                                                    ['true']
+                                                ),
+                                                h(
+                                                    'option',
+                                                    {
+                                                        attrs: {
+                                                            value: 'false',
+                                                        },
+                                                        style: {
+                                                            color: 'black',
+                                                        },
+                                                    },
+                                                    ['false']
+                                                ),
+                                            ]
+                                        ),
+                                    ]
+                                )
+                            }
+                            if (currentState.type === 'table') {
+                                if (state.selectedStateNodeId !== stateId) {
+                                    return h(
+                                        'div',
+                                        {
+                                            key: 'icon',
+                                            on: {
+                                                click: [STATE_NODE_SELECTED, stateId],
+                                            },
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                marginTop: '7px',
+                                            },
+                                        },
+                                        [listIcon()]
+                                    )
+                                }
+                                const table = app.getCurrentState()[stateId]
+                                return h(
+                                    'div',
+                                    {
+                                        key: 'table',
+                                        style: {
+                                            background: '#828183',
+                                            width: '100%',
+                                            flex: '0 0 100%',
+                                        },
+                                    },
+                                    [
+                                        h(
+                                            'div',
+                                            {
+                                                style: {
+                                                    display: 'flex',
+                                                },
+                                            },
+                                            Object.keys(currentState.definition).map(key =>
+                                                h(
+                                                    'div',
+                                                    {
+                                                        style: {
+                                                            flex: '1',
+                                                            padding: '2px 5px',
+                                                            borderBottom: '2px solid white',
+                                                        },
+                                                    },
+                                                    key
+                                                )
+                                            )
+                                        ),
+                                        ...Object.keys(table).map(id =>
+                                            h(
+                                                'div',
+                                                {
+                                                    style: {
+                                                        display: 'flex',
+                                                    },
+                                                },
+                                                Object.keys(table[id]).map(key =>
+                                                    h(
+                                                        'div',
+                                                        {
+                                                            style: {
+                                                                flex: '1',
+                                                                padding: '2px 5px',
+                                                            },
+                                                        },
+                                                        table[id][key]
+                                                    )
+                                                )
+                                            )
+                                        ),
+                                    ]
+                                )
+                            }
+                        })(),
+                    ]),
+                    h(
+                        'div',
+                        {
+                            style: {
+                                color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'white' : '#aaa',
+                                display: 'inline-flex',
+                                alignSelf: 'center',
+                            },
+                            on: { click: [SAVE_DEFAULT, stateId] },
+                        },
+                        [saveIcon()]
+                    ),
+                    h(
                         'div',
                         {
                             style: {
@@ -107,260 +362,11 @@ function listState(stateId) {
                             },
                         },
                         [deleteIcon()]
-                    )
-                        : h('span'),
+                    ),
                 ]
             ),
             state.selectedStateNodeId === stateId
                 ? h('div', { style: { paddingLeft: '10px' } }, [
-                h(
-                    'div',
-                    {
-                        style: {
-                            fontSize: '12px',
-                            fontWeight: 'bold',
-                            letterSpacing: '1px',
-                            color: '#8e8e8e',
-                            marginBottom: '0',
-                            marginTop: '10px',
-                        },
-                    },
-                    'CURRENT VALUE'
-                ),
-                h('div', { style: { display: 'inline-flex' } }, [
-                    (() => {
-                        const noStyleInput = {
-                            color: 'white',
-                            background: 'none',
-                            outline: 'none',
-                            display: 'inline',
-                            border: 'none',
-                            position: 'absolute',
-                            top: '0',
-                            left: '0',
-                            width: '100%',
-                            flex: '0 0 auto',
-                            textAlign: 'right',
-                            boxShadow: 'inset 0 -2px 0 0 #ccc',
-                        }
-                        if (currentState.type === 'text') {
-                            return h(
-                                'span',
-                                {
-                                    style: {
-                                        flex: '0 0 auto',
-                                        position: 'relative',
-                                        transform: 'translateZ(0)',
-                                    },
-                                },
-                                [
-                                    h(
-                                        'span',
-                                        {
-                                            style: {
-                                                opacity: '0',
-                                                minWidth: '50px',
-                                                display: 'inline-block',
-                                            },
-                                        },
-                                        app.getCurrentState()[stateId].toString()
-                                    ),
-                                    h('input', {
-                                        attrs: { type: 'text' },
-                                        liveProps: {
-                                            value: app.getCurrentState()[stateId],
-                                        },
-                                        style: noStyleInput,
-                                        on: {
-                                            input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId],
-                                        },
-                                    }),
-                                ]
-                            )
-                        }
-                        if (currentState.type === 'number') {
-                            return h(
-                                'span',
-                                {
-                                    style: {
-                                        flex: '0 0 auto',
-                                        position: 'relative',
-                                        transform: 'translateZ(0)',
-                                    },
-                                },
-                                [
-                                    h(
-                                        'span',
-                                        {
-                                            style: {
-                                                opacity: '0',
-                                                minWidth: '50px',
-                                                display: 'inline-block',
-                                            },
-                                        },
-                                        app.getCurrentState()[stateId].toString()
-                                    ),
-                                    h('input', {
-                                        attrs: { type: 'number' },
-                                        liveProps: {
-                                            value: app.getCurrentState()[stateId],
-                                        },
-                                        style: noStyleInput,
-                                        on: {
-                                            input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId],
-                                        },
-                                    }),
-                                ]
-                            )
-                        }
-                        if (currentState.type === 'boolean') {
-                            return h(
-                                'span',
-                                {
-                                    style: {
-                                        flex: '0 0 auto',
-                                        position: 'relative',
-                                        transform: 'translateZ(0)',
-                                    },
-                                },
-                                [
-                                    h(
-                                        'select',
-                                        {
-                                            liveProps: {
-                                                value: app.getCurrentState()[stateId].toString(),
-                                            },
-                                            style: {
-                                                color: 'white',
-                                                background: 'none',
-                                                border: 'none',
-                                                outline: 'none',
-                                                boxShadow: 'inset 0 -2px 0 0 #ccc',
-                                            },
-                                            on: {
-                                                input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE, stateId],
-                                            },
-                                        },
-                                        [
-                                            h(
-                                                'option',
-                                                {
-                                                    attrs: {
-                                                        value: 'true',
-                                                    },
-                                                    style: {
-                                                        color: 'black',
-                                                    },
-                                                },
-                                                ['true']
-                                            ),
-                                            h(
-                                                'option',
-                                                {
-                                                    attrs: {
-                                                        value: 'false',
-                                                    },
-                                                    style: {
-                                                        color: 'black',
-                                                    },
-                                                },
-                                                ['false']
-                                            ),
-                                        ]
-                                    ),
-                                ]
-                            )
-                        }
-                        if (currentState.type === 'table') {
-                            if (state.selectedStateNodeId !== stateId) {
-                                return h(
-                                    'div',
-                                    {
-                                        key: 'icon',
-                                        on: {
-                                            click: [STATE_NODE_SELECTED, stateId],
-                                        },
-                                        style: {
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            marginTop: '7px',
-                                        },
-                                    },
-                                    [listIcon()]
-                                )
-                            }
-                            const table = app.getCurrentState()[stateId]
-                            return h(
-                                'div',
-                                {
-                                    key: 'table',
-                                    style: {
-                                        background: '#828183',
-                                        width: '100%',
-                                        flex: '0 0 100%',
-                                    },
-                                },
-                                [
-                                    h(
-                                        'div',
-                                        {
-                                            style: {
-                                                display: 'flex',
-                                            },
-                                        },
-                                        Object.keys(currentState.definition).map(key =>
-                                            h(
-                                                'div',
-                                                {
-                                                    style: {
-                                                        flex: '1',
-                                                        padding: '2px 5px',
-                                                        borderBottom: '2px solid white',
-                                                    },
-                                                },
-                                                key
-                                            )
-                                        )
-                                    ),
-                                    ...Object.keys(table).map(id =>
-                                        h(
-                                            'div',
-                                            {
-                                                style: {
-                                                    display: 'flex',
-                                                },
-                                            },
-                                            Object.keys(table[id]).map(key =>
-                                                h(
-                                                    'div',
-                                                    {
-                                                        style: {
-                                                            flex: '1',
-                                                            padding: '2px 5px',
-                                                        },
-                                                    },
-                                                    table[id][key]
-                                                )
-                                            )
-                                        )
-                                    ),
-                                ]
-                            )
-                        }
-                    })(),
-                ]),
-                h(
-                    'div',
-                    {
-                        style: {
-                            color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'white' : '#aaa',
-                            display: 'inline-flex',
-                            alignSelf: 'center',
-                        },
-                        on: { click: [SAVE_DEFAULT, stateId] },
-                    },
-                    [saveIcon()]
-                ),
                 h(
                     'div',
                     {
@@ -463,28 +469,6 @@ function listState(stateId) {
         ]
     )
 }
-
-const addStateComponent = ()=> h(
-    'div',
-    {
-        style: {
-            fontSize: '32px',
-            flex: '0 auto',
-            height: '40px',
-            maxWidth: '175px',
-            display: 'flex',
-            alignItems: 'center',
-            padding: '15px 0px 10px 0px',
-            justifyContent: 'space-between',
-        },
-    },
-    [
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'text'] } }, [textIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'number'] } }, [numberIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'boolean'] } }, [ifIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'table'] } }, [listIcon()]),
-    ]
-)
 
 export default ()=> h(
     'div',
