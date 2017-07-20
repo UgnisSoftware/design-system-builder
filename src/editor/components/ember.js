@@ -6,11 +6,11 @@ import {
 } from './icons'
 
 export default function emberEditor(ref) {
-    const pipe = state.definition[ref.ref][ref.id]
+    const pipe = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
 
     function listTransformations(transformations) {
         return transformations.map((transRef, index) => {
-            const transformer = state.definition[transRef.ref][transRef.id]
+            const transformer = state.definitionList[state.currentDefinitionId][transRef.ref][transRef.id]
             if (transRef.ref === 'equal') {
                 return h('div', { style: { paddingTop: '5px' } }, [
                     h(
@@ -400,7 +400,7 @@ export default function emberEditor(ref) {
     }
 
     if (pipe.value.ref === 'state') {
-        const displState = state.definition[pipe.value.ref][pipe.value.id]
+        const displState = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
         return h(
             'div',
             { style: { flex: '1' } },
@@ -471,7 +471,7 @@ export default function emberEditor(ref) {
     }
 
     if (pipe.value.ref === 'eventData') {
-        const eventData = state.definition[pipe.value.ref][pipe.value.id]
+        const eventData = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
         return h('div', [
             h(
                 'div',

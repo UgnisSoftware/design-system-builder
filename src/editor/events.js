@@ -116,68 +116,76 @@ export function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
             ...state,
             draggedComponentView: null,
             hoveredViewNode: null,
-            definition: parentRef.id === newParentRef.id
-                ? {
-                // moving in the same parent
-                ...state.definition,
-                [parentRef.ref]: {
-                    ...state.definition[parentRef.ref],
-                    [parentRef.id]: {
-                        ...state.definition[parentRef.ref][parentRef.id],
-                        children: moveInArray(state.definition[parentRef.ref][parentRef.id].children, state.definition[parentRef.ref][parentRef.id].children.findIndex(ref => ref.id === nodeRef.id), state.hoveredViewNode.position),
+            definitionList: parentRef.id === newParentRef.id ? {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    // moving in the same parent
+                    ...state.definitionList[state.currentDefinitionId],
+                    [parentRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                            children: moveInArray(state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children, state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.findIndex(ref => ref.id === nodeRef.id), state.hoveredViewNode.position),
+                        },
                     },
                 },
-            }
-                : parentRef.ref === newParentRef.ref
-                ? {
-                // moving in the similar parent (same type)
-                ...state.definition,
-                [parentRef.ref]: {
-                    ...state.definition[parentRef.ref],
-                    [parentRef.id]: {
-                        ...state.definition[parentRef.ref][parentRef.id],
-                        children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
-                    },
-                    [newParentRef.id]: {
-                        ...state.definition[newParentRef.ref][newParentRef.id],
-                        children: state.definition[newParentRef.ref][newParentRef.id].children
-                            .slice(0, state.hoveredViewNode.position)
-                            .concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
-                    },
-                },
-            }
-                : {
-                // moving to a new type parent
-                ...state.definition,
-                [parentRef.ref]: {
-                    ...state.definition[parentRef.ref],
-                    [parentRef.id]: {
-                        ...state.definition[parentRef.ref][parentRef.id],
-                        children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+            } : parentRef.ref === newParentRef.ref ? {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    // moving in the similar parent (same type)
+                    ...state.definitionList[state.currentDefinitionId],
+                    [parentRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                            children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+                        },
+                        [newParentRef.id]: {
+                            ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
+                            children: state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children
+                                .slice(0, state.hoveredViewNode.position)
+                                .concat(nodeRef, state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
+                        },
                     },
                 },
-                [newParentRef.ref]: {
-                    ...state.definition[newParentRef.ref],
-                    [newParentRef.id]: {
-                        ...state.definition[newParentRef.ref][newParentRef.id],
-                        children: state.definition[newParentRef.ref][newParentRef.id].children
-                            .slice(0, state.hoveredViewNode.position)
-                            .concat(nodeRef, state.definition[newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
+            } : {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    // moving to a new type parent
+                    ...state.definitionList[state.currentDefinitionId],
+                    [parentRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                        [parentRef.id]: {
+                            ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                            children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+                        },
+                    },
+                    [newParentRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][newParentRef.ref],
+                        [newParentRef.id]: {
+                            ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
+                            children: state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children
+                                .slice(0, state.hoveredViewNode.position)
+                                .concat(nodeRef, state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
+                        },
                     },
                 },
             },
         }
         setState({
             ...fixedParents,
-            definition: {
-                ...fixedParents.definition,
-                [nodeRef.ref]: {
-                    ...fixedParents.definition[nodeRef.ref],
-                    [nodeRef.id]: {
-                        ...fixedParents.definition[nodeRef.ref][nodeRef.id],
-                        parent: newParentRef,
+            definitionList: {
+                ...fixedParents.definitionList,
+                [state.currentDefinitionId]: {
+                    ...fixedParents.definition,
+                    [nodeRef.ref]: {
+                        ...fixedParents.definition[nodeRef.ref],
+                        [nodeRef.id]: {
+                            ...fixedParents.definition[nodeRef.ref][nodeRef.id],
+                            parent: newParentRef,
+                        },
                     },
-                },
+                }
             },
         })
         return false
@@ -221,7 +229,7 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             hoveredViewNode: {
                 parent: parentRef,
                 depth,
-                position: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id),
+                position: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id),
             },
         })
     const insertAfter = () =>
@@ -230,7 +238,7 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             hoveredViewNode: {
                 parent: parentRef,
                 depth,
-                position: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id) + 1,
+                position: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id) + 1,
             },
         })
     const insertAsFirst = () =>
@@ -248,7 +256,7 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             hoveredViewNode: {
                 parent: { ref: 'vNodeBox', id: '_rootNode' },
                 depth: 1,
-                position: state.definition['vNodeBox']['_rootNode'].children.length,
+                position: state.definitionList[state.currentDefinitionId]['vNodeBox']['_rootNode'].children.length,
             },
         })
     const insertAt = (toPutRef, index) =>
@@ -261,11 +269,11 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             },
         })
     if (nodeRef.id === state.draggedComponentView.id) {
-        const parent = state.definition[parentRef.ref][parentRef.id]
+        const parent = state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id]
         // check if the last child, if yes, go to grandparent and drop there after parent
         if (parent.children[parent.children.length - 1].id === nodeRef.id) {
             if (parentRef.id !== '_rootNode') {
-                const grandparent = state.definition[parent.parent.ref][parent.parent.id]
+                const grandparent = state.definitionList[state.currentDefinitionId][parent.parent.ref][parent.parent.id]
                 const parentPosition = grandparent.children.findIndex(childRef => childRef.id === parentRef.id)
                 return insertAt(parent.parent, parentPosition)
             }
@@ -279,9 +287,9 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
         return insertAsLast()
     }
     // pray to god that you did not make a mistake here
-    if (state.definition[nodeRef.ref][nodeRef.id].children) {
+    if (state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children) {
         // if box
-        if (state.viewFoldersClosed[nodeRef.id] || state.definition[nodeRef.ref][nodeRef.id].children.length === 0) {
+        if (state.viewFoldersClosed[nodeRef.id] || state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children.length === 0) {
             // if closed or empty box
             if (offsetY < 0.3) {
                 insertBefore()
@@ -460,7 +468,7 @@ export function STATE_DRAGGED(stateId, e) {
         }
         if (state.hoveredEvent) {
             // check if event already changes the state
-            if (state.definition.state[state.draggedComponentStateId].mutators.map(mutatorRef => state.definition.mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
+            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].mutators.map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
@@ -473,66 +481,14 @@ export function STATE_DRAGGED(stateId, e) {
                 ...state,
                 draggedComponentStateId: null,
                 hoveredEvent: null,
-                definition: {
-                    ...state.definition,
-                    pipe: {
-                        ...state.definition.pipe,
-                        [pipeId]: {
-                            type: state.definition.state[state.draggedComponentStateId].type,
-                            value: {
-                                ref: 'state',
-                                id: state.draggedComponentStateId,
-                            },
-                            transformations: [],
-                        },
-                    },
-                    state: {
-                        ...state.definition.state,
-                        [state.draggedComponentStateId]: {
-                            ...state.definition.state[state.draggedComponentStateId],
-                            mutators: state.definition.state[state.draggedComponentStateId].mutators.concat({
-                                ref: 'mutator',
-                                id: mutatorId,
-                            }),
-                        },
-                    },
-                    mutator: {
-                        ...state.definition.mutator,
-                        [mutatorId]: {
-                            event: state.hoveredEvent,
-                            state: {
-                                ref: 'state',
-                                id: state.draggedComponentStateId,
-                            },
-                            mutation: { ref: 'pipe', id: pipeId },
-                        },
-                    },
-                    event: {
-                        ...state.definition.event,
-                        [state.hoveredEvent.id]: {
-                            ...state.definition.event[state.hoveredEvent.id],
-                            mutators: state.definition.event[state.hoveredEvent.id].mutators.concat({
-                                ref: 'mutator',
-                                id: mutatorId,
-                            }),
-                        },
-                    },
-                },
-            })
-        }
-        const pipeDropped = state.definition.pipe[state.hoveredPipe.id]
-        if (pipeDropped.type === 'text') {
-            if (state.definition.pipe[state.hoveredPipe.id].value.ref && state.definition.pipe[state.hoveredPipe.id].value.ref === 'state') {
-                return setState({
-                    ...state,
-                    draggedComponentStateId: null,
-                    hoveredPipe: null,
-                    definition: {
-                        ...state.definition,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: {
+                        ...state.definitionList[state.currentDefinitionId],
                         pipe: {
-                            ...state.definition.pipe,
-                            [state.hoveredPipe.id]: {
-                                ...state.definition.pipe[state.hoveredPipe.id],
+                            ...state.definitionList[state.currentDefinitionId].pipe,
+                            [pipeId]: {
+                                type: state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type,
                                 value: {
                                     ref: 'state',
                                     id: state.draggedComponentStateId,
@@ -540,6 +496,64 @@ export function STATE_DRAGGED(stateId, e) {
                                 transformations: [],
                             },
                         },
+                        state: {
+                            ...state.definitionList[state.currentDefinitionId].state,
+                            [state.draggedComponentStateId]: {
+                                ...state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId],
+                                mutators: state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].mutators.concat({
+                                    ref: 'mutator',
+                                    id: mutatorId,
+                                }),
+                            },
+                        },
+                        mutator: {
+                            ...state.definitionList[state.currentDefinitionId].mutator,
+                            [mutatorId]: {
+                                event: state.hoveredEvent,
+                                state: {
+                                    ref: 'state',
+                                    id: state.draggedComponentStateId,
+                                },
+                                mutation: { ref: 'pipe', id: pipeId },
+                            },
+                        },
+                        event: {
+                            ...state.definitionList[state.currentDefinitionId].event,
+                            [state.hoveredEvent.id]: {
+                                ...state.definitionList[state.currentDefinitionId].event[state.hoveredEvent.id],
+                                mutators: state.definitionList[state.currentDefinitionId].event[state.hoveredEvent.id].mutators.concat({
+                                    ref: 'mutator',
+                                    id: mutatorId,
+                                }),
+                            },
+                        },
+                    }
+                },
+            })
+        }
+        const pipeDropped = state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id]
+        if (pipeDropped.type === 'text') {
+            if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref && state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref === 'state') {
+                return setState({
+                    ...state,
+                    draggedComponentStateId: null,
+                    hoveredPipe: null,
+                    definitionList: {
+                        ...state.definitionList,
+                        [state.currentDefinitionId]: {
+                            ...state.definitionList[state.currentDefinitionId],
+                            pipe: {
+                                ...state.definitionList[state.currentDefinitionId].pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                    value: {
+                                        ref: 'state',
+                                        id: state.draggedComponentStateId,
+                                    },
+                                    transformations: [],
+                                },
+                            },
+                        }
                     },
                 })
             }
@@ -551,72 +565,78 @@ export function STATE_DRAGGED(stateId, e) {
                 ...state,
                 draggedComponentStateId: null,
                 hoveredPipe: null,
-                definition: {
-                    ...state.definition,
-                    pipe: {
-                        ...state.definition.pipe,
-                        [state.hoveredPipe.id]: {
-                            ...state.definition.pipe[state.hoveredPipe.id],
-                            transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definition.pipe[state.hoveredPipe.id].transformations),
-                        },
-                        [pipeIdState]: {
-                            type: 'text',
-                            value: {
-                                ref: 'state',
-                                id: state.draggedComponentStateId,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: {
+                        ...state.definitionList[state.currentDefinitionId],
+                        pipe: {
+                            ...state.definitionList[state.currentDefinitionId].pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].transformations),
                             },
-                            transformations: [],
+                            [pipeIdState]: {
+                                type: 'text',
+                                value: {
+                                    ref: 'state',
+                                    id: state.draggedComponentStateId,
+                                },
+                                transformations: [],
+                            },
+                            [pipeIdText]: {
+                                type: 'text',
+                                value: '',
+                                transformations: [],
+                            },
                         },
-                        [pipeIdText]: {
-                            type: 'text',
-                            value: '',
-                            transformations: [],
+                        join: {
+                            ...state.definitionList[state.currentDefinitionId].join,
+                            [joinIdState]: {
+                                value: { ref: 'pipe', id: pipeIdState },
+                            },
+                            [joinIdText]: {
+                                value: { ref: 'pipe', id: pipeIdText },
+                            },
                         },
-                    },
-                    join: {
-                        ...state.definition.join,
-                        [joinIdState]: {
-                            value: { ref: 'pipe', id: pipeIdState },
-                        },
-                        [joinIdText]: {
-                            value: { ref: 'pipe', id: pipeIdText },
-                        },
-                    },
+                    }
                 },
             })
         }
         if (pipeDropped.type === 'number') {
             // you can't drop boolean into number
-            if (state.definition.state[state.draggedComponentStateId].type === 'boolean') {
+            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'boolean') {
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
                     hoveredPipe: null,
                 })
             }
-            if (state.definition.state[state.draggedComponentStateId].type === 'text') {
+            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'text') {
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
                     hoveredPipe: null,
-                    definition: {
-                        ...state.definition,
-                        pipe: {
-                            ...state.definition.pipe,
-                            [state.hoveredPipe.id]: {
-                                ...state.definition.pipe[state.hoveredPipe.id],
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
-                                transformations: [
-                                    {
-                                        ref: 'length',
-                                        id: 'noop',
+                    definitionList: {
+                        ...state.definitionList,
+                        [state.currentDefinitionId]: {
+                            ...state.definitionList[state.currentDefinitionId],
+                            pipe: {
+                                ...state.definitionList[state.currentDefinitionId].pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                    value: {
+                                        ref: 'state',
+                                        id: state.draggedComponentStateId,
                                     },
-                                ],
+                                    transformations: [
+                                        {
+                                            ref: 'length',
+                                            id: 'noop',
+                                        },
+                                    ],
+                                },
                             },
-                        },
+                        }
                     },
                 })
             }
@@ -624,103 +644,112 @@ export function STATE_DRAGGED(stateId, e) {
                 ...state,
                 draggedComponentStateId: null,
                 hoveredPipe: null,
-                definition: {
-                    ...state.definition,
-                    pipe: {
-                        ...state.definition.pipe,
-                        [state.hoveredPipe.id]: {
-                            ...state.definition.pipe[state.hoveredPipe.id],
-                            value: {
-                                ref: 'state',
-                                id: state.draggedComponentStateId,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: {
+                        ...state.definitionList[state.currentDefinitionId],
+                        pipe: {
+                            ...state.definitionList[state.currentDefinitionId].pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                value: {
+                                    ref: 'state',
+                                    id: state.draggedComponentStateId,
+                                },
                             },
                         },
-                    },
+                    }
                 },
             })
         }
         if (pipeDropped.type === 'boolean') {
-            if (state.definition.state[state.draggedComponentStateId].type === 'number') {
+            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'number') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
                     hoveredPipe: null,
-                    definition: {
-                        ...state.definition,
-                        pipe: {
-                            ...state.definition.pipe,
-                            [state.hoveredPipe.id]: {
-                                ...state.definition.pipe[state.hoveredPipe.id],
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
-                                transformations: [
-                                    {
-                                        ref: 'equal',
-                                        id: eqId,
+                    definitionList: {
+                        ...state.definitionList,
+                        [state.currentDefinitionId]: {
+                            ...state.definitionList[state.currentDefinitionId],
+                            pipe: {
+                                ...state.definitionList[state.currentDefinitionId].pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                    value: {
+                                        ref: 'state',
+                                        id: state.draggedComponentStateId,
                                     },
-                                ],
-                            },
-                            [pipeId]: {
-                                type: 'number',
-                                value: 0,
-                                transformations: [],
-                            },
-                        },
-                        equal: {
-                            ...state.definition.equal,
-                            [eqId]: {
-                                value: {
-                                    ref: 'pipe',
-                                    id: pipeId,
+                                    transformations: [
+                                        {
+                                            ref: 'equal',
+                                            id: eqId,
+                                        },
+                                    ],
+                                },
+                                [pipeId]: {
+                                    type: 'number',
+                                    value: 0,
+                                    transformations: [],
                                 },
                             },
-                        },
+                            equal: {
+                                ...state.definitionList[state.currentDefinitionId].equal,
+                                [eqId]: {
+                                    value: {
+                                        ref: 'pipe',
+                                        id: pipeId,
+                                    },
+                                },
+                            },
+                        }
                     },
                 })
             }
-            if (state.definition.state[state.draggedComponentStateId].type === 'text') {
+            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'text') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
                     ...state,
                     draggedComponentStateId: null,
                     hoveredPipe: null,
-                    definition: {
-                        ...state.definition,
-                        pipe: {
-                            ...state.definition.pipe,
-                            [state.hoveredPipe.id]: {
-                                ...state.definition.pipe[state.hoveredPipe.id],
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
-                                transformations: [
-                                    {
-                                        ref: 'equal',
-                                        id: eqId,
+                    definitionList: {
+                        ...state.definitionList,
+                        [state.currentDefinitionId]: {
+                            ...state.definitionList[state.currentDefinitionId],
+                            pipe: {
+                                ...state.definitionList[state.currentDefinitionId].pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                    value: {
+                                        ref: 'state',
+                                        id: state.draggedComponentStateId,
                                     },
-                                ],
-                            },
-                            [pipeId]: {
-                                type: 'text',
-                                value: 'Default text',
-                                transformations: [],
-                            },
-                        },
-                        equal: {
-                            ...state.definition.equal,
-                            [eqId]: {
-                                value: {
-                                    ref: 'pipe',
-                                    id: pipeId,
+                                    transformations: [
+                                        {
+                                            ref: 'equal',
+                                            id: eqId,
+                                        },
+                                    ],
+                                },
+                                [pipeId]: {
+                                    type: 'text',
+                                    value: 'Default text',
+                                    transformations: [],
                                 },
                             },
-                        },
+                            equal: {
+                                ...state.definitionList[state.currentDefinitionId].equal,
+                                [eqId]: {
+                                    value: {
+                                        ref: 'pipe',
+                                        id: pipeId,
+                                    },
+                                },
+                            },
+                        }
                     },
                 })
             }
@@ -728,19 +757,22 @@ export function STATE_DRAGGED(stateId, e) {
                 ...state,
                 draggedComponentStateId: null,
                 hoveredPipe: null,
-                definition: {
-                    ...state.definition,
-                    pipe: {
-                        ...state.definition.pipe,
-                        [state.hoveredPipe.id]: {
-                            ...state.definition.pipe[state.hoveredPipe.id],
-                            value: {
-                                ref: 'state',
-                                id: state.draggedComponentStateId,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: {
+                        ...state.definitionList[state.currentDefinitionId],
+                        pipe: {
+                            ...state.definitionList[state.currentDefinitionId].pipe,
+                            [state.hoveredPipe.id]: {
+                                ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                value: {
+                                    ref: 'state',
+                                    id: state.draggedComponentStateId,
+                                },
+                                transformations: [],
                             },
-                            transformations: [], // TODO leave for state
                         },
-                    },
+                    }
                 },
             })
         }
@@ -749,14 +781,6 @@ export function STATE_DRAGGED(stateId, e) {
     window.addEventListener('touchend', stopDragging)
 }
 
-export function OPEN_SIDEBAR(side) {
-    if (side === 'left') {
-        return setState({ ...state, leftOpen: !state.leftOpen })
-    }
-    if (side === 'right') {
-        return setState({ ...state, rightOpen: !state.rightOpen })
-    }
-}
 export function FREEZER_CLICKED() {
     setState({ ...state, appIsFrozen: !state.appIsFrozen })
 }
@@ -790,9 +814,9 @@ export function UNSELECT_STATE_NODE(e) {
     }
 }
 export function ADD_NODE(nodeRef, type) {
-    if (!nodeRef.ref || !state.definition[nodeRef.ref][nodeRef.id] || !state.definition[nodeRef.ref][nodeRef.id].children) {
+    if (!nodeRef.ref || !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id] || !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children) {
         if (state.selectedViewNode.id && state.selectedViewNode.id !== '_rootNode') {
-            nodeRef = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id].parent
+            nodeRef = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id].parent
         } else {
             nodeRef = { ref: 'vNodeBox', id: '_rootNode' }
         }
@@ -1096,46 +1120,50 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeBox', id: newNodeId },
-            definition: nodeRef.ref === 'vNodeBox'
-                ? {
-                ...state.definition,
-                pipe: { ...state.definition.pipe, ...boxStylePipes },
-                vNodeBox: {
-                    ...state.definition.vNodeBox,
-                    [nodeId]: {
-                        ...state.definition.vNodeBox[nodeId],
-                        children: state.definition.vNodeBox[nodeId].children.concat({
-                            ref: 'vNodeBox',
-                            id: newNodeId,
-                        }),
+            definitionList: nodeRef.ref === 'vNodeBox' ? {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
+                    vNodeBox: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeBox,
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId].vNodeBox[nodeId],
+                            children: state.definitionList[state.currentDefinitionId].vNodeBox[nodeId].children.concat({
+                                ref: 'vNodeBox',
+                                id: newNodeId,
+                            }),
+                        },
+                        [newNodeId]: newNode,
                     },
-                    [newNodeId]: newNode,
-                },
-                style: {
-                    ...state.definition.style,
-                    [newStyleId]: newStyle,
-                },
-            }
-                : {
-                ...state.definition,
-                [nodeRef.ref]: {
-                    ...state.definition[nodeRef.ref],
-                    [nodeId]: {
-                        ...state.definition[nodeRef.ref][nodeId],
-                        children: state.definition[nodeRef.ref][nodeId].children.concat({
-                            ref: 'vNodeBox',
-                            id: newNodeId,
-                        }),
+                    style: {
+                        ...state.definitionList[state.currentDefinitionId].style,
+                        [newStyleId]: newStyle,
                     },
                 },
-                pipe: { ...state.definition.pipe, ...boxStylePipes },
-                vNodeBox: {
-                    ...state.definition.vNodeBox,
-                    [newNodeId]: newNode,
-                },
-                style: {
-                    ...state.definition.style,
-                    [newStyleId]: newStyle,
+            } : {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    ...state.definitionList[state.currentDefinitionId],
+                    [nodeRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                ref: 'vNodeBox',
+                                id: newNodeId,
+                            }),
+                        },
+                    },
+                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
+                    vNodeBox: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeBox,
+                        [newNodeId]: newNode,
+                    },
+                    style: {
+                        ...state.definitionList[state.currentDefinitionId].style,
+                        [newStyleId]: newStyle,
+                    },
                 },
             },
         })
@@ -1156,31 +1184,34 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeText', id: newNodeId },
-            definition: {
-                ...state.definition,
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: newPipe,
-                    ...textStylePipes,
-                },
-                [nodeRef.ref]: {
-                    ...state.definition[nodeRef.ref],
-                    [nodeId]: {
-                        ...state.definition[nodeRef.ref][nodeId],
-                        children: state.definition[nodeRef.ref][nodeId].children.concat({
-                            ref: 'vNodeText',
-                            id: newNodeId,
-                        }),
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: {
+                        ...state.definitionList[state.currentDefinitionId].pipe,
+                        [pipeId]: newPipe,
+                        ...textStylePipes,
                     },
-                },
-                vNodeText: {
-                    ...state.definition.vNodeText,
-                    [newNodeId]: newNode,
-                },
-                style: {
-                    ...state.definition.style,
-                    [newStyleId]: newStyle,
-                },
+                    [nodeRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                ref: 'vNodeText',
+                                id: newNodeId,
+                            }),
+                        },
+                    },
+                    vNodeText: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeText,
+                        [newNodeId]: newNode,
+                    },
+                    style: {
+                        ...state.definitionList[state.currentDefinitionId].style,
+                        [newStyleId]: newStyle,
+                    },
+                }
             },
         })
     }
@@ -1200,31 +1231,34 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeImage', id: newNodeId },
-            definition: {
-                ...state.definition,
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: newPipe,
-                    ...boxStylePipes,
-                },
-                [nodeRef.ref]: {
-                    ...state.definition[nodeRef.ref],
-                    [nodeId]: {
-                        ...state.definition[nodeRef.ref][nodeId],
-                        children: state.definition[nodeRef.ref][nodeId].children.concat({
-                            ref: 'vNodeImage',
-                            id: newNodeId,
-                        }),
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: {
+                        ...state.definitionList[state.currentDefinitionId].pipe,
+                        [pipeId]: newPipe,
+                        ...boxStylePipes,
                     },
-                },
-                vNodeImage: {
-                    ...state.definition.vNodeImage,
-                    [newNodeId]: newNode,
-                },
-                style: {
-                    ...state.definition.style,
-                    [newStyleId]: newStyle,
-                },
+                    [nodeRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                ref: 'vNodeImage',
+                                id: newNodeId,
+                            }),
+                        },
+                    },
+                    vNodeImage: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeImage,
+                        [newNodeId]: newNode,
+                    },
+                    style: {
+                        ...state.definitionList[state.currentDefinitionId].style,
+                        [newStyleId]: newStyle,
+                    },
+                }
             },
         })
     }
@@ -1244,38 +1278,42 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeIf', id: newNodeId },
-            definition: nodeRef.ref === 'vNodeIf'
-                ? {
-                ...state.definition,
-                pipe: { ...state.definition.pipe, [pipeId]: newPipe },
-                vNodeIf: {
-                    ...state.definition.vNodeIf,
-                    [nodeId]: {
-                        ...state.definition.vNodeIf[nodeId],
-                        children: state.definition.vNodeIf[nodeId].children.concat({
-                            ref: 'vNodeIf',
-                            id: newNodeId,
-                        }),
-                    },
-                    [newNodeId]: newNode,
-                },
-            }
-                : {
-                ...state.definition,
-                pipe: { ...state.definition.pipe, [pipeId]: newPipe },
-                [nodeRef.ref]: {
-                    ...state.definition[nodeRef.ref],
-                    [nodeId]: {
-                        ...state.definition[nodeRef.ref][nodeId],
-                        children: state.definition[nodeRef.ref][nodeId].children.concat({
-                            ref: 'vNodeIf',
-                            id: newNodeId,
-                        }),
+            definitionList: nodeRef.ref === 'vNodeIf' ? {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
+                    vNodeIf: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeIf,
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId].vNodeIf[nodeId],
+                            children: state.definitionList[state.currentDefinitionId].vNodeIf[nodeId].children.concat({
+                                ref: 'vNodeIf',
+                                id: newNodeId,
+                            }),
+                        },
+                        [newNodeId]: newNode,
                     },
                 },
-                vNodeIf: {
-                    ...state.definition.vNodeIf,
-                    [newNodeId]: newNode,
+            } : {
+                ...state.definitionList,
+                [state.currentDefinitionId]:{
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
+                    [nodeRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                ref: 'vNodeIf',
+                                id: newNodeId,
+                            }),
+                        },
+                    },
+                    vNodeIf: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeIf,
+                        [newNodeId]: newNode,
+                    },
                 },
             },
         })
@@ -1328,45 +1366,48 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeInput', id: newNodeId },
-            definition: {
-                ...state.definition,
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeInputId]: newPipeInput,
-                    [pipeMutatorId]: newPipeMutator,
-                    ...textStylePipes,
-                },
-                [nodeRef.ref]: {
-                    ...state.definition[nodeRef.ref],
-                    [nodeId]: {
-                        ...state.definition[nodeRef.ref][nodeId],
-                        children: state.definition[nodeRef.ref][nodeId].children.concat({
-                            ref: 'vNodeInput',
-                            id: newNodeId,
-                        }),
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: {
+                        ...state.definitionList[state.currentDefinitionId].pipe,
+                        [pipeInputId]: newPipeInput,
+                        [pipeMutatorId]: newPipeMutator,
+                        ...textStylePipes,
                     },
-                },
-                vNodeInput: {
-                    ...state.definition.vNodeInput,
-                    [newNodeId]: newNode,
-                },
-                style: {
-                    ...state.definition.style,
-                    [newStyleId]: newStyle,
-                },
-                nameSpace: {
-                    ...state.definition.nameSpace,
-                    ['_rootNameSpace']: {
-                        ...state.definition.nameSpace['_rootNameSpace'],
-                        children: state.definition.nameSpace['_rootNameSpace'].children.concat({ ref: 'state', id: stateId }),
+                    [nodeRef.ref]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                        [nodeId]: {
+                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                ref: 'vNodeInput',
+                                id: newNodeId,
+                            }),
+                        },
                     },
-                },
-                state: { ...state.definition.state, [stateId]: newState },
-                mutator: {
-                    ...state.definition.mutator,
-                    [mutatorId]: newMutator,
-                },
-                event: { ...state.definition.event, [eventId]: newEvent },
+                    vNodeInput: {
+                        ...state.definitionList[state.currentDefinitionId].vNodeInput,
+                        [newNodeId]: newNode,
+                    },
+                    style: {
+                        ...state.definitionList[state.currentDefinitionId].style,
+                        [newStyleId]: newStyle,
+                    },
+                    nameSpace: {
+                        ...state.definitionList[state.currentDefinitionId].nameSpace,
+                        ['_rootNameSpace']: {
+                            ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
+                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({ ref: 'state', id: stateId }),
+                        },
+                    },
+                    state: { ...state.definitionList[state.currentDefinitionId].state, [stateId]: newState },
+                    mutator: {
+                        ...state.definitionList[state.currentDefinitionId].mutator,
+                        [mutatorId]: newMutator,
+                    },
+                    event: { ...state.definitionList[state.currentDefinitionId].event, [eventId]: newEvent },
+                }
             },
         })
     }
@@ -1417,37 +1458,43 @@ export function ADD_STATE(namespaceId, type) {
         }
         return setState({
             ...state,
-            definition: {
-                ...state.definition,
-                nameSpace: {
-                    ...state.definition.nameSpace,
-                    [namespaceId]: {
-                        ...state.definition.nameSpace[namespaceId],
-                        children: state.definition.nameSpace[namespaceId].children.concat({
-                            ref: 'nameSpace',
-                            id: newStateId,
-                        }),
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    nameSpace: {
+                        ...state.definitionList[state.currentDefinitionId].nameSpace,
+                        [namespaceId]: {
+                            ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
+                            children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
+                                ref: 'nameSpace',
+                                id: newStateId,
+                            }),
+                        },
+                        [newStateId]: newState,
                     },
-                    [newStateId]: newState,
-                },
+                }
             },
         })
     }
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            nameSpace: {
-                ...state.definition.nameSpace,
-                [namespaceId]: {
-                    ...state.definition.nameSpace[namespaceId],
-                    children: state.definition.nameSpace[namespaceId].children.concat({
-                        ref: 'state',
-                        id: newStateId,
-                    }),
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                nameSpace: {
+                    ...state.definitionList[state.currentDefinitionId].nameSpace,
+                    [namespaceId]: {
+                        ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
+                        children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
+                            ref: 'state',
+                            id: newStateId,
+                        }),
+                    },
                 },
-            },
-            state: { ...state.definition.state, [newStateId]: newState },
+                state: { ...state.definitionList[state.currentDefinitionId].state, [newStateId]: newState },
+            }
         },
     })
 }
@@ -1460,13 +1507,13 @@ export function EDIT_VIEW_NODE_TITLE(nodeId) {
 export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
     // remove all events from state
     const events = getAvailableEvents(nodeRef.ref)
-    let newState = state.definition.state
+    let newState = state.definitionList[state.currentDefinitionId].state
     events.forEach(event => {
-        const eventRef = state.definition[nodeRef.ref][nodeRef.id][event.propertyName]
+        const eventRef = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id][event.propertyName]
         if (eventRef) {
             // event -> mutators -> states
-            state.definition[eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
-                const stateRef = state.definition[mutatorRef.ref][mutatorRef.id].state
+            state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
+                const stateRef = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id].state
                 newState = {
                     ...newState,
                     [stateRef.id]: {
@@ -1479,16 +1526,19 @@ export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
     })
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            [parentRef.ref]: {
-                ...state.definition[parentRef.ref],
-                [parentRef.id]: {
-                    ...state.definition[parentRef.ref][parentRef.id],
-                    children: state.definition[parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [parentRef.ref]: {
+                    ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                    [parentRef.id]: {
+                        ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+                    },
                 },
-            },
-            state: newState,
+                state: newState,
+            }
         },
         selectedViewNode: {},
     })
@@ -1499,15 +1549,18 @@ export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
     const nodeType = nodeRef.ref
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            [nodeType]: {
-                ...state.definition[nodeType],
-                [nodeId]: {
-                    ...state.definition[nodeType][nodeId],
-                    title: e.target.value,
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [nodeType]: {
+                    ...state.definitionList[state.currentDefinitionId][nodeType],
+                    [nodeId]: {
+                        ...state.definitionList[state.currentDefinitionId][nodeType][nodeId],
+                        title: e.target.value,
+                    },
                 },
-            },
+            }
         },
     })
 }
@@ -1515,34 +1568,22 @@ export function CHANGE_STATE_NODE_TITLE(nodeId, e) {
     e.preventDefault()
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            state: {
-                ...state.definition.state,
-                [nodeId]: {
-                    ...state.definition.state[nodeId],
-                    title: e.target.value,
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                state: {
+                    ...state.definitionList[state.currentDefinitionId].state,
+                    [nodeId]: {
+                        ...state.definitionList[state.currentDefinitionId].state[nodeId],
+                        title: e.target.value,
+                    },
                 },
-            },
+            }
         },
     })
 }
-export function CHANGE_NAMESPACE_TITLE(nodeId, e) {
-    e.preventDefault()
-    setState({
-        ...state,
-        definition: {
-            ...state.definition,
-            nameSpace: {
-                ...state.definition.nameSpace,
-                [nodeId]: {
-                    ...state.definition.nameSpace[nodeId],
-                    title: e.target.value,
-                },
-            },
-        },
-    })
-}
+
 export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
     app.setCurrentState({
         ...app.getCurrentState(),
@@ -1576,15 +1617,18 @@ export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
     }
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            [ref.ref]: {
-                ...state.definition[ref.ref],
-                [ref.id]: {
-                    ...state.definition[ref.ref][ref.id],
-                    [propertyName]: value,
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [ref.ref]: {
+                    ...state.definitionList[state.currentDefinitionId][ref.ref],
+                    [ref.id]: {
+                        ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
+                        [propertyName]: value,
+                    },
                 },
-            },
+            }
         },
     })
 }
@@ -1593,24 +1637,27 @@ export function ADD_EVENT(propertyName, node) {
     const eventId = uuid()
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            [ref.ref]: {
-                ...state.definition[ref.ref],
-                [ref.id]: {
-                    ...state.definition[ref.ref][ref.id],
-                    [propertyName]: { ref: 'event', id: eventId },
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [ref.ref]: {
+                    ...state.definitionList[state.currentDefinitionId][ref.ref],
+                    [ref.id]: {
+                        ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
+                        [propertyName]: { ref: 'event', id: eventId },
+                    },
                 },
-            },
-            event: {
-                ...state.definition.event,
-                [eventId]: {
-                    type: propertyName,
-                    emitter: node,
-                    mutators: [],
-                    data: [],
+                event: {
+                    ...state.definitionList[state.currentDefinitionId].event,
+                    [eventId]: {
+                        type: propertyName,
+                        emitter: node,
+                        mutators: [],
+                        data: [],
+                    },
                 },
-            },
+            }
         },
     })
 }
@@ -1629,39 +1676,42 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         number: 0,
         boolean: true,
     }
-    const pipe = state.definition.pipe[pipeId]
-    const stateInPipe = state.definition.state[pipe.value.id]
+    const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
+    const stateInPipe = state.definitionList[state.currentDefinitionId].state[pipe.value.id]
     const transformation = defaultTransformations[stateInPipe.type]
     const value = defaultValues[stateInPipe.type]
     const newPipeId = uuid()
     const newId = uuid()
 
-    const oldTransformations = state.definition.pipe[pipeId].transformations
+    const oldTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations
     const newPipeTransformations = pipe.type === 'text' || pipe.type === stateInPipe.type
         ? oldTransformations.concat({ ref: transformation, id: newId })
         : oldTransformations.slice(0, oldTransformations.length - 1).concat({ ref: transformation, id: newId }).concat(oldTransformations.slice(oldTransformations.length - 1))
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            [transformation]: {
-                ...state.definition[transformation],
-                [newId]: {
-                    value: { ref: 'pipe', id: newPipeId },
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [transformation]: {
+                    ...state.definitionList[state.currentDefinitionId][transformation],
+                    [newId]: {
+                        value: { ref: 'pipe', id: newPipeId },
+                    },
                 },
-            },
-            pipe: {
-                ...state.definition.pipe,
-                [newPipeId]: {
-                    type: pipe.type,
-                    value: value,
-                    transformations: [],
+                pipe: {
+                    ...state.definitionList[state.currentDefinitionId].pipe,
+                    [newPipeId]: {
+                        type: pipe.type,
+                        value: value,
+                        transformations: [],
+                    },
+                    [pipeId]: {
+                        ...state.definitionList[state.currentDefinitionId].pipe[pipeId],
+                        transformations: newPipeTransformations,
+                    },
                 },
-                [pipeId]: {
-                    ...state.definition.pipe[pipeId],
-                    transformations: newPipeTransformations,
-                },
-            },
+            }
         },
     })
 }
@@ -1673,29 +1723,32 @@ export function FULL_SCREEN_CLICKED(value) {
 export function SAVE_DEFAULT(stateId) {
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            state: {
-                ...state.definition.state,
-                [stateId]: {
-                    ...state.definition.state[stateId],
-                    defaultValue: app.getCurrentState()[stateId],
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                state: {
+                    ...state.definitionList[state.currentDefinitionId].state,
+                    [stateId]: {
+                        ...state.definitionList[state.currentDefinitionId].state[stateId],
+                        defaultValue: app.getCurrentState()[stateId],
+                    },
                 },
-            },
+            }
         },
     })
 }
 export function DELETE_STATE(stateId) {
     let removedPipeState = state
-    Object.keys(state.definition.pipe).forEach(pipeid => {
-        if (state.definition.pipe[pipeid].value.id === stateId) {
+    Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeid => {
+        if (state.definitionList[state.currentDefinitionId].pipe[pipeid].value.id === stateId) {
             removedPipeState = resetPipeFunc(pipeid, removedPipeState)
         }
     })
-    const { [stateId]: deletedState, ...newState } = removedPipeState.definition.state
-    let events = removedPipeState.definition.event
+    const { [stateId]: deletedState, ...newState } = removedPipestate.definitionList[state.currentDefinitionId].state
+    let events = removedPipestate.definitionList[state.currentDefinitionId].event
     deletedState.mutators.forEach(mutatorRef => {
-        const mutator = removedPipeState.definition[mutatorRef.ref][mutatorRef.id]
+        const mutator = removedPipestate.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
         const event = mutator.event
         events = {
             ...events,
@@ -1708,17 +1761,20 @@ export function DELETE_STATE(stateId) {
     setState({
         ...removedPipeState,
         selectedStateNodeId: '',
-        definition: {
-            ...removedPipeState.definition,
-            state: newState,
-            nameSpace: {
-                ...removedPipeState.definition.nameSpace,
-                _rootNameSpace: {
-                    ...removedPipeState.definition.nameSpace['_rootNameSpace'],
-                    children: removedPipeState.definition.nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                state: newState,
+                nameSpace: {
+                    ...removedPipestate.definitionList[state.currentDefinitionId].nameSpace,
+                    _rootNameSpace: {
+                        ...removedPipestate.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
+                        children: removedPipestate.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+                    },
                 },
-            },
-            event: events,
+                event: events,
+            }
         },
     })
 }
@@ -1743,37 +1799,40 @@ export function resetPipeFunc(pipeId, state) {
         boolean: true,
     }
     let parentJoinId
-    Object.keys(state.definition.join).forEach(joinId => {
-        if (state.definition.join[joinId].value.id === pipeId) {
+    Object.keys(state.definitionList[state.currentDefinitionId].join).forEach(joinId => {
+        if (state.definitionList[state.currentDefinitionId].join[joinId].value.id === pipeId) {
             parentJoinId = joinId
         }
     })
     if (parentJoinId) {
-        const pipes = Object.keys(state.definition.pipe)
+        const pipes = Object.keys(state.definitionList[state.currentDefinitionId].pipe)
         for (let i = 0; i < pipes.length; i++) {
             const parentPipeId = pipes[i]
-            for (let index = 0; index < state.definition.pipe[parentPipeId].transformations.length; index++) {
-                const ref = state.definition.pipe[parentPipeId].transformations[index]
+            for (let index = 0; index < state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.length; index++) {
+                const ref = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index]
                 if (ref.id === parentJoinId) {
-                    const joinRef = state.definition.pipe[parentPipeId].transformations[index + 1]
-                    const secondPipeRef = state.definition.join[joinRef.id].value
-                    const text = state.definition.pipe[secondPipeRef.id].value
+                    const joinRef = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index + 1]
+                    const secondPipeRef = state.definitionList[state.currentDefinitionId].join[joinRef.id].value
+                    const text = state.definitionList[state.currentDefinitionId].pipe[secondPipeRef.id].value
                     return {
                         ...state,
                         selectedPipeId: '',
-                        definition: {
-                            ...state.definition,
-                            pipe: {
-                                ...state.definition.pipe,
-                                [parentPipeId]: {
-                                    ...state.definition.pipe[parentPipeId],
-                                    value: state.definition.pipe[parentPipeId].value + text,
-                                    transformations: state.definition.pipe[parentPipeId].transformations
-                                        .slice(0, index)
-                                        .concat(state.definition.pipe[secondPipeRef.id].transformations)
-                                        .concat(state.definition.pipe[parentPipeId].transformations.slice(index + 2)),
+                        definitionList: {
+                            ...state.definitionList,
+                            [state.currentDefinitionId]: {
+                                ...state.definitionList[state.currentDefinitionId],
+                                pipe: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe,
+                                    [parentPipeId]: {
+                                        ...state.definitionList[state.currentDefinitionId].pipe[parentPipeId],
+                                        value: state.definitionList[state.currentDefinitionId].pipe[parentPipeId].value + text,
+                                        transformations: state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations
+                                            .slice(0, index)
+                                            .concat(state.definitionList[state.currentDefinitionId].pipe[secondPipeRef.id].transformations)
+                                            .concat(state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.slice(index + 2)),
+                                    },
                                 },
-                            },
+                            }
                         },
                     }
                 }
@@ -1783,16 +1842,19 @@ export function resetPipeFunc(pipeId, state) {
         return {
             ...state,
             selectedPipeId: '',
-            definition: {
-                ...state.definition,
-                pipe: {
-                    ...state.definition.pipe,
-                    [pipeId]: {
-                        ...state.definition.pipe[pipeId],
-                        value: defaultValues[state.definition.pipe[pipeId].type],
-                        transformations: [],
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    pipe: {
+                        ...state.definitionList[state.currentDefinitionId].pipe,
+                        [pipeId]: {
+                            ...state.definitionList[state.currentDefinitionId].pipe[pipeId],
+                            value: defaultValues[state.definitionList[state.currentDefinitionId].pipe[pipeId].type],
+                            transformations: [],
+                        },
                     },
-                },
+                }
             },
         }
     }
@@ -1806,31 +1868,34 @@ export function CHANGE_TRANSFORMATION(pipeRef, transformationRef, index, e) {
     if (transformationRef.ref === e.target.value) {
         return
     }
-    const { [transformationRef.id]: actualTransform, ...left } = state.definition[transformationRef.ref]
+    const { [transformationRef.id]: actualTransform, ...left } = state.definitionList[state.currentDefinitionId][transformationRef.ref]
     setState({
         ...state,
-        definition: {
-            ...state.definition,
-            pipe: {
-                ...state.definition.pipe,
-                [pipeRef.id]: {
-                    ...state.definition.pipe[pipeRef.id],
-                    transformations: state.definition.pipe[pipeRef.id].transformations.map(
-                        transf =>
-                            transf.id === transformationRef.id
-                                ? {
-                                ref: e.target.value,
-                                id: transformationRef.id,
-                            }
-                                : transf
-                    ),
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                pipe: {
+                    ...state.definitionList[state.currentDefinitionId].pipe,
+                    [pipeRef.id]: {
+                        ...state.definitionList[state.currentDefinitionId].pipe[pipeRef.id],
+                        transformations: state.definitionList[state.currentDefinitionId].pipe[pipeRef.id].transformations.map(
+                            transf =>
+                                transf.id === transformationRef.id
+                                    ? {
+                                    ref: e.target.value,
+                                    id: transformationRef.id,
+                                }
+                                    : transf
+                        ),
+                    },
                 },
-            },
-            [transformationRef.ref]: left,
-            [e.target.value]: {
-                ...state.definition[e.target.value],
-                [transformationRef.id]: actualTransform,
-            },
+                [transformationRef.ref]: left,
+                [e.target.value]: {
+                    ...state.definitionList[state.currentDefinitionId][e.target.value],
+                    [transformationRef.id]: actualTransform,
+                },
+            }
         },
     })
 }
@@ -1852,17 +1917,15 @@ export function ADD_NEW_COMPONENT() {
             [newApp.id]: newApp,
         },
         currentDefinitionId: newApp.id,
-        definition: newApp,
         selectedViewNode: {},
         selectedPipeId: '',
         selectedStateNodeId: '',
     })
 }
-export function SELECT_COMPONENT(name) {
+export function SELECT_COMPONENT(id) {
     setState({
         ...state,
-        currentDefinitionId: name,
-        definition: state.definitionList[name],
+        currentDefinitionId: id,
         selectedViewNode: {},
         selectedPipeId: '',
         selectedStateNodeId: '',
@@ -1871,6 +1934,12 @@ export function SELECT_COMPONENT(name) {
 export function CHANGE_COMPONENT_PATH(name, e) {
     setState({
         ...state,
-        definition: { ...state.definition, [name]: e.target.value },
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                [name]: e.target.value
+            }
+        },
     })
 }

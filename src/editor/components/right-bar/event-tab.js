@@ -45,12 +45,12 @@ export default ()=> h(
                 },
             },
             state.eventStack
-                .filter(eventData => state.definition.event[eventData.eventId] !== undefined)
+                .filter(eventData => state.definitionList[state.currentDefinitionId].event[eventData.eventId] !== undefined)
                 .reverse() // mutates the array, but it was already copied with filter
                 .slice(0, 21)
                 .map((eventData, index) => {
-                    const event = state.definition.event[eventData.eventId]
-                    const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                    const event = state.definitionList[state.currentDefinitionId].event[eventData.eventId]
+                    const emitter = state.definitionList[state.currentDefinitionId][event.emitter.ref][event.emitter.id]
                     // no idea why this key works, don't touch it, probably rerenders more than needed, but who cares
                     return h(
                         'div',
@@ -122,7 +122,7 @@ export default ()=> h(
                                     ),
                                 ]
                             ),
-                            Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).length === 0
+                            Object.keys(eventData.mutations).filter(stateId => state.definitionList[state.currentDefinitionId].state[stateId] !== undefined).length === 0
                                 ? h(
                                 'div',
                                 {
@@ -141,7 +141,7 @@ export default ()=> h(
                                         whiteSpace: 'nowrap',
                                     },
                                 },
-                                Object.keys(eventData.mutations).filter(stateId => state.definition.state[stateId] !== undefined).map(stateId =>
+                                Object.keys(eventData.mutations).filter(stateId => state.definitionList[state.currentDefinitionId].state[stateId] !== undefined).map(stateId =>
                                     h('div', [
                                         h(
                                             'span',
@@ -160,7 +160,7 @@ export default ()=> h(
                                                     transition: 'all 0.2s',
                                                 },
                                             },
-                                            state.definition.state[stateId].title
+                                            state.definitionList[state.currentDefinitionId].state[stateId].title
                                         ),
                                         h(
                                             'span',

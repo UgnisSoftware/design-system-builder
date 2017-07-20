@@ -20,8 +20,8 @@ app.addListener((eventId, data, e, previousState, currentState, mutations) => {
 
 let oldState = state
 listen(()=> {
-    if(state.definition !== app.getCurrentDefinition()){
-        app.render(state.definition)
+    if(state.definitionList[state.currentDefinitionId] !== app.getCurrentDefinition()){
+        app.render(state.definitionList[state.currentDefinitionId])
     }
     if (oldState.appIsFrozen !== state.appIsFrozen || oldState.selectedViewNode !== state.selectedViewNode) {
         app._freeze(state.appIsFrozen, (ref) => { setState({ ...state, selectedViewNode: ref })}, state.selectedViewNode)

@@ -10,7 +10,7 @@ import loading from './loading'
 
 function fakeComponent(nodeRef, depth) {
     const nodeId = nodeRef.id
-    const node = state.definition[nodeRef.ref][nodeId]
+    const node = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId]
     return h(
         'div',
         {
@@ -55,7 +55,7 @@ function fakeComponent(nodeRef, depth) {
 
 
 function fakeState(stateId) {
-    const currentState = state.definition.state[stateId]
+    const currentState = state.definitionList[state.currentDefinitionId].state[stateId]
     return h(
         'span',
         {
@@ -75,8 +75,8 @@ function fakeState(stateId) {
 
 export default ()=> {
     // loading
-    if(state.definition === null){
-        return h('div', [loading()])
+    if(state.loading){
+        return h('div', [loading(true)])
     }
 
     return h(
@@ -90,7 +90,7 @@ export default ()=> {
             },
         },
         [
-            loading(),
+            loading(false),
             topBar(),
             h(
                 'div',

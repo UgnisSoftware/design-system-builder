@@ -97,7 +97,7 @@ const dragSubComponentRight = h('div', {
 export default function generateEditNodeComponent() {
 
     const styles = fields.style
-    const selectedNode = state.definition[state.selectedViewNode.ref][state.selectedViewNode.id]
+    const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
     const propsComponent = h(
         'div',
@@ -209,7 +209,7 @@ export default function generateEditNodeComponent() {
                                     input: [CHANGE_COMPONENT_PATH, 'reactPath'],
                                 },
                                 liveProps: {
-                                    value: state.definition['reactPath'],
+                                    value: state.definitionList[state.currentDefinitionId]['reactPath'],
                                 },
                             }),
                             h(
@@ -232,7 +232,7 @@ export default function generateEditNodeComponent() {
                                     input: [CHANGE_COMPONENT_PATH, 'reactNativePath'],
                                 },
                                 liveProps: {
-                                    value: state.definition['reactNativePath'],
+                                    value: state.definitionList[state.currentDefinitionId]['reactNativePath'],
                                 },
                             }),
                         ]
@@ -432,7 +432,7 @@ export default function generateEditNodeComponent() {
             })(),
         ])
     const genstyleSubmenuComponent = () => {
-        const selectedStyle = state.definition.style[selectedNode.style.id]
+        const selectedStyle = state.definitionList[state.currentDefinitionId].style[selectedNode.style.id]
         return h(
             'div',
             {
@@ -1045,7 +1045,7 @@ export default function generateEditNodeComponent() {
             [
                 ...(currentEvents.length
                     ? currentEvents.map(eventDesc => {
-                    const event = state.definition[selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
+                    const event = state.definitionList[state.currentDefinitionId][selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
                     return h('div', [
                         h(
                             'div',
@@ -1108,8 +1108,8 @@ export default function generateEditNodeComponent() {
                                 },
                             },
                             event.mutators.map(mutatorRef => {
-                                const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
-                                const stateDef = state.definition[mutator.state.ref][mutator.state.id]
+                                const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+                                const stateDef = state.definitionList[state.currentDefinitionId][mutator.state.ref][mutator.state.id]
                                 return h(
                                     'div',
                                     {

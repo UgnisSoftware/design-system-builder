@@ -50,7 +50,8 @@ export default ()=> h(
                         click: [SELECT_COMPONENT, name],
                     },
                 },
-                state.definitionList[name]['vNodeBox']['_rootNode'].title
+                state.currentDefinitionId === name ? state.definitionList[state.currentDefinitionId] ['vNodeBox']['_rootNode'].title :
+                    state.definitionList[name]['vNodeBox']['_rootNode'].title
             )
         ),
         h(

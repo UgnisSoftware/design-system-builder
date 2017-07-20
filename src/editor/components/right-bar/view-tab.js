@@ -36,7 +36,7 @@ function editingNode(nodeRef) {
             input: [CHANGE_VIEW_NODE_TITLE, nodeRef],
         },
         liveProps: {
-            value: state.definition[nodeRef.ref][nodeRef.id].title,
+            value: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].title,
         },
         attrs: {
             autofocus: true,
@@ -58,7 +58,7 @@ function spacerComponent() {
 
 function listRootNode(nodeRef) {
     const nodeId = nodeRef.id
-    const node = state.definition[nodeRef.ref][nodeId]
+    const node = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId]
     return h(
         'div',
         {
@@ -165,7 +165,7 @@ function listRootNode(nodeRef) {
 
 function listBoxNode(nodeRef, parentRef, depth) {
     const nodeId = nodeRef.id
-    const node = state.definition[nodeRef.ref][nodeId]
+    const node = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId]
     return h(
         'div',
         {
@@ -290,7 +290,7 @@ function listBoxNode(nodeRef, parentRef, depth) {
 }
 function simpleNode(nodeRef, parentRef, depth) {
     const nodeId = nodeRef.id
-    const node = state.definition[nodeRef.ref][nodeId]
+    const node = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId]
     return h(
         'div',
         {

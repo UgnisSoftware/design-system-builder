@@ -1,4 +1,5 @@
 export let state = {
+    loading: true,
     leftOpen: true,
     rightOpen: true,
     fullScreen: false,
@@ -23,9 +24,8 @@ export let state = {
     hoveredEvent: null,
     mousePosition: {},
     eventStack: [],
-    definition: null,
     currentDefinitionId: '',
-    definitionList: null,
+    definitionList: {},
 }
 
 let listenerList = []

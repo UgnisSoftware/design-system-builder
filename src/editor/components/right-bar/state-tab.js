@@ -32,7 +32,7 @@ const addStateComponent = ()=> h(
 )
 
 function listState(stateId) {
-    const currentState = state.definition.state[stateId]
+    const currentState = state.definitionList[state.currentDefinitionId].state[stateId]
     function editingNode() {
         return h('input', {
             style: {
@@ -296,7 +296,7 @@ function listState(stateId) {
                                                     display: 'flex',
                                                 },
                                             },
-                                            Object.keys(currentState.definition).map(key =>
+                                            Object.keys(currentstate.definitionList[state.currentDefinitionId]).map(key =>
                                                 h(
                                                     'div',
                                                     {
@@ -341,7 +341,7 @@ function listState(stateId) {
                         'div',
                         {
                             style: {
-                                color: app.getCurrentState()[stateId] !== state.definition.state[stateId].defaultValue ? 'white' : '#aaa',
+                                color: app.getCurrentState()[stateId] !== state.definitionList[state.currentDefinitionId].state[stateId].defaultValue ? 'white' : '#aaa',
                                 display: 'inline-flex',
                                 alignSelf: 'center',
                                 padding: '0 2px 0 5px'
@@ -385,9 +385,9 @@ function listState(stateId) {
                 h(
                     'span',
                     currentState.mutators.map(mutatorRef => {
-                        const mutator = state.definition[mutatorRef.ref][mutatorRef.id]
-                        const event = state.definition[mutator.event.ref][mutator.event.id]
-                        const emitter = state.definition[event.emitter.ref][event.emitter.id]
+                        const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+                        const event = state.definitionList[state.currentDefinitionId][mutator.event.ref][mutator.event.id]
+                        const emitter = state.definitionList[state.currentDefinitionId][event.emitter.ref][event.emitter.id]
                         return h(
                             'div',
                             {
@@ -511,6 +511,6 @@ export default ()=> h(
                 h('span', 'CURRENT VALUE'),
             ]
         ),
-        ...state.definition.nameSpace['_rootNameSpace'].children.map(ref => listState(ref.id)),
+        ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.map(ref => listState(ref.id)),
     ]
 )

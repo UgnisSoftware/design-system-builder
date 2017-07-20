@@ -5,7 +5,7 @@ function lookForSelectedState(nodeRef) {
     // check if node was memoized, has not changed (immutable reference) and has an answer for seleted state
     if (
         memoizedRefs[nodeRef.id] &&
-        memoizedRefs[nodeRef.id].stateDefinition === state.definition &&
+        memoizedRefs[nodeRef.id].stateDefinition === state.definitionList[state.currentDefinitionId] &&
         memoizedRefs[nodeRef.id].isClosed === state.viewFoldersClosed[nodeRef.id] &&
         memoizedRefs[nodeRef.id][state.selectedStateNodeId] !== undefined
     ) {
@@ -13,7 +13,7 @@ function lookForSelectedState(nodeRef) {
     }
     // check data, style, event mutations
     const value = (() => {
-        const node = state.definition[nodeRef.ref][nodeRef.id]
+        const node = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id]
         const fieldsToCheck = fields[nodeRef.ref]
         for (let i = 0; i < fieldsToCheck.length; i++) {
             const fieldName = fieldsToCheck[i]
@@ -37,7 +37,7 @@ function lookForSelectedState(nodeRef) {
     })()
     memoizedRefs[nodeRef.id] = {
         ...memoizedRefs[nodeRef.id],
-        stateDefinition: state.definition,
+        stateDefinition: state.definitionList[state.currentDefinitionId],
         isClosed: state.viewFoldersClosed[nodeRef.id],
         [state.selectedStateNodeId]: value,
     }
