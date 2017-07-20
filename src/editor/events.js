@@ -2,6 +2,44 @@ import emptyApp from '../_empty.json'
 import { state, setState} from './state'
 import app from './live-app'
 
+function getAvailableEvents(type) {
+    let availableEvents = [
+        {
+            description: 'on click',
+            propertyName: 'click',
+        },
+        {
+            description: 'double clicked',
+            propertyName: 'dblclick',
+        },
+        {
+            description: 'mouse over',
+            propertyName: 'mouseover',
+        },
+        {
+            description: 'mouse out',
+            propertyName: 'mouseout',
+        },
+    ]
+    if (type === 'vNodeInput') {
+        availableEvents = availableEvents.concat([
+            {
+                description: 'input',
+                propertyName: 'input',
+            },
+            {
+                description: 'focus',
+                propertyName: 'focus',
+            },
+            {
+                description: 'blur',
+                propertyName: 'blur',
+            },
+        ])
+    }
+    return availableEvents
+}
+
 function moveInArray(array, moveIndex, toIndex) {
     let item = array[moveIndex]
     let length = array.length

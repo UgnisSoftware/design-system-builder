@@ -2667,30 +2667,6 @@
                 {
                     "ref": "vNodeBox",
                     "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "4dc66de4-9113-4c78-82f7-aac6c97949d3"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "3304f77a-1091-4333-86b6-44df6b4f6d34"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "10ac3e52-5e07-405d-8343-709ea5ff466a"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "c47ab2c6-96fb-485d-8751-c3989b60af82"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "57d3673c-8cbc-4aec-8772-a844bf051a43"
-                },
-                {
-                    "ref": "vNodeText",
-                    "id": "ca189b43-b7e8-4bf4-8d6f-7fa10112ab6b"
                 }
             ]
         },
@@ -4908,12 +4884,7 @@
             "ref": "fae9be83-8417-4dbc-8c96-83d2b7686828",
             "type": "number",
             "defaultValue": 0,
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "457b276d-42bd-482f-8a52-32cce42c6642"
-                }
-            ]
+            "mutators": []
         }
     },
     "mutator": {
