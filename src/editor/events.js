@@ -215,11 +215,11 @@ export function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
             definitionList: {
                 ...fixedParents.definitionList,
                 [state.currentDefinitionId]: {
-                    ...fixedParents.definition,
+                    ...fixedParents.definitionList[state.currentDefinitionId],
                     [nodeRef.ref]: {
-                        ...fixedParents.definition[nodeRef.ref],
+                        ...fixedParents.definitionList[state.currentDefinitionId][nodeRef.ref],
                         [nodeRef.id]: {
-                            ...fixedParents.definition[nodeRef.ref][nodeRef.id],
+                            ...fixedParents.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id],
                             parent: newParentRef,
                         },
                     },
