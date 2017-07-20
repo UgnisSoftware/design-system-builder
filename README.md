@@ -91,3 +91,40 @@ TODO Reddit
 #License:
 
 MIT
+
+
+FAQ
+
+What is Ugnis?
+
+Ugnis is an web application builder that is as powerful as any other programming language but does not require writing a single line of code.
+
+Why did you create Ugnis?
+
+We wanted a way for domain experts to change their applications without going through the development team and for development team to be more productive. Ugnis guarantees no runtime errors so anyone on the team can change the application without fear or large time investment.
+
+Is Ugnis powerful enough for any application?
+
+Ugnis is written in Ugnis itself. We definitely believe that Ugnis is powerful enough for any application.
+
+Ugnis will not scale.
+
+First of all, this is not a question. Second, it was built to scale. Ugnis shows how your nodes, state and actions are connected without going through multiple files and hundreds of lines of code.
+
+Is Ugnis slower than React/Elm/etc?
+
+In the alpha we are not optimising for speed, still, Ugnis has much more knowledge about your application  can be optimised.
+
+What about server, android/ios?
+
+It’s on the roadmap, but we are working on the web applications right now
+
+What is Ugnis Software?  We are a company working on AI based products. Our goal is to simplify complexity.
+
+Can I now fire all my developers?
+
+Not really, while we have reduced the boilerplate considerably and made the developing progress more understandable, the essential engineering part is still present in Ugnis. Though non-engineers now can easily check the progress and contribute parts of the software themselves.
+
+Thank you:
+
+Douglas Crockford, Nicholas C. Zakas, React team, Andrew Clark, Dan Abramov, RxJS team, André “Staltz” Medeiros, Alan Kay, Rich Hickey, Evan Czaplicki and Jonathan Blow
