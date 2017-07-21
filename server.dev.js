@@ -5,10 +5,9 @@ const bodyParser = require('body-parser')
 const reactExporter = require('./src/exporters/react')
 const reactNativeExporter = require('./src/exporters/react-native')
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '50mb'}))
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.static('./static_prod'))
-
 
 const idsToNames = {}
 

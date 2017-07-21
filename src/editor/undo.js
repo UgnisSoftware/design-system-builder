@@ -3,7 +3,7 @@ import {state, listen, setState} from './state'
 // undo/redo
 let stateStack = []
 // implement state stack for every component separately
-let stateStackHistory = { [state.currentDefinitionId]: stateStack }
+let stateStackHistory = { }
 
 let oldState = state
 listen(()=>{
@@ -38,7 +38,12 @@ document.addEventListener('keydown', e => {
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
         if (currentIndex > 0) {
             const newDefinition = stateStack[currentIndex - 1]
-            setState({ ...state, definition: newDefinition })
+            setState({ ...state,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: newDefinition
+                },
+            })
         }
     }
     if ((e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))) {
@@ -46,7 +51,12 @@ document.addEventListener('keydown', e => {
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
         if (currentIndex < stateStack.length - 1) {
             const newDefinition = stateStack[currentIndex + 1]
-            setState({ ...state, definition: newDefinition })
+            setState({ ...state,
+                definitionList: {
+                    ...state.definitionList,
+                    [state.currentDefinitionId]: newDefinition
+                },
+            })
         }
     }
 })

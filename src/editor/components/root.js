@@ -79,6 +79,7 @@ export default ()=> {
         return h('div', [loading(true)])
     }
 
+    const selectedNode = state.selectedViewNode.ref && state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
     return h(
         'div',
         {
@@ -101,7 +102,7 @@ export default ()=> {
                         position: 'relative',
                     },
                 },
-                [preview(), left(), right(), state.selectedViewNode.ref ? nodeEditor() : h('span')]
+                [preview(), left(), right(), selectedNode ? nodeEditor() : h('span')]
             ),
             state.draggedComponentView
                 ? h(
