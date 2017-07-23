@@ -56,7 +56,11 @@ export default ()=> h(
                         'div',
                         {
                             key: event.emitter.id + index,
-                            style: { marginBottom: '10px' },
+                            style: {
+                                marginBottom: '6px',
+                                paddingBottom: '10px',
+                                borderBottom: '2px solid #555',
+                            },
                         },
                         [
                             h(

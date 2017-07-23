@@ -1,6 +1,9 @@
 import h from 'snabbdom/h'
 import {state} from '../state'
 import {COMPONENT_HOVERED, COMPONENT_UNHOVERED, SELECT_COMPONENT, ADD_NEW_COMPONENT} from '../events'
+import {
+     dotIcon
+} from './icons'
 
 // const componentMockList = ['App bar', 'Avatar', 'Breadcrumbs', 'Button - flat', 'Button - raised', 'Button - round', 'Card', 'Dialog', 'Drawer', 'Input - auto complete', 'Input - text', 'Input - multiline', 'Input - number',
 //     'Input - checkbox', 'Input - radio', 'Input - toggle', 'Input - slider', 'Input - datepicker', 'List', 'Menu', 'Progress - linear', 'Progress - circular', 'Snackbar', 'Table', 'Tabs', 'Time picker']
@@ -37,7 +40,7 @@ export default ()=> h(
                         alignItems: 'center',
                         fontWeight:  state.currentDefinitionId === name ? '400' : '300',
                         height: '30px',
-                        background: state.currentDefinitionId === name ? '#ccc' : state.hoveredComponent === name ? '#e5e5e5' : 'none',
+                        background: state.currentDefinitionId === name ? '#dbdbdb' : state.hoveredComponent === name ? '#e8e8e8' : 'none',
                         transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
                         paddingLeft: '20px',
                         paddingTop: '5px',
@@ -53,6 +56,21 @@ export default ()=> h(
                 state.currentDefinitionId === name ? state.definitionList[state.currentDefinitionId] ['vNodeBox']['_rootNode'].title :
                     state.definitionList[name]['vNodeBox']['_rootNode'].title
             )
+        ),
+        h(
+            'div',
+            {
+                style: {
+                    position: 'absolute',
+                    //transition: 'all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                    top: 40*Object.keys(state.definitionList).indexOf(state.currentDefinitionId) + 'px',
+                    right: '0px',
+                    width: '3px',
+                    backgroundColor: '#53d486',
+                    height: '40px',
+                    display: 'inline-flex',
+                },
+            },
         ),
         h(
             'div',
