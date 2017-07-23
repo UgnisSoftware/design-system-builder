@@ -31,8 +31,9 @@ const addStateComponent = ()=> h(
     ]
 )
 
-function listState(stateId) {
-    const currentState = state.definitionList[state.currentDefinitionId].state[stateId]
+function listState(stateRef) {
+    const stateId = stateRef.id
+    const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
     function editingNode() {
         return h('input', {
             style: {
@@ -260,24 +261,25 @@ function listState(stateId) {
                                 )
                             }
                             if (currentState.type === 'table') {
-                                if (state.selectedStateNodeId !== stateId) {
-                                    return h(
-                                        'div',
-                                        {
-                                            key: 'icon',
-                                            on: {
-                                                click: [STATE_NODE_SELECTED, stateId],
-                                            },
-                                            style: {
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                marginTop: '7px',
-                                            },
-                                        },
-                                        [listIcon()]
-                                    )
-                                }
+                                // if (state.selectedStateNodeId !== stateId) {
+                                //     return h(
+                                //         'div',
+                                //         {
+                                //             key: 'icon',
+                                //             on: {
+                                //                 click: [STATE_NODE_SELECTED, stateId],
+                                //             },
+                                //             style: {
+                                //                 display: 'flex',
+                                //                 alignItems: 'center',
+                                //                 marginTop: '7px',
+                                //             },
+                                //         },
+                                //         [listIcon()]
+                                //     )
+                                // }
                                 const table = app.getCurrentState()[stateId]
+                                const columns = currentState.columns.map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title)
                                 return h(
                                     'div',
                                     {
@@ -296,7 +298,7 @@ function listState(stateId) {
                                                     display: 'flex',
                                                 },
                                             },
-                                            Object.keys(currentstate.definitionList[state.currentDefinitionId]).map(key =>
+                                            columns.map( name =>
                                                 h(
                                                     'div',
                                                     {
@@ -306,28 +308,24 @@ function listState(stateId) {
                                                             borderBottom: '2px solid white',
                                                         },
                                                     },
-                                                    key
+                                                    name
                                                 )
                                             )
                                         ),
-                                        ...Object.keys(table).map(id =>
-                                            h(
-                                                'div',
-                                                {
-                                                    style: {
-                                                        display: 'flex',
-                                                    },
-                                                },
-                                                Object.keys(table[id]).map(key =>
-                                                    h(
-                                                        'div',
-                                                        {
-                                                            style: {
-                                                                flex: '1',
-                                                                padding: '2px 5px',
+                                        h('div', {},
+                                            table.map(row =>
+                                                h('div', {},
+                                                    currentState.columns.map(childRef =>
+                                                        h(
+                                                            'div',
+                                                            {
+                                                                style: {
+                                                                    flex: '1',
+                                                                    padding: '2px 5px',
+                                                                },
                                                             },
-                                                        },
-                                                        table[id][key]
+                                                            row[childRef.id]
+                                                        )
                                                     )
                                                 )
                                             )
@@ -341,7 +339,7 @@ function listState(stateId) {
                         'div',
                         {
                             style: {
-                                color: app.getCurrentState()[stateId] !== state.definitionList[state.currentDefinitionId].state[stateId].defaultValue ? 'white' : '#aaa',
+                                color: app.getCurrentState()[stateId] !== state.definitionList[state.currentDefinitionId][stateRef.ref][stateId].defaultValue ? 'white' : '#aaa',
                                 display: 'inline-flex',
                                 alignSelf: 'center',
                                 padding: '0 2px 0 5px'
@@ -507,10 +505,10 @@ export default ()=> h(
                 },
             },
             [
-                h('span', 'GLOBAL STATE'),
+                h('span', 'COMPONENTS STATE '),
                 h('span', 'CURRENT VALUE'),
             ]
         ),
-        ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.map(ref => listState(ref.id)),
+        ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.map(ref => listState(ref)),
     ]
 )

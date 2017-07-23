@@ -1483,12 +1483,35 @@ export function ADD_STATE(namespaceId, type) {
     }
     if (type === 'table') {
         newState = {
-            title: 'new table',
-            type: 'table',
-            ref: newStateId,
-            defaultValue: {},
-            mutators: [],
+            title: "table",
+            type: "table",
+            defaultValue: [],
+            columns: [],
+            mutators: []
         }
+        return setState({
+            ...state,
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    nameSpace: {
+                        ...state.definitionList[state.currentDefinitionId].nameSpace,
+                        [namespaceId]: {
+                            ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
+                            children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
+                                ref: 'table',
+                                id: newStateId,
+                            }),
+                        },
+                    },
+                    table: {
+                        ...state.definitionList[state.currentDefinitionId].table,
+                        [newStateId]: newState,
+                    },
+                }
+            },
+        })
     }
     if (type === 'folder') {
         newState = {

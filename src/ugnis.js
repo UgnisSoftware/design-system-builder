@@ -314,12 +314,9 @@ export default definition => {
     let vdom = resolve({ ref: 'vNodeBox', id: '_rootNode' })
     function render(newDefinition) {
         if (newDefinition) {
-            if (definition.state !== newDefinition.state) {
+            if (definition.nameSpace !== newDefinition.nameSpace) {
                 definition = newDefinition
-                const newState = Object.keys(definition.state).map(key => definition.state[key]).reduce((acc, def) => {
-                    acc[def.ref] = def.defaultValue
-                    return acc
-                }, {})
+                const newState = createDefaultState()
                 currentState = { ...newState, ...currentState }
             } else {
                 definition = newDefinition
@@ -362,8 +359,9 @@ export default definition => {
     }
 
     function createDefaultState() {
-        return Object.keys(definition.state).map(key => definition.state[key]).reduce((acc, def) => {
-            acc[def.ref] = def.defaultValue
+        return definition.nameSpace['_rootNameSpace'].children.reduce((acc, ref) => {
+            const def = definition[ref.ref][ref.id]
+            acc[ref.id] = def.defaultValue
             return acc
         }, {})
     }

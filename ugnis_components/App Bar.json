@@ -4874,17 +4874,63 @@
                 {
                     "ref": "state",
                     "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
+                },
+                {
+                    "ref": "table",
+                    "id": "edfsd686828"
                 }
             ]
+        }
+    },
+    "table": {
+        "edfsd686828": {
+            "title": "table",
+            "type": "table",
+            "defaultValue": [
+                {
+                    "asd2b7686828": 5
+                },
+                {
+                    "asd2b7686828": 7
+                },
+                {
+                    "asd2b7686828": 9
+                }
+            ],
+            "columns": [
+                {
+                    "ref": "state",
+                    "id": "asd2b7686828"
+                }
+            ],
+            "mutators": []
         }
     },
     "state": {
         "fae9be83-8417-4dbc-8c96-83d2b7686828": {
             "title": "new number",
-            "ref": "fae9be83-8417-4dbc-8c96-83d2b7686828",
             "type": "number",
             "defaultValue": 0,
             "mutators": []
+        },
+        "asd2b7686828": {
+            "title": "number",
+            "type": "number",
+            "defaultValue": 0,
+            "mutators": []
+        },
+        "edfsd686828": {
+            "defaultValue": [
+                {
+                    "asd2b7686828": 5
+                },
+                {
+                    "asd2b7686828": 7
+                },
+                {
+                    "asd2b7686828": 9
+                }
+            ]
         }
     },
     "mutator": {
