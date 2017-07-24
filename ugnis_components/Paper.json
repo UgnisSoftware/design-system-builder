@@ -583,7 +583,7 @@
                 "ref": "pipe",
                 "id": "d97d41bb-bdbf-4db2-82e3-50c11f846658"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "4b16a843-a26a-4034-8d4b-3af86fcdda25"
             },
@@ -761,7 +761,7 @@
                 "ref": "pipe",
                 "id": "5de7732c-96bb-422c-81f4-680afd133c74"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "5f619eb6-4ec2-4ba6-8cf6-e4f24f912c94"
             },

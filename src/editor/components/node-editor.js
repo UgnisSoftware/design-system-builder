@@ -760,7 +760,7 @@ export default function generateEditNodeComponent() {
                             },
                             'Background Color'
                         ),
-                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['backgroundColor'], 'text')]),
+                        h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['background'], 'text')]),
                         h(
                             'div',
                             {

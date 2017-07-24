@@ -897,7 +897,7 @@ export function ADD_NODE(nodeRef, type) {
         borderLeft: uuid(),
         borderRight: uuid(),
         borderRadius: uuid(),
-        backgroundColor: uuid(),
+        background: uuid(),
         opacity: uuid(),
         overflow: uuid(),
         boxShadow: uuid(),
@@ -1034,7 +1034,7 @@ export function ADD_NODE(nodeRef, type) {
             value: 'wrap',
             transformations: [],
         },
-        [styleIds.backgroundColor]: {
+        [styleIds.background]: {
             type: 'text',
             value: 'none',
             transformations: [],

@@ -1035,7 +1035,7 @@
                 "ref": "pipe",
                 "id": "d97d41bb-bdbf-4db2-82e3-50c11f846658"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "4b16a843-a26a-4034-8d4b-3af86fcdda25"
             },
@@ -1213,7 +1213,7 @@
                 "ref": "pipe",
                 "id": "2f43f0fe-e858-4f8a-8532-72bee09fabf6"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "ff7a6e75-093e-49be-82a8-e534279dc5cb"
             },
@@ -1359,7 +1359,7 @@
                 "ref": "pipe",
                 "id": "3770df86-fb74-417b-80d3-1bb877f5dc50"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "d177e54a-783d-490a-8778-6a408195d0f4"
             },
@@ -1505,7 +1505,7 @@
                 "ref": "pipe",
                 "id": "db23639c-1005-4dcb-8776-74f75cf0b280"
             },
-            "backgroundColor": {
+            "background": {
                 "ref": "pipe",
                 "id": "cccd656d-b18d-42ea-81ba-6351abfd95dd"
             },
