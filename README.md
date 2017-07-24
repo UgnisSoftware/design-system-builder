@@ -6,7 +6,7 @@ Supports React, React-Native, Vue, Cycle.js and pure JS. Vote for more integrati
 
 Default components use google material design.
 
-# How to use it
+## How to use it
 
 Download ugnis locally:
 
@@ -22,9 +22,9 @@ Next step is to start the editor
     node ./node-modules/.bin/ugnis --port 4000 --source './ugnis_components'
 ```
 
-Now open [localhost:4000](localhost:4000)
+Now open [localhost:4000](http://localhost:4000)
 
-# Why use Ugnis?
+## Why use Ugnis?
 
   - Create a uniform component library for your company/project.
   - Default components can easily be modified to fit your needs.
@@ -34,11 +34,11 @@ Now open [localhost:4000](localhost:4000)
 
 *Warning*: Ugnis is still in alpha, while we guarantee that exported code will work, [we are still missing some features](TODO)
 
-# Why have we created Ugnis?
+## Why have we created Ugnis?
 
 Ugnis is a moonshot - a dream that we can create UI without
 
-# How does Ugnis work internally?
+## How does Ugnis work internally?
 
 Ugnis is declarative programming taken to the extreme. It's so declarative that reading and writing Ugnis components by hand is painful.
 That's why the visual editor exists - it manages the code generation, so you could focus on design and logic.
@@ -50,11 +50,11 @@ Ugnis consists of three parts:
   - Exporters for each supported framework that take the definition and generate code.
 
 
-# Keyboard shortcuts
+## Keyboard shortcuts
 
 // TODO
 
-# Goals for 1.0v release
+## Goals for 1.0v release
 
   - [x] Zero configuration, Ugnis-only components don't need webpack or babel
   - [ ] Integrates well with existing frameworks
@@ -82,7 +82,7 @@ Ugnis consists of three parts:
   - [ ] Timers
   - [ ] Keyboard events
 
-Future improvements
+##Future improvements
   - [ ] Powerful enough to write any application, Ugnis editor is written with Ugnis itself
   - [ ] Hosted version - allow multiple people to work on the same component
   - [ ] Router
@@ -97,20 +97,20 @@ Future improvements
   - [ ] WebAssembly compiler
   - [ ] editor works well on mobile
 
-#Community:
+## Community:
 TODO Reddit
 
-#License:
+## License:
 
 MIT
 
-# Contributors
+## Contributors
 
 [Karolis Masiulis](https://www.github.com/masiulis)
 [Jonas Bernotas](https://github.com/Djonix)
 [Justinas Petuchovas](https://github.com/jpetuchovas)
 [Vytas Butkus](http://vytasbutkus.com/)
 
-# Thank you:
+### Thank you:
 
 Douglas Crockford, Nicholas C. Zakas, React team, Andrew Clark, Dan Abramov, RxJS team, André “Staltz” Medeiros, Alan Kay, Chris Granger, Rich Hickey, Evan Czaplicki, Jonathan Blow and everyone who is pushing programming forward!
