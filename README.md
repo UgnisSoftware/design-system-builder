@@ -11,7 +11,7 @@ Default components use google material design.
 Download ugnis locally:
 
 ```
-    npm install ugnis --save-dev
+npm install ugnis --save-dev
 ```
 
 It will install Ugnis editor and download default Ugnis components
@@ -19,7 +19,7 @@ It will install Ugnis editor and download default Ugnis components
 Next step is to start the editor
 
 ```
-    node ./node-modules/.bin/ugnis --port 4000 --source './ugnis_components'
+node ./node-modules/.bin/ugnis --port 4000 --source './ugnis_components'
 ```
 
 Now open [localhost:4000](http://localhost:4000)
@@ -27,12 +27,11 @@ Now open [localhost:4000](http://localhost:4000)
 ## Why use Ugnis?
 
   - Create a uniform component library for your company/project.
-  - Default components can easily be modified to fit your needs.
+  - Default components can easily be modified to fit your needs by anyone on the team.
   - Works across frameworks. Perfect when migrating to a new framework.
-  - Visual editor guarantees no runtime errors. Design changes can safely be made by anyone on the team.
-  - Future proof - writing Ugnis to \<insert a new framework name here\> transformer is trivial. Updating to a new Ugnis version is automatic.
+  - **Future proof** - writing Ugnis to \<insert a new framework name here\> transformer is trivial. Updating to a new Ugnis version is automatic.
 
-*Warning*: Ugnis is still in alpha, while we guarantee that exported code will work, [we are still missing some features](TODO)
+**Warning**: Ugnis is still in alpha, while we guarantee that exported code will work, [we are still missing some features](https://github.com/UgnisSoftware/ugnis/#goals-for-10v-release)
 
 ## Why have we created Ugnis?
 
@@ -48,11 +47,6 @@ Ugnis consists of three parts:
   - Declarative definition of your Component.
   - Visual editor that changes the definition.
   - Exporters for each supported framework that take the definition and generate code.
-
-
-## Keyboard shortcuts
-
-// TODO
 
 ## Goals for 1.0v release
 
@@ -82,7 +76,7 @@ Ugnis consists of three parts:
   - [ ] Timers
   - [ ] Keyboard events
 
-##Future improvements
+## Future improvements
   - [ ] Powerful enough to write any application, Ugnis editor is written with Ugnis itself
   - [ ] Hosted version - allow multiple people to work on the same component
   - [ ] Router
@@ -96,9 +90,6 @@ Ugnis consists of three parts:
   - [ ] application splitting
   - [ ] WebAssembly compiler
   - [ ] editor works well on mobile
-
-## Community:
-TODO Reddit
 
 ## License:
 
