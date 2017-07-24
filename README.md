@@ -1,4 +1,4 @@
-# <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis 0.8.2v-alpha
+# <img height="64" src="https://github.com/masiulis/ugnis/blob/dev/static_prod/images/logo_new256x256.png?raw=true" />Ugnis 0.8.2v-alpha
 
 Ugnis is a cross framework UI component library + visual editor. [Try it online!](https://ugnis.com/editor)
 
