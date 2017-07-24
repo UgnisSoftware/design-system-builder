@@ -21,7 +21,7 @@ export default ()=> {
                     background: '#ffffff',
                     transform: 'translateZ(0)',
                     zIndex: state.fullScreen ? '2000' : '100',
-                    //boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px',
+                    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
                     position: 'fixed',
                     transition: state.fullScreen || (state.editorRightWidth === 425 && state.editorLeftWidth === 200) ? 'all 0.5s' : 'none', // messes up the closing of full screen, but works in 99% of cases
                     top: state.fullScreen ? '0px' : 15 + topMenuHeight + 'px',
