@@ -1,6 +1,6 @@
 # <img height="64" src="https://cloud.githubusercontent.com/assets/5903616/20250447/5fe963c2-aa17-11e6-8648-bc1760fdaeb7.png" />Ugnis 0.8.2v-alpha
 
-Ugnis is a cross framework UI component library + visual editor. [Try it online!](https://ugnis/editor)
+Ugnis is a cross framework UI component library + visual editor. [Try it online!](https://ugnis.com/editor)
 
 Supports React, React-Native, Vue, Cycle.js and pure JS. Vote for more integrations in this issue // TODO Angular 1/2+, Ember, Elm, Moon, etc
 
