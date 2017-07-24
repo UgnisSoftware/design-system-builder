@@ -107,8 +107,11 @@ MIT
 ## Contributors
 
 [Karolis Masiulis](https://www.github.com/masiulis)
+
 [Jonas Bernotas](https://github.com/Djonix)
+
 [Justinas Petuchovas](https://github.com/jpetuchovas)
+
 [Vytas Butkus](http://vytasbutkus.com/)
 
 ### Thank you:
