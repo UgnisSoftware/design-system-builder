@@ -2,7 +2,7 @@ import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
     CHANGE_STATE_NODE_TITLE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, DELETE_STATE, CHANGE_CURRENT_STATE_BOOLEAN_VALUE, STATE_NODE_SELECTED,
-    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE
+    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD
 } from '../../events'
 import {
     deleteIcon, listIcon, saveIcon, ifIcon, inputIcon, textIcon, boxIcon, numberIcon
@@ -260,79 +260,7 @@ function listState(stateRef) {
                                     ]
                                 )
                             }
-                            if (currentState.type === 'table') {
-                                // if (state.selectedStateNodeId !== stateId) {
-                                //     return h(
-                                //         'div',
-                                //         {
-                                //             key: 'icon',
-                                //             on: {
-                                //                 click: [STATE_NODE_SELECTED, stateId],
-                                //             },
-                                //             style: {
-                                //                 display: 'flex',
-                                //                 alignItems: 'center',
-                                //                 marginTop: '7px',
-                                //             },
-                                //         },
-                                //         [listIcon()]
-                                //     )
-                                // }
-                                const table = app.getCurrentState()[stateId]
-                                const columns = currentState.columns.map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title)
-                                return h(
-                                    'div',
-                                    {
-                                        key: 'table',
-                                        style: {
-                                            background: '#828183',
-                                            width: '100%',
-                                            flex: '0 0 100%',
-                                        },
-                                    },
-                                    [
-                                        h(
-                                            'div',
-                                            {
-                                                style: {
-                                                    display: 'flex',
-                                                },
-                                            },
-                                            columns.map( name =>
-                                                h(
-                                                    'div',
-                                                    {
-                                                        style: {
-                                                            flex: '1',
-                                                            padding: '2px 5px',
-                                                            borderBottom: '2px solid white',
-                                                        },
-                                                    },
-                                                    name
-                                                )
-                                            )
-                                        ),
-                                        h('div', {},
-                                            table.map(row =>
-                                                h('div', {},
-                                                    currentState.columns.map(childRef =>
-                                                        h(
-                                                            'div',
-                                                            {
-                                                                style: {
-                                                                    flex: '1',
-                                                                    padding: '2px 5px',
-                                                                },
-                                                            },
-                                                            row[childRef.id]
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                    ]
-                                )
-                            }
+                            return h('span')
                         })(),
                     ]),
                     h(
@@ -364,6 +292,87 @@ function listState(stateRef) {
                     ),
                 ]
             ),
+            currentState.type === 'table' ?
+                h(
+                    'div',
+                    {
+                        key: 'table',
+                        style: {
+                            marginLeft: '20px'
+                        },
+                    },
+                    [
+                        h(
+                            'div',
+                            {
+                                style: {
+                                    display: 'flex'
+                                },
+                            },
+                            ['id'].concat(currentState.columns.map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title))
+                                .map( name =>
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                flex: '1',
+                                                padding: '2px 5px',
+                                                borderBottom: '2px solid white',
+                                                maxWidth: '200px'
+                                            },
+                                        },
+                                        name
+                                    )
+                                )
+                        ),
+                        ...app.getCurrentState()[stateId].map(row =>
+                            h('div', {
+                                    style: {
+                                        display: 'flex'
+                                    },
+                                },
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                flex: '1',
+                                                padding: '2px 5px',
+                                                maxWidth: '200px'
+                                            },
+                                        },
+                                        'ref'//row.id
+                                    ),
+                                    ...currentState.columns.map(childRef =>
+                                        h(
+                                            'td',
+                                            {
+                                                style: {
+                                                    flex: '1',
+                                                    padding: '2px 5px',
+                                                    maxWidth: '200px'
+                                                },
+                                            },
+                                            row[childRef.id]
+                                        )
+                                    )
+                                ]
+                            )
+                        ),
+                        h('div', {
+                            style: {
+                                border: '3px solid #5bcc5b',
+                                cursor: 'pointer',
+                                padding: '5px',
+                                marginTop: '5px'
+                            },
+                            on: {
+                                click: [UPDATE_TABLE_DEFAULT_RECORD, stateId]
+                            }
+                        }, 'Add record'
+                        )
+                    ]
+                ) : h('span'),
             state.selectedStateNodeId === stateId
                 ? h('div', { style: { paddingLeft: '10px' } }, [
                 h(

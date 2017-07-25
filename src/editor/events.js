@@ -2005,3 +2005,18 @@ export function CHANGE_COMPONENT_PATH(name, e) {
         },
     })
 }
+
+export function UPDATE_TABLE_DEFAULT_RECORD(tableId, e) {
+    const table = state.definitionList[state.currentDefinitionId].table[tableId]
+    let defaultRow = {}
+    table.columns.forEach((stateRef)=>{
+        defaultRow[stateRef.id] = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].defaultValue
+    })
+    defaultRow.id = uuid()
+    app.setCurrentState({
+        ...app.getCurrentState(),
+        [tableId]: app.getCurrentState()[tableId].concat(defaultRow),
+    })
+    setState({...state})
+}
+

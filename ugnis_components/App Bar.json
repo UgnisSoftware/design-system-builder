@@ -4888,12 +4888,15 @@
             "type": "table",
             "defaultValue": [
                 {
+                    "id": "8dvb7686828",
                     "asd2b7686828": 5
                 },
                 {
+                    "id": "gw8c7686828",
                     "asd2b7686828": 7
                 },
                 {
+                    "id": "cs3f7686828",
                     "asd2b7686828": 9
                 }
             ],
@@ -4920,17 +4923,10 @@
             "mutators": []
         },
         "edfsd686828": {
-            "defaultValue": [
-                {
-                    "asd2b7686828": 5
-                },
-                {
-                    "asd2b7686828": 7
-                },
-                {
-                    "asd2b7686828": 9
-                }
-            ]
+            "title": "number",
+            "type": "number",
+            "defaultValue": 0,
+            "mutators": []
         }
     },
     "mutator": {
