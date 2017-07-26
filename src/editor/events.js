@@ -2020,3 +2020,64 @@ export function UPDATE_TABLE_DEFAULT_RECORD(tableId, e) {
     setState({...state})
 }
 
+export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
+    // update table def
+    // add new state
+    // update running app
+    const newStateId = uuid()
+    let newState
+    if (type === 'text') {
+        newState = {
+            title: 'new text',
+            ref: newStateId,
+            type: 'text',
+            defaultValue: 'Default text',
+            mutators: [],
+        }
+    }
+    if (type === 'number') {
+        newState = {
+            title: 'new number',
+            ref: newStateId,
+            type: 'number',
+            defaultValue: 0,
+            mutators: [],
+        }
+    }
+    if (type === 'boolean') {
+        newState = {
+            title: 'new boolean',
+            type: 'boolean',
+            ref: newStateId,
+            defaultValue: true,
+            mutators: [],
+        }
+    }
+    let updatedTable = app.getCurrentState()[tableId].map(row => ({...row, [newStateId]: newState.defaultValue}))
+    app.setCurrentState({
+        ...app.getCurrentState(),
+        [tableId]: updatedTable,
+    })
+    setState({
+        ...state,
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                table: {
+                    ...state.definitionList[state.currentDefinitionId].table,
+                    [tableId]: {
+                        ...state.definitionList[state.currentDefinitionId].table[tableId],
+                        defaultValue: state.definitionList[state.currentDefinitionId].table[tableId].defaultValue.map(row => ({...row, [newStateId]: newState.defaultValue})),
+                        columns: state.definitionList[state.currentDefinitionId].table[tableId].columns.concat({ref: 'state', id: newStateId})
+                    }
+                },
+                state: {
+                    ...state.definitionList[state.currentDefinitionId].state,
+                    [newStateId]: newState
+                }
+            }
+        },
+    })
+}
+

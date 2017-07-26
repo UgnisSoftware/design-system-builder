@@ -2,7 +2,8 @@ import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
     CHANGE_STATE_NODE_TITLE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, DELETE_STATE, CHANGE_CURRENT_STATE_BOOLEAN_VALUE, STATE_NODE_SELECTED,
-    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD
+    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD,
+    UPDATE_TABLE_ADD_COLUMN
 } from '../../events'
 import {
     deleteIcon, listIcon, saveIcon, ifIcon, inputIcon, textIcon, boxIcon, numberIcon
@@ -309,21 +310,36 @@ function listState(stateRef) {
                                     display: 'flex'
                                 },
                             },
-                            ['id'].concat(currentState.columns.map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title))
-                                .map( name =>
-                                    h(
-                                        'div',
-                                        {
-                                            style: {
-                                                flex: '1',
-                                                padding: '2px 5px',
-                                                borderBottom: '2px solid white',
-                                                maxWidth: '200px'
-                                            },
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            flex: '1',
+                                            padding: '2px 5px',
+                                            borderBottom: '2px solid white',
+                                            maxWidth: '50px'
                                         },
-                                        name
+                                    },
+                                    'id'
+                                ),
+                                ...currentState.columns
+                                    .map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title)
+                                    .map( name =>
+                                        h(
+                                            'div',
+                                            {
+                                                style: {
+                                                    flex: '1',
+                                                    padding: '2px 5px',
+                                                    borderBottom: '2px solid white',
+                                                    maxWidth: '200px'
+                                                },
+                                            },
+                                            name
+                                        )
                                     )
-                                )
+                            ]
                         ),
                         ...app.getCurrentState()[stateId].map(row =>
                             h('div', {
@@ -338,7 +354,7 @@ function listState(stateRef) {
                                             style: {
                                                 flex: '1',
                                                 padding: '2px 5px',
-                                                maxWidth: '200px'
+                                                maxWidth: '50px'
                                             },
                                         },
                                         'ref'//row.id
@@ -359,17 +375,57 @@ function listState(stateRef) {
                                 ]
                             )
                         ),
-                        h('div', {
-                            style: {
-                                border: '3px solid #5bcc5b',
-                                cursor: 'pointer',
-                                padding: '5px',
-                                marginTop: '5px'
-                            },
-                            on: {
-                                click: [UPDATE_TABLE_DEFAULT_RECORD, stateId]
-                            }
-                        }, 'Add record'
+                        h('div', {style: {display: 'flex', alignItems: 'center'}}, [
+                            h('div', 'Add column: '),
+                            h('div',
+                                {
+                                    style: {
+                                        cursor: 'pointer',
+                                        padding: '5px',
+                                        marginTop: '5px'
+                                    },
+                                    on: {
+                                        click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'text']
+                                    }
+                                }, [textIcon()]
+                            ),
+                            h('div',
+                                {
+                                    style: {
+                                        cursor: 'pointer',
+                                        padding: '5px',
+                                        marginTop: '5px'
+                                    },
+                                    on: {
+                                        click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'number']
+                                    }
+                                }, [numberIcon()]
+                            ),
+                            h('div',
+                                {
+                                    style: {
+                                        cursor: 'pointer',
+                                        padding: '5px',
+                                        marginTop: '5px'
+                                    },
+                                    on: {
+                                        click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'boolean']
+                                    }
+                                }, [ifIcon()]
+                            ),
+                        ]),
+                        h('div',
+                            {
+                                style: {
+                                    border: '3px solid #5bcc5b',
+                                    cursor: 'pointer',
+                                    padding: '5px',
+                                    marginTop: '5px'
+                                },
+                                on: {
+                                    click: [UPDATE_TABLE_DEFAULT_RECORD, stateId]
+                                }
+                            }, 'Add record'
                         )
                     ]
                 ) : h('span'),
