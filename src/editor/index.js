@@ -13,6 +13,7 @@ import snabbdom from 'snabbdom'
 const patch = snabbdom.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes'), { create: updateProps, update: updateProps }])
 
 import {listen} from './state'
+import {FREEZER_CLICKED} from './events'
 import root from './components/root'
 import './undo'
 import './server'
@@ -35,4 +36,5 @@ listen(render)
 window.addEventListener('resize', render, false)
 window.addEventListener('orientationchange', render, false)
 
-render()
+// hack to start frozen
+FREEZER_CLICKED()
