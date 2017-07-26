@@ -333,7 +333,7 @@ export default definition => {
         frozenCallback = callback
         selectedNodeInDevelopment = nodeId
         if (frozen === false && isFrozen === true) {
-            selectHoverActive = true
+            //selectHoverActive = true
         }
         if (frozen || frozen !== isFrozen) {
             frozen = isFrozen
