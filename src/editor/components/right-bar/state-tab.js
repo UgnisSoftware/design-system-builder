@@ -375,43 +375,52 @@ function listState(stateRef) {
                                 ]
                             )
                         ),
-                        h('div', {style: {display: 'flex', alignItems: 'center'}}, [
-                            h('div', 'Add column: '),
+                        h('div', {style: {display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}, [
+                            h('div', {style: {paddingTop: '3px', paddingLeft: '8px',}},  'Add column: '),
                             h('div',
                                 {
                                     style: {
+                                        border: '3px solid #5bcc5b',
                                         cursor: 'pointer',
                                         padding: '5px',
-                                        marginTop: '5px'
+                                        marginTop: '5px',
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     },
                                     on: {
                                         click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'text']
                                     }
-                                }, [textIcon()]
+                                }, [textIcon(), 'text']
                             ),
                             h('div',
                                 {
                                     style: {
+                                        border: '3px solid #5bcc5b',
                                         cursor: 'pointer',
                                         padding: '5px',
-                                        marginTop: '5px'
+                                        marginTop: '5px',
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     },
                                     on: {
                                         click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'number']
                                     }
-                                }, [numberIcon()]
+                                }, [numberIcon(), 'number']
                             ),
                             h('div',
                                 {
                                     style: {
+                                        border: '3px solid #5bcc5b',
                                         cursor: 'pointer',
                                         padding: '5px',
-                                        marginTop: '5px'
+                                        marginTop: '5px',
+                                        display: 'flex',
+                                        alignItems: 'center',
                                     },
                                     on: {
                                         click: [UPDATE_TABLE_ADD_COLUMN, stateId, 'boolean']
                                     }
-                                }, [ifIcon()]
+                                }, [ifIcon(), 'boolean']
                             ),
                         ]),
                         h('div',
