@@ -2,9 +2,9 @@
 
 Ugnis is a cross framework UI component library + visual editor. [Try it online!](https://ugnis.com/editor)
 
-Supports React, React-Native, Vue, Cycle.js and pure JS. Vote for more integrations in this issue // TODO Angular 1/2+, Ember, Elm, Moon, etc
+Exports to React, React-Native, Vue, Cycle.js and pure JS. Vote for more integrations in this issue // TODO Angular 1/2+, Ember, Elm, Moon, etc
 
-Default components use google material design.
+Default components use Google Material Design.
 
 ## How to use it
 
@@ -35,7 +35,18 @@ Now open [localhost:4000](http://localhost:4000)
 
 ## Why have we created Ugnis?
 
-Ugnis is a moonshot - a dream that we can create UI without
+We are freelancers who help companies speed up their front-end development. One of the thing we often have to do is migrating older projects to a new framework.
+
+**Migration sucks** for everyone:
+    * **Product Managers** want new features and quicker iterations. Spending so much time refactoring is a hard sell from business perspective.
+    * **Designers** want to unify the design, but current design tools don't allow them to be autonomous, they need to rely on developers who are already stretched thin.
+    * **Developers** want to "make the code right" this time, but the old code has accumulated bug fixes and edge cases, that are easy to miss when rewriting from scratch.
+
+With Ugnis we can maintain and develop new features for the old codebase. Once most components are in Ugnis, making the jump to a new framework is much easier.
+
+Designers can create components that will be directly used in code and make sure the new styles are uniform across all components.
+
+And whatever new framework comes around, if your components are in Ugnis, you will never have to endure migration again.
 
 ## How does Ugnis work internally?
 
