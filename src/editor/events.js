@@ -362,7 +362,7 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
 }
 
 export function PIPE_HOVERED(pipeRef, e) {
-    if (!state.draggedComponentStateId) {
+    if (!state.draggedComponentState.id) {
         return
     }
     setState({ ...state, hoveredPipe: pipeRef })
@@ -460,7 +460,7 @@ export function WIDTH_DRAGGED(widthName, e) {
     return false
 }
 
-export function STATE_DRAGGED(stateId, e) {
+export function STATE_DRAGGED(stateRef, e) {
     e.preventDefault()
     const initialX = e.touches ? e.touches[0].pageX : e.pageX
     const initialY = e.touches ? e.touches[0].pageY : e.pageY
@@ -475,7 +475,7 @@ export function STATE_DRAGGED(stateId, e) {
             if (Math.abs(initialY - y) > 3) {
                 setState({
                     ...state,
-                    draggedComponentStateId: stateId,
+                    draggedComponentState: stateRef,
                     mousePosition: { x: x - offsetX, y: y - offsetY },
                 })
             }
@@ -495,22 +495,22 @@ export function STATE_DRAGGED(stateId, e) {
         window.removeEventListener('touchmove', drag)
         window.removeEventListener('mouseup', stopDragging)
         window.removeEventListener('touchend', stopDragging)
-        if (!state.draggedComponentStateId) {
-            return STATE_NODE_SELECTED(stateId)
+        if (!state.draggedComponentState.id) {
+            return STATE_NODE_SELECTED(stateRef)
         }
         if (!state.hoveredPipe && !state.hoveredEvent) {
             return setState({
                 ...state,
-                draggedComponentStateId: null,
+                draggedComponentState: null,
                 hoveredPipe: null,
             })
         }
         if (state.hoveredEvent) {
             // check if event already changes the state
-            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].mutators.map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators.map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredEvent: null,
                 })
             }
@@ -518,7 +518,7 @@ export function STATE_DRAGGED(stateId, e) {
             const pipeId = uuid()
             return setState({
                 ...state,
-                draggedComponentStateId: null,
+                draggedComponentState: null,
                 hoveredEvent: null,
                 definitionList: {
                     ...state.definitionList,
@@ -527,19 +527,16 @@ export function STATE_DRAGGED(stateId, e) {
                         pipe: {
                             ...state.definitionList[state.currentDefinitionId].pipe,
                             [pipeId]: {
-                                type: state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type,
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
+                                type: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type,
+                                value: state.draggedComponentState,
                                 transformations: [],
                             },
                         },
-                        state: {
-                            ...state.definitionList[state.currentDefinitionId].state,
-                            [state.draggedComponentStateId]: {
-                                ...state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId],
-                                mutators: state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].mutators.concat({
+                        [state.draggedComponentState.ref]: {
+                            ...state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref],
+                            [state.draggedComponentState.id]: {
+                                ...state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id],
+                                mutators: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators.concat({
                                     ref: 'mutator',
                                     id: mutatorId,
                                 }),
@@ -549,10 +546,7 @@ export function STATE_DRAGGED(stateId, e) {
                             ...state.definitionList[state.currentDefinitionId].mutator,
                             [mutatorId]: {
                                 event: state.hoveredEvent,
-                                state: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
+                                state: state.draggedComponentState,
                                 mutation: { ref: 'pipe', id: pipeId },
                             },
                         },
@@ -575,7 +569,7 @@ export function STATE_DRAGGED(stateId, e) {
             if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref && state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref === 'state') {
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -585,10 +579,7 @@ export function STATE_DRAGGED(stateId, e) {
                                 ...state.definitionList[state.currentDefinitionId].pipe,
                                 [state.hoveredPipe.id]: {
                                     ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                    value: {
-                                        ref: 'state',
-                                        id: state.draggedComponentStateId,
-                                    },
+                                    value: state.draggedComponentState,
                                     transformations: [],
                                 },
                             },
@@ -602,7 +593,7 @@ export function STATE_DRAGGED(stateId, e) {
             const pipeIdText = uuid()
             setState({
                 ...state,
-                draggedComponentStateId: null,
+                draggedComponentState: null,
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -616,10 +607,7 @@ export function STATE_DRAGGED(stateId, e) {
                             },
                             [pipeIdState]: {
                                 type: 'text',
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
+                                value: state.draggedComponentState,
                                 transformations: [],
                             },
                             [pipeIdText]: {
@@ -643,17 +631,17 @@ export function STATE_DRAGGED(stateId, e) {
         }
         if (pipeDropped.type === 'number') {
             // you can't drop boolean into number
-            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'boolean') {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'boolean') {
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredPipe: null,
                 })
             }
-            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'text') {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'text') {
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -663,10 +651,7 @@ export function STATE_DRAGGED(stateId, e) {
                                 ...state.definitionList[state.currentDefinitionId].pipe,
                                 [state.hoveredPipe.id]: {
                                     ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                    value: {
-                                        ref: 'state',
-                                        id: state.draggedComponentStateId,
-                                    },
+                                    value: state.draggedComponentState,
                                     transformations: [
                                         {
                                             ref: 'length',
@@ -681,7 +666,7 @@ export function STATE_DRAGGED(stateId, e) {
             }
             setState({
                 ...state,
-                draggedComponentStateId: null,
+                draggedComponentState: null,
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -691,10 +676,7 @@ export function STATE_DRAGGED(stateId, e) {
                             ...state.definitionList[state.currentDefinitionId].pipe,
                             [state.hoveredPipe.id]: {
                                 ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
+                                value: state.draggedComponentState,
                             },
                         },
                     }
@@ -702,12 +684,12 @@ export function STATE_DRAGGED(stateId, e) {
             })
         }
         if (pipeDropped.type === 'boolean') {
-            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'number') {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'number') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -717,10 +699,7 @@ export function STATE_DRAGGED(stateId, e) {
                                 ...state.definitionList[state.currentDefinitionId].pipe,
                                 [state.hoveredPipe.id]: {
                                     ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                    value: {
-                                        ref: 'state',
-                                        id: state.draggedComponentStateId,
-                                    },
+                                    value: state.draggedComponentState,
                                     transformations: [
                                         {
                                             ref: 'equal',
@@ -747,12 +726,12 @@ export function STATE_DRAGGED(stateId, e) {
                     },
                 })
             }
-            if (state.definitionList[state.currentDefinitionId].state[state.draggedComponentStateId].type === 'text') {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'text') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
                     ...state,
-                    draggedComponentStateId: null,
+                    draggedComponentState: null,
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -762,10 +741,7 @@ export function STATE_DRAGGED(stateId, e) {
                                 ...state.definitionList[state.currentDefinitionId].pipe,
                                 [state.hoveredPipe.id]: {
                                     ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                    value: {
-                                        ref: 'state',
-                                        id: state.draggedComponentStateId,
-                                    },
+                                    value: state.draggedComponentState,
                                     transformations: [
                                         {
                                             ref: 'equal',
@@ -794,7 +770,7 @@ export function STATE_DRAGGED(stateId, e) {
             }
             setState({
                 ...state,
-                draggedComponentStateId: null,
+                draggedComponentState: null,
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -804,15 +780,39 @@ export function STATE_DRAGGED(stateId, e) {
                             ...state.definitionList[state.currentDefinitionId].pipe,
                             [state.hoveredPipe.id]: {
                                 ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                value: {
-                                    ref: 'state',
-                                    id: state.draggedComponentStateId,
-                                },
+                                value: state.draggedComponentState,
                                 transformations: [],
                             },
                         },
                     }
                 },
+            })
+        }
+        if (pipeDropped.type === 'table') {
+            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'table') {
+                return setState({
+                    ...state,
+                    draggedComponentState: null,
+                    hoveredPipe: null,
+                    definitionList: {
+                        ...state.definitionList,
+                        [state.currentDefinitionId]: {
+                            ...state.definitionList[state.currentDefinitionId],
+                            pipe: {
+                                ...state.definitionList[state.currentDefinitionId].pipe,
+                                [state.hoveredPipe.id]: {
+                                    ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
+                                    value: state.draggedComponentState,
+                                },
+                            },
+                        }
+                    },
+                })
+            }
+            setState({
+                ...state,
+                draggedComponentState: null,
+                hoveredPipe: null,
             })
         }
     }
@@ -844,12 +844,12 @@ export function UNSELECT_VIEW_NODE(selfOnly, stopPropagation, e) {
     }
     setState({ ...state, selectedViewNode: {} })
 }
-export function STATE_NODE_SELECTED(nodeId) {
-    setState({ ...state, selectedStateNodeId: nodeId })
+export function STATE_NODE_SELECTED(ref) {
+    setState({ ...state, selectedStateNode: ref })
 }
 export function UNSELECT_STATE_NODE(e) {
     if (e.target === this.elm) {
-        setState({ ...state, selectedStateNodeId: '' })
+        setState({ ...state, selectedStateNode: {} })
     }
 }
 export function ADD_NODE(nodeRef, type) {
@@ -1701,7 +1701,7 @@ export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
         },
     })
 }
-export function CHANGE_STATE_NODE_TITLE(nodeId, e) {
+export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
     e.preventDefault()
     setState({
         ...state,
@@ -1709,10 +1709,10 @@ export function CHANGE_STATE_NODE_TITLE(nodeId, e) {
             ...state.definitionList,
             [state.currentDefinitionId]: {
                 ...state.definitionList[state.currentDefinitionId],
-                state: {
-                    ...state.definitionList[state.currentDefinitionId].state,
-                    [nodeId]: {
-                        ...state.definitionList[state.currentDefinitionId].state[nodeId],
+                [stateRef.ref]: {
+                    ...state.definitionList[state.currentDefinitionId][stateRef.ref],
+                    [stateRef.id]: {
+                        ...state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id],
                         title: e.target.value,
                     },
                 },
@@ -1814,7 +1814,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         boolean: true,
     }
     const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
-    const stateInPipe = state.definitionList[state.currentDefinitionId].state[pipe.value.id]
+    const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
     const transformation = defaultTransformations[stateInPipe.type]
     const value = defaultValues[stateInPipe.type]
     const newPipeId = uuid()
@@ -1857,18 +1857,18 @@ export function FULL_SCREEN_CLICKED(value) {
         setState({ ...state, fullScreen: value })
     }
 }
-export function SAVE_DEFAULT(stateId) {
+export function SAVE_DEFAULT(stateRef) {
     setState({
         ...state,
         definitionList: {
             ...state.definitionList,
             [state.currentDefinitionId]: {
                 ...state.definitionList[state.currentDefinitionId],
-                state: {
-                    ...state.definitionList[state.currentDefinitionId].state,
-                    [stateId]: {
-                        ...state.definitionList[state.currentDefinitionId].state[stateId],
-                        defaultValue: app.getCurrentState()[stateId],
+                [stateRef.ref]: {
+                    ...state.definitionList[state.currentDefinitionId][stateRef.ref],
+                    [stateRef.id]: {
+                        ...state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id],
+                        defaultValue: app.getCurrentState()[stateRef.id],
                     },
                 },
             }
@@ -1897,7 +1897,7 @@ export function DELETE_STATE(stateId) {
     })
     setState({
         ...removedPipeState,
-        selectedStateNodeId: '',
+        selectedStateNode: {},
         definitionList: {
             ...state.definitionList,
             [state.currentDefinitionId]: {
@@ -2056,7 +2056,7 @@ export function ADD_NEW_COMPONENT() {
         currentDefinitionId: newApp.id,
         selectedViewNode: {},
         selectedPipeId: '',
-        selectedStateNodeId: '',
+        selectedStateNode: {},
     })
 }
 export function SELECT_COMPONENT(id) {
@@ -2065,7 +2065,7 @@ export function SELECT_COMPONENT(id) {
         currentDefinitionId: id,
         selectedViewNode: {},
         selectedPipeId: '',
-        selectedStateNodeId: '',
+        selectedStateNode: {},
     })
 }
 export function CHANGE_COMPONENT_PATH(name, e) {

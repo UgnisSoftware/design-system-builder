@@ -151,12 +151,12 @@ export default ()=> h(
                                             'span',
                                             {
                                                 on: {
-                                                    click: [STATE_NODE_SELECTED, stateId],
+                                                    click: [STATE_NODE_SELECTED, {ref:'state', id: stateId}],
                                                 },
                                                 style: {
                                                     cursor: 'pointer',
                                                     color: 'white',
-                                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
+                                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateId ? '#eab65c' : '#828282'),
                                                     background: '#1e1e1e',
                                                     padding: '2px 5px',
                                                     marginRight: '5px',

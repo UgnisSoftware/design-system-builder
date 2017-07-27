@@ -54,8 +54,8 @@ function fakeComponent(nodeRef, depth) {
 }
 
 
-function fakeState(stateId) {
-    const currentState = state.definitionList[state.currentDefinitionId].state[stateId]
+function fakeState(ref) {
+    const currentState = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
     return h(
         'span',
         {
@@ -64,7 +64,7 @@ function fakeState(stateId) {
                 position: 'relative',
                 transform: 'translateZ(0)',
                 margin: '7px 7px 0 0',
-                boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
+                boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === ref.id ? '#eab65c' : '#828282'),
                 background: '#1e1e1e',
                 padding: '4px 7px',
             },
@@ -132,7 +132,7 @@ export default ()=> {
                 ]
             )
                 : h('span'),
-            state.draggedComponentStateId
+            state.draggedComponentState
                 ? h(
                 'div',
                 {
@@ -159,9 +159,9 @@ export default ()=> {
                         },
                         [addCircleIcon()]
                     ),
-                    fakeState(state.draggedComponentStateId),
+                    fakeState(state.draggedComponentState),
                 ]
-                    : [fakeState(state.draggedComponentStateId)]
+                    : [fakeState(state.draggedComponentState)]
             )
                 : h('span'),
         ]

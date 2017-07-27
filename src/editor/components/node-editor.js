@@ -1168,7 +1168,7 @@ export default function generateEditNodeComponent() {
                                                     display: 'inline-block',
                                                     position: 'relative',
                                                     transform: 'translateZ(0)',
-                                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === mutator.state.id ? '#eab65c' : '#828282'),
+                                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === mutator.state.id ? '#eab65c' : '#828282'),
                                                     background: '#1e1e1e',
                                                     padding: '4px 7px',
                                                 },

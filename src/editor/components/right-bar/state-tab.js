@@ -53,7 +53,7 @@ function listState(stateRef) {
                 flex: '0 0 auto',
             },
             on: {
-                input: [CHANGE_STATE_NODE_TITLE, stateId],
+                input: [CHANGE_STATE_NODE_TITLE, stateRef],
             },
             liveProps: {
                 value: currentState.title,
@@ -91,7 +91,7 @@ function listState(stateRef) {
                                 position: 'relative',
                                 transform: 'translateZ(0)',
                                 margin: '0 auto 0 0',
-                                boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNodeId === stateId ? '#eab65c' : '#828282'),
+                                boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateId ? '#eab65c' : '#828282'),
                                 background: '#1e1e1e',
                                 padding: '4px 7px',
                             },
@@ -106,8 +106,8 @@ function listState(stateRef) {
                                         display: 'inline-block',
                                     },
                                     on: {
-                                        mousedown: [STATE_DRAGGED, stateId],
-                                        touchstart: [STATE_DRAGGED, stateId],
+                                        mousedown: [STATE_DRAGGED, stateRef],
+                                        touchstart: [STATE_DRAGGED, stateRef],
                                         touchmove: [HOVER_MOBILE],
                                         dblclick: [EDIT_VIEW_NODE_TITLE, stateId],
                                     },
@@ -273,7 +273,7 @@ function listState(stateRef) {
                                 alignSelf: 'center',
                                 padding: '0 2px 0 5px'
                             },
-                            on: { click: [SAVE_DEFAULT, stateId] },
+                            on: { click: [SAVE_DEFAULT, stateRef] },
                         },
                         [saveIcon()]
                     ),
@@ -438,7 +438,7 @@ function listState(stateRef) {
                         )
                     ]
                 ) : h('span'),
-            state.selectedStateNodeId === stateId
+            state.selectedStateNode.id === stateId
                 ? h('div', { style: { paddingLeft: '10px' } }, [
                 h(
                     'div',

@@ -10,7 +10,7 @@ export let state = {
     appIsFrozen: false,
     selectedViewNode: {},
     selectedPipeId: '',
-    selectedStateNodeId: '',
+    selectedStateNode: {},
     selectedMenu: 'view', // view | state | events
     selectedViewSubMenu: 'props',
     hoveredComponent: '',
@@ -18,7 +18,7 @@ export let state = {
     editingTitleNodeId: '',
     viewFoldersClosed: {},
     draggedComponentView: null,
-    draggedComponentStateId: null,
+    draggedComponentState: null,
     hoveredPipe: null,
     hoveredViewNode: null,
     hoveredEvent: null,

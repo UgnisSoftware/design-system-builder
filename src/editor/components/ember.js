@@ -422,14 +422,14 @@ export default function emberEditor(ref) {
                             'span',
                             {
                                 style: {
-                                    color: state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c',
+                                    color: state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c',
                                     transition: '200ms all',
                                     cursor: 'pointer',
                                     padding: '2px 0 0 0',
-                                    borderBottom: '2px solid ' + (pipe.transformations.length > 0 ? (state.selectedStateNodeId === pipe.value.id ? '#53d486' : '#eab65c') : '#ccc'),
+                                    borderBottom: '2px solid ' + (pipe.transformations.length > 0 ? (state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c') : '#ccc'),
                                 },
                                 on: {
-                                    click: [STATE_NODE_SELECTED, pipe.value.id],
+                                    click: [STATE_NODE_SELECTED, pipe.value],
                                     mousemove: [PIPE_HOVERED, ref],
                                     mouseout: [PIPE_UNHOVERED],
                                 },
@@ -485,14 +485,14 @@ export default function emberEditor(ref) {
                             {
                                 style: {
                                     cursor: 'pointer',
-                                    color: state.selectedStateNodeId === pipe.value.id ? '#eab65c' : 'white',
+                                    color: state.selectedStateNode.id === pipe.value.id ? '#eab65c' : 'white',
                                     padding: '2px 5px',
                                     margin: '3px 3px 0 0',
-                                    border: '2px solid ' + (state.selectedStateNodeId === pipe.value.id ? '#eab65c' : 'white'),
+                                    border: '2px solid ' + (state.selectedStateNode.id === pipe.value.id ? '#eab65c' : 'white'),
                                     display: 'inline-block',
                                 },
                                 on: {
-                                    click: [STATE_NODE_SELECTED, pipe.value.id],
+                                    click: [STATE_NODE_SELECTED, pipe.value],
                                 },
                             },
                             [eventData.title]
