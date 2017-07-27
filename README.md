@@ -33,9 +33,9 @@ Now open [localhost:4000](http://localhost:4000)
 
 **Warning**: Ugnis is still in alpha, while we guarantee that exported code will work, [we are still missing some features](https://github.com/UgnisSoftware/ugnis/#goals-for-10v-release)
 
-## Why Ugnis was created
+## Why we created Ugnis
 
-We help companies speed up their front-end development. One of the thing we often have to do is migrating older projects to a new framework.
+We are freelancers that help companies speed up their front-end development. One of the thing we often have to do is migrating older projects to a new framework.
 
 **Migration sucks** for everyone:
   * **Product Managers** want new features and quicker iterations. Spending so much time refactoring is a hard sell from business perspective.
