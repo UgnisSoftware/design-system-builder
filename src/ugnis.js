@@ -33,8 +33,8 @@ export default definition => {
 
     // global state for resolver
     let currentEvent = null
-    let currentMapValue = {}
-    let currentMapIndex = {}
+    // used for lists so snabbdom wouldn't conflict
+    let currentKey = ''
     let eventData = {}
     function resolve(ref) {
         if (ref === undefined) {
@@ -83,9 +83,6 @@ export default definition => {
         }
         if (ref.ref === 'eventData') {
             return eventData[ref.id]
-        }
-        if (ref.ref === 'listValue') {
-            return currentMapValue[def.list.id][def.property]
         }
         throw Error(ref)
     }
@@ -148,7 +145,7 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            key: ref.id+definition.id,
+            key: ref.id+definition.id+currentKey,
             style: frozen && selectedNodeInDevelopment.id === ref.id
                 ? {
                       ...style,
@@ -268,15 +265,14 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
-            currentMapValue[ref.id] = value
-            currentMapIndex[ref.id] = index
-
+        const cache = currentState
+        const children = list.map((value, index) => {
+            currentState = {...currentState, ...value}
+            currentKey = value.id
             return node.children.map(resolve)
         })
-        delete currentMapValue[ref.id]
-        delete currentMapIndex[ref.id]
-
+        currentState = cache
+        currentKey = ''
         return children
     }
 

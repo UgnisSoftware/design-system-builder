@@ -18,7 +18,7 @@ export let state = {
     editingTitleNodeId: '',
     viewFoldersClosed: {},
     draggedComponentView: null,
-    draggedComponentState: null,
+    draggedComponentState: {},
     hoveredPipe: null,
     hoveredViewNode: null,
     hoveredEvent: null,

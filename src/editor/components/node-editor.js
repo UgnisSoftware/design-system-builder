@@ -1,6 +1,9 @@
 import h from 'snabbdom/h'
 import {state} from '../state'
-import {WIDTH_DRAGGED, SELECT_VIEW_SUBMENU, CHANGE_COMPONENT_PATH, EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, ADD_EVENT, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE} from '../events'
+import {
+    WIDTH_DRAGGED, SELECT_VIEW_SUBMENU, CHANGE_COMPONENT_PATH, EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED,
+    ADD_EVENT, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE
+} from '../events'
 import {
     listIcon, ifIcon, inputIcon, textIcon, boxIcon, arrowIcon, clearIcon, imageIcon, appIcon
 } from './icons'
@@ -57,6 +60,13 @@ const fields = {
     toLowerCase: [],
     toUpperCase: [],
     pipe: ['value', 'transformations'],
+}
+
+function inheritedStates(ref){
+    return [                {
+        "ref": "state",
+        "id": "asd2b7686828"
+    }]
 }
 
 const dragSubComponentLeft = h('div', {
@@ -1367,6 +1377,40 @@ export default function generateEditNodeComponent() {
                     state.selectedViewSubMenu === 'props' || !fullVNode
                         ? genpropsSubmenuComponent()
                         : state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent() : state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent() : h('span', 'Error, no such menu'),
+                    h('div', {style: {padding: '20px', background: '#ccc', position: 'absolute', bottom: '0px', left: '0px', right: '0px'}}, inheritedStates(state.selectedViewNode)
+                        .map((stateRef)=> h(
+                            'span',
+                            {
+                                style: {
+                                    flex: '0 0 auto',
+                                    position: 'relative',
+                                    transform: 'translateZ(0)',
+                                    margin: '0 auto 0 0',
+                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
+                                    background: '#1e1e1e',
+                                    padding: '4px 7px',
+                                },
+                            },
+                            [
+                                h(
+                                    'span',
+                                    {
+                                        style: {
+                                            opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
+                                            color: 'white',
+                                            display: 'inline-block',
+                                        },
+                                        on: {
+                                            mousedown: [STATE_DRAGGED, stateRef],
+                                            touchstart: [STATE_DRAGGED, stateRef],
+                                            touchmove: [HOVER_MOBILE],
+                                        },
+                                    },
+                                    state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
+                                ),
+                            ]
+                        ),
+                    )),
                 ]
             ),
         ]

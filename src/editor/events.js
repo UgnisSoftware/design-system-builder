@@ -501,7 +501,7 @@ export function STATE_DRAGGED(stateRef, e) {
         if (!state.hoveredPipe && !state.hoveredEvent) {
             return setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredPipe: null,
             })
         }
@@ -510,7 +510,7 @@ export function STATE_DRAGGED(stateRef, e) {
             if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators.map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredEvent: null,
                 })
             }
@@ -518,7 +518,7 @@ export function STATE_DRAGGED(stateRef, e) {
             const pipeId = uuid()
             return setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredEvent: null,
                 definitionList: {
                     ...state.definitionList,
@@ -569,7 +569,7 @@ export function STATE_DRAGGED(stateRef, e) {
             if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref && state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref === 'state') {
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -593,7 +593,7 @@ export function STATE_DRAGGED(stateRef, e) {
             const pipeIdText = uuid()
             setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -634,14 +634,14 @@ export function STATE_DRAGGED(stateRef, e) {
             if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'boolean') {
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                 })
             }
             if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'text') {
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -666,7 +666,7 @@ export function STATE_DRAGGED(stateRef, e) {
             }
             setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -689,7 +689,7 @@ export function STATE_DRAGGED(stateRef, e) {
                 const pipeId = uuid()
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -731,7 +731,7 @@ export function STATE_DRAGGED(stateRef, e) {
                 const pipeId = uuid()
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -770,7 +770,7 @@ export function STATE_DRAGGED(stateRef, e) {
             }
             setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredPipe: null,
                 definitionList: {
                     ...state.definitionList,
@@ -792,7 +792,7 @@ export function STATE_DRAGGED(stateRef, e) {
             if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'table') {
                 return setState({
                     ...state,
-                    draggedComponentState: null,
+                    draggedComponentState: {},
                     hoveredPipe: null,
                     definitionList: {
                         ...state.definitionList,
@@ -811,7 +811,7 @@ export function STATE_DRAGGED(stateRef, e) {
             }
             setState({
                 ...state,
-                draggedComponentState: null,
+                draggedComponentState: {},
                 hoveredPipe: null,
             })
         }
@@ -1875,17 +1875,18 @@ export function SAVE_DEFAULT(stateRef) {
         },
     })
 }
-export function DELETE_STATE(stateId) {
+export function DELETE_STATE(stateRef) {
+    const stateId = stateRef.id
     let removedPipeState = state
     Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeid => {
         if (state.definitionList[state.currentDefinitionId].pipe[pipeid].value.id === stateId) {
             removedPipeState = resetPipeFunc(pipeid, removedPipeState)
         }
     })
-    const { [stateId]: deletedState, ...newState } = removedPipestate.definitionList[state.currentDefinitionId].state
-    let events = removedPipestate.definitionList[state.currentDefinitionId].event
+    const { [stateId]: deletedState, ...newState } = removedPipeState.definitionList[state.currentDefinitionId][stateRef.ref]
+    let events = removedPipeState.definitionList[state.currentDefinitionId].event
     deletedState.mutators.forEach(mutatorRef => {
-        const mutator = removedPipestate.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+        const mutator = removedPipeState.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
         const event = mutator.event
         events = {
             ...events,
@@ -1902,12 +1903,12 @@ export function DELETE_STATE(stateId) {
             ...state.definitionList,
             [state.currentDefinitionId]: {
                 ...state.definitionList[state.currentDefinitionId],
-                state: newState,
+                [stateRef.ref]: newState,
                 nameSpace: {
-                    ...removedPipestate.definitionList[state.currentDefinitionId].nameSpace,
+                    ...removedPipeState.definitionList[state.currentDefinitionId].nameSpace,
                     _rootNameSpace: {
-                        ...removedPipestate.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                        children: removedPipestate.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+                        ...removedPipeState.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
+                        children: removedPipeState.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
                     },
                 },
                 event: events,

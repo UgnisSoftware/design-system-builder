@@ -286,7 +286,7 @@ function listState(stateRef) {
                                 alignSelf: 'center',
                             },
                             on: {
-                                click: [DELETE_STATE, stateId],
+                                click: [DELETE_STATE, stateRef],
                             },
                         },
                         [deleteIcon()]

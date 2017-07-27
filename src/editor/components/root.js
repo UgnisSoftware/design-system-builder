@@ -132,7 +132,7 @@ export default ()=> {
                 ]
             )
                 : h('span'),
-            state.draggedComponentState
+            state.draggedComponentState.id
                 ? h(
                 'div',
                 {
