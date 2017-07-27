@@ -38,9 +38,9 @@ Now open [localhost:4000](http://localhost:4000)
 We are freelancers who help companies speed up their front-end development. One of the thing we often have to do is migrating older projects to a new framework.
 
 **Migration sucks** for everyone:
-    * **Product Managers** want new features and quicker iterations. Spending so much time refactoring is a hard sell from business perspective.
-    * **Designers** want to unify the design, but current design tools don't allow them to be autonomous, they need to rely on developers who are already stretched thin.
-    * **Developers** want to "make the code right" this time, but the old code has accumulated bug fixes and edge cases, that are easy to miss when rewriting from scratch.
+  * **Product Managers** want new features and quicker iterations. Spending so much time refactoring is a hard sell from business perspective.
+  * **Designers** want to unify the design, but current design tools don't allow them to be autonomous, they need to rely on developers who are already stretched thin.
+  * **Developers** want to "make the code right" this time, but the old code has accumulated bug fixes and edge cases, that are easy to miss when rewriting from scratch.
 
 With Ugnis we can maintain and develop new features for the old codebase. Once most components are in Ugnis, making the jump to a new framework is much easier.
 
