@@ -54,6 +54,9 @@ export default definition => {
         if (ref.ref === 'state') {
             return currentState[ref.id]
         }
+        if (ref.ref === 'table') {
+            return currentState[ref.id]
+        }
         if (ref.ref === 'vNodeBox') {
             return boxNode(ref)
         }

@@ -1357,6 +1357,81 @@ export function ADD_NODE(nodeRef, type) {
             },
         })
     }
+    if (type === 'list') {
+        const pipeId = uuid()
+        const tableId = uuid()
+        const newNode = {
+            title: 'list',
+            parent: nodeRef,
+            value: { ref: 'pipe', id: pipeId },
+            children: [],
+        }
+        const newPipe = {
+            type: 'table',
+            value: {ref:'table', id: tableId},
+            transformations: [],
+        }
+        const newTable = {
+            title: "table",
+            type: "table",
+            defaultValue: [],
+            columns: [],
+            mutators: []
+        }
+        const resolvedNodes = nodeRef.ref === 'vNodeList' ? {
+            vNodeList: {
+                ...state.definitionList[state.currentDefinitionId].vNodeList,
+                [nodeId]: {
+                    ...state.definitionList[state.currentDefinitionId].vNodeList[nodeId],
+                    children: state.definitionList[state.currentDefinitionId].vNodeList[nodeId].children.concat({
+                        ref: 'vNodeList',
+                        id: newNodeId,
+                    }),
+                },
+                [newNodeId]: newNode,
+            },
+        } : {
+            [nodeRef.ref]: {
+                ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                [nodeId]: {
+                    ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                    children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                        ref: 'vNodeList',
+                        id: newNodeId,
+                    }),
+                },
+            },
+            vNodeList: {
+                ...state.definitionList[state.currentDefinitionId].vNodeList,
+                [newNodeId]: newNode,
+            },
+        }
+        return setState({
+            ...state,
+            definitionList: {
+                ...state.definitionList,
+                [state.currentDefinitionId]: {
+                    ...state.definitionList[state.currentDefinitionId],
+                    nameSpace: {
+                        ...state.definitionList[state.currentDefinitionId].nameSpace,
+                        ['_rootNameSpace']: {
+                            ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
+                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
+                                ref: 'table',
+                                id: tableId,
+                            }),
+                        },
+                    },
+                    table: {
+                        ...state.definitionList[state.currentDefinitionId].table,
+                        [tableId]: newTable,
+                    },
+                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
+                    ...resolvedNodes,
+                }
+            },
+        })
+    }
     if (type === 'input') {
         const stateId = uuid()
         const eventId = uuid()

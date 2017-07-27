@@ -398,8 +398,7 @@ export default function emberEditor(ref) {
             ]
         )
     }
-
-    if (pipe.value.ref === 'state') {
+    if (pipe.value.ref === 'state' || pipe.value.ref === 'table') {
         const displState = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
         return h(
             'div',

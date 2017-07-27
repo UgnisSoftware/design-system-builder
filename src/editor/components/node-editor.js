@@ -11,6 +11,7 @@ const fields = {
     vNodeText: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click'],
     vNodeInput: ['style', 'value', 'mouseout', 'mouseover', 'dblclick', 'click', 'input', 'focus', 'blur'],
     vNodeIf: ['value', 'children'],
+    vNodeList: ['value', 'children'],
     vNodeImage: ['style', 'src', 'mouseout', 'mouseover', 'dblclick', 'click'],
     add: ['value'],
     subtract: ['value'],
@@ -426,6 +427,44 @@ export default function generateEditNodeComponent() {
                                 ]
                             ),
                             h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'boolean')]),
+                        ]
+                    )
+                }
+                if (state.selectedViewNode.ref === 'vNodeList') {
+                    return h(
+                        'div',
+                        {
+                            style: {overflow: 'auto'},
+                            attrs: {class: 'better-scrollbar'},
+                        },
+                        [
+                            h(
+                                'div',
+                                {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        background: '#676767',
+                                        padding: '5px 10px',
+                                        marginBottom: '10px',
+                                    },
+                                },
+                                [
+                                    h('span', {style: {flex: '1'}}, 'predicate'),
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                flex: '0',
+                                                cursor: 'default',
+                                                color: '#bdbdbd',
+                                            },
+                                        },
+                                        'true/false'
+                                    ),
+                                ]
+                            ),
+                            h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'table')]),
                         ]
                     )
                 }
