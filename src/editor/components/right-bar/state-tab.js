@@ -25,10 +25,74 @@ const addStateComponent = ()=> h(
         },
     },
     [
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'text'] } }, [textIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'number'] } }, [numberIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'boolean'] } }, [ifIcon()]),
-        h('span', { on: { click: [ADD_STATE, '_rootNameSpace', 'table'] } }, [listIcon()]),
+        h('button',
+            {
+                attrs: {
+                    type: 'button',
+                    title: 'Text'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
+                on: { click: [ADD_STATE, '_rootNameSpace', 'text']
+                }
+            },
+            [textIcon()]
+        ),
+        h('button',
+            {
+                attrs: {
+                    type: 'button',
+                    title: 'Number'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
+                on: { click: [ADD_STATE, '_rootNameSpace', 'number']
+                }
+            },
+            [numberIcon()]
+        ),
+        h('button',
+            {
+                attrs: {
+                    type: 'button',
+                    title: 'Boolean'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
+                on: { click: [ADD_STATE, '_rootNameSpace', 'boolean']
+                }
+            },
+            [ifIcon()]
+        ),
+        h('button',
+            {
+                attrs: {
+                    type: 'button',
+                    title: 'Table'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
+                on: { click: [ADD_STATE, '_rootNameSpace', 'table']
+                }
+            },
+            [listIcon()]
+        ),
     ]
 )
 

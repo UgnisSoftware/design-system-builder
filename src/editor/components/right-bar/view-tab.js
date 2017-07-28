@@ -1,7 +1,7 @@
 import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
-    HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, VIEW_NODE_SELECTED, CHANGE_VIEW_NODE_TITLE, VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED, 
+    HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, VIEW_NODE_SELECTED, CHANGE_VIEW_NODE_TITLE, VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED,
 } from '../../events'
 import {
     listIcon, ifIcon, inputIcon, textIcon, boxIcon, dotIcon, arrowIcon, clearIcon, imageIcon, repeatIcon, linkIcon
@@ -372,7 +372,7 @@ function simpleNode(nodeRef, parentRef, depth) {
 }
 
 
-const addViewNodeComponent = h(
+const addViewNodeComponent = ()=> h(
     'div',
     {
         style: {
@@ -388,8 +388,18 @@ const addViewNodeComponent = h(
     },
     [
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Box'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'box'],
                 },
@@ -397,8 +407,18 @@ const addViewNodeComponent = h(
             [boxIcon()]
         ),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Text'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'text'],
                 },
@@ -406,8 +426,18 @@ const addViewNodeComponent = h(
             [textIcon()]
         ),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Image'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'image'],
                 },
@@ -415,8 +445,18 @@ const addViewNodeComponent = h(
             [imageIcon()]
         ),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Input'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'input'],
                 },
@@ -424,18 +464,54 @@ const addViewNodeComponent = h(
             [inputIcon()]
         ),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Link'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'link'],
                 },
             },
             [linkIcon()]
         ),
-        h('span', { on: { click: [ADD_NODE, state.selectedViewNode, 'if'] } }, [ifIcon()]),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'If'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
+                on: { click: [ADD_NODE, state.selectedViewNode, 'if']
+                }
+            },
+            [ifIcon()]),
+        h(
+            'button',
+            {
+                attrs: {
+                    type: 'button',
+                    title: 'List'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'list'],
                 },
@@ -443,8 +519,18 @@ const addViewNodeComponent = h(
             [listIcon()]
         ),
         h(
-            'span',
+            'button',
             {
+                attrs: {
+                    type: 'button',
+                    title: 'Repeater'
+                },
+                style: {
+                    background: 'none',
+                    border: 'none',
+                    outline: 'none',
+                    color: 'white',
+                },
                 on: {
                     click: [ADD_NODE, state.selectedViewNode, 'repeat'],
                 },
@@ -479,7 +565,7 @@ export default ()=> h(
             },
             'ADD NEW'
         ),
-        addViewNodeComponent,
+        addViewNodeComponent(),
         h(
             'div',
             {
