@@ -1377,7 +1377,7 @@ export default function generateEditNodeComponent() {
                     state.selectedViewSubMenu === 'props' || !fullVNode
                         ? genpropsSubmenuComponent()
                         : state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent() : state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent() : h('span', 'Error, no such menu'),
-                    h('div', {style: {padding: '20px', background: '#ccc', position: 'absolute', bottom: '0px', left: '0px', right: '0px'}}, inheritedStates(state.selectedViewNode)
+                    h('span') || h('div', {style: {padding: '20px', background: '#ccc', position: 'absolute', bottom: '0px', left: '0px', right: '0px'}}, inheritedStates(state.selectedViewNode)
                         .map((stateRef)=> h(
                             'span',
                             {
