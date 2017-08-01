@@ -449,7 +449,7 @@ const addViewNodeComponent = ()=> h(
             {
                 attrs: {
                     type: 'button',
-                    title: 'Input'
+                    title: 'Text Input'
                 },
                 style: {
                     background: 'none',
@@ -517,25 +517,6 @@ const addViewNodeComponent = ()=> h(
                 },
             },
             [listIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'Repeater'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'repeat'],
-                },
-            },
-            [repeatIcon()]
         ),
     ]
 )

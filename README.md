@@ -64,22 +64,23 @@ Ugnis consists of three parts:
 
   - [ ] Integrates well with existing frameworks
   - [ ] View components:
-    - [x] Box (also know as div/view)
+    - [x] Box (div/view)
     - [x] Text
     - [x] Image
-    - [x] Input
+    - [x] Text Input
+    - [ ] Link
   - [ ] Logic components:
     - [x] If
-    - [ ] When (also know as if/else)
+    - [ ] When (if/else)
     - [ ] List
     - [ ] Recursion
   - [ ] State:
-    - [x] Text (also known as string)
+    - [x] Text (string)
     - [x] Number
     - [x] Boolean
     - [x] Table
-    - [ ] variants, boolean becomes a variant
-    - [ ] connected tables - graphs
+    - [ ] Variants, boolean becomes a variant
+    - [ ] Connected tables - graphs
     - [ ] Date
   - [ ] Implements every Material Design component
   - [x] type safety - does not allow runtime errors
@@ -92,16 +93,11 @@ Ugnis consists of three parts:
   - [ ] Powerful enough to write any application, Ugnis editor is written with Ugnis itself
   - [ ] Hosted version - allow multiple people to work on the same component
   - [ ] Router
-  - [ ] Fetch (also known as AJAX)
-  - [ ] View components:
-    - [ ] Icon
-    - [ ] Link
+  - [ ] Fetch (AJAX)
   - [ ] ARIA
-  - [ ] editor as a desktop app
-  - [ ] server side rendering
-  - [ ] application splitting
-  - [ ] WebAssembly compiler
-  - [ ] editor works well on mobile
+  - [ ] Editor as a Native Electron app for Windows, Mac and Linux
+  - [ ] Editor works well on mobile
+  - [ ] Additional compiler targets
 
 ## License:
 
