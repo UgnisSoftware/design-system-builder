@@ -1359,7 +1359,9 @@ export function ADD_NODE(nodeRef, type) {
     }
     if (type === 'list') {
         const pipeId = uuid()
-        const tableId = uuid()
+        // search for a table in state, if none found create a new table
+        const existingTableId = Object.keys(state.definitionList[state.currentDefinitionId].table)[0]
+        const tableId = existingTableId || uuid()
         const newNode = {
             title: 'list',
             parent: nodeRef,
@@ -1416,13 +1418,14 @@ export function ADD_NODE(nodeRef, type) {
                         ...state.definitionList[state.currentDefinitionId].nameSpace,
                         ['_rootNameSpace']: {
                             ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
-                                ref: 'table',
-                                id: tableId,
-                            }),
+                            children: existingTableId ? state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children :
+                                state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
+                                    ref: 'table',
+                                    id: tableId,
+                                }),
                         },
                     },
-                    table: {
+                    table: existingTableId ? state.definitionList[state.currentDefinitionId].table : {
                         ...state.definitionList[state.currentDefinitionId].table,
                         [tableId]: newTable,
                     },
