@@ -388,8 +388,7 @@ function listState(stateRef) {
                                     'id'
                                 ),
                                 ...currentState.columns
-                                    .map(childRef => state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title)
-                                    .map( name =>
+                                    .map(childRef =>
                                         h(
                                             'div',
                                             {
@@ -400,7 +399,23 @@ function listState(stateRef) {
                                                     maxWidth: '200px'
                                                 },
                                             },
-                                            name
+                                            [
+                                                state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title,
+                                                h(
+                                                    'div',
+                                                    {
+                                                        style: {
+                                                            color: '#eab65c',
+                                                            display: 'inline-flex',
+                                                            alignSelf: 'center',
+                                                        },
+                                                        on: {
+                                                            click: [DELETE_STATE, childRef],
+                                                        },
+                                                    },
+                                                    [deleteIcon()]
+                                                ),
+                                            ]
                                         )
                                     )
                             ]

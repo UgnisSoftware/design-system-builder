@@ -1884,27 +1884,52 @@ export function SAVE_DEFAULT(stateRef) {
 }
 export function DELETE_STATE(stateRef) {
     const stateId = stateRef.id
-    let removedPipeState = state
-
+    let updatedState = state
     if(stateRef.ref === 'table'){
+        // delete lists that use the state
         Object.keys(state.definitionList[state.currentDefinitionId].vNodeList).forEach(nodeId => {
             const node = state.definitionList[state.currentDefinitionId].vNodeList[nodeId]
             const pipeId = node.value.id
             if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
-                removedPipeState = deleteView({ref: 'vNodeList', id: nodeId}, node.parent, removedPipeState)
+                updatedState = deleteView({ref: 'vNodeList', id: nodeId}, node.parent, updatedState)
             }
         })
     } else {
+        // fix all the broken pipes
         Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeId => {
             if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
-                removedPipeState = resetPipeFunc(pipeId, removedPipeState)
+                updatedState = resetPipeFunc(pipeId, updatedState)
             }
         })
     }
-    const { [stateId]: deletedState, ...newState } = removedPipeState.definitionList[state.currentDefinitionId][stateRef.ref]
-    let events = removedPipeState.definitionList[state.currentDefinitionId].event
+    // remove from table nameSpace
+    Object.keys(state.definitionList[state.currentDefinitionId].table).forEach(tableId => {
+        const table = state.definitionList[state.currentDefinitionId].table[tableId]
+        const newColumns = table.columns.filter((columnRef)=> columnRef.id !== stateId)
+        if(newColumns.length !== table.columns.length){
+            updatedState = {
+                ...updatedState,
+                definitionList: {
+                    ...updatedState.definitionList,
+                    [state.currentDefinitionId]: {
+                        ...updatedState.definitionList[updatedState.currentDefinitionId],
+                        table: {
+                            ...updatedState.definitionList[updatedState.currentDefinitionId].table,
+                            [tableId]: {
+                                ...updatedState.definitionList[updatedState.currentDefinitionId].table[tableId],
+                                columns: newColumns,
+                            }
+                        },
+                    }
+                },
+            }
+        }
+    })
+
+    const { [stateId]: deletedState, ...newState } = updatedState.definitionList[state.currentDefinitionId][stateRef.ref]
+    let events = updatedState.definitionList[state.currentDefinitionId].event
     deletedState.mutators.forEach(mutatorRef => {
-        const mutator = removedPipeState.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+        const mutator = updatedState.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
         const event = mutator.event
         events = {
             ...events,
@@ -1915,18 +1940,18 @@ export function DELETE_STATE(stateRef) {
         }
     })
     setState({
-        ...removedPipeState,
+        ...updatedState,
         selectedStateNode: {},
         definitionList: {
-            ...removedPipeState.definitionList,
+            ...updatedState.definitionList,
             [state.currentDefinitionId]: {
-                ...removedPipeState.definitionList[removedPipeState.currentDefinitionId],
+                ...updatedState.definitionList[updatedState.currentDefinitionId],
                 [stateRef.ref]: newState,
                 nameSpace: {
-                    ...removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace,
+                    ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace,
                     _rootNameSpace: {
-                        ...removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace['_rootNameSpace'],
-                        children: removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+                        ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'],
+                        children: updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
                     },
                 },
                 event: events,
