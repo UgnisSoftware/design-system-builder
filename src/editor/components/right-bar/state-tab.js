@@ -1,8 +1,11 @@
 import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
-    CHANGE_STATE_NODE_TITLE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, DELETE_STATE, CHANGE_CURRENT_STATE_BOOLEAN_VALUE, STATE_NODE_SELECTED,
-    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE, SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD,
+    CHANGE_STATE_NODE_TITLE, STATE_DRAGGED, HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, DELETE_STATE,
+    CHANGE_CURRENT_STATE_BOOLEAN_VALUE, CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE,
+    CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE,
+    CHANGE_CURRENT_STATE_NUMBER_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE,
+    SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD,
     UPDATE_TABLE_ADD_COLUMN
 } from '../../events'
 import {
@@ -96,6 +99,302 @@ const addStateComponent = ()=> h(
     ]
 )
 
+function liveEditor(stateRef){
+    const stateId = stateRef.id
+    const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
+    const noStyleInput = {
+        color: 'white',
+        background: 'none',
+        outline: 'none',
+        display: 'inline',
+        border: 'none',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        flex: '0 0 auto',
+        textAlign: 'right',
+        boxShadow: 'inset 0 -2px 0 0 #ccc',
+    }
+    if (currentState.type === 'text') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'span',
+                    {
+                        style: {
+                            opacity: '0',
+                            minWidth: '50px',
+                            display: 'inline-block',
+                        },
+                    },
+                    app.getCurrentState()[stateId].toString()
+                ),
+                h('input', {
+                    attrs: { type: 'text' },
+                    liveProps: {
+                        value: app.getCurrentState()[stateId],
+                    },
+                    style: noStyleInput,
+                    on: {
+                        input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId],
+                    },
+                }),
+            ]
+        )
+    }
+    if (currentState.type === 'number') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'span',
+                    {
+                        style: {
+                            opacity: '0',
+                            minWidth: '50px',
+                            display: 'inline-block',
+                        },
+                    },
+                    app.getCurrentState()[stateId].toString()
+                ),
+                h('input', {
+                    attrs: { type: 'number' },
+                    liveProps: {
+                        value: app.getCurrentState()[stateId],
+                    },
+                    style: noStyleInput,
+                    on: {
+                        input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId],
+                    },
+                }),
+            ]
+        )
+    }
+    if (currentState.type === 'boolean') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'select',
+                    {
+                        liveProps: {
+                            value: app.getCurrentState()[stateId].toString(),
+                        },
+                        style: {
+                            color: 'white',
+                            background: 'none',
+                            border: 'none',
+                            outline: 'none',
+                            boxShadow: 'inset 0 -2px 0 0 #ccc',
+                        },
+                        on: {
+                            input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE, stateId],
+                        },
+                    },
+                    [
+                        h(
+                            'option',
+                            {
+                                attrs: {
+                                    value: 'true',
+                                },
+                                style: {
+                                    color: 'black',
+                                },
+                            },
+                            ['true']
+                        ),
+                        h(
+                            'option',
+                            {
+                                attrs: {
+                                    value: 'false',
+                                },
+                                style: {
+                                    color: 'black',
+                                },
+                            },
+                            ['false']
+                        ),
+                    ]
+                ),
+            ]
+        )
+    }
+    return h('span')
+}
+
+function liveEditorTable(stateRef, tableId, rowId, rowIndex){
+    const stateId = stateRef.id
+    const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
+    const noStyleInput = {
+        color: 'white',
+        background: 'none',
+        outline: 'none',
+        display: 'inline',
+        border: 'none',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        flex: '0 0 auto',
+        textAlign: 'right',
+        boxShadow: 'inset 0 -2px 0 0 #ccc',
+    }
+    if (currentState.type === 'text') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'span',
+                    {
+                        style: {
+                            opacity: '0',
+                            minWidth: '50px',
+                            display: 'inline-block',
+                        },
+                    },
+                    app.getCurrentState()[tableId][rowIndex][stateId].toString()
+                ),
+                h('input', {
+                    attrs: { type: 'text' },
+                    liveProps: {
+                        value: app.getCurrentState()[tableId][rowIndex][stateId],
+                    },
+                    style: noStyleInput,
+                    on: {
+                        input: [CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE, stateId, tableId, rowId],
+                    },
+                }),
+            ]
+        )
+    }
+    if (currentState.type === 'number') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'span',
+                    {
+                        style: {
+                            opacity: '0',
+                            minWidth: '50px',
+                            display: 'inline-block',
+                        },
+                    },
+                    app.getCurrentState()[tableId][rowIndex][stateId].toString()
+                ),
+                h('input', {
+                    attrs: { type: 'number' },
+                    liveProps: {
+                        value: app.getCurrentState()[tableId][rowIndex][stateId],
+                    },
+                    style: noStyleInput,
+                    on: {
+                        input: [CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE, stateId, tableId, rowId],
+                    },
+                }),
+            ]
+        )
+    }
+    if (currentState.type === 'boolean') {
+        return h(
+            'span',
+            {
+                style: {
+                    flex: '0 0 auto',
+                    position: 'relative',
+                    transform: 'translateZ(0)',
+                },
+            },
+            [
+                h(
+                    'select',
+                    {
+                        liveProps: {
+                            value: app.getCurrentState()[tableId][rowIndex][stateId].toString(),
+                        },
+                        style: {
+                            color: 'white',
+                            background: 'none',
+                            border: 'none',
+                            outline: 'none',
+                            boxShadow: 'inset 0 -2px 0 0 #ccc',
+                        },
+                        on: {
+                            input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE, stateId, tableId, rowId],
+                        },
+                    },
+                    [
+                        h(
+                            'option',
+                            {
+                                attrs: {
+                                    value: 'true',
+                                },
+                                style: {
+                                    color: 'black',
+                                },
+                            },
+                            ['true']
+                        ),
+                        h(
+                            'option',
+                            {
+                                attrs: {
+                                    value: 'false',
+                                },
+                                style: {
+                                    color: 'black',
+                                },
+                            },
+                            ['false']
+                        ),
+                    ]
+                ),
+            ]
+        )
+    }
+    return h('span')
+}
+
 function listState(stateRef) {
     const stateId = stateRef.id
     const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
@@ -182,151 +481,7 @@ function listState(stateRef) {
                         ]
                     ),
                     h('div', { style: { display: 'inline-flex' } }, [
-                        (() => {
-                            const noStyleInput = {
-                                color: 'white',
-                                background: 'none',
-                                outline: 'none',
-                                display: 'inline',
-                                border: 'none',
-                                position: 'absolute',
-                                top: '0',
-                                left: '0',
-                                width: '100%',
-                                flex: '0 0 auto',
-                                textAlign: 'right',
-                                boxShadow: 'inset 0 -2px 0 0 #ccc',
-                            }
-                            if (currentState.type === 'text') {
-                                return h(
-                                    'span',
-                                    {
-                                        style: {
-                                            flex: '0 0 auto',
-                                            position: 'relative',
-                                            transform: 'translateZ(0)',
-                                        },
-                                    },
-                                    [
-                                        h(
-                                            'span',
-                                            {
-                                                style: {
-                                                    opacity: '0',
-                                                    minWidth: '50px',
-                                                    display: 'inline-block',
-                                                },
-                                            },
-                                            app.getCurrentState()[stateId].toString()
-                                        ),
-                                        h('input', {
-                                            attrs: { type: 'text' },
-                                            liveProps: {
-                                                value: app.getCurrentState()[stateId],
-                                            },
-                                            style: noStyleInput,
-                                            on: {
-                                                input: [CHANGE_CURRENT_STATE_TEXT_VALUE, stateId],
-                                            },
-                                        }),
-                                    ]
-                                )
-                            }
-                            if (currentState.type === 'number') {
-                                return h(
-                                    'span',
-                                    {
-                                        style: {
-                                            flex: '0 0 auto',
-                                            position: 'relative',
-                                            transform: 'translateZ(0)',
-                                        },
-                                    },
-                                    [
-                                        h(
-                                            'span',
-                                            {
-                                                style: {
-                                                    opacity: '0',
-                                                    minWidth: '50px',
-                                                    display: 'inline-block',
-                                                },
-                                            },
-                                            app.getCurrentState()[stateId].toString()
-                                        ),
-                                        h('input', {
-                                            attrs: { type: 'number' },
-                                            liveProps: {
-                                                value: app.getCurrentState()[stateId],
-                                            },
-                                            style: noStyleInput,
-                                            on: {
-                                                input: [CHANGE_CURRENT_STATE_NUMBER_VALUE, stateId],
-                                            },
-                                        }),
-                                    ]
-                                )
-                            }
-                            if (currentState.type === 'boolean') {
-                                return h(
-                                    'span',
-                                    {
-                                        style: {
-                                            flex: '0 0 auto',
-                                            position: 'relative',
-                                            transform: 'translateZ(0)',
-                                        },
-                                    },
-                                    [
-                                        h(
-                                            'select',
-                                            {
-                                                liveProps: {
-                                                    value: app.getCurrentState()[stateId].toString(),
-                                                },
-                                                style: {
-                                                    color: 'white',
-                                                    background: 'none',
-                                                    border: 'none',
-                                                    outline: 'none',
-                                                    boxShadow: 'inset 0 -2px 0 0 #ccc',
-                                                },
-                                                on: {
-                                                    input: [CHANGE_CURRENT_STATE_BOOLEAN_VALUE, stateId],
-                                                },
-                                            },
-                                            [
-                                                h(
-                                                    'option',
-                                                    {
-                                                        attrs: {
-                                                            value: 'true',
-                                                        },
-                                                        style: {
-                                                            color: 'black',
-                                                        },
-                                                    },
-                                                    ['true']
-                                                ),
-                                                h(
-                                                    'option',
-                                                    {
-                                                        attrs: {
-                                                            value: 'false',
-                                                        },
-                                                        style: {
-                                                            color: 'black',
-                                                        },
-                                                    },
-                                                    ['false']
-                                                ),
-                                            ]
-                                        ),
-                                    ]
-                                )
-                            }
-                            return h('span')
-                        })(),
+                        liveEditor(stateRef)
                     ]),
                     h(
                         'div',
@@ -396,7 +551,8 @@ function listState(stateRef) {
                                                     flex: '1',
                                                     padding: '2px 5px',
                                                     borderBottom: '2px solid white',
-                                                    maxWidth: '200px'
+                                                    maxWidth: '100px',
+                                                    minWidth: '100px',
                                                 },
                                             },
                                             [
@@ -420,7 +576,7 @@ function listState(stateRef) {
                                     )
                             ]
                         ),
-                        ...app.getCurrentState()[stateId].map(row =>
+                        ...app.getCurrentState()[stateId].map((row, index) =>
                             h('div', {
                                     style: {
                                         display: 'flex'
@@ -440,15 +596,17 @@ function listState(stateRef) {
                                     ),
                                     ...currentState.columns.map(childRef =>
                                         h(
-                                            'td',
+                                            'div',
                                             {
                                                 style: {
                                                     flex: '1',
                                                     padding: '2px 5px',
-                                                    maxWidth: '200px'
+                                                    maxWidth: '100px',
+                                                    minWidth: '100px',
+                                                    position: 'relative',
                                                 },
                                             },
-                                            row[childRef.id]
+                                            [liveEditorTable(childRef, stateId, row.id, index)]
                                         )
                                     )
                                 ]

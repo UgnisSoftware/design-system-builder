@@ -1735,10 +1735,24 @@ export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
     })
     setState({...state})
 }
+export function CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE(stateId, tableId, rowId, e) {
+    app.setCurrentState({
+        ...app.getCurrentState(),
+        [tableId]: app.getCurrentState()[tableId].map((row)=> row.id !== rowId ? row : {...row, [stateId]: e.target.value}),
+    })
+    setState({...state})
+}
 export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE(stateId, e) {
     app.setCurrentState({
         ...app.getCurrentState(),
         [stateId]: e.target.value === 'true',
+    })
+    setState({...state})
+}
+export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE(stateId, tableId, rowId, e) {
+    app.setCurrentState({
+        ...app.getCurrentState(),
+        [tableId]: app.getCurrentState()[tableId].map((row)=> row.id !== rowId ? row : {...row, [stateId]: e.target.value === 'true'}),
     })
     setState({...state})
 }
@@ -1750,6 +1764,12 @@ export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
         })
         setState({...state})
     }
+}
+export function CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE(stateId, tableId, rowId, e) {
+        app.setCurrentState({
+            ...app.getCurrentState(),
+            [tableId]: app.getCurrentState()[tableId].map((row)=> row.id !== rowId ? row : {...row, [stateId]: Number(e.target.value)}),
+        })
 }
 export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
     let value = e.target.value
