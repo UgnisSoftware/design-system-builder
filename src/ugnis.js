@@ -71,6 +71,7 @@ export default definition => {
             return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
         if (ref.ref === 'state') {
+            if(ref.parent) return currentState[ref.parent.id + '.' + ref.id]
             return currentState[ref.id]
         }
         if (ref.ref === 'table') {
@@ -285,11 +286,13 @@ export default definition => {
         const list = resolve(node.value)
 
         const cache = currentState
-        const children = list.map((value, index) => {
-            currentState = {...currentState, ...value}
-            currentKey = value.id
-            return node.children.map(resolve)
-        })
+        const children = list
+            .map((value, index) => {
+                const nameSpacedValues = Object.keys(value).reduce((acc, key) => {acc[ref.id + '.' + key] = value[key]; return acc}, {})
+                currentState = {...currentState, ...nameSpacedValues}
+                currentKey = value.id
+                return node.children.map(resolve)
+            })
         currentState = cache
         currentKey = ''
         return children
@@ -362,11 +365,11 @@ export default definition => {
     function getCurrentDefinition() {
         return definition
     }
-    
+
     function getVDom() {
         return vdom
     }
-    
+
     function getCurrentState() {
         return currentState
     }

@@ -66,15 +66,21 @@ const fields = {
 
 function checkInheritedStates(ref, acc = []){
     const node = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
-    if(node.parent.ref === 'vNodeList'){
-        acc.push({
-            "ref": "state",
-            "id": "asd2b7686828"
-        })
-    }
-    if(node.parent.id === '_rootNode'){
+    if(ref.id === '_rootNode' || node.parent.id === '_rootNode'){
         return acc
     }
+    if(node.parent.ref === 'vNodeList'){
+        const parent = state.definitionList[state.currentDefinitionId][node.parent.ref][node.parent.id]
+        const tableRef = state.definitionList[state.currentDefinitionId][parent.value.ref][parent.value.id].value
+        const table = state.definitionList[state.currentDefinitionId][tableRef.ref][tableRef.id]
+        table.columns.forEach(columnRef => {
+            acc.push({
+                parent: node.parent,
+                ...columnRef
+            })
+        })
+    }
+
     return checkInheritedStates(node.parent, acc)
 }
 
@@ -1387,39 +1393,44 @@ export default function generateEditNodeComponent() {
                         ? genpropsSubmenuComponent()
                         : state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent() : state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent() : h('span', 'Error, no such menu'),
                     h('div', {style: {padding: '20px', background: '#1e1e1e', marginTop: 'auto'}},  inheritedStates
-                        .map((stateRef)=> h(
-                            'span',
-                            {
-                                style: {
-                                    flex: '0 0 auto',
-                                    position: 'relative',
-                                    transform: 'translateZ(0)',
-                                    margin: '0 auto 0 0',
-                                    boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
-                                    background: '#1e1e1e',
-                                    padding: '4px 7px',
-                                },
-                            },
-                            [
+                        .map((stateRef)=>
+                            h('span', {}, [
+                                h('div', {}, state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title),
                                 h(
                                     'span',
                                     {
                                         style: {
-                                            opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
-                                            color: 'white',
-                                            display: 'inline-block',
-                                        },
-                                        on: {
-                                            mousedown: [STATE_DRAGGED, stateRef],
-                                            touchstart: [STATE_DRAGGED, stateRef],
-                                            touchmove: [HOVER_MOBILE],
+                                            flex: '0 0 auto',
+                                            position: 'relative',
+                                            transform: 'translateZ(0)',
+                                            margin: '0 auto 0 0',
+                                            boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
+                                            background: '#1e1e1e',
+                                            padding: '4px 7px',
                                         },
                                     },
-                                    state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
-                                ),
+                                    [
+                                        h(
+                                            'span',
+                                            {
+                                                style: {
+                                                    opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
+                                                    color: 'white',
+                                                    display: 'inline-block',
+                                                },
+                                                on: {
+                                                    mousedown: [STATE_DRAGGED, stateRef],
+                                                    touchstart: [STATE_DRAGGED, stateRef],
+                                                    touchmove: [HOVER_MOBILE],
+                                                },
+                                            },
+                                            state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
+                                        ),
+                                    ]
+                                )
                             ]
-                        ),
-                    )),
+                            )
+                        )),
                 ]
             ),
         ]
