@@ -1410,6 +1410,7 @@ export function ADD_NODE(nodeRef, type) {
         }
         return setState({
             ...state,
+            selectedViewNode: { ref: 'vNodeList', id: newNodeId },
             definitionList: {
                 ...state.definitionList,
                 [state.currentDefinitionId]: {
@@ -1644,7 +1645,7 @@ export function SELECT_VIEW_SUBMENU(newId) {
 export function EDIT_VIEW_NODE_TITLE(nodeId) {
     setState({ ...state, editingTitleNodeId: nodeId })
 }
-export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
+function deleteView (nodeRef, parentRef, state){
     // remove all events from state
     const events = getAvailableEvents(nodeRef.ref)
     let newState = state.definitionList[state.currentDefinitionId].state
@@ -1664,7 +1665,7 @@ export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
             })
         }
     })
-    setState({
+    return {
         ...state,
         definitionList: {
             ...state.definitionList,
@@ -1681,7 +1682,10 @@ export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
             }
         },
         selectedViewNode: {},
-    })
+    }
+}
+export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
+    setState(deleteView(nodeRef, parentRef, state))
 }
 export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
     e.preventDefault()
@@ -1881,11 +1885,22 @@ export function SAVE_DEFAULT(stateRef) {
 export function DELETE_STATE(stateRef) {
     const stateId = stateRef.id
     let removedPipeState = state
-    Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeid => {
-        if (state.definitionList[state.currentDefinitionId].pipe[pipeid].value.id === stateId) {
-            removedPipeState = resetPipeFunc(pipeid, removedPipeState)
-        }
-    })
+
+    if(stateRef.ref === 'table'){
+        Object.keys(state.definitionList[state.currentDefinitionId].vNodeList).forEach(nodeId => {
+            const node = state.definitionList[state.currentDefinitionId].vNodeList[nodeId]
+            const pipeId = node.value.id
+            if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
+                removedPipeState = deleteView({ref: 'vNodeList', id: nodeId}, node.parent, removedPipeState)
+            }
+        })
+    } else {
+        Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeId => {
+            if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
+                removedPipeState = resetPipeFunc(pipeId, removedPipeState)
+            }
+        })
+    }
     const { [stateId]: deletedState, ...newState } = removedPipeState.definitionList[state.currentDefinitionId][stateRef.ref]
     let events = removedPipeState.definitionList[state.currentDefinitionId].event
     deletedState.mutators.forEach(mutatorRef => {
@@ -1903,15 +1918,15 @@ export function DELETE_STATE(stateRef) {
         ...removedPipeState,
         selectedStateNode: {},
         definitionList: {
-            ...state.definitionList,
+            ...removedPipeState.definitionList,
             [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
+                ...removedPipeState.definitionList[removedPipeState.currentDefinitionId],
                 [stateRef.ref]: newState,
                 nameSpace: {
-                    ...removedPipeState.definitionList[state.currentDefinitionId].nameSpace,
+                    ...removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace,
                     _rootNameSpace: {
-                        ...removedPipeState.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                        children: removedPipeState.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+                        ...removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace['_rootNameSpace'],
+                        children: removedPipeState.definitionList[removedPipeState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
                     },
                 },
                 event: events,

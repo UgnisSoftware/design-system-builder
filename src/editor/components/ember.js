@@ -451,7 +451,7 @@ export default function emberEditor(ref) {
                             [addCircleIcon()]
                         )
                             : h('span'),
-                        state.selectedPipeId === ref.id
+                        state.selectedPipeId === ref.id && pipe.value.ref === 'state'
                             ? h(
                             'span',
                             {
