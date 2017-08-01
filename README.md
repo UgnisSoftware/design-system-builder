@@ -52,7 +52,7 @@ If that sounds similar to a problem in your company feel free to contact us at [
 
 ## How does Ugnis work internally?
 
-Ugnis is declarative programming taken to the extreme. Because no one wants to read and write JSON by hand, we have created the visual editor - it manages the code generation, so you could focus on the design and logic.
+Ugnis is declarative programming taken to the extreme. Because no one wants to write JSON by hand, we have created the visual editor - it manages the code generation, so you could focus on the design and logic.
 
 Ugnis consists of three parts:
 
@@ -101,7 +101,9 @@ Ugnis consists of three parts:
 
 ## License:
 
-MIT
+Exported components are under the license that your project is.
+
+Editor and compilers are under AGPL. Other Licenses are available upon request.
 
 ## Contributors
 
@@ -115,4 +117,4 @@ MIT
 
 ### Thank you:
 
-Douglas Crockford, Nicholas C. Zakas, React team, Andrew Clark, Dan Abramov, RxJS team, André “Staltz” Medeiros, Alan Kay, Chris Granger, Rich Hickey, Evan Czaplicki, Jonathan Blow and everyone who is pushing programming forward!
+Douglas Crockford, Alan Kay, Chris Granger, Rich Hickey, Evan Czaplicki, André “Staltz” Medeiros, Sebastian Markbåge and everyone who is pushing programming forward!
