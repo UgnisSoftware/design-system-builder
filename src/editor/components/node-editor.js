@@ -62,11 +62,20 @@ const fields = {
     pipe: ['value', 'transformations'],
 }
 
-function inheritedStates(ref){
-    return [                {
-        "ref": "state",
-        "id": "asd2b7686828"
-    }]
+
+
+function checkInheritedStates(ref, acc = []){
+    const node = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
+    if(node.parent.ref === 'vNodeList'){
+        acc.push({
+            "ref": "state",
+            "id": "asd2b7686828"
+        })
+    }
+    if(node.parent.id === '_rootNode'){
+        return acc
+    }
+    return checkInheritedStates(node.parent, acc)
 }
 
 const dragSubComponentLeft = h('div', {
@@ -1253,7 +1262,7 @@ export default function generateEditNodeComponent() {
     }
 
     const fullVNode = ['vNodeBox', 'vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
-
+    const inheritedStates = checkInheritedStates(state.selectedViewNode)
     return h(
         'div',
         {
@@ -1262,7 +1271,7 @@ export default function generateEditNodeComponent() {
                 color: 'white',
                 left: state.componentEditorPosition.x + 'px',
                 top: state.componentEditorPosition.y + 'px',
-                height: '50%',
+                height: '63%',
                 display: 'flex',
                 zIndex: '3000',
             },
@@ -1377,7 +1386,7 @@ export default function generateEditNodeComponent() {
                     state.selectedViewSubMenu === 'props' || !fullVNode
                         ? genpropsSubmenuComponent()
                         : state.selectedViewSubMenu === 'style' ? genstyleSubmenuComponent() : state.selectedViewSubMenu === 'events' ? geneventsSubmenuComponent() : h('span', 'Error, no such menu'),
-                    h('div', {style: {padding: '20px', background: '#ccc', position: 'absolute', bottom: '0px', left: '0px', right: '0px'}}, inheritedStates(state.selectedViewNode)
+                    h('div', {style: {padding: '20px', background: '#1e1e1e', marginTop: 'auto'}},  inheritedStates
                         .map((stateRef)=> h(
                             'span',
                             {
