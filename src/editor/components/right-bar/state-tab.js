@@ -394,38 +394,41 @@ function liveEditorTable(stateRef, tableId, rowId, rowIndex){
     }
     return h('span')
 }
+function editingNode(stateRef) {
+    const stateId = stateRef.id
+    const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
+    return h('input', {
+        style: {
+            color: 'white',
+            outline: 'none',
+            padding: '4px 7px',
+            boxShadow: 'none',
+            display: 'inline',
+            border: 'none',
+            background: 'none',
+            font: 'inherit',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            flex: '0 0 auto',
+        },
+        on: {
+            input: [CHANGE_STATE_NODE_TITLE, stateRef],
+        },
+        liveProps: {
+            value: currentState.title,
+        },
+        attrs: {
+            autofocus: true,
+            'data-istitleeditor': true,
+        },
+    })
+}
 
 function listState(stateRef) {
     const stateId = stateRef.id
     const currentState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateId]
-    function editingNode() {
-        return h('input', {
-            style: {
-                color: 'white',
-                outline: 'none',
-                padding: '4px 7px',
-                boxShadow: 'none',
-                display: 'inline',
-                border: 'none',
-                background: 'none',
-                font: 'inherit',
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                width: '100%',
-                flex: '0 0 auto',
-            },
-            on: {
-                input: [CHANGE_STATE_NODE_TITLE, stateRef],
-            },
-            liveProps: {
-                value: currentState.title,
-            },
-            attrs: {
-                'data-istitleeditor': true,
-            },
-        })
-    }
     return h(
         'div',
         {
@@ -477,7 +480,7 @@ function listState(stateRef) {
                                 },
                                 currentState.title
                             ),
-                            state.editingTitleNodeId === stateId ? editingNode() : h('span'),
+                            state.editingTitleNodeId === stateId ? editingNode(stateRef) : h('span'),
                         ]
                     ),
                     h('div', { style: { display: 'inline-flex' } }, [
@@ -551,12 +554,28 @@ function listState(stateRef) {
                                                     flex: '1',
                                                     padding: '2px 5px',
                                                     borderBottom: '2px solid white',
-                                                    maxWidth: '100px',
-                                                    minWidth: '100px',
+                                                    maxWidth: '120px',
+                                                    minWidth: '120px',
+                                                    position: 'relative'
                                                 },
                                             },
                                             [
-                                                state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title,
+                                                h(
+                                                    'span',
+                                                    {
+                                                        style: {
+                                                            opacity: state.editingTitleNodeId === childRef.id ? '0' : '1',
+                                                            color: 'white',
+                                                            display: 'inline-block',
+                                                            padding: '2px 2px',
+                                                        },
+                                                        on: {
+                                                            dblclick: [EDIT_VIEW_NODE_TITLE, childRef.id],
+                                                        },
+                                                    },
+                                                    state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title,
+                                                ),
+                                                state.editingTitleNodeId === childRef.id ? editingNode(childRef) : h('span'),
                                                 h(
                                                     'div',
                                                     {
@@ -573,6 +592,7 @@ function listState(stateRef) {
                                                 ),
                                             ]
                                         )
+
                                     )
                             ]
                         ),
@@ -616,8 +636,8 @@ function listState(stateRef) {
                                                 style: {
                                                     flex: '1',
                                                     padding: '2px 5px',
-                                                    maxWidth: '100px',
-                                                    minWidth: '100px',
+                                                    maxWidth: '120px',
+                                                    minWidth: '120px',
                                                     position: 'relative',
                                                 },
                                             },
