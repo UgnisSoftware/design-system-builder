@@ -368,7 +368,7 @@ export function PIPE_HOVERED(pipeRef, e) {
     setState({ ...state, hoveredPipe: pipeRef })
 }
 
-function PIPE_UNHOVERED() {
+export function PIPE_UNHOVERED() {
     if (state.hoveredPipe) {
         setState({
             ...state,
@@ -606,7 +606,7 @@ export function STATE_DRAGGED(stateRef, e) {
                                 transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].transformations),
                             },
                             [pipeIdState]: {
-                                type: 'text',
+                                type: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type,
                                 value: state.draggedComponentState,
                                 transformations: [],
                             },
