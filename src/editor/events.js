@@ -2220,3 +2220,12 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
     })
 }
 
+export function DELETE_TABLE_ROW(tableId, rowId) {
+    let updatedTable = app.getCurrentState()[tableId].filter(row => row.id !== rowId)
+
+    app.setCurrentState({
+        ...app.getCurrentState(),
+        [tableId]: updatedTable,
+    })
+    setState({...state})
+}

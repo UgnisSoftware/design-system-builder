@@ -6,7 +6,7 @@ import {
     CHANGE_CURRENT_STATE_TEXT_VALUE, CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE,
     CHANGE_CURRENT_STATE_NUMBER_VALUE, CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE,
     SAVE_DEFAULT, VIEW_NODE_SELECTED, UNSELECT_STATE_NODE, ADD_STATE, UPDATE_TABLE_DEFAULT_RECORD,
-    UPDATE_TABLE_ADD_COLUMN
+    UPDATE_TABLE_ADD_COLUMN, DELETE_TABLE_ROW
 } from '../../events'
 import {
     deleteIcon, listIcon, saveIcon, ifIcon, inputIcon, textIcon, boxIcon, numberIcon
@@ -583,6 +583,21 @@ function listState(stateRef) {
                                     },
                                 },
                                 [
+
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                color: '#eab65c',
+                                                display: 'inline-flex',
+                                                alignSelf: 'center',
+                                            },
+                                            on: {
+                                                click: [DELETE_TABLE_ROW, stateId, row.id],
+                                            },
+                                        },
+                                        [deleteIcon()]
+                                    ),
                                     h(
                                         'div',
                                         {
@@ -606,7 +621,9 @@ function listState(stateRef) {
                                                     position: 'relative',
                                                 },
                                             },
-                                            [liveEditorTable(childRef, stateId, row.id, index)]
+                                            [
+                                                liveEditorTable(childRef, stateId, row.id, index)
+                                            ]
                                         )
                                     )
                                 ]
