@@ -5,7 +5,7 @@ import topBar from './top-bar'
 import preview from './preview'
 import left from './left'
 import right from './right-bar/right'
-import nodeEditor from './node-editor'
+import nodeEditor from './node-editor/node-editor'
 import loading from './loading'
 
 function fakeComponent(nodeRef, depth) {
