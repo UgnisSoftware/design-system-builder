@@ -251,7 +251,8 @@
                 "id": "_rootStyle"
             },
             "parent": {},
-            "children": []
+            "children": [],
+            "events": []
         }
     },
     "vNodeText": {},

@@ -159,6 +159,21 @@ export default definition => {
         return transformValue(resolve(def.value), def.transformations)
     }
 
+    function generateEvents(ref){
+        const node = definition[ref.ref][ref.id]
+        if (frozen){
+            return {
+                mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
+                click: [selectNodeClick, ref],
+            }
+        }
+        return node.events.reduce((acc, eventRef)=> {
+            const event = definition[eventRef.ref][eventRef.id]
+            acc[event.type] = [emitEvent, eventRef]
+            return acc
+        }, {})
+    }
+
     const frozenShadow = 'inset 0 0 0 3px #53d486'
 
     function boxNode(ref) {
@@ -166,55 +181,26 @@ export default definition => {
         const style = resolve(node.style)
         const data = {
             key: ref.id+definition.id+currentKey,
-            style: frozen && selectedNodeInDevelopment.id === ref.id
-                ? {
-                      ...style,
-                      transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-                  }
-                : style,
-            on: frozen
-                ? {
-                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
-                      click: [selectNodeClick, ref],
-                  }
-                : {
-                      click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
-                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
-                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
-                  },
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
+                ...style,
+                transition: 'box-shadow 0.2s',
+                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+            } : style,
+            on: generateEvents(ref),
         }
         return h('div', data, flatten(node.children.map(resolve)))
-    }
-
-    function ifNode(ref) {
-        const node = definition[ref.ref][ref.id]
-        return resolve(node.value) ? node.children.map(resolve) : []
     }
 
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id
-                ? {
-                      ...style,
-                      transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-                  }
-                : style,
-            on: frozen
-                ? {
-                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
-                      click: [selectNodeClick, ref],
-                  }
-                : {
-                      click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
-                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
-                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
-                  },
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
+                ...style,
+                transition: 'box-shadow 0.2s',
+                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+            } : style,
+            on: generateEvents(ref),
         }
         return h('span', data, resolve(node.value))
     }
@@ -226,24 +212,12 @@ export default definition => {
             attrs: {
                 src: resolve(node.src),
             },
-            style: frozen && selectedNodeInDevelopment.id === ref.id
-                ? {
-                      ...style,
-                      transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-                  }
-                : style,
-            on: frozen
-                ? {
-                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
-                      click: [selectNodeClick, ref],
-                  }
-                : {
-                      click: node.click ? [emitEvent, node.click] : undefined,
-                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
-                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
-                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
-                  },
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
+                ...style,
+                transition: 'box-shadow 0.2s',
+                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+            } : style,
+            on: generateEvents(ref),
         }
         return h('img', data)
     }
@@ -252,33 +226,23 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id
-                ? {
-                      ...style,
-                      transition: 'box-shadow 0.2s',
-                      boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-                  }
-                : style,
-            on: frozen
-                ? {
-                      mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
-                      click: [selectNodeClick, ref],
-                  }
-                : {
-                      click: node.click ? [emitEvent, node.click] : undefined,
-                      input: node.input ? [emitEvent, node.input] : undefined,
-                      dblclick: node.dblclick ? [emitEvent, node.dblclick] : undefined,
-                      mouseover: node.mouseover ? [emitEvent, node.mouseover] : undefined,
-                      mouseout: node.mouseout ? [emitEvent, node.mouseout] : undefined,
-                      focus: node.focus ? [emitEvent, node.focus] : undefined,
-                      blur: node.blur ? [emitEvent, node.blur] : undefined,
-                  },
+            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
+                ...style,
+                transition: 'box-shadow 0.2s',
+                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+            } : style,
+            on: generateEvents(ref),
             props: {
                 value: resolve(node.value),
                 placeholder: node.placeholder,
             },
         }
         return h('input', data)
+    }
+
+    function ifNode(ref) {
+        const node = definition[ref.ref][ref.id]
+        return resolve(node.value) ? node.children.map(resolve) : []
     }
 
     function listNode(ref) {
