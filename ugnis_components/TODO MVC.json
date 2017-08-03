@@ -4512,7 +4512,8 @@
                     "ref": "vNodeBox",
                     "id": "8374bcaa"
                 }
-            ]
+            ],
+            "events": []
         },
         "98f90936": {
             "title": "box",
@@ -4524,7 +4525,8 @@
                 "ref": "style",
                 "id": "ba7ff09e"
             },
-            "children": []
+            "children": [],
+            "events": []
         },
         "1510e3d2": {
             "title": "box",
@@ -4536,7 +4538,8 @@
                 "ref": "style",
                 "id": "4e0b9638"
             },
-            "children": []
+            "children": [],
+            "events": []
         },
         "8374bcaa": {
             "title": "Wrapper",
@@ -4561,7 +4564,8 @@
                     "ref": "vNodeText",
                     "id": "4888da20"
                 }
-            ]
+            ],
+            "events": []
         },
         "0205c403": {
             "title": "box",
@@ -4573,7 +4577,8 @@
                 "ref": "style",
                 "id": "38aa7a48"
             },
-            "children": []
+            "children": [],
+            "events": []
         },
         "f8908532": {
             "title": "Main Box",
@@ -4594,7 +4599,8 @@
                     "ref": "vNodeIf",
                     "id": "835b3af6"
                 }
-            ]
+            ],
+            "events": []
         },
         "fd8133bd": {
             "title": "box",
@@ -4611,7 +4617,8 @@
                     "ref": "vNodeText",
                     "id": "5c810d87"
                 }
-            ]
+            ],
+            "events": []
         },
         "00283953": {
             "title": "Header",
@@ -4632,7 +4639,8 @@
                     "ref": "vNodeIf",
                     "id": "645b4fb6"
                 }
-            ]
+            ],
+            "events": []
         },
         "c5f31a78": {
             "title": "box",
@@ -4649,7 +4657,8 @@
                     "ref": "vNodeText",
                     "id": "64fb1a77"
                 }
-            ]
+            ],
+            "events": []
         },
         "e35c606c": {
             "title": "item",
@@ -4666,7 +4675,8 @@
                     "ref": "vNodeBox",
                     "id": "fd8133bd"
                 }
-            ]
+            ],
+            "events": []
         },
         "cdc928ec": {
             "title": "footer",
@@ -4683,7 +4693,8 @@
                     "ref": "vNodeText",
                     "id": "93d3632c"
                 }
-            ]
+            ],
+            "events": []
         }
     },
     "vNodeText": {
@@ -4700,7 +4711,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "54052996"
-            }
+            },
+            "events": []
         },
         "ae688347": {
             "title": "text",
@@ -4715,7 +4727,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "6042cc39"
-            }
+            },
+            "events": []
         },
         "919bf9d3": {
             "title": "text",
@@ -4730,7 +4743,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "0ebea4aa"
-            }
+            },
+            "events": []
         },
         "8080d087": {
             "title": "icon",
@@ -4745,7 +4759,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "b5d1df9a"
-            }
+            },
+            "events": []
         },
         "5c810d87": {
             "title": "text",
@@ -4760,7 +4775,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "02cffda9"
-            }
+            },
+            "events": []
         },
         "64fb1a77": {
             "title": "text",
@@ -4775,7 +4791,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "bce62ade"
-            }
+            },
+            "events": []
         },
         "429b1106": {
             "title": "text",
@@ -4790,7 +4807,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "a3127d39"
-            }
+            },
+            "events": []
         },
         "4888da20": {
             "title": "TODO",
@@ -4805,7 +4823,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "ff5ec48d"
-            }
+            },
+            "events": []
         },
         "93d3632c": {
             "title": "text",
@@ -4820,7 +4839,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "737bce9d"
-            }
+            },
+            "events": []
         }
     },
     "vNodeInput": {
@@ -4838,10 +4858,10 @@
                 "ref": "pipe",
                 "id": "e062152e"
             },
-            "input": {
+            "events": [{
                 "ref": "event",
                 "id": "3cbf22ba"
-            }
+            }]
         }
     },
     "vNodeList": {},
@@ -4899,7 +4919,8 @@
             "src": {
                 "ref": "pipe",
                 "id": "82fced97"
-            }
+            },
+            "events": []
         }
     },
     "style": {

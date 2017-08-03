@@ -1786,7 +1786,8 @@
                     "ref": "vNodeBox",
                     "id": "c115cf33"
                 }
-            ]
+            ],
+            "events": []
         },
         "c115cf33": {
             "title": "Main",
@@ -1811,7 +1812,8 @@
                     "ref": "vNodeText",
                     "id": "b6e9a724"
                 }
-            ]
+            ],
+            "events": []
         },
         "6db9fd4c": {
             "title": "Color box",
@@ -1828,7 +1830,8 @@
                     "ref": "vNodeBox",
                     "id": "f22be8ec"
                 }
-            ]
+            ],
+            "events": []
         },
         "483f022b": {
             "title": "Bottom",
@@ -1840,7 +1843,8 @@
                 "ref": "style",
                 "id": "3f801e01"
             },
-            "children": []
+            "children": [],
+            "events": []
         },
         "f22be8ec": {
             "title": "Color",
@@ -1857,7 +1861,8 @@
                     "ref": "vNodeBox",
                     "id": "3589ea97"
                 }
-            ]
+            ],
+            "events": []
         },
         "3589ea97": {
             "title": "box",
@@ -1874,7 +1879,8 @@
                     "ref": "vNodeBox",
                     "id": "e3b56982"
                 }
-            ]
+            ],
+            "events": []
         },
         "e3b56982": {
             "title": "box",
@@ -1886,7 +1892,11 @@
                 "ref": "style",
                 "id": "8d72d980"
             },
-            "children": []
+            "children": [],
+            "events": [{
+                "ref": "event",
+                "id": "e130d219"
+            }]
         }
     },
     "vNodeText": {
@@ -1903,7 +1913,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "144bb77b"
-            }
+            },
+            "events": []
         },
         "b6e9a724": {
             "title": "text",
@@ -1918,7 +1929,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "316b2ec7"
-            }
+            },
+            "events": []
         }
     },
     "vNodeInput": {},
@@ -3346,6 +3358,16 @@
     "table": {},
     "state": {},
     "mutator": {},
-    "event": {},
+    "event": {
+        "e130d219": {
+            "type": "click",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "e3b56982"
+            },
+            "mutators": [],
+            "data": []
+        }
+    },
     "id": "5a5106ff"
 }

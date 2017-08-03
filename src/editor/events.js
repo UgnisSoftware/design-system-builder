@@ -1155,6 +1155,7 @@ export function ADD_NODE(nodeRef, type) {
             parent: nodeRef,
             style: { ref: 'style', id: newStyleId },
             children: [],
+            events: [],
         }
         return setState({
             ...state,
@@ -1214,6 +1215,7 @@ export function ADD_NODE(nodeRef, type) {
             parent: nodeRef,
             style: { ref: 'style', id: newStyleId },
             value: { ref: 'pipe', id: pipeId },
+            events: [],
         }
         const newPipe = {
             type: 'text',
@@ -1261,6 +1263,7 @@ export function ADD_NODE(nodeRef, type) {
             parent: nodeRef,
             style: { ref: 'style', id: newStyleId },
             src: { ref: 'pipe', id: pipeId },
+            events: [],
         }
         const newPipe = {
             type: 'text',
@@ -1448,6 +1451,7 @@ export function ADD_NODE(nodeRef, type) {
             style: { ref: 'style', id: newStyleId },
             value: { ref: 'pipe', id: pipeInputId },
             input: { ref: 'event', id: eventId },
+            events: [],
         }
         const newPipeInput = {
             type: 'text',
@@ -1809,7 +1813,7 @@ export function ADD_EVENT(propertyName, node) {
                     ...state.definitionList[state.currentDefinitionId][ref.ref],
                     [ref.id]: {
                         ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
-                        [propertyName]: { ref: 'event', id: eventId },
+                        events: state.definitionList[state.currentDefinitionId][ref.ref][ref.id].events.concat({ ref: 'event', id: eventId }),
                     },
                 },
                 event: {

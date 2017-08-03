@@ -2668,7 +2668,8 @@
                     "ref": "vNodeBox",
                     "id": "be65cb8a-f8f1-479c-8fac-f526e39c8d36"
                 }
-            ]
+            ],
+            "events": []
         },
         "be65cb8a-f8f1-479c-8fac-f526e39c8d36": {
             "title": "box",
@@ -2693,7 +2694,8 @@
                     "ref": "vNodeImage",
                     "id": "cb513100-42d5-427a-8ee6-57fccbed4e84"
                 }
-            ]
+            ],
+            "events": []
         }
     },
     "vNodeText": {
@@ -2710,7 +2712,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "fa1d8fd7-240f-44b3-8f06-d4324569d253"
-            }
+            },
+            "events": []
         },
         "25461dab-9484-4762-8f53-0676d01bca31": {
             "title": "text",
@@ -2725,7 +2728,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "20b085e9-dfde-4bfa-8322-9a635219b647"
-            }
+            },
+            "events": []
         },
         "4dc66de4-9113-4c78-82f7-aac6c97949d3": {
             "title": "text",
@@ -2740,7 +2744,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "635d972b-463a-4894-88e2-7050904ffb16"
-            }
+            },
+            "events": []
         },
         "3304f77a-1091-4333-86b6-44df6b4f6d34": {
             "title": "text",
@@ -2755,7 +2760,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "7a5bcb1e-d994-443b-899b-6fb44f2881db"
-            }
+            },
+            "events": []
         },
         "10ac3e52-5e07-405d-8343-709ea5ff466a": {
             "title": "text",
@@ -2770,7 +2776,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "fddeb6ea-ab24-48e6-8e0c-ee6ca71551ee"
-            }
+            },
+            "events": []
         },
         "c47ab2c6-96fb-485d-8751-c3989b60af82": {
             "title": "text",
@@ -2785,7 +2792,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "7f8def43-42b7-4cef-8544-3c85498b8395"
-            }
+            },
+            "events": []
         },
         "57d3673c-8cbc-4aec-8772-a844bf051a43": {
             "title": "text",
@@ -2804,7 +2812,8 @@
             "click": {
                 "ref": "event",
                 "id": "de0667ac-abc0-40b0-83b1-fd9bdc08cf5b"
-            }
+            },
+            "events": []
         },
         "ca189b43-b7e8-4bf4-8d6f-7fa10112ab6b": {
             "title": "text",
@@ -2819,7 +2828,8 @@
             "value": {
                 "ref": "pipe",
                 "id": "780aabf0-37cf-453b-8f8d-30563cabfc39"
-            }
+            },
+            "events": []
         }
     },
     "vNodeInput": {},
@@ -2839,7 +2849,8 @@
             "src": {
                 "ref": "pipe",
                 "id": "c6627941-a24c-43b2-80c1-c0f28744e133"
-            }
+            },
+            "events": []
         },
         "cb513100-42d5-427a-8ee6-57fccbed4e84": {
             "title": "image",
@@ -2854,7 +2865,8 @@
             "src": {
                 "ref": "pipe",
                 "id": "cbfcec2c-c243-4d3e-8783-66c1b4a038f5"
-            }
+            },
+            "events": []
         }
     },
     "style": {
