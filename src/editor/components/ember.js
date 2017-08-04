@@ -495,7 +495,7 @@ export default function emberEditor(ref) {
                                     click: [STATE_NODE_SELECTED, pipe.value],
                                 },
                             },
-                            [eventData.title]
+                            [pipe.value.id]
                         ),
                     ]),
                 ]

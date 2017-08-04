@@ -111,7 +111,7 @@ export default () => {
                         {
                             style: {
                                 background: '#676767',
-                                padding: '5px 10px',
+                                padding: '5px 20px',
                                 display: 'flex',
                                 justifyContent: 'space-between',
                             },
@@ -138,7 +138,7 @@ export default () => {
                                 'div',
                                 {
                                     style: {
-                                        padding: '15px 10px',
+                                        padding: '15px 20px',
                                         borderBottom: '2px solid #929292',
                                         display: 'flex',
                                         alignItems: 'center',

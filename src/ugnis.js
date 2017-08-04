@@ -102,17 +102,18 @@ export default definition => {
             }, {})
         }
         if (ref.ref === 'eventData') {
-            console.log(currentEvent)
             if(ref.id === 'value') return currentEvent.target.value
-            const initialScreenX = currentEvent.touches ? currentEvent.touches[0].offsetX : currentEvent.offsetX
-            const initialScreenY = currentEvent.touches ? currentEvent.touches[0].offsetY : currentEvent.offsetY
-            if(ref.id === 'screenX') return initialScreenX
-            if(ref.id === 'screenY') return initialScreenY
-            const initialPageX = currentEvent.touches ? currentEvent.touches[0].pageX : currentEvent.pageX
-            const initialPageY = currentEvent.touches ? currentEvent.touches[0].pageY : currentEvent.pageY
+            let initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
+            let initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
+            // fix offsets in dev
+            const root = getVDom().elm.getBoundingClientRect()
+            initialX = initialX - root.left
+            initialY = initialY - root.top
+            if(ref.id === 'screenX') return initialX
+            if(ref.id === 'screenY') return initialY
             const position = currentEvent.target.getBoundingClientRect()
-            const offsetX = initialPageX - position.left
-            const offsetY = initialPageY - position.top
+            const offsetX = initialX - position.left
+            const offsetY = initialX - position.top
             if(ref.id === 'layerX') return offsetX
             if(ref.id === 'layerY') return offsetY
         }
