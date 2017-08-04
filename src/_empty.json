@@ -2,8 +2,23 @@
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
-    "eventData": {},
-    "toLowerCase": {},
+    "eventData": {
+        "screenX": {
+            "type": "number"
+        },
+        "screenY": {
+            "type": "number"
+        },
+        "layerX": {
+            "type": "number"
+        },
+        "layerY": {
+            "type": "number"
+        },
+        "value": {
+            "type": "text"
+        }
+    },    "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
     "and": {},

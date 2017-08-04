@@ -102,7 +102,19 @@ export default definition => {
             }, {})
         }
         if (ref.ref === 'eventData') {
-            return eventData[ref.id]
+            console.log(currentEvent)
+            if(ref.id === 'value') return currentEvent.target.value
+            const initialScreenX = currentEvent.touches ? currentEvent.touches[0].offsetX : currentEvent.offsetX
+            const initialScreenY = currentEvent.touches ? currentEvent.touches[0].offsetY : currentEvent.offsetY
+            if(ref.id === 'screenX') return initialScreenX
+            if(ref.id === 'screenY') return initialScreenY
+            const initialPageX = currentEvent.touches ? currentEvent.touches[0].pageX : currentEvent.pageX
+            const initialPageY = currentEvent.touches ? currentEvent.touches[0].pageY : currentEvent.pageY
+            const position = currentEvent.target.getBoundingClientRect()
+            const offsetX = initialPageX - position.left
+            const offsetY = initialPageY - position.top
+            if(ref.id === 'layerX') return offsetX
+            if(ref.id === 'layerY') return offsetY
         }
         throw Error(ref)
     }
@@ -159,10 +171,16 @@ export default definition => {
         return transformValue(resolve(def.value), def.transformations)
     }
 
+    function preventFrozenInputs(e) {
+        e.preventDefault()
+        return false
+    }
+
     function generateEvents(ref){
         const node = definition[ref.ref][ref.id]
         if (frozen){
             return {
+                keydown: preventFrozenInputs,
                 mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                 click: [selectNodeClick, ref],
             }
@@ -275,11 +293,6 @@ export default definition => {
         const eventId = eventRef.id
         const event = definition.event[eventId]
         currentEvent = e
-        event.data.forEach(ref => {
-            if (ref.id === '_input') {
-                eventData[ref.id] = e.target.value
-            }
-        })
         const previousState = currentState
         let mutations = {}
         definition.event[eventId].mutators.forEach(ref => {

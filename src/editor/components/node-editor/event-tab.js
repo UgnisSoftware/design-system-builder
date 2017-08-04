@@ -7,59 +7,60 @@ import {
     arrowIcon
 } from '../icons'
 import emberEditor from '../ember'
+import fakeState from './fake-state'
 
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
     const pointerEvents = [
         {
-            title: 'on click',
+            title: 'Click',
             type: 'click',
         },
         {
-            title: 'double clicked',
+            title: 'Double Click',
             type: 'dblclick',
         },
         {
-            title: 'mouse over',
+            title: 'Over',
             type: 'mouseover',
         },
         {
-            title: 'mouse out',
+            title: 'Out',
             type: 'mouseout',
         },
         {
-            title: 'mouse move',
+            title: 'Move',
             type: 'mousemove',
         },
         {
-            title: 'mouse down',
+            title: 'Down',
             type: 'mousedown',
         },
         {
-            title: 'mouse up',
+            title: 'Up',
             type: 'mouseup',
         },
     ]
     const inputEvents = [
         {
-            title: 'input',
+            title: 'Input',
             type: 'input',
         },
         {
-            title: 'key down',
+            title: 'Key Down',
             type: 'keydown',
         },
         {
-            title: 'key up',
+            title: 'Key Up',
             type: 'keyup',
         },
         {
-            title: 'focus',
+            title: 'Focus',
             type: 'focus',
         },
         {
-            title: 'blur',
+            title: 'Blur',
             type: 'blur',
         },
     ]
@@ -87,8 +88,20 @@ export default () => {
                         //click: [SELECT_VIEW_SUBMENU, 'events']
                     },
                 },
-                [arrowIcon(), 'Pointer events']
+                [arrowIcon(), 'Mouse events']
             ),
+            h('div',{
+                style: {
+                    padding: '20px',
+                    display: 'flex',
+                    justifyContent: 'stace-between'
+                }
+            }, [
+                fakeState('Mouse X position from left', {ref: 'eventData', id: 'screenX'}),
+                fakeState('Mouse Y position from top', {ref: 'eventData', id: 'screenY'}),
+                fakeState('Mouse X position from layer left', {ref: 'eventData', id: 'layerX'}),
+                fakeState('Mouse Y position from layer top', {ref: 'eventData', id: 'layerY'}),
+            ]),
             ...pointerEvents.map(eventDesc => {
 
                 const eventRef = selectedNode.events.find(eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === eventDesc.type)
@@ -192,7 +205,7 @@ export default () => {
                                 cursor: 'default'
                             },
                             on: {
-                                mousemove: [EVENT_HOVERED, {type: eventDesc.type} ],
+                                mousemove: state.draggedComponentState && (state.draggedComponentState.ref === 'state' || state.draggedComponentState.ref === 'table') ? [EVENT_HOVERED, {type: eventDesc.type} ]: undefined,
                                 mouseout: [EVENT_UNHOVERED],
                             },
                         },

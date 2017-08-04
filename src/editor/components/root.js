@@ -55,7 +55,12 @@ function fakeComponent(nodeRef, depth) {
 
 
 function fakeState(ref) {
-    const currentState = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
+    const title =
+        ref.ref === 'state' || ref.ref === 'table' ?
+            state.definitionList[state.currentDefinitionId][ref.ref][ref.id].title :
+        ref.ref === 'eventData' ?
+            ref.id :
+            'What are you dragging?'
     return h(
         'span',
         {
@@ -69,7 +74,7 @@ function fakeState(ref) {
                 padding: '4px 7px',
             },
         },
-        [h('span', { style: { color: 'white', display: 'inline-block' } }, currentState.title)]
+        [h('span', { style: { color: 'white', display: 'inline-block' } }, title)]
     )
 }
 

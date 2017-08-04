@@ -533,7 +533,6 @@ export function STATE_DRAGGED(stateRef, e) {
                         type: state.hoveredEvent.type,
                         emitter: state.selectedViewNode,
                         mutators: [],
-                        data: [],
                     },
                 }
             const fixedNode = eventRef !== undefined ?
@@ -1484,7 +1483,7 @@ export function ADD_NODE(nodeRef, type) {
             style: { ref: 'style', id: newStyleId },
             value: { ref: 'pipe', id: pipeInputId },
             input: { ref: 'event', id: eventId },
-            events: [],
+            events: [{ ref: 'event', id: eventId }],
         }
         const newPipeInput = {
             type: 'text',
@@ -1493,7 +1492,7 @@ export function ADD_NODE(nodeRef, type) {
         }
         const newPipeMutator = {
             type: 'text',
-            value: { ref: 'eventData', id: '_input' },
+            value: { ref: 'eventData', id: 'value'},
             transformations: [],
         }
         const newState = {
@@ -1516,7 +1515,6 @@ export function ADD_NODE(nodeRef, type) {
                 ref: 'vNodeInput',
                 id: newNodeId,
             },
-            data: [{ ref: 'eventData', id: '_input' }],
         }
         return setState({
             ...state,
