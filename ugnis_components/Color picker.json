@@ -3360,6 +3360,7 @@
     "mutator": {},
     "event": {
         "e130d219": {
+            "title": "On Click",
             "type": "click",
             "emitter": {
                 "ref": "vNodeBox",

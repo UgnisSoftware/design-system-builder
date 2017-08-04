@@ -4959,6 +4959,7 @@
     },
     "event": {
         "de0667ac-abc0-40b0-83b1-fd9bdc08cf5b": {
+            "title": "On Click",
             "type": "click",
             "emitter": {
                 "ref": "vNodeText",
