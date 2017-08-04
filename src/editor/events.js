@@ -506,16 +506,46 @@ export function STATE_DRAGGED(stateRef, e) {
             })
         }
         if (state.hoveredEvent) {
+            const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
+            let eventRef = selectedNode.events.find(eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === state.hoveredEvent.type)
             // check if event already changes the state
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators.map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id).filter(eventid => eventid === state.hoveredEvent.id).length) {
+            if (eventRef &&
+                state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators
+                    .map(mutatorRef => state.definitionList[state.currentDefinitionId].mutator[mutatorRef.id].event.id)
+                    .find(eventId => eventId === eventRef.id)
+            ) {
                 return setState({
                     ...state,
                     draggedComponentState: {},
                     hoveredEvent: null,
                 })
             }
+            const eventId = uuid()
             const mutatorId = uuid()
             const pipeId = uuid()
+
+            // add event if it didn't exist before
+            const fixedEvents = eventRef !== undefined ?
+                state.definitionList[state.currentDefinitionId].event :
+                {
+                    ...state.definitionList[state.currentDefinitionId].event,
+                    [eventId]: {
+                        type: state.hoveredEvent.type,
+                        emitter: state.selectedViewNode,
+                        mutators: [],
+                        data: [],
+                    },
+                }
+            const fixedNode = eventRef !== undefined ?
+                state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref] :
+                {
+                    ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref],
+                    [state.selectedViewNode.id]: {
+                        ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id],
+                        events: state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id].events.concat({ ref: 'event', id: eventId }),
+                    },
+                }
+            eventRef = eventRef || {ref: 'event', id : eventId}
             return setState({
                 ...state,
                 draggedComponentState: {},
@@ -542,19 +572,22 @@ export function STATE_DRAGGED(stateRef, e) {
                                 }),
                             },
                         },
+                        [state.selectedViewNode.ref]: {
+                            ...fixedNode,
+                        },
                         mutator: {
                             ...state.definitionList[state.currentDefinitionId].mutator,
                             [mutatorId]: {
-                                event: state.hoveredEvent,
+                                event: eventRef,
                                 state: state.draggedComponentState,
                                 mutation: { ref: 'pipe', id: pipeId },
                             },
                         },
                         event: {
-                            ...state.definitionList[state.currentDefinitionId].event,
-                            [state.hoveredEvent.id]: {
-                                ...state.definitionList[state.currentDefinitionId].event[state.hoveredEvent.id],
-                                mutators: state.definitionList[state.currentDefinitionId].event[state.hoveredEvent.id].mutators.concat({
+                            ...fixedEvents,
+                            [eventRef.id]: {
+                                ...fixedEvents[eventRef.id],
+                                mutators: fixedEvents[eventRef.id].mutators.concat({
                                     ref: 'mutator',
                                     id: mutatorId,
                                 }),
@@ -1794,35 +1827,6 @@ export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
                     [ref.id]: {
                         ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
                         [propertyName]: value,
-                    },
-                },
-            }
-        },
-    })
-}
-export function ADD_EVENT(propertyName, node) {
-    const ref = state.selectedViewNode
-    const eventId = uuid()
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [ref.ref]: {
-                    ...state.definitionList[state.currentDefinitionId][ref.ref],
-                    [ref.id]: {
-                        ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
-                        events: state.definitionList[state.currentDefinitionId][ref.ref][ref.id].events.concat({ ref: 'event', id: eventId }),
-                    },
-                },
-                event: {
-                    ...state.definitionList[state.currentDefinitionId].event,
-                    [eventId]: {
-                        type: propertyName,
-                        emitter: node,
-                        mutators: [],
-                        data: [],
                     },
                 },
             }

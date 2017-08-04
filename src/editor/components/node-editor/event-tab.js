@@ -1,49 +1,69 @@
 import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
-    EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, ADD_EVENT
+    EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED
 } from '../../events'
+import {
+    arrowIcon
+} from '../icons'
 import emberEditor from '../ember'
 
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
-    let availableEvents = [
+    const pointerEvents = [
         {
-            description: 'on click',
-            propertyName: 'click',
+            title: 'on click',
+            type: 'click',
         },
         {
-            description: 'double clicked',
-            propertyName: 'dblclick',
+            title: 'double clicked',
+            type: 'dblclick',
         },
         {
-            description: 'mouse over',
-            propertyName: 'mouseover',
+            title: 'mouse over',
+            type: 'mouseover',
         },
         {
-            description: 'mouse out',
-            propertyName: 'mouseout',
+            title: 'mouse out',
+            type: 'mouseout',
+        },
+        {
+            title: 'mouse move',
+            type: 'mousemove',
+        },
+        {
+            title: 'mouse down',
+            type: 'mousedown',
+        },
+        {
+            title: 'mouse up',
+            type: 'mouseup',
         },
     ]
-    if (state.selectedViewNode.ref === 'vNodeInput') {
-        availableEvents = availableEvents.concat([
-            {
-                description: 'input',
-                propertyName: 'input',
-            },
-            {
-                description: 'focus',
-                propertyName: 'focus',
-            },
-            {
-                description: 'blur',
-                propertyName: 'blur',
-            },
-        ])
-    }
-    const currentEvents = availableEvents.filter(event => selectedNode[event.propertyName])
-    const eventsLeft = availableEvents.filter(event => !selectedNode[event.propertyName])
+    const inputEvents = [
+        {
+            title: 'input',
+            type: 'input',
+        },
+        {
+            title: 'key down',
+            type: 'keydown',
+        },
+        {
+            title: 'key up',
+            type: 'keyup',
+        },
+        {
+            title: 'focus',
+            type: 'focus',
+        },
+        {
+            title: 'blur',
+            type: 'blur',
+        },
+    ]
+
     return h(
         'div',
         {
@@ -51,9 +71,27 @@ export default () => {
             style: {overflow: 'auto'},
         },
         [
-            ...(currentEvents.length
-                ? currentEvents.map(eventDesc => {
-                const event = state.definitionList[state.currentDefinitionId][selectedNode[eventDesc.propertyName].ref][selectedNode[eventDesc.propertyName].id]
+            h(
+                'div',
+                {
+                    style: {
+                        padding: '15px 15px 5px',
+                        borderBottom: '2px solid #888',
+                        letterSpacing: '1px',
+                        cursor: 'pointer',
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                    },
+                    on: {
+                        //click: [SELECT_VIEW_SUBMENU, 'events']
+                    },
+                },
+                [arrowIcon(), 'Pointer events']
+            ),
+            ...pointerEvents.map(eventDesc => {
+
+                const eventRef = selectedNode.events.find(eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === eventDesc.type)
                 return h('div', [
                     h(
                         'div',
@@ -64,48 +102,13 @@ export default () => {
                                 display: 'flex',
                                 justifyContent: 'space-between',
                             },
-                            on: {
-                                mousemove: [EVENT_HOVERED, selectedNode[eventDesc.propertyName]],
-                                mouseout: [EVENT_UNHOVERED],
-                            },
                         },
                         [
-                            h('span', event.type),
-                            h(
-                                'span',
-                                {
-                                    style: {
-                                        color: '#bdbdbd',
-                                    },
-                                },
-                                '(drop state here)'
-                            ),
+                            h('span', eventDesc.title),
                         ]
                     ),
-                    eventDesc.description === 'input'
-                        ? h(
-                        'div',
-                        {
-                            style: {
-                                padding: '10px 10px 0 10px',
-                                color: '#bdbdbd',
-                            },
-                        },
-                        'Hey, input is using event data, but we are currently working on this part. Some functionality might still be missing'
-                    )
-                        : h('span'),
-                    event.mutators.length === 0
-                        ? h(
-                        'div',
-                        {
-                            style: {
-                                margin: '10px 0',
-                                padding: '5px 10px',
-                                color: '#bdbdbd',
-                            },
-                        },
-                        ['No transformations. Drag state on event']
-                    )
+                    !eventRef || state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].mutators.length === 0
+                        ? h('div')
                         : h(
                         'div',
                         {
@@ -115,7 +118,7 @@ export default () => {
                                 cursor: 'pointer',
                             },
                         },
-                        event.mutators.map(mutatorRef => {
+                        state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].mutators.map(mutatorRef => {
                             const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
                             const stateDef = state.definitionList[state.currentDefinitionId][mutator.state.ref][mutator.state.id]
                             return h(
@@ -174,39 +177,29 @@ export default () => {
                             )
                         })
                     ),
-                ])
-            })
-                : []),
-            h(
-                'div',
-                {
-                    style: {
-                        marginTop: '10px',
-                        padding: '5px 10px',
-                        color: '#bdbdbd',
-                    },
-                },
-                'add Event:'
-            ),
-            h('div', {style: {padding: '5px 0 5px 10px'}}, [
-                ...eventsLeft.map(event =>
                     h(
                         'div',
                         {
                             style: {
-                                border: '3px solid #5bcc5b',
-                                cursor: 'pointer',
-                                padding: '5px',
-                                margin: '10px',
+                                padding: '20px 20px',
+                                display: 'flex',
+                                color: '#bdbdbd',
+                                justifyContent: 'center',
+                                border: '3px dashed #bdbdbd',
+                                borderRadius: '10px',
+                                margin: '20px',
+                                userSelect: 'none',
+                                cursor: 'default'
                             },
                             on: {
-                                click: [ADD_EVENT, event.propertyName, state.selectedViewNode],
+                                mousemove: [EVENT_HOVERED, {type: eventDesc.type} ],
+                                mouseout: [EVENT_UNHOVERED],
                             },
                         },
-                        '+ ' + event.description
-                    )
-                ),
-            ]),
+                        'drop state here'
+                    ),
+                ])
+            }),
         ]
     )
 }

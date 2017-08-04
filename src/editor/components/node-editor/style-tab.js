@@ -19,7 +19,7 @@ export default () => {
                 'div',
                 {
                     style: {
-                        padding: '10px 15px 5px',
+                        padding: '15px 15px 5px',
                         borderBottom: '2px solid #888',
                         letterSpacing: '1px',
                         cursor: 'pointer',
@@ -215,7 +215,7 @@ export default () => {
                 'div',
                 {
                     style: {
-                        padding: '10px 15px 5px',
+                        padding: '15px 15px 5px',
                         borderBottom: '2px solid #888',
                         letterSpacing: '1px',
                         cursor: 'pointer',
@@ -301,7 +301,7 @@ export default () => {
                 'div',
                 {
                     style: {
-                        padding: '10px 15px 5px',
+                        padding: '15px 15px 5px',
                         borderBottom: '2px solid #888',
                         letterSpacing: '1px',
                         cursor: 'pointer',
@@ -427,7 +427,7 @@ export default () => {
                 'div',
                 {
                     style: {
-                        padding: '10px 15px 5px',
+                        padding: '15px 15px 5px',
                         borderBottom: '2px solid #888',
                         letterSpacing: '1px',
                         cursor: 'pointer',
