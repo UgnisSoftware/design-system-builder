@@ -6,7 +6,7 @@ import {
 import {
     arrowIcon
 } from '../icons'
-import emberEditor from '../ember'
+import emberEditor from './ember/ember'
 import fakeState from './fake-state'
 
 export default () => {

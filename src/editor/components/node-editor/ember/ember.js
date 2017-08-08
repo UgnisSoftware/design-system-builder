@@ -1,9 +1,9 @@
 import h from 'snabbdom/h'
-import {state} from '../state'
-import {CHANGE_TRANSFORMATION, SELECT_PIPE, PIPE_HOVERED, RESET_PIPE, PIPE_UNHOVERED, CHANGE_STATIC_VALUE, STATE_NODE_SELECTED, ADD_DEFAULT_TRANSFORMATION} from '../events'
+import {state} from '../../../state'
+import {CHANGE_TRANSFORMATION, SELECT_PIPE, PIPE_HOVERED, RESET_PIPE, PIPE_UNHOVERED, CHANGE_STATIC_VALUE, STATE_NODE_SELECTED, ADD_DEFAULT_TRANSFORMATION} from '../../../events'
 import {
     addCircleIcon, deleteIcon
-} from './icons'
+} from '../../icons'
 
 export default function emberEditor(ref) {
     const pipe = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
@@ -465,7 +465,8 @@ export default function emberEditor(ref) {
                             : h('span'),
                     ]
                 ),
-            ].concat(state.selectedPipeId === ref.id ? listTransformations(pipe.transformations, pipe.type) : [])
+                ...listTransformations(pipe.transformations, pipe.type)
+            ]
         )
     }
 

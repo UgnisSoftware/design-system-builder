@@ -3,7 +3,7 @@ import {state} from '../../state'
 import {
     arrowIcon
 } from '../icons'
-import emberEditor from '../ember'
+import emberEditor from './ember/ember'
 
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
