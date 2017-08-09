@@ -1897,7 +1897,12 @@
         },
         "4cbc75b8": {
             "type": "text",
-            "value": "",
+            "value": "0",
+            "transformations": []
+        },
+        "7dfs75b8": {
+            "type": "text",
+            "value": "none",
             "transformations": []
         },
         "45cdcf8f": {
@@ -2220,7 +2225,7 @@
         },
         "cf507c6e": {
             "type": "number",
-            "value": 2,
+            "value": 1,
             "transformations": []
         },
         "498dc801": {
@@ -2414,12 +2419,6 @@
                 "id": "8f7ebdbb"
             }
         },
-        "3f1b06a6": {
-            "value": {
-                "ref": "pipe",
-                "id": "cf507c6e"
-            }
-        },
         "3f4aa5f6": {
             "value": {
                 "ref": "pipe",
@@ -2430,6 +2429,12 @@
             "value": {
                 "ref": "pipe",
                 "id": "a4fd2528"
+            }
+        },
+        "3f1b06a6": {
+            "value": {
+                "ref": "pipe",
+                "id": "cf507c6e"
             }
         }
     },
@@ -2575,7 +2580,7 @@
             ]
         },
         "108a2374": {
-            "title": "box",
+            "title": "hover circle",
             "parent": {
                 "ref": "vNodeBox",
                 "id": "c115cf33"
@@ -4090,6 +4095,10 @@
                 "ref": "pipe",
                 "id": "4cbc75b8"
             },
+            "pointerEvents": {
+                "ref": "pipe",
+                "id": "7dfs75b8"
+            },
             "paddingBottom": {
                 "ref": "pipe",
                 "id": "45cdcf8f"
@@ -4225,7 +4234,7 @@
             "title": "color point X",
             "ref": "5df138d0",
             "type": "number",
-            "defaultValue": 0,
+            "defaultValue": 219,
             "mutators": [
                 {
                     "ref": "mutator",
@@ -4237,7 +4246,7 @@
             "title": "color point Y",
             "ref": "a6061585",
             "type": "number",
-            "defaultValue": 0,
+            "defaultValue": 37,
             "mutators": [
                 {
                     "ref": "mutator",

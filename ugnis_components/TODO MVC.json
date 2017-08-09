@@ -2535,8 +2535,17 @@
         },
         "02cffda9": {
             "type": "text",
-            "value": "Default Text",
-            "transformations": []
+            "value": "",
+            "transformations": [
+                {
+                    "ref": "join",
+                    "id": "f8f7ce5f"
+                },
+                {
+                    "ref": "join",
+                    "id": "1070071e"
+                }
+            ]
         },
         "505d67a2": {
             "type": "text",
@@ -3885,7 +3894,7 @@
         },
         "ff5ec48d": {
             "type": "text",
-            "value": "Still missing List state/component, list usage in embers, input needs fixing",
+            "value": "Still missing:  list embers (map, reduce, filter, push, shift, etc.), input needs fixing, ",
             "transformations": []
         },
         "143113f9": {
@@ -4507,9 +4516,47 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "03b77fac": {
+            "type": "table",
+            "value": {
+                "ref": "table",
+                "id": "b2d15547"
+            },
+            "transformations": []
+        },
+        "5f5238af": {
+            "type": "text",
+            "value": {
+                "parent": {
+                    "ref": "vNodeList",
+                    "id": "1499828c"
+                },
+                "ref": "state",
+                "id": "3aa41bf3"
+            },
+            "transformations": []
+        },
+        "699b299e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
-    "join": {},
+    "join": {
+        "f8f7ce5f": {
+            "value": {
+                "ref": "pipe",
+                "id": "5f5238af"
+            }
+        },
+        "1070071e": {
+            "value": {
+                "ref": "pipe",
+                "id": "699b299e"
+            }
+        }
+    },
     "add": {},
     "subtract": {},
     "multiply": {},
@@ -4679,8 +4726,8 @@
         "e35c606c": {
             "title": "item",
             "parent": {
-                "ref": "vNodeIf",
-                "id": "835b3af6"
+                "ref": "vNodeList",
+                "id": "1499828c"
             },
             "style": {
                 "ref": "style",
@@ -4874,13 +4921,33 @@
                 "ref": "pipe",
                 "id": "e062152e"
             },
-            "events": [{
-                "ref": "event",
-                "id": "3cbf22ba"
-            }]
+            "events": [
+                {
+                    "ref": "event",
+                    "id": "3cbf22ba"
+                }
+            ]
         }
     },
-    "vNodeList": {},
+    "vNodeList": {
+        "1499828c": {
+            "title": "list",
+            "parent": {
+                "ref": "vNodeIf",
+                "id": "835b3af6"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "03b77fac"
+            },
+            "children": [
+                {
+                    "ref": "vNodeBox",
+                    "id": "e35c606c"
+                }
+            ]
+        }
+    },
     "vNodeIf": {
         "835b3af6": {
             "title": "has items?",
@@ -4894,8 +4961,8 @@
             },
             "children": [
                 {
-                    "ref": "vNodeBox",
-                    "id": "e35c606c"
+                    "ref": "vNodeList",
+                    "id": "1499828c"
                 },
                 {
                     "ref": "vNodeBox",
@@ -8512,11 +8579,45 @@
                 {
                     "ref": "state",
                     "id": "a86f7bcd"
+                },
+                {
+                    "ref": "table",
+                    "id": "b2d15547"
                 }
             ]
         }
     },
-    "table": {},
+    "table": {
+        "b2d15547": {
+            "title": "table",
+            "type": "table",
+            "defaultValue": [
+                {
+                    "3aa41bf3": "one",
+                    "id": "24dcdf4a"
+                },
+                {
+                    "3aa41bf3": "two",
+                    "id": "e1e3faf4"
+                },
+                {
+                    "3aa41bf3": "three",
+                    "id": "a4faf04d"
+                },
+                {
+                    "3aa41bf3": "four",
+                    "id": "631f4286"
+                }
+            ],
+            "columns": [
+                {
+                    "ref": "state",
+                    "id": "3aa41bf3"
+                }
+            ],
+            "mutators": []
+        }
+    },
     "state": {
         "a86f7bcd": {
             "title": "input value",
@@ -8529,6 +8630,13 @@
                     "id": "406042fc"
                 }
             ]
+        },
+        "3aa41bf3": {
+            "title": "new text",
+            "ref": "3aa41bf3",
+            "type": "text",
+            "defaultValue": "Default text",
+            "mutators": []
         }
     },
     "mutator": {
