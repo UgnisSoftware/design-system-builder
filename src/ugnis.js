@@ -52,6 +52,7 @@ export default definition => {
 
     // global state for resolver
     let currentEvent = null
+    let currentEventNode = null
     // used for lists so snabbdom wouldn't conflict
     let currentKey = ''
     let eventData = {}
@@ -103,17 +104,18 @@ export default definition => {
         }
         if (ref.ref === 'eventData') {
             if(ref.id === 'value') return currentEvent.target.value
-            let initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
-            let initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
+            const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
+            const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
             // fix offsets in dev
             const root = getVDom().elm.getBoundingClientRect()
-            initialX = initialX - root.left
-            initialY = initialY - root.top
-            if(ref.id === 'screenX') return initialX
-            if(ref.id === 'screenY') return initialY
-            const position = currentEvent.target.getBoundingClientRect()
+            const screenX = initialX - root.left
+            const screenY = initialY - root.top
+            if(ref.id === 'screenX') return screenX
+            if(ref.id === 'screenY') return screenY
+            console.log(currentEventNode)
+            const position = currentEventNode.getBoundingClientRect()
             const offsetX = initialX - position.left
-            const offsetY = initialX - position.top
+            const offsetY = initialY - position.top
             if(ref.id === 'layerX') return offsetX
             if(ref.id === 'layerY') return offsetY
         }
@@ -293,6 +295,7 @@ export default definition => {
     function emitEvent(eventRef, e) {
         const eventId = eventRef.id
         const event = definition.event[eventId]
+        currentEventNode = this.elm
         currentEvent = e
         const previousState = currentState
         let mutations = {}
