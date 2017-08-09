@@ -112,7 +112,6 @@ export default definition => {
             const screenY = initialY - root.top
             if(ref.id === 'screenX') return screenX
             if(ref.id === 'screenY') return screenY
-            console.log(currentEventNode)
             const position = currentEventNode.getBoundingClientRect()
             const offsetX = initialX - position.left
             const offsetY = initialY - position.top
