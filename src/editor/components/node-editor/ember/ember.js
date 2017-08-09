@@ -226,6 +226,8 @@ export default function emberEditor(ref, type) {
     if(type && type.type === 'variant'){
         return h('div', {
                 style: {
+                    display: 'flex',
+                    flexWrap: 'nowrap',
                 }},
             type.values.map((value, index)=>
                 h('div', {
@@ -234,6 +236,7 @@ export default function emberEditor(ref, type) {
                         color: pipe.value === value ? '#53d486' : '#969696',
                         display: 'inline-block',
                         padding: '15px 10px',
+                        whiteSpace: 'nowrap',
                         borderRadius: index === 0 ? '5px 0 0 5px': index === type.values.length-1 ? '0 5px 5px 0': undefined,
                         userSelect: 'none',
                         cursor: 'pointer',

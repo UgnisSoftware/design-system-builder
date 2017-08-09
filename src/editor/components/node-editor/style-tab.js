@@ -249,7 +249,7 @@ export default () => {
                         },
                         'Horizontal Align'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['justifyContent'], 'text')]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['justifyContent'], {type: 'variant', values: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around']})]),
                     h(
                         'div',
                         {
@@ -264,7 +264,7 @@ export default () => {
                         },
                         'Vertical Align'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['alignItems'], 'text')]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['alignItems'], {type: 'variant', values: ['flex-start', 'flex-end', 'center', 'stretch']})]),
                     h(
                         'div',
                         {
@@ -279,7 +279,7 @@ export default () => {
                         },
                         'Direction'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexDirection'], 'text')]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexDirection'], {type: 'variant', values: ['row', 'row-reverse', 'column', 'column-reverse' ]})]),
                     h(
                         'div',
                         {
@@ -294,7 +294,7 @@ export default () => {
                         },
                         'Wrap'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexWrap'], 'text')]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexWrap'], {type: 'variant', values: ['wrap', 'nowrap']})]),
                 ]
             ),
             h(
