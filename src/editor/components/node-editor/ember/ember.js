@@ -5,7 +5,7 @@ import {
     addCircleIcon, deleteIcon
 } from '../../icons'
 
-export default function emberEditor(ref) {
+export default function emberEditor(ref, type) {
     const pipe = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
 
     function listTransformations(transformations) {
@@ -221,6 +221,29 @@ export default function emberEditor(ref) {
                 )
             }
         })
+    }
+
+    if(type && type.type === 'variant'){
+        return h('div', {
+                style: {
+                }},
+            type.values.map((value, index)=>
+                h('div', {
+                    style: {
+                        background: pipe.value === value ? '#1e1e1e' : '#2b2b2b',
+                        color: pipe.value === value ? '#53d486' : '#969696',
+                        display: 'inline-block',
+                        padding: '15px 10px',
+                        borderRadius: index === 0 ? '5px 0 0 5px': index === type.values.length-1 ? '0 5px 5px 0': undefined,
+                        userSelect: 'none',
+                        cursor: 'pointer',
+                    },
+                    on: {
+                        click: [CHANGE_STATIC_VALUE, ref, 'value', 'text', {target: {value}}],
+                    }
+                }, value)
+            )
+        )
     }
 
     if (typeof pipe.value === 'string') {

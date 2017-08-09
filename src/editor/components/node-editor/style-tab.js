@@ -182,7 +182,7 @@ export default () => {
                                 justifyContent: 'space-between',
                             },
                         },
-                        [emberEditor(selectedStyle['position'], 'text')]
+                        [emberEditor(selectedStyle['position'], {type: 'variant', values: ['relative', 'absolute']})]
                     ),
                     h(
                         'div',
