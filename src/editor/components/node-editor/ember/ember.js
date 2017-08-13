@@ -503,7 +503,11 @@ export default function emberEditor(ref, type) {
                 'div',
                 {
                     style: { display: 'flex', alignItems: 'center' },
-                    on: { click: [SELECT_PIPE, ref.id] },
+                    on: {
+                        click: [SELECT_PIPE, ref.id],
+                        mousemove: [PIPE_HOVERED, ref],
+                        mouseout: [PIPE_UNHOVERED],
+                    },
                 },
                 [
                     h('div', { style: { flex: '1' } }, [

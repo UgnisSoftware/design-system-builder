@@ -17,6 +17,12 @@
         },
         "value": {
             "type": "text"
+        },
+        "keyPressed": {
+            "type": "text"
+        },
+        "keyPressedCode": {
+            "type": "number"
         }
     },
     "toLowerCase": {},

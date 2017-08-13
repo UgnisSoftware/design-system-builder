@@ -598,7 +598,7 @@ export function STATE_DRAGGED(stateRef, e) {
         }
         const pipeDropped = state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id]
         if (pipeDropped.type === 'text') {
-            if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref && state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref === 'state') {
+            if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref) {
                 return setState({
                     ...state,
                     draggedComponentState: {},

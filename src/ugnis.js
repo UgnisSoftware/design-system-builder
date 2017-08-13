@@ -104,6 +104,8 @@ export default definition => {
         }
         if (ref.ref === 'eventData') {
             if(ref.id === 'value') return currentEvent.target.value
+            if(ref.id === 'keyPressed') return currentEvent.key
+            if(ref.id === 'keyPressedCode') return currentEvent.keyCode
             const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
             const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
             // fix offsets in dev

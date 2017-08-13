@@ -17,8 +17,15 @@
         },
         "value": {
             "type": "text"
+        },
+        "keyPressed": {
+            "type": "text"
+        },
+        "keyPressedCode": {
+            "type": "number"
         }
-    },    "toLowerCase": {},
+    },
+    "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
     "and": {},
