@@ -82,6 +82,7 @@ export default ()=> h(
             {
                 style: {
                     flex: '0 auto',
+                    padding: '0 50px',
                     display: 'flex',
                     alignItems: 'center',
                     textDecoration: 'inherit',
