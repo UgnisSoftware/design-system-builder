@@ -1847,7 +1847,7 @@
         },
         "65e5139a": {
             "type": "text",
-            "value": "5px",
+            "value": "",
             "transformations": []
         },
         "0bae6e76": {
@@ -1857,12 +1857,12 @@
         },
         "6909bbc4": {
             "type": "text",
-            "value": "",
+            "value": "10px",
             "transformations": []
         },
         "a499b208": {
             "type": "text",
-            "value": "5px",
+            "value": "",
             "transformations": []
         },
         "b4372a03": {
@@ -1872,7 +1872,7 @@
         },
         "3d941158": {
             "type": "text",
-            "value": "5px",
+            "value": "10px",
             "transformations": []
         },
         "2fa05f54": {
@@ -2005,22 +2005,22 @@
         },
         "8267ccfa": {
             "type": "text",
-            "value": "1px solid black",
+            "value": "1px solid white",
             "transformations": []
         },
         "d3fe27fb": {
             "type": "text",
-            "value": "1px solid black",
+            "value": "1px solid white",
             "transformations": []
         },
         "cd3744cc": {
             "type": "text",
-            "value": "1px solid black",
+            "value": "1px solid white",
             "transformations": []
         },
         "5daace5e": {
             "type": "text",
-            "value": "1px solid black",
+            "value": "1px solid white",
             "transformations": []
         },
         "acdfe75f": {
@@ -2066,12 +2066,12 @@
         },
         "9852e983": {
             "type": "number",
-            "value": 2.5,
+            "value": 5,
             "transformations": []
         },
         "181db41e": {
             "type": "number",
-            "value": 2.5,
+            "value": 5,
             "transformations": []
         },
         "d2f2d9df": {
