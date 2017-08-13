@@ -37,6 +37,8 @@ const stopPlayComponent = ()=> h(
             height: '30px',
             cursor: 'pointer',
             padding: '10px',
+            transition: '0.2s color',
+            userSelect: 'none',
             color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)',
         },
     },
