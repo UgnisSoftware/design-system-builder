@@ -40,6 +40,30 @@ function getAvailableEvents(type) {
     return availableEvents
 }
 
+const eventDataTypes = {
+    screenX: {
+        "type": "number"
+    },
+    screenY: {
+        "type": "number"
+    },
+    layerX: {
+        "type": "number"
+    },
+    layerY: {
+        "type": "number"
+    },
+    value: {
+        "type": "text"
+    },
+    keyPressed: {
+        "type": "text"
+    },
+    keyPressedCode: {
+        "type": "number"
+    }
+}
+
 function moveInArray(array, moveIndex, toIndex) {
     let item = array[moveIndex]
     let length = array.length
@@ -597,6 +621,7 @@ export function STATE_DRAGGED(stateRef, e) {
             })
         }
         const pipeDropped = state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id]
+        const typeDropped = state.draggedComponentState.ref === 'eventData' ? eventDataTypes[state.draggedComponentState.id].type : state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type
         if (pipeDropped.type === 'text') {
             if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref) {
                 return setState({
@@ -638,7 +663,7 @@ export function STATE_DRAGGED(stateRef, e) {
                                 transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].transformations),
                             },
                             [pipeIdState]: {
-                                type: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type,
+                                type: typeDropped,
                                 value: state.draggedComponentState,
                                 transformations: [],
                             },
@@ -663,14 +688,14 @@ export function STATE_DRAGGED(stateRef, e) {
         }
         if (pipeDropped.type === 'number') {
             // you can't drop boolean into number
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'boolean') {
+            if (typeDropped === 'boolean') {
                 return setState({
                     ...state,
                     draggedComponentState: {},
                     hoveredPipe: null,
                 })
             }
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'text') {
+            if (typeDropped === 'text') {
                 return setState({
                     ...state,
                     draggedComponentState: {},
@@ -716,7 +741,7 @@ export function STATE_DRAGGED(stateRef, e) {
             })
         }
         if (pipeDropped.type === 'boolean') {
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'number') {
+            if (typeDropped === 'number') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
@@ -758,7 +783,7 @@ export function STATE_DRAGGED(stateRef, e) {
                     },
                 })
             }
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'text') {
+            if (typeDropped === 'text') {
                 const eqId = uuid()
                 const pipeId = uuid()
                 return setState({
@@ -821,7 +846,7 @@ export function STATE_DRAGGED(stateRef, e) {
             })
         }
         if (pipeDropped.type === 'table') {
-            if (state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type === 'table') {
+            if (typeDropped === 'table') {
                 return setState({
                     ...state,
                     draggedComponentState: {},
@@ -901,19 +926,9 @@ export function ADD_NODE(nodeRef, type) {
         flex: uuid(),
         display: uuid(),
         height: uuid(),
-        maxHeight: uuid(),
-        minHeight: uuid(),
         width: uuid(),
-        maxWidth: uuid(),
-        minWidth: uuid(),
-        marginTop: uuid(),
-        marginBottom: uuid(),
-        marginLeft: uuid(),
-        marginRight: uuid(),
-        paddingTop: uuid(),
-        paddingBottom: uuid(),
-        paddingLeft: uuid(),
-        paddingRight: uuid(),
+        margin: uuid(),
+        padding: uuid(),
         zIndex: uuid(),
         position: uuid(),
         top: uuid(),
@@ -924,10 +939,7 @@ export function ADD_NODE(nodeRef, type) {
         justifyContent: uuid(),
         flexDirection: uuid(),
         flexWrap: uuid(),
-        borderTop: uuid(),
-        borderBottom: uuid(),
-        borderLeft: uuid(),
-        borderRight: uuid(),
+        border: uuid(),
         borderRadius: uuid(),
         background: uuid(),
         opacity: uuid(),
@@ -956,67 +968,17 @@ export function ADD_NODE(nodeRef, type) {
             value: '',
             transformations: [],
         },
-        [styleIds.maxHeight]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.minHeight]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
         [styleIds.width]: {
             type: 'text',
             value: '',
             transformations: [],
         },
-        [styleIds.maxWidth]: {
+        [styleIds.margin]: {
             type: 'text',
             value: '',
             transformations: [],
         },
-        [styleIds.minWidth]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.marginTop]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.marginBottom]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.marginLeft]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.marginRight]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.paddingTop]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.paddingBottom]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.paddingLeft]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.paddingRight]: {
+        [styleIds.padding]: {
             type: 'text',
             value: '',
             transformations: [],
@@ -1086,22 +1048,7 @@ export function ADD_NODE(nodeRef, type) {
             value: '',
             transformations: [],
         },
-        [styleIds.borderTop]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.borderBottom]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.borderLeft]: {
-            type: 'text',
-            value: '',
-            transformations: [],
-        },
-        [styleIds.borderRight]: {
+        [styleIds.border]: {
             type: 'text',
             value: '',
             transformations: [],

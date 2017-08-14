@@ -227,7 +227,7 @@ export default function emberEditor(ref, type) {
         return h('div', {
                 style: {
                     display: 'flex',
-                    flexWrap: 'nowrap',
+                    flexWrap: 'wrap',
                 }},
             type.values.map((value, index)=>
                 h('div', {

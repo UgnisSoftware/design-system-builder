@@ -128,29 +128,17 @@ export default () =>{
                             'div',
                             {
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    background: '#676767',
-                                    padding: '5px 10px',
-                                    marginBottom: '10px',
+                                    padding: '20px 20px 5px 20px',
+                                    fontSize: '12px',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '1px',
+                                    color: '#8e8e8e',
                                 },
                             },
-                            [
-                                h('span', {style: {flex: '1'}}, 'source (url)'),
-                                h(
-                                    'div',
-                                    {
-                                        style: {
-                                            flex: '0',
-                                            cursor: 'default',
-                                            color: '#bdbdbd',
-                                        },
-                                    },
-                                    'text'
-                                ),
-                            ]
+                            'source (url)'
                         ),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.src, 'text')]),
+                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.src, 'text')]),
                     ]
                 )
             }
@@ -166,29 +154,17 @@ export default () =>{
                             'div',
                             {
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    background: '#676767',
-                                    padding: '5px 10px',
-                                    marginBottom: '10px',
+                                    padding: '20px 20px 5px 20px',
+                                    fontSize: '12px',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '1px',
+                                    color: '#8e8e8e',
                                 },
                             },
-                            [
-                                h('span', {style: {flex: '1'}}, 'input value'),
-                                h(
-                                    'div',
-                                    {
-                                        style: {
-                                            flex: '0',
-                                            cursor: 'default',
-                                            color: '#bdbdbd',
-                                        },
-                                    },
-                                    'text'
-                                ),
-                            ]
+                            'text'
                         ),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'text')]),
+                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'text')]),
                     ]
                 )
             }
@@ -204,29 +180,17 @@ export default () =>{
                             'div',
                             {
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    background: '#676767',
-                                    padding: '5px 10px',
-                                    marginBottom: '10px',
+                                    padding: '20px 20px 5px 20px',
+                                    fontSize: '12px',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '1px',
+                                    color: '#8e8e8e',
                                 },
                             },
-                            [
-                                h('span', {style: {flex: '1'}}, 'table'),
-                                h(
-                                    'div',
-                                    {
-                                        style: {
-                                            flex: '0',
-                                            cursor: 'default',
-                                            color: '#bdbdbd',
-                                        },
-                                    },
-                                    'table'
-                                ),
-                            ]
+                            'table'
                         ),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'table')]),
+                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'table')]),
                     ]
                 )
             }
@@ -242,67 +206,17 @@ export default () =>{
                             'div',
                             {
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    background: '#676767',
-                                    padding: '5px 10px',
-                                    marginBottom: '10px',
+                                    padding: '20px 20px 5px 20px',
+                                    fontSize: '12px',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '1px',
+                                    color: '#8e8e8e',
                                 },
                             },
-                            [
-                                h('span', {style: {flex: '1'}}, 'predicate'),
-                                h(
-                                    'div',
-                                    {
-                                        style: {
-                                            flex: '0',
-                                            cursor: 'default',
-                                            color: '#bdbdbd',
-                                        },
-                                    },
-                                    'true/false'
-                                ),
-                            ]
+                            'true/false'
                         ),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'boolean')]),
-                    ]
-                )
-            }
-            if (state.selectedViewNode.ref === 'vNodeList') {
-                return h(
-                    'div',
-                    {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
-                    },
-                    [
-                        h(
-                            'div',
-                            {
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    background: '#676767',
-                                    padding: '5px 10px',
-                                    marginBottom: '10px',
-                                },
-                            },
-                            [
-                                h('span', {style: {flex: '1'}}, 'predicate'),
-                                h(
-                                    'div',
-                                    {
-                                        style: {
-                                            flex: '0',
-                                            cursor: 'default',
-                                            color: '#bdbdbd',
-                                        },
-                                    },
-                                    'true/false'
-                                ),
-                            ]
-                        ),
-                        h('div', {style: {padding: '5px 10px'}}, [emberEditor(selectedNode.value, 'table')]),
+                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'boolean')]),
                     ]
                 )
             }

@@ -198,16 +198,31 @@ export default definition => {
 
     const frozenShadow = 'inset 0 0 0 3px #53d486'
 
-    function boxNode(ref) {
+    function generateStyles(ref){
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
+        return frozen && selectedNodeInDevelopment.id === ref.id ? {
+            ...style,
+            transition: 'box-shadow 0.2s',
+            boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+        } : style
+    }
+
+    function generateAttrs(ref){
+        const node = definition[ref.ref][ref.id]
+        return {
+            src: resolve(node.src),
+            'class': resolve(node['class']),
+            id: resolve(node.id),
+        }
+    }
+
+    function boxNode(ref) {
+        const node = definition[ref.ref][ref.id]
         const data = {
             key: ref.id+definition.id+currentKey,
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
-                ...style,
-                transition: 'box-shadow 0.2s',
-                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-            } : style,
+            attrs: generateAttrs(ref),
+            style: generateStyles(ref),
             on: generateEvents(ref),
         }
         return h('div', data, flatten(node.children.map(resolve)))
@@ -215,13 +230,9 @@ export default definition => {
 
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
-                ...style,
-                transition: 'box-shadow 0.2s',
-                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-            } : style,
+            attrs: generateAttrs(ref),
+            style: generateStyles(ref),
             on: generateEvents(ref),
         }
         return h('span', data, resolve(node.value))
@@ -231,14 +242,8 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            attrs: {
-                src: resolve(node.src),
-            },
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
-                ...style,
-                transition: 'box-shadow 0.2s',
-                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-            } : style,
+            attrs: generateAttrs(ref),
+            style: generateStyles(ref),
             on: generateEvents(ref),
         }
         return h('img', data)
@@ -248,11 +253,8 @@ export default definition => {
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
         const data = {
-            style: frozen && selectedNodeInDevelopment.id === ref.id ? {
-                ...style,
-                transition: 'box-shadow 0.2s',
-                boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-            } : style,
+            attrs: generateAttrs(ref),
+            style: generateStyles(ref),
             on: generateEvents(ref),
             props: {
                 value: resolve(node.value),

@@ -2,29 +2,6 @@
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
-    "eventData": {
-        "screenX": {
-            "type": "number"
-        },
-        "screenY": {
-            "type": "number"
-        },
-        "layerX": {
-            "type": "number"
-        },
-        "layerY": {
-            "type": "number"
-        },
-        "value": {
-            "type": "text"
-        },
-        "keyPressed": {
-            "type": "text"
-        },
-        "keyPressedCode": {
-            "type": "number"
-        }
-    },
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
@@ -316,37 +293,13 @@
                 "ref": "pipe",
                 "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "f45e0237-9f05-4de9-8720-34d6f109c012"
             },
-            "marginBottom": {
-                "ref": "pipe",
-                "id": "e1d642a4-734f-49eb-8a36-39feef9171d1"
-            },
-            "marginLeft": {
-                "ref": "pipe",
-                "id": "5855a19e-53ca-4e62-8312-b0da56970105"
-            },
-            "marginRight": {
-                "ref": "pipe",
-                "id": "ce7f697d-558a-4b55-8334-7922fb7395f5"
-            },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "697eb4e4-13ae-4e5e-82b6-1317b1dacda4"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "c7a46398-ea3e-4231-8fa2-563a957b91f4"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "ecc069df-52f7-4acb-8a92-218d4ac3997d"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "9eaa8dd5-8f08-48e6-85c0-548a51fd5e33"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -388,21 +341,9 @@
                 "ref": "pipe",
                 "id": "8bcbd1dc-593a-41fc-8099-a7f063c32089"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a"
-            },
-            "borderBottom": {
-                "ref": "pipe",
-                "id": "6a10497d-62d5-44be-8704-78cacdd3f149"
-            },
-            "borderLeft": {
-                "ref": "pipe",
-                "id": "9c5db14d-1a0c-4f1e-8d81-1757e0916b24"
-            },
-            "borderRight": {
-                "ref": "pipe",
-                "id": "3020e7c5-f196-472e-8d3b-7fb83febf3ec"
             },
             "borderRadius": {
                 "ref": "pipe",

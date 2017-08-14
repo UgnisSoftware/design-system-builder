@@ -2,29 +2,6 @@
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
-    "eventData": {
-        "screenX": {
-            "type": "number"
-        },
-        "screenY": {
-            "type": "number"
-        },
-        "layerX": {
-            "type": "number"
-        },
-        "layerY": {
-            "type": "number"
-        },
-        "value": {
-            "type": "text"
-        },
-        "keyPressed": {
-            "type": "text"
-        },
-        "keyPressedCode": {
-            "type": "number"
-        }
-    },
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
@@ -2671,7 +2648,7 @@
                 "ref": "pipe",
                 "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "f45e0237-9f05-4de9-8720-34d6f109c012"
             },
@@ -2687,7 +2664,7 @@
                 "ref": "pipe",
                 "id": "ce7f697d-558a-4b55-8334-7922fb7395f5"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "697eb4e4-13ae-4e5e-82b6-1317b1dacda4"
             },
@@ -2743,7 +2720,7 @@
                 "ref": "pipe",
                 "id": "8bcbd1dc-593a-41fc-8099-a7f063c32089"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a"
             },
@@ -2849,7 +2826,7 @@
                 "ref": "pipe",
                 "id": "003b8877"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "82587e6a"
             },
@@ -2865,7 +2842,7 @@
                 "ref": "pipe",
                 "id": "9cc82176"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "24e83187"
             },
@@ -2921,7 +2898,7 @@
                 "ref": "pipe",
                 "id": "d5ed6d6f"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "d772573d"
             },
@@ -2995,7 +2972,7 @@
                 "ref": "pipe",
                 "id": "7d3e4b65"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "a8760660"
             },
@@ -3011,7 +2988,7 @@
                 "ref": "pipe",
                 "id": "ff793c4c"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "9e8504e3"
             },
@@ -3067,7 +3044,7 @@
                 "ref": "pipe",
                 "id": "e67f2a43"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "6ac8e7fe"
             },
@@ -3141,7 +3118,7 @@
                 "ref": "pipe",
                 "id": "0f4b9b59"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "1cfd819c"
             },
@@ -3157,7 +3134,7 @@
                 "ref": "pipe",
                 "id": "54a30b8e"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "79d684a3"
             },
@@ -3213,7 +3190,7 @@
                 "ref": "pipe",
                 "id": "26da2cf8"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "3fa7ce42"
             },
@@ -3287,7 +3264,7 @@
                 "ref": "pipe",
                 "id": "08ddd5e6"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "bb4fbfa2"
             },
@@ -3303,7 +3280,7 @@
                 "ref": "pipe",
                 "id": "c5a427f5"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "75bf41bc"
             },
@@ -3359,7 +3336,7 @@
                 "ref": "pipe",
                 "id": "a488e2e5"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "01b2201f"
             },
@@ -3465,7 +3442,7 @@
                 "ref": "pipe",
                 "id": "74a2fedb"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "51dd181e"
             },
@@ -3481,7 +3458,7 @@
                 "ref": "pipe",
                 "id": "3f94e62c"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "deb12bf6"
             },
@@ -3537,7 +3514,7 @@
                 "ref": "pipe",
                 "id": "d0154a1a"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "f8ab38bd"
             },
@@ -3611,7 +3588,7 @@
                 "ref": "pipe",
                 "id": "5478da30"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "b75ddc2b"
             },
@@ -3627,7 +3604,7 @@
                 "ref": "pipe",
                 "id": "d6ddb779"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "1d166698"
             },
@@ -3683,7 +3660,7 @@
                 "ref": "pipe",
                 "id": "2d23cc1f"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "492c6d86"
             },
@@ -3789,7 +3766,7 @@
                 "ref": "pipe",
                 "id": "869a62de"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "d9fa108c"
             },
@@ -3805,7 +3782,7 @@
                 "ref": "pipe",
                 "id": "9347e4bc"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "e8fffe3a"
             },
@@ -3861,7 +3838,7 @@
                 "ref": "pipe",
                 "id": "6b3573ca"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "bd5d669b"
             },
@@ -3935,7 +3912,7 @@
                 "ref": "pipe",
                 "id": "51033470"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "2867c884"
             },
@@ -3951,7 +3928,7 @@
                 "ref": "pipe",
                 "id": "31488902"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "c28e3e15"
             },
@@ -4007,7 +3984,7 @@
                 "ref": "pipe",
                 "id": "c494e0a0"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "b0eb2903"
             },
@@ -4081,7 +4058,7 @@
                 "ref": "pipe",
                 "id": "3d941158"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "2fa05f54"
             },
@@ -4097,7 +4074,7 @@
                 "ref": "pipe",
                 "id": "7373c66c"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "4cbc75b8"
             },
@@ -4157,7 +4134,7 @@
                 "ref": "pipe",
                 "id": "2e052fff"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "8267ccfa"
             },

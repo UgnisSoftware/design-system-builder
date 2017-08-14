@@ -187,7 +187,7 @@ export default function generateEditNodeComponent() {
                         : state.selectedViewSubMenu === 'style' ? styleSubmenuComponent()
                         : state.selectedViewSubMenu === 'events' ? eventsSubmenuComponent()
                         : h('span', 'Error, no such menu'),
-                    h('div', {style: {padding: '20px', background: '#1e1e1e', marginTop: 'auto'}},  inheritedStates
+                    inheritedStates.length ? h('div', {style: {padding: '20px', background: '#1e1e1e', marginTop: 'auto'}},  inheritedStates
                         .map((stateRef)=>
                             h('span', {}, [
                                 h('div', {}, state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title),
@@ -225,7 +225,8 @@ export default function generateEditNodeComponent() {
                                 )
                             ]
                             )
-                        )),
+                        ))
+                    : h('div'),
                 ]
             ),
         ]

@@ -4,29 +4,6 @@
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/",
     "vuePath": "./vue-src/",
-    "eventData": {
-        "screenX": {
-            "type": "number"
-        },
-        "screenY": {
-            "type": "number"
-        },
-        "layerX": {
-            "type": "number"
-        },
-        "layerY": {
-            "type": "number"
-        },
-        "value": {
-            "type": "text"
-        },
-        "keyPressed": {
-            "type": "text"
-        },
-        "keyPressedCode": {
-            "type": "number"
-        }
-    },
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
@@ -3198,7 +3175,7 @@
                 "ref": "pipe",
                 "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "f45e0237-9f05-4de9-8720-34d6f109c012"
             },
@@ -3214,21 +3191,9 @@
                 "ref": "pipe",
                 "id": "ce7f697d-558a-4b55-8334-7922fb7395f5"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "697eb4e4-13ae-4e5e-82b6-1317b1dacda4"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "c7a46398-ea3e-4231-8fa2-563a957b91f4"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "ecc069df-52f7-4acb-8a92-218d4ac3997d"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "9eaa8dd5-8f08-48e6-85c0-548a51fd5e33"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -3270,7 +3235,7 @@
                 "ref": "pipe",
                 "id": "8bcbd1dc-593a-41fc-8099-a7f063c32089"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a"
             },
@@ -3344,7 +3309,7 @@
                 "ref": "pipe",
                 "id": "63dabf1b-d043-4adf-8a4a-a8ccdf053dcf"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "517f2c42-163e-40d9-8ab8-474173d5ae0f"
             },
@@ -3360,21 +3325,9 @@
                 "ref": "pipe",
                 "id": "34985c26-b98b-4f78-8388-d2952074e0b2"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "f64fc30f-8b7a-4dc3-8ea6-756552bf4400"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "eb1d76be-23aa-4a49-82c6-4979bd0013b0"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "3e06a5f8-29d0-48f8-8012-8d0188fdacaf"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "9b20adf1-c6dd-47f3-8758-2f73f2f5cb71"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -3416,7 +3369,7 @@
                 "ref": "pipe",
                 "id": "e72b8a75-bf00-4263-8a10-a960bf2152af"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "0f776441-e634-41d8-8735-81eb59c7d37c"
             },
@@ -3522,7 +3475,7 @@
                 "ref": "pipe",
                 "id": "b070db5b-8e14-4a5b-82cc-eef3291a32a9"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "54824c93-35a7-4f64-8c76-e40fb78aa58a"
             },
@@ -3538,21 +3491,9 @@
                 "ref": "pipe",
                 "id": "45b0c694-0969-4788-8c40-fc3cbeee9059"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "42ca70f6-c161-487a-859e-6842189574ec"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "e45373bf-bb73-4ec0-8997-011cca5ef8be"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "1302cb0d-a191-41fe-87c4-42e7c98257a9"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "aa117f06-83e9-4aa4-88e0-c469cd4ae58c"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -3594,7 +3535,7 @@
                 "ref": "pipe",
                 "id": "afd4de14-1abe-4174-85ba-07da13f454ab"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "13e88578-b5ca-4e7c-86b7-30b0a17e1fd0"
             },
@@ -3668,7 +3609,7 @@
                 "ref": "pipe",
                 "id": "3b8287fc-e4e2-49f1-823e-892a6079b3f1"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "6e378e37-979b-48b3-8ec5-707a4c207176"
             },
@@ -3684,21 +3625,9 @@
                 "ref": "pipe",
                 "id": "bcf6c5d5-d2ed-423a-8606-96803c0f5806"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "ca37e9f1-d19d-4f52-8d17-47d8a8824e29"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "14ce4532-b163-44ee-86ad-66c06d5a3863"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "b448d301-855d-492e-829d-5679df1d5644"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "14c3e8c5-41e6-40f6-8ec6-f6c381ad04ba"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -3740,7 +3669,7 @@
                 "ref": "pipe",
                 "id": "b18a65a8-90ad-49ea-87bd-b5f3631564bd"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "baa9dbfc-a94f-4f6c-8a1f-5b4d1a9e12e4"
             },
@@ -3814,7 +3743,7 @@
                 "ref": "pipe",
                 "id": "057cf0b4-9734-4c37-8ce8-593bd1338e6c"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "03a5c5b7-2ee3-4209-8382-f441203a1aae"
             },
@@ -3830,21 +3759,9 @@
                 "ref": "pipe",
                 "id": "926f936d-cb59-4ed1-80a1-e43231c9e00c"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "7f4b5a17-09c4-4d8e-8990-f84bd989481a"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "7cf40902-aefa-4cf8-81d2-4bd960ee376b"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "889b12fe-c4c7-49d4-87bf-a13941ae5e02"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "0ba8ce67-463a-403f-819e-b8aec5dc6687"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -3886,7 +3803,7 @@
                 "ref": "pipe",
                 "id": "5f97ead1-007a-40e1-8819-5e0433043ba1"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "9bdf5816-12fc-40bf-8dec-2b7975f2bbf1"
             },
@@ -3992,7 +3909,7 @@
                 "ref": "pipe",
                 "id": "f8e0a42e-46e7-4875-8720-823e9ddba377"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "f7c8c041-ec99-4c82-8bd6-7e7ae7de08cf"
             },
@@ -4008,21 +3925,9 @@
                 "ref": "pipe",
                 "id": "54b2fee7-b093-44b4-89cf-2a011b8f55c5"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "de21895f-750d-4219-8641-48d3c12ebc12"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "8ba11285-0bf8-4055-8895-b7bf923b86d1"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "a5b774dc-5821-4d8c-844d-a8a120582e66"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "9de57bec-2d91-4be8-8675-63161a8f741d"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4064,7 +3969,7 @@
                 "ref": "pipe",
                 "id": "4fa1ab13-acfb-48e4-8e64-02faad550f9b"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "6dbff085-d551-4353-8951-17c17f83f798"
             },
@@ -4138,7 +4043,7 @@
                 "ref": "pipe",
                 "id": "7a448e1e-b2ac-4058-804d-79ed3b878552"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "3f17f0a7-613a-455a-8a1e-161e47c6ee8a"
             },
@@ -4154,21 +4059,9 @@
                 "ref": "pipe",
                 "id": "392a4134-1118-465e-86a3-37e8318a50c3"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "9c723cb6-bb5e-49ef-8d62-de32aba05106"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "689ccd4d-493e-4806-8f18-e074dff9d341"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "b2740711-7fd3-4a7a-8f07-f014914e0713"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "8f606842-0255-4fff-847d-0d9e72aee8f1"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4210,7 +4103,7 @@
                 "ref": "pipe",
                 "id": "d5870182-2146-4f4e-8fc7-6882e80868db"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "970b9995-bd5c-4c6f-832a-eb842f81d3b8"
             },
@@ -4316,7 +4209,7 @@
                 "ref": "pipe",
                 "id": "578f7a66-4418-4520-8d0e-0793c007d586"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "50acaa3c-16bd-474f-8d02-84dc95ea5c06"
             },
@@ -4332,21 +4225,9 @@
                 "ref": "pipe",
                 "id": "18b5ed92-6d52-48ed-8c73-8b90e4aa757f"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "df817a0b-df4d-4cf7-8bdf-aebb7915286c"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "500c8b55-9e62-430b-8bbe-c3606b944148"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "a0a04ee2-fea3-4424-86da-f1f4f871b131"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "6158d329-cb4d-41f7-861f-8c25084e2ba5"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4388,7 +4269,7 @@
                 "ref": "pipe",
                 "id": "1e4ed063-0c2d-48df-8f46-859c77c5c32d"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "72becfd0-cab4-46fd-870a-1f1a77a55217"
             },
@@ -4494,7 +4375,7 @@
                 "ref": "pipe",
                 "id": "8b4ed04c-088b-4a2d-8ad5-aa2696386b97"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "05da19c4-e02a-48ae-85b7-a2ee6e7ea44e"
             },
@@ -4510,21 +4391,9 @@
                 "ref": "pipe",
                 "id": "c34a9a80-bece-42a2-833d-5c2a0712d590"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "4ddf9513-8540-4d89-8aac-9ed2f138dde8"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "6a635580-6880-42aa-87b5-bc5068a97e03"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "22e2c429-5b1c-49c7-8b2a-c146a6ff2271"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "28229c6a-469f-4a3e-8235-3088b56970da"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4566,7 +4435,7 @@
                 "ref": "pipe",
                 "id": "d415c25a-0e24-40fe-8e76-ef9ea71b9287"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "bcc3d858-69c5-4c01-8d1c-1086689a7067"
             },
@@ -4672,7 +4541,7 @@
                 "ref": "pipe",
                 "id": "e19808d1-f151-4bae-88b1-136b95581bbd"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "fb22a6df-3285-4cea-877a-606e1c427a43"
             },
@@ -4688,21 +4557,9 @@
                 "ref": "pipe",
                 "id": "fea956fa-6910-45a7-85b6-a41f2ab22c95"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "dc90e052-f4a9-4771-86da-e6b71ea90682"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "f6caf14d-7c9b-42ed-897b-67fdbbff7cbb"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "c4666186-6d23-4556-8331-3693112da7e2"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "a7b261a4-e6c7-4bc2-881f-7b78b80b35a8"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4744,7 +4601,7 @@
                 "ref": "pipe",
                 "id": "a397b927-3f32-441e-8fe5-3769a52fa179"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "9ad739c3-5329-40ad-82ee-9d65f56f25e7"
             },
@@ -4850,7 +4707,7 @@
                 "ref": "pipe",
                 "id": "7bb17177-8ca4-4397-82b7-2f068e839408"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "e4ab3b4f-1fcd-4e45-8417-e1740adfc061"
             },
@@ -4866,21 +4723,9 @@
                 "ref": "pipe",
                 "id": "5fae02b0-2bbd-49d7-895b-90702a447137"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "79dee902-85ee-4135-864e-6f490f6d239b"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "d96be010-b562-4794-801b-e9d57cef2020"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "4e71c67c-921f-40e8-8816-bbc97d410c2c"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "684966f6-d8f8-4ea1-8340-a8bc68e618d6"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -4922,7 +4767,7 @@
                 "ref": "pipe",
                 "id": "b5a226f7-466e-48c7-81db-285a1a84ce99"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "f503b108-8ffd-4b9c-8f4f-e7451a32dd2b"
             },
@@ -5028,7 +4873,7 @@
                 "ref": "pipe",
                 "id": "ac734f9c-613c-4046-867c-8fff3d18a472"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "37fd9c34-0ffe-422d-81bb-47322a25b534"
             },
@@ -5044,21 +4889,9 @@
                 "ref": "pipe",
                 "id": "8da3ae40-a6ef-482e-8e79-87265caf4ae1"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "58b3b2fd-e1d1-49ee-8342-10e98f092ced"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "790beada-1d7f-4176-864c-f7923162d941"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "e36b00a5-c895-4cff-8618-4831aaa23658"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "a14517f5-026c-4d01-8c4c-d72a6074ba00"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -5100,7 +4933,7 @@
                 "ref": "pipe",
                 "id": "c71d52f2-dc80-4540-86a6-82c1fe85f53d"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "b981eced-178b-4445-8885-a2ac75960719"
             },
@@ -5206,7 +5039,7 @@
                 "ref": "pipe",
                 "id": "183f0b8d"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "e1c17c42"
             },
@@ -5222,21 +5055,9 @@
                 "ref": "pipe",
                 "id": "502d31c3"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "186d8720"
-            },
-            "paddingBottom": {
-                "ref": "pipe",
-                "id": "439f56e4"
-            },
-            "paddingLeft": {
-                "ref": "pipe",
-                "id": "a335d2ed"
-            },
-            "paddingRight": {
-                "ref": "pipe",
-                "id": "04791569"
             },
             "zIndex": {
                 "ref": "pipe",
@@ -5278,7 +5099,7 @@
                 "ref": "pipe",
                 "id": "0964e0a4"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "6272a187"
             },

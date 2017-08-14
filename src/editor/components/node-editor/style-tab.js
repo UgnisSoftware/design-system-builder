@@ -35,130 +35,119 @@ export default () => {
             ),
             h(
                 'div',
-                {
-                    style: {},
-                },
                 [
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
-                        },
-                        'Flex'
-                    ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flex'], 'text')]),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
-                        },
-                        'Height'
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '0px 20px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                            },
-                        },
-                        [emberEditor(selectedStyle['height'], 'text'), emberEditor(selectedStyle['minHeight'], 'text'), emberEditor(selectedStyle['maxHeight'], 'text')]
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
-                        },
-                        'Width Min Max'
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '0px 20px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                            },
-                        },
-                        [emberEditor(selectedStyle['width'], 'text'), emberEditor(selectedStyle['minWidth'], 'text'), emberEditor(selectedStyle['maxWidth'], 'text')]
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
-                        },
-                        'Margin'
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '0px 20px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                            },
-                        },
-                        [emberEditor(selectedStyle['marginTop'], 'text'), emberEditor(selectedStyle['marginRight'], 'text'), emberEditor(selectedStyle['marginBottom'], 'text'), emberEditor(selectedStyle['marginLeft'], 'text')]
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
-                        },
-                        'Padding'
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '0px 20px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                            },
-                        },
-                        [
-                            emberEditor(selectedStyle['paddingTop'], 'text'),
-                            emberEditor(selectedStyle['paddingRight'], 'text'),
-                            emberEditor(selectedStyle['paddingBottom'], 'text'),
-                            emberEditor(selectedStyle['paddingLeft'], 'text'),
-                        ]
-                    ),
+                    h('div', {
+                        style: {
+                            display: 'flex',
+                        }
+                    },[
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Flex'
+                                ),
+                                h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flex'], 'text')]),
+                            ]
+                        ),
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Width'
+                                ),
+                                h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['width'], 'text')]),
+                            ]
+                        ),
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Height'
+                                ),
+                                h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['height'], 'text')]),
+                            ]
+                        ),
+                    ]),
+                    h('div', {
+                        style: {
+                            display: 'flex',
+                        }
+                    },[
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Margin'
+                                ),
+                                h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['margin'], 'text')]),
+                            ]
+                        ),
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Padding'
+                                ),
+                                h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['padding'], 'text')]),
+                            ]
+                        ),
+                    ]),
                     h(
                         'div',
                         {
@@ -188,26 +177,127 @@ export default () => {
                         'div',
                         {
                             style: {
-                                padding: '20px 20px 5px 20px',
-                                fontSize: '12px',
-                                textTransform: 'uppercase',
-                                fontWeight: 'bold',
-                                letterSpacing: '1px',
-                                color: '#8e8e8e',
-                            },
+                                display: 'flex'
+                            }
                         },
-                        'Top Right Bottom Left'
-                    ),
-                    h(
-                        'div',
-                        {
-                            style: {
-                                padding: '0px 20px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                            },
-                        },
-                        [emberEditor(selectedStyle['top'], 'text'), emberEditor(selectedStyle['right'], 'text'), emberEditor(selectedStyle['bottom'], 'text'), emberEditor(selectedStyle['left'], 'text')]
+                        [
+                            h(
+                                'div',
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '20px 20px 5px 20px',
+                                                fontSize: '12px',
+                                                textTransform: 'uppercase',
+                                                fontWeight: 'bold',
+                                                letterSpacing: '1px',
+                                                color: '#8e8e8e',
+                                            },
+                                        },
+                                        'Top'
+                                    ),
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '0px 20px',
+                                                display: 'flex',
+                                            },
+                                        },
+                                        [emberEditor(selectedStyle['top'], 'text')]
+                                    ),
+                                ]
+                            ),
+                            h(
+                                'div',
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '20px 20px 5px 20px',
+                                                fontSize: '12px',
+                                                textTransform: 'uppercase',
+                                                fontWeight: 'bold',
+                                                letterSpacing: '1px',
+                                                color: '#8e8e8e',
+                                            },
+                                        },
+                                        'Right'
+                                    ),
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '0px 20px',
+                                                display: 'flex',
+                                            },
+                                        },
+                                        [emberEditor(selectedStyle['right'], 'text')]
+                                    ),
+                                ]
+                            ),
+                            h(
+                                'div',
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '20px 20px 5px 20px',
+                                                fontSize: '12px',
+                                                textTransform: 'uppercase',
+                                                fontWeight: 'bold',
+                                                letterSpacing: '1px',
+                                                color: '#8e8e8e',
+                                            },
+                                        },
+                                        'Bottom'
+                                    ),
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '0px 20px',
+                                                display: 'flex',
+                                            },
+                                        },
+                                        [emberEditor(selectedStyle['bottom'], 'text')]
+                                    ),
+                                ]
+                            ),
+                            h(
+                                'div',
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '20px 20px 5px 20px',
+                                                fontSize: '12px',
+                                                textTransform: 'uppercase',
+                                                fontWeight: 'bold',
+                                                letterSpacing: '1px',
+                                                color: '#8e8e8e',
+                                            },
+                                        },
+                                        'Left'
+                                    ),
+                                    h(
+                                        'div',
+                                        {
+                                            style: {
+                                                padding: '0px 20px',
+                                                display: 'flex',
+                                            },
+                                        },
+                                        [emberEditor(selectedStyle['left'], 'text')]
+                                    ),
+                                ]
+                            ),
+                        ]
                     ),
                 ]
             ),
@@ -279,7 +369,7 @@ export default () => {
                         },
                         'Direction'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexDirection'], {type: 'variant', values: ['row', 'row-reverse', 'column', 'column-reverse' ]})]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['flexDirection'], {type: 'variant', values: ['row', 'column']})]),
                     h(
                         'div',
                         {
@@ -374,7 +464,7 @@ export default () => {
                                 justifyContent: 'space-between',
                             },
                         },
-                        [emberEditor(selectedStyle['borderTop'], 'text'), emberEditor(selectedStyle['borderRight'], 'text'), emberEditor(selectedStyle['borderBottom'], 'text'), emberEditor(selectedStyle['borderLeft'], 'text')]
+                        [emberEditor(selectedStyle['border'], 'text')]
                     ),
                     h(
                         'div',
@@ -423,24 +513,25 @@ export default () => {
                     h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['cursor'], 'text')]),
                 ]
             ),
-            h(
-                'div',
-                {
-                    style: {
-                        padding: '15px 15px 5px',
-                        borderBottom: '2px solid #888',
-                        letterSpacing: '1px',
-                        cursor: 'pointer',
-                        color: 'white',
-                        display: 'flex',
-                        alignItems: 'center',
+            state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput' ?
+                h(
+                    'div',
+                    {
+                        style: {
+                            padding: '15px 15px 5px',
+                            borderBottom: '2px solid #888',
+                            letterSpacing: '1px',
+                            cursor: 'pointer',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                        },
+                        on: {
+                            //click: [SELECT_VIEW_SUBMENU, 'events']
+                        },
                     },
-                    on: {
-                        //click: [SELECT_VIEW_SUBMENU, 'events']
-                    },
-                },
-                [arrowIcon(), 'Text']
-            ),
+                    [arrowIcon(), 'Text']
+                ) : h('div'),
             state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput'
                 ? h(
                 'div',

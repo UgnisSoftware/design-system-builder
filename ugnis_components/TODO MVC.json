@@ -2,29 +2,6 @@
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
-    "eventData": {
-        "screenX": {
-            "type": "number"
-        },
-        "screenY": {
-            "type": "number"
-        },
-        "layerX": {
-            "type": "number"
-        },
-        "layerY": {
-            "type": "number"
-        },
-        "value": {
-            "type": "text"
-        },
-        "keyPressed": {
-            "type": "text"
-        },
-        "keyPressedCode": {
-            "type": "number"
-        }
-    },
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
@@ -5046,7 +5023,7 @@
                 "ref": "pipe",
                 "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "f45e0237-9f05-4de9-8720-34d6f109c012"
             },
@@ -5062,7 +5039,7 @@
                 "ref": "pipe",
                 "id": "ce7f697d-558a-4b55-8334-7922fb7395f5"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "697eb4e4-13ae-4e5e-82b6-1317b1dacda4"
             },
@@ -5118,7 +5095,7 @@
                 "ref": "pipe",
                 "id": "8bcbd1dc-593a-41fc-8099-a7f063c32089"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "97dfe5da-fb7c-42f0-8b4a-2eeef2a0632a"
             },
@@ -5224,7 +5201,7 @@
                 "ref": "pipe",
                 "id": "fe4fd3e8"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "2f0e4485"
             },
@@ -5240,7 +5217,7 @@
                 "ref": "pipe",
                 "id": "227ed2a7"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "47409bce"
             },
@@ -5296,7 +5273,7 @@
                 "ref": "pipe",
                 "id": "16237a4d"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "d6bb0478"
             },
@@ -5370,7 +5347,7 @@
                 "ref": "pipe",
                 "id": "b0e9517c"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "62f1a41b"
             },
@@ -5386,7 +5363,7 @@
                 "ref": "pipe",
                 "id": "74b2881b"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "64dcdeb3"
             },
@@ -5442,7 +5419,7 @@
                 "ref": "pipe",
                 "id": "d6a5bc23"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "00456593"
             },
@@ -5548,7 +5525,7 @@
                 "ref": "pipe",
                 "id": "f63afbcd"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "db2b2c44"
             },
@@ -5564,7 +5541,7 @@
                 "ref": "pipe",
                 "id": "ef5dc28f"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "98d360ac"
             },
@@ -5620,7 +5597,7 @@
                 "ref": "pipe",
                 "id": "b23e32fc"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "88d103d1"
             },
@@ -5694,7 +5671,7 @@
                 "ref": "pipe",
                 "id": "876aa725"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "519c0172"
             },
@@ -5710,7 +5687,7 @@
                 "ref": "pipe",
                 "id": "8bcd8325"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "dbb2e7f8"
             },
@@ -5766,7 +5743,7 @@
                 "ref": "pipe",
                 "id": "253f7321"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "4f996bc8"
             },
@@ -5872,7 +5849,7 @@
                 "ref": "pipe",
                 "id": "c6053914"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "b87fd914"
             },
@@ -5888,7 +5865,7 @@
                 "ref": "pipe",
                 "id": "0f1f4734"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "f168b040"
             },
@@ -5944,7 +5921,7 @@
                 "ref": "pipe",
                 "id": "3ec317d5"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "eb80ff2a"
             },
@@ -6018,7 +5995,7 @@
                 "ref": "pipe",
                 "id": "067f2758"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "0c6c542e"
             },
@@ -6034,7 +6011,7 @@
                 "ref": "pipe",
                 "id": "50cb44a3"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "b18fa494"
             },
@@ -6090,7 +6067,7 @@
                 "ref": "pipe",
                 "id": "ec689a98"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "f0040e50"
             },
@@ -6164,7 +6141,7 @@
                 "ref": "pipe",
                 "id": "70f778a4"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "ec951f43"
             },
@@ -6180,7 +6157,7 @@
                 "ref": "pipe",
                 "id": "73809ae2"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "d412bb8a"
             },
@@ -6236,7 +6213,7 @@
                 "ref": "pipe",
                 "id": "7dee5368"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "a4b322dc"
             },
@@ -6342,7 +6319,7 @@
                 "ref": "pipe",
                 "id": "bab15002"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "77dcf9d8"
             },
@@ -6358,7 +6335,7 @@
                 "ref": "pipe",
                 "id": "4db55c37"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "65788297"
             },
@@ -6414,7 +6391,7 @@
                 "ref": "pipe",
                 "id": "56f5b131"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "8a0a0a8d"
             },
@@ -6520,7 +6497,7 @@
                 "ref": "pipe",
                 "id": "0929ea58"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "4f80e6c3"
             },
@@ -6536,7 +6513,7 @@
                 "ref": "pipe",
                 "id": "b65d11d2"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "1ec7804a"
             },
@@ -6592,7 +6569,7 @@
                 "ref": "pipe",
                 "id": "9756a6f3"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "6949bef4"
             },
@@ -6666,7 +6643,7 @@
                 "ref": "pipe",
                 "id": "fd1f784c"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "1628ac87"
             },
@@ -6682,7 +6659,7 @@
                 "ref": "pipe",
                 "id": "92549007"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "c35aed32"
             },
@@ -6738,7 +6715,7 @@
                 "ref": "pipe",
                 "id": "65f5180b"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "e7436dd4"
             },
@@ -6812,7 +6789,7 @@
                 "ref": "pipe",
                 "id": "12718534"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "607197ca"
             },
@@ -6828,7 +6805,7 @@
                 "ref": "pipe",
                 "id": "e9c85a9e"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "e30b2c15"
             },
@@ -6884,7 +6861,7 @@
                 "ref": "pipe",
                 "id": "b614b4bd"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "4ca093b7"
             },
@@ -6990,7 +6967,7 @@
                 "ref": "pipe",
                 "id": "0f621ea0"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "095e3edf"
             },
@@ -7006,7 +6983,7 @@
                 "ref": "pipe",
                 "id": "52cd9aec"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "5b4ce67f"
             },
@@ -7062,7 +7039,7 @@
                 "ref": "pipe",
                 "id": "b3f59e88"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "e34d5970"
             },
@@ -7168,7 +7145,7 @@
                 "ref": "pipe",
                 "id": "d56fe379"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "d522a08c"
             },
@@ -7184,7 +7161,7 @@
                 "ref": "pipe",
                 "id": "0859af5a"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "636458af"
             },
@@ -7240,7 +7217,7 @@
                 "ref": "pipe",
                 "id": "5bf4035e"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "5f732eb5"
             },
@@ -7314,7 +7291,7 @@
                 "ref": "pipe",
                 "id": "66773915"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "6393d371"
             },
@@ -7330,7 +7307,7 @@
                 "ref": "pipe",
                 "id": "b9727255"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "ea973608"
             },
@@ -7386,7 +7363,7 @@
                 "ref": "pipe",
                 "id": "95e5d2e1"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "82cd805f"
             },
@@ -7460,7 +7437,7 @@
                 "ref": "pipe",
                 "id": "632ec43b"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "aaee314c"
             },
@@ -7476,7 +7453,7 @@
                 "ref": "pipe",
                 "id": "71009029"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "6648d3dc"
             },
@@ -7532,7 +7509,7 @@
                 "ref": "pipe",
                 "id": "b9fc49c2"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "4a9f890d"
             },
@@ -7606,7 +7583,7 @@
                 "ref": "pipe",
                 "id": "4761bf14"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "73a6f718"
             },
@@ -7622,7 +7599,7 @@
                 "ref": "pipe",
                 "id": "aaf06008"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "5875babd"
             },
@@ -7678,7 +7655,7 @@
                 "ref": "pipe",
                 "id": "59a64325"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "71761b51"
             },
@@ -7784,7 +7761,7 @@
                 "ref": "pipe",
                 "id": "e2b095d3"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "fade37af"
             },
@@ -7800,7 +7777,7 @@
                 "ref": "pipe",
                 "id": "79b0b961"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "247a13c3"
             },
@@ -7856,7 +7833,7 @@
                 "ref": "pipe",
                 "id": "2c6f5990"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "f60ef02c"
             },
@@ -7930,7 +7907,7 @@
                 "ref": "pipe",
                 "id": "d3b51a38"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "7730d534"
             },
@@ -7946,7 +7923,7 @@
                 "ref": "pipe",
                 "id": "e6c47e60"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "c814b4c6"
             },
@@ -8002,7 +7979,7 @@
                 "ref": "pipe",
                 "id": "a1186941"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "bd06b717"
             },
@@ -8108,7 +8085,7 @@
                 "ref": "pipe",
                 "id": "36f21264"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "7a493e1a"
             },
@@ -8124,7 +8101,7 @@
                 "ref": "pipe",
                 "id": "b495501b"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "a35e2a29"
             },
@@ -8180,7 +8157,7 @@
                 "ref": "pipe",
                 "id": "abec52fb"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "742f964e"
             },
@@ -8286,7 +8263,7 @@
                 "ref": "pipe",
                 "id": "5a848569"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "c1dab336"
             },
@@ -8302,7 +8279,7 @@
                 "ref": "pipe",
                 "id": "f94629b7"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "d482ded3"
             },
@@ -8358,7 +8335,7 @@
                 "ref": "pipe",
                 "id": "d413d7ae"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "8e533a71"
             },
@@ -8432,7 +8409,7 @@
                 "ref": "pipe",
                 "id": "aa262d6c"
             },
-            "marginTop": {
+            "margin": {
                 "ref": "pipe",
                 "id": "a634cd3c"
             },
@@ -8448,7 +8425,7 @@
                 "ref": "pipe",
                 "id": "170a5df6"
             },
-            "paddingTop": {
+            "padding": {
                 "ref": "pipe",
                 "id": "3a6b4922"
             },
@@ -8504,7 +8481,7 @@
                 "ref": "pipe",
                 "id": "21236b8a"
             },
-            "borderTop": {
+            "border": {
                 "ref": "pipe",
                 "id": "d67d9250"
             },
