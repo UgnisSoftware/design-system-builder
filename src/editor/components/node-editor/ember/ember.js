@@ -497,7 +497,6 @@ export default function emberEditor(ref, type) {
     }
 
     if (pipe.value.ref === 'eventData') {
-        const eventData = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
         return h('div', [
             h(
                 'div',
@@ -529,6 +528,20 @@ export default function emberEditor(ref, type) {
                             [pipe.value.id]
                         ),
                     ]),
+                    state.selectedPipeId === ref.id
+                        ? h(
+                        'span',
+                        {
+                            style: {
+                                flex: '0 0 auto',
+                                marginLeft: 'auto',
+                            },
+                            on: {
+                                click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
+                            },
+                        },
+                        [addCircleIcon()]
+                    ) : h('span')
                 ]
             ),
             h('div', { style: { paddingLeft: '15px' } }, listTransformations(pipe.transformations, pipe.type)),

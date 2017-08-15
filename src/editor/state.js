@@ -39,7 +39,6 @@ export function listen(callback){
 }
 
 export function setState(newState) {
-    console.log(newState)
     state = newState
     
     listenerList.forEach((callback)=> callback())
