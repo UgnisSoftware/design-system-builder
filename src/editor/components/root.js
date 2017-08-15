@@ -1,7 +1,7 @@
 import h from 'snabbdom/h'
 import {state} from '../state'
 import {boxIcon, arrowIcon, listIcon, ifIcon, inputIcon, imageIcon, textIcon, addCircleIcon} from './icons'
-import topBar from './top-bar'
+import topBar from './top-bar/top-bar'
 import preview from './preview'
 import left from './left'
 import right from './right-bar/right'

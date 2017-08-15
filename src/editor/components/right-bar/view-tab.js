@@ -468,25 +468,6 @@ const addViewNodeComponent = ()=> h(
             {
                 attrs: {
                     type: 'button',
-                    title: 'Link'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'link'],
-                },
-            },
-            [linkIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
                     title: 'If'
                 },
                 style: {

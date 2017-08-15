@@ -1,50 +1,6 @@
 import h from 'snabbdom/h'
-import {state} from '../state'
-import {fullscreenIcon, playIcon, pauseIcon} from './icons'
-import {FULL_SCREEN_CLICKED, FREEZER_CLICKED} from '../events'
-
-const fullscreenComponent = ()=> h(
-    'div',
-    {
-        on: {
-            click: FULL_SCREEN_CLICKED,
-        },
-        style: {
-            position: 'absolute',
-            right: '5px',
-            top: '0px',
-            fontSize: '30px',
-            height: '30px',
-            cursor: 'pointer',
-            padding: '10px',
-            color: '#303030',
-        },
-    },
-    [fullscreenIcon()]
-)
-
-const stopPlayComponent = ()=> h(
-    'div',
-    {
-        on: {
-            click: FREEZER_CLICKED,
-        },
-        style: {
-            position: 'absolute',
-            right: '55px',
-            top: '0px',
-            fontSize: '30px',
-            height: '30px',
-            cursor: 'pointer',
-            padding: '10px',
-            transition: '0.2s color',
-            userSelect: 'none',
-            color: state.appIsFrozen ? 'rgb(91, 204, 91)' : 'rgb(204, 91, 91)',
-        },
-    },
-    state.appIsFrozen ? [playIcon()] : [pauseIcon()]
-)
-
+import stopPlayComponent from './stop-play'
+import fullscreenComponent from './fullscreen'
 
 export default ()=> h(
     'div',

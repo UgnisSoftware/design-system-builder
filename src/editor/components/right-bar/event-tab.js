@@ -6,6 +6,7 @@ import {
 import {
     listIcon, ifIcon, inputIcon, textIcon, boxIcon
 } from '../icons'
+import stopPlayComponent from '../top-bar/stop-play'
 
 export default ()=> h(
     'div',
@@ -34,7 +35,11 @@ export default ()=> h(
             'PAST EVENTS'
         ),
         state.eventStack.length === 0
-            ? h('span', { style: { color: '#ccc' } }, 'The component has not emitted any events yet')
+            ? h('div', [
+            h('div', { style: { color: '#ccc' } }, 'The component has not emitted any events yet...'),
+            state.appIsFrozen ? h('div', { style: { color: '#ccc', paddingTop: '10px'} }, ['No wonder, you are in the Design mode, click: ', h('div', {style: {position: 'relative'}}, [stopPlayComponent()])])
+                :  h('div', { style: { color: '#ccc', paddingTop: '10px'} }, ['Your component works the same as if it was exported. ', 'Try clicking on a component that has a state in its click event :)'])
+        ])
             : h(
             'div',
             {

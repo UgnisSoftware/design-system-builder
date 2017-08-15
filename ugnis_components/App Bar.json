@@ -2150,16 +2150,7 @@
         "4ff57e9a-fbe1-4d4a-8bae-7a764a011b81": {
             "type": "text",
             "value": "Default Text",
-            "transformations": [
-                {
-                    "ref": "join",
-                    "id": "b70ca7f9-e697-4fc6-8611-db8300c9184b"
-                },
-                {
-                    "ref": "join",
-                    "id": "5e038b9a-9a3d-4807-8559-50ffedec5f4c"
-                }
-            ]
+            "transformations": []
         },
         "f103698e-832e-49c0-8602-4eea446766cd": {
             "type": "text",
@@ -2621,16 +2612,8 @@
         },
         "716f468b-5f0f-45a5-8f49-860b55627df3": {
             "type": "number",
-            "value": {
-                "ref": "state",
-                "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
-            },
-            "transformations": [
-                {
-                    "ref": "add",
-                    "id": "79af1e6c-f33b-4157-8bcf-fbfd8b9eba9f"
-                }
-            ]
+            "value": 0,
+            "transformations": []
         },
         "4db4cd87-28c7-437e-816b-519e11f0d2d0": {
             "type": "number",
@@ -2854,16 +2837,8 @@
         },
         "f88e8233": {
             "type": "number",
-            "value": {
-                "ref": "state",
-                "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
-            },
-            "transformations": [
-                {
-                    "ref": "add",
-                    "id": "0159aa2a"
-                }
-            ]
+            "value": 0,
+            "transformations": []
         },
         "cb6e8a38": {
             "type": "number",
@@ -2981,10 +2956,6 @@
                 "id": "20b085e9-dfde-4bfa-8322-9a635219b647"
             },
             "events": [
-                {
-                    "ref": "event",
-                    "id": "3a738bc5"
-                }
             ]
         },
         "4dc66de4-9113-4c78-82f7-aac6c97949d3": {
@@ -5176,128 +5147,11 @@
     "nameSpace": {
         "_rootNameSpace": {
             "title": "",
-            "children": [
-                {
-                    "ref": "state",
-                    "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
-                },
-                {
-                    "ref": "table",
-                    "id": "edfsd686828"
-                }
-            ]
+            "children": []
         }
     },
-    "table": {
-        "edfsd686828": {
-            "title": "table",
-            "type": "table",
-            "defaultValue": [
-                {
-                    "id": "8dvb7686828",
-                    "asd2b7686828": 5
-                },
-                {
-                    "id": "gw8c7686828",
-                    "asd2b7686828": 7
-                },
-                {
-                    "id": "cs3f7686828",
-                    "asd2b7686828": 9
-                }
-            ],
-            "columns": [
-                {
-                    "ref": "state",
-                    "id": "asd2b7686828"
-                }
-            ],
-            "mutators": []
-        }
-    },
-    "state": {
-        "fae9be83-8417-4dbc-8c96-83d2b7686828": {
-            "title": "new number",
-            "type": "number",
-            "defaultValue": 0,
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "bd59a7cd"
-                }
-            ]
-        },
-        "asd2b7686828": {
-            "title": "number",
-            "type": "number",
-            "defaultValue": 0,
-            "mutators": []
-        },
-        "edfsd686828": {
-            "title": "number",
-            "type": "number",
-            "defaultValue": 0,
-            "mutators": []
-        }
-    },
-    "mutator": {
-        "457b276d-42bd-482f-8a52-32cce42c6642": {
-            "event": {
-                "ref": "event",
-                "id": "de0667ac-abc0-40b0-83b1-fd9bdc08cf5b"
-            },
-            "state": {
-                "ref": "state",
-                "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
-            },
-            "mutation": {
-                "ref": "pipe",
-                "id": "716f468b-5f0f-45a5-8f49-860b55627df3"
-            }
-        },
-        "bd59a7cd": {
-            "event": {
-                "ref": "event",
-                "id": "3a738bc5"
-            },
-            "state": {
-                "ref": "state",
-                "id": "fae9be83-8417-4dbc-8c96-83d2b7686828"
-            },
-            "mutation": {
-                "ref": "pipe",
-                "id": "f88e8233"
-            }
-        }
-    },
-    "event": {
-        "de0667ac-abc0-40b0-83b1-fd9bdc08cf5b": {
-            "title": "On Click",
-            "type": "click",
-            "emitter": {
-                "ref": "vNodeText",
-                "id": "57d3673c-8cbc-4aec-8772-a844bf051a43"
-            },
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "457b276d-42bd-482f-8a52-32cce42c6642"
-                }
-            ],
-            "data": []
-        },
-        "3a738bc5": {
-            "type": "click",
-            "emitter": {
-                "ref": "vNodeText",
-                "id": "25461dab-9484-4762-8f53-0676d01bca31"
-            },
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "bd59a7cd"
-                }
-            ]
-        }
-    }
+    "table": {},
+    "state": {},
+    "mutator": {},
+    "event": {}
 }
