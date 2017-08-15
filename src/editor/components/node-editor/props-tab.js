@@ -45,7 +45,7 @@ export default () =>{
                         h('input', {
                             style: inputStyle,
                             on: {
-                                input: [CHANGE_COMPONENT_PATH, 'reactPath'],
+                                blur: [CHANGE_COMPONENT_PATH, 'reactPath'],
                             },
                             liveProps: {
                                 value: state.definitionList[state.currentDefinitionId]['reactPath'],
@@ -68,7 +68,7 @@ export default () =>{
                         h('input', {
                             style: inputStyle,
                             on: {
-                                input: [CHANGE_COMPONENT_PATH, 'reactNativePath'],
+                                blur: [CHANGE_COMPONENT_PATH, 'reactNativePath'],
                             },
                             liveProps: {
                                 value: state.definitionList[state.currentDefinitionId]['reactNativePath'],
