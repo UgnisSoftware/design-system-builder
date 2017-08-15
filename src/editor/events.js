@@ -103,7 +103,7 @@ document.addEventListener('keydown', e => {
     // 32 - space
     // 13 - enter
     // 27 - escape
-    if (e.which === 32 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+    if (e.which === 32 && e.ctrlKey) {
         e.preventDefault()
         FREEZER_CLICKED()
     }

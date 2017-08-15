@@ -64,6 +64,24 @@ export default definition => {
         if (ref.ref === undefined) {
             return ref
         }
+        if (ref.ref === 'eventData') {
+            if(ref.id === 'value') return currentEvent.target.value
+            if(ref.id === 'keyPressed') return currentEvent.key
+            if(ref.id === 'keyPressedCode') return currentEvent.keyCode
+            const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
+            const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
+            // fix offsets in dev
+            const root = getVDom().elm.getBoundingClientRect()
+            const screenX = initialX - root.left
+            const screenY = initialY - root.top
+            if(ref.id === 'screenX') return screenX
+            if(ref.id === 'screenY') return screenY
+            const position = currentEventNode.getBoundingClientRect()
+            const offsetX = initialX - position.left
+            const offsetY = initialY - position.top
+            if(ref.id === 'layerX') return offsetX
+            if(ref.id === 'layerY') return offsetY
+        }
         const def = definition[ref.ref][ref.id]
         if (ref.ref === 'pipe') {
             return pipe(ref)
@@ -201,7 +219,7 @@ export default definition => {
     function generateStyles(ref){
         const node = definition[ref.ref][ref.id]
         const style = resolve(node.style)
-        return frozen && selectedNodeInDevelopment.id === ref.id ? {
+        return (frozen && selectedNodeInDevelopment.id === ref.id) ? {
             ...style,
             transition: 'box-shadow 0.2s',
             boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,

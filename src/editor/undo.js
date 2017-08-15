@@ -30,16 +30,8 @@ listen(()=>{
 })
 
 document.addEventListener('keydown', e => {
-    // 32 - space
     // 90 - z
     // 89 - y
-    if (e.which === 32 && e.ctrlKey) {
-        e.preventDefault()
-        setState({
-            ...state,
-            appIsFrozen: !state.appIsFrozen
-        })
-    }
     if (!e.shiftKey && e.which === 90 && e.ctrlKey) {
         e.preventDefault()
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
