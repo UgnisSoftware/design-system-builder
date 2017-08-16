@@ -1,6 +1,9 @@
 import h from 'snabbdom/h'
 import {state} from '../../state'
 import {
+    CHANGE_STATIC_VALUE,
+} from '../../events'
+import {
     arrowIcon
 } from '../icons'
 import emberEditor from './ember/ember'
@@ -36,6 +39,88 @@ export default () => {
             h(
                 'div',
                 [
+                    h('div', {
+                        style: {
+                            display: 'flex',
+                        }
+                    },[
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 20px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'Class'
+                                ),
+                                // TODO make into ember
+                                h('div', {style: {padding: '0px 20px'}}, [
+                                    h('input', {
+                                        style: {
+                                            color: 'white',
+                                            background: 'none',
+                                            outline: 'none',
+                                            border: 'none',
+                                            boxShadow: 'inset 0 -2px 0 0 #ccc',
+                                            width: '100px',
+                                        },
+                                        on: {
+                                            input: [CHANGE_STATIC_VALUE, state.selectedViewNode, 'class', 'text'],
+                                        },
+                                        liveProps: {
+                                            value: selectedNode.class === undefined ? '' :selectedNode.class,
+                                        },
+                                    }),
+                                ]),
+                            ]
+                        ),
+                        h(
+                            'div',
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        style: {
+                                            padding: '20px 20px 5px 10px',
+                                            fontSize: '12px',
+                                            textTransform: 'uppercase',
+                                            fontWeight: 'bold',
+                                            letterSpacing: '1px',
+                                            color: '#8e8e8e',
+                                        },
+                                    },
+                                    'ID'
+                                ),
+                                // TODO make into ember
+                                h('div', {style: {padding: '0 0 0 10px'}}, [
+                                    h('input', {
+                                        style: {
+                                            color: 'white',
+                                            background: 'none',
+                                            outline: 'none',
+                                            border: 'none',
+                                            boxShadow: 'inset 0 -2px 0 0 #ccc',
+                                            width: '100px',
+                                        },
+                                        on: {
+                                            input: [CHANGE_STATIC_VALUE, state.selectedViewNode, 'id', 'text'],
+                                        },
+                                        liveProps: {
+                                            value: selectedNode.id === undefined ? '' :selectedNode.id,
+                                        },
+                                    }),
+                                ]),
+                            ]
+                        ),
+                    ]),
                     h('div', {
                         style: {
                             display: 'flex',
@@ -339,7 +424,7 @@ export default () => {
                         },
                         'Horizontal Align'
                     ),
-                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['justifyContent'], {type: 'variant', values: ['flex-start', 'flex-end', 'center', 'space-between', 'space-around']})]),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['justifyContent'], {type: 'variant', values: ['flex-start', 'flex-end',  'center', 'stretch','space-between', 'space-around']})]),
                     h(
                         'div',
                         {

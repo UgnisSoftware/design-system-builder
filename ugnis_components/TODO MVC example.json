@@ -2,6 +2,29 @@
     "version": "1.0.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
+    "eventData": {
+        "screenX": {
+            "type": "number"
+        },
+        "screenY": {
+            "type": "number"
+        },
+        "layerX": {
+            "type": "number"
+        },
+        "layerY": {
+            "type": "number"
+        },
+        "value": {
+            "type": "text"
+        },
+        "keyPressed": {
+            "type": "text"
+        },
+        "keyPressedCode": {
+            "type": "number"
+        }
+    },
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
@@ -4547,7 +4570,7 @@
     "remainder": {},
     "vNodeBox": {
         "_rootNode": {
-            "title": "TODO MVC",
+            "title": "TODO MVC example",
             "style": {
                 "ref": "style",
                 "id": "_rootStyle"

@@ -27,6 +27,20 @@ function flatten(arr) {
     }, [])
 }
 
+const defaultStylesToRemove = {
+    //alignItems: 'flex-start',
+    //justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    background: 'none',
+    overflow: 'visible',
+    color: '#000000',
+    fontFamily: 'inherit',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textDecorationLine:  'none',
+}
+
 export default definition => {
     let currentState = createDefaultState()
 
@@ -218,7 +232,12 @@ export default definition => {
 
     function generateStyles(ref){
         const node = definition[ref.ref][ref.id]
-        const style = resolve(node.style)
+        let style = resolve(node.style)
+        Object.keys(defaultStylesToRemove).forEach((key)=>{
+            if(defaultStylesToRemove[key] === style[key]){
+                style[key] = ''
+            }
+        })
         return (frozen && selectedNodeInDevelopment.id === ref.id) ? {
             ...style,
             transition: 'box-shadow 0.2s',

@@ -33,6 +33,16 @@
     "not": {},
     "length": {},
     "pipe": {
+        "78697877": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "91894883": {
+            "type": "text",
+            "value": "flex",
+            "transformations": []
+        },
         "d598c126-a2b2-485f-8b05-f9395c834344": {
             "type": "text",
             "value": "Default Text",
@@ -105,7 +115,7 @@
         },
         "697eb4e4-13ae-4e5e-82b6-1317b1dacda4": {
             "type": "text",
-            "value": "",
+            "value": "10px",
             "transformations": []
         },
         "c7a46398-ea3e-4231-8fa2-563a957b91f4": {
@@ -257,9 +267,194 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "e25a59aa": {
+            "type": "text",
+            "value": "",
+            "transformations": [
+                {
+                    "ref": "join",
+                    "id": "e2e50576"
+                },
+                {
+                    "ref": "join",
+                    "id": "757fc294"
+                }
+            ]
+        },
+        "cd232e71": {
+            "type": "text",
+            "value": "0 0 auto",
+            "transformations": []
+        },
+        "6a59f448": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "fa3a5d1d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c976d8f3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e83a9da4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "289ba6bf": {
+            "type": "text",
+            "value": "8px 16px",
+            "transformations": []
+        },
+        "ce0da326": {
+            "type": "text",
+            "value": "relative",
+            "transformations": []
+        },
+        "1a72cbb7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "da40a863": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "a7e5a5a0": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "7fcffa52": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "8fc1b56e": {
+            "type": "text",
+            "value": "flex-start",
+            "transformations": []
+        },
+        "a82df759": {
+            "type": "text",
+            "value": "row",
+            "transformations": []
+        },
+        "b68b804b": {
+            "type": "text",
+            "value": "wrap",
+            "transformations": []
+        },
+        "1e1ee243": {
+            "type": "text",
+            "value": "#00BCD4",
+            "transformations": []
+        },
+        "fb5837d6": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "466c4d6a": {
+            "type": "text",
+            "value": "visible",
+            "transformations": []
+        },
+        "da10fb0b": {
+            "type": "text",
+            "value": "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+            "transformations": []
+        },
+        "8cb6bbd6": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ce895a61": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "bcdd16c7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "320b1a89": {
+            "type": "text",
+            "value": "#fff",
+            "transformations": []
+        },
+        "1386147e": {
+            "type": "text",
+            "value": "inherit",
+            "transformations": []
+        },
+        "e5789fc8": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "8488507e": {
+            "type": "text",
+            "value": "normal",
+            "transformations": []
+        },
+        "cdd5959f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ba66152f": {
+            "type": "text",
+            "value": "none",
+            "transformations": []
+        },
+        "42d36b1c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f63aad99": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c04d1efb": {
+            "type": "text",
+            "value": {
+                "ref": "state",
+                "id": "53f63c08"
+            },
+            "transformations": []
+        },
+        "290dfb4d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
-    "join": {},
+    "join": {
+        "e2e50576": {
+            "value": {
+                "ref": "pipe",
+                "id": "c04d1efb"
+            }
+        },
+        "757fc294": {
+            "value": {
+                "ref": "pipe",
+                "id": "290dfb4d"
+            }
+        }
+    },
     "add": {},
     "subtract": {},
     "multiply": {},
@@ -267,17 +462,39 @@
     "remainder": {},
     "vNodeBox": {
         "_rootNode": {
-            "title": "New Component",
+            "title": "Button",
             "style": {
                 "ref": "style",
                 "id": "_rootStyle"
             },
             "parent": {},
-            "children": [],
+            "children": [
+                {
+                    "ref": "vNodeText",
+                    "id": "303708f4"
+                }
+            ],
             "events": []
         }
     },
-    "vNodeText": {},
+    "vNodeText": {
+        "303708f4": {
+            "title": "text",
+            "parent": {
+                "ref": "vNodeBox",
+                "id": "_rootNode"
+            },
+            "style": {
+                "ref": "style",
+                "id": "b972e734"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "e25a59aa"
+            },
+            "events": []
+        }
+    },
     "vNodeInput": {},
     "vNodeList": {},
     "vNodeIf": {},
@@ -296,9 +513,25 @@
                 "ref": "pipe",
                 "id": "81328d14-b68a-49a3-806d-147746058671"
             },
+            "maxHeight": {
+                "ref": "pipe",
+                "id": "6c0c7c85-e470-4aaa-869c-28a1f566d892"
+            },
+            "minHeight": {
+                "ref": "pipe",
+                "id": "d27199ba-2b41-4b1f-883d-576c0e0c988c"
+            },
             "width": {
                 "ref": "pipe",
                 "id": "d391c914-7aff-4bf5-80b8-ce38a4b03363"
+            },
+            "maxWidth": {
+                "ref": "pipe",
+                "id": "0607a69a-57e6-4133-8bbd-e064cdba3b38"
+            },
+            "minWidth": {
+                "ref": "pipe",
+                "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
             "margin": {
                 "ref": "pipe",
@@ -408,16 +641,156 @@
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
             }
+        },
+        "b972e734": {
+            "flex": {
+                "ref": "pipe",
+                "id": "cd232e71"
+            },
+            "display": {
+                "ref": "pipe",
+                "id": "91894883"
+            },
+            "height": {
+                "ref": "pipe",
+                "id": "fa3a5d1d"
+            },
+            "width": {
+                "ref": "pipe",
+                "id": "c976d8f3"
+            },
+            "margin": {
+                "ref": "pipe",
+                "id": "e83a9da4"
+            },
+            "padding": {
+                "ref": "pipe",
+                "id": "289ba6bf"
+            },
+            "zIndex": {
+                "ref": "pipe",
+                "id": "6a59f448"
+            },
+            "position": {
+                "ref": "pipe",
+                "id": "ce0da326"
+            },
+            "top": {
+                "ref": "pipe",
+                "id": "1a72cbb7"
+            },
+            "bottom": {
+                "ref": "pipe",
+                "id": "da40a863"
+            },
+            "left": {
+                "ref": "pipe",
+                "id": "a7e5a5a0"
+            },
+            "right": {
+                "ref": "pipe",
+                "id": "7fcffa52"
+            },
+            "alignItems": {
+                "ref": "pipe",
+                "id": "8fc1b56e"
+            },
+            "justifyContent": {
+                "ref": "pipe",
+                "id": "78697877"
+            },
+            "flexDirection": {
+                "ref": "pipe",
+                "id": "a82df759"
+            },
+            "flexWrap": {
+                "ref": "pipe",
+                "id": "b68b804b"
+            },
+            "border": {
+                "ref": "pipe",
+                "id": "8cb6bbd6"
+            },
+            "borderRadius": {
+                "ref": "pipe",
+                "id": "ce895a61"
+            },
+            "background": {
+                "ref": "pipe",
+                "id": "1e1ee243"
+            },
+            "opacity": {
+                "ref": "pipe",
+                "id": "fb5837d6"
+            },
+            "overflow": {
+                "ref": "pipe",
+                "id": "466c4d6a"
+            },
+            "boxShadow": {
+                "ref": "pipe",
+                "id": "da10fb0b"
+            },
+            "cursor": {
+                "ref": "pipe",
+                "id": "bcdd16c7"
+            },
+            "color": {
+                "ref": "pipe",
+                "id": "320b1a89"
+            },
+            "fontFamily": {
+                "ref": "pipe",
+                "id": "1386147e"
+            },
+            "fontStyle": {
+                "ref": "pipe",
+                "id": "e5789fc8"
+            },
+            "fontSize": {
+                "ref": "pipe",
+                "id": "cdd5959f"
+            },
+            "fontWeight": {
+                "ref": "pipe",
+                "id": "8488507e"
+            },
+            "lineHeight": {
+                "ref": "pipe",
+                "id": "42d36b1c"
+            },
+            "textDecorationLine": {
+                "ref": "pipe",
+                "id": "ba66152f"
+            },
+            "letterSpacing": {
+                "ref": "pipe",
+                "id": "f63aad99"
+            }
         }
     },
     "nameSpace": {
         "_rootNameSpace": {
             "title": "",
-            "children": []
+            "children": [
+                {
+                    "ref": "state",
+                    "id": "53f63c08"
+                }
+            ]
         }
     },
     "table": {},
-    "state": {},
+    "state": {
+        "53f63c08": {
+            "title": "Title",
+            "ref": "53f63c08",
+            "type": "text",
+            "defaultValue": "Button",
+            "mutators": []
+        }
+    },
     "mutator": {},
-    "event": {}
+    "event": {},
+    "id": "0039d233"
 }
