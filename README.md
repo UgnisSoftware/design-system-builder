@@ -6,6 +6,8 @@ Exports to React and React-Native (experimental). Vote for more integrations [in
 
 Default components use Google Material Design.
 
+![Ugnis Exporting to React and RN](https://user-images.githubusercontent.com/5903616/29389906-aed78aba-82f5-11e7-85bb-013a222c1990.gif)
+
 ## How to try it locally
 
 Clone the repository
@@ -21,6 +23,16 @@ npm start
 Now open [localhost:4000](http://localhost:4000)
 
 **Warning**: Ugnis is still in alpha, [we are still missing some features](https://github.com/UgnisSoftware/ugnis/blob/master/ROADMAP.md)
+
+## How Ugnis differs from other design tools?
+
+Ugnis has a state that can be changed through events. This allows to create dynamic components:
+
+![Start Ugnis](https://user-images.githubusercontent.com/5903616/29389920-b8c12072-82f5-11e7-8e1c-ff0cac27147d.gif)
+
+And edit them on the fly
+
+![Edit Events ](https://user-images.githubusercontent.com/5903616/29389918-b3e9bdd4-82f5-11e7-89b1-5ee7b036c724.gif)
 
 ## How does Ugnis work internally?
 
