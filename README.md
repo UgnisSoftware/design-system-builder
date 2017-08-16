@@ -30,7 +30,7 @@ Ugnis has a state that can be changed through events. This allows to create dyna
 
 ![Start Ugnis](https://user-images.githubusercontent.com/5903616/29389920-b8c12072-82f5-11e7-8e1c-ff0cac27147d.gif)
 
-And edit them on the fly
+And edit them on the fly:
 
 ![Edit Events ](https://user-images.githubusercontent.com/5903616/29389918-b3e9bdd4-82f5-11e7-89b1-5ee7b036c724.gif)
 

@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "0.8.2",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
     "eventData": {
