@@ -599,6 +599,21 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "7aff327a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "970eb7c6": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e5af70a7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -805,6 +820,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "7aff327a"
             }
         },
         "01dfdca3": {
@@ -931,6 +950,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "db3caa05"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "970eb7c6"
             }
         },
         "5857c5ad": {
@@ -1057,6 +1080,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "6435100b"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "e5af70a7"
             }
         }
     },
@@ -1077,7 +1104,7 @@
             "title": "new number",
             "ref": "951ac584",
             "type": "number",
-            "defaultValue": 0,
+            "defaultValue": 1,
             "mutators": []
         }
     },

@@ -417,6 +417,16 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "a583690c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e9d081f4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {},
@@ -602,6 +612,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "a583690c"
             }
         },
         "0fc31317": {
@@ -728,6 +742,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "7decbd62"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "e9d081f4"
             }
         }
     },

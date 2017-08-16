@@ -596,6 +596,21 @@ export default () => {
                         'Cursor'
                     ),
                     h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['cursor'], 'text')]),
+                    h(
+                        'div',
+                        {
+                            style: {
+                                padding: '20px 20px 5px 20px',
+                                fontSize: '12px',
+                                textTransform: 'uppercase',
+                                fontWeight: 'bold',
+                                letterSpacing: '1px',
+                                color: '#8e8e8e',
+                            },
+                        },
+                        'Transition'
+                    ),
+                    h('div', {style: {padding: '0px 20px'}}, [emberEditor(selectedStyle['transition'], 'text')]),
                 ]
             ),
             state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput' ?

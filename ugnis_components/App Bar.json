@@ -759,6 +759,26 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "a8ad3452": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "5f730b21": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9e4b9e02": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "c7b451b8": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -986,6 +1006,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "bbc92737"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "a8ad3452"
             }
         },
         "_rootStyle": {
@@ -1112,6 +1136,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "5f730b21"
             }
         },
         "faa26de6": {
@@ -1238,6 +1266,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "3a4e5e89"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "9e4b9e02"
             }
         },
         "9cc5c397": {
@@ -1364,6 +1396,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "67543ba4"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "c7b451b8"
             }
         }
     },

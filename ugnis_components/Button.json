@@ -439,6 +439,16 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "79e2da24": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6dfcc707": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -640,6 +650,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "79e2da24"
             }
         },
         "b972e734": {
@@ -766,6 +780,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "f63aad99"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "6dfcc707"
             }
         }
     },

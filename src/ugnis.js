@@ -239,8 +239,8 @@ export default definition => {
             }
         })
         return (frozen && selectedNodeInDevelopment.id === ref.id) ? {
-            ...style,
             transition: 'box-shadow 0.2s',
+            ...style,
             boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
         } : style
     }

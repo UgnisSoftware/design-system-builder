@@ -257,6 +257,11 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "4df9adbd": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {},
@@ -423,6 +428,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a0e816e3-1a4a-4264-81e6-e94ba410b389"
+            },
+            "transition": {
+                "ref": "pipe",
+                "id": "4df9adbd"
             }
         }
     },
