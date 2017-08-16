@@ -2,7 +2,7 @@
 
 Ugnis is a visual editor for designers and developers alike. [Try it online!](https://ugnis.com/editor)
 
-Exports to React, React-Native. Vote for more integrations [in this issue](https://github.com/UgnisSoftware/ugnis/issues/1)
+Exports to React and React-Native (experimental). Vote for more integrations [in this issue](https://github.com/UgnisSoftware/ugnis/issues/1)
 
 Default components use Google Material Design.
 

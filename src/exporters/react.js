@@ -44,37 +44,64 @@ class App extends Component {
  */
 
 function flatten(arr) {
-    return arr.join(' ')
+    return arr.join('\n            ')
+}
+
+const defaultStylesToRemove = {
+    //alignItems: 'flex-start',
+    //justifyContent: 'flex-start',
+    flex: '0',
+    height: '',
+    width: '',
+    maxWidth: '',
+    minWidth: '',
+    margin: '',
+    padding: '',
+    zIndex: '',
+    top: '',
+    bottom: '',
+    left: '',
+    right: '',
+    border: '',
+    borderRadius: '',
+    opacity: '',
+    boxShadow: '',
+    cursor: '',
+    transition: '',
+    letterSpacing: '',
+    lineHeight: '',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    background: 'none',
+    overflow: 'visible',
+    color: '#000000',
+    fontFamily: 'inherit',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textDecorationLine: 'none',
 }
 
 module.exports = definition => {
-    function createDefaultState() {
-        return Object.keys(definition.state)
-            .map(key => definition.state[key])
-            .reduce((acc, def) => {
-                acc[def.ref] = def.defaultValue
-                return acc
-            }, {})
-    }
 
-    const state = JSON.stringify(createDefaultState())
+    let styles = {}
 
     function resolve(ref) {
         // static value (string/number)
+        if (ref === undefined) {
+            return
+        }
         if (ref.ref === undefined) {
-            return ref
+            return ref.toString()
         }
         const def = definition[ref.ref][ref.id]
         if (ref.ref === 'pipe') {
             return pipe(ref)
         }
         if (ref.ref === 'conditional') {
-            return resolve(def.predicate)
-                ? resolve(def.then)
-                : resolve(def.else)
+            return `${resolve(def.predicate)} ? ${resolve(def.then)} : ${resolve(def.else)}`
         }
         if (ref.ref === 'state') {
-            return currentState[ref.id]
+            return `this.state['${ref.id}']`
         }
         if (ref.ref === 'vNodeBox') {
             return boxNode(ref)
@@ -100,12 +127,6 @@ module.exports = definition => {
                 return acc
             }, {})
         }
-        if (ref.ref === 'eventData') {
-            return eventData[ref.id]
-        }
-        if (ref.ref === 'listValue') {
-            return currentMapValue[def.list.id][def.property]
-        }
         throw Error(ref)
     }
 
@@ -114,93 +135,129 @@ module.exports = definition => {
             const ref = transformations[i]
             const transformer = definition[ref.ref][ref.id]
             if (ref.ref === 'equal') {
-                value = value === resolve(transformer.value)
+                value = value.concat(` === ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'add') {
-                value = value + resolve(transformer.value)
+                value = value.concat(` + ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'subtract') {
-                value = value - resolve(transformer.value)
+                value = value.concat(` - ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'multiply') {
-                value = value * resolve(transformer.value)
+                value = value.concat(` * ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'divide') {
-                value = value / resolve(transformer.value)
+                value = value.concat(` / ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'remainder') {
-                value = value % resolve(transformer.value)
+                value = value.concat(` % ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'join') {
-                value = value.toString().concat(resolve(transformer.value))
+                // optimise empty joins
+                const join = resolve(transformer.value)
+                if(value === ''){
+                    value = join
+                } else if(join === ''){
+
+                } else{
+                    value = '(' + value.concat(`).concat(${resolve(transformer.value)})`)
+                }
             }
             if (ref.ref === 'toUpperCase') {
-                value = value.toUpperCase()
+                value = value.concat(`.toUpperCase()`)
             }
             if (ref.ref === 'toLowerCase') {
-                value = value.toLowerCase()
+                value = value.concat(`.toLowerCase()`)
             }
             if (ref.ref === 'length') {
-                value = value.length
+                value = '(' + value.concat(`).lenght`)
             }
             if (ref.ref === 'and') {
-                value = value && resolve(transformer.value)
+                value = '(' +value.concat(`) && ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'or') {
-                value = value || resolve(transformer.value)
+                value = '(' +value.concat(`) || ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'not') {
-                value = !value
+                value = '!' + value
             }
         }
-        return value
+        return  transformations.length ? `{${value}}`: value
     }
 
     function pipe(ref) {
-        return definition[ref.ref][ref.id].value
-
-        //const def = definition[ref.ref][ref.id]
-        //return transformValue(resolve(def.value), def.transformations)
+        const def = definition[ref.ref][ref.id]
+        return transformValue(resolve(def.value), def.transformations)
     }
 
-    const frozenShadow = 'inset 0 0 0 3px #53d486'
+    function generateEvents(ref){
+        const node = definition[ref.ref][ref.id]
+        return '' // TODO
+        return node.events.reduce((acc, eventRef)=> {
+            const event = definition[eventRef.ref][eventRef.id]
+            acc[event.type] = [emitEvent, eventRef]
+            return acc
+        }, {})
+    }
+
+    function generateStyles(ref){
+        const node = definition[ref.ref][ref.id]
+        let style = resolve(node.style)
+        Object.keys(defaultStylesToRemove).forEach((key)=>{
+            if(defaultStylesToRemove[key] === style[key]){
+                delete style[key]
+            }
+        })
+        styles[ref.id] = style
+        return `style={styles["${ref.id}"]}`
+    }
+
+    function generateAttrs(ref){
+        const node = definition[ref.ref][ref.id]
+        const attrs = {
+            src: resolve(node.src),
+            className: resolve(node['class']),
+            id: resolve(node.id),
+        }
+        const attrString = Object.keys(attrs).reduce((acc, key)=>{
+            if(attrs[key]){
+                acc = acc.concat(` ${key}="${attrs[key]}"`)
+            }
+            return acc
+        }, '')
+        return attrString
+    }
 
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
-        // const events = '' +
-        //         node.click ? `onClick={click-${node.click.ref}.bind(this)}` : '' +
-        //         node.dblclick ? `onDoubleClick={dblclick-${node.dblclick.ref}.bind(this)}` : '' +
-        //         node.mouseover ? `mouseOver={mouseover-${node.mouseover.ref}.bind(this)}` : '' +
-        //         node.mouseout ? `mouseOut={mouseout-${node.mouseout.ref}.bind(this)}` : ''
-        return `<div style={${style}} ${events}>${resolve(
-            flatten(node.children.map(resolve))
-        )}</div>`
+        return `
+        <div ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)}>
+            ${resolve(flatten(node.children.map(resolve)))}
+        </div>`
     }
 
     function ifNode(ref) {
         const node = definition[ref.ref][ref.id]
-        return resolve(node.value) ? node.children.map(resolve) : []
+
+        return `${resolve(node.value)} ? ${node.children.map(resolve)} : ''`
     }
 
     function textNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
-        return `<span style={${style}}>${resolve(node.value)}</span>`
+
+        return `<span ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)}>${resolve(node.value)}</span>`
     }
 
     function imageNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
 
-        return `<img style={${style}} src="${resolve(node.src)}" />`
+        return `<img ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)} />`
     }
 
     function inputNode(ref) {
         const node = definition[ref.ref][ref.id]
-        const style = JSON.stringify(resolve(node.style))
 
-        return h('input', data)
+        return `<input ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)} value='Value'}/>`
     }
 
     function listNode(ref) {
@@ -221,30 +278,35 @@ module.exports = definition => {
         return children
     }
 
-    const events = ''
+    const events = '' // TODO
+
+    function createDefaultState() {
+        return definition.nameSpace['_rootNameSpace'].children.reduce((acc, ref) => {
+            const def = definition[ref.ref][ref.id]
+            acc[ref.id] = def.defaultValue
+            return acc
+        }, {})
+    }
+
+    const state = JSON.stringify(createDefaultState(), undefined, 4)
 
     const components = resolve({ ref: 'vNodeBox', id: '_rootNode' })
 
-    return `
-    
-import React from 'react'
+    return `import React from 'react'
 
 class App extends React.Component {
   constructor(){
     super();
-    this.state = {
-       
-    }
+    this.state = ${state}
   }
-  
   ${events}
-
   render() {
-    return (
-      ${components}
+    return (${components}
     );
   }
 }
+
+const styles = ${JSON.stringify(styles, undefined, 4)};
 
 export default App;
     `

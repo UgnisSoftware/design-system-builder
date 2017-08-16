@@ -1,23 +1,47 @@
-
-    
 import React from 'react'
 
 class App extends React.Component {
   constructor(){
     super();
     this.state = {
-       
-    }
+    "53f63c08": "Button"
+}
   }
   
-  
-
   render() {
     return (
-      <div style={{"flex":"1","display":"flex","height":"","maxHeight":"","minHeight":"","width":"","maxWidth":"","minWidth":"","marginTop":"","marginBottom":"","marginLeft":"","marginRight":"","paddingTop":"","paddingBottom":"","paddingLeft":"","paddingRight":"","zIndex":"","position":"relative","top":"","bottom":"","left":"","right":"","alignItems":"flex-start","justifyContent":"flex-start","flexDirection":"row","flexWrap":"wrap","borderTop":"","borderBottom":"","borderLeft":"","borderRight":"","borderRadius":"","backgroundColor":"none","opacity":"","overflow":"visible","boxShadow":"","cursor":"","color":"#000000","fontFamily":"inherit","fontStyle":"normal","fontSize":"","fontWeight":"normal","lineHeight":"","textDecorationLine":"none","letterSpacing":""}} ><span style={{"flex":"0 0 auto","display":"flex","height":"","maxHeight":"","minHeight":"","width":"","maxWidth":"","minWidth":"","marginTop":"","marginBottom":"","marginLeft":"","marginRight":"","paddingTop":"8px","paddingBottom":"8px","paddingLeft":"16px","paddingRight":"16px","zIndex":"","position":"relative","top":"","bottom":"","left":"","right":"","alignItems":"flex-start","justifyContent":"flex-start","flexDirection":"row","flexWrap":"wrap","borderTop":"","borderBottom":"","borderLeft":"","borderRight":"","borderRadius":"","backgroundColor":"rgb(0, 188, 212)","opacity":"","overflow":"visible","boxShadow":"rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px","cursor":"pointer","color":"#fff","fontFamily":"inherit","fontStyle":"normal","fontSize":"","fontWeight":"normal","lineHeight":"","textDecorationLine":"none","letterSpacing":""}}>Button</span></div>
+        <div style={styles["_rootNode"]}  >
+            <span style={styles["303708f4"]}  >{this.state['53f63c08']}</span>
+        </div>
     );
   }
 }
+
+const styles = {
+    "_rootNode": {
+        "flex": "1",
+        "display": "flex",
+        "maxHeight": "",
+        "minHeight": "",
+        "padding": "10px",
+        "position": "relative",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+        "fontSize": ""
+    },
+    "303708f4": {
+        "flex": "0 0 auto",
+        "display": "flex",
+        "padding": "8px 16px",
+        "position": "relative",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start",
+        "background": "#00BCD4",
+        "boxShadow": "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+        "color": "#fff",
+        "fontSize": ""
+    }
+};
 
 export default App;
     
