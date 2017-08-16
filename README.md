@@ -20,7 +20,7 @@ npm start
 
 Now open [localhost:4000](http://localhost:4000)
 
-**Warning**: Ugnis is still in alpha, while the exported code will work, [we are still missing some features](https://github.com/UgnisSoftware/ugnis/blob/master/ROADMAP.md)
+**Warning**: Ugnis is still in alpha, [we are still missing some features](https://github.com/UgnisSoftware/ugnis/blob/master/ROADMAP.md)
 
 ## How does Ugnis work internally?
 

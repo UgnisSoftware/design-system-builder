@@ -238,6 +238,9 @@ export default definition => {
                 style[key] = ''
             }
         })
+        if(frozen && style.pointerEvents){
+            style.pointerEvents = ''
+        }
         return (frozen && selectedNodeInDevelopment.id === ref.id) ? {
             transition: 'box-shadow 0.2s',
             ...style,

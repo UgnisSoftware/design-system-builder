@@ -1740,7 +1740,7 @@
             "type": "text",
             "value": {
                 "ref": "eventData",
-                "id": "_input"
+                "id": "value"
             },
             "transformations": []
         },
@@ -2321,7 +2321,7 @@
         },
         "b5d1df9a": {
             "type": "text",
-            "value": "icon ",
+            "value": "keyboard_arrow_down",
             "transformations": []
         },
         "6635e662": {
@@ -2501,7 +2501,7 @@
         },
         "6e7c5b98": {
             "type": "text",
-            "value": "#000000",
+            "value": "#ccc",
             "transformations": []
         },
         "90fa7935": {
@@ -2521,7 +2521,7 @@
         },
         "e1ba0f71": {
             "type": "text",
-            "value": "",
+            "value": "32px",
             "transformations": []
         },
         "c3770b1f": {
@@ -4939,7 +4939,8 @@
                 "ref": "pipe",
                 "id": "b5d1df9a"
             },
-            "events": []
+            "events": [],
+            "class": "material-icons"
         },
         "5c810d87": {
             "title": "text",
