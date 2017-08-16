@@ -4096,7 +4096,7 @@
         },
         "32f5bc8a": {
             "type": "text",
-            "value": "You might want to click the play button in the top right :)",
+            "value": "You might want to click the play button in the top right corner :) (ctrl+space works too)",
             "transformations": []
         },
         "46746a68": {
@@ -5207,7 +5207,7 @@
             "events": []
         },
         "50ce2491": {
-            "title": "text",
+            "title": "Developer Comments",
             "parent": {
                 "ref": "vNodeBox",
                 "id": "_rootNode"
