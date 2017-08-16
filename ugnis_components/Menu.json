@@ -258,7 +258,7 @@
             "value": "",
             "transformations": []
         },
-        "4df9adbd": {
+        "cd4040a4": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -301,25 +301,9 @@
                 "ref": "pipe",
                 "id": "81328d14-b68a-49a3-806d-147746058671"
             },
-            "maxHeight": {
-                "ref": "pipe",
-                "id": "6c0c7c85-e470-4aaa-869c-28a1f566d892"
-            },
-            "minHeight": {
-                "ref": "pipe",
-                "id": "d27199ba-2b41-4b1f-883d-576c0e0c988c"
-            },
             "width": {
                 "ref": "pipe",
                 "id": "d391c914-7aff-4bf5-80b8-ce38a4b03363"
-            },
-            "maxWidth": {
-                "ref": "pipe",
-                "id": "0607a69a-57e6-4133-8bbd-e064cdba3b38"
-            },
-            "minWidth": {
-                "ref": "pipe",
-                "id": "adff239c-bd82-477c-8a68-ef4f5ce0088b"
             },
             "margin": {
                 "ref": "pipe",
@@ -431,7 +415,7 @@
             },
             "transition": {
                 "ref": "pipe",
-                "id": "4df9adbd"
+                "id": "cd4040a4"
             }
         }
     },
@@ -445,5 +429,5 @@
     "state": {},
     "mutator": {},
     "event": {},
-    "id": "dcdb9089"
+    "id": "86f33d13"
 }

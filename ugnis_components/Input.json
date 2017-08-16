@@ -1356,6 +1356,10 @@
                 {
                     "ref": "state",
                     "id": "6572c28f"
+                },
+                {
+                    "ref": "state",
+                    "id": "856b96e3"
                 }
             ]
         }
@@ -1479,7 +1483,7 @@
             "title": "NOTE",
             "ref": "8966b5c6",
             "type": "text",
-            "defaultValue": "in fact they should def not be here",
+            "defaultValue": "in fact they def shouldn't be here",
             "mutators": []
         },
         "625c5339": {
@@ -1501,6 +1505,13 @@
             "ref": "6572c28f",
             "type": "text",
             "defaultValue": "- we can't check if input is empty",
+            "mutators": []
+        },
+        "856b96e3": {
+            "title": "NOTE",
+            "ref": "856b96e3",
+            "type": "text",
+            "defaultValue": "Branching is the first item in our TODO ",
             "mutators": []
         }
     },

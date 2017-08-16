@@ -5126,7 +5126,7 @@
             "events": []
         },
         "047a1dd4": {
-            "title": "box",
+            "title": "Color",
             "parent": {
                 "ref": "vNodeBox",
                 "id": "24e68bc7"
