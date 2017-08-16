@@ -946,6 +946,7 @@ export function ADD_NODE(nodeRef, type) {
         overflow: uuid(),
         boxShadow: uuid(),
         cursor: uuid(),
+        transition: uuid(),
     }
     const boxStylePipes = {
         [styleIds.flex]: {
@@ -1059,6 +1060,11 @@ export function ADD_NODE(nodeRef, type) {
             transformations: [],
         },
         [styleIds.cursor]: {
+            type: 'text',
+            value: '',
+            transformations: [],
+        },
+        [styleIds.transition]: {
             type: 'text',
             value: '',
             transformations: [],
