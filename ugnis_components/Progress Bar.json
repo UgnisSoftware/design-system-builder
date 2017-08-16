@@ -272,7 +272,7 @@
     "remainder": {},
     "vNodeBox": {
         "_rootNode": {
-            "title": "ProgressBar",
+            "title": "Progress Bar",
             "style": {
                 "ref": "style",
                 "id": "_rootStyle"
