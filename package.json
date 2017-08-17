@@ -1,7 +1,7 @@
 {
   "name": "Ugnis",
   "version": "0.8.2",
-  "description": "Ugnis",
+  "description": "Ugnis - visual editor",
   "main": "index.js",
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 ] ] ./src/index.js -o ./static/bundle.min.js",
