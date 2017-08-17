@@ -1,10 +1,6 @@
 import h from 'snabbdom/h'
 import { state } from '../state'
 import { COMPONENT_HOVERED, COMPONENT_UNHOVERED, SELECT_COMPONENT, ADD_NEW_COMPONENT } from '../events'
-import { dotIcon } from './icons'
-
-// const componentMockList = ['App bar', 'Avatar', 'Breadcrumbs', 'Button - flat', 'Button - raised', 'Button - round', 'Card', 'Dialog', 'Drawer', 'Input - auto complete', 'Input - text', 'Input - multiline', 'Input - number',
-//     'Input - checkbox', 'Input - radio', 'Input - toggle', 'Input - slider', 'Input - datepicker', 'List', 'Menu', 'Progress - linear', 'Progress - circular', 'Snackbar', 'Table', 'Tabs', 'Time picker']
 
 export default () =>
     h(

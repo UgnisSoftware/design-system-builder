@@ -1,5 +1,4 @@
 import h from 'snabbdom/h'
-import { state } from '../state'
 
 export default loading =>
     h(

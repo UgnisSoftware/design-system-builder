@@ -13,33 +13,6 @@ fetch('/definitions')
         })
     })
 
-// import app from '../../ugnis_components/App Bar.json'
-// import badge from '../../ugnis_components/Badge.json'
-// import button from '../../ugnis_components/Button.json'
-// import chip from '../../ugnis_components/Chip.json'
-// import color from '../../ugnis_components/Color picker.json'
-// import input from '../../ugnis_components/Input.json'
-// import slider from '../../ugnis_components/Slider.json'
-// import tabs from '../../ugnis_components/Tabs.json'
-//
-// const definitions = {
-//     app,
-//     badge,
-//     button,
-//     chip,
-//     color,
-//     input,
-//     slider,
-//     tabs
-// }
-//
-// setState({
-//     ...state,
-//     currentDefinitionId: Object.keys(definitions)[0],
-//     definitionList: definitions,
-//     loading: false,
-// })
-
 let oldState = state
 listen(() => {
     const wasEditingName = oldState.editingTitleNodeId === '_rootNode' && state.editingTitleNodeId === ''
