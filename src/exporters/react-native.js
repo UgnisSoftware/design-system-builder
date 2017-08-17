@@ -82,9 +82,8 @@ const defaultStylesToRemove = {
 let color = '#00BCD4' //'#FFC107'
 
 module.exports = definition => {
-
     let styles = {}
-    
+
     function resolve(ref) {
         // static value (string/number)
         if (ref === undefined) {
@@ -129,7 +128,7 @@ module.exports = definition => {
         }
         throw Error(ref)
     }
-    
+
     function transformValue(value, transformations) {
         for (let i = 0; i < transformations.length; i++) {
             const ref = transformations[i]
@@ -155,11 +154,10 @@ module.exports = definition => {
             if (ref.ref === 'join') {
                 // optimise empty joins
                 const join = resolve(transformer.value)
-                if(value === ''){
+                if (value === '') {
                     value = join
-                } else if(join === ''){
-                    
-                } else{
+                } else if (join === '') {
+                } else {
                     value = '(' + value.concat(`).concat(${resolve(transformer.value)})`)
                 }
             }
@@ -173,38 +171,38 @@ module.exports = definition => {
                 value = '(' + value.concat(`).lenght`)
             }
             if (ref.ref === 'and') {
-                value = '(' +value.concat(`) && ${resolve(transformer.value)}`)
+                value = '(' + value.concat(`) && ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'or') {
-                value = '(' +value.concat(`) || ${resolve(transformer.value)}`)
+                value = '(' + value.concat(`) || ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'not') {
                 value = '!' + value
             }
         }
-        return  transformations.length ? `{${value}}`: value
+        return transformations.length ? `{${value}}` : value
     }
-    
+
     function pipe(ref) {
         const def = definition[ref.ref][ref.id]
         return transformValue(resolve(def.value), def.transformations)
     }
 
-    function generateEvents(ref){
+    function generateEvents(ref) {
         const node = definition[ref.ref][ref.id]
         return '' // TODO
-        return node.events.reduce((acc, eventRef)=> {
+        return node.events.reduce((acc, eventRef) => {
             const event = definition[eventRef.ref][eventRef.id]
             acc[event.type] = [emitEvent, eventRef]
             return acc
         }, {})
     }
 
-    function generateStyles(ref){
+    function generateStyles(ref) {
         const node = definition[ref.ref][ref.id]
         let style = resolve(node.style)
-        Object.keys(defaultStylesToRemove).forEach((key)=>{
-            if(defaultStylesToRemove[key] === style[key]){
+        Object.keys(defaultStylesToRemove).forEach(key => {
+            if (defaultStylesToRemove[key] === style[key]) {
                 delete style[key]
             }
         })
@@ -212,15 +210,15 @@ module.exports = definition => {
         return `style={styles["${ref.id}"]}`
     }
 
-    function generateAttrs(ref){
+    function generateAttrs(ref) {
         const node = definition[ref.ref][ref.id]
         const attrs = {
             src: resolve(node.src),
             className: resolve(node['class']),
             id: resolve(node.id),
         }
-        return Object.keys(attrs).reduce((acc, key)=>{
-            if(attrs[key]){
+        return Object.keys(attrs).reduce((acc, key) => {
+            if (attrs[key]) {
                 acc = acc.concat(` ${key}="${attrs[key]}"`)
             }
             return acc
@@ -250,9 +248,7 @@ module.exports = definition => {
     function imageNode(ref) {
         const node = definition[ref.ref][ref.id]
 
-        return `<Image ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)} source={require(".${resolve(
-            node.src
-        )}")} />`
+        return `<Image ${generateStyles(ref)} ${generateAttrs(ref)} ${generateEvents(ref)} source={require(".${resolve(node.src)}")} />`
     }
 
     function inputNode(ref) {
@@ -265,14 +261,12 @@ module.exports = definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list)
-            .map(key => list[key])
-            .map((value, index) => {
-                currentMapValue[ref.id] = value
-                currentMapIndex[ref.id] = index
+        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
+            currentMapValue[ref.id] = value
+            currentMapIndex[ref.id] = index
 
-                return node.children.map(resolve)
-            })
+            return node.children.map(resolve)
+        })
         delete currentMapValue[ref.id]
         delete currentMapIndex[ref.id]
 
@@ -285,17 +279,11 @@ module.exports = definition => {
 
     const cleaneUpStyle = Object.keys(styles).reduce((acc, id) => {
         const fixedStyle = Object.keys(styles[id]).reduce((acc, style) => {
-            if(style === 'background'){
+            if (style === 'background') {
                 acc['backgroundColor'] = styles[id]['background']
                 return acc
             }
-            if (
-                styles[id][style] === '' ||
-                styles[id][style] === 'none' ||
-                style === 'boxShadow' ||
-                style === 'cursor' ||
-                style === 'fontFamily'
-            ) {
+            if (styles[id][style] === '' || styles[id][style] === 'none' || style === 'boxShadow' || style === 'cursor' || style === 'fontFamily') {
                 return acc
             }
             if (style === 'fontWeight') {
@@ -306,11 +294,7 @@ module.exports = definition => {
                 acc[style] = parseInt(styles[id][style][0])
                 return acc
             }
-            acc[style] = parseInt(styles[id][style])
-                ? parseInt(styles[id][style])
-                : parseInt(styles[id][style].slice(0, -2))
-                  ? parseInt(styles[id][style].slice(0, -2))
-                  : styles[id][style]
+            acc[style] = parseInt(styles[id][style]) ? parseInt(styles[id][style]) : parseInt(styles[id][style].slice(0, -2)) ? parseInt(styles[id][style].slice(0, -2)) : styles[id][style]
             return acc
         }, {})
         acc[id] = fixedStyle

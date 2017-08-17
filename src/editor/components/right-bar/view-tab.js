@@ -1,11 +1,7 @@
 import h from 'snabbdom/h'
-import {state} from '../../state'
-import {
-    HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, VIEW_NODE_SELECTED, CHANGE_VIEW_NODE_TITLE, VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED,
-} from '../../events'
-import {
-    listIcon, ifIcon, inputIcon, textIcon, boxIcon, dotIcon, arrowIcon, clearIcon, imageIcon, repeatIcon, linkIcon
-} from '../icons'
+import { state } from '../../state'
+import { HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, VIEW_NODE_SELECTED, CHANGE_VIEW_NODE_TITLE, VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED } from '../../events'
+import { listIcon, ifIcon, inputIcon, textIcon, boxIcon, dotIcon, arrowIcon, clearIcon, imageIcon, repeatIcon, linkIcon } from '../icons'
 
 function listNode(nodeRef, parentRef, depth) {
     if (nodeRef.id === '_rootNode') return listRootNode(nodeRef)
@@ -115,21 +111,21 @@ function listRootNode(nodeRef) {
                             state.editingTitleNodeId === nodeId
                                 ? editingNode(nodeRef)
                                 : h(
-                                'span',
-                                {
-                                    style: {
-                                        flex: '1',
-                                        cursor: 'pointer',
-                                        color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
-                                        transition: 'color 0.2s',
-                                        paddingLeft: '5px',
-                                    },
-                                    on: {
-                                        dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
-                                    },
-                                },
-                                node.title
-                            ),
+                                      'span',
+                                      {
+                                          style: {
+                                              flex: '1',
+                                              cursor: 'pointer',
+                                              color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
+                                              transition: 'color 0.2s',
+                                              paddingLeft: '5px',
+                                          },
+                                          on: {
+                                              dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
+                                          },
+                                      },
+                                      node.title
+                                  ),
                         ]
                     ),
                 ]
@@ -138,12 +134,12 @@ function listRootNode(nodeRef) {
                 'div',
                 state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position)
                     ? (() => {
-                    // copy pasted from listBoxNode
-                    const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id)
-                    const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
-                    const children = node.children.map(ref => listNode(ref, nodeRef, 1))
-                    return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
-                })()
+                          // copy pasted from listBoxNode
+                          const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id)
+                          const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                          const children = node.children.map(ref => listNode(ref, nodeRef, 1))
+                          return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
+                      })()
                     : node.children.map(ref => listNode(ref, nodeRef, 1))
             ),
             h('div', {
@@ -211,15 +207,15 @@ function listBoxNode(nodeRef, parentRef, depth) {
                         [
                             node.children.length > 0 || (state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId)
                                 ? h(
-                                'span',
-                                {
-                                    style: {
-                                        display: 'inline-flex',
-                                        color: state.selectedViewNode.id === nodeId ? '#fff' : '#8e8e8e',
-                                    },
-                                },
-                                [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]
-                            )
+                                      'span',
+                                      {
+                                          style: {
+                                              display: 'inline-flex',
+                                              color: state.selectedViewNode.id === nodeId ? '#fff' : '#8e8e8e',
+                                          },
+                                      },
+                                      [arrowIcon(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && nodeId === state.draggedComponentView.id))]
+                                  )
                                 : h('span'),
                             h(
                                 'span',
@@ -236,23 +232,23 @@ function listBoxNode(nodeRef, parentRef, depth) {
                             state.editingTitleNodeId === nodeId
                                 ? editingNode(nodeRef)
                                 : h(
-                                'span',
-                                {
-                                    style: {
-                                        flex: '1',
-                                        color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
-                                        transition: 'color 0.2s',
-                                        paddingLeft: '5px',
-                                        overflow: 'hidden',
-                                        whiteSpace: 'nowrap',
-                                        textOverflow: 'ellipsis',
-                                    },
-                                    on: {
-                                        dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
-                                    },
-                                },
-                                node.title
-                            ),
+                                      'span',
+                                      {
+                                          style: {
+                                              flex: '1',
+                                              color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
+                                              transition: 'color 0.2s',
+                                              paddingLeft: '5px',
+                                              overflow: 'hidden',
+                                              whiteSpace: 'nowrap',
+                                              textOverflow: 'ellipsis',
+                                          },
+                                          on: {
+                                              dblclick: [EDIT_VIEW_NODE_TITLE, nodeId],
+                                          },
+                                      },
+                                      node.title
+                                  ),
                             h(
                                 'div',
                                 {
@@ -277,12 +273,12 @@ function listBoxNode(nodeRef, parentRef, depth) {
                 },
                 state.hoveredViewNode && state.hoveredViewNode.parent.id === nodeId && !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position)
                     ? (() => {
-                    // adds a fake component
-                    const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id) // this is needed because we still show the old node
-                    const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
-                    const children = node.children.map(ref => listNode(ref, nodeRef, depth + 1))
-                    return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
-                })()
+                          // adds a fake component
+                          const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id) // this is needed because we still show the old node
+                          const newPosition = oldPosition === -1 || state.hoveredViewNode.position < oldPosition ? state.hoveredViewNode.position : state.hoveredViewNode.position + 1
+                          const children = node.children.map(ref => listNode(ref, nodeRef, depth + 1))
+                          return children.slice(0, newPosition).concat(spacerComponent(), children.slice(newPosition))
+                      })()
                     : node.children.map(ref => listNode(ref, nodeRef, depth + 1))
             ),
         ]
@@ -339,20 +335,20 @@ function simpleNode(nodeRef, parentRef, depth) {
                     state.editingTitleNodeId === nodeId
                         ? editingNode(nodeRef)
                         : h(
-                        'span',
-                        {
-                            style: {
-                                flex: '1',
-                                color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
-                                transition: 'color 0.2s',
-                                paddingLeft: '5px',
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                            },
-                        },
-                        node.title
-                    ),
+                              'span',
+                              {
+                                  style: {
+                                      flex: '1',
+                                      color: state.selectedViewNode.id === nodeId ? '#53d486' : 'white',
+                                      transition: 'color 0.2s',
+                                      paddingLeft: '5px',
+                                      overflow: 'hidden',
+                                      whiteSpace: 'nowrap',
+                                      textOverflow: 'ellipsis',
+                                  },
+                              },
+                              node.title
+                          ),
                     h(
                         'div',
                         {
@@ -371,176 +367,179 @@ function simpleNode(nodeRef, parentRef, depth) {
     )
 }
 
-
-const addViewNodeComponent = ()=> h(
-    'div',
-    {
-        style: {
-            fontSize: '32px',
-            maxWidth: '385px',
-            flex: '0 auto',
-            height: '40px',
-            display: 'flex',
-            alignItems: 'center',
-            padding: '15px 0px 10px 0px',
-            justifyContent: 'space-between',
+const addViewNodeComponent = () =>
+    h(
+        'div',
+        {
+            style: {
+                fontSize: '32px',
+                maxWidth: '385px',
+                flex: '0 auto',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                padding: '15px 0px 10px 0px',
+                justifyContent: 'space-between',
+            },
         },
-    },
-    [
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'Box'
+        [
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'Box',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'box'],
+                    },
                 },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
+                [boxIcon()]
+            ),
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'Text',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'text'],
+                    },
                 },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'box'],
+                [textIcon()]
+            ),
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'Image',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'image'],
+                    },
                 },
-            },
-            [boxIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'Text'
+                [imageIcon()]
+            ),
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'Text Input',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'input'],
+                    },
                 },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
+                [inputIcon()]
+            ),
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'If',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'if'],
+                    },
                 },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'text'],
+                [ifIcon()]
+            ),
+            h(
+                'button',
+                {
+                    attrs: {
+                        type: 'button',
+                        title: 'List',
+                    },
+                    style: {
+                        background: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        color: 'white',
+                    },
+                    on: {
+                        click: [ADD_NODE, state.selectedViewNode, 'list'],
+                    },
                 },
-            },
-            [textIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'Image'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'image'],
-                },
-            },
-            [imageIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'Text Input'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'input'],
-                },
-            },
-            [inputIcon()]
-        ),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'If'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: { click: [ADD_NODE, state.selectedViewNode, 'if']
-                }
-            },
-            [ifIcon()]),
-        h(
-            'button',
-            {
-                attrs: {
-                    type: 'button',
-                    title: 'List'
-                },
-                style: {
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'white',
-                },
-                on: {
-                    click: [ADD_NODE, state.selectedViewNode, 'list'],
-                },
-            },
-            [listIcon()]
-        ),
-    ]
-)
+                [listIcon()]
+            ),
+        ]
+    )
 
-export default ()=> h(
-    'div',
-    {
-        key: 'view',
-        attrs: { class: 'better-scrollbar' },
-        style: {
-            overflow: 'auto',
-            position: 'relative',
-            flex: '1',
-            padding: '20px',
+export default () =>
+    h(
+        'div',
+        {
+            key: 'view',
+            attrs: { class: 'better-scrollbar' },
+            style: {
+                overflow: 'auto',
+                position: 'relative',
+                flex: '1',
+                padding: '20px',
+            },
         },
-    },
-    [
-        h(
-            'div',
-            {
-                style: {
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    letterSpacing: '1px',
-                    color: '#8e8e8e',
+        [
+            h(
+                'div',
+                {
+                    style: {
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                        letterSpacing: '1px',
+                        color: '#8e8e8e',
+                    },
                 },
-            },
-            'ADD NEW'
-        ),
-        addViewNodeComponent(),
-        h(
-            'div',
-            {
-                style: {
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    letterSpacing: '1px',
-                    color: '#8e8e8e',
-                    marginBottom: '10px',
+                'ADD NEW'
+            ),
+            addViewNodeComponent(),
+            h(
+                'div',
+                {
+                    style: {
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                        letterSpacing: '1px',
+                        color: '#8e8e8e',
+                        marginBottom: '10px',
+                    },
                 },
-            },
-            'NAVIGATOR'
-        ),
-        listNode({ ref: 'vNodeBox', id: '_rootNode' }, {}, 0),
-    ]
-)
+                'NAVIGATOR'
+            ),
+            listNode({ ref: 'vNodeBox', id: '_rootNode' }, {}, 0),
+        ]
+    )

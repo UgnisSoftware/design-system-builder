@@ -1,9 +1,7 @@
 import h from 'snabbdom/h'
-import {state} from '../../../state'
-import {CHANGE_TRANSFORMATION, SELECT_PIPE, PIPE_HOVERED, RESET_PIPE, PIPE_UNHOVERED, CHANGE_STATIC_VALUE, STATE_NODE_SELECTED, ADD_DEFAULT_TRANSFORMATION} from '../../../events'
-import {
-    addCircleIcon, deleteIcon
-} from '../../icons'
+import { state } from '../../../state'
+import { CHANGE_TRANSFORMATION, SELECT_PIPE, PIPE_HOVERED, RESET_PIPE, PIPE_UNHOVERED, CHANGE_STATIC_VALUE, STATE_NODE_SELECTED, ADD_DEFAULT_TRANSFORMATION } from '../../../events'
+import { addCircleIcon, deleteIcon } from '../../icons'
 
 export default function emberEditor(ref, type) {
     const pipe = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
@@ -209,42 +207,49 @@ export default function emberEditor(ref, type) {
                         transRef.ref === 'not'
                             ? h('span')
                             : h(
-                            'span',
-                            {
-                                style: {
-                                    display: 'inline-block',
-                                },
-                            },
-                            [emberEditor(transformer.value)]
-                        ),
+                                  'span',
+                                  {
+                                      style: {
+                                          display: 'inline-block',
+                                      },
+                                  },
+                                  [emberEditor(transformer.value)]
+                              ),
                     ]
                 )
             }
         })
     }
 
-    if(type && type.type === 'variant'){
-        return h('div', {
+    if (type && type.type === 'variant') {
+        return h(
+            'div',
+            {
                 style: {
                     display: 'flex',
                     flexWrap: 'wrap',
-                }},
-            type.values.map((value, index)=>
-                h('div', {
-                    style: {
-                        background: pipe.value === value ? '#1e1e1e' : '#2b2b2b',
-                        color: pipe.value === value ? '#53d486' : '#969696',
-                        display: 'inline-block',
-                        padding: '15px 10px',
-                        whiteSpace: 'nowrap',
-                        borderRadius: index === 0 ? '5px 0 0 5px': index === type.values.length-1 ? '0 5px 5px 0': undefined,
-                        userSelect: 'none',
-                        cursor: 'pointer',
+                },
+            },
+            type.values.map((value, index) =>
+                h(
+                    'div',
+                    {
+                        style: {
+                            background: pipe.value === value ? '#1e1e1e' : '#2b2b2b',
+                            color: pipe.value === value ? '#53d486' : '#969696',
+                            display: 'inline-block',
+                            padding: '15px 10px',
+                            whiteSpace: 'nowrap',
+                            borderRadius: index === 0 ? '5px 0 0 5px' : index === type.values.length - 1 ? '0 5px 5px 0' : undefined,
+                            userSelect: 'none',
+                            cursor: 'pointer',
+                        },
+                        on: {
+                            click: [CHANGE_STATIC_VALUE, ref, 'value', 'text', { target: { value } }],
+                        },
                     },
-                    on: {
-                        click: [CHANGE_STATIC_VALUE, ref, 'value', 'text', {target: {value}}],
-                    }
-                }, value)
+                    value
+                )
             )
         )
     }
@@ -426,74 +431,70 @@ export default function emberEditor(ref, type) {
     }
     if (pipe.value.ref === 'state' || pipe.value.ref === 'table') {
         const displState = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
-        return h(
-            'div',
-            { style: { flex: '1' } },
-            [
-                h(
-                    'div',
-                    {
-                        style: {
-                            display: 'flex',
-                            alignItems: 'center',
-                        },
-                        on: {
-                            click: [SELECT_PIPE, ref.id],
-                            mousemove: [PIPE_HOVERED, ref],
-                            mouseout: [PIPE_UNHOVERED],
-                        },
+        return h('div', { style: { flex: '1' } }, [
+            h(
+                'div',
+                {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center',
                     },
-                    [
-                        h(
-                            'span',
-                            {
-                                style: {
-                                    color: state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c',
-                                    transition: '200ms all',
-                                    cursor: 'pointer',
-                                    padding: '2px 0 0 0',
-                                    borderBottom: '2px solid ' + (pipe.transformations.length > 0 ? (state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c') : '#ccc'),
-                                },
-                                on: {
-                                    click: [STATE_NODE_SELECTED, pipe.value],
-                                    mousemove: [PIPE_HOVERED, ref],
-                                    mouseout: [PIPE_UNHOVERED],
-                                },
+                    on: {
+                        click: [SELECT_PIPE, ref.id],
+                        mousemove: [PIPE_HOVERED, ref],
+                        mouseout: [PIPE_UNHOVERED],
+                    },
+                },
+                [
+                    h(
+                        'span',
+                        {
+                            style: {
+                                color: state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c',
+                                transition: '200ms all',
+                                cursor: 'pointer',
+                                padding: '2px 0 0 0',
+                                borderBottom: '2px solid ' + (pipe.transformations.length > 0 ? (state.selectedStateNode.id === pipe.value.id ? '#53d486' : '#eab65c') : '#ccc'),
                             },
-                            displState.title
-                        ),
-                        state.selectedPipeId === ref.id
-                            ? h(
-                            'span',
-                            {
-                                style: {
-                                    flex: '0 0 auto',
-                                    marginLeft: 'auto',
-                                },
-                                on: {
-                                    click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
-                                },
+                            on: {
+                                click: [STATE_NODE_SELECTED, pipe.value],
+                                mousemove: [PIPE_HOVERED, ref],
+                                mouseout: [PIPE_UNHOVERED],
                             },
-                            [addCircleIcon()]
-                        )
-                            : h('span'),
-                        state.selectedPipeId === ref.id && pipe.value.ref === 'state'
-                            ? h(
-                            'span',
-                            {
-                                style: { flex: '0 0 auto' },
-                                on: {
-                                    click: [RESET_PIPE, ref.id],
-                                },
-                            },
-                            [deleteIcon()]
-                        )
-                            : h('span'),
-                    ]
-                ),
-                ...listTransformations(pipe.transformations, pipe.type)
-            ]
-        )
+                        },
+                        displState.title
+                    ),
+                    state.selectedPipeId === ref.id
+                        ? h(
+                              'span',
+                              {
+                                  style: {
+                                      flex: '0 0 auto',
+                                      marginLeft: 'auto',
+                                  },
+                                  on: {
+                                      click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
+                                  },
+                              },
+                              [addCircleIcon()]
+                          )
+                        : h('span'),
+                    state.selectedPipeId === ref.id && pipe.value.ref === 'state'
+                        ? h(
+                              'span',
+                              {
+                                  style: { flex: '0 0 auto' },
+                                  on: {
+                                      click: [RESET_PIPE, ref.id],
+                                  },
+                              },
+                              [deleteIcon()]
+                          )
+                        : h('span'),
+                ]
+            ),
+            ...listTransformations(pipe.transformations, pipe.type),
+        ])
     }
 
     if (pipe.value.ref === 'eventData') {
@@ -530,18 +531,19 @@ export default function emberEditor(ref, type) {
                     ]),
                     state.selectedPipeId === ref.id
                         ? h(
-                        'span',
-                        {
-                            style: {
-                                flex: '0 0 auto',
-                                marginLeft: 'auto',
-                            },
-                            on: {
-                                click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
-                            },
-                        },
-                        [addCircleIcon()]
-                    ) : h('span')
+                              'span',
+                              {
+                                  style: {
+                                      flex: '0 0 auto',
+                                      marginLeft: 'auto',
+                                  },
+                                  on: {
+                                      click: [ADD_DEFAULT_TRANSFORMATION, state.selectedPipeId],
+                                  },
+                              },
+                              [addCircleIcon()]
+                          )
+                        : h('span'),
                 ]
             ),
             h('div', { style: { paddingLeft: '15px' } }, listTransformations(pipe.transformations, pipe.type)),

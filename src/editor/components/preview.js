@@ -1,11 +1,11 @@
 import h from 'snabbdom/h'
-import {state} from '../state'
+import { state } from '../state'
 import app from '../live-app'
 
 // hack around two vdoms being inside one another
 let cache
-export default ()=> {
-    if(!cache){
+export default () => {
+    if (!cache) {
         cache = app.getVDom()
     }
     return h(

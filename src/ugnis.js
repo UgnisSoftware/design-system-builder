@@ -16,7 +16,6 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import snabbdom from 'snabbdom'
 const patch = snabbdom.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes')])
 import h from 'snabbdom/h'
@@ -38,7 +37,7 @@ const defaultStylesToRemove = {
     fontFamily: 'inherit',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    textDecorationLine:  'none',
+    textDecorationLine: 'none',
 }
 
 export default definition => {
@@ -79,22 +78,22 @@ export default definition => {
             return ref
         }
         if (ref.ref === 'eventData') {
-            if(ref.id === 'value') return currentEvent.target.value
-            if(ref.id === 'keyPressed') return currentEvent.key
-            if(ref.id === 'keyPressedCode') return currentEvent.keyCode
+            if (ref.id === 'value') return currentEvent.target.value
+            if (ref.id === 'keyPressed') return currentEvent.key
+            if (ref.id === 'keyPressedCode') return currentEvent.keyCode
             const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
             const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
             // fix offsets in dev
             const root = getVDom().elm.getBoundingClientRect()
             const screenX = initialX - root.left
             const screenY = initialY - root.top
-            if(ref.id === 'screenX') return screenX
-            if(ref.id === 'screenY') return screenY
+            if (ref.id === 'screenX') return screenX
+            if (ref.id === 'screenY') return screenY
             const position = currentEventNode.getBoundingClientRect()
             const offsetX = initialX - position.left
             const offsetY = initialY - position.top
-            if(ref.id === 'layerX') return offsetX
-            if(ref.id === 'layerY') return offsetY
+            if (ref.id === 'layerX') return offsetX
+            if (ref.id === 'layerY') return offsetY
         }
         const def = definition[ref.ref][ref.id]
         if (ref.ref === 'pipe') {
@@ -104,7 +103,7 @@ export default definition => {
             return resolve(def.predicate) ? resolve(def.then) : resolve(def.else)
         }
         if (ref.ref === 'state') {
-            if(ref.parent) return currentState[ref.parent.id + '.' + ref.id]
+            if (ref.parent) return currentState[ref.parent.id + '.' + ref.id]
             return currentState[ref.id]
         }
         if (ref.ref === 'table') {
@@ -135,22 +134,22 @@ export default definition => {
             }, {})
         }
         if (ref.ref === 'eventData') {
-            if(ref.id === 'value') return currentEvent.target.value
-            if(ref.id === 'keyPressed') return currentEvent.key
-            if(ref.id === 'keyPressedCode') return currentEvent.keyCode
+            if (ref.id === 'value') return currentEvent.target.value
+            if (ref.id === 'keyPressed') return currentEvent.key
+            if (ref.id === 'keyPressedCode') return currentEvent.keyCode
             const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
             const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
             // fix offsets in dev
             const root = getVDom().elm.getBoundingClientRect()
             const screenX = initialX - root.left
             const screenY = initialY - root.top
-            if(ref.id === 'screenX') return screenX
-            if(ref.id === 'screenY') return screenY
+            if (ref.id === 'screenX') return screenX
+            if (ref.id === 'screenY') return screenY
             const position = currentEventNode.getBoundingClientRect()
             const offsetX = initialX - position.left
             const offsetY = initialY - position.top
-            if(ref.id === 'layerX') return offsetX
-            if(ref.id === 'layerY') return offsetY
+            if (ref.id === 'layerX') return offsetX
+            if (ref.id === 'layerY') return offsetY
         }
         throw Error(ref)
     }
@@ -212,16 +211,16 @@ export default definition => {
         return false
     }
 
-    function generateEvents(ref){
+    function generateEvents(ref) {
         const node = definition[ref.ref][ref.id]
-        if (frozen){
+        if (frozen) {
             return {
                 keydown: preventFrozenInputs,
                 mouseover: selectHoverActive ? [selectNodeHover, ref] : undefined,
                 click: [selectNodeClick, ref],
             }
         }
-        return node.events.reduce((acc, eventRef)=> {
+        return node.events.reduce((acc, eventRef) => {
             const event = definition[eventRef.ref][eventRef.id]
             acc[event.type] = [emitEvent, eventRef]
             return acc
@@ -230,29 +229,31 @@ export default definition => {
 
     const frozenShadow = 'inset 0 0 0 3px #53d486'
 
-    function generateStyles(ref){
+    function generateStyles(ref) {
         const node = definition[ref.ref][ref.id]
         let style = resolve(node.style)
-        Object.keys(defaultStylesToRemove).forEach((key)=>{
-            if(defaultStylesToRemove[key] === style[key]){
+        Object.keys(defaultStylesToRemove).forEach(key => {
+            if (defaultStylesToRemove[key] === style[key]) {
                 style[key] = ''
             }
         })
-        if(frozen && style.pointerEvents){
+        if (frozen && style.pointerEvents) {
             style.pointerEvents = ''
         }
-        return (frozen && selectedNodeInDevelopment.id === ref.id) ? {
-            transition: 'box-shadow 0.2s',
-            ...style,
-            boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
-        } : style
+        return frozen && selectedNodeInDevelopment.id === ref.id
+            ? {
+                  transition: 'box-shadow 0.2s',
+                  ...style,
+                  boxShadow: style.boxShadow ? style.boxShadow + ' , ' + frozenShadow : frozenShadow,
+              }
+            : style
     }
 
-    function generateAttrs(ref){
+    function generateAttrs(ref) {
         const node = definition[ref.ref][ref.id]
         return {
             src: resolve(node.src),
-            'class': resolve(node['class']),
+            class: resolve(node['class']),
             id: resolve(node.id),
         }
     }
@@ -260,7 +261,7 @@ export default definition => {
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
         const data = {
-            key: ref.id+definition.id+currentKey,
+            key: ref.id + definition.id + currentKey,
             attrs: generateAttrs(ref),
             style: generateStyles(ref),
             on: generateEvents(ref),
@@ -314,13 +315,15 @@ export default definition => {
         const list = resolve(node.value)
 
         const cache = currentState
-        const children = list
-            .map((value, index) => {
-                const nameSpacedValues = Object.keys(value).reduce((acc, key) => {acc[ref.id + '.' + key] = value[key]; return acc}, {})
-                currentState = {...currentState, ...nameSpacedValues}
-                currentKey = value.id
-                return node.children.map(resolve)
-            })
+        const children = list.map((value, index) => {
+            const nameSpacedValues = Object.keys(value).reduce((acc, key) => {
+                acc[ref.id + '.' + key] = value[key]
+                return acc
+            }, {})
+            currentState = { ...currentState, ...nameSpacedValues }
+            currentKey = value.id
+            return node.children.map(resolve)
+        })
         currentState = cache
         currentKey = ''
         return children
@@ -368,7 +371,7 @@ export default definition => {
             }
         }
         const newvdom = resolve({ ref: 'vNodeBox', id: '_rootNode' })
-        if(vdom.elm){
+        if (vdom.elm) {
             patch(vdom, newvdom)
         }
         vdom = newvdom

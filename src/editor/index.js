@@ -10,10 +10,17 @@ function updateProps(oldVnode, vnode) {
     }
 }
 import snabbdom from 'snabbdom'
-const patch = snabbdom.init([require('snabbdom/modules/class'), require('snabbdom/modules/props'), require('snabbdom/modules/style'), require('snabbdom/modules/eventlisteners'), require('snabbdom/modules/attributes'), { create: updateProps, update: updateProps }])
+const patch = snabbdom.init([
+    require('snabbdom/modules/class'),
+    require('snabbdom/modules/props'),
+    require('snabbdom/modules/style'),
+    require('snabbdom/modules/eventlisteners'),
+    require('snabbdom/modules/attributes'),
+    { create: updateProps, update: updateProps },
+])
 
-import {listen} from './state'
-import {FREEZER_CLICKED} from './events'
+import { listen } from './state'
+import { FREEZER_CLICKED } from './events'
 import root from './components/root'
 import './undo'
 import './server'
@@ -23,9 +30,9 @@ document.body.appendChild(node)
 
 // render once per frame max
 let currentAnimationFrameRequest = null
-function render(){
+function render() {
     if (currentAnimationFrameRequest === null) {
-        currentAnimationFrameRequest = window.requestAnimationFrame(()=>{
+        currentAnimationFrameRequest = window.requestAnimationFrame(() => {
             node = patch(node, root())
             currentAnimationFrameRequest = null
         })

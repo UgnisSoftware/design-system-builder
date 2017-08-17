@@ -1,14 +1,12 @@
 import h from 'snabbdom/h'
-import {state} from '../../state'
-import {
-    CHANGE_COMPONENT_PATH,
-} from '../../events'
+import { state } from '../../state'
+import { CHANGE_COMPONENT_PATH } from '../../events'
 import emberEditor from './ember/ember'
 
-export default () =>{
+export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
-    return  h('div', [
+    return h('div', [
         (() => {
             if (state.selectedViewNode.id === '_rootNode') {
                 const inputStyle = {
@@ -94,8 +92,8 @@ export default () =>{
                 return h(
                     'div',
                     {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
+                        style: { overflow: 'auto' },
+                        attrs: { class: 'better-scrollbar' },
                     },
                     [
                         h(
@@ -112,7 +110,7 @@ export default () =>{
                             },
                             'text'
                         ),
-                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'text')]),
+                        h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.value, 'text')]),
                     ]
                 )
             }
@@ -120,8 +118,8 @@ export default () =>{
                 return h(
                     'div',
                     {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
+                        style: { overflow: 'auto' },
+                        attrs: { class: 'better-scrollbar' },
                     },
                     [
                         h(
@@ -138,7 +136,7 @@ export default () =>{
                             },
                             'source (url)'
                         ),
-                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.src, 'text')]),
+                        h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.src, 'text')]),
                     ]
                 )
             }
@@ -146,8 +144,8 @@ export default () =>{
                 return h(
                     'div',
                     {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
+                        style: { overflow: 'auto' },
+                        attrs: { class: 'better-scrollbar' },
                     },
                     [
                         h(
@@ -164,7 +162,7 @@ export default () =>{
                             },
                             'text'
                         ),
-                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'text')]),
+                        h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.value, 'text')]),
                     ]
                 )
             }
@@ -172,8 +170,8 @@ export default () =>{
                 return h(
                     'div',
                     {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
+                        style: { overflow: 'auto' },
+                        attrs: { class: 'better-scrollbar' },
                     },
                     [
                         h(
@@ -190,7 +188,7 @@ export default () =>{
                             },
                             'table'
                         ),
-                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'table')]),
+                        h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.value, 'table')]),
                     ]
                 )
             }
@@ -198,8 +196,8 @@ export default () =>{
                 return h(
                     'div',
                     {
-                        style: {overflow: 'auto'},
-                        attrs: {class: 'better-scrollbar'},
+                        style: { overflow: 'auto' },
+                        attrs: { class: 'better-scrollbar' },
                     },
                     [
                         h(
@@ -216,11 +214,10 @@ export default () =>{
                             },
                             'true/false'
                         ),
-                        h('div', {style: {padding: '0 20px'}}, [emberEditor(selectedNode.value, 'boolean')]),
+                        h('div', { style: { padding: '0 20px' } }, [emberEditor(selectedNode.value, 'boolean')]),
                     ]
                 )
             }
         })(),
     ])
 }
-   

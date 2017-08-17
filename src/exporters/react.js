@@ -82,7 +82,6 @@ const defaultStylesToRemove = {
 }
 
 module.exports = definition => {
-
     let styles = {}
 
     function resolve(ref) {
@@ -155,11 +154,10 @@ module.exports = definition => {
             if (ref.ref === 'join') {
                 // optimise empty joins
                 const join = resolve(transformer.value)
-                if(value === ''){
+                if (value === '') {
                     value = join
-                } else if(join === ''){
-
-                } else{
+                } else if (join === '') {
+                } else {
                     value = '(' + value.concat(`).concat(${resolve(transformer.value)})`)
                 }
             }
@@ -173,16 +171,16 @@ module.exports = definition => {
                 value = '(' + value.concat(`).lenght`)
             }
             if (ref.ref === 'and') {
-                value = '(' +value.concat(`) && ${resolve(transformer.value)}`)
+                value = '(' + value.concat(`) && ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'or') {
-                value = '(' +value.concat(`) || ${resolve(transformer.value)}`)
+                value = '(' + value.concat(`) || ${resolve(transformer.value)}`)
             }
             if (ref.ref === 'not') {
                 value = '!' + value
             }
         }
-        return  transformations.length ? `{${value}}`: value
+        return transformations.length ? `{${value}}` : value
     }
 
     function pipe(ref) {
@@ -190,21 +188,21 @@ module.exports = definition => {
         return transformValue(resolve(def.value), def.transformations)
     }
 
-    function generateEvents(ref){
+    function generateEvents(ref) {
         const node = definition[ref.ref][ref.id]
         return '' // TODO
-        return node.events.reduce((acc, eventRef)=> {
+        return node.events.reduce((acc, eventRef) => {
             const event = definition[eventRef.ref][eventRef.id]
             acc[event.type] = [emitEvent, eventRef]
             return acc
         }, {})
     }
 
-    function generateStyles(ref){
+    function generateStyles(ref) {
         const node = definition[ref.ref][ref.id]
         let style = resolve(node.style)
-        Object.keys(defaultStylesToRemove).forEach((key)=>{
-            if(defaultStylesToRemove[key] === style[key]){
+        Object.keys(defaultStylesToRemove).forEach(key => {
+            if (defaultStylesToRemove[key] === style[key]) {
                 delete style[key]
             }
         })
@@ -212,15 +210,15 @@ module.exports = definition => {
         return `style={styles["${ref.id}"]}`
     }
 
-    function generateAttrs(ref){
+    function generateAttrs(ref) {
         const node = definition[ref.ref][ref.id]
         const attrs = {
             src: resolve(node.src),
             className: resolve(node['class']),
             id: resolve(node.id),
         }
-        const attrString = Object.keys(attrs).reduce((acc, key)=>{
-            if(attrs[key]){
+        const attrString = Object.keys(attrs).reduce((acc, key) => {
+            if (attrs[key]) {
                 acc = acc.concat(` ${key}="${attrs[key]}"`)
             }
             return acc
@@ -264,14 +262,12 @@ module.exports = definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list)
-            .map(key => list[key])
-            .map((value, index) => {
-                currentMapValue[ref.id] = value
-                currentMapIndex[ref.id] = index
+        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
+            currentMapValue[ref.id] = value
+            currentMapIndex[ref.id] = index
 
-                return node.children.map(resolve)
-            })
+            return node.children.map(resolve)
+        })
         delete currentMapValue[ref.id]
         delete currentMapIndex[ref.id]
 

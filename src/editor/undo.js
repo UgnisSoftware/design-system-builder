@@ -1,12 +1,12 @@
-import {state, listen, setState} from './state'
+import { state, listen, setState } from './state'
 
 // undo/redo
 let stateStack = []
 // implement state stack for every component separately
-let stateStackHistory = { }
+let stateStackHistory = {}
 
 let oldState = state
-listen(()=>{
+listen(() => {
     const sameComponent = oldState.currentDefinitionId === state.currentDefinitionId
     const definitionChanged = oldState.definitionList[state.currentDefinitionId] !== state.definitionList[state.currentDefinitionId]
     const timeTravelling = stateStack.includes(state.definitionList[state.currentDefinitionId]) // not a new definition
@@ -37,23 +37,25 @@ document.addEventListener('keydown', e => {
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
         if (currentIndex > 0) {
             const newDefinition = stateStack[currentIndex - 1]
-            setState({ ...state,
+            setState({
+                ...state,
                 definitionList: {
                     ...state.definitionList,
-                    [state.currentDefinitionId]: newDefinition
+                    [state.currentDefinitionId]: newDefinition,
                 },
             })
         }
     }
-    if ((e.which === 89 &&  e.ctrlKey) || (e.shiftKey && e.which === 90 && e.ctrlKey)) {
+    if ((e.which === 89 && e.ctrlKey) || (e.shiftKey && e.which === 90 && e.ctrlKey)) {
         e.preventDefault()
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
         if (currentIndex < stateStack.length - 1) {
             const newDefinition = stateStack[currentIndex + 1]
-            setState({ ...state,
+            setState({
+                ...state,
                 definitionList: {
                     ...state.definitionList,
-                    [state.currentDefinitionId]: newDefinition
+                    [state.currentDefinitionId]: newDefinition,
                 },
             })
         }

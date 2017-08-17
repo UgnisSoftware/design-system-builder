@@ -1,10 +1,8 @@
 import h from 'snabbdom/h'
-import {state} from '../../state'
-import {
-    SELECT_VIEW_SUBMENU
-} from '../../events'
+import { state } from '../../state'
+import { SELECT_VIEW_SUBMENU } from '../../events'
 
-export default ()=> {
+export default () => {
     const propsComponent = h(
         'div',
         {
@@ -73,7 +71,6 @@ export default ()=> {
             width: '33.33%',
         },
     })
-
 
     return h(
         'div',

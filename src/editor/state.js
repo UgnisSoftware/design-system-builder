@@ -29,17 +29,16 @@ export let state = {
 }
 
 let listenerList = []
-export function listen(callback){
-
+export function listen(callback) {
     listenerList = listenerList.concat(callback)
 
-    return function unlisten(){
+    return function unlisten() {
         listenerList = listenerList.filter(fn => fn !== callback)
     }
 }
 
 export function setState(newState) {
     state = newState
-    
-    listenerList.forEach((callback)=> callback())
+
+    listenerList.forEach(callback => callback())
 }

@@ -1,6 +1,6 @@
 import h from 'snabbdom/h'
-import {state} from '../state'
-import {boxIcon, arrowIcon, listIcon, ifIcon, inputIcon, imageIcon, textIcon, addCircleIcon} from './icons'
+import { state } from '../state'
+import { boxIcon, arrowIcon, listIcon, ifIcon, inputIcon, imageIcon, textIcon, addCircleIcon } from './icons'
 import topBar from './top-bar/top-bar'
 import preview from './preview'
 import left from './left'
@@ -31,9 +31,7 @@ function fakeComponent(nodeRef, depth) {
         },
         [
             (nodeRef.ref === 'vNodeBox' || nodeRef.ref === 'vNodeList' || nodeRef.ref === 'vNodeIf') && node.children.length > 0 ? arrowIcon(true) : h('span', { key: '_fakeSpan' + nodeId }),
-            nodeRef.ref === 'vNodeBox'
-                ? boxIcon()
-                : nodeRef.ref === 'vNodeList' ? listIcon() : nodeRef.ref === 'vNodeIf' ? ifIcon() : nodeRef.ref === 'vNodeInput' ? inputIcon() : nodeRef.ref === 'vNodeImage' ? imageIcon() : textIcon(),
+            nodeRef.ref === 'vNodeBox' ? boxIcon() : nodeRef.ref === 'vNodeList' ? listIcon() : nodeRef.ref === 'vNodeIf' ? ifIcon() : nodeRef.ref === 'vNodeInput' ? inputIcon() : nodeRef.ref === 'vNodeImage' ? imageIcon() : textIcon(),
             h(
                 'span',
                 {
@@ -53,14 +51,8 @@ function fakeComponent(nodeRef, depth) {
     )
 }
 
-
 function fakeState(ref) {
-    const title =
-        ref.ref === 'state' || ref.ref === 'table' ?
-            state.definitionList[state.currentDefinitionId][ref.ref][ref.id].title :
-        ref.ref === 'eventData' ?
-            ref.id :
-            'What are you dragging?'
+    const title = ref.ref === 'state' || ref.ref === 'table' ? state.definitionList[state.currentDefinitionId][ref.ref][ref.id].title : ref.ref === 'eventData' ? ref.id : 'What are you dragging?'
     return h(
         'span',
         {
@@ -78,9 +70,9 @@ function fakeState(ref) {
     )
 }
 
-export default ()=> {
+export default () => {
     // loading
-    if(state.loading){
+    if (state.loading) {
         return h('div', [loading(true)])
     }
 
@@ -111,63 +103,63 @@ export default ()=> {
             ),
             state.draggedComponentView
                 ? h(
-                'div',
-                {
-                    style: {
-                        pointerEvents: 'none',
-                        position: 'fixed',
-                        top: state.mousePosition.y + 'px',
-                        left: state.mousePosition.x + 'px',
-                        zIndex: '99999',
-                        width: state.editorRightWidth + 'px',
-                    },
-                },
-                [
-                    h(
-                        'div',
-                        {
-                            style: {
-                                overflow: 'auto',
-                                position: 'relative',
-                                flex: '1',
-                            },
-                        },
-                        [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)]
-                    ),
-                ]
-            )
+                      'div',
+                      {
+                          style: {
+                              pointerEvents: 'none',
+                              position: 'fixed',
+                              top: state.mousePosition.y + 'px',
+                              left: state.mousePosition.x + 'px',
+                              zIndex: '99999',
+                              width: state.editorRightWidth + 'px',
+                          },
+                      },
+                      [
+                          h(
+                              'div',
+                              {
+                                  style: {
+                                      overflow: 'auto',
+                                      position: 'relative',
+                                      flex: '1',
+                                  },
+                              },
+                              [fakeComponent(state.draggedComponentView, state.draggedComponentView.depth)]
+                          ),
+                      ]
+                  )
                 : h('span'),
             state.draggedComponentState.id
                 ? h(
-                'div',
-                {
-                    style: {
-                        pointerEvents: 'none',
-                        position: 'fixed',
-                        top: state.mousePosition.y + 'px',
-                        left: state.mousePosition.x + 'px',
-                        zIndex: '99999',
-                        width: state.editorRightWidth + 'px',
-                    },
-                },
-                state.hoveredEvent || state.hoveredPipe
-                    ? [
-                    h(
-                        'span',
-                        {
-                            style: {
-                                color: '#5bcc5b',
-                                position: 'absolute',
-                                top: '0',
-                                left: '-20px',
-                            },
-                        },
-                        [addCircleIcon()]
-                    ),
-                    fakeState(state.draggedComponentState),
-                ]
-                    : [fakeState(state.draggedComponentState)]
-            )
+                      'div',
+                      {
+                          style: {
+                              pointerEvents: 'none',
+                              position: 'fixed',
+                              top: state.mousePosition.y + 'px',
+                              left: state.mousePosition.x + 'px',
+                              zIndex: '99999',
+                              width: state.editorRightWidth + 'px',
+                          },
+                      },
+                      state.hoveredEvent || state.hoveredPipe
+                          ? [
+                                h(
+                                    'span',
+                                    {
+                                        style: {
+                                            color: '#5bcc5b',
+                                            position: 'absolute',
+                                            top: '0',
+                                            left: '-20px',
+                                        },
+                                    },
+                                    [addCircleIcon()]
+                                ),
+                                fakeState(state.draggedComponentState),
+                            ]
+                          : [fakeState(state.draggedComponentState)]
+                  )
                 : h('span'),
         ]
     )
