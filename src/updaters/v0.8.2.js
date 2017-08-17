@@ -16,6 +16,7 @@ fs.readdirSync('./ugnis_components/').forEach(file => {
 
             acc = {
                 ...acc,
+                version: '0.8.2',
                 pipe: {
                     ...acc.pipe,
                     [newPipeId]: {
