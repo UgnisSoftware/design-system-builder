@@ -18,8 +18,7 @@ import root from './components/root'
 import './undo'
 import './server'
 
-let node = document.createElement('div')
-document.body.appendChild(node)
+let node = document.getElementById('editor')
 
 // render once per frame max
 let currentAnimationFrameRequest = null
