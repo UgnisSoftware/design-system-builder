@@ -1,0 +1,1 @@
+This is an example React Native app used for testing
