@@ -15,17 +15,17 @@ fs.readdirSync('./ugnis_components/').forEach(file => {
     const definition = JSON.parse(fs.readFileSync('./ugnis_components/'+file, 'utf8'))
     idsToNames[definition.id] = file
     
-    // export all components too
-    fs.writeFile(definition.reactPath+ file.slice(0, -4) + "js", reactExporter(definition), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
-    fs.writeFile(definition.reactNativePath+ file.slice(0, -4) + "js", reactNativeExporter(definition), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
+    // // export all components too
+    // fs.writeFile(definition.reactPath+ file.slice(0, -4) + "js", reactExporter(definition), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
+    // fs.writeFile(definition.reactNativePath+ file.slice(0, -4) + "js", reactNativeExporter(definition), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
     
 })
 
