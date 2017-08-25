@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { SELECT_VIEW_SUBMENU } from '../../events'
 
 export default () => {

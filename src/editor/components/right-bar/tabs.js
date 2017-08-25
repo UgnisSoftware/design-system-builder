@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { CHANGE_MENU } from '../../events'
 import { historyIcon } from '../icons'
 

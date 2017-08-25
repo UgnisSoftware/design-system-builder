@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { STATE_NODE_SELECTED, VIEW_NODE_SELECTED } from '../../events'
 import { listIcon, ifIcon, inputIcon, textIcon, boxIcon } from '../icons'
 import stopPlayComponent from '../top-bar/stop-play'

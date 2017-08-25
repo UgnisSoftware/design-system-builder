@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { WIDTH_DRAGGED } from '../../events'
 
 import stateComponent from './state-tab'

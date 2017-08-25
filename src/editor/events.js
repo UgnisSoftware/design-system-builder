@@ -1,5 +1,5 @@
 import emptyApp from '../_empty.json'
-import { state, setState } from './state'
+import { state, setState } from 'lape'
 import app from './live-app'
 
 function getAvailableEvents(type) {

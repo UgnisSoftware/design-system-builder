@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { CHANGE_COMPONENT_PATH } from '../../events'
 import emberEditor from './ember/ember'
 

@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { HOVER_MOBILE, EDIT_VIEW_NODE_TITLE, VIEW_NODE_SELECTED, CHANGE_VIEW_NODE_TITLE, VIEW_UNHOVERED, VIEW_HOVERED, ADD_NODE, VIEW_DRAGGED } from '../../events'
 import { listIcon, ifIcon, inputIcon, textIcon, boxIcon, dotIcon, arrowIcon, clearIcon, imageIcon, repeatIcon, linkIcon } from '../icons'
 

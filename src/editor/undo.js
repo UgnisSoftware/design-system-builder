@@ -1,12 +1,11 @@
-import { state, listen, setState } from './state'
+import { state, listen, setState } from 'lape'
 
 // undo/redo
 let stateStack = []
 // implement state stack for every component separately
 let stateStackHistory = {}
 
-let oldState = state
-listen(() => {
+listen((state, oldState) => {
     const sameComponent = oldState.currentDefinitionId === state.currentDefinitionId
     const definitionChanged = oldState.definitionList[state.currentDefinitionId] !== state.definitionList[state.currentDefinitionId]
     const timeTravelling = stateStack.includes(state.definitionList[state.currentDefinitionId]) // not a new definition
@@ -26,7 +25,6 @@ listen(() => {
         stateStack = stateStack.slice(0, currentIndex + 1).concat(state.definitionList[state.currentDefinitionId])
         stateStackHistory[state.currentDefinitionId] = stateStack
     }
-    oldState = state
 })
 
 document.addEventListener('keydown', e => {

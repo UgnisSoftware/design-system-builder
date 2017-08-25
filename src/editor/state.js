@@ -1,4 +1,6 @@
-export let state = {
+import { setState } from 'lape'
+
+const defaultState = {
     loading: true,
     leftOpen: true,
     rightOpen: true,
@@ -7,7 +9,7 @@ export let state = {
     editorLeftWidth: 200,
     subEditorWidth: 375,
     componentEditorPosition: { x: window.innerWidth - 799, y: 50 },
-    appIsFrozen: false,
+    appIsFrozen: true,
     selectedViewNode: {},
     selectedPipeId: '',
     selectedStateNode: {},
@@ -27,18 +29,4 @@ export let state = {
     currentDefinitionId: '',
     definitionList: {},
 }
-
-let listenerList = []
-export function listen(callback) {
-    listenerList = listenerList.concat(callback)
-
-    return function unlisten() {
-        listenerList = listenerList.filter(fn => fn !== callback)
-    }
-}
-
-export function setState(newState) {
-    state = newState
-
-    listenerList.forEach(callback => callback())
-}
+setState(defaultState)

@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../state'
+import { state } from 'lape'
 import { COMPONENT_HOVERED, COMPONENT_UNHOVERED, SELECT_COMPONENT, ADD_NEW_COMPONENT } from '../events'
 
 export default () =>

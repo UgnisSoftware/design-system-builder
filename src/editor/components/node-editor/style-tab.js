@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { CHANGE_STATIC_VALUE } from '../../events'
 import { arrowIcon } from '../icons'
 import emberEditor from './ember/ember'

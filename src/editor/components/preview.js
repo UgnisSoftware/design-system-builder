@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../state'
+import { state } from 'lape'
 import app from '../live-app'
 
 // hack around two vdoms being inside one another

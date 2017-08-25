@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { playIcon, pauseIcon } from '../icons'
 import { FREEZER_CLICKED } from '../../events'
 

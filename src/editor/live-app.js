@@ -1,4 +1,4 @@
-import { state, setState, listen } from './state'
+import { state, setState, listen } from 'lape'
 import ugnis from '../ugnis'
 import emptyDef from '../_empty.json'
 
@@ -18,21 +18,16 @@ app.addListener((eventId, data, e, previousState, currentState, mutations) => {
     })
 })
 
-let oldState = state
-listen(() => {
+listen((state, oldState) => {
     if (state.definitionList[state.currentDefinitionId] !== app.getCurrentDefinition()) {
         app.render(state.definitionList[state.currentDefinitionId])
     }
     if (oldState.appIsFrozen !== state.appIsFrozen || oldState.selectedViewNode !== state.selectedViewNode) {
         app._freeze(
             state.appIsFrozen,
-            ref => {
-                setState({ ...state, selectedViewNode: ref })
-            },
             state.selectedViewNode
         )
     }
-    oldState = state
 })
 
 export default app

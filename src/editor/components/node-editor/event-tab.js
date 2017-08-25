@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED } from '../../events'
 import { arrowIcon } from '../icons'
 import emberEditor from './ember/ember'

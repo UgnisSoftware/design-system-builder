@@ -26,6 +26,8 @@ function flatten(arr) {
     }, [])
 }
 
+import { state, setState } from 'lape'
+
 const defaultStylesToRemove = {
     //alignItems: 'flex-start',
     //justifyContent: 'flex-start',
@@ -45,21 +47,20 @@ export default definition => {
 
     // Allows stoping application in development. This is not an application state
     let frozen = false
-    let frozenCallback = null
     let selectHoverActive = false
     let selectedNodeInDevelopment = {}
 
     function selectNodeHover(ref, e) {
         e.stopPropagation()
         selectedNodeInDevelopment = ref
-        frozenCallback(ref)
+        setState({ ...state, selectedViewNode: ref })
         render()
     }
     function selectNodeClick(ref, e) {
         e.stopPropagation()
         selectHoverActive = false
         selectedNodeInDevelopment = ref
-        frozenCallback(ref)
+        setState({ ...state, selectedViewNode: ref })
         render()
     }
 
@@ -377,8 +378,7 @@ export default definition => {
         vdom = newvdom
     }
 
-    function _freeze(isFrozen, callback, nodeId) {
-        frozenCallback = callback
+    function _freeze(isFrozen, nodeId) {
         selectedNodeInDevelopment = nodeId
         if (frozen === false && isFrozen === true) {
             //selectHoverActive = true

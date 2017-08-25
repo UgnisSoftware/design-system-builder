@@ -1,4 +1,4 @@
-import { state, listen, setState } from './state'
+import { state, listen, setState } from 'lape'
 
 fetch('/definitions')
     .then(function(response) {
@@ -13,8 +13,7 @@ fetch('/definitions')
         })
     })
 
-let oldState = state
-listen(() => {
+listen((state, oldState) => {
     const wasEditingName = oldState.editingTitleNodeId === '_rootNode' && state.editingTitleNodeId === ''
     const notJustLoaded = !oldState.loading
     const listLenghtChanged = Object.keys(oldState.definitionList).length !== Object.keys(state.definitionList).length
@@ -29,5 +28,4 @@ listen(() => {
     if (notJustLoaded && listLenghtChanged) {
         fetch('/new/' + state.definitionList[state.currentDefinitionId].vNodeBox['_rootNode'].title, { method: 'POST', body: JSON.stringify(state.definitionList[state.currentDefinitionId]), headers: { 'Content-Type': 'application/json' } })
     }
-    oldState = state
 })

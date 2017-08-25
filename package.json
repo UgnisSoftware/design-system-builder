@@ -21,6 +21,8 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "lape": "^1.4.1",
+    "ramda": "^0.24.1",
     "snabbdom": "^0.5.1"
   }
 }

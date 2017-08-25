@@ -1,5 +1,5 @@
 import h from 'snabbdom/h'
-import { state } from '../../state'
+import { state } from 'lape'
 import { WIDTH_DRAGGED, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE, STATE_DRAGGED, HOVER_MOBILE } from '../../events'
 import { listIcon, ifIcon, inputIcon, textIcon, boxIcon, clearIcon, imageIcon, appIcon } from '../icons'
 import propsSubmenuComponent from './props-tab'
