@@ -1,6 +1,6 @@
 import { state, listen, setState } from 'lape'
 
-fetch('/definitions')
+fetch('/definitions.json')
     .then(function(response) {
         return response.json()
     })

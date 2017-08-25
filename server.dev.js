@@ -86,7 +86,7 @@ app.post('/new/:name', (req, res)=> {
     idsToNames[req.body.id] = newName + ".json"
 })
 
-app.get('/definitions', (req, res)=> {
+app.get('/definitions.json', (req, res)=> {
     let files = {}
     fs.readdirSync('./ugnis_components/').forEach(file => {
         files[file.slice(0, -5)] = JSON.parse(fs.readFileSync('./ugnis_components/'+file, 'utf8'))
