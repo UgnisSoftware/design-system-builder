@@ -35,16 +35,16 @@ app.post('/save/:id', (req, res)=> {
             return console.log(err);
         }
     });
-    fs.writeFile(req.body.reactPath+ idsToNames[req.params.id].slice(0, -4) + "js", reactExporter(req.body), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
-    fs.writeFile(req.body.reactNativePath+ idsToNames[req.params.id].slice(0, -4) + "js", reactNativeExporter(req.body), function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    });
+    // fs.writeFile(req.body.reactPath+ idsToNames[req.params.id].slice(0, -4) + "js", reactExporter(req.body), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
+    // fs.writeFile(req.body.reactNativePath+ idsToNames[req.params.id].slice(0, -4) + "js", reactNativeExporter(req.body), function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    // });
     res.send('OK')
 })
 
