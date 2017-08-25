@@ -2207,3 +2207,33 @@ export function DELETE_TABLE_ROW(tableId, rowId) {
     })
     setState({ ...state })
 }
+
+export function REMOVE_MUTATOR(mutatorRef) {
+    const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+
+    const {[mutatorRef.id]: deletedMutator, ...mutatorsLeft} = state.definitionList[state.currentDefinitionId][mutatorRef.ref]
+    setState({
+        ...state,
+        definitionList: {
+            ...state.definitionList,
+            [state.currentDefinitionId]: {
+                ...state.definitionList[state.currentDefinitionId],
+                state: {
+                    ...state.definitionList[state.currentDefinitionId].state,
+                    [mutator.state.id]: {
+                        ...state.definitionList[state.currentDefinitionId].state[mutator.state.id],
+                        mutators: state.definitionList[state.currentDefinitionId].state[mutator.state.id].mutators.filter(ref => ref.id !== mutatorRef.id)
+                    },
+                },
+                mutator: mutatorsLeft,
+                event: {
+                    ...state.definitionList[state.currentDefinitionId].event,
+                    [mutator.event.id]: {
+                        ...state.definitionList[state.currentDefinitionId].state[mutator.event.id],
+                        mutators: state.definitionList[state.currentDefinitionId].event[mutator.event.id].mutators.filter(ref => ref.id !== mutatorRef.id)
+                    },
+                }
+            },
+        },
+    })
+}

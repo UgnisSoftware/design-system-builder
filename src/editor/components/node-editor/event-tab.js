@@ -1,7 +1,7 @@
 import h from 'snabbdom/h'
 import { state } from 'lape'
-import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED } from '../../events'
-import { arrowIcon } from '../icons'
+import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, REMOVE_MUTATOR } from '../../events'
+import { arrowIcon, deleteIcon } from '../icons'
 import emberEditor from './ember/ember'
 import fakeState from './fake-state'
 
@@ -176,6 +176,14 @@ export default () => {
                                                       '='
                                                   ),
                                                   emberEditor(mutator.mutation, stateDef.type),
+                                                  h('div', {
+                                                      style:{},
+                                                      on: {
+                                                          click: [REMOVE_MUTATOR, mutatorRef]
+                                                      }
+                                                  }, [
+                                                      deleteIcon()
+                                                  ])
                                               ]
                                           )
                                       })
