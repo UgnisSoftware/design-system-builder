@@ -46,7 +46,7 @@ export default definition => {
     let currentState = createDefaultState()
 
     // Allows stoping application in development. This is not an application state
-    let frozen = false
+    let frozen = true
     let selectHoverActive = false
     let selectedNodeInDevelopment = {}
 
