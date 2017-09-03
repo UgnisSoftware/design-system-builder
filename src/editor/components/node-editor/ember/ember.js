@@ -37,7 +37,7 @@ export default function emberEditor(ref, type) {
                         }}
                         onClick={e => CHANGE_STATIC_VALUE(ref, 'value', 'text', { target: { value } }, e)}
                     >
-                        value
+                        {value}
                     </div>
                 ))}
             </div>
