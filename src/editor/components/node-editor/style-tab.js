@@ -24,7 +24,11 @@ export default () => {
             </div>
             <div>
                 <div>
-                    <div>
+                    <div
+                        style={{
+                            display: 'flex',
+                        }}
+                    >
                         <div
                             style={{
                                 padding: '20px 20px 5px 20px',
