@@ -1649,6 +1649,10 @@ export function ADD_STATE(namespaceId, type) {
         }
         return setState({
             ...state,
+            componentState: {
+                ...state.componentState,
+                [newStateId]: newState.defaultValue
+            },
             definitionList: {
                 ...state.definitionList,
                 [state.currentDefinitionId]: {
@@ -1699,6 +1703,10 @@ export function ADD_STATE(namespaceId, type) {
     }
     setState({
         ...state,
+        componentState: {
+            ...state.componentState,
+            [newStateId]: newState.defaultValue
+        },
         definitionList: {
             ...state.definitionList,
             [state.currentDefinitionId]: {
