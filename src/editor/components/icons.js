@@ -1,34 +1,42 @@
-import h from 'snabbdom/h'
+import React from 'react'
 
-export const boxIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'layers')
-export const ifIcon = () => h('i', { attrs: { class: 'material-icons' }, style: { transform: 'rotate(90deg)' } }, 'call_split')
-export const linkIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'link')
-export const numberIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'looks_one')
-export const listIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'view_list')
-export const inputIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'input')
-export const textIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'title')
-export const deleteIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'delete_forever')
-export const clearIcon = () => h('i', { attrs: { class: 'material-icons', 'data-trashcan': true } }, 'clear')
-export const addCircleIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'add_circle')
-export const repeatIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'loop')
-export const historyIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'history')
-export const pauseIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'pause')
-export const playIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'play_arrow')
-export const fullscreenIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'fullscreen')
-export const saveIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'check')
-export const dotIcon = () => h('img', { attrs: { src: '/images/ugn.png', width: '18', height: '18' } })
-export const imageIcon = () => h('i', { attrs: { class: 'material-icons' } }, 'crop_original')
-export const appIcon = () => h('i', { attrs: { class: 'material-icons' }, style: { fontSize: '18px' } }, 'description')
-export const arrowIcon = rotate =>
-    h(
-        'i',
-        {
-            attrs: { class: 'material-icons', 'data-closearrow': true },
-            style: {
-                transition: 'all 0.2s',
-                transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)',
-                cursor: 'pointer',
-            },
-        },
-        'arrow_drop_down'
-    )
+export const BoxIcon = () => <i className="material-icons">layers</i>
+export const IfIcon = () => (
+    <i className="material-icons" style={{ transform: 'rotate(90deg)' }}>
+        call_split
+    </i>
+)
+export const LinkIcon = () => <i className="material-icons">link</i>
+export const NumberIcon = () => <i className="material-icons">looks_one</i>
+export const ListIcon = () => <i className="material-icons">view_list</i>
+export const InputIcon = () => <i className="material-icons">input</i>
+export const TextIcon = () => <i className="material-icons">title</i>
+export const DeleteIcon = () => <i className="material-icons">delete_forever</i>
+export const ClearIcon = () => (
+    <i className="material-icons" data-trashcan={true}>
+        clear
+    </i>
+)
+export const AddCircleIcon = () => <i className="material-icons">add_circle</i>
+export const RepeatIcon = () => <i className="material-icons">loop</i>
+export const HistoryIcon = () => <i className="material-icons">history</i>
+export const PauseIcon = () => <i className="material-icons">pause</i>
+export const PlayIcon = () => <i className="material-icons">play_arrow</i>
+export const FullScreenIcon = () => <i className="material-icons">fullscreen</i>
+export const SaveIcon = () => <i className="material-icons">check</i>
+export const UgnisIcon = () => <img src="/images/ugn.png" width="18" height="18" />
+export const ImageIcon = () => <i className="material-icons">crop_original</i>
+export const AppIcon = () => (
+    <i className="material-icons" style={{ fontSize: '18px' }}>
+        description
+    </i>
+)
+export const ArrowIcon = ({ rotate }) => (
+    <i
+        className="material-icons"
+        data-closearrow={true}
+        style={{ transition: 'all 0.2s', transform: rotate ? 'rotate(-90deg)' : 'rotate(0deg)', cursor: 'pointer' }}
+    >
+        arrow_drop_down
+    </i>
+)

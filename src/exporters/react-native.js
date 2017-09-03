@@ -261,12 +261,14 @@ module.exports = definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
-            currentMapValue[ref.id] = value
-            currentMapIndex[ref.id] = index
+        const children = Object.keys(list)
+            .map(key => list[key])
+            .map((value, index) => {
+                currentMapValue[ref.id] = value
+                currentMapIndex[ref.id] = index
 
-            return node.children.map(resolve)
-        })
+                return node.children.map(resolve)
+            })
         delete currentMapValue[ref.id]
         delete currentMapIndex[ref.id]
 
@@ -283,7 +285,13 @@ module.exports = definition => {
                 acc['backgroundColor'] = styles[id]['background']
                 return acc
             }
-            if (styles[id][style] === '' || styles[id][style] === 'none' || style === 'boxShadow' || style === 'cursor' || style === 'fontFamily') {
+            if (
+                styles[id][style] === '' ||
+                styles[id][style] === 'none' ||
+                style === 'boxShadow' ||
+                style === 'cursor' ||
+                style === 'fontFamily'
+            ) {
                 return acc
             }
             if (style === 'fontWeight') {
@@ -294,7 +302,9 @@ module.exports = definition => {
                 acc[style] = parseInt(styles[id][style][0])
                 return acc
             }
-            acc[style] = parseInt(styles[id][style]) ? parseInt(styles[id][style]) : parseInt(styles[id][style].slice(0, -2)) ? parseInt(styles[id][style].slice(0, -2)) : styles[id][style]
+            acc[style] = parseInt(styles[id][style])
+                ? parseInt(styles[id][style])
+                : parseInt(styles[id][style].slice(0, -2)) ? parseInt(styles[id][style].slice(0, -2)) : styles[id][style]
             return acc
         }, {})
         acc[id] = fixedStyle

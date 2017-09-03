@@ -262,12 +262,14 @@ module.exports = definition => {
         const node = definition[ref.ref][ref.id]
         const list = resolve(node.value)
 
-        const children = Object.keys(list).map(key => list[key]).map((value, index) => {
-            currentMapValue[ref.id] = value
-            currentMapIndex[ref.id] = index
+        const children = Object.keys(list)
+            .map(key => list[key])
+            .map((value, index) => {
+                currentMapValue[ref.id] = value
+                currentMapIndex[ref.id] = index
 
-            return node.children.map(resolve)
-        })
+                return node.children.map(resolve)
+            })
         delete currentMapValue[ref.id]
         delete currentMapIndex[ref.id]
 

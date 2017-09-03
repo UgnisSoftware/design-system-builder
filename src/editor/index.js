@@ -1,16 +1,19 @@
 import { listen } from 'lape'
-import patch from './render'
+import { render } from 'react-dom'
+import React from 'react'
+
 import './state'
-import root from './components/root'
 import './undo'
 import './server'
 
+import Root from './components/root'
+
 let node = document.getElementById('editor')
 
-function render(state) {
-     node = patch(node, root(state))
+function renderer(state) {
+    render(<Root />, node)
 }
 
-listen(render)
-window.addEventListener('resize', render, false)
-window.addEventListener('orientationchange', render, false)
+listen(renderer)
+window.addEventListener('resize', renderer, false)
+window.addEventListener('orientationchange', renderer, false)

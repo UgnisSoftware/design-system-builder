@@ -1,6 +1,5 @@
 import emptyApp from '../_empty.json'
 import { state, setState } from 'lape'
-import app from './live-app'
 
 function getAvailableEvents(type) {
     let availableEvents = [
@@ -88,6 +87,14 @@ function generateEmptyApp() {
     return { ...emptyApp, id: uuid() }
 }
 
+export function createDefaultState(definition) {
+    return definition.nameSpace['_rootNameSpace'].children.reduce((acc, ref) => {
+        const def = definition[ref.ref][ref.id]
+        acc[ref.id] = def.defaultValue
+        return acc
+    }, {})
+}
+
 document.addEventListener('click', e => {
     // clicked outside
     if (state.editingTitleNodeId && !e.target.dataset.istitleeditor) {
@@ -118,11 +125,15 @@ document.addEventListener('keydown', e => {
 let openBoxTimeout = null
 export function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
     e.preventDefault()
+    e.persist()
+    if (nodeRef.id === '_rootNode') {
+        return
+    }
     const isArrow = e.target.dataset.closearrow
     const isTrashcan = e.target.dataset.trashcan
     const initialX = e.touches ? e.touches[0].pageX : e.pageX
     const initialY = e.touches ? e.touches[0].pageY : e.pageY
-    const position = this.elm.getBoundingClientRect()
+    const position = e.target.getBoundingClientRect()
     const offsetX = initialX - position.left
     const offsetY = initialY - position.top
     function drag(e) {
@@ -178,69 +189,90 @@ export function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
             ...state,
             draggedComponentView: null,
             hoveredViewNode: null,
-            definitionList: parentRef.id === newParentRef.id
-                ? {
-                      ...state.definitionList,
-                      [state.currentDefinitionId]: {
-                          // moving in the same parent
-                          ...state.definitionList[state.currentDefinitionId],
-                          [parentRef.ref]: {
-                              ...state.definitionList[state.currentDefinitionId][parentRef.ref],
-                              [parentRef.id]: {
-                                  ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
-                                  children: moveInArray(
-                                      state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children,
-                                      state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.findIndex(ref => ref.id === nodeRef.id),
-                                      state.hoveredViewNode.position
-                                  ),
+            definitionList:
+                parentRef.id === newParentRef.id
+                    ? {
+                          ...state.definitionList,
+                          [state.currentDefinitionId]: {
+                              // moving in the same parent
+                              ...state.definitionList[state.currentDefinitionId],
+                              [parentRef.ref]: {
+                                  ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                                  [parentRef.id]: {
+                                      ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                                      children: moveInArray(
+                                          state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children,
+                                          state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.findIndex(
+                                              ref => ref.id === nodeRef.id
+                                          ),
+                                          state.hoveredViewNode.position
+                                      ),
+                                  },
                               },
                           },
-                      },
-                  }
-                : parentRef.ref === newParentRef.ref
-                  ? {
-                        ...state.definitionList,
-                        [state.currentDefinitionId]: {
-                            // moving in the similar parent (same type)
-                            ...state.definitionList[state.currentDefinitionId],
-                            [parentRef.ref]: {
-                                ...state.definitionList[state.currentDefinitionId][parentRef.ref],
-                                [parentRef.id]: {
-                                    ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
-                                    children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+                      }
+                    : parentRef.ref === newParentRef.ref
+                      ? {
+                            ...state.definitionList,
+                            [state.currentDefinitionId]: {
+                                // moving in the similar parent (same type)
+                                ...state.definitionList[state.currentDefinitionId],
+                                [parentRef.ref]: {
+                                    ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                                    [parentRef.id]: {
+                                        ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][
+                                            parentRef.id
+                                        ].children.filter(ref => ref.id !== nodeRef.id),
+                                    },
+                                    [newParentRef.id]: {
+                                        ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
+                                        children: state.definitionList[state.currentDefinitionId][newParentRef.ref][
+                                            newParentRef.id
+                                        ].children
+                                            .slice(0, state.hoveredViewNode.position)
+                                            .concat(
+                                                nodeRef,
+                                                state.definitionList[state.currentDefinitionId][newParentRef.ref][
+                                                    newParentRef.id
+                                                ].children.slice(state.hoveredViewNode.position)
+                                            ),
+                                    },
                                 },
-                                [newParentRef.id]: {
-                                    ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
-                                    children: state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children
-                                        .slice(0, state.hoveredViewNode.position)
-                                        .concat(nodeRef, state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
+                            },
+                        }
+                      : {
+                            ...state.definitionList,
+                            [state.currentDefinitionId]: {
+                                // moving to a new type parent
+                                ...state.definitionList[state.currentDefinitionId],
+                                [parentRef.ref]: {
+                                    ...state.definitionList[state.currentDefinitionId][parentRef.ref],
+                                    [parentRef.id]: {
+                                        ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
+                                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][
+                                            parentRef.id
+                                        ].children.filter(ref => ref.id !== nodeRef.id),
+                                    },
+                                },
+                                [newParentRef.ref]: {
+                                    ...state.definitionList[state.currentDefinitionId][newParentRef.ref],
+                                    [newParentRef.id]: {
+                                        ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
+                                        children: state.definitionList[state.currentDefinitionId][newParentRef.ref][
+                                            newParentRef.id
+                                        ].children
+                                            .slice(0, state.hoveredViewNode.position)
+                                            .concat(
+                                                nodeRef,
+                                                state.definitionList[state.currentDefinitionId][newParentRef.ref][
+                                                    newParentRef.id
+                                                ].children.slice(state.hoveredViewNode.position)
+                                            ),
+                                    },
                                 },
                             },
                         },
-                    }
-                  : {
-                        ...state.definitionList,
-                        [state.currentDefinitionId]: {
-                            // moving to a new type parent
-                            ...state.definitionList[state.currentDefinitionId],
-                            [parentRef.ref]: {
-                                ...state.definitionList[state.currentDefinitionId][parentRef.ref],
-                                [parentRef.id]: {
-                                    ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
-                                    children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
-                                },
-                            },
-                            [newParentRef.ref]: {
-                                ...state.definitionList[state.currentDefinitionId][newParentRef.ref],
-                                [newParentRef.id]: {
-                                    ...state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id],
-                                    children: state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children
-                                        .slice(0, state.hoveredViewNode.position)
-                                        .concat(nodeRef, state.definitionList[state.currentDefinitionId][newParentRef.ref][newParentRef.id].children.slice(state.hoveredViewNode.position)),
-                                },
-                            },
-                        },
-                    },
         }
         setState({
             ...fixedParents,
@@ -299,7 +331,9 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             hoveredViewNode: {
                 parent: parentRef,
                 depth,
-                position: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id),
+                position: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children
+                    .filter(ref => ref.id !== state.draggedComponentView.id)
+                    .findIndex(ref => ref.id === nodeRef.id),
             },
         })
     const insertAfter = () =>
@@ -308,7 +342,10 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
             hoveredViewNode: {
                 parent: parentRef,
                 depth,
-                position: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== state.draggedComponentView.id).findIndex(ref => ref.id === nodeRef.id) + 1,
+                position:
+                    state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children
+                        .filter(ref => ref.id !== state.draggedComponentView.id)
+                        .findIndex(ref => ref.id === nodeRef.id) + 1,
             },
         })
     const insertAsFirst = () =>
@@ -359,7 +396,10 @@ export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
     // pray to god that you did not make a mistake here
     if (state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children) {
         // if box
-        if (state.viewFoldersClosed[nodeRef.id] || state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children.length === 0) {
+        if (
+            state.viewFoldersClosed[nodeRef.id] ||
+            state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children.length === 0
+        ) {
             // if closed or empty box
             if (offsetY < 0.3) {
                 insertBefore()
@@ -411,7 +451,7 @@ export function PIPE_UNHOVERED() {
 export function COMPONENT_VIEW_DRAGGED(e) {
     const initialX = e.touches ? e.touches[0].pageX : e.pageX
     const initialY = e.touches ? e.touches[0].pageY : e.pageY
-    const position = this.elm.getBoundingClientRect()
+    const position = e.target.getBoundingClientRect()
     const offsetX = initialX - position.left
     const offsetY = initialY - position.top
 
@@ -439,6 +479,7 @@ export function COMPONENT_VIEW_DRAGGED(e) {
 
 export function WIDTH_DRAGGED(widthName, e) {
     e.preventDefault()
+    e.persist()
     function resize(e) {
         e.preventDefault()
         // TODO refactor
@@ -495,7 +536,7 @@ export function STATE_DRAGGED(stateRef, e) {
     e.preventDefault()
     const initialX = e.touches ? e.touches[0].pageX : e.pageX
     const initialY = e.touches ? e.touches[0].pageY : e.pageY
-    const position = this.elm.getBoundingClientRect()
+    const position = e.target.getBoundingClientRect()
     const offsetX = initialX - position.left
     const offsetY = initialY - position.top
     function drag(e) {
@@ -538,7 +579,9 @@ export function STATE_DRAGGED(stateRef, e) {
         }
         if (state.hoveredEvent) {
             const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
-            let eventRef = selectedNode.events.find(eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === state.hoveredEvent.type)
+            let eventRef = selectedNode.events.find(
+                eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === state.hoveredEvent.type
+            )
             // check if event already changes the state
             if (
                 eventRef &&
@@ -557,25 +600,29 @@ export function STATE_DRAGGED(stateRef, e) {
             const pipeId = uuid()
 
             // add event if it didn't exist before
-            const fixedEvents = eventRef !== undefined
-                ? state.definitionList[state.currentDefinitionId].event
-                : {
-                      ...state.definitionList[state.currentDefinitionId].event,
-                      [eventId]: {
-                          type: state.hoveredEvent.type,
-                          emitter: state.selectedViewNode,
-                          mutators: [],
-                      },
-                  }
-            const fixedNode = eventRef !== undefined
-                ? state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref]
-                : {
-                      ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref],
-                      [state.selectedViewNode.id]: {
-                          ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id],
-                          events: state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id].events.concat({ ref: 'event', id: eventId }),
-                      },
-                  }
+            const fixedEvents =
+                eventRef !== undefined
+                    ? state.definitionList[state.currentDefinitionId].event
+                    : {
+                          ...state.definitionList[state.currentDefinitionId].event,
+                          [eventId]: {
+                              type: state.hoveredEvent.type,
+                              emitter: state.selectedViewNode,
+                              mutators: [],
+                          },
+                      }
+            const fixedNode =
+                eventRef !== undefined
+                    ? state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref]
+                    : {
+                          ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref],
+                          [state.selectedViewNode.id]: {
+                              ...state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id],
+                              events: state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][
+                                  state.selectedViewNode.id
+                              ].events.concat({ ref: 'event', id: eventId }),
+                          },
+                      }
             eventRef = eventRef || { ref: 'event', id: eventId }
             return setState({
                 ...state,
@@ -588,7 +635,10 @@ export function STATE_DRAGGED(stateRef, e) {
                         pipe: {
                             ...state.definitionList[state.currentDefinitionId].pipe,
                             [pipeId]: {
-                                type: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type,
+                                type:
+                                    state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][
+                                        state.draggedComponentState.id
+                                    ].type,
                                 value: state.draggedComponentState,
                                 transformations: [],
                             },
@@ -596,8 +646,12 @@ export function STATE_DRAGGED(stateRef, e) {
                         [state.draggedComponentState.ref]: {
                             ...state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref],
                             [state.draggedComponentState.id]: {
-                                ...state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id],
-                                mutators: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].mutators.concat({
+                                ...state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][
+                                    state.draggedComponentState.id
+                                ],
+                                mutators: state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][
+                                    state.draggedComponentState.id
+                                ].mutators.concat({
                                     ref: 'mutator',
                                     id: mutatorId,
                                 }),
@@ -629,9 +683,10 @@ export function STATE_DRAGGED(stateRef, e) {
             })
         }
         const pipeDropped = state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id]
-        const typeDropped = state.draggedComponentState.ref === 'eventData'
-            ? eventDataTypes[state.draggedComponentState.id].type
-            : state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type
+        const typeDropped =
+            state.draggedComponentState.ref === 'eventData'
+                ? eventDataTypes[state.draggedComponentState.id].type
+                : state.definitionList[state.currentDefinitionId][state.draggedComponentState.ref][state.draggedComponentState.id].type
         if (pipeDropped.type === 'text') {
             if (state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].value.ref) {
                 return setState({
@@ -670,7 +725,9 @@ export function STATE_DRAGGED(stateRef, e) {
                             ...state.definitionList[state.currentDefinitionId].pipe,
                             [state.hoveredPipe.id]: {
                                 ...state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id],
-                                transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].transformations),
+                                transformations: [{ ref: 'join', id: joinIdState }, { ref: 'join', id: joinIdText }].concat(
+                                    state.definitionList[state.currentDefinitionId].pipe[state.hoveredPipe.id].transformations
+                                ),
                             },
                             [pipeIdState]: {
                                 type: typeDropped,
@@ -906,7 +963,7 @@ export function UNSELECT_VIEW_NODE(selfOnly, stopPropagation, e) {
     if (stopPropagation) {
         e.stopPropagation()
     }
-    if (selfOnly && e.target !== this.elm) {
+    if (selfOnly && e.target !== this) {
         return
     }
     setState({ ...state, selectedViewNode: {} })
@@ -915,13 +972,21 @@ export function STATE_NODE_SELECTED(ref) {
     setState({ ...state, selectedStateNode: ref })
 }
 export function UNSELECT_STATE_NODE(e) {
-    if (e.target === this.elm) {
+    if (e.target === this) {
         setState({ ...state, selectedStateNode: {} })
     }
 }
 export function ADD_NODE(nodeRef, type) {
-    if (!nodeRef.ref || !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id] || !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children) {
-        if (state.selectedViewNode.ref && state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id] && state.selectedViewNode.id !== '_rootNode') {
+    if (
+        !nodeRef.ref ||
+        !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id] ||
+        !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children
+    ) {
+        if (
+            state.selectedViewNode.ref &&
+            state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id] &&
+            state.selectedViewNode.id !== '_rootNode'
+        ) {
             nodeRef = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id].parent
         } else {
             nodeRef = { ref: 'vNodeBox', id: '_rootNode' }
@@ -1134,15 +1199,16 @@ export function ADD_NODE(nodeRef, type) {
             transformations: [],
         },
     }
-    const newStyle = type === 'text' || type === 'input'
-        ? Object.keys(textStyleIds).reduce((acc, val) => {
-              acc[val] = { ref: 'pipe', id: textStyleIds[val] }
-              return acc
-          }, {})
-        : Object.keys(styleIds).reduce((acc, val) => {
-              acc[val] = { ref: 'pipe', id: styleIds[val] }
-              return acc
-          }, {})
+    const newStyle =
+        type === 'text' || type === 'input'
+            ? Object.keys(textStyleIds).reduce((acc, val) => {
+                  acc[val] = { ref: 'pipe', id: textStyleIds[val] }
+                  return acc
+              }, {})
+            : Object.keys(styleIds).reduce((acc, val) => {
+                  acc[val] = { ref: 'pipe', id: styleIds[val] }
+                  return acc
+              }, {})
 
     if (type === 'box') {
         const newNode = {
@@ -1155,54 +1221,55 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeBox', id: newNodeId },
-            definitionList: nodeRef.ref === 'vNodeBox'
-                ? {
-                      ...state.definitionList,
-                      [state.currentDefinitionId]: {
-                          ...state.definitionList[state.currentDefinitionId],
-                          pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
-                          vNodeBox: {
-                              ...state.definitionList[state.currentDefinitionId].vNodeBox,
-                              [nodeId]: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeBox[nodeId],
-                                  children: state.definitionList[state.currentDefinitionId].vNodeBox[nodeId].children.concat({
-                                      ref: 'vNodeBox',
-                                      id: newNodeId,
-                                  }),
+            definitionList:
+                nodeRef.ref === 'vNodeBox'
+                    ? {
+                          ...state.definitionList,
+                          [state.currentDefinitionId]: {
+                              ...state.definitionList[state.currentDefinitionId],
+                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
+                              vNodeBox: {
+                                  ...state.definitionList[state.currentDefinitionId].vNodeBox,
+                                  [nodeId]: {
+                                      ...state.definitionList[state.currentDefinitionId].vNodeBox[nodeId],
+                                      children: state.definitionList[state.currentDefinitionId].vNodeBox[nodeId].children.concat({
+                                          ref: 'vNodeBox',
+                                          id: newNodeId,
+                                      }),
+                                  },
+                                  [newNodeId]: newNode,
                               },
-                              [newNodeId]: newNode,
-                          },
-                          style: {
-                              ...state.definitionList[state.currentDefinitionId].style,
-                              [newStyleId]: newStyle,
-                          },
-                      },
-                  }
-                : {
-                      ...state.definitionList,
-                      [state.currentDefinitionId]: {
-                          ...state.definitionList[state.currentDefinitionId],
-                          [nodeRef.ref]: {
-                              ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                              [nodeId]: {
-                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                                  children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                      ref: 'vNodeBox',
-                                      id: newNodeId,
-                                  }),
+                              style: {
+                                  ...state.definitionList[state.currentDefinitionId].style,
+                                  [newStyleId]: newStyle,
                               },
                           },
-                          pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
-                          vNodeBox: {
-                              ...state.definitionList[state.currentDefinitionId].vNodeBox,
-                              [newNodeId]: newNode,
-                          },
-                          style: {
-                              ...state.definitionList[state.currentDefinitionId].style,
-                              [newStyleId]: newStyle,
+                      }
+                    : {
+                          ...state.definitionList,
+                          [state.currentDefinitionId]: {
+                              ...state.definitionList[state.currentDefinitionId],
+                              [nodeRef.ref]: {
+                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                                  [nodeId]: {
+                                      ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                                      children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                          ref: 'vNodeBox',
+                                          id: newNodeId,
+                                      }),
+                                  },
+                              },
+                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
+                              vNodeBox: {
+                                  ...state.definitionList[state.currentDefinitionId].vNodeBox,
+                                  [newNodeId]: newNode,
+                              },
+                              style: {
+                                  ...state.definitionList[state.currentDefinitionId].style,
+                                  [newStyleId]: newStyle,
+                              },
                           },
                       },
-                  },
         })
     }
     if (type === 'text') {
@@ -1317,46 +1384,47 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeIf', id: newNodeId },
-            definitionList: nodeRef.ref === 'vNodeIf'
-                ? {
-                      ...state.definitionList,
-                      [state.currentDefinitionId]: {
-                          ...state.definitionList[state.currentDefinitionId],
-                          pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
-                          vNodeIf: {
-                              ...state.definitionList[state.currentDefinitionId].vNodeIf,
-                              [nodeId]: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeIf[nodeId],
-                                  children: state.definitionList[state.currentDefinitionId].vNodeIf[nodeId].children.concat({
-                                      ref: 'vNodeIf',
-                                      id: newNodeId,
-                                  }),
-                              },
-                              [newNodeId]: newNode,
-                          },
-                      },
-                  }
-                : {
-                      ...state.definitionList,
-                      [state.currentDefinitionId]: {
-                          ...state.definitionList[state.currentDefinitionId],
-                          pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
-                          [nodeRef.ref]: {
-                              ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                              [nodeId]: {
-                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                                  children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                      ref: 'vNodeIf',
-                                      id: newNodeId,
-                                  }),
+            definitionList:
+                nodeRef.ref === 'vNodeIf'
+                    ? {
+                          ...state.definitionList,
+                          [state.currentDefinitionId]: {
+                              ...state.definitionList[state.currentDefinitionId],
+                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
+                              vNodeIf: {
+                                  ...state.definitionList[state.currentDefinitionId].vNodeIf,
+                                  [nodeId]: {
+                                      ...state.definitionList[state.currentDefinitionId].vNodeIf[nodeId],
+                                      children: state.definitionList[state.currentDefinitionId].vNodeIf[nodeId].children.concat({
+                                          ref: 'vNodeIf',
+                                          id: newNodeId,
+                                      }),
+                                  },
+                                  [newNodeId]: newNode,
                               },
                           },
-                          vNodeIf: {
-                              ...state.definitionList[state.currentDefinitionId].vNodeIf,
-                              [newNodeId]: newNode,
+                      }
+                    : {
+                          ...state.definitionList,
+                          [state.currentDefinitionId]: {
+                              ...state.definitionList[state.currentDefinitionId],
+                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
+                              [nodeRef.ref]: {
+                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                                  [nodeId]: {
+                                      ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                                      children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                          ref: 'vNodeIf',
+                                          id: newNodeId,
+                                      }),
+                                  },
+                              },
+                              vNodeIf: {
+                                  ...state.definitionList[state.currentDefinitionId].vNodeIf,
+                                  [newNodeId]: newNode,
+                              },
                           },
                       },
-                  },
         })
     }
     if (type === 'list') {
@@ -1382,36 +1450,37 @@ export function ADD_NODE(nodeRef, type) {
             columns: [],
             mutators: [],
         }
-        const resolvedNodes = nodeRef.ref === 'vNodeList'
-            ? {
-                  vNodeList: {
-                      ...state.definitionList[state.currentDefinitionId].vNodeList,
-                      [nodeId]: {
-                          ...state.definitionList[state.currentDefinitionId].vNodeList[nodeId],
-                          children: state.definitionList[state.currentDefinitionId].vNodeList[nodeId].children.concat({
-                              ref: 'vNodeList',
-                              id: newNodeId,
-                          }),
+        const resolvedNodes =
+            nodeRef.ref === 'vNodeList'
+                ? {
+                      vNodeList: {
+                          ...state.definitionList[state.currentDefinitionId].vNodeList,
+                          [nodeId]: {
+                              ...state.definitionList[state.currentDefinitionId].vNodeList[nodeId],
+                              children: state.definitionList[state.currentDefinitionId].vNodeList[nodeId].children.concat({
+                                  ref: 'vNodeList',
+                                  id: newNodeId,
+                              }),
+                          },
+                          [newNodeId]: newNode,
                       },
-                      [newNodeId]: newNode,
-                  },
-              }
-            : {
-                  [nodeRef.ref]: {
-                      ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                      [nodeId]: {
-                          ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                          children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                              ref: 'vNodeList',
-                              id: newNodeId,
-                          }),
+                  }
+                : {
+                      [nodeRef.ref]: {
+                          ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
+                          [nodeId]: {
+                              ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
+                              children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
+                                  ref: 'vNodeList',
+                                  id: newNodeId,
+                              }),
+                          },
                       },
-                  },
-                  vNodeList: {
-                      ...state.definitionList[state.currentDefinitionId].vNodeList,
-                      [newNodeId]: newNode,
-                  },
-              }
+                      vNodeList: {
+                          ...state.definitionList[state.currentDefinitionId].vNodeList,
+                          [newNodeId]: newNode,
+                      },
+                  }
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeList', id: newNodeId },
@@ -1523,7 +1592,10 @@ export function ADD_NODE(nodeRef, type) {
                         ...state.definitionList[state.currentDefinitionId].nameSpace,
                         ['_rootNameSpace']: {
                             ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({ ref: 'state', id: stateId }),
+                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
+                                ref: 'state',
+                                id: stateId,
+                            }),
                         },
                     },
                     state: { ...state.definitionList[state.currentDefinitionId].state, [stateId]: newState },
@@ -1682,7 +1754,9 @@ function deleteView(nodeRef, parentRef, state) {
                     ...state.definitionList[state.currentDefinitionId][parentRef.ref],
                     [parentRef.id]: {
                         ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
-                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(ref => ref.id !== nodeRef.id),
+                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(
+                            ref => ref.id !== nodeRef.id
+                        ),
                     },
                 },
                 state: newState,
@@ -1736,46 +1810,61 @@ export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
 }
 
 export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [stateId]: e.target.value,
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [stateId]: e.target.value,
+        },
     })
-    setState({ ...state })
 }
 export function CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE(stateId, tableId, rowId, e) {
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: app.getCurrentState()[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value })),
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: state.componentState[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value })),
+        },
     })
-    setState({ ...state })
 }
 export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE(stateId, e) {
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [stateId]: e.target.value === 'true',
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [stateId]: e.target.value === 'true',
+        },
     })
-    setState({ ...state })
 }
 export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE(stateId, tableId, rowId, e) {
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: app.getCurrentState()[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value === 'true' })),
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: state.componentState[tableId].map(
+                row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value === 'true' })
+            ),
+        },
     })
-    setState({ ...state })
 }
 export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
-    if (e.target.value.toString() !== app.getCurrentState()[stateId].toString()) {
-        app.setCurrentState({
-            ...app.getCurrentState(),
-            [stateId]: Number(e.target.value),
+    if (e.target.value.toString() !== state.componentState[stateId].toString()) {
+        setState({
+            ...state,
+            componentState: {
+                ...state.componentState,
+                [stateId]: Number(e.target.value),
+            },
         })
-        setState({ ...state })
     }
 }
 export function CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE(stateId, tableId, rowId, e) {
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: app.getCurrentState()[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: Number(e.target.value) })),
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: state.componentState[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: Number(e.target.value) })),
+        },
     })
 }
 export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
@@ -1826,9 +1915,13 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
     const newId = uuid()
 
     const oldTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations
-    const newPipeTransformations = pipe.type === 'text' || pipe.type === stateInPipe.type
-        ? oldTransformations.concat({ ref: transformation, id: newId })
-        : oldTransformations.slice(0, oldTransformations.length - 1).concat({ ref: transformation, id: newId }).concat(oldTransformations.slice(oldTransformations.length - 1))
+    const newPipeTransformations =
+        pipe.type === 'text' || pipe.type === stateInPipe.type
+            ? oldTransformations.concat({ ref: transformation, id: newId })
+            : oldTransformations
+                  .slice(0, oldTransformations.length - 1)
+                  .concat({ ref: transformation, id: newId })
+                  .concat(oldTransformations.slice(oldTransformations.length - 1))
     setState({
         ...state,
         definitionList: {
@@ -1873,7 +1966,7 @@ export function SAVE_DEFAULT(stateRef) {
                     ...state.definitionList[state.currentDefinitionId][stateRef.ref],
                     [stateRef.id]: {
                         ...state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id],
-                        defaultValue: app.getCurrentState()[stateRef.id],
+                        defaultValue: state.componentState[stateRef.id],
                     },
                 },
             },
@@ -1949,7 +2042,9 @@ export function DELETE_STATE(stateRef) {
                     ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace,
                     _rootNameSpace: {
                         ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'],
-                        children: updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(ref => ref.id !== stateId),
+                        children: updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(
+                            ref => ref.id !== stateId
+                        ),
                     },
                 },
                 event: events,
@@ -1987,7 +2082,11 @@ export function resetPipeFunc(pipeId, state) {
         const pipes = Object.keys(state.definitionList[state.currentDefinitionId].pipe)
         for (let i = 0; i < pipes.length; i++) {
             const parentPipeId = pipes[i]
-            for (let index = 0; index < state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.length; index++) {
+            for (
+                let index = 0;
+                index < state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.length;
+                index++
+            ) {
                 const ref = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index]
                 if (ref.id === parentJoinId) {
                     const joinRef = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index + 1]
@@ -2008,7 +2107,11 @@ export function resetPipeFunc(pipeId, state) {
                                         transformations: state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations
                                             .slice(0, index)
                                             .concat(state.definitionList[state.currentDefinitionId].pipe[secondPipeRef.id].transformations)
-                                            .concat(state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.slice(index + 2)),
+                                            .concat(
+                                                state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.slice(
+                                                    index + 2
+                                                )
+                                            ),
                                     },
                                 },
                             },
@@ -2104,6 +2207,8 @@ export function ADD_NEW_COMPONENT() {
 export function SELECT_COMPONENT(id) {
     setState({
         ...state,
+        componentState: createDefaultState(state.definitionList[id]),
+        eventStack: { [id]: [] },
         currentDefinitionId: id,
         selectedViewNode: {},
         selectedPipeId: '',
@@ -2130,11 +2235,13 @@ export function UPDATE_TABLE_DEFAULT_RECORD(tableId, e) {
         defaultRow[stateRef.id] = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].defaultValue
     })
     defaultRow.id = uuid()
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: app.getCurrentState()[tableId].concat(defaultRow),
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: state.componentState[tableId].concat(defaultRow),
+        },
     })
-    setState({ ...state })
 }
 
 export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
@@ -2170,13 +2277,13 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
             mutators: [],
         }
     }
-    let updatedTable = app.getCurrentState()[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: updatedTable,
-    })
+    let updatedTable = state.componentState[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
     setState({
         ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: updatedTable,
+        },
         definitionList: {
             ...state.definitionList,
             [state.currentDefinitionId]: {
@@ -2185,8 +2292,14 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
                     ...state.definitionList[state.currentDefinitionId].table,
                     [tableId]: {
                         ...state.definitionList[state.currentDefinitionId].table[tableId],
-                        defaultValue: state.definitionList[state.currentDefinitionId].table[tableId].defaultValue.map(row => ({ ...row, [newStateId]: newState.defaultValue })),
-                        columns: state.definitionList[state.currentDefinitionId].table[tableId].columns.concat({ ref: 'state', id: newStateId }),
+                        defaultValue: state.definitionList[state.currentDefinitionId].table[tableId].defaultValue.map(row => ({
+                            ...row,
+                            [newStateId]: newState.defaultValue,
+                        })),
+                        columns: state.definitionList[state.currentDefinitionId].table[tableId].columns.concat({
+                            ref: 'state',
+                            id: newStateId,
+                        }),
                     },
                 },
                 state: {
@@ -2199,19 +2312,20 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
 }
 
 export function DELETE_TABLE_ROW(tableId, rowId) {
-    let updatedTable = app.getCurrentState()[tableId].filter(row => row.id !== rowId)
-
-    app.setCurrentState({
-        ...app.getCurrentState(),
-        [tableId]: updatedTable,
+    let updatedTable = state.componentState[tableId].filter(row => row.id !== rowId)
+    setState({
+        ...state,
+        componentState: {
+            ...state.componentState,
+            [tableId]: updatedTable,
+        },
     })
-    setState({ ...state })
 }
 
 export function REMOVE_MUTATOR(mutatorRef) {
     const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
 
-    const {[mutatorRef.id]: deletedMutator, ...mutatorsLeft} = state.definitionList[state.currentDefinitionId][mutatorRef.ref]
+    const { [mutatorRef.id]: deletedMutator, ...mutatorsLeft } = state.definitionList[state.currentDefinitionId][mutatorRef.ref]
     setState({
         ...state,
         definitionList: {
@@ -2222,7 +2336,9 @@ export function REMOVE_MUTATOR(mutatorRef) {
                     ...state.definitionList[state.currentDefinitionId].state,
                     [mutator.state.id]: {
                         ...state.definitionList[state.currentDefinitionId].state[mutator.state.id],
-                        mutators: state.definitionList[state.currentDefinitionId].state[mutator.state.id].mutators.filter(ref => ref.id !== mutatorRef.id)
+                        mutators: state.definitionList[state.currentDefinitionId].state[mutator.state.id].mutators.filter(
+                            ref => ref.id !== mutatorRef.id
+                        ),
                     },
                 },
                 mutator: mutatorsLeft,
@@ -2230,9 +2346,11 @@ export function REMOVE_MUTATOR(mutatorRef) {
                     ...state.definitionList[state.currentDefinitionId].event,
                     [mutator.event.id]: {
                         ...state.definitionList[state.currentDefinitionId].state[mutator.event.id],
-                        mutators: state.definitionList[state.currentDefinitionId].event[mutator.event.id].mutators.filter(ref => ref.id !== mutatorRef.id)
+                        mutators: state.definitionList[state.currentDefinitionId].event[mutator.event.id].mutators.filter(
+                            ref => ref.id !== mutatorRef.id
+                        ),
                     },
-                }
+                },
             },
         },
     })

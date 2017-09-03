@@ -25,8 +25,9 @@ const defaultState = {
     hoveredViewNode: null,
     hoveredEvent: null,
     mousePosition: {},
-    eventStack: [],
+    eventStack: {},
     currentDefinitionId: '',
     definitionList: {},
+    componentState: {},
 }
 setState(defaultState)

@@ -44,7 +44,11 @@ document.addEventListener('keydown', e => {
             })
         }
     }
-    if ((e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) || (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))) {        e.preventDefault()
+    if (
+        (e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) ||
+        (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))
+    ) {
+        e.preventDefault()
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
         if (currentIndex < stateStack.length - 1) {
             const newDefinition = stateStack[currentIndex + 1]
