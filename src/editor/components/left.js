@@ -2,6 +2,8 @@ import React from 'react'
 import { state } from 'lape'
 import { COMPONENT_HOVERED, COMPONENT_UNHOVERED, SELECT_COMPONENT, ADD_NEW_COMPONENT } from '../events'
 
+import Ugnis from '../../ugnis'
+
 export default () => (
     <div
         style={{
@@ -59,22 +61,9 @@ export default () => (
                 display: 'inline-flex',
             }}
         />
-        <div
-            style={{
-                fontSize: '16px',
-                height: '30px',
-                margin: '5px 10px',
-                padding: '7px 10px',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: '#fff',
-                boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-            }}
-            onClick={ADD_NEW_COMPONENT}
-        >
-            create new
-        </div>
+        <Ugnis
+            definition={state.definitionList['Create New Button']}
+            onEvent={ADD_NEW_COMPONENT}
+        />
     </div>
 )
