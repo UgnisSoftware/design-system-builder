@@ -1,7 +1,7 @@
 import React from 'react'
 import { state } from 'lape'
 import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, REMOVE_MUTATOR } from '../../events'
-import { ArrowIcon } from '../icons'
+import { ArrowIcon, DeleteIcon } from '../icons'
 import emberEditor from './ember/ember'
 import fakeState from './fake-state'
 
