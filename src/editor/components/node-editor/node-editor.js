@@ -29,8 +29,8 @@ function checkInheritedStates(ref, acc = []) {
 
 const DragSubComponentLeft = () => (
     <div
-        onMouseDown={(e) => WIDTH_DRAGGED('subEditorWidthLeft', e)}
-        onTouchStart={(e) => WIDTH_DRAGGED('subEditorWidthLeft', e)}
+        onMouseDown={e => WIDTH_DRAGGED('subEditorWidthLeft', e)}
+        onTouchStart={e => WIDTH_DRAGGED('subEditorWidthLeft', e)}
         style={{
             position: 'absolute',
             left: '2px',
@@ -47,8 +47,8 @@ const DragSubComponentLeft = () => (
 
 const DragSubComponentRight = () => (
     <div
-        onMouseDown={(e) => WIDTH_DRAGGED('subEditorWidth', e)}
-        onTouchStart={(e) => WIDTH_DRAGGED('subEditorWidth', e)}
+        onMouseDown={e => WIDTH_DRAGGED('subEditorWidth', e)}
+        onTouchStart={e => WIDTH_DRAGGED('subEditorWidth', e)}
         style={{
             position: 'absolute',
             right: '2px',
@@ -90,7 +90,7 @@ export default function generateEditNodeComponent() {
                     width: state.subEditorWidth + 'px',
                 }}
             >
-                <div style={{ flex: '0 0 auto' }}>
+                    <div style={{ flex: '0 0 auto' }}>
                     <div
                         style={{
                             display: 'flex',
@@ -157,6 +157,7 @@ export default function generateEditNodeComponent() {
                             <ClearIcon />
                         </span>
                     </div>
+                    </div>
                     {fullVNode ? <Tabs /> : ''}
                     <DragSubComponentRight />
                     <DragSubComponentLeft />
@@ -208,7 +209,6 @@ export default function generateEditNodeComponent() {
                         ''
                     )}
                 </div>
-            </div>
         </div>
     )
 }

@@ -9,8 +9,8 @@ import RightTabsComponent from './tabs'
 
 const DragComponentRight = () => (
     <div
-        onMouseDown={(e) => WIDTH_DRAGGED('editorRightWidth', e)}
-        onTouchStart={(e) => WIDTH_DRAGGED('editorRightWidth', e)}
+        onMouseDown={e => WIDTH_DRAGGED('editorRightWidth', e)}
+        onTouchStart={e => WIDTH_DRAGGED('editorRightWidth', e)}
         style={{
             position: 'absolute',
             left: '0',

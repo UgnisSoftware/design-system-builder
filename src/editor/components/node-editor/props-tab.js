@@ -35,7 +35,7 @@ export default () => {
                 </div>
                 <input
                     style={inputStyle}
-                    onBlur={(e) => CHANGE_COMPONENT_PATH('reactPath', e)}
+                    onBlur={e => CHANGE_COMPONENT_PATH('reactPath', e)}
                     value={state.definitionList[state.currentDefinitionId]['reactPath']}
                 />
                 <div
@@ -53,7 +53,7 @@ export default () => {
 
                 <input
                     style={inputStyle}
-                    onBlur={(e) => CHANGE_COMPONENT_PATH('reactNativePath', e)}
+                    onBlur={e => CHANGE_COMPONENT_PATH('reactNativePath', e)}
                     value={state.definitionList[state.currentDefinitionId]['reactNativePath']}
                 />
             </div>

@@ -23,11 +23,7 @@ export default () => {
                 <ArrowIcon /> Layout
             </div>
             <div>
-                <div
-                    style={{
-                        display: 'flex',
-                    }}
-                >
+                <div>
                     <div>
                         <div
                             style={{
@@ -41,7 +37,6 @@ export default () => {
                         >
                             Class
                         </div>
-                        // TODO make into ember
                         <div style={{ padding: '0px 20px' }}>
                             <input
                                 style={{
@@ -70,7 +65,6 @@ export default () => {
                         >
                             Id
                         </div>
-                        // TODO make into ember
                         <div style={{ padding: '0px 20px' }}>
                             <input
                                 style={{
@@ -244,7 +238,7 @@ export default () => {
                             >
                                 Left
                             </div>
-                            <div style={{ padding: '0px 20px' }}>{emberEditor(selectedStyle['Left'], 'text')}</div>
+                            <div style={{ padding: '0px 20px' }}>{emberEditor(selectedStyle['left'], 'text')}</div>
                         </div>
                         <div>
                             <div
@@ -278,11 +272,7 @@ export default () => {
                 <ArrowIcon /> Children Layout
             </div>
 
-            <div
-                style={{
-                    display: 'flex',
-                }}
-            >
+            <div>
                 <div>
                     <div
                         style={{
@@ -371,11 +361,7 @@ export default () => {
             >
                 <ArrowIcon /> Design
             </div>
-            <div
-                style={{
-                    display: 'flex',
-                }}
-            >
+            <div>
                 <div>
                     <div
                         style={{
@@ -500,11 +486,7 @@ export default () => {
                 ''
             )}
             {state.selectedViewNode.ref === 'vNodeText' || state.selectedViewNode.ref === 'vNodeInput' ? (
-                <div
-                    style={{
-                        display: 'flex',
-                    }}
-                >
+                <div>
                     <div>
                         <div
                             style={{

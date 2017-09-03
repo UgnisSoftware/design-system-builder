@@ -1,7 +1,7 @@
 import React from 'react'
 import { state } from 'lape'
 import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, REMOVE_MUTATOR } from '../../events'
-import { arrowIcon, deleteIcon } from '../icons'
+import { ArrowIcon } from '../icons'
 import emberEditor from './ember/ember'
 import fakeState from './fake-state'
 
@@ -71,16 +71,16 @@ export default () => {
             <div className="better-scrollbar" style={{ overflow: 'auto' }}>
                 <div
                     style={{
-                        padding: '15px 15px 5px',
-                        borderBottom: '2px solid #888',
-                        letterSpacing: '1px',
-                        cursor: 'pointer',
-                        color: 'white',
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
+                    padding: '15px 15px 5px',
+                    borderBottom: '2px solid #888',
+                    letterSpacing: '1px',
+                    cursor: 'pointer',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
                 >
-                    [arrowIcon(), 'Mouse events']
+                    <ArrowIcon /> Mouse Events
                 </div>
                 {pointerEvents.concat(state.selectedViewNode.ref === 'vNodeInput' ? inputEvents : []).map(eventDesc => {
                     const eventRef = selectedNode.events.find(

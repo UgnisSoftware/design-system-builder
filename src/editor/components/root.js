@@ -10,12 +10,13 @@ import Loading from './loading'
 
 import Component from './right-bar/view/nodes/component'
 
-function FakeState({stateRef}) {
+function FakeState({ stateRef }) {
     const title =
         stateRef.ref === 'state' || stateRef.ref === 'table'
             ? state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
             : stateRef.ref === 'eventData' ? stateRef.id : 'What are you dragging?'
-    return <span
+    return (
+        <span
             style={{
                 flex: '0 0 auto',
                 position: 'relative',
@@ -24,11 +25,11 @@ function FakeState({stateRef}) {
                 boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
                 background: '#1e1e1e',
                 padding: '4px 7px',
-            }}>
-        <span style={{ color: 'white', display: 'inline-block' } }>
-            {title}
+            }}
+        >
+            <span style={{ color: 'white', display: 'inline-block' }}>{title}</span>
         </span>
-        </span>
+    )
 }
 
 export default () => {

@@ -80,10 +80,10 @@ export default () => (
                                     color: 'white',
                                     display: 'inline-block',
                                 }}
-                                onMouseDown={(e) => STATE_DRAGGED(stateRef, e)}
-                                onTouchStart={(e) => STATE_DRAGGED(stateRef, e)}
+                                onMouseDown={e => STATE_DRAGGED(stateRef, e)}
+                                onTouchStart={e => STATE_DRAGGED(stateRef, e)}
                                 onTouchMove={HOVER_MOBILE}
-                                onDoubleClick={(e) => EDIT_VIEW_NODE_TITLE(stateId, e)}
+                                onDoubleClick={e => EDIT_VIEW_NODE_TITLE(stateId, e)}
                             >
                                 {currentState.title}
                             </span>
