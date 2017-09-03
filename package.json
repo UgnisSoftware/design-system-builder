@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "watchify -v -d -t [ babelify --presets [ es2015 stage-0 react ] ] ./src/index.js -o ./static/bundle.min.js",
     "start": "node server.dev.js",
-    "compile": "npm install && browserify -t [ babelify --presets [ es2015 stage-0 react ] ] ./src/index.js | uglifyjs -c > ./static/bundle.min.js",
+    "compile": "browserify -t [ babelify --presets [ es2015 stage-0 react ] ] ./src/index.js | uglifyjs -c > ./static/bundle.min.js",
     "makeItPretty": "prettier --single-quote --trailing-comma es5 --tab-width 4 --no-semi --print-width 140 --write \"./src/**/*.js\""
   },
   "author": "Karolis Masiulis",
