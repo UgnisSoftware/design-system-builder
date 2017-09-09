@@ -1,5 +1,6 @@
 import emptyApp from '../_empty.json'
 import { state, setState } from 'lape'
+import R from 'ramda'
 
 function getAvailableEvents(type) {
     let availableEvents = [
@@ -2177,40 +2178,40 @@ export function RESET_PIPE(pipeId, e) {
 
     setState(resetPipeFunc(pipeId, state))
 }
-export function CHANGE_TRANSFORMATION(pipeRef, transformationRef, index, e) {
-    if (transformationRef.ref === e.target.value) {
+export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
+
+    const newRefName = e.target.value
+
+    if (oldTransformationRef.ref === newRefName) {
         return
     }
-    const { [transformationRef.id]: actualTransform, ...left } = state.definitionList[state.currentDefinitionId][transformationRef.ref]
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                pipe: {
-                    ...state.definitionList[state.currentDefinitionId].pipe,
-                    [pipeRef.id]: {
-                        ...state.definitionList[state.currentDefinitionId].pipe[pipeRef.id],
-                        transformations: state.definitionList[state.currentDefinitionId].pipe[pipeRef.id].transformations.map(
-                            transf =>
-                                transf.id === transformationRef.id
-                                    ? {
-                                          ref: e.target.value,
-                                          id: transformationRef.id,
-                                      }
-                                    : transf
-                        ),
+    // TODO should not be using the same old transform, because some transformations might have different parameters
+    const oldTransform = state.definitionList[state.currentDefinitionId][oldTransformationRef.ref][oldTransformationRef.id]
+
+    // finds value in an array and updates it
+    const findAndAdjust = (findFn, adjustFn) => R.converge(
+        R.adjust(adjustFn),
+        [R.findIndex(findFn), R.identity]
+    )
+
+    setState(
+        R.evolve({
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    pipe: {
+                        [pipeRef.id]: {
+                            transformations: findAndAdjust(
+                                transformation => transformation.id === oldTransformationRef.id,
+                                R.assoc('ref', newRefName)
+                            )
+                        },
                     },
-                },
-                [transformationRef.ref]: left,
-                [e.target.value]: {
-                    ...state.definitionList[state.currentDefinitionId][e.target.value],
-                    [transformationRef.id]: actualTransform,
+                    [oldTransformationRef.ref]: R.omit(oldTransformationRef.id),
+                    [newRefName]: R.assoc([oldTransformationRef.id], oldTransform),
                 },
             },
-        },
-    })
+        })(state)
+    )
 }
 export function CHANGE_MENU(type) {
     setState({ ...state, selectedMenu: type })
