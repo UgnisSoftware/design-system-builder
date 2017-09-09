@@ -16,7 +16,7 @@ const states = [
     {
         title: 'If',
         icon: IfIcon,
-        eventTitle: 'if',
+        eventTitle: 'boolean',
     },
     {
         title: 'List',
