@@ -14,19 +14,6 @@ const idsToNames = {}
 fs.readdirSync('./ugnis_components/').forEach(file => {
     const definition = JSON.parse(fs.readFileSync('./ugnis_components/'+file, 'utf8'))
     idsToNames[definition.id] = file
-    
-    // // export all components too
-    // fs.writeFile(definition.reactPath+ file.slice(0, -4) + "js", reactExporter(definition), function(err) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
-    // });
-    // fs.writeFile(definition.reactNativePath+ file.slice(0, -4) + "js", reactNativeExporter(definition), function(err) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
-    // });
-    
 })
 
 app.post('/save/:id', (req, res)=> {
@@ -35,16 +22,6 @@ app.post('/save/:id', (req, res)=> {
             return console.log(err);
         }
     });
-    // fs.writeFile(req.body.reactPath+ idsToNames[req.params.id].slice(0, -4) + "js", reactExporter(req.body), function(err) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
-    // });
-    // fs.writeFile(req.body.reactNativePath+ idsToNames[req.params.id].slice(0, -4) + "js", reactNativeExporter(req.body), function(err) {
-    //     if(err) {
-    //         return console.log(err);
-    //     }
-    // });
     res.send('OK')
 })
 
