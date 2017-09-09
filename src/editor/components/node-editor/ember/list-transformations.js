@@ -4,7 +4,7 @@ import {
     CHANGE_TRANSFORMATION,
     DELETE_TRANSFORMATION,
 } from '../../../events'
-import { AddCircleIcon, DeleteIcon } from '../../icons'
+import { DeleteIcon } from '../../icons'
 import emberEditor from './ember'
 
 export default function listTransformations(transformations, ref) {
