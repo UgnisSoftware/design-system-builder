@@ -21,7 +21,7 @@ const states = [
     {
         title: 'List',
         icon: ListIcon,
-        eventTitle: 'list',
+        eventTitle: 'table',
     },
 ]
 
