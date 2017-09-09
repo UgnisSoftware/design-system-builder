@@ -1,11 +1,23 @@
 import React from 'react'
 import { state } from 'lape'
-import { CHANGE_TRANSFORMATION } from '../../../events'
+import {
+    CHANGE_TRANSFORMATION,
+    DELETE_TRANSFORMATION,
+} from '../../../events'
+import { AddCircleIcon, DeleteIcon } from '../../icons'
 import emberEditor from './ember'
 
 export default function listTransformations(transformations, ref) {
     return transformations.map((transRef, index) => {
         const transformer = state.definitionList[state.currentDefinitionId][transRef.ref][transRef.id]
+        const deleteTransformationIcon = (
+            <span
+                style={{ flex: '0 0 auto' }}
+                onClick={() => DELETE_TRANSFORMATION(ref, transRef)}
+            >
+                <DeleteIcon />
+            </span>
+        )
         if (transRef.ref === 'equal') {
             return (
                 <div style={{ paddingTop: '5px' }}>
@@ -83,6 +95,7 @@ export default function listTransformations(transformations, ref) {
                         }}
                     />
                     <span style={{ display: 'inline-block' }}>{emberEditor(transformer.value)}</span>
+                    {deleteTransformationIcon}
                 </div>
             )
         }
@@ -122,6 +135,7 @@ export default function listTransformations(transformations, ref) {
                             marginRight: '5px',
                         }}
                     />
+                    {deleteTransformationIcon}
                 </div>
             )
         }
@@ -173,6 +187,7 @@ export default function listTransformations(transformations, ref) {
                             ''
                         )}
                     </select>
+                    {deleteTransformationIcon}
                 </div>
             )
         }

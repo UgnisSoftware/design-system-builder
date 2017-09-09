@@ -1958,6 +1958,29 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         },
     })
 }
+
+export function DELETE_TRANSFORMATION(pipeRef, transformationRef) {
+    const currentDefinitionId = state.currentDefinitionId
+    const pipeId = pipeRef.id
+    const remainingTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations.filter(element => element.id !== transformationRef.id)
+    setState({
+        ...state,
+        definitionList: {
+            ...state.definitionList,
+            [currentDefinitionId]: {
+                ...state.definitionList[currentDefinitionId],
+                pipe: {
+                    ...state.definitionList[currentDefinitionId].pipe,
+                    [pipeId]: {
+                        ...state.definitionList[currentDefinitionId].pipe[pipeId],
+                        transformations: remainingTransformations,
+                    },
+                },
+            },
+        },
+    })
+}
+
 export function FULL_SCREEN_CLICKED(value) {
     if (value !== state.fullScreen) {
         setState({ ...state, fullScreen: value })
