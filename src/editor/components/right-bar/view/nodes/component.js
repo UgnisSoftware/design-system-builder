@@ -65,6 +65,8 @@ export default function Component({ nodeRef, parentRef, depth }) {
         >
             <div
                 style={{
+                    fontSize: '18px',
+                    fontWeight: '300',
                     padding: '3px 0',
                     borderBottom: '3px solid #292929',
                     whiteSpace: 'nowrap',
