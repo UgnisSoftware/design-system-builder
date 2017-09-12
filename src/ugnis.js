@@ -16,13 +16,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react'
-
-function flatten(arr) {
-    return arr.reduce(function(flat, toFlatten) {
-        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten)
-    }, [])
-}
+import React, { PureComponent } from 'react'
 
 const defaultStylesToRemove = {
     //alignItems: 'flex-start',
@@ -58,7 +52,34 @@ const eventNames = {
     submit: 'onSubmit',
 }
 
-export default props => {
+// can't avoid global state for global listeners...
+let eventCache = {
+    keydown: null,
+    keyup: null,
+}
+
+function addGlobalEvent(type, eventRef, callback) {
+    if (eventCache[type] === null) {
+        document.addEventListener(type, callback)
+        eventCache[type] = { ...eventRef, callback }
+    } else {
+        document.removeEventListener(type, eventCache[type].callback)
+        document.addEventListener(type, callback)
+        eventCache[type] = { ...eventRef, callback }
+    }
+}
+
+function resetGlobalEvent(type) {
+    if (eventCache[type] === null) {
+        return
+    }
+    if (eventCache[type].callback) {
+        document.removeEventListener(type, eventCache[type].callback)
+    }
+    eventCache[type] = null
+}
+
+function oldRender(props) {
     const { definition, onEvent, frozen, frozenClick, selectedNode } = props
     let { state } = props
 
@@ -107,6 +128,9 @@ export default props => {
         }
         if (ref.ref === 'table') {
             return state[ref.id]
+        }
+        if (ref.id === '_rootNode') {
+            return rootNode(ref)
         }
         if (ref.ref === 'vNodeBox') {
             return boxNode(ref)
@@ -192,6 +216,20 @@ export default props => {
         return false
     }
 
+    function generateGlobalEvents(ref) {
+        const node = definition[ref.ref][ref.id]
+        let eventsToReset = ['keydown', 'keyup']
+        node.events.forEach(eventRef => {
+            const event = definition[eventRef.ref][eventRef.id]
+            eventsToReset = eventsToReset.filter(e => e !== event.type)
+            addGlobalEvent(event.type, eventRef, e => {
+                emitEvent(eventRef, e)
+            })
+        })
+        // reset what's left
+        eventsToReset.forEach(resetGlobalEvent)
+    }
+
     function generateEvents(ref) {
         const node = definition[ref.ref][ref.id]
         if (frozen) {
@@ -243,6 +281,19 @@ export default props => {
         }
     }
 
+    function rootNode(ref) {
+        const node = definition[ref.ref][ref.id]
+        const data = {
+            key: ref.id + definition.id,
+            ...generateAttrs(ref),
+            style: generateStyles(ref),
+        }
+
+        generateGlobalEvents(ref)
+
+        return <div {...data}>{node.children.map(resolve)}</div>
+    }
+
     function boxNode(ref) {
         const node = definition[ref.ref][ref.id]
         const data = {
@@ -251,7 +302,7 @@ export default props => {
             style: generateStyles(ref),
             ...generateEvents(ref),
         }
-        return <div {...data}>{flatten(node.children.map(resolve))}</div>
+        return <div {...data}>{node.children.map(resolve)}</div>
     }
 
     function textNode(ref) {
@@ -308,17 +359,21 @@ export default props => {
     }
 
     function emitEvent(eventRef, e) {
+        if (frozen) {
+            return
+        }
         const eventId = eventRef.id
         const event = definition.event[eventId]
         currentEventNode = e.target
         currentEvent = e
-        e.persist()
+        if (e.persist) {
+            e.persist()
+        }
         const previousState = state
         let mutations = {}
         definition.event[eventId].mutators.forEach(ref => {
             const mutator = definition.mutator[ref.id]
-            const state = mutator.state
-            mutations[state.id] = resolve(mutator.mutation)
+            mutations[mutator.state.id] = resolve(mutator.mutation)
         })
         const currentState = Object.assign({}, state, mutations)
         onEvent(eventId, eventData, e, previousState, currentState, mutations)
@@ -327,4 +382,10 @@ export default props => {
     }
 
     return resolve({ ref: 'vNodeBox', id: '_rootNode' })
+}
+
+export default class Ugnis extends PureComponent {
+    render() {
+        return oldRender(this.props)
+    }
 }

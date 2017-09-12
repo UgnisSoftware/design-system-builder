@@ -8,6 +8,16 @@ import fakeState from './fake-state'
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
+    const rootEvents = [
+        {
+            title: 'Key Down',
+            type: 'keydown',
+        },
+        {
+            title: 'Key Up',
+            type: 'keyup',
+        },
+    ]
     const pointerEvents = [
         {
             title: 'Click',
@@ -61,6 +71,11 @@ export default () => {
         },
     ]
 
+    const events =
+        state.selectedViewNode.id === '_rootNode'
+            ? rootEvents
+            : state.selectedViewNode.ref === 'vNodeInput' ? pointerEvents.concat(inputEvents) : pointerEvents
+
     return (
         <div
             style={{
@@ -71,18 +86,18 @@ export default () => {
             <div className="better-scrollbar" style={{ overflow: 'auto' }}>
                 <div
                     style={{
-                    padding: '15px 15px 5px',
-                    borderBottom: '2px solid #888',
-                    letterSpacing: '1px',
-                    cursor: 'pointer',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                }}
+                        padding: '15px 15px 5px',
+                        borderBottom: '2px solid #888',
+                        letterSpacing: '1px',
+                        cursor: 'pointer',
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
                 >
                     <ArrowIcon /> Mouse Events
                 </div>
-                {pointerEvents.concat(state.selectedViewNode.ref === 'vNodeInput' ? inputEvents : []).map(eventDesc => {
+                {events.map(eventDesc => {
                     const eventRef = selectedNode.events.find(
                         eventRef => state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].type === eventDesc.type
                     )
@@ -217,6 +232,23 @@ export default () => {
                         }}
                     >
                         {fakeState('current value', { ref: 'eventData', id: 'value' })}
+                        {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
+                        {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
+                    </div>
+                ) : (
+                    ''
+                )}
+                {state.selectedViewNode.id === '_rootNode' ? (
+                    <div
+                        style={{
+                            background: '#1e1e1e',
+                            flex: '0 0 100%',
+                            padding: '10px 20px',
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                            justifyContent: 'stace-between',
+                        }}
+                    >
                         {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
                         {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
                     </div>
