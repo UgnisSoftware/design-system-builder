@@ -90,7 +90,7 @@ export default function generateEditNodeComponent() {
                     width: state.subEditorWidth + 'px',
                 }}
             >
-                    <div style={{ flex: '0 0 auto' }}>
+                <div style={{ flex: '0 0 auto' }}>
                     <div
                         style={{
                             display: 'flex',
@@ -157,58 +157,56 @@ export default function generateEditNodeComponent() {
                             <ClearIcon />
                         </span>
                     </div>
-                    </div>
-                    {fullVNode ? <Tabs /> : ''}
-                    <DragSubComponentRight />
-                    <DragSubComponentLeft />
-                    {state.selectedViewSubMenu === 'props' || !fullVNode ? (
-                        <PropsMenu />
-                    ) : state.selectedViewSubMenu === 'style' ? (
-                        <StylesMenu />
-                    ) : state.selectedViewSubMenu === 'events' ? (
-                        <EventsMenu />
-                    ) : (
-                        <span />
-                    )}
-                    {inheritedStates.length ? (
-                        <div style={{ padding: '20px', background: '#1e1e1e', marginTop: 'auto' }}>
-                            {inheritedStates.map(stateRef => (
-                                <span>
-                                    <div>
-                                        {state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}
-                                    </div>
+                </div>
+                {fullVNode ? <Tabs /> : ''}
+                <DragSubComponentRight />
+                <DragSubComponentLeft />
+                {state.selectedViewSubMenu === 'props' || !fullVNode ? (
+                    <PropsMenu />
+                ) : state.selectedViewSubMenu === 'style' ? (
+                    <StylesMenu />
+                ) : state.selectedViewSubMenu === 'events' ? (
+                    <EventsMenu />
+                ) : (
+                    <span />
+                )}
+                {inheritedStates.length ? (
+                    <div style={{ padding: '20px', background: '#1e1e1e', marginTop: 'auto' }}>
+                        {inheritedStates.map(stateRef => (
+                            <span>
+                                <div>{state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}</div>
+                                <span
+                                    style={{
+                                        flex: '0 0 auto',
+                                        position: 'relative',
+                                        transform: 'translateZ(0)',
+                                        margin: '0 auto 0 0',
+                                        boxShadow:
+                                            'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
+                                        background: '#1e1e1e',
+                                        padding: '4px 7px',
+                                    }}
+                                >
                                     <span
                                         style={{
-                                            flex: '0 0 auto',
-                                            position: 'relative',
-                                            transform: 'translateZ(0)',
-                                            margin: '0 auto 0 0',
-                                            boxShadow:
-                                                'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
-                                            background: '#1e1e1e',
-                                            padding: '4px 7px',
+                                            opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
+                                            color: 'white',
+                                            display: 'inline-block',
                                         }}
+                                        onMouseDown={e => STATE_DRAGGED(stateRef, e)}
+                                        onTouchStart={e => STATE_DRAGGED(stateRef, e)}
+                                        onTouchMove={HOVER_MOBILE}
                                     >
-                                        <span
-                                            style={{
-                                                opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
-                                                color: 'white',
-                                                display: 'inline-block',
-                                            }}
-                                            onMouseDown={e => STATE_DRAGGED(stateRef, e)}
-                                            onTouchStart={e => STATE_DRAGGED(stateRef, e)}
-                                            onTouchMove={HOVER_MOBILE}
-                                        >
-                                            {state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title}
-                                        </span>
+                                        {state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title}
                                     </span>
                                 </span>
-                            ))}
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
+                            </span>
+                        ))}
+                    </div>
+                ) : (
+                    ''
+                )}
+            </div>
         </div>
     )
 }

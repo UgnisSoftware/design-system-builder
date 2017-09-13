@@ -193,37 +193,37 @@ export default ({ stateRef }) => {
             {state.componentState[stateId].map((row, index) => (
                 <div
                     style={{
-                            display: 'flex',
-                        }}
+                        display: 'flex',
+                    }}
                 >
                     <div
                         style={{
-                                color: '#eab65c',
-                                display: 'inline-flex',
-                                alignSelf: 'center',
-                            }}
+                            color: '#eab65c',
+                            display: 'inline-flex',
+                            alignSelf: 'center',
+                        }}
                         onClick={() => DELETE_TABLE_ROW(stateId, row.id)}
                     >
                         <DeleteIcon />
                     </div>
                     <div
                         style={{
-                                flex: '1',
-                                padding: '2px 5px',
-                                maxWidth: '50px',
-                            }}
+                            flex: '1',
+                            padding: '2px 5px',
+                            maxWidth: '50px',
+                        }}
                     >
                         ref
                     </div>
                     {currentState.columns.map(childRef => (
                         <div
                             style={{
-                                    flex: '1',
-                                    padding: '2px 5px',
-                                    maxWidth: '120px',
-                                    minWidth: '120px',
-                                    position: 'relative',
-                                }}
+                                flex: '1',
+                                padding: '2px 5px',
+                                maxWidth: '120px',
+                                minWidth: '120px',
+                                position: 'relative',
+                            }}
                         >
                             {liveEditorTable(childRef, stateId, row.id, index)}
                         </div>
@@ -234,51 +234,51 @@ export default ({ stateRef }) => {
                 <div style={{ paddingTop: '3px', paddingLeft: '8px' }}>Add column</div>
                 <div
                     style={{
-                            border: '3px solid #5bcc5b',
-                            cursor: 'pointer',
-                            padding: '5px',
-                            marginTop: '5px',
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}
-                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'text')}
-                >
-                    <TextIcon/> Text
-                </div>
-                <div
-                    style={{
-                            border: '3px solid #5bcc5b',
-                            cursor: 'pointer',
-                            padding: '5px',
-                            marginTop: '5px',
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}
-                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'number')}
-                >
-                    <NumberIcon/> Number
-                </div>
-                <div
-                    style={{
-                            border: '3px solid #5bcc5b',
-                            cursor: 'pointer',
-                            padding: '5px',
-                            marginTop: '5px',
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}
-                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'boolean')}
-                >
-                    <IfIcon/> Boolean
-                </div>
-            </div>
-            <div
-                style={{
                         border: '3px solid #5bcc5b',
                         cursor: 'pointer',
                         padding: '5px',
                         marginTop: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
+                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'text')}
+                >
+                    <TextIcon /> Text
+                </div>
+                <div
+                    style={{
+                        border: '3px solid #5bcc5b',
+                        cursor: 'pointer',
+                        padding: '5px',
+                        marginTop: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
+                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'number')}
+                >
+                    <NumberIcon /> Number
+                </div>
+                <div
+                    style={{
+                        border: '3px solid #5bcc5b',
+                        cursor: 'pointer',
+                        padding: '5px',
+                        marginTop: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
+                    onClick={() => UPDATE_TABLE_ADD_COLUMN(stateId, 'boolean')}
+                >
+                    <IfIcon /> Boolean
+                </div>
+            </div>
+            <div
+                style={{
+                    border: '3px solid #5bcc5b',
+                    cursor: 'pointer',
+                    padding: '5px',
+                    marginTop: '5px',
+                }}
                 onClick={() => UPDATE_TABLE_DEFAULT_RECORD(stateId)}
             >
                 Add record

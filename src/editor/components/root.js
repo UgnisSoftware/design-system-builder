@@ -15,7 +15,7 @@ function FakeState({ stateRef }) {
         stateRef.ref === 'state' || stateRef.ref === 'table'
             ? state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
             : stateRef.ref === 'eventData' ? stateRef.id : 'What are you dragging?'
-    
+
     const styles = {
         wrapper: {
             flex: '0 0 auto',
@@ -25,13 +25,11 @@ function FakeState({ stateRef }) {
             boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
             background: '#1e1e1e',
             padding: '4px 7px',
-        }
+        },
     }
-    
+
     return (
-        <span
-            style={styles.wrapper}
-        >
+        <span style={styles.wrapper}>
             <span style={{ color: 'white', display: 'inline-block' }}>{title}</span>
         </span>
     )

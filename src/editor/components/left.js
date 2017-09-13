@@ -61,9 +61,6 @@ export default () => (
                 display: 'inline-flex',
             }}
         />
-        <Ugnis
-            definition={state.definitionList['Create New Button']}
-            onEvent={ADD_NEW_COMPONENT}
-        />
+        <Ugnis definition={state.definitionList['Create New Button']} onEvent={ADD_NEW_COMPONENT} />
     </div>
 )

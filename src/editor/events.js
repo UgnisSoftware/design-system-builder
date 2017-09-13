@@ -1652,7 +1652,7 @@ export function ADD_STATE(namespaceId, type) {
             ...state,
             componentState: {
                 ...state.componentState,
-                [newStateId]: newState.defaultValue
+                [newStateId]: newState.defaultValue,
             },
             definitionList: {
                 ...state.definitionList,
@@ -1706,7 +1706,7 @@ export function ADD_STATE(namespaceId, type) {
         ...state,
         componentState: {
             ...state.componentState,
-            [newStateId]: newState.defaultValue
+            [newStateId]: newState.defaultValue,
         },
         definitionList: {
             ...state.definitionList,
@@ -1963,7 +1963,9 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
 export function DELETE_TRANSFORMATION(pipeRef, transformationRef) {
     const currentDefinitionId = state.currentDefinitionId
     const pipeId = pipeRef.id
-    const remainingTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations.filter(element => element.id !== transformationRef.id)
+    const remainingTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations.filter(
+        element => element.id !== transformationRef.id
+    )
     setState({
         ...state,
         definitionList: {
@@ -2179,7 +2181,6 @@ export function RESET_PIPE(pipeId, e) {
     setState(resetPipeFunc(pipeId, state))
 }
 export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
-
     const newRefName = e.target.value
 
     if (oldTransformationRef.ref === newRefName) {
@@ -2189,10 +2190,7 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
     const oldTransform = state.definitionList[state.currentDefinitionId][oldTransformationRef.ref][oldTransformationRef.id]
 
     // finds value in an array and updates it
-    const findAndAdjust = (findFn, adjustFn) => R.converge(
-        R.adjust(adjustFn),
-        [R.findIndex(findFn), R.identity]
-    )
+    const findAndAdjust = (findFn, adjustFn) => R.converge(R.adjust(adjustFn), [R.findIndex(findFn), R.identity])
 
     setState(
         R.evolve({
@@ -2203,7 +2201,7 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
                             transformations: findAndAdjust(
                                 transformation => transformation.id === oldTransformationRef.id,
                                 R.assoc('ref', newRefName)
-                            )
+                            ),
                         },
                     },
                     [oldTransformationRef.ref]: R.omit(oldTransformationRef.id),

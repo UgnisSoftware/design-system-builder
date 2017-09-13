@@ -84,7 +84,7 @@ export default () => {
                 flexDirection: 'column',
             }}
         >
-            <div className="better-scrollbar" style={{ overflow: 'auto', flex:'1' }}>
+            <div className="better-scrollbar" style={{ overflow: 'auto', flex: '1' }}>
                 <div
                     style={{
                         padding: '15px 15px 5px',
@@ -211,7 +211,8 @@ export default () => {
                 style={{
                     background: '#1e1e1e',
                     padding: '15px 20px',
-                }}>
+                }}
+            >
                 <div>
                     <div
                         style={{
@@ -222,11 +223,11 @@ export default () => {
                     </div>
                     <div
                         style={{
-                        background: '#1e1e1e',
-                        flex: '0 0 100%',
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                    }}
+                            background: '#1e1e1e',
+                            flex: '0 0 100%',
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                        }}
                     >
                         {fakeState('Mouse X position from left', { ref: 'eventData', id: 'screenX' })}
                         {fakeState('Mouse Y position from top', { ref: 'eventData', id: 'screenY' })}
@@ -245,11 +246,11 @@ export default () => {
                         </div>
                         <div
                             style={{
-                            background: '#1e1e1e',
-                            flex: '0 0 100%',
-                            display: 'flex',
-                            flexWrap: 'nowrap',
-                        }}
+                                background: '#1e1e1e',
+                                flex: '0 0 100%',
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                            }}
                         >
                             {fakeState('current value', { ref: 'eventData', id: 'value' })}
                             {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
@@ -270,10 +271,10 @@ export default () => {
                         </div>
                         <div
                             style={{
-                            flex: '0 0 100%',
-                            display: 'flex',
-                            flexWrap: 'nowrap',
-                        }}
+                                flex: '0 0 100%',
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                            }}
                         >
                             {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
                             {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
