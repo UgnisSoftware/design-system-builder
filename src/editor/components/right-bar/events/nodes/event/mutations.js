@@ -3,16 +3,24 @@ import { state } from 'lape'
 import { STATE_NODE_SELECTED } from '../../../../../events'
 
 export default ({ eventData }) => (
-    <div
-        style={{
+    Object.keys(eventData.mutations).filter(stateId => state.definitionList[state.currentDefinitionId].state[stateId] !== undefined).length === 0 ?
+        <div style={{
+                padding: '5px 10px',
+                color: '#bdbdbd',
+            }}>
+            nothing has changed
+        </div>
+        :
+        <div
+            style={{
             paddingLeft: '10px',
             whiteSpace: 'nowrap',
         }}
-    >
-        {Object.keys(eventData.mutations)
-            .filter(stateId => state.definitionList[state.currentDefinitionId].state[stateId] !== undefined)
-            .map(stateId => (
-                <div>
+        >
+            {Object.keys(eventData.mutations)
+                .filter(stateId => state.definitionList[state.currentDefinitionId].state[stateId] !== undefined)
+                .map(stateId => (
+                    <div>
                     <span
                         onClick={() => STATE_NODE_SELECTED({ ref: 'state', id: stateId })}
                         style={{
@@ -35,8 +43,8 @@ export default ({ eventData }) => (
                     >
                         {eventData.previousState[stateId].toString()} →
                     </span>
-                    {eventData.mutations[stateId].toString()}
-                </div>
-            ))}
-    </div>
+                        {eventData.mutations[stateId].toString()}
+                    </div>
+                ))}
+        </div>
 )
