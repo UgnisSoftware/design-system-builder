@@ -430,10 +430,7 @@
         },
         "abf56a6a": {
             "type": "number",
-            "value": {
-                "ref": "state",
-                "id": "06ef3bf3"
-            },
+            "value": 0,
             "transformations": []
         },
         "1dd0b878": {
@@ -761,45 +758,12 @@
     "nameSpace": {
         "_rootNameSpace": {
             "title": "",
-            "children": [
-                {
-                    "ref": "state",
-                    "id": "06ef3bf3"
-                }
-            ]
+            "children": []
         }
     },
     "table": {},
-    "state": {
-        "06ef3bf3": {
-            "title": "new number",
-            "ref": "06ef3bf3",
-            "type": "number",
-            "defaultValue": 0,
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "93f1d775"
-                }
-            ]
-        }
-    },
-    "mutator": {
-        "93f1d775": {
-            "event": {
-                "ref": "event",
-                "id": "56f10160"
-            },
-            "state": {
-                "ref": "state",
-                "id": "06ef3bf3"
-            },
-            "mutation": {
-                "ref": "pipe",
-                "id": "1dd0b878"
-            }
-        }
-    },
+    "state": {},
+    "mutator": {},
     "event": {
         "c6c26d22": {
             "mutators": []
@@ -810,12 +774,7 @@
                 "ref": "vNodeText",
                 "id": "1944b546"
             },
-            "mutators": [
-                {
-                    "ref": "mutator",
-                    "id": "93f1d775"
-                }
-            ]
+            "mutators": []
         }
     },
     "id": "c68e5e70"
