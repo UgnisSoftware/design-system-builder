@@ -10,7 +10,7 @@ export default (title, dragRef) => (
             flex: '0 0 auto',
             position: 'relative',
             transform: 'translateZ(0)',
-            margin: '0 auto 0 0',
+            margin: '0 10px 0 0',
             boxShadow: 'inset 0 0 0 2px #828282',
             background: '#1e1e1e',
             padding: '4px 7px',

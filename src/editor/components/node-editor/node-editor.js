@@ -75,7 +75,7 @@ export default function generateEditNodeComponent() {
                 color: 'white',
                 left: state.componentEditorPosition.x + 'px',
                 top: state.componentEditorPosition.y + 'px',
-                height: '63%',
+                height: '80%',
                 display: 'flex',
                 zIndex: '3000',
             }}

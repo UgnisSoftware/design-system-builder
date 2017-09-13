@@ -79,11 +79,12 @@ export default () => {
     return (
         <div
             style={{
-                display: 'inline-flex',
+                display: 'flex',
+                flex: '1',
                 flexDirection: 'column',
             }}
         >
-            <div className="better-scrollbar" style={{ overflow: 'auto' }}>
+            <div className="better-scrollbar" style={{ overflow: 'auto', flex:'1' }}>
                 <div
                     style={{
                         padding: '15px 15px 5px',
@@ -205,52 +206,78 @@ export default () => {
                         </div>
                     )
                 })}
-                <div
-                    style={{
-                        background: '#1e1e1e',
-                        flex: '0 0 100%',
-                        padding: '10px 20px',
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        justifyContent: 'stace-between',
-                    }}
-                >
-                    {fakeState('Mouse X position from left', { ref: 'eventData', id: 'screenX' })}
-                    {fakeState('Mouse Y position from top', { ref: 'eventData', id: 'screenY' })}
-                    {fakeState('Mouse X position from layer left', { ref: 'eventData', id: 'layerX' })}
-                    {fakeState('Mouse Y position from layer top', { ref: 'eventData', id: 'layerY' })}
-                </div>
-                {state.selectedViewNode.ref === 'vNodeInput' ? (
+            </div>
+            <div
+                style={{
+                    background: '#1e1e1e',
+                    padding: '15px 20px',
+                }}>
+                <div>
                     <div
                         style={{
-                            background: '#1e1e1e',
-                            flex: '0 0 100%',
-                            padding: '10px 20px',
-                            display: 'flex',
-                            flexWrap: 'nowrap',
-                            justifyContent: 'stace-between',
+                            padding: '0 0 5px 0',
                         }}
                     >
-                        {fakeState('current value', { ref: 'eventData', id: 'value' })}
-                        {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
-                        {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
+                        Mouse Data:
+                    </div>
+                    <div
+                        style={{
+                        background: '#1e1e1e',
+                        flex: '0 0 100%',
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                    }}
+                    >
+                        {fakeState('Mouse X position from left', { ref: 'eventData', id: 'screenX' })}
+                        {fakeState('Mouse Y position from top', { ref: 'eventData', id: 'screenY' })}
+                        {fakeState('Mouse X position from layer left', { ref: 'eventData', id: 'layerX' })}
+                        {fakeState('Mouse Y position from layer top', { ref: 'eventData', id: 'layerY' })}
+                    </div>
+                </div>
+                {state.selectedViewNode.ref === 'vNodeInput' ? (
+                    <div>
+                        <div
+                            style={{
+                                padding: '10px 0 5px 0',
+                            }}
+                        >
+                            Keyboard Data:
+                        </div>
+                        <div
+                            style={{
+                            background: '#1e1e1e',
+                            flex: '0 0 100%',
+                            display: 'flex',
+                            flexWrap: 'nowrap',
+                        }}
+                        >
+                            {fakeState('current value', { ref: 'eventData', id: 'value' })}
+                            {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
+                            {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
+                        </div>
                     </div>
                 ) : (
                     ''
                 )}
                 {state.selectedViewNode.id === '_rootNode' ? (
-                    <div
-                        style={{
-                            background: '#1e1e1e',
+                    <div>
+                        <div
+                            style={{
+                                padding: '10px 0 5px 0',
+                            }}
+                        >
+                            Keyboard Data:
+                        </div>
+                        <div
+                            style={{
                             flex: '0 0 100%',
-                            padding: '10px 20px',
                             display: 'flex',
                             flexWrap: 'nowrap',
-                            justifyContent: 'stace-between',
                         }}
-                    >
-                        {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
-                        {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
+                        >
+                            {fakeState('key pressed', { ref: 'eventData', id: 'keyPressed' })}
+                            {fakeState('key pressed code', { ref: 'eventData', id: 'keyPressedCode' })}
+                        </div>
                     </div>
                 ) : (
                     ''
