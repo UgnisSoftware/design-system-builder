@@ -2377,7 +2377,7 @@ export function REMOVE_MUTATOR(mutatorRef) {
                 event: {
                     ...state.definitionList[state.currentDefinitionId].event,
                     [mutator.event.id]: {
-                        ...state.definitionList[state.currentDefinitionId].state[mutator.event.id],
+                        ...state.definitionList[state.currentDefinitionId].event[mutator.event.id],
                         mutators: state.definitionList[state.currentDefinitionId].event[mutator.event.id].mutators.filter(
                             ref => ref.id !== mutatorRef.id
                         ),
