@@ -40,7 +40,7 @@ const eventNames = {
     mouseleave: 'onMouseLeave',
     mousemove: 'onMouseMove',
     mouseout: 'onMouseOut',
-    mouseOver: 'onMouseOver',
+    mouseover: 'onMouseOver',
     mouseup: 'onMouseUp',
     keydown: 'onKeyDown',
     keypress: 'onKeyPress',
