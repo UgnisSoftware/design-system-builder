@@ -1485,10 +1485,12 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeList', id: newNodeId },
-            componentState: existingTableId ? state.componentState : {
-                ...state.componentState,
-                [tableId]: []
-            },
+            componentState: existingTableId
+                ? state.componentState
+                : {
+                      ...state.componentState,
+                      [tableId]: [],
+                  },
             definitionList: {
                 ...state.definitionList,
                 [state.currentDefinitionId]: {
@@ -1565,10 +1567,12 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeInput', id: newNodeId },
-            componentState: existingTableId ? state.componentState : {
-                ...state.componentState,
-                [stateId]: newState.defaultValue
-            },
+            componentState: existingTableId
+                ? state.componentState
+                : {
+                      ...state.componentState,
+                      [stateId]: newState.defaultValue,
+                  },
             definitionList: {
                 ...state.definitionList,
                 [state.currentDefinitionId]: {

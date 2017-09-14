@@ -1,31 +1,12 @@
 import React from 'react'
 import { state } from 'lape'
-import { WIDTH_DRAGGED, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE, STATE_DRAGGED, HOVER_MOBILE } from '../../events'
+import { WIDTH_DRAGGED, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE } from '../../events'
 import { ListIcon, IfIcon, InputIcon, TextIcon, BoxIcon, ClearIcon, ImageIcon, AppIcon } from '../icons'
 import PropsMenu from './props-tab'
 import StylesMenu from './style-tab'
 import EventsMenu from './event-tab'
 import Tabs from './tabs'
-
-function checkInheritedStates(ref, acc = []) {
-    const node = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
-    if (ref.id === '_rootNode' || node.parent.id === '_rootNode') {
-        return acc
-    }
-    if (node.parent.ref === 'vNodeList') {
-        const parent = state.definitionList[state.currentDefinitionId][node.parent.ref][node.parent.id]
-        const tableRef = state.definitionList[state.currentDefinitionId][parent.value.ref][parent.value.id].value
-        const table = state.definitionList[state.currentDefinitionId][tableRef.ref][tableRef.id]
-        table.columns.forEach(columnRef => {
-            acc.push({
-                parent: node.parent,
-                ...columnRef,
-            })
-        })
-    }
-
-    return checkInheritedStates(node.parent, acc)
-}
+import DataMenu from './inherited-data'
 
 const DragSubComponentLeft = () => (
     <div
@@ -67,7 +48,6 @@ export default function generateEditNodeComponent() {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
     const fullVNode = ['vNodeBox', 'vNodeText', 'vNodeImage', 'vNodeInput'].includes(state.selectedViewNode.ref)
-    const inheritedStates = checkInheritedStates(state.selectedViewNode)
     return (
         <div
             style={{
@@ -170,42 +150,8 @@ export default function generateEditNodeComponent() {
                 ) : (
                     <span />
                 )}
-                {inheritedStates.length ? (
-                    <div style={{ padding: '20px', background: '#1e1e1e', marginTop: 'auto' }}>
-                        {inheritedStates.map(stateRef => (
-                            <span>
-                                <div>{state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}</div>
-                                <span
-                                    style={{
-                                        flex: '0 0 auto',
-                                        position: 'relative',
-                                        transform: 'translateZ(0)',
-                                        margin: '0 auto 0 0',
-                                        boxShadow:
-                                            'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
-                                        background: '#1e1e1e',
-                                        padding: '4px 7px',
-                                    }}
-                                >
-                                    <span
-                                        style={{
-                                            opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
-                                            color: 'white',
-                                            display: 'inline-block',
-                                        }}
-                                        onMouseDown={e => STATE_DRAGGED(stateRef, e)}
-                                        onTouchStart={e => STATE_DRAGGED(stateRef, e)}
-                                        onTouchMove={HOVER_MOBILE}
-                                    >
-                                        {state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title}
-                                    </span>
-                                </span>
-                            </span>
-                        ))}
-                    </div>
-                ) : (
-                    ''
-                )}
+
+                <DataMenu />
             </div>
         </div>
     )
