@@ -1530,7 +1530,6 @@ export function ADD_NODE(nodeRef, type) {
             parent: nodeRef,
             style: { ref: 'style', id: newStyleId },
             value: { ref: 'pipe', id: pipeInputId },
-            input: { ref: 'event', id: eventId },
             events: [{ ref: 'event', id: eventId }],
         }
         const newPipeInput = {
