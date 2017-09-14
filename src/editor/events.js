@@ -1567,12 +1567,10 @@ export function ADD_NODE(nodeRef, type) {
         return setState({
             ...state,
             selectedViewNode: { ref: 'vNodeInput', id: newNodeId },
-            componentState: existingTableId
-                ? state.componentState
-                : {
-                      ...state.componentState,
-                      [stateId]: newState.defaultValue,
-                  },
+            componentState: {
+                ...state.componentState,
+                [stateId]: newState.defaultValue,
+            },
             definitionList: {
                 ...state.definitionList,
                 [state.currentDefinitionId]: {
