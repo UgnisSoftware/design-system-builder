@@ -3,6 +3,9 @@
  *  having to do any rewrites.
  *  
  *  This is a template on how to update all components in '/ugnis_components/'   
+ *  
+ *  1. Write transforms
+ *  2. Update docs
  * 
  */
 
