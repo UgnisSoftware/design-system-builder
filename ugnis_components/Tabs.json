@@ -1,5 +1,5 @@
 {
-    "version": "0.8.2",
+    "version": "0.9.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
     "eventData": {
@@ -2783,5 +2783,7 @@
             ]
         }
     },
-    "id": "dcdb9089"
+    "id": "dcdb9089",
+    "branch": {},
+    "split": {}
 }

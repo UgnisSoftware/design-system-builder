@@ -1,5 +1,5 @@
 {
-    "version": "0.8.2",
+    "version": "0.9.0",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
     "eventData": {
@@ -8412,5 +8412,7 @@
             ]
         }
     },
-    "id": "5a5106ff"
+    "id": "5a5106ff",
+    "branch": {},
+    "split": {}
 }
