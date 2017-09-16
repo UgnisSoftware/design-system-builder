@@ -2,6 +2,7 @@ import React from 'react'
 import { state } from 'lape'
 import { CHANGE_COMPONENT_PATH } from '../../events'
 import emberEditor from './ember/ember'
+import BranchButton from './branch-button'
 
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
@@ -83,9 +84,12 @@ export default () => {
                         fontWeight: 'bold',
                         letterSpacing: '1px',
                         color: '#8e8e8e',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     text
+                    <BranchButton reference={state.selectedViewNode} propertyName={'value'} />
                 </div>
                 <div style={{ padding: '0 20px' }}>{emberEditor(selectedNode.value, 'text')}</div>
             </div>
