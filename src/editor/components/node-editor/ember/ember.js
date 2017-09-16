@@ -15,6 +15,39 @@ import listTransformations from './list-transformations'
 export default function emberEditor(ref, type) {
     const pipe = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
 
+    if (ref.ref === 'split') {
+        return (
+            <div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
+                >
+                    default: {emberEditor(pipe.defaultValue)}{' '}
+                </div>
+                {pipe.branches.map(branchRef => {
+                    const branch = state.definitionList[state.currentDefinitionId][branchRef.ref][branchRef.id]
+
+                    return (
+                        <div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <span style={{ padding: '0 5px 0 0 ' }}>if</span> {emberEditor(branch.test)}{' '}
+                                <span style={{ padding: '0 5px' }}>then</span>
+                                {emberEditor(branch.value)}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
     if (type && type.type === 'variant') {
         return (
             <div
