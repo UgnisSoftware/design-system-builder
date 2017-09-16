@@ -53,10 +53,12 @@ function BRANCH_PIPE(ref, propertyName) {
                     pipe: R.merge(newPipes),
                     branch: R.assoc(newBranchId, newBranch),
                     split: R.assoc(newSplitId, newSplit),
-                    [ref.ref]: R.assoc(propertyName, {
-                        ref: 'split',
-                        id: newSplitId
-                    }),
+                    [ref.ref]: {
+                        [ref.id]:R.assoc(propertyName, {
+                            ref: 'split',
+                            id: newSplitId
+                        }),
+                    }
                 },
             },
         })(state)
