@@ -28,9 +28,53 @@
     "toLowerCase": {},
     "toUpperCase": {},
     "equal": {},
-    "and": {},
+    "and": {
+        "59ccf006": {
+            "value": {
+                "ref": "pipe",
+                "id": "f0669e7c"
+            }
+        }
+    },
     "or": {},
-    "not": {},
+    "not": {
+        "c205da55": {
+            "value": {
+                "ref": "pipe",
+                "id": "9f1d671d"
+            }
+        },
+        "5c5b7c6d": {
+            "value": {
+                "ref": "pipe",
+                "id": "e48e71d0"
+            }
+        },
+        "21558c9d": {
+            "value": {
+                "ref": "pipe",
+                "id": "9c41a944"
+            }
+        },
+        "ccffd5ae": {
+            "value": {
+                "ref": "pipe",
+                "id": "1bb9be44"
+            }
+        },
+        "ccbed8a4": {
+            "value": {
+                "ref": "pipe",
+                "id": "7ffe75c6"
+            }
+        },
+        "ddc14456": {
+            "value": {
+                "ref": "pipe",
+                "id": "c058acd2"
+            }
+        }
+    },
     "length": {},
     "pipe": {
         "22237047": {
@@ -165,6 +209,90 @@
         "91689143": {
             "type": "boolean",
             "value": true,
+            "transformations": []
+        },
+        "a9f9d021": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "da69f1a4"
+            },
+            "transformations": [
+                {
+                    "ref": "not",
+                    "id": "ccbed8a4"
+                }
+            ]
+        },
+        "dc368c8b": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "09e53aba"
+            },
+            "transformations": []
+        },
+        "6b572773": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "9007577a"
+            },
+            "transformations": [
+                {
+                    "ref": "not",
+                    "id": "ddc14456"
+                }
+            ]
+        },
+        "fecdb494": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "6bbf6dc5"
+            },
+            "transformations": []
+        },
+        "ec205a26": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "9a78a26c"
+            },
+            "transformations": [
+                {
+                    "ref": "not",
+                    "id": "5c5b7c6d"
+                }
+            ]
+        },
+        "9eb31943": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "5d2b8aa2"
+            },
+            "transformations": []
+        },
+        "02101354": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "9a78a26c"
+            },
+            "transformations": [
+                {
+                    "ref": "not",
+                    "id": "c205da55"
+                }
+            ]
+        },
+        "eb2240fb": {
+            "type": "number",
+            "value": {
+                "ref": "state",
+                "id": "c935e320"
+            },
             "transformations": []
         },
         "d598c126-a2b2-485f-8b05-f9395c834344": {
@@ -4363,6 +4491,87 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "9f1d671d": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "e48e71d0": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "9c41a944": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "1bb9be44": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "5204fd32": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "9a78a26c"
+            },
+            "transformations": []
+        },
+        "ac1cd5f0": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "f0669e7c": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "b30e1f15": {
+            "type": "boolean",
+            "value": false,
+            "transformations": []
+        },
+        "7ffe75c6": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "c058acd2": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "4d7e148c": {
+            "type": "boolean",
+            "value": {
+                "ref": "state",
+                "id": "9007577a"
+            },
+            "transformations": []
+        },
+        "e5831a8b": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "4441341c": {
+            "type": "boolean",
+            "value": false,
+            "transformations": []
+        },
+        "d4547e8a": {
+            "type": "boolean",
+            "value": true,
+            "transformations": []
+        },
+        "3be5289f": {
+            "type": "boolean",
+            "value": false,
+            "transformations": []
         }
     },
     "join": {
@@ -4956,6 +5165,14 @@
                 {
                     "ref": "event",
                     "id": "e3017f3c"
+                },
+                {
+                    "ref": "event",
+                    "id": "5282617a"
+                },
+                {
+                    "ref": "event",
+                    "id": "7e614694"
                 }
             ]
         },
@@ -5022,6 +5239,14 @@
                 {
                     "ref": "event",
                     "id": "d10a57e6"
+                },
+                {
+                    "ref": "event",
+                    "id": "90a7cdd2"
+                },
+                {
+                    "ref": "event",
+                    "id": "0cabbdeb"
                 }
             ]
         },
@@ -5140,6 +5365,14 @@
                 {
                     "ref": "event",
                     "id": "347fb8cb"
+                },
+                {
+                    "ref": "event",
+                    "id": "afd1eeae"
+                },
+                {
+                    "ref": "event",
+                    "id": "1ee60657"
                 }
             ]
         },
@@ -8194,6 +8427,18 @@
                 {
                     "ref": "state",
                     "id": "09e53aba"
+                },
+                {
+                    "ref": "state",
+                    "id": "9a78a26c"
+                },
+                {
+                    "ref": "state",
+                    "id": "9007577a"
+                },
+                {
+                    "ref": "state",
+                    "id": "da69f1a4"
                 }
             ]
         }
@@ -8245,6 +8490,54 @@
                 {
                     "ref": "mutator",
                     "id": "96e1ab7f"
+                }
+            ]
+        },
+        "9a78a26c": {
+            "title": "isMouseDownMain",
+            "type": "boolean",
+            "ref": "9a78a26c",
+            "defaultValue": false,
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "9143d793"
+                },
+                {
+                    "ref": "mutator",
+                    "id": "0b614947"
+                }
+            ]
+        },
+        "9007577a": {
+            "title": "isMouseDownHue",
+            "type": "boolean",
+            "ref": "9007577a",
+            "defaultValue": false,
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "a1176e9b"
+                },
+                {
+                    "ref": "mutator",
+                    "id": "90d58101"
+                }
+            ]
+        },
+        "da69f1a4": {
+            "title": "isMouseDownOpacity",
+            "type": "boolean",
+            "ref": "da69f1a4",
+            "defaultValue": false,
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "093f7ea8"
+                },
+                {
+                    "ref": "mutator",
+                    "id": "ad8b59a9"
                 }
             ]
         }
@@ -8302,8 +8595,8 @@
                 "id": "6bbf6dc5"
             },
             "mutation": {
-                "ref": "pipe",
-                "id": "1fec3625"
+                "ref": "split",
+                "id": "1e43086b"
             }
         },
         "e2f90328": {
@@ -8316,8 +8609,8 @@
                 "id": "c935e320"
             },
             "mutation": {
-                "ref": "pipe",
-                "id": "071eb353"
+                "ref": "split",
+                "id": "24c237fc"
             }
         },
         "62f7c90c": {
@@ -8330,8 +8623,8 @@
                 "id": "5d2b8aa2"
             },
             "mutation": {
-                "ref": "pipe",
-                "id": "45184939"
+                "ref": "split",
+                "id": "0b0b01c6"
             }
         },
         "96e1ab7f": {
@@ -8344,8 +8637,92 @@
                 "id": "09e53aba"
             },
             "mutation": {
+                "ref": "split",
+                "id": "0b12e3aa"
+            }
+        },
+        "9143d793": {
+            "event": {
+                "ref": "event",
+                "id": "5282617a"
+            },
+            "state": {
+                "ref": "state",
+                "id": "9a78a26c"
+            },
+            "mutation": {
                 "ref": "pipe",
-                "id": "7574ba69"
+                "id": "ac1cd5f0"
+            }
+        },
+        "0b614947": {
+            "event": {
+                "ref": "event",
+                "id": "7e614694"
+            },
+            "state": {
+                "ref": "state",
+                "id": "9a78a26c"
+            },
+            "mutation": {
+                "ref": "pipe",
+                "id": "b30e1f15"
+            }
+        },
+        "a1176e9b": {
+            "event": {
+                "ref": "event",
+                "id": "90a7cdd2"
+            },
+            "state": {
+                "ref": "state",
+                "id": "9007577a"
+            },
+            "mutation": {
+                "ref": "pipe",
+                "id": "e5831a8b"
+            }
+        },
+        "90d58101": {
+            "event": {
+                "ref": "event",
+                "id": "0cabbdeb"
+            },
+            "state": {
+                "ref": "state",
+                "id": "9007577a"
+            },
+            "mutation": {
+                "ref": "pipe",
+                "id": "4441341c"
+            }
+        },
+        "093f7ea8": {
+            "event": {
+                "ref": "event",
+                "id": "afd1eeae"
+            },
+            "state": {
+                "ref": "state",
+                "id": "da69f1a4"
+            },
+            "mutation": {
+                "ref": "pipe",
+                "id": "d4547e8a"
+            }
+        },
+        "ad8b59a9": {
+            "event": {
+                "ref": "event",
+                "id": "1ee60657"
+            },
+            "state": {
+                "ref": "state",
+                "id": "da69f1a4"
+            },
+            "mutation": {
+                "ref": "pipe",
+                "id": "3be5289f"
             }
         }
     },
@@ -8410,9 +8787,177 @@
                     "id": "96e1ab7f"
                 }
             ]
+        },
+        "5282617a": {
+            "type": "mousedown",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "e3b56982"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "9143d793"
+                }
+            ]
+        },
+        "7e614694": {
+            "type": "mouseup",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "e3b56982"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "0b614947"
+                }
+            ]
+        },
+        "90a7cdd2": {
+            "type": "mousedown",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "30436ae1"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "a1176e9b"
+                }
+            ]
+        },
+        "0cabbdeb": {
+            "type": "mouseup",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "30436ae1"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "90d58101"
+                }
+            ]
+        },
+        "afd1eeae": {
+            "type": "mousedown",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "047a1dd4"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "093f7ea8"
+                }
+            ]
+        },
+        "1ee60657": {
+            "type": "mouseup",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "047a1dd4"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "ad8b59a9"
+                }
+            ]
         }
     },
     "id": "5a5106ff",
-    "branch": {},
-    "split": {}
+    "branch": {
+        "ca5a0fec": {
+            "test": {
+                "ref": "pipe",
+                "id": "02101354"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "eb2240fb"
+            }
+        },
+        "b7868290": {
+            "test": {
+                "ref": "pipe",
+                "id": "ec205a26"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "9eb31943"
+            }
+        },
+        "291c7df5": {
+            "test": {
+                "ref": "pipe",
+                "id": "6b572773"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "fecdb494"
+            }
+        },
+        "49f0d119": {
+            "test": {
+                "ref": "pipe",
+                "id": "a9f9d021"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "dc368c8b"
+            }
+        }
+    },
+    "split": {
+        "24c237fc": {
+            "defaultValue": {
+                "ref": "pipe",
+                "id": "071eb353"
+            },
+            "branches": [
+                {
+                    "ref": "branch",
+                    "id": "ca5a0fec"
+                }
+            ]
+        },
+        "0b0b01c6": {
+            "defaultValue": {
+                "ref": "pipe",
+                "id": "45184939"
+            },
+            "branches": [
+                {
+                    "ref": "branch",
+                    "id": "b7868290"
+                }
+            ]
+        },
+        "1e43086b": {
+            "defaultValue": {
+                "ref": "pipe",
+                "id": "1fec3625"
+            },
+            "branches": [
+                {
+                    "ref": "branch",
+                    "id": "291c7df5"
+                }
+            ]
+        },
+        "0b12e3aa": {
+            "defaultValue": {
+                "ref": "pipe",
+                "id": "7574ba69"
+            },
+            "branches": [
+                {
+                    "ref": "branch",
+                    "id": "49f0d119"
+                }
+            ]
+        }
+    }
 }
