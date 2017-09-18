@@ -3,6 +3,7 @@ import { state } from 'lape'
 import { EVENT_HOVERED, EVENT_UNHOVERED, STATE_NODE_SELECTED, REMOVE_MUTATOR } from '../../events'
 import { ArrowIcon, DeleteIcon } from '../icons'
 import emberEditor from './ember/ember'
+import BranchButton from './branch-button'
 
 export default () => {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
@@ -165,9 +166,20 @@ export default () => {
                                                         color: 'white',
                                                         fontSize: '1.8em',
                                                         padding: '10px',
+                                                        position: 'relative',
                                                     }}
                                                 >
                                                     =
+                                                    <span
+                                                        style={{
+                                                            fontSize: '12px',
+                                                            position: 'absolute',
+                                                            bottom: '0',
+                                                            left: '6px'
+                                                        }}
+                                                    >
+                                                     <BranchButton reference={mutatorRef} propertyName={'mutation'} />
+                                                    </span>
                                                 </span>
                                                 {emberEditor(mutator.mutation, stateDef.type)}
                                                 <div onClick={() => REMOVE_MUTATOR(mutatorRef)}>
