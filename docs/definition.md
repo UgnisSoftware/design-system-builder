@@ -1,4 +1,4 @@
-## General v0.8.2
+## Definition v0.9.0
 
 Ugnis aims is to be homoiconic - we try to use the same data types that will end up in the Ugnis state tab.
 
@@ -111,6 +111,14 @@ Ugnis has more than just "add" operation, but the principle is the same, the ful
     length: {
         [id]: {}
     },
+    split: {
+         defaultValue: ref pipe
+         branches: array of ref branch
+    }
+    branch: {
+         test: ref pipe (boolean)
+         value: ref pipe
+    }
     pipe: {
         [id]: {
             type: variant ("number" || "text" || "boolean" || "table")

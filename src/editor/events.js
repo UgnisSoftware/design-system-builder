@@ -2,6 +2,8 @@ import emptyApp from '../_empty.json'
 import { state, setState } from 'lape'
 import R from 'ramda'
 
+import { uuid } from './utils'
+
 function getAvailableEvents(type) {
     let availableEvents = [
         {
@@ -75,13 +77,6 @@ function moveInArray(array, moveIndex, toIndex) {
         return [...array.slice(0, moveIndex), ...array.slice(moveIndex + 1, toIndex + 1), item, ...array.slice(toIndex + 1, length)]
     }
     return array
-}
-
-function uuid() {
-    //return ('' + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[10]/g, function() {
-    return ('' + 1e7).replace(/[10]/g, function() {
-        return (0 | (Math.random() * 16)).toString(16)
-    })
 }
 
 function generateEmptyApp() {

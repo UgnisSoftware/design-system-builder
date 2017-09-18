@@ -428,5 +428,7 @@
     "table": {},
     "state": {},
     "mutator": {},
-    "event": {}
+    "event": {},
+    "branch": {},
+    "split": {}
 }

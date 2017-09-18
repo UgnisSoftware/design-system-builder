@@ -17,6 +17,7 @@
  */
 
 import React, { PureComponent } from 'react'
+import R from 'ramda'
 
 const defaultStylesToRemove = {
     //alignItems: 'flex-start',
@@ -83,6 +84,10 @@ function oldRender(props) {
     const { definition, onEvent, frozen, frozenClick, selectedNode } = props
     let { state } = props
 
+    function findNode(ref) {
+        return definition[ref.ref][ref.id]
+    }
+
     // global state for resolver
     let currentEvent = null
     let currentEventNode = null
@@ -115,7 +120,13 @@ function oldRender(props) {
             if (ref.id === 'layerX') return offsetX
             if (ref.id === 'layerY') return offsetY
         }
-        const def = definition[ref.ref][ref.id]
+        const def = findNode(ref)
+        if (ref.ref === 'split') {
+            // return last branch or defaultValue
+            const correctBranch = R.findLast(branchRef => resolve(findNode(branchRef).test))(def.branches)
+
+            return correctBranch ? resolve(findNode(correctBranch).value) : resolve(def.defaultValue)
+        }
         if (ref.ref === 'pipe') {
             return pipe(ref)
         }
