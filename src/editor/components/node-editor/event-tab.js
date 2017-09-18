@@ -175,10 +175,10 @@ export default () => {
                                                             fontSize: '12px',
                                                             position: 'absolute',
                                                             bottom: '0',
-                                                            left: '6px'
+                                                            left: '6px',
                                                         }}
                                                     >
-                                                     <BranchButton reference={mutatorRef} propertyName={'mutation'} />
+                                                        <BranchButton reference={mutatorRef} propertyName={'mutation'} />
                                                     </span>
                                                 </span>
                                                 {emberEditor(mutator.mutation, stateDef.type)}
