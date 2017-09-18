@@ -106,9 +106,12 @@ export default () => {
                         fontWeight: 'bold',
                         letterSpacing: '1px',
                         color: '#8e8e8e',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     source (url)
+                    <BranchButton reference={state.selectedViewNode} propertyName={'src'} />
                 </div>
                 <div style={{ padding: '0 20px' }}>{emberEditor(selectedNode.src, 'text')}</div>
             </div>
@@ -125,9 +128,12 @@ export default () => {
                         fontWeight: 'bold',
                         letterSpacing: '1px',
                         color: '#8e8e8e',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     text
+                    <BranchButton reference={state.selectedViewNode} propertyName={'value'} />
                 </div>
                 <div style={{ padding: '0 20px' }}>{emberEditor(selectedNode.value, 'text')}</div>
             </div>
@@ -144,9 +150,12 @@ export default () => {
                         fontWeight: 'bold',
                         letterSpacing: '1px',
                         color: '#8e8e8e',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     table
+                    <BranchButton reference={state.selectedViewNode} propertyName={'value'} />
                 </div>
                 <div style={{ padding: '0 20px' }}>{emberEditor(selectedNode.value, 'table')}</div>
             </div>
@@ -163,9 +172,12 @@ export default () => {
                         fontWeight: 'bold',
                         letterSpacing: '1px',
                         color: '#8e8e8e',
+                        display: 'flex',
+                        alignItems: 'center',
                     }}
                 >
                     true/false
+                    <BranchButton reference={state.selectedViewNode} propertyName={'value'} />
                 </div>
                 <div style={{ padding: '0 20px' }}>{emberEditor(selectedNode.value, 'boolean')}</div>
             </div>

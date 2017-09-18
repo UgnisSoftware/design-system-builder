@@ -24,7 +24,7 @@ export default function emberEditor(ref, type) {
                         alignItems: 'center',
                     }}
                 >
-                    default: {emberEditor(pipe.defaultValue)}{' '}
+                    default: {emberEditor(pipe.defaultValue, type)}{' '}
                 </div>
                 {pipe.branches.map(branchRef => {
                     const branch = state.definitionList[state.currentDefinitionId][branchRef.ref][branchRef.id]
@@ -39,7 +39,7 @@ export default function emberEditor(ref, type) {
                             >
                                 <span style={{ padding: '0 5px 0 0 ' }}>if</span> {emberEditor(branch.test)}{' '}
                                 <span style={{ padding: '0 5px' }}>then</span>
-                                {emberEditor(branch.value)}
+                                {emberEditor(branch.value, type)}
                             </div>
                         </div>
                     )

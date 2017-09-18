@@ -5,7 +5,6 @@ import { IfIcon } from '../icons'
 import { uuid } from '../../utils'
 
 function ADD_NEW_BRANCH(splitRef) {
-
     const defaultPipeRef = state.definitionList[state.currentDefinitionId][splitRef.ref][splitRef.id].defaultValue
     const defaultPipe = state.definitionList[state.currentDefinitionId][defaultPipeRef.ref][defaultPipeRef.id]
 
@@ -47,8 +46,8 @@ function ADD_NEW_BRANCH(splitRef) {
                             branches: R.append({
                                 ref: 'branch',
                                 id: newBranchId,
-                            })
-                        }
+                            }),
+                        },
                     },
                 },
             },
@@ -57,12 +56,11 @@ function ADD_NEW_BRANCH(splitRef) {
 }
 
 function BRANCH_PIPE(ref, propertyName) {
-
     const node = state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
     const oldPipeRef = node[propertyName]
 
     // if it's already a split, just add a new branch
-    if(oldPipeRef.ref === 'split'){
+    if (oldPipeRef.ref === 'split') {
         return ADD_NEW_BRANCH(oldPipeRef)
     }
 

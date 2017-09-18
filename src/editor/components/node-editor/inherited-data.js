@@ -106,14 +106,16 @@ export default function generateEditNodeComponent() {
                 ''
             )}
 
-            {inheritedStates.length !== 0 ?
+            {inheritedStates.length !== 0 ? (
                 inheritedStates.map(stateRef => (
                     <span>
                         <div
                             style={{
-                                    padding: '0 0 5px 0',
-                                }}
-                        >{state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}</div>
+                                padding: '0 0 5px 0',
+                            }}
+                        >
+                            {state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}
+                        </div>
                         <span
                             style={{
                                 flex: '0 0 auto',
@@ -139,7 +141,10 @@ export default function generateEditNodeComponent() {
                             </span>
                         </span>
                     </span>
-                )) : ''}
+                ))
+            ) : (
+                ''
+            )}
         </div>
     )
 }
