@@ -24,7 +24,7 @@
   - [x] type safety - does not allow runtime errors
   - [ ] Editor keyboard shortcuts are rebindable
   - [ ] Timers
-  - [ ] Keyboard events
+  - [x] Keyboard events
   - [ ] Great docs
 
 ## Future improvements
