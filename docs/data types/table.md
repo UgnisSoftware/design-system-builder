@@ -10,7 +10,7 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
-Filter:
+Filter - leave only entries that do not match the predicate:
 ```
 
 remove if                   -> table
@@ -27,7 +27,7 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
-Map:
+Change every entry:
 ```
 transform each ____ ...   -> table
 
@@ -44,7 +44,7 @@ ref | GREY        | 556             | false             |
 ref | FRAY        | 913             | true              |
 ```
 
-Update:
+Add new entry:
 ```
 add ...                   -> table
 
@@ -60,7 +60,7 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
-Update:
+Update an existing entry:
 ```
 update __id__ ...          -> table
 
@@ -77,7 +77,7 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
-Delete:
+Delete an existing entry:
 ```
 delete __id__              -> table
 
@@ -92,5 +92,6 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
+still in question:
 at __position__            -> row
 select __column__          -> column.type
