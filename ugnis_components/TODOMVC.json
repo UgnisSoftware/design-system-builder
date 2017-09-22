@@ -27,7 +27,14 @@
     },
     "toLowerCase": {},
     "toUpperCase": {},
-    "equal": {},
+    "equal": {
+        "3e2ad15f": {
+            "value": {
+                "ref": "pipe",
+                "id": "d3f48f45"
+            }
+        }
+    },
     "and": {},
     "or": {},
     "not": {},
@@ -146,6 +153,24 @@
         "98742128": {
             "type": "text",
             "value": "500px",
+            "transformations": []
+        },
+        "d9c22375": {
+            "type": "boolean",
+            "value": {
+                "ref": "eventData",
+                "id": "keyPressed"
+            },
+            "transformations": [
+                {
+                    "ref": "equal",
+                    "id": "3e2ad15f"
+                }
+            ]
+        },
+        "26c85cf5": {
+            "type": "text",
+            "value": "",
             "transformations": []
         },
         "d598c126-a2b2-485f-8b05-f9395c834344": {
@@ -4657,6 +4682,19 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "42b0cd45": {
+            "type": "text",
+            "value": {
+                "ref": "state",
+                "id": "a86f7bcd"
+            },
+            "transformations": []
+        },
+        "d3f48f45": {
+            "type": "text",
+            "value": "Enter",
+            "transformations": []
         }
     },
     "join": {
@@ -4692,7 +4730,12 @@
                     "id": "8374bcaa"
                 }
             ],
-            "events": []
+            "events": [
+                {
+                    "ref": "event",
+                    "id": "fc495650"
+                }
+            ]
         },
         "98f90936": {
             "title": "box",
@@ -8833,6 +8876,10 @@
                 {
                     "ref": "mutator",
                     "id": "406042fc"
+                },
+                {
+                    "ref": "mutator",
+                    "id": "00bb81ff"
                 }
             ]
         },
@@ -8858,6 +8905,20 @@
                 "ref": "pipe",
                 "id": "ae06207b"
             }
+        },
+        "00bb81ff": {
+            "event": {
+                "ref": "event",
+                "id": "fc495650"
+            },
+            "state": {
+                "ref": "state",
+                "id": "a86f7bcd"
+            },
+            "mutation": {
+                "ref": "split",
+                "id": "2571bab4"
+            }
         }
     },
     "event": {
@@ -8880,9 +8941,46 @@
                     "id": "_input"
                 }
             ]
+        },
+        "fc495650": {
+            "type": "keydown",
+            "emitter": {
+                "ref": "vNodeBox",
+                "id": "_rootNode"
+            },
+            "mutators": [
+                {
+                    "ref": "mutator",
+                    "id": "00bb81ff"
+                }
+            ]
         }
     },
     "id": "23879215",
-    "branch": {},
-    "split": {}
+    "branch": {
+        "a2c6bd99": {
+            "test": {
+                "ref": "pipe",
+                "id": "d9c22375"
+            },
+            "value": {
+                "ref": "pipe",
+                "id": "26c85cf5"
+            }
+        }
+    },
+    "split": {
+        "2571bab4": {
+            "defaultValue": {
+                "ref": "pipe",
+                "id": "42b0cd45"
+            },
+            "branches": [
+                {
+                    "ref": "branch",
+                    "id": "a2c6bd99"
+                }
+            ]
+        }
+    }
 }
