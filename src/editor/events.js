@@ -1910,18 +1910,25 @@ export function SELECT_PIPE(pipeId, e) {
     setState({ ...state, selectedPipeId: pipeId })
 }
 export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
+
+    const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
+    const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
     const defaultTransformations = {
         text: 'toUpperCase',
         number: 'add',
         boolean: 'and',
+        table: 'push'
     }
     const defaultValues = {
         text: 'Default text',
         number: 0,
         boolean: true,
+        table: stateInPipe.columns.map(stateRef => {
+            
+        }),
     }
-    const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
-    const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
+    console.log(stateInPipe)
+    return
     const transformation = defaultTransformations[stateInPipe.type]
     const value = defaultValues[stateInPipe.type]
     const newPipeId = uuid()
