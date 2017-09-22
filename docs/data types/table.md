@@ -27,7 +27,7 @@ ref | Grey        | 555             | true              |
 ref | Fray        | 912             | false             |
 ```
 
-Change every entry:
+Change every entry (map):
 ```
 transform each ____ ...   -> table
 
@@ -93,5 +93,6 @@ ref | Fray        | 912             | false             |
 ```
 
 still in question:
+reduce?
 at __position__            -> row
 select __column__          -> column.type
