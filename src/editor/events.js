@@ -953,7 +953,7 @@ export function STATE_DRAGGED(stateRef, e) {
 }
 
 export function FREEZER_CLICKED() {
-    setState({ ...state, appIsFrozen: !state.appIsFrozen })
+    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: {}})
 }
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
     setState({
@@ -1930,19 +1930,32 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
     if (stateInPipe.type === 'table'){
         const rowId = uuid()
         const row = {
-            columns: stateInPipe.columns.map((stateRef)=>{
+            columns: stateInPipe.columns.map((columneRef)=>{
                 return {
                     ref: 'column',
                     id: uuid()
                 }
             })
         }
+
+        // fuck it, TODO BURN THIS CODE
+        let pipes = {}
         const columns = stateInPipe.columns.reduce((acc, stateRef, index)=>{
             const columnState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id]
 
+            const pipeId = uuid()
+            pipes[pipeId] = {
+                type: columnState.type,
+                value: columnState.defaultValue,
+                transformations: [],
+            }
+
             acc[row.columns[index].id] = {
                 state: stateRef,
-                value: columnState.defaultValue
+                value: {
+                    ref: 'pipe',
+                    id: pipeId,
+                }
             }
             return acc
         }, {})
@@ -1962,11 +1975,14 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                         row: R.assoc(rowId, row),
                         column: R.merge(columns),
                         push: R.assoc(pushId, push),
-                        pipe: {
-                            [pipeId]: {
-                                transformations: R.append({ref: 'push', id: pushId}),
-                            },
-                        },
+                        pipe: R.pipe(
+                            R.merge(pipes),
+                            R.evolve({
+                                [pipeId]: {
+                                    transformations: R.append({ref: 'push', id: pushId}),
+                                },
+                            })
+                        )
                     },
                 },
             })(state)

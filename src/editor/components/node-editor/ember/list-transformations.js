@@ -13,9 +13,25 @@ export default function listTransformations(transformations, ref) {
             </span>
         )
         if (transRef.ref === 'push') {
+            const row = state.definitionList[state.currentDefinitionId][transformer.row.ref][transformer.row.id]
+
             return (
                 <div style={{ paddingTop: '5px' }}>
-                    PUSH
+                    {row.columns.map((columnRef)=> {
+                        const column = state.definitionList[state.currentDefinitionId][columnRef.ref][columnRef.id]
+                        const columnState = state.definitionList[state.currentDefinitionId][column.state.ref][column.state.id]
+
+                        return <span>
+                            <span
+                                style={{
+                            color: '#bdbdbd',
+                            cursor: 'default',
+                            display: 'inline-block',
+                        }}
+                            >{columnState.title}</span>
+                            <span style={{ display: 'inline-block' }}>{emberEditor(column.value)}</span>
+                        </span>
+                    })}
                 </div>
             )
         }
