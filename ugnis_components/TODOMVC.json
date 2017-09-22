@@ -8841,20 +8841,8 @@
             "type": "table",
             "defaultValue": [
                 {
-                    "3aa41bf3": "one",
+                    "ref": "row",
                     "id": "24dcdf4a"
-                },
-                {
-                    "3aa41bf3": "two",
-                    "id": "e1e3faf4"
-                },
-                {
-                    "3aa41bf3": "three",
-                    "id": "a4faf04d"
-                },
-                {
-                    "3aa41bf3": "four",
-                    "id": "631f4286"
                 }
             ],
             "columns": [
@@ -8864,6 +8852,26 @@
                 }
             ],
             "mutators": []
+        }
+    },
+    "push": {},
+    "row": {
+        "24dcdf4a": {
+            "columns": [
+                {
+                    "ref": "column",
+                    "id": "pa23is8c"
+                }
+            ]
+        }
+    },
+    "column": {
+        "pa23is8c": {
+            "state": {
+                "ref": "state",
+                "id": "3aa41bf3"
+            },
+            "value": "one"
         }
     },
     "state": {

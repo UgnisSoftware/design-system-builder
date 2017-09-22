@@ -12,6 +12,13 @@ export default function listTransformations(transformations, ref) {
                 <DeleteIcon />
             </span>
         )
+        if (transRef.ref === 'push') {
+            return (
+                <div style={{ paddingTop: '5px' }}>
+                    PUSH
+                </div>
+            )
+        }
         if (transRef.ref === 'equal') {
             return (
                 <div style={{ paddingTop: '5px' }}>

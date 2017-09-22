@@ -44,9 +44,9 @@ ref | GREY        | 556             | false             |
 ref | FRAY        | 913             | true              |
 ```
 
-Add new entry:
+Push new entry to the end:
 ```
-add ...                   -> table
+push ...                   -> table
 
 // example
 |table|

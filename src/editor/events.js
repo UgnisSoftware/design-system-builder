@@ -86,7 +86,19 @@ function generateEmptyApp() {
 export function createDefaultState(definition) {
     return definition.nameSpace['_rootNameSpace'].children.reduce((acc, ref) => {
         const def = definition[ref.ref][ref.id]
-        acc[ref.id] = def.defaultValue
+        if(ref.ref === 'table'){
+            acc[ref.id] = def.defaultValue.map((rowRef)=> {
+                    const row = definition[rowRef.ref][rowRef.id]
+                    return row.columns.reduce((acc, columnRef)=> {
+                        const column = definition[columnRef.ref][columnRef.id]
+                        acc[column.state.id] = column.value
+                        return acc
+                    },{})
+                }
+            )
+        } else {
+            acc[ref.id] = def.defaultValue
+        }
         return acc
     }, {})
 }
@@ -1911,24 +1923,66 @@ export function SELECT_PIPE(pipeId, e) {
 }
 export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
 
+    // TODO this function has reachrd the maximum hack capacity
     const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
     const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
+
+    if (stateInPipe.type === 'table'){
+        const rowId = uuid()
+        const row = {
+            columns: stateInPipe.columns.map((stateRef)=>{
+                return {
+                    ref: 'column',
+                    id: uuid()
+                }
+            })
+        }
+        const columns = stateInPipe.columns.reduce((acc, stateRef, index)=>{
+            const columnState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id]
+
+            acc[row.columns[index].id] = {
+                state: stateRef,
+                value: columnState.defaultValue
+            }
+            return acc
+        }, {})
+
+        const pushId = uuid()
+        const push = {
+            row: {
+                ref: "row",
+                id: rowId
+            }
+        }
+
+        return setState(
+            R.evolve({
+                definitionList: {
+                    [state.currentDefinitionId]: {
+                        row: R.assoc(rowId, row),
+                        column: R.merge(columns),
+                        push: R.assoc(pushId, push),
+                        pipe: {
+                            [pipeId]: {
+                                transformations: R.append({ref: 'push', id: pushId}),
+                            },
+                        },
+                    },
+                },
+            })(state)
+        )
+    }
+
     const defaultTransformations = {
         text: 'toUpperCase',
         number: 'add',
         boolean: 'and',
-        table: 'push'
     }
     const defaultValues = {
         text: 'Default text',
         number: 0,
         boolean: true,
-        table: stateInPipe.columns.map(stateRef => {
-            
-        }),
     }
-    console.log(stateInPipe)
-    return
     const transformation = defaultTransformations[stateInPipe.type]
     const value = defaultValues[stateInPipe.type]
     const newPipeId = uuid()
@@ -1942,6 +1996,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                   .slice(0, oldTransformations.length - 1)
                   .concat({ ref: transformation, id: newId })
                   .concat(oldTransformations.slice(oldTransformations.length - 1))
+
     setState({
         ...state,
         definitionList: {
@@ -2216,7 +2271,7 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
                         },
                     },
                     [oldTransformationRef.ref]: R.omit(oldTransformationRef.id),
-                    [newRefName]: R.assoc([oldTransformationRef.id], oldTransform),
+                    [newRefName]: R.assoc(oldTransformationRef.id, oldTransform),
                 },
             },
         })(state)

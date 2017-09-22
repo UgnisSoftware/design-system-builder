@@ -256,6 +256,22 @@ Ugnis has more than just "add" operation, but the principle is the same, the ful
             mutators: array of ref mutator
         }
     },
+    push: {
+        [id]: {
+            row: row ref
+        }
+    },
+    row: {
+        [id]: {
+            columns: array of column refs
+        }
+    },
+    column: {
+        [id]: {
+            state: state ref
+            value: ref pipe or static if used by default
+        }
+    },
     state: {
         [id]: {
             title:
