@@ -86,22 +86,11 @@ function generateEmptyApp() {
 export function createDefaultState(definition) {
     return definition.nameSpace['_rootNameSpace'].children.reduce((acc, ref) => {
         const def = definition[ref.ref][ref.id]
-        if(ref.ref === 'table'){
-            acc[ref.id] = def.defaultValue.map((rowRef)=> {
-                    const row = definition[rowRef.ref][rowRef.id]
-                    return row.columns.reduce((acc, columnRef)=> {
-                        const column = definition[columnRef.ref][columnRef.id]
-                        acc[column.state.id] = column.value
-                        return acc
-                    },{})
-                }
-            )
-        } else {
-            acc[ref.id] = def.defaultValue
-        }
+        acc[ref.id] = def.defaultValue
         return acc
     }, {})
 }
+
 
 document.addEventListener('click', e => {
     // clicked outside
@@ -2129,7 +2118,12 @@ export function DELETE_STATE(stateRef, tableState) {
                         } else {
                             return row
                         }
-                    })
+                    }),
+                    table: {
+                       [tableState.id]: {
+                           defaultValue: R.map(R.omit(stateRef.id))
+                       }
+                    }
                 }
             }
         })(updatedState)
@@ -2445,6 +2439,7 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
                 [state.currentDefinitionId]: {
                     table: {
                         [tableId]: {
+                            defaultValue: R.map(R.assoc(newStateId, newState.defaultValue)),
                             columns: R.append({
                                 ref: 'state',
                                 id: newStateId,

@@ -8966,8 +8966,8 @@
             "type": "table",
             "defaultValue": [
                 {
-                    "ref": "row",
-                    "id": "24dcdf4a"
+                    "3aa41bf3": "one",
+                    "id": "125cdf4a"
                 }
             ],
             "columns": [
@@ -8993,18 +8993,6 @@
         }
     },
     "row": {
-        "24dcdf4a": {
-            "table": {
-                "ref": "table",
-                "id": "b2d15547"
-            },
-            "columns": [
-                {
-                    "ref": "column",
-                    "id": "pa23is8c"
-                }
-            ]
-        },
         "0f571919": {
             "table": {
                 "ref": "table",
@@ -9029,13 +9017,6 @@
                 "id": "ce9d2fdf"
             }
         },
-        "pa23is8c": {
-            "state": {
-                "ref": "state",
-                "id": "3aa41bf3"
-            },
-            "value": "one"
-        }
     },
     "state": {
         "a86f7bcd": {
