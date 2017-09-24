@@ -17,20 +17,24 @@ export default function listTransformations(transformations, ref) {
 
             return (
                 <div style={{ paddingTop: '5px' }}>
-                    {row.columns.map((columnRef)=> {
+                    {row.columns.map(columnRef => {
                         const column = state.definitionList[state.currentDefinitionId][columnRef.ref][columnRef.id]
                         const columnState = state.definitionList[state.currentDefinitionId][column.state.ref][column.state.id]
 
-                        return <span>
-                            <span
-                                style={{
-                            color: '#bdbdbd',
-                            cursor: 'default',
-                            display: 'inline-block',
-                        }}
-                            >{columnState.title}</span>
-                            <span style={{ display: 'inline-block' }}>{emberEditor(column.value)}</span>
-                        </span>
+                        return (
+                            <span>
+                                <span
+                                    style={{
+                                        color: '#bdbdbd',
+                                        cursor: 'default',
+                                        display: 'inline-block',
+                                    }}
+                                >
+                                    {columnState.title}
+                                </span>
+                                <span style={{ display: 'inline-block' }}>{emberEditor(column.value)}</span>
+                            </span>
+                        )
                     })}
                 </div>
             )

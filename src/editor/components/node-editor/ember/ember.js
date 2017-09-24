@@ -296,11 +296,13 @@ export default function emberEditor(ref, type) {
                         ) : (
                             ''
                         )}
-                        {state.selectedPipeId === ref.id ?
-                            < span style={{ flex: '0 0 auto' }} onClick={e => RESET_PIPE(ref.id, e)}>
+                        {state.selectedPipeId === ref.id ? (
+                            <span style={{ flex: '0 0 auto' }} onClick={e => RESET_PIPE(ref.id, e)}>
                                 <DeleteIcon />
-                            </span> : ''
-                        }
+                            </span>
+                        ) : (
+                            ''
+                        )}
                     </div>
                     <div style={{ paddingLeft: '15px' }}>{listTransformations(pipe.transformations, ref)}</div>
                 </div>

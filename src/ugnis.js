@@ -169,12 +169,10 @@ function oldRender(props) {
         }
         if (ref.ref === 'row') {
             return def.columns.reduce((acc, columnRef) => {
-                    const column = findNode(columnRef)
-                    acc[column.state.id] = resolve(column.value)
-                    return acc
-                },
-                {}
-            )
+                const column = findNode(columnRef)
+                acc[column.state.id] = resolve(column.value)
+                return acc
+            }, {})
         }
         throw Error(ref)
     }

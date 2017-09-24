@@ -91,7 +91,6 @@ export function createDefaultState(definition) {
     }, {})
 }
 
-
 document.addEventListener('click', e => {
     // clicked outside
     if (state.editingTitleNodeId && !e.target.dataset.istitleeditor) {
@@ -118,7 +117,7 @@ document.addEventListener('keydown', e => {
     }
 })
 
-function findNode(ref){
+function findNode(ref) {
     return state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
 }
 
@@ -946,7 +945,7 @@ export function STATE_DRAGGED(stateRef, e) {
 }
 
 export function FREEZER_CLICKED() {
-    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: {}})
+    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: {} })
 }
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
     setState({
@@ -1915,26 +1914,25 @@ export function SELECT_PIPE(pipeId, e) {
     setState({ ...state, selectedPipeId: pipeId })
 }
 export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
-
     // TODO this function has reachrd the maximum hack capacity
     const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
     const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
 
-    if (stateInPipe.type === 'table'){
+    if (stateInPipe.type === 'table') {
         const rowId = uuid()
         const row = {
             table: pipe.value,
-            columns: stateInPipe.columns.map((columneRef)=>{
+            columns: stateInPipe.columns.map(columneRef => {
                 return {
                     ref: 'column',
-                    id: uuid()
+                    id: uuid(),
                 }
-            })
+            }),
         }
 
         // fuck it, TODO BURN THIS CODE
         let pipes = {}
-        const columns = stateInPipe.columns.reduce((acc, stateRef, index)=>{
+        const columns = stateInPipe.columns.reduce((acc, stateRef, index) => {
             const columnState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id]
 
             const pipeId = uuid()
@@ -1949,7 +1947,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                 value: {
                     ref: 'pipe',
                     id: pipeId,
-                }
+                },
             }
             return acc
         }, {})
@@ -1957,9 +1955,9 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         const pushId = uuid()
         const push = {
             row: {
-                ref: "row",
-                id: rowId
-            }
+                ref: 'row',
+                id: rowId,
+            },
         }
 
         return setState(
@@ -1973,10 +1971,10 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                             R.merge(pipes),
                             R.evolve({
                                 [pipeId]: {
-                                    transformations: R.append({ref: 'push', id: pushId}),
+                                    transformations: R.append({ ref: 'push', id: pushId }),
                                 },
                             })
-                        )
+                        ),
                     },
                 },
             })(state)
@@ -2104,28 +2102,28 @@ export function DELETE_STATE(stateRef, tableState) {
             }
         })
     }
-    if(tableState){
+    if (tableState) {
         updatedState = R.evolve({
-            definitionList:{
-                [state.currentDefinitionId]:{
-                    row: R.map((row)=>{
-                        if(row.table.id === tableState.id){
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    row: R.map(row => {
+                        if (row.table.id === tableState.id) {
                             const table = findNode(row.table)
                             const index = table.columns.findIndex(columnRef => columnRef.id === stateId)
                             return R.evolve({
-                                columns: R.remove(index, 1)
+                                columns: R.remove(index, 1),
                             })(row)
                         } else {
                             return row
                         }
                     }),
                     table: {
-                       [tableState.id]: {
-                           defaultValue: R.map(R.omit(stateRef.id))
-                       }
-                    }
-                }
-            }
+                        [tableState.id]: {
+                            defaultValue: R.map(R.omit(stateRef.id)),
+                        },
+                    },
+                },
+            },
         })(updatedState)
     }
     // remove from table nameSpace
@@ -2412,22 +2410,22 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
     const updatedTable = state.componentState[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
     let addedPipes = {}
     let addedColumns = {}
-    const updatedRows = R.mapObjIndexed((row, rowId)=>{
-        if(row.table.id === tableId){
+    const updatedRows = R.mapObjIndexed((row, rowId) => {
+        if (row.table.id === tableId) {
             const pipeId = uuid()
             const columnId = uuid()
 
             addedColumns = R.assoc(columnId, {
-                state: {ref: 'state', id: newStateId},
-                value: {ref: 'pipe', id: pipeId}
+                state: { ref: 'state', id: newStateId },
+                value: { ref: 'pipe', id: pipeId },
             })(addedColumns)
             addedPipes = R.assoc(pipeId, {
                 type: newState.type,
                 value: newState.defaultValue,
-                transformations: []
+                transformations: [],
             })(addedPipes)
             return R.evolve({
-                columns: R.append({ref: 'column', id: columnId})
+                columns: R.append({ ref: 'column', id: columnId }),
             })(row)
         }
         return row
@@ -2443,13 +2441,13 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
                             columns: R.append({
                                 ref: 'state',
                                 id: newStateId,
-                            })
-                        }
+                            }),
+                        },
                     },
                     row: R.merge(R.__, updatedRows),
                     column: R.merge(addedColumns),
                     pipe: R.merge(addedPipes),
-                    state: R.assoc(newStateId, newState)
+                    state: R.assoc(newStateId, newState),
                 },
             },
         })(state)
