@@ -1,4 +1,4 @@
-## Definition v0.9.0
+## Definition v0.9.1
 
 Ugnis aims is to be homoiconic - we try to use the same data types that will end up in the Ugnis state tab.
 
@@ -254,6 +254,23 @@ Ugnis has more than just "add" operation, but the principle is the same, the ful
             defaultValue: array of table?!
             columns: array of ref state
             mutators: array of ref mutator
+        }
+    },
+    push: {
+        [id]: {
+            row: row ref
+        }
+    },
+    row: {
+        [id]: {
+            table: table ref
+            columns: array of column refs
+        }
+    },
+    column: {
+        [id]: {
+            state: state ref
+            value: ref pipe or static if used by default
         }
     },
     state: {

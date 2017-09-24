@@ -12,6 +12,33 @@ export default function listTransformations(transformations, ref) {
                 <DeleteIcon />
             </span>
         )
+        if (transRef.ref === 'push') {
+            const row = state.definitionList[state.currentDefinitionId][transformer.row.ref][transformer.row.id]
+
+            return (
+                <div style={{ paddingTop: '5px' }}>
+                    {row.columns.map(columnRef => {
+                        const column = state.definitionList[state.currentDefinitionId][columnRef.ref][columnRef.id]
+                        const columnState = state.definitionList[state.currentDefinitionId][column.state.ref][column.state.id]
+
+                        return (
+                            <span>
+                                <span
+                                    style={{
+                                        color: '#bdbdbd',
+                                        cursor: 'default',
+                                        display: 'inline-block',
+                                    }}
+                                >
+                                    {columnState.title}
+                                </span>
+                                <span style={{ display: 'inline-block' }}>{emberEditor(column.value)}</span>
+                            </span>
+                        )
+                    })}
+                </div>
+            )
+        }
         if (transRef.ref === 'equal') {
             return (
                 <div style={{ paddingTop: '5px' }}>
