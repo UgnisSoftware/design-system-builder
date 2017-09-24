@@ -1,4 +1,4 @@
-## Definition v0.9.0
+## Definition v0.9.1
 
 Ugnis aims is to be homoiconic - we try to use the same data types that will end up in the Ugnis state tab.
 

@@ -1,5 +1,5 @@
 {
-    "version": "0.9.0",
+    "version": "0.9.1",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
     "eventData": {
@@ -8959,5 +8959,8 @@
                 }
             ]
         }
-    }
+    },
+    "row": {},
+    "column": {},
+    "push": {}
 }
