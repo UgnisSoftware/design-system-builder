@@ -1806,24 +1806,20 @@ export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
         },
     })
 }
+
 export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
     e.preventDefault()
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [stateRef.ref]: {
-                    ...state.definitionList[state.currentDefinitionId][stateRef.ref],
-                    [stateRef.id]: {
-                        ...state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id],
-                        title: e.target.value,
+    setState(
+        R.evolve({
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    [stateRef.ref]: {
+                        [stateRef.id]: R.assoc('title', e.target.value),
                     },
                 },
             },
-        },
-    })
+        })(state)
+    )
 }
 
 export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
@@ -2035,27 +2031,19 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
 }
 
 export function DELETE_TRANSFORMATION(pipeRef, transformationRef) {
-    const currentDefinitionId = state.currentDefinitionId
-    const pipeId = pipeRef.id
-    const remainingTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations.filter(
-        element => element.id !== transformationRef.id
-    )
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [currentDefinitionId]: {
-                ...state.definitionList[currentDefinitionId],
-                pipe: {
-                    ...state.definitionList[currentDefinitionId].pipe,
-                    [pipeId]: {
-                        ...state.definitionList[currentDefinitionId].pipe[pipeId],
-                        transformations: remainingTransformations,
+    setState(
+        R.evolve({
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    pipe: {
+                        [pipeRef.id]: {
+                            transformations: R.filter(element => element.id !== transformationRef.id),
+                        },
                     },
                 },
             },
-        },
-    })
+        })(state)
+    )
 }
 
 export function FULL_SCREEN_CLICKED(value) {
