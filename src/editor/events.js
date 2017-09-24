@@ -129,6 +129,10 @@ document.addEventListener('keydown', e => {
     }
 })
 
+function findNode(ref){
+    return state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
+}
+
 // Actions
 let openBoxTimeout = null
 export function VIEW_DRAGGED(nodeRef, parentRef, initialDepth, e) {
@@ -1930,6 +1934,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
     if (stateInPipe.type === 'table'){
         const rowId = uuid()
         const row = {
+            table: pipe.value,
             columns: stateInPipe.columns.map((columneRef)=>{
                 return {
                     ref: 'column',
@@ -2089,7 +2094,8 @@ export function SAVE_DEFAULT(stateRef) {
         },
     })
 }
-export function DELETE_STATE(stateRef) {
+
+export function DELETE_STATE(stateRef, tableState) {
     const stateId = stateRef.id
     let updatedState = state
     if (stateRef.ref === 'table') {
@@ -2108,6 +2114,25 @@ export function DELETE_STATE(stateRef) {
                 updatedState = resetPipeFunc(pipeId, updatedState)
             }
         })
+    }
+    if(tableState){
+        updatedState = R.evolve({
+            definitionList:{
+                [state.currentDefinitionId]:{
+                    row: R.map((row)=>{
+                        if(row.table.id === tableState.id){
+                            const table = findNode(row.table)
+                            const index = table.columns.findIndex(columnRef => columnRef.id === stateId)
+                            return R.evolve({
+                                columns: R.remove(index, 1)
+                            })(row)
+                        } else {
+                            return row
+                        }
+                    })
+                }
+            }
+        })(updatedState)
     }
     // remove from table nameSpace
     Object.keys(state.definitionList[state.currentDefinitionId].table).forEach(tableId => {
@@ -2359,6 +2384,7 @@ export function UPDATE_TABLE_DEFAULT_RECORD(tableId, e) {
 export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
     // update table def
     // add new state
+    // update all rows that are used in table transforms
     // update running app
     const newStateId = uuid()
     let newState
@@ -2389,38 +2415,50 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
             mutators: [],
         }
     }
-    let updatedTable = state.componentState[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: updatedTable,
-        },
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                table: {
-                    ...state.definitionList[state.currentDefinitionId].table,
-                    [tableId]: {
-                        ...state.definitionList[state.currentDefinitionId].table[tableId],
-                        defaultValue: state.definitionList[state.currentDefinitionId].table[tableId].defaultValue.map(row => ({
-                            ...row,
-                            [newStateId]: newState.defaultValue,
-                        })),
-                        columns: state.definitionList[state.currentDefinitionId].table[tableId].columns.concat({
-                            ref: 'state',
-                            id: newStateId,
-                        }),
+    const updatedTable = state.componentState[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
+    let addedPipes = {}
+    let addedColumns = {}
+    const updatedRows = R.mapObjIndexed((row, rowId)=>{
+        if(row.table.id === tableId){
+            const pipeId = uuid()
+            const columnId = uuid()
+
+            addedColumns = R.assoc(columnId, {
+                state: {ref: 'state', id: newStateId},
+                value: {ref: 'pipe', id: pipeId}
+            })(addedColumns)
+            addedPipes = R.assoc(pipeId, {
+                type: newState.type,
+                value: newState.defaultValue,
+                transformations: []
+            })(addedPipes)
+            return R.evolve({
+                columns: R.append({ref: 'column', id: columnId})
+            })(row)
+        }
+        return row
+    })(state.definitionList[state.currentDefinitionId].row)
+    setState(
+        R.evolve({
+            componentState: R.assoc(tableId, updatedTable),
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    table: {
+                        [tableId]: {
+                            columns: R.append({
+                                ref: 'state',
+                                id: newStateId,
+                            })
+                        }
                     },
-                },
-                state: {
-                    ...state.definitionList[state.currentDefinitionId].state,
-                    [newStateId]: newState,
+                    row: R.merge(R.__, updatedRows),
+                    column: R.merge(addedColumns),
+                    pipe: R.merge(addedPipes),
+                    state: R.assoc(newStateId, newState)
                 },
             },
-        },
-    })
+        })(state)
+    )
 }
 
 export function DELETE_TABLE_ROW(tableId, rowId) {

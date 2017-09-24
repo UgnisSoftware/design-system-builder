@@ -183,7 +183,7 @@ export default ({ stateRef }) => {
                                 display: 'inline-flex',
                                 alignSelf: 'center',
                             }}
-                            onClick={() => DELETE_STATE(childRef)}
+                            onClick={() => DELETE_STATE(childRef, stateRef)}
                         >
                             <DeleteIcon />
                         </div>
