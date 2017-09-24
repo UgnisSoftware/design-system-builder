@@ -263,6 +263,7 @@ Ugnis has more than just "add" operation, but the principle is the same, the ful
     },
     row: {
         [id]: {
+            table: table ref
             columns: array of column refs
         }
     },
