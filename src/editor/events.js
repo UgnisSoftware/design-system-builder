@@ -2315,6 +2315,7 @@ export function ADD_NEW_COMPONENT() {
             ...state.definitionList,
             [newApp.id]: newApp,
         },
+        eventStack: { [newApp.id]: [] },
         currentDefinitionId: newApp.id,
         selectedViewNode: {},
         selectedPipeId: '',
