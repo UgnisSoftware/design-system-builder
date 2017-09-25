@@ -17,6 +17,18 @@ export default () => {
             title: 'Key Up',
             type: 'keyup',
         },
+        {
+            title: 'Move',
+            type: 'mousemove',
+        },
+        {
+            title: 'Down',
+            type: 'mousedown',
+        },
+        {
+            title: 'Up',
+            type: 'mouseup',
+        },
     ]
     const pointerEvents = [
         {

@@ -57,6 +57,9 @@ const eventNames = {
 let eventCache = {
     keydown: null,
     keyup: null,
+    mousemove: null,
+    mousedown: null,
+    mouseup: null,
 }
 
 function addGlobalEvent(type, eventRef, callback) {
@@ -109,9 +112,9 @@ function oldRender(props) {
             const initialX = currentEvent.touches ? currentEvent.touches[0].clientX : currentEvent.clientX
             const initialY = currentEvent.touches ? currentEvent.touches[0].clientY : currentEvent.clientY
             // fix offsets in dev
-            //const root = getVDom().elm.getBoundingClientRect()
-            const screenX = initialX - 65
-            const screenY = initialY - 215
+            const root = document.getElementById('_root').getBoundingClientRect()
+            const screenX = initialX - root.left
+            const screenY = initialY - root.top
             if (ref.id === 'screenX') return screenX
             if (ref.id === 'screenY') return screenY
             const position = currentEventNode.getBoundingClientRect()
@@ -239,7 +242,7 @@ function oldRender(props) {
 
     function generateGlobalEvents(ref) {
         const node = definition[ref.ref][ref.id]
-        let eventsToReset = ['keydown', 'keyup']
+        let eventsToReset = ['keydown', 'keyup', 'mousemove', 'mousedown', 'mouseup']
         node.events.forEach(eventRef => {
             const event = definition[eventRef.ref][eventRef.id]
             eventsToReset = eventsToReset.filter(e => e !== event.type)
@@ -308,6 +311,7 @@ function oldRender(props) {
             key: ref.id + definition.id,
             ...generateAttrs(ref),
             style: generateStyles(ref),
+            id: '_root',
         }
 
         generateGlobalEvents(ref)
