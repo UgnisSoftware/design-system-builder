@@ -945,7 +945,7 @@ export function STATE_DRAGGED(stateRef, e) {
 }
 
 export function FREEZER_CLICKED() {
-    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: {} })
+    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: state.appIsFrozen ? {} : state.selectedViewNode })
 }
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
     setState({
@@ -1021,6 +1021,7 @@ export function ADD_NODE(nodeRef, type) {
         overflow: uuid(),
         boxShadow: uuid(),
         cursor: uuid(),
+        transform: uuid(),
         transition: uuid(),
     }
     const boxStylePipes = {
@@ -1140,6 +1141,11 @@ export function ADD_NODE(nodeRef, type) {
             transformations: [],
         },
         [styleIds.transition]: {
+            type: 'text',
+            value: '',
+            transformations: [],
+        },
+        [styleIds.transform]: {
             type: 'text',
             value: '',
             transformations: [],
