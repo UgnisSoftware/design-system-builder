@@ -1083,6 +1083,36 @@
             "type": "number",
             "value": 15,
             "transformations": []
+        },
+        "937cfe3b": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "9a4fa5c9": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "1c7c3920": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "e8eb9bcb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "94aaecd4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "183b38a8": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -1396,6 +1426,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "85bd5f2d"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "937cfe3b"
             }
         },
         "59620041": {
@@ -1526,6 +1560,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "333b502a"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "9a4fa5c9"
             }
         },
         "_rootStyle": {
@@ -1672,6 +1710,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "ae4087d2"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "1c7c3920"
             }
         },
         "8e08e5a3": {
@@ -1770,6 +1812,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "2004684d"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "e8eb9bcb"
             }
         },
         "8826b355": {
@@ -1872,6 +1918,10 @@
             "pointerEvents": {
                 "ref": "pipe",
                 "id": "d78v0b4c"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "94aaecd4"
             }
         },
         "461dd617": {
@@ -1970,6 +2020,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "c7521896"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "183b38a8"
             }
         }
     },

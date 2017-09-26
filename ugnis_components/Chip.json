@@ -859,6 +859,31 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "ead5a6a1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "321e12e3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "4a814070": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "8abc153e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "2fec3f2e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -1121,6 +1146,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "a583690c"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "ead5a6a1"
             }
         },
         "0fc31317": {
@@ -1251,6 +1280,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "e9d081f4"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "321e12e3"
             }
         },
         "0640ffad": {
@@ -1349,6 +1382,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "fe64f9e7"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "4a814070"
             }
         },
         "c8e8704f": {
@@ -1447,6 +1484,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "4a28928a"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "8abc153e"
             }
         },
         "e84df517": {
@@ -1577,6 +1618,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "9c3ae50e"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "2fec3f2e"
             }
         }
     },

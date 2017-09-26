@@ -1384,6 +1384,46 @@
             "type": "number",
             "value": 4,
             "transformations": []
+        },
+        "16c5751c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "b4baaea9": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "dd8e3f20": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ef3f962b": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "91218ee1": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "ce4633d3": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "dd8ef613": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "aaacb069": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -1731,6 +1771,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "4df9adbd"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "16c5751c"
             }
         },
         "9ab66e31": {
@@ -1861,6 +1905,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "7a3420e4"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "b4baaea9"
             }
         },
         "1ac301ad": {
@@ -1991,6 +2039,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "581a2074"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "dd8e3f20"
             }
         },
         "c0bd2945": {
@@ -2121,6 +2173,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "32d0c77e"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "ef3f962b"
             }
         },
         "6abba4f7": {
@@ -2219,6 +2275,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "49333936"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "91218ee1"
             }
         },
         "79443c37": {
@@ -2349,6 +2409,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a79391fa"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "ce4633d3"
             }
         },
         "cc040fcd": {
@@ -2479,6 +2543,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "ea936af7"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "dd8ef613"
             }
         },
         "8e1dddeb": {
@@ -2577,6 +2645,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "c7c8d474"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "aaacb069"
             }
         }
     },

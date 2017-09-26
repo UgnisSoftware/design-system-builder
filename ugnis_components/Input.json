@@ -763,6 +763,21 @@
             "type": "text",
             "value": "0",
             "transformations": []
+        },
+        "fa6d3fb8": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "96b01154": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "afa1365c": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {
@@ -1038,6 +1053,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "cd4040a4"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "fa6d3fb8"
             }
         },
         "9385adc7": {
@@ -1168,6 +1187,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "b8dfb95e"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "96b01154"
             }
         },
         "4fc5eb6b": {
@@ -1298,6 +1321,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "504b3d95"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "afa1365c"
             }
         }
     },
