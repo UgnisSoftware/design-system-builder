@@ -1027,7 +1027,7 @@ export function ADD_NODE(nodeRef, type) {
     const boxStylePipes = {
         [styleIds.flex]: {
             type: 'text',
-            value: '0',
+            value: '0 0 auto',
             transformations: [],
         },
         [styleIds.display]: {
