@@ -1,4 +1,4 @@
-## Definition v0.9.1
+## Definition v0.9.2
 
 Ugnis aims is to be homoiconic - we try to use the same data types that will end up in the Ugnis state tab.
 
@@ -239,6 +239,7 @@ Ugnis has more than just "add" operation, but the principle is the same, the ful
             textDecorationLine: ref pipe
             letterSpacing: ref pipe
             transition: ref pipe
+            transform: ref pipe
         }
     },
     nameSpace: {

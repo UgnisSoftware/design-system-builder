@@ -1,6 +1,6 @@
 {
   "name": "Ugnis",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Ugnis - visual editor",
   "main": "index.js",
   "scripts": {
