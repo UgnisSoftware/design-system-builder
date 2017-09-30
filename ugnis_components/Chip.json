@@ -247,6 +247,11 @@
             "value": "",
             "transformations": []
         },
+        "938cffa2": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "4ce5c844": {
             "type": "text",
             "value": "0 0 auto",
@@ -358,6 +363,11 @@
             "transformations": []
         },
         "fe64f9e7": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "dee4aee0": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -478,6 +488,11 @@
             "transformations": []
         },
         "4a28928a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6e9b13be": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -638,6 +653,11 @@
             "transformations": []
         },
         "9c3ae50e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "101e303c": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -912,6 +932,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "a583690c"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "938cffa2"
             }
         },
         "0640ffad": {
@@ -1010,6 +1034,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "fe64f9e7"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "dee4aee0"
             }
         },
         "c8e8704f": {
@@ -1108,6 +1136,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "4a28928a"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "6e9b13be"
             }
         },
         "e84df517": {
@@ -1238,6 +1270,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "9c3ae50e"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "101e303c"
             }
         }
     },

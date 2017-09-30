@@ -305,6 +305,11 @@
             "value": "",
             "transformations": []
         },
+        "141b323e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "b8ac8368": {
             "type": "text",
             "value": "1",
@@ -456,6 +461,11 @@
             "transformations": []
         },
         "7a3420e4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6b510b77": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -630,6 +640,11 @@
             "value": "",
             "transformations": []
         },
+        "09ee9b06": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "e6ed92b1": {
             "type": "text",
             "value": "News",
@@ -791,6 +806,11 @@
             "transformations": []
         },
         "32d0c77e": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "2fee94db": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -960,6 +980,11 @@
             "value": "",
             "transformations": []
         },
+        "183a31eb": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "cdb0ffdc": {
             "type": "text",
             "value": "About",
@@ -1125,6 +1150,11 @@
             "value": "",
             "transformations": []
         },
+        "24a72309": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "94bb0566": {
             "type": "text",
             "value": "Download",
@@ -1278,6 +1308,11 @@
             "transformations": []
         },
         "a07550b8": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "f6a2056c": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -1615,6 +1650,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "4df9adbd"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "141b323e"
             }
         },
         "9ab66e31": {
@@ -1745,6 +1784,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "7a3420e4"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "6b510b77"
             }
         },
         "1ac301ad": {
@@ -1875,6 +1918,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "581a2074"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "09ee9b06"
             }
         },
         "c0bd2945": {
@@ -2005,6 +2052,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "32d0c77e"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "2fee94db"
             }
         },
         "79443c37": {
@@ -2135,6 +2186,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "a79391fa"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "183a31eb"
             }
         },
         "cc040fcd": {
@@ -2265,6 +2320,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "ea936af7"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "24a72309"
             }
         },
         "6abba4f7": {
@@ -2363,6 +2422,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "49333936"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "f6a2056c"
             }
         }
     },

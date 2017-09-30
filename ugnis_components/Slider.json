@@ -273,6 +273,11 @@
             "value": "",
             "transformations": []
         },
+        "934e14ee": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "e41cbbfb": {
             "type": "text",
             "value": "0",
@@ -389,6 +394,11 @@
             "transformations": []
         },
         "c7521896": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "8a8cd7c9": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -560,6 +570,11 @@
             "value": "",
             "transformations": []
         },
+        "644845c4": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "3174078a": {
             "type": "text",
             "value": "0",
@@ -715,6 +730,11 @@
             "transformations": []
         },
         "2004684d": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "103f65b8": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -892,6 +912,11 @@
             "value": "none",
             "transformations": []
         },
+        "f3707390": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
         "eaef032f": {
             "type": "text",
             "value": "0 0 auto",
@@ -1043,6 +1068,11 @@
             "transformations": []
         },
         "333b502a": {
+            "type": "text",
+            "value": "",
+            "transformations": []
+        },
+        "6f91bc2e": {
             "type": "text",
             "value": "",
             "transformations": []
@@ -1386,6 +1416,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "85bd5f2d"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "644845c4"
             }
         },
         "59620041": {
@@ -1516,6 +1550,10 @@
             "letterSpacing": {
                 "ref": "pipe",
                 "id": "333b502a"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "6f91bc2e"
             }
         },
         "_rootStyle": {
@@ -1662,6 +1700,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "ae4087d2"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "934e14ee"
             }
         },
         "461dd617": {
@@ -1760,6 +1802,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "c7521896"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "8a8cd7c9"
             }
         },
         "8e08e5a3": {
@@ -1858,6 +1904,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "2004684d"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "103f65b8"
             }
         },
         "8826b355": {
@@ -1960,6 +2010,10 @@
             "pointerEvents": {
                 "ref": "pipe",
                 "id": "d78v0b4c"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "f3707390"
             }
         }
     },
