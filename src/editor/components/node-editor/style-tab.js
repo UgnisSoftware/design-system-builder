@@ -526,6 +526,24 @@ export default () => {
                             alignItems: 'center',
                         }}
                     >
+                        Transform
+                        <BranchButton reference={selectedNode.style} propertyName={'transform'} />
+                    </div>
+                    <div style={{ padding: '0px 20px' }}>{emberEditor(selectedStyle['transform'], 'text')}</div>
+                </div>
+                <div>
+                    <div
+                        style={{
+                            padding: '20px 20px 5px 20px',
+                            fontSize: '12px',
+                            textTransform: 'uppercase',
+                            fontWeight: 'bold',
+                            letterSpacing: '1px',
+                            color: '#8e8e8e',
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
                         Transition
                         <BranchButton reference={selectedNode.style} propertyName={'transition'} />
                     </div>

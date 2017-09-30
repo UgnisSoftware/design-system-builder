@@ -19,12 +19,8 @@ export default function emberEditor(ref, type) {
         return (
             <div>
                 <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
                 >
-                    default: {emberEditor(pipe.defaultValue, type)}{' '}
+                    {emberEditor(pipe.defaultValue, type)}{' '}
                 </div>
                 {pipe.branches.map(branchRef => {
                     const branch = state.definitionList[state.currentDefinitionId][branchRef.ref][branchRef.id]
@@ -212,7 +208,8 @@ export default function emberEditor(ref, type) {
                 <div
                     style={{
                         display: 'flex',
-                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
                     }}
                     onClick={e => SELECT_PIPE(ref.id, e)}
                     onMouseMove={e => PIPE_HOVERED(ref, e)}
@@ -264,7 +261,6 @@ export default function emberEditor(ref, type) {
         return (
             <div>
                 <div
-                    style={{ display: 'flex', alignItems: 'center' }}
                     onClick={e => SELECT_PIPE(ref.id, e)}
                     onMouseMove={e => PIPE_HOVERED(ref, e)}
                     onMouseOut={PIPE_UNHOVERED}

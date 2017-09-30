@@ -1,5 +1,5 @@
 {
-    "version": "0.8.2",
+    "version": "0.9.1",
     "reactPath": "./react-src/src/components/",
     "reactNativePath": "./react-native-src/src/components/",
     "eventData": {
@@ -262,6 +262,11 @@
             "type": "text",
             "value": "",
             "transformations": []
+        },
+        "a7672e2f": {
+            "type": "text",
+            "value": "",
+            "transformations": []
         }
     },
     "join": {},
@@ -416,6 +421,10 @@
             "transition": {
                 "ref": "pipe",
                 "id": "cd4040a4"
+            },
+            "transform": {
+                "ref": "pipe",
+                "id": "a7672e2f"
             }
         }
     },
@@ -430,5 +439,8 @@
     "mutator": {},
     "event": {},
     "branch": {},
-    "split": {}
+    "split": {},
+    "row": {},
+    "column": {},
+    "push": {}
 }
