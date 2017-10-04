@@ -177,7 +177,7 @@ function oldRender(props) {
                 return acc
             }, {})
         }
-        throw Error(ref)
+        throw new Error(ref)
     }
 
     function transformValue(value, transformations) {
