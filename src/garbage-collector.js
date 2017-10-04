@@ -1,12 +1,6 @@
-const fs = require('fs')
 const R = require('ramda')
 
-const vNodeNames = [
-    'vNodeBox', 'vNodeText', 'vNodeInput',
-    'vNodeList', 'vNodeIf', 'vNodeImage'
-]
-
-function collectGarbage(definition) {
+module.exports = function collectGarbage(definition) {
     let cleanDefinition = {
         id: definition.id,
         version: definition.version,
@@ -45,6 +39,12 @@ function collectGarbage(definition) {
         mutator: {},
         event: {},
     }
+
+
+    const vNodeNames = [
+        'vNodeBox', 'vNodeText', 'vNodeInput',
+        'vNodeList', 'vNodeIf', 'vNodeImage'
+    ]
 
     function updateCleanDefinition(transformation) {
         cleanDefinition = R.evolve(transformation, cleanDefinition)
@@ -197,15 +197,3 @@ function collectGarbage(definition) {
 
     return cleanDefinition
 }
-
-fs.readdirSync('../ugnis_components/').forEach((file) => {
-    const filePath = `../ugnis_components/${file}`
-    const definiton = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-    const cleanDefinition = collectGarbage(definiton)
-
-    fs.writeFile(filePath, JSON.stringify(cleanDefinition, null, 4), (error) => {
-        if (error) {
-            console.log(error)
-        }
-    })
-})

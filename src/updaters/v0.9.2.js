@@ -1,4 +1,5 @@
 const fs = require('fs')
+const collectGarbage = require('../garbage-collector.js')
 
 function uuid() {
     //return ('' + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[10]/g, function() {
@@ -8,9 +9,12 @@ function uuid() {
 }
 
 fs.readdirSync('../../ugnis_components/').forEach(file => {
-    const oldJson = JSON.parse(fs.readFileSync('../../ugnis_components/' + file, 'utf8'))
+    const filePath = `../../ugnis_components/${file}`
+    const oldJson = JSON.parse(fs.readFileSync(filePath, 'utf8'))
 
-    const newJson = Object.keys(oldJson.style).reduce((acc, key) => {
+    const cleanDefinition = collectGarbage(oldJson)
+
+    const newJson = Object.keys(cleanDefinition.style).reduce((acc, key) => {
         const newPipeId = uuid()
 
         acc = {
@@ -35,11 +39,11 @@ fs.readdirSync('../../ugnis_components/').forEach(file => {
             },
         }
         return acc
-    }, oldJson)
+    }, cleanDefinition)
 
-    fs.writeFile('../../ugnis_components/' + file, JSON.stringify(newJson, undefined, 4), function(err) {
-        if (err) {
-            return console.log(err)
+    fs.writeFile(filePath, JSON.stringify(newJson, undefined, 4), (error) => {
+        if (error) {
+            console.log(error)
         }
     })
 })
