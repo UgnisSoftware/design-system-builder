@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import React from 'react'
 
 import './state'
-import './undo'
+import './shortcuts'
 import './server'
 
 import Root from './components/root'

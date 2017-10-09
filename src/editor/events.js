@@ -91,32 +91,6 @@ export function createDefaultState(definition) {
     }, {})
 }
 
-document.addEventListener('click', e => {
-    // clicked outside
-    if (state.editingTitleNodeId && !e.target.dataset.istitleeditor) {
-        setState({ ...state, editingTitleNodeId: '' })
-    }
-})
-
-document.addEventListener('keydown', e => {
-    // 83 - s
-    // 90 - z
-    // 89 - y
-    // 32 - space
-    // 13 - enter
-    // 27 - escape
-    if (e.which === 32 && e.ctrlKey) {
-        e.preventDefault()
-        FREEZER_CLICKED()
-    }
-    if (e.which === 13) {
-        setState({ ...state, editingTitleNodeId: '' })
-    }
-    if (e.which === 27) {
-        FULL_SCREEN_CLICKED(false)
-    }
-})
-
 function findNode(ref) {
     return state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
 }
@@ -947,6 +921,7 @@ export function STATE_DRAGGED(stateRef, e) {
 export function FREEZER_CLICKED() {
     setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: state.appIsFrozen ? {} : state.selectedViewNode })
 }
+
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
     setState({
         ...state,

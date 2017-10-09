@@ -12,7 +12,7 @@ import {
 } from '../../../../events'
 import { DeleteIcon, TextIcon, NumberIcon, IfIcon } from '../../../icons'
 
-import editingNode from './editing-node'
+import EditingNode from './editing-node'
 
 function liveEditorTable(stateRef, tableId, rowId, rowIndex) {
     const stateId = stateRef.id
@@ -176,7 +176,7 @@ export default ({ stateRef }) => {
                         >
                             {state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title}
                         </span>
-                        {state.editingTitleNodeId === childRef.id ? editingNode(childRef) : ''}
+                        {state.editingTitleNodeId === childRef.id ? <EditingNode stateRef={childRef}/> : ''}
                         <div
                             style={{
                                 color: '#eab65c',
