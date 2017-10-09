@@ -14,7 +14,7 @@ import { DeleteIcon, SaveIcon } from '../../icons'
 import StateButtons from './state-buttons'
 import SimpleEditor from './editors/simple-editor'
 import TableEditor from './editors/table-editor'
-import editingNode from './editors/editing-node'
+import EditingNode from './editors/editing-node'
 import SelectedInfo from './selected-info'
 
 export default () => (
@@ -87,7 +87,7 @@ export default () => (
                             >
                                 {currentState.title}
                             </span>
-                            {state.editingTitleNodeId === stateId ? editingNode(stateRef) : ''}
+                            {state.editingTitleNodeId === stateId ? <EditingNode stateRef={stateRef}/> : ''}
                         </span>
                         <div style={{ display: 'inline-flex' }}>
                             <SimpleEditor stateRef={stateRef} />

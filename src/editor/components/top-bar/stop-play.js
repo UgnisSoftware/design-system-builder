@@ -1,7 +1,10 @@
 import React from 'react'
-import { state } from 'lape'
+import { state, setState } from 'lape'
 import { PlayIcon, PauseIcon } from '../icons'
-import { FREEZER_CLICKED } from '../../events'
+
+export function FREEZER_CLICKED() {
+    setState({ ...state, appIsFrozen: !state.appIsFrozen })
+}
 
 export default () => (
     <div

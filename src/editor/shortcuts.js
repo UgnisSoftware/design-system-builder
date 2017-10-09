@@ -29,7 +29,6 @@ listen((state, oldState) => {
 
 document.addEventListener('keydown', e => {
     // 90 - z
-    // 89 - y
     if (!e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
         e.preventDefault()
         const currentIndex = stateStack.findIndex(a => a === state.definitionList[state.currentDefinitionId])
@@ -44,6 +43,7 @@ document.addEventListener('keydown', e => {
             })
         }
     }
+    // 89 - y
     if (
         (e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) ||
         (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))
@@ -60,5 +60,17 @@ document.addEventListener('keydown', e => {
                 },
             })
         }
+    }
+    // 32 - space
+    if (e.which === 32 && e.ctrlKey) {
+        setState({ ...state, appIsFrozen: !state.appIsFrozen})
+    }
+    // 13 - enter
+    if (e.which === 13) {
+        setState({ ...state, editingTitleNodeId: '' })
+    }
+    // 27 - escape
+    if (e.which === 27) {
+        setState({ ...state, fullScreen: false })
     }
 })

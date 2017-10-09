@@ -9,16 +9,33 @@ import {
     CHANGE_VIEW_NODE_TITLE,
 } from '../../../../events'
 import { UgnisIcon, ListIcon, IfIcon, BoxIcon, ArrowIcon, ClearIcon, InputIcon, TextIcon, ImageIcon } from '../../../icons'
-import { state } from 'lape'
+import { state, setState } from 'lape'
 
-function prevent_bubbling(e) {
-    e.stopPropagation()
-}
+class EditingNode extends React.Component {
 
-function EditingNode({ nodeRef }) {
-    return (
-        <input
-            style={{
+    finishEditing = (e)=>{
+        if(e.target !== this.refs.inputRef){
+            setState({ ...state, editingTitleNodeId: '' })
+        }
+    }
+
+    componentDidMount(){
+        this.refs.inputRef.focus();
+    }
+
+    componentWillMount(){
+        document.addEventListener('click', this.finishEditing)
+    }
+    componentWillUnmount(){
+        document.removeEventListener('click', this.finishEditing)
+    }
+    
+    render (){
+        const  { nodeRef } = this.props
+        return (
+            <input
+                ref="inputRef"
+                style={{
                 border: 'none',
                 background: 'none',
                 color: '#53d486',
@@ -29,13 +46,12 @@ function EditingNode({ nodeRef }) {
                 font: 'inherit',
                 marginLeft: '5px',
             }}
-            onMouseDown={prevent_bubbling}
-            onInput={e => CHANGE_VIEW_NODE_TITLE(nodeRef, e)}
-            value={state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].title}
-            autofocus={true}
-            data-istitleeditor={true}
-        />
-    )
+                onInput={e => CHANGE_VIEW_NODE_TITLE(nodeRef, e)}
+                value={state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].title}
+                data-istitleeditor={true}
+            />
+        )
+    }
 }
 
 function SpacerComponent() {
