@@ -42,11 +42,9 @@ export default () => (
                 onMouseOut={COMPONENT_UNHOVERED}
                 onClick={SELECT_COMPONENT.bind(null, name)}
             >
-                {state.currentDefinitionId === name ? (
-                    state.definitionList[state.currentDefinitionId]['vNodeBox']['_rootNode'].title
-                ) : (
-                    state.definitionList[name]['vNodeBox']['_rootNode'].title
-                )}
+                {state.currentDefinitionId === name
+                    ? state.definitionList[state.currentDefinitionId]['vNodeBox']['_rootNode'].title
+                    : state.definitionList[name]['vNodeBox']['_rootNode'].title}
             </div>
         ))}
         <div

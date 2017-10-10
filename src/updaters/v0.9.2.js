@@ -41,7 +41,7 @@ fs.readdirSync('../../ugnis_components/').forEach(file => {
         return acc
     }, cleanDefinition)
 
-    fs.writeFile(filePath, JSON.stringify(newJson, undefined, 4), (error) => {
+    fs.writeFile(filePath, JSON.stringify(newJson, undefined, 4), error => {
         if (error) {
             console.log(error)
         }

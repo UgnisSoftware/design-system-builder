@@ -36,7 +36,7 @@ fs.readdirSync('../../ugnis_components/').forEach(file => {
         }
         return acc
     }, oldJson)
-    
+
     fs.writeFile('../../ugnis_components/' + file, JSON.stringify(newJson, undefined, 4), function(err) {
         if (err) {
             return console.log(err)

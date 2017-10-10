@@ -176,7 +176,7 @@ export default ({ stateRef }) => {
                         >
                             {state.definitionList[state.currentDefinitionId][childRef.ref][childRef.id].title}
                         </span>
-                        {state.editingTitleNodeId === childRef.id ? <EditingNode stateRef={childRef}/> : ''}
+                        {state.editingTitleNodeId === childRef.id ? <EditingNode stateRef={childRef} /> : ''}
                         <div
                             style={{
                                 color: '#eab65c',

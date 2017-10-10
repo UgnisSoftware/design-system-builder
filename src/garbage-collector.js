@@ -40,11 +40,7 @@ module.exports = function collectGarbage(definition) {
         event: {},
     }
 
-
-    const vNodeNames = [
-        'vNodeBox', 'vNodeText', 'vNodeInput',
-        'vNodeList', 'vNodeIf', 'vNodeImage'
-    ]
+    const vNodeNames = ['vNodeBox', 'vNodeText', 'vNodeInput', 'vNodeList', 'vNodeIf', 'vNodeImage']
 
     function updateCleanDefinition(transformation) {
         cleanDefinition = R.evolve(transformation, cleanDefinition)
@@ -62,11 +58,11 @@ module.exports = function collectGarbage(definition) {
     }
 
     // Cache columns used by tables.
-    R.values(definition.table).forEach((table) => {
-        table.columns.forEach((stateRef) => {
+    R.values(definition.table).forEach(table => {
+        table.columns.forEach(stateRef => {
             R.forEachObjIndexed((column, id) => {
                 if (R.equals(R.prop('state', column), stateRef)) {
-                    cacheColumn({ ref: 'column',  id })
+                    cacheColumn({ ref: 'column', id })
                 }
             }, definition.column)
         })

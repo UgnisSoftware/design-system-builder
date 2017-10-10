@@ -63,7 +63,7 @@ document.addEventListener('keydown', e => {
     }
     // 32 - space
     if (e.which === 32 && e.ctrlKey) {
-        setState({ ...state, appIsFrozen: !state.appIsFrozen})
+        setState({ ...state, appIsFrozen: !state.appIsFrozen })
     }
     // 13 - enter
     if (e.which === 13) {

@@ -18,10 +18,7 @@ export default function emberEditor(ref, type) {
     if (ref.ref === 'split') {
         return (
             <div>
-                <div
-                >
-                    {emberEditor(pipe.defaultValue, type)}{' '}
-                </div>
+                <div>{emberEditor(pipe.defaultValue, type)} </div>
                 {pipe.branches.map(branchRef => {
                     const branch = state.definitionList[state.currentDefinitionId][branchRef.ref][branchRef.id]
 
@@ -260,11 +257,7 @@ export default function emberEditor(ref, type) {
     if (pipe.value.ref === 'eventData') {
         return (
             <div>
-                <div
-                    onClick={e => SELECT_PIPE(ref.id, e)}
-                    onMouseMove={e => PIPE_HOVERED(ref, e)}
-                    onMouseOut={PIPE_UNHOVERED}
-                >
+                <div onClick={e => SELECT_PIPE(ref.id, e)} onMouseMove={e => PIPE_HOVERED(ref, e)} onMouseOut={PIPE_UNHOVERED}>
                     <div style={{ flex: '1' }}>
                         <div
                             style={{

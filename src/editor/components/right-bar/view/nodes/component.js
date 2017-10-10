@@ -12,40 +12,39 @@ import { UgnisIcon, ListIcon, IfIcon, BoxIcon, ArrowIcon, ClearIcon, InputIcon, 
 import { state, setState } from 'lape'
 
 class EditingNode extends React.Component {
-
-    finishEditing = (e)=>{
-        if(e.target !== this.refs.inputRef){
+    finishEditing = e => {
+        if (e.target !== this.refs.inputRef) {
             setState({ ...state, editingTitleNodeId: '' })
         }
     }
 
-    componentDidMount(){
-        this.refs.inputRef.focus();
+    componentDidMount() {
+        this.refs.inputRef.focus()
     }
 
-    componentWillMount(){
+    componentWillMount() {
         document.addEventListener('click', this.finishEditing)
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         document.removeEventListener('click', this.finishEditing)
     }
-    
-    render (){
-        const  { nodeRef } = this.props
+
+    render() {
+        const { nodeRef } = this.props
         return (
             <input
                 ref="inputRef"
                 style={{
-                border: 'none',
-                background: 'none',
-                color: '#53d486',
-                outline: 'none',
-                flex: '1',
-                padding: '0',
-                boxShadow: 'inset 0 -1px 0 0 #53d486',
-                font: 'inherit',
-                marginLeft: '5px',
-            }}
+                    border: 'none',
+                    background: 'none',
+                    color: '#53d486',
+                    outline: 'none',
+                    flex: '1',
+                    padding: '0',
+                    boxShadow: 'inset 0 -1px 0 0 #53d486',
+                    font: 'inherit',
+                    marginLeft: '5px',
+                }}
                 onInput={e => CHANGE_VIEW_NODE_TITLE(nodeRef, e)}
                 value={state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].title}
                 data-istitleeditor={true}
@@ -177,29 +176,23 @@ export default function Component({ nodeRef, parentRef, depth }) {
                     </div>
                 </div>
             </div>
-            {isBox &&
-            !(
-                state.viewFoldersClosed[nodeId] ||
-                (state.draggedComponentView && state.draggedComponentView.id === nodeId)
-            ) ? state.hoveredViewNode &&
-            state.hoveredViewNode.parent.id === nodeId &&
-            !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position) ? (
-                (() => {
-                    const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id)
-                    const newPosition =
-                        oldPosition === -1 || state.hoveredViewNode.position < oldPosition
-                            ? state.hoveredViewNode.position
-                            : state.hoveredViewNode.position + 1
-                    const children = node.children.map(ref => (
-                        <Component key={ref.id} nodeRef={ref} parentRef={nodeRef} depth={depth + 1} />
-                    ))
-                    return children.slice(0, newPosition).concat(<SpacerComponent />, children.slice(newPosition))
-                })()
-            ) : (
-                node.children.map(ref => <Component key={ref.id} nodeRef={ref} parentRef={nodeRef} depth={depth + 1} />)
-            ) : (
-                ''
-            )}
+            {isBox && !(state.viewFoldersClosed[nodeId] || (state.draggedComponentView && state.draggedComponentView.id === nodeId))
+                ? state.hoveredViewNode &&
+                  state.hoveredViewNode.parent.id === nodeId &&
+                  !(node.children.findIndex(ref => ref.id === state.draggedComponentView.id) === state.hoveredViewNode.position)
+                  ? (() => {
+                        const oldPosition = node.children.findIndex(ref => ref.id === state.draggedComponentView.id)
+                        const newPosition =
+                            oldPosition === -1 || state.hoveredViewNode.position < oldPosition
+                                ? state.hoveredViewNode.position
+                                : state.hoveredViewNode.position + 1
+                        const children = node.children.map(ref => (
+                            <Component key={ref.id} nodeRef={ref} parentRef={nodeRef} depth={depth + 1} />
+                        ))
+                        return children.slice(0, newPosition).concat(<SpacerComponent />, children.slice(newPosition))
+                    })()
+                  : node.children.map(ref => <Component key={ref.id} nodeRef={ref} parentRef={nodeRef} depth={depth + 1} />)
+                : ''}
         </div>
     )
 }

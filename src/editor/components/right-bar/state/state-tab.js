@@ -87,7 +87,7 @@ export default () => (
                             >
                                 {currentState.title}
                             </span>
-                            {state.editingTitleNodeId === stateId ? <EditingNode stateRef={stateRef}/> : ''}
+                            {state.editingTitleNodeId === stateId ? <EditingNode stateRef={stateRef} /> : ''}
                         </span>
                         <div style={{ display: 'inline-flex' }}>
                             <SimpleEditor stateRef={stateRef} />

@@ -106,45 +106,43 @@ export default function generateEditNodeComponent() {
                 ''
             )}
 
-            {inheritedStates.length !== 0 ? (
-                inheritedStates.map(stateRef => (
-                    <span>
-                        <div
-                            style={{
-                                padding: '0 0 5px 0',
-                            }}
-                        >
-                            {state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}
-                        </div>
-                        <span
-                            style={{
-                                flex: '0 0 auto',
-                                position: 'relative',
-                                transform: 'translateZ(0)',
-                                margin: '0 auto 0 0',
-                                boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
-                                background: '#1e1e1e',
-                                padding: '4px 7px',
-                            }}
-                        >
-                            <span
-                                style={{
-                                    opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
-                                    color: 'white',
-                                    display: 'inline-block',
-                                }}
-                                onMouseDown={e => STATE_DRAGGED(stateRef, e)}
-                                onTouchStart={e => STATE_DRAGGED(stateRef, e)}
-                                onTouchMove={HOVER_MOBILE}
-                            >
-                                {state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title}
-                            </span>
-                        </span>
-                    </span>
-                ))
-            ) : (
-                ''
-            )}
+            {inheritedStates.length !== 0
+                ? inheritedStates.map(stateRef => (
+                      <span>
+                          <div
+                              style={{
+                                  padding: '0 0 5px 0',
+                              }}
+                          >
+                              {state.definitionList[state.currentDefinitionId][stateRef.parent.ref][stateRef.parent.id].title}
+                          </div>
+                          <span
+                              style={{
+                                  flex: '0 0 auto',
+                                  position: 'relative',
+                                  transform: 'translateZ(0)',
+                                  margin: '0 auto 0 0',
+                                  boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
+                                  background: '#1e1e1e',
+                                  padding: '4px 7px',
+                              }}
+                          >
+                              <span
+                                  style={{
+                                      opacity: state.editingTitleNodeId === stateRef.id ? '0' : '1',
+                                      color: 'white',
+                                      display: 'inline-block',
+                                  }}
+                                  onMouseDown={e => STATE_DRAGGED(stateRef, e)}
+                                  onTouchStart={e => STATE_DRAGGED(stateRef, e)}
+                                  onTouchMove={HOVER_MOBILE}
+                              >
+                                  {state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title}
+                              </span>
+                          </span>
+                      </span>
+                  ))
+                : ''}
         </div>
     )
 }
