@@ -67,9 +67,9 @@ const eventDataTypes = {
 }
 
 function moveInArray(array, moveIndex, toIndex) {
-    let item = array[moveIndex]
-    let length = array.length
-    let diff = moveIndex - toIndex
+    const item = array[moveIndex]
+    const length = array.length
+    const diff = moveIndex - toIndex
 
     if (diff > 0) {
         return [...array.slice(0, toIndex), item, ...array.slice(toIndex, moveIndex), ...array.slice(moveIndex + 1, length)]
@@ -80,7 +80,7 @@ function moveInArray(array, moveIndex, toIndex) {
 }
 
 function generateEmptyApp() {
-    return { ...emptyApp, id: uuid() }
+    return R.assoc('id', uuid(), emptyApp)
 }
 
 export function createDefaultState(definition) {
@@ -90,32 +90,6 @@ export function createDefaultState(definition) {
         return acc
     }, {})
 }
-
-document.addEventListener('click', e => {
-    // clicked outside
-    if (state.editingTitleNodeId && !e.target.dataset.istitleeditor) {
-        setState({ ...state, editingTitleNodeId: '' })
-    }
-})
-
-document.addEventListener('keydown', e => {
-    // 83 - s
-    // 90 - z
-    // 89 - y
-    // 32 - space
-    // 13 - enter
-    // 27 - escape
-    if (e.which === 32 && e.ctrlKey) {
-        e.preventDefault()
-        FREEZER_CLICKED()
-    }
-    if (e.which === 13) {
-        setState({ ...state, editingTitleNodeId: '' })
-    }
-    if (e.which === 27) {
-        FULL_SCREEN_CLICKED(false)
-    }
-})
 
 function findNode(ref) {
     return state.definitionList[state.currentDefinitionId][ref.ref][ref.id]
@@ -312,7 +286,7 @@ export function HOVER_MOBILE(e) {
 }
 
 export function VIEW_UNHOVERED() {
-    setState({ ...state, hoveredViewWithoutDrag: '' })
+    setState(R.over(R.lensProp('hoveredViewWithoutDrag'), R.empty, state))
 }
 
 export function VIEW_HOVERED(nodeRef, parentRef, depth, e) {
@@ -436,15 +410,13 @@ export function PIPE_HOVERED(pipeRef, e) {
     if (!state.draggedComponentState.id) {
         return
     }
-    setState({ ...state, hoveredPipe: pipeRef })
+
+    setState(R.assoc('hoveredPipe', pipeRef, state))
 }
 
 export function PIPE_UNHOVERED() {
     if (state.hoveredPipe) {
-        setState({
-            ...state,
-            hoveredPipe: null,
-        })
+        setState(R.assoc('hoveredPipe', null, state))
     }
 }
 
@@ -945,20 +917,28 @@ export function STATE_DRAGGED(stateRef, e) {
 }
 
 export function FREEZER_CLICKED() {
-    setState({ ...state, appIsFrozen: !state.appIsFrozen, selectedViewNode: state.appIsFrozen ? {} : state.selectedViewNode })
+    setState(
+        R.evolve({
+            appIsFrozen: R.not,
+            selectedViewNode: state.appIsFrozen ? R.empty : R.identity,
+        })(state)
+    )
 }
+
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
-    setState({
-        ...state,
-        viewFoldersClosed: {
-            ...state.viewFoldersClosed,
-            [nodeId]: forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId],
-        },
-    })
+    setState(
+        R.assocPath(
+            ['viewFoldersClosed', nodeId],
+            forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId],
+            state
+        )
+    )
 }
+
 export function VIEW_NODE_SELECTED(ref) {
-    setState({ ...state, selectedViewNode: ref })
+    setState(R.assoc('selectedViewNode', ref, state))
 }
+
 export function UNSELECT_VIEW_NODE(selfOnly, stopPropagation, e) {
     if (stopPropagation) {
         e.stopPropagation()
@@ -966,32 +946,38 @@ export function UNSELECT_VIEW_NODE(selfOnly, stopPropagation, e) {
     if (selfOnly && e.target !== this) {
         return
     }
-    setState({ ...state, selectedViewNode: {} })
+    setState(R.over(R.lensProp('selectedViewNode'), R.empty, state))
 }
+
 export function STATE_NODE_SELECTED(ref) {
-    setState({ ...state, selectedStateNode: ref })
+    setState(R.assoc('selectedStateNode', ref, state))
 }
+
 export function UNSELECT_STATE_NODE(e) {
     if (e.target === this) {
-        setState({ ...state, selectedStateNode: {} })
+        setState(R.over(R.lensProp('selectedStateNode'), R.empty, state))
     }
 }
+
 export function ADD_NODE(nodeRef, type) {
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+
     if (
         !nodeRef.ref ||
-        !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id] ||
-        !state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id].children
+        !currentDefinition[nodeRef.ref][nodeRef.id] ||
+        !currentDefinition[nodeRef.ref][nodeRef.id].children
     ) {
         if (
             state.selectedViewNode.ref &&
-            state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id] &&
+            currentDefinition[state.selectedViewNode.ref][state.selectedViewNode.id] &&
             state.selectedViewNode.id !== '_rootNode'
         ) {
-            nodeRef = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id].parent
+            nodeRef = currentDefinition[state.selectedViewNode.ref][state.selectedViewNode.id].parent
         } else {
             nodeRef = { ref: 'vNodeBox', id: '_rootNode' }
         }
     }
+
     const nodeId = nodeRef.id
     const newNodeId = uuid()
     const newStyleId = uuid()
@@ -1224,60 +1210,40 @@ export function ADD_NODE(nodeRef, type) {
             children: [],
             events: [],
         }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeBox', id: newNodeId },
-            definitionList:
-                nodeRef.ref === 'vNodeBox'
-                    ? {
-                          ...state.definitionList,
-                          [state.currentDefinitionId]: {
-                              ...state.definitionList[state.currentDefinitionId],
-                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
-                              vNodeBox: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeBox,
-                                  [nodeId]: {
-                                      ...state.definitionList[state.currentDefinitionId].vNodeBox[nodeId],
-                                      children: state.definitionList[state.currentDefinitionId].vNodeBox[nodeId].children.concat({
-                                          ref: 'vNodeBox',
-                                          id: newNodeId,
-                                      }),
-                                  },
-                                  [newNodeId]: newNode,
-                              },
-                              style: {
-                                  ...state.definitionList[state.currentDefinitionId].style,
-                                  [newStyleId]: newStyle,
-                              },
-                          },
-                      }
-                    : {
-                          ...state.definitionList,
-                          [state.currentDefinitionId]: {
-                              ...state.definitionList[state.currentDefinitionId],
-                              [nodeRef.ref]: {
-                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                                  [nodeId]: {
-                                      ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                                      children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                          ref: 'vNodeBox',
-                                          id: newNodeId,
-                                      }),
-                                  },
-                              },
-                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, ...boxStylePipes },
-                              vNodeBox: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeBox,
-                                  [newNodeId]: newNode,
-                              },
-                              style: {
-                                  ...state.definitionList[state.currentDefinitionId].style,
-                                  [newStyleId]: newStyle,
-                              },
-                          },
-                      },
-        })
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeBox', id: newNodeId }),
+                definitionList:
+                    nodeRef.ref === 'vNodeBox'
+                        ? R.evolve({
+                            [state.currentDefinitionId]: {
+                                pipe: R.merge(R.__, boxStylePipes),
+                                vNodeBox: R.pipe(
+                                    R.over(
+                                        R.lensPath([nodeId, 'children']),
+                                        R.append({ ref: 'vNodeBox', id: newNodeId })
+                                    ),
+                                    R.assoc(newNodeId, newNode)
+                                ),
+                                style: R.assoc(newStyleId, newStyle),
+                            },
+                        })
+                        : R.evolve({
+                            [state.currentDefinitionId]: {
+                                pipe: R.merge(R.__, boxStylePipes),
+                                vNodeBox: R.assoc(newNodeId, newNode),
+                                style: R.assoc(newStyleId, newStyle),
+                                [nodeRef.ref]: R.over(
+                                    R.lensPath([nodeId, 'children']),
+                                    R.append({ ref: 'vNodeBox', id: newNodeId })
+                                ),
+                            },
+                        })
+            })(state)
+        )
     }
+
     if (type === 'text') {
         const pipeId = uuid()
         const newNode = {
@@ -1292,40 +1258,28 @@ export function ADD_NODE(nodeRef, type) {
             value: 'Default Text',
             transformations: [],
         }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeText', id: newNodeId },
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    pipe: {
-                        ...state.definitionList[state.currentDefinitionId].pipe,
-                        [pipeId]: newPipe,
-                        ...textStylePipes,
-                    },
-                    [nodeRef.ref]: {
-                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                        [nodeId]: {
-                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                ref: 'vNodeText',
-                                id: newNodeId,
-                            }),
-                        },
-                    },
-                    vNodeText: {
-                        ...state.definitionList[state.currentDefinitionId].vNodeText,
-                        [newNodeId]: newNode,
-                    },
-                    style: {
-                        ...state.definitionList[state.currentDefinitionId].style,
-                        [newStyleId]: newStyle,
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeText', id: newNodeId }),
+                definitionList: {
+                    [state.currentDefinitionId]: {
+                        pipe: R.pipe(
+                            R.assoc(pipeId, newPipe),
+                            R.merge(R.__, textStylePipes)
+                        ),
+                        [nodeRef.ref]: R.over(
+                            R.lensPath([nodeId, 'children']),
+                            R.append({ ref: 'vNodeText', id: newNodeId })
+                        ),
+                        vNodeText: R.assoc(newNodeId, newNode),
+                        style: R.assoc(newStyleId, newStyle),
                     },
                 },
-            },
-        })
+            })(state)
+        )
     }
+
     if (type === 'image') {
         const pipeId = uuid()
         const newNode = {
@@ -1340,40 +1294,28 @@ export function ADD_NODE(nodeRef, type) {
             value: 'https://www.ugnis.com/images/logo_new256x256.png',
             transformations: [],
         }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeImage', id: newNodeId },
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    pipe: {
-                        ...state.definitionList[state.currentDefinitionId].pipe,
-                        [pipeId]: newPipe,
-                        ...boxStylePipes,
-                    },
-                    [nodeRef.ref]: {
-                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                        [nodeId]: {
-                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                ref: 'vNodeImage',
-                                id: newNodeId,
-                            }),
-                        },
-                    },
-                    vNodeImage: {
-                        ...state.definitionList[state.currentDefinitionId].vNodeImage,
-                        [newNodeId]: newNode,
-                    },
-                    style: {
-                        ...state.definitionList[state.currentDefinitionId].style,
-                        [newStyleId]: newStyle,
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeImage', id: newNodeId }),
+                definitionList: {
+                    [state.currentDefinitionId]: {
+                        pipe: R.pipe(
+                            R.assoc(pipeId, newPipe),
+                            R.merge(R.__, boxStylePipes)
+                        ),
+                        [nodeRef.ref]: R.over(
+                            R.lensPath([nodeId, 'children']),
+                            R.append({ ref: 'vNodeImage', id: newNodeId })
+                        ),
+                        vNodeImage: R.assoc(newNodeId, newNode),
+                        style: R.assoc(newStyleId, newStyle),
                     },
                 },
-            },
-        })
+            })(state)
+        )
     }
+
     if (type === 'if') {
         const pipeId = uuid()
         const newNode = {
@@ -1387,56 +1329,42 @@ export function ADD_NODE(nodeRef, type) {
             value: true,
             transformations: [],
         }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeIf', id: newNodeId },
-            definitionList:
-                nodeRef.ref === 'vNodeIf'
-                    ? {
-                          ...state.definitionList,
-                          [state.currentDefinitionId]: {
-                              ...state.definitionList[state.currentDefinitionId],
-                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
-                              vNodeIf: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeIf,
-                                  [nodeId]: {
-                                      ...state.definitionList[state.currentDefinitionId].vNodeIf[nodeId],
-                                      children: state.definitionList[state.currentDefinitionId].vNodeIf[nodeId].children.concat({
-                                          ref: 'vNodeIf',
-                                          id: newNodeId,
-                                      }),
-                                  },
-                                  [newNodeId]: newNode,
-                              },
-                          },
-                      }
-                    : {
-                          ...state.definitionList,
-                          [state.currentDefinitionId]: {
-                              ...state.definitionList[state.currentDefinitionId],
-                              pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
-                              [nodeRef.ref]: {
-                                  ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                                  [nodeId]: {
-                                      ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                                      children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                          ref: 'vNodeIf',
-                                          id: newNodeId,
-                                      }),
-                                  },
-                              },
-                              vNodeIf: {
-                                  ...state.definitionList[state.currentDefinitionId].vNodeIf,
-                                  [newNodeId]: newNode,
-                              },
-                          },
-                      },
-        })
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeIf', id: newNodeId }),
+                definitionList:
+                    nodeRef.ref === 'vNodeIf'
+                        ? R.evolve({
+                            [state.currentDefinitionId]: {
+                                pipe: R.assoc(pipeId, newPipe),
+                                vNodeIf: R.pipe(
+                                    R.over(
+                                        R.lensPath([nodeId, 'children']),
+                                        R.append({ ref: 'vNodeIf', id: newNodeId })
+                                    ),
+                                    R.assoc(newNodeId, newNode)
+                                ),
+                            },
+                        })
+                        : R.evolve({
+                            [state.currentDefinitionId]: {
+                                pipe: R.assoc(pipeId, newPipe),
+                                vNodeIf: R.assoc(newNodeId, newNode),
+                                [nodeRef.ref]: R.over(
+                                    R.lensPath([nodeId, 'children']),
+                                    R.append({ ref: 'vNodeIf', id: newNodeId })
+                                ),
+                            },
+                        })
+            })(state)
+        )
     }
+
     if (type === 'list') {
         const pipeId = uuid()
         // search for a table in state, if none found create a new table
-        const existingTableId = Object.keys(state.definitionList[state.currentDefinitionId].table)[0]
+        const existingTableId = Object.keys(currentDefinition.table)[0]
         const tableId = existingTableId || uuid()
         const newNode = {
             title: 'list',
@@ -1458,72 +1386,45 @@ export function ADD_NODE(nodeRef, type) {
         }
         const resolvedNodes =
             nodeRef.ref === 'vNodeList'
-                ? {
-                      vNodeList: {
-                          ...state.definitionList[state.currentDefinitionId].vNodeList,
-                          [nodeId]: {
-                              ...state.definitionList[state.currentDefinitionId].vNodeList[nodeId],
-                              children: state.definitionList[state.currentDefinitionId].vNodeList[nodeId].children.concat({
-                                  ref: 'vNodeList',
-                                  id: newNodeId,
-                              }),
-                          },
-                          [newNodeId]: newNode,
-                      },
-                  }
-                : {
-                      [nodeRef.ref]: {
-                          ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                          [nodeId]: {
-                              ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                              children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                  ref: 'vNodeList',
-                                  id: newNodeId,
-                              }),
-                          },
-                      },
-                      vNodeList: {
-                          ...state.definitionList[state.currentDefinitionId].vNodeList,
-                          [newNodeId]: newNode,
-                      },
-                  }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeList', id: newNodeId },
-            componentState: existingTableId
-                ? state.componentState
-                : {
-                      ...state.componentState,
-                      [tableId]: [],
-                  },
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    nameSpace: {
-                        ...state.definitionList[state.currentDefinitionId].nameSpace,
-                        ['_rootNameSpace']: {
-                            ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                            children: existingTableId
-                                ? state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children
-                                : state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
-                                      ref: 'table',
-                                      id: tableId,
-                                  }),
-                        },
-                    },
-                    table: existingTableId
-                        ? state.definitionList[state.currentDefinitionId].table
-                        : {
-                              ...state.definitionList[state.currentDefinitionId].table,
-                              [tableId]: newTable,
-                          },
-                    pipe: { ...state.definitionList[state.currentDefinitionId].pipe, [pipeId]: newPipe },
-                    ...resolvedNodes,
+            ? {
+                vNodeList: R.pipe(
+                    R.over(
+                        R.lensPath([nodeId, 'children']),
+                        R.append({ ref: 'vNodeList', id: newNodeId })
+                    ),
+                    R.assoc(newNodeId, newNode)
+                )(currentDefinition.vNodeList)
+              }
+            : {
+                  [nodeRef.ref]: R.over(
+                      R.lensPath([nodeId, 'children']),
+                      R.append({ ref: 'vNodeList', id: newNodeId }),
+                      currentDefinition[nodeRef.ref],
+                  ),
+                  vNodeList: R.assoc(newNodeId, newNode, currentDefinition.vNodeList),
+              }
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeList', id: newNodeId }),
+                componentState: existingTableId ? R.identity : R.assoc(tableId, []),
+                definitionList: {
+                    [state.currentDefinitionId]: R.pipe(
+                        R.evolve({
+                            nameSpace: R.over(
+                                R.lensPath(['_rootNameSpace', 'children']),
+                                existingTableId ? R.identity : R.append({ ref: 'table', id: tableId })
+                            ),
+                            table: existingTableId ? R.identity : R.assoc(tableId, newTable),
+                            pipe: R.assoc(pipeId, newPipe),
+                        }),
+                        R.merge(R.__, resolvedNodes)
+                    ),
                 },
-            },
-        })
+            })(state)
+        )
     }
+
     if (type === 'input') {
         const stateId = uuid()
         const eventId = uuid()
@@ -1568,65 +1469,42 @@ export function ADD_NODE(nodeRef, type) {
                 id: newNodeId,
             },
         }
-        return setState({
-            ...state,
-            selectedViewNode: { ref: 'vNodeInput', id: newNodeId },
-            componentState: {
-                ...state.componentState,
-                [stateId]: newState.defaultValue,
-            },
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    pipe: {
-                        ...state.definitionList[state.currentDefinitionId].pipe,
-                        [pipeInputId]: newPipeInput,
-                        [pipeMutatorId]: newPipeMutator,
-                        ...textStylePipes,
+
+        return setState(
+            R.evolve({
+                selectedViewNode: R.always({ ref: 'vNodeInput', id: newNodeId }),
+                componentState: R.assoc(stateId, newState.defaultValue),
+                definitionList: {
+                    [state.currentDefinitionId]: {
+                        pipe: R.pipe(
+                            R.assoc(pipeInputId, newPipeInput),
+                            R.assoc(pipeMutatorId, newPipeMutator),
+                            R.merge(R.__, textStylePipes)
+                        ),
+                        [nodeRef.ref]: R.over(
+                            R.lensPath([nodeId, 'children']),
+                            R.append({ ref: 'vNodeInput', id: newNodeId })
+                        ),
+                        vNodeInput: R.assoc(newNodeId, newNode),
+                        style: R.assoc(newStyleId, newStyle),
+                        nameSpace: R.over(
+                            R.lensPath(['_rootNameSpace', 'children']),
+                            R.append({ ref: 'state', id: stateId })
+                        ),
+                        state: R.assoc(stateId, newState),
+                        mutator: R.assoc(mutatorId, newMutator),
+                        event: R.event(eventId, newEvent),
                     },
-                    [nodeRef.ref]: {
-                        ...state.definitionList[state.currentDefinitionId][nodeRef.ref],
-                        [nodeId]: {
-                            ...state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId],
-                            children: state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeId].children.concat({
-                                ref: 'vNodeInput',
-                                id: newNodeId,
-                            }),
-                        },
-                    },
-                    vNodeInput: {
-                        ...state.definitionList[state.currentDefinitionId].vNodeInput,
-                        [newNodeId]: newNode,
-                    },
-                    style: {
-                        ...state.definitionList[state.currentDefinitionId].style,
-                        [newStyleId]: newStyle,
-                    },
-                    nameSpace: {
-                        ...state.definitionList[state.currentDefinitionId].nameSpace,
-                        ['_rootNameSpace']: {
-                            ...state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'],
-                            children: state.definitionList[state.currentDefinitionId].nameSpace['_rootNameSpace'].children.concat({
-                                ref: 'state',
-                                id: stateId,
-                            }),
-                        },
-                    },
-                    state: { ...state.definitionList[state.currentDefinitionId].state, [stateId]: newState },
-                    mutator: {
-                        ...state.definitionList[state.currentDefinitionId].mutator,
-                        [mutatorId]: newMutator,
-                    },
-                    event: { ...state.definitionList[state.currentDefinitionId].event, [eventId]: newEvent },
                 },
-            },
-        })
+            })(state)
+        )
     }
 }
+
 export function ADD_STATE(namespaceId, type) {
     const newStateId = uuid()
     let newState
+
     if (type === 'text') {
         newState = {
             title: 'new text',
@@ -1636,6 +1514,7 @@ export function ADD_STATE(namespaceId, type) {
             mutators: [],
         }
     }
+
     if (type === 'number') {
         newState = {
             title: 'new number',
@@ -1645,6 +1524,7 @@ export function ADD_STATE(namespaceId, type) {
             mutators: [],
         }
     }
+
     if (type === 'boolean') {
         newState = {
             title: 'new boolean',
@@ -1654,6 +1534,7 @@ export function ADD_STATE(namespaceId, type) {
             mutators: [],
         }
     }
+
     if (type === 'table') {
         newState = {
             title: 'table',
@@ -1662,263 +1543,186 @@ export function ADD_STATE(namespaceId, type) {
             columns: [],
             mutators: [],
         }
-        return setState({
-            ...state,
-            componentState: {
-                ...state.componentState,
-                [newStateId]: newState.defaultValue,
-            },
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    nameSpace: {
-                        ...state.definitionList[state.currentDefinitionId].nameSpace,
-                        [namespaceId]: {
-                            ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
-                            children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
-                                ref: 'table',
-                                id: newStateId,
-                            }),
-                        },
-                    },
-                    table: {
-                        ...state.definitionList[state.currentDefinitionId].table,
-                        [newStateId]: newState,
-                    },
-                },
-            },
-        })
-    }
-    if (type === 'folder') {
-        newState = {
-            title: 'new folder',
-            children: [],
-        }
-        return setState({
-            ...state,
-            definitionList: {
-                ...state.definitionList,
-                [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
-                    nameSpace: {
-                        ...state.definitionList[state.currentDefinitionId].nameSpace,
-                        [namespaceId]: {
-                            ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
-                            children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
-                                ref: 'nameSpace',
-                                id: newStateId,
-                            }),
-                        },
-                        [newStateId]: newState,
-                    },
-                },
-            },
-        })
-    }
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [newStateId]: newState.defaultValue,
-        },
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                nameSpace: {
-                    ...state.definitionList[state.currentDefinitionId].nameSpace,
-                    [namespaceId]: {
-                        ...state.definitionList[state.currentDefinitionId].nameSpace[namespaceId],
-                        children: state.definitionList[state.currentDefinitionId].nameSpace[namespaceId].children.concat({
-                            ref: 'state',
-                            id: newStateId,
-                        }),
-                    },
-                },
-                state: { ...state.definitionList[state.currentDefinitionId].state, [newStateId]: newState },
-            },
-        },
-    })
-}
-export function SELECT_VIEW_SUBMENU(newId) {
-    setState({ ...state, selectedViewSubMenu: newId })
-}
-export function EDIT_VIEW_NODE_TITLE(nodeId) {
-    setState({ ...state, editingTitleNodeId: nodeId })
-}
-function deleteView(nodeRef, parentRef, state) {
-    // remove all events from state
-    const events = getAvailableEvents(nodeRef.ref)
-    let newState = state.definitionList[state.currentDefinitionId].state
-    events.forEach(event => {
-        const eventRef = state.definitionList[state.currentDefinitionId][nodeRef.ref][nodeRef.id][event.propertyName]
-        if (eventRef) {
-            // event -> mutators -> states
-            state.definitionList[state.currentDefinitionId][eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
-                const stateRef = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id].state
-                newState = {
-                    ...newState,
-                    [stateRef.id]: {
-                        ...newState[stateRef.id],
-                        mutators: newState[stateRef.id].mutators.filter(mutator => mutator.id !== mutatorRef.id),
-                    },
-                }
-            })
-        }
-    })
-    return {
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [parentRef.ref]: {
-                    ...state.definitionList[state.currentDefinitionId][parentRef.ref],
-                    [parentRef.id]: {
-                        ...state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id],
-                        children: state.definitionList[state.currentDefinitionId][parentRef.ref][parentRef.id].children.filter(
-                            ref => ref.id !== nodeRef.id
-                        ),
-                    },
-                },
-                state: newState,
-            },
-        },
-        selectedViewNode: {},
-    }
-}
-export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
-    setState(deleteView(nodeRef, parentRef, state))
-}
-export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
-    e.preventDefault()
-    const nodeId = nodeRef.id
-    const nodeType = nodeRef.ref
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [nodeType]: {
-                    ...state.definitionList[state.currentDefinitionId][nodeType],
-                    [nodeId]: {
-                        ...state.definitionList[state.currentDefinitionId][nodeType][nodeId],
-                        title: e.target.value,
-                    },
-                },
-            },
-        },
-    })
-}
 
-export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
-    e.preventDefault()
+        return setState(
+            R.evolve({
+                componentState: R.assoc(newStateId, newState.defaultValue),
+                definitionList: {
+                    [state.currentDefinitionId]: {
+                        nameSpace: R.over(
+                            R.lensPath([namespaceId, 'children']),
+                            R.append({ ref: 'table', id: newStateId })
+                        ),
+                        table: R.assoc(newStateId, newState),
+                    },
+                },
+            })(state)
+        )
+    }
+
     setState(
         R.evolve({
+            componentState: R.assoc(newStateId, newState.defaultValue),
             definitionList: {
                 [state.currentDefinitionId]: {
-                    [stateRef.ref]: {
-                        [stateRef.id]: R.assoc('title', e.target.value),
-                    },
+                    nameSpace: R.over(
+                        R.lensPath([namespaceId, 'children']),
+                        R.append({ ref: 'state', id: newStateId })
+                    ),
+                    state: R.assoc(newStateId, newState),
                 },
             },
         })(state)
     )
 }
 
-export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [stateId]: e.target.value,
-        },
-    })
+export function SELECT_VIEW_SUBMENU(newId) {
+    setState(R.assoc('selectedViewSubMenu', newId, state))
 }
-export function CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE(stateId, tableId, rowId, e) {
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: state.componentState[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value })),
-        },
-    })
+
+export function EDIT_VIEW_NODE_TITLE(nodeId) {
+    setState(R.assoc('editingTitleNodeId', nodeId, state))
 }
-export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE(stateId, e) {
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [stateId]: e.target.value === 'true',
-        },
+
+function deleteView(nodeRef, parentRef, state) {
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+    // remove all events from state
+    const events = getAvailableEvents(nodeRef.ref)
+    let newState = currentDefinition.state
+    events.forEach(event => {
+        const eventRef = currentDefinition[nodeRef.ref][nodeRef.id][event.propertyName]
+        if (eventRef) {
+            // event -> mutators -> states
+            currentDefinition[eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
+                const stateRef = currentDefinition[mutatorRef.ref][mutatorRef.id].state
+                newState = R.over(
+                    R.lensPath([stateRef.id, 'mutators']),
+                    R.filter(mutator => mutator.id !== mutatorRef.id),
+                    newState
+                )
+            })
+        }
     })
-}
-export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE(stateId, tableId, rowId, e) {
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: state.componentState[tableId].map(
-                row => (row.id !== rowId ? row : { ...row, [stateId]: e.target.value === 'true' })
-            ),
-        },
-    })
-}
-export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
-    if (e.target.value.toString() !== state.componentState[stateId].toString()) {
-        setState({
-            ...state,
-            componentState: {
-                ...state.componentState,
-                [stateId]: Number(e.target.value),
+
+    return R.evolve({
+        definitionList: {
+            [state.currentDefinitionId]: {
+                [parentRef.ref]: R.over(
+                    R.lensPath([parentRef.id, 'children']),
+                    R.filter(ref => ref.id !== nodeRef.id)
+                ),
+                state: R.always(newState),
             },
-        })
+        },
+        selectedViewNode: R.empty,
+    })(state)
+}
+
+export function DELETE_SELECTED_VIEW(nodeRef, parentRef) {
+    setState(deleteView(nodeRef, parentRef, state))
+}
+
+export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
+    e.preventDefault()
+    const nodeId = nodeRef.id
+    const nodeType = nodeRef.ref
+
+    setState(
+        R.assocPath(
+            ['definitionList', state.currentDefinitionId, nodeType, nodeId, 'title'],
+            e.target.value,
+            state
+        )
+    )
+}
+
+export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
+    e.preventDefault()
+
+    setState(
+        R.assocPath(
+            ['definitionList', state.currentDefinitionId, stateRef.ref, stateRef.id, 'title'],
+            e.target.value,
+            state
+        )
+    )
+}
+
+export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
+    setState(R.assocPath(['componentState', stateId], e.target.value, state))
+}
+
+export function CHANGE_CURRENT_STATE_TEXT_VALUE_TABLE(stateId, tableId, rowId, e) {
+    setState(
+        R.over(
+            R.lensPath(['componentState', tableId]),
+            R.map(row => (row.id !== rowId ? row : R.assoc(stateId, e.target.value, row))),
+            state
+        )
+    )
+}
+
+export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE(stateId, e) {
+    setState(R.assocPath(['componentState', stateId], e.target.value === 'true', state))
+}
+
+export function CHANGE_CURRENT_STATE_BOOLEAN_VALUE_TABLE(stateId, tableId, rowId, e) {
+    setState(
+        R.over(
+            R.lensPath(['componentState', tableId]),
+            R.map(row => (row.id !== rowId ? row : R.assoc(stateId, e.target.value === 'true', row))),
+            state
+        )
+    )
+}
+
+export function CHANGE_CURRENT_STATE_NUMBER_VALUE(stateId, e) {
+    const value = e.target.value
+    if (value.toString() !== state.componentState[stateId].toString()) {
+        setState(R.assocPath(['componentState', stateId], value, state))
     }
 }
+
 export function CHANGE_CURRENT_STATE_NUMBER_VALUE_TABLE(stateId, tableId, rowId, e) {
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: state.componentState[tableId].map(row => (row.id !== rowId ? row : { ...row, [stateId]: Number(e.target.value) })),
-        },
-    })
+    setState(
+        R.over(
+            R.lensPath(['componentState', tableId]),
+            R.map(row => (row.id !== rowId ? row : R.assoc(stateId, Number(e.target.value), row))),
+            state
+        )
+    )
 }
+
 export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
     let value = e.target.value
+
     if (type === 'number') {
         value = Number(e.target.value)
     }
+
     if (type === 'boolean') {
         value = value === true || value === 'true'
     }
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [ref.ref]: {
-                    ...state.definitionList[state.currentDefinitionId][ref.ref],
-                    [ref.id]: {
-                        ...state.definitionList[state.currentDefinitionId][ref.ref][ref.id],
-                        [propertyName]: value,
-                    },
-                },
-            },
-        },
-    })
+
+    setState(
+        R.assocPath(
+            ['definitionList', state.currentDefinitionId, ref.ref, ref.id, propertyName],
+            value,
+            state
+        )
+    )
 }
+
 export function SELECT_PIPE(pipeId, e) {
     e.stopPropagation()
-    setState({ ...state, selectedPipeId: pipeId })
+    setState(R.assoc('selectedPipeId', pipeId, state))
 }
+
 export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
-    // TODO this function has reachrd the maximum hack capacity
-    const pipe = state.definitionList[state.currentDefinitionId].pipe[pipeId]
-    const stateInPipe = state.definitionList[state.currentDefinitionId][pipe.value.ref][pipe.value.id]
+    // TODO this function has reached the maximum hack capacity
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+    const pipe = currentDefinition.pipe[pipeId]
+    const stateInPipe = currentDefinition[pipe.value.ref][pipe.value.id]
 
     if (stateInPipe.type === 'table') {
         const rowId = uuid()
@@ -1935,7 +1739,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
         // fuck it, TODO BURN THIS CODE
         let pipes = {}
         const columns = stateInPipe.columns.reduce((acc, stateRef, index) => {
-            const columnState = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id]
+            const columnState = currentDefinition[stateRef.ref][stateRef.id]
 
             const pipeId = uuid()
             pipes[pipeId] = {
@@ -1971,11 +1775,10 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                         push: R.assoc(pushId, push),
                         pipe: R.pipe(
                             R.merge(pipes),
-                            R.evolve({
-                                [pipeId]: {
-                                    transformations: R.append({ ref: 'push', id: pushId }),
-                                },
-                            })
+                            R.over(
+                                R.lensPath([pipeId, 'transformations']),
+                                R.append({ ref: 'push', id: pushId })
+                            )
                         ),
                     },
                 },
@@ -1998,7 +1801,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
     const newPipeId = uuid()
     const newId = uuid()
 
-    const oldTransformations = state.definitionList[state.currentDefinitionId].pipe[pipeId].transformations
+    const oldTransformations = currentDefinition.pipe[pipeId].transformations
     const newPipeTransformations =
         pipe.type === 'text' || pipe.type === stateInPipe.type
             ? oldTransformations.concat({ ref: transformation, id: newId })
@@ -2007,95 +1810,69 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                   .concat({ ref: transformation, id: newId })
                   .concat(oldTransformations.slice(oldTransformations.length - 1))
 
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [transformation]: {
-                    ...state.definitionList[state.currentDefinitionId][transformation],
-                    [newId]: {
-                        value: { ref: 'pipe', id: newPipeId },
-                    },
-                },
-                pipe: {
-                    ...state.definitionList[state.currentDefinitionId].pipe,
-                    [newPipeId]: {
-                        type: pipe.type,
-                        value: value,
-                        transformations: [],
-                    },
-                    [pipeId]: {
-                        ...state.definitionList[state.currentDefinitionId].pipe[pipeId],
-                        transformations: newPipeTransformations,
-                    },
-                },
-            },
-        },
-    })
-}
-
-export function DELETE_TRANSFORMATION(pipeRef, transformationRef) {
     setState(
         R.evolve({
             definitionList: {
                 [state.currentDefinitionId]: {
-                    pipe: {
-                        [pipeRef.id]: {
-                            transformations: R.filter(element => element.id !== transformationRef.id),
-                        },
-                    },
+                    [transformation]: R.assocPath([newId, 'value'], { ref: 'pipe', id: newPipeId }),
+                    pipe: R.pipe(
+                        R.assoc(newPipeId, { value, type: pipe.type, transformations: [] }),
+                        R.assocPath([pipeId, 'transformations'], newPipeTransformations)
+                    ),
                 },
             },
         })(state)
     )
 }
 
+export function DELETE_TRANSFORMATION(pipeRef, transformationRef) {
+    setState(
+        R.over(
+            R.lensPath(['definitionList', state.currentDefinitionId, pipeRef.ref, pipeRef.id, 'transformations']),
+            R.filter(element => element.id !== transformationRef.id),
+            state
+        )
+    )
+}
+
 export function FULL_SCREEN_CLICKED(value) {
     if (value !== state.fullScreen) {
-        setState({ ...state, fullScreen: value })
+        setState(R.assoc('fullScreen', value, state))
     }
 }
+
 export function SAVE_DEFAULT(stateRef) {
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [stateRef.ref]: {
-                    ...state.definitionList[state.currentDefinitionId][stateRef.ref],
-                    [stateRef.id]: {
-                        ...state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id],
-                        defaultValue: state.componentState[stateRef.id],
-                    },
-                },
-            },
-        },
-    })
+    setState(
+        R.assocPath(
+            ['definitionList', state.currentDefinitionId, stateRef.ref, stateRef.id, 'defaultValue'],
+            state.componentState[stateRef.id],
+            state
+        )
+    )
 }
 
 export function DELETE_STATE(stateRef, tableState) {
     const stateId = stateRef.id
     let updatedState = state
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
     if (stateRef.ref === 'table') {
         // delete lists that use the state
-        Object.keys(state.definitionList[state.currentDefinitionId].vNodeList).forEach(nodeId => {
-            const node = state.definitionList[state.currentDefinitionId].vNodeList[nodeId]
+        Object.keys(currentDefinition.vNodeList).forEach(nodeId => {
+            const node = currentDefinition.vNodeList[nodeId]
             const pipeId = node.value.id
-            if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
+            if (currentDefinition.pipe[pipeId].value.id === stateId) {
                 updatedState = deleteView({ ref: 'vNodeList', id: nodeId }, node.parent, updatedState)
             }
         })
     } else {
         // fix all the broken pipes
-        Object.keys(state.definitionList[state.currentDefinitionId].pipe).forEach(pipeId => {
-            if (state.definitionList[state.currentDefinitionId].pipe[pipeId].value.id === stateId) {
+        Object.keys(currentDefinition.pipe).forEach(pipeId => {
+            if (currentDefinition.pipe[pipeId].value.id === stateId) {
                 updatedState = resetPipeFunc(pipeId, updatedState)
             }
         })
     }
+
     if (tableState) {
         updatedState = R.evolve({
             definitionList: {
@@ -2104,9 +1881,7 @@ export function DELETE_STATE(stateRef, tableState) {
                         if (row.table.id === tableState.id) {
                             const table = findNode(row.table)
                             const index = table.columns.findIndex(columnRef => columnRef.id === stateId)
-                            return R.evolve({
-                                columns: R.remove(index, 1),
-                            })(row)
+                            return R.over(R.lensProp('columns'), R.remove(index, 1), row)
                         } else {
                             return row
                         }
@@ -2120,79 +1895,61 @@ export function DELETE_STATE(stateRef, tableState) {
             },
         })(updatedState)
     }
+
     // remove from table nameSpace
-    Object.keys(state.definitionList[state.currentDefinitionId].table).forEach(tableId => {
-        const table = state.definitionList[state.currentDefinitionId].table[tableId]
+    Object.keys(currentDefinition.table).forEach(tableId => {
+        const table = currentDefinition.table[tableId]
         const newColumns = table.columns.filter(columnRef => columnRef.id !== stateId)
         if (newColumns.length !== table.columns.length) {
-            updatedState = {
-                ...updatedState,
-                definitionList: {
-                    ...updatedState.definitionList,
-                    [state.currentDefinitionId]: {
-                        ...updatedState.definitionList[updatedState.currentDefinitionId],
-                        table: {
-                            ...updatedState.definitionList[updatedState.currentDefinitionId].table,
-                            [tableId]: {
-                                ...updatedState.definitionList[updatedState.currentDefinitionId].table[tableId],
-                                columns: newColumns,
-                            },
-                        },
-                    },
-                },
-            }
+            updatedState = R.assocPath(
+                ['definitionList', updatedState.currentDefinitionId, 'table', tableId, 'columns'],
+                newColumns,
+                updatedState
+            )
         }
     })
 
-    const { [stateId]: deletedState, ...newState } = updatedState.definitionList[state.currentDefinitionId][stateRef.ref]
-    let events = updatedState.definitionList[state.currentDefinitionId].event
+    const updatedDefinition = updatedState.definitionList[updatedState.currentDefinitionId]
+    const { [stateId]: deletedState, ...newState } = updatedDefinition[stateRef.ref]
+    let events = updatedDefinition.event
     deletedState.mutators.forEach(mutatorRef => {
-        const mutator = updatedState.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+        const mutator = updatedDefinition[mutatorRef.ref][mutatorRef.id]
         const event = mutator.event
-        events = {
-            ...events,
-            [event.id]: {
-                ...events[event.id],
-                mutators: events[event.id].mutators.filter(mutRef => mutRef.id !== mutatorRef.id),
-            },
-        }
+        events = R.over(
+            R.lensPath([event.id, 'mutators']),
+            R.filter(mutRef => mutRef.id !== mutatorRef.id),
+            events
+        )
     })
-    setState({
-        ...updatedState,
-        selectedStateNode: {},
-        definitionList: {
-            ...updatedState.definitionList,
-            [state.currentDefinitionId]: {
-                ...updatedState.definitionList[updatedState.currentDefinitionId],
-                [stateRef.ref]: newState,
-                nameSpace: {
-                    ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace,
-                    _rootNameSpace: {
-                        ...updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'],
-                        children: updatedState.definitionList[updatedState.currentDefinitionId].nameSpace['_rootNameSpace'].children.filter(
-                            ref => ref.id !== stateId
-                        ),
+
+    setState(
+        R.evolve({
+            selectedStateNode: R.empty,
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    [stateRef.ref]: R.always(newState),
+                    nameSpace: {
+                        _rootNameSpace: {
+                            children: R.filter(ref => ref.id !== stateId),
+                        },
                     },
+                    event: R.always(events),
                 },
-                event: events,
             },
-        },
-    })
+        })(updatedState)
+    )
 }
+
 export function EVENT_HOVERED(eventRef) {
-    setState({
-        ...state,
-        hoveredEvent: eventRef,
-    })
+    setState(R.assoc('hoveredEvent', eventRef, state))
 }
+
 export function EVENT_UNHOVERED() {
     if (state.hoveredEvent) {
-        setState({
-            ...state,
-            hoveredEvent: null,
-        })
+        setState(R.assoc('hoveredEvent', null, state))
     }
 }
+
 export function resetPipeFunc(pipeId, state) {
     const defaultValues = {
         text: 'Default text',
@@ -2200,79 +1957,71 @@ export function resetPipeFunc(pipeId, state) {
         boolean: true,
     }
     let parentJoinId
-    Object.keys(state.definitionList[state.currentDefinitionId].join).forEach(joinId => {
-        if (state.definitionList[state.currentDefinitionId].join[joinId].value.id === pipeId) {
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+
+    Object.keys(currentDefinition.join).forEach(joinId => {
+        if (currentDefinition.join[joinId].value.id === pipeId) {
             parentJoinId = joinId
         }
     })
+
     if (parentJoinId) {
-        const pipes = Object.keys(state.definitionList[state.currentDefinitionId].pipe)
+        const pipes = Object.keys(currentDefinition.pipe)
         for (let i = 0; i < pipes.length; i++) {
             const parentPipeId = pipes[i]
             for (
                 let index = 0;
-                index < state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.length;
+                index < currentDefinition.pipe[parentPipeId].transformations.length;
                 index++
             ) {
-                const ref = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index]
+                const ref = currentDefinition.pipe[parentPipeId].transformations[index]
                 if (ref.id === parentJoinId) {
-                    const joinRef = state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations[index + 1]
-                    const secondPipeRef = state.definitionList[state.currentDefinitionId].join[joinRef.id].value
-                    const text = state.definitionList[state.currentDefinitionId].pipe[secondPipeRef.id].value
-                    return {
-                        ...state,
-                        selectedPipeId: '',
+                    const joinRef = currentDefinition.pipe[parentPipeId].transformations[index + 1]
+                    const secondPipeRef = currentDefinition.join[joinRef.id].value
+                    const text = currentDefinition.pipe[secondPipeRef.id].value
+                    return R.evolve({
+                        selectedPipeId: R.empty,
                         definitionList: {
-                            ...state.definitionList,
                             [state.currentDefinitionId]: {
-                                ...state.definitionList[state.currentDefinitionId],
                                 pipe: {
-                                    ...state.definitionList[state.currentDefinitionId].pipe,
                                     [parentPipeId]: {
-                                        ...state.definitionList[state.currentDefinitionId].pipe[parentPipeId],
-                                        value: state.definitionList[state.currentDefinitionId].pipe[parentPipeId].value + text,
-                                        transformations: state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations
-                                            .slice(0, index)
-                                            .concat(state.definitionList[state.currentDefinitionId].pipe[secondPipeRef.id].transformations)
-                                            .concat(
-                                                state.definitionList[state.currentDefinitionId].pipe[parentPipeId].transformations.slice(
-                                                    index + 2
-                                                )
-                                            ),
+                                        value: R.concat(R.__, text),
+                                        transformations: R.pipe(
+                                            R.slice(0, index),
+                                            R.concat(R.__, currentDefinition.pipe[secondPipeRef.id].transformations),
+                                            R.concat(R.__, currentDefinition.pipe[parentPipeId].transformations.slice(index + 2))
+                                        ),
                                     },
                                 },
                             },
                         },
-                    }
+                    })(state)
                 }
             }
         }
     } else {
-        return {
-            ...state,
-            selectedPipeId: '',
+        return R.evolve({
+            selectedPipeId: R.empty,
             definitionList: {
-                ...state.definitionList,
                 [state.currentDefinitionId]: {
-                    ...state.definitionList[state.currentDefinitionId],
                     pipe: {
-                        ...state.definitionList[state.currentDefinitionId].pipe,
                         [pipeId]: {
-                            ...state.definitionList[state.currentDefinitionId].pipe[pipeId],
-                            value: defaultValues[state.definitionList[state.currentDefinitionId].pipe[pipeId].type],
-                            transformations: [],
+                            value: R.always(defaultValues[currentDefinition.pipe[pipeId].type]),
+                            transformations: R.empty,
                         },
                     },
                 },
             },
-        }
+        })(state)
     }
 }
+
 export function RESET_PIPE(pipeId, e) {
     e.stopPropagation()
 
     setState(resetPipeFunc(pipeId, state))
 }
+
 export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
     const newRefName = e.target.value
 
@@ -2293,7 +2042,7 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
                         [pipeRef.id]: {
                             transformations: findAndAdjust(
                                 transformation => transformation.id === oldTransformationRef.id,
-                                R.assoc('ref', newRefName)
+                                R.assoc('ref', newRefName),
                             ),
                         },
                     },
@@ -2304,68 +2053,59 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
         })(state)
     )
 }
+
 export function CHANGE_MENU(type) {
-    setState({ ...state, selectedMenu: type })
+    setState(R.assoc('selectedMenu', type, state))
 }
+
 export function COMPONENT_HOVERED(id) {
-    setState({ ...state, hoveredComponent: id })
+    setState(R.assoc('hoveredComponent', id, state))
 }
+
 export function COMPONENT_UNHOVERED() {
-    setState({ ...state, hoveredComponent: '' })
+    setState(R.assoc('hoveredComponent', '', state))
 }
+
 export function ADD_NEW_COMPONENT() {
     const newApp = generateEmptyApp()
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [newApp.id]: newApp,
-        },
-        eventStack: { [newApp.id]: [] },
-        currentDefinitionId: newApp.id,
-        selectedViewNode: {},
-        selectedPipeId: '',
-        selectedStateNode: {},
-    })
+    setState(
+        R.evolve({
+            definitionList: R.assoc(newApp.id, newApp),
+            eventStack: R.always({ [newApp.id]: [] }),
+            currentDefinitionId: R.always(newApp.id),
+            selectedViewNode: R.empty,
+            selectedPipeId: R.empty,
+            selectedStateNode: R.empty,
+        })(state)
+    )
 }
+
 export function SELECT_COMPONENT(id) {
-    setState({
-        ...state,
-        componentState: createDefaultState(state.definitionList[id]),
-        eventStack: { [id]: [] },
-        currentDefinitionId: id,
-        selectedViewNode: {},
-        selectedPipeId: '',
-        selectedStateNode: {},
-    })
+    setState(
+        R.evolve({
+            componentState: R.always(createDefaultState(state.definitionList[id])),
+            eventStack: R.always({ [id]: [] }),
+            currentDefinitionId: R.always(id),
+            selectedViewNode: R.empty,
+            selectedPipeId: R.empty,
+            selectedStateNode: R.empty,
+        })(state)
+    )
 }
+
 export function CHANGE_COMPONENT_PATH(name, e) {
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                [name]: e.target.value,
-            },
-        },
-    })
+    setState(R.assocPath(['definitionList', state.currentDefinitionId, name], e.target.value, state))
 }
 
 export function UPDATE_TABLE_DEFAULT_RECORD(tableId, e) {
-    const table = state.definitionList[state.currentDefinitionId].table[tableId]
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+    const table = currentDefinition.table[tableId]
     let defaultRow = {}
     table.columns.forEach(stateRef => {
-        defaultRow[stateRef.id] = state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].defaultValue
+        defaultRow[stateRef.id] = currentDefinition[stateRef.ref][stateRef.id].defaultValue
     })
     defaultRow.id = uuid()
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: state.componentState[tableId].concat(defaultRow),
-        },
-    })
+    setState(R.over(R.lensPath(['componentState', tableId]), R.append(defaultRow), state))
 }
 
 export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
@@ -2375,6 +2115,7 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
     // update running app
     const newStateId = uuid()
     let newState
+
     if (type === 'text') {
         newState = {
             title: 'new text',
@@ -2384,6 +2125,7 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
             mutators: [],
         }
     }
+
     if (type === 'number') {
         newState = {
             title: 'new number',
@@ -2393,6 +2135,7 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
             mutators: [],
         }
     }
+
     if (type === 'boolean') {
         newState = {
             title: 'new boolean',
@@ -2402,7 +2145,8 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
             mutators: [],
         }
     }
-    const updatedTable = state.componentState[tableId].map(row => ({ ...row, [newStateId]: newState.defaultValue }))
+
+    const updatedTable = state.componentState[tableId].map(row => R.assoc(newStateId, newState.defaultValue, row))
     let addedPipes = {}
     let addedColumns = {}
     const updatedRows = R.mapObjIndexed((row, rowId) => {
@@ -2419,12 +2163,11 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
                 value: newState.defaultValue,
                 transformations: [],
             })(addedPipes)
-            return R.evolve({
-                columns: R.append({ ref: 'column', id: columnId }),
-            })(row)
+            return R.over(R.lensProp('columns'), R.append({ ref: 'column', id: columnId }), row)
         }
         return row
     })(state.definitionList[state.currentDefinitionId].row)
+
     setState(
         R.evolve({
             componentState: R.assoc(tableId, updatedTable),
@@ -2450,46 +2193,34 @@ export function UPDATE_TABLE_ADD_COLUMN(tableId, type) {
 }
 
 export function DELETE_TABLE_ROW(tableId, rowId) {
-    let updatedTable = state.componentState[tableId].filter(row => row.id !== rowId)
-    setState({
-        ...state,
-        componentState: {
-            ...state.componentState,
-            [tableId]: updatedTable,
-        },
-    })
+    const updatedTable = state.componentState[tableId].filter(row => row.id !== rowId)
+    setState(R.assocPath(['componentState', tableId], updatedTable, state))
+}
+
+function returnRemovalFunction(mutatorRef, mutatorState, expectedStateRef) {
+    return mutatorState.ref === expectedStateRef
+        ? R.over(R.lensPath([mutatorState.id, 'mutators']), R.filter(ref => ref.id !== mutatorRef.id))
+        : R.identity
 }
 
 export function REMOVE_MUTATOR(mutatorRef) {
-    const mutator = state.definitionList[state.currentDefinitionId][mutatorRef.ref][mutatorRef.id]
+    const currentDefinition = state.definitionList[state.currentDefinitionId]
+    const mutator = currentDefinition[mutatorRef.ref][mutatorRef.id]
+    const { [mutatorRef.id]: deletedMutator, ...mutatorsLeft } = currentDefinition[mutatorRef.ref]
 
-    const { [mutatorRef.id]: deletedMutator, ...mutatorsLeft } = state.definitionList[state.currentDefinitionId][mutatorRef.ref]
-    setState({
-        ...state,
-        definitionList: {
-            ...state.definitionList,
-            [state.currentDefinitionId]: {
-                ...state.definitionList[state.currentDefinitionId],
-                state: {
-                    ...state.definitionList[state.currentDefinitionId].state,
-                    [mutator.state.id]: {
-                        ...state.definitionList[state.currentDefinitionId].state[mutator.state.id],
-                        mutators: state.definitionList[state.currentDefinitionId].state[mutator.state.id].mutators.filter(
-                            ref => ref.id !== mutatorRef.id
-                        ),
-                    },
-                },
-                mutator: mutatorsLeft,
-                event: {
-                    ...state.definitionList[state.currentDefinitionId].event,
-                    [mutator.event.id]: {
-                        ...state.definitionList[state.currentDefinitionId].event[mutator.event.id],
-                        mutators: state.definitionList[state.currentDefinitionId].event[mutator.event.id].mutators.filter(
-                            ref => ref.id !== mutatorRef.id
-                        ),
-                    },
+    setState(
+        R.evolve({
+            definitionList: {
+                [state.currentDefinitionId]: {
+                    table: returnRemovalFunction(mutatorRef, mutator.state, 'table'),
+                    state: returnRemovalFunction(mutatorRef, mutator.state, 'state'),
+                    mutator: R.always(mutatorsLeft),
+                    event: R.over(
+                        R.lensPath([mutator.event.id, 'mutators']),
+                        R.filter(ref => ref.id !== mutatorRef.id)
+                    ),
                 },
             },
-        },
-    })
+        })(state)
+    )
 }
