@@ -1,6 +1,6 @@
 # Ugnis 0.9.2v-alpha
 
-Ugnis is a visual editor for designers and developers alike. [Try it online!](https://ugnis.com/editor)
+Ugnis is a visual editor for designers and developers alike. [Try it online!](http://ugnis.com)
 
 Exports to React and React-Native (experimental). Vote for more integrations [in this issue](https://github.com/UgnisSoftware/ugnis/issues/1)
 
