@@ -1291,7 +1291,7 @@ export function ADD_NODE(nodeRef, type) {
         }
         const newPipe = {
             type: 'text',
-            value: 'https://www.ugnis.com/images/logo_new256x256.png',
+            value: 'http://www.ugnis.com/images/logo_new256x256.png',
             transformations: [],
         }
 
@@ -1493,7 +1493,7 @@ export function ADD_NODE(nodeRef, type) {
                         ),
                         state: R.assoc(stateId, newState),
                         mutator: R.assoc(mutatorId, newMutator),
-                        event: R.event(eventId, newEvent),
+                        event: R.assoc(eventId, newEvent),
                     },
                 },
             })(state)
