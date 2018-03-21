@@ -83,6 +83,8 @@ const defaultStylesToRemove = {
 
 module.exports = definition => {
     let styles = {}
+    let currentMapValue = {}
+    let currentMapIndex = {}
 
     function resolve(ref) {
         // static value (string/number)
@@ -100,6 +102,9 @@ module.exports = definition => {
             return `${resolve(def.predicate)} ? ${resolve(def.then)} : ${resolve(def.else)}`
         }
         if (ref.ref === 'state') {
+            return `this.state['${ref.id}']`
+        }
+        if (ref.ref === 'table') {
             return `this.state['${ref.id}']`
         }
         if (ref.ref === 'vNodeBox') {

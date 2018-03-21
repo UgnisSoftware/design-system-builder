@@ -1,7 +1,7 @@
 {
     "version": "0.9.1",
-    "reactPath": "./react-src/src/components/",
-    "reactNativePath": "./react-native-src/src/components/",
+    "reactPath": "./ugnis_components/react/",
+    "reactNativePath": "./ugnis_components/react-native/",
     "eventData": {
         "screenX": {
             "type": "number"
