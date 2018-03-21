@@ -46,6 +46,15 @@ Ugnis consists of three parts:
 
 
 ## Exporting
+
+To export all your definitions into React/React-Native just run `eporter.js` with node:
+
+```
+ node exporter
+```
+
+Your components will be inside `ugnis_components/react*`
+
 ## License:
 
 Exported components are under the license that your project is.
