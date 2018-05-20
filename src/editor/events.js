@@ -916,23 +916,8 @@ export function STATE_DRAGGED(stateRef, e) {
     window.addEventListener('touchend', stopDragging)
 }
 
-export function FREEZER_CLICKED() {
-    setState(
-        R.evolve({
-            appIsFrozen: R.not,
-            selectedViewNode: state.appIsFrozen ? R.empty : R.identity,
-        })(state)
-    )
-}
-
 export function VIEW_FOLDER_CLICKED(nodeId, forcedValue) {
-    setState(
-        R.assocPath(
-            ['viewFoldersClosed', nodeId],
-            forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId],
-            state
-        )
-    )
+    setState(R.assocPath(['viewFoldersClosed', nodeId], forcedValue !== undefined ? forcedValue : !state.viewFoldersClosed[nodeId], state))
 }
 
 export function VIEW_NODE_SELECTED(ref) {
@@ -962,11 +947,7 @@ export function UNSELECT_STATE_NODE(e) {
 export function ADD_NODE(nodeRef, type) {
     const currentDefinition = state.definitionList[state.currentDefinitionId]
 
-    if (
-        !nodeRef.ref ||
-        !currentDefinition[nodeRef.ref][nodeRef.id] ||
-        !currentDefinition[nodeRef.ref][nodeRef.id].children
-    ) {
+    if (!nodeRef.ref || !currentDefinition[nodeRef.ref][nodeRef.id] || !currentDefinition[nodeRef.ref][nodeRef.id].children) {
         if (
             state.selectedViewNode.ref &&
             currentDefinition[state.selectedViewNode.ref][state.selectedViewNode.id] &&
@@ -1217,29 +1198,23 @@ export function ADD_NODE(nodeRef, type) {
                 definitionList:
                     nodeRef.ref === 'vNodeBox'
                         ? R.evolve({
-                            [state.currentDefinitionId]: {
-                                pipe: R.merge(R.__, boxStylePipes),
-                                vNodeBox: R.pipe(
-                                    R.over(
-                                        R.lensPath([nodeId, 'children']),
-                                        R.append({ ref: 'vNodeBox', id: newNodeId })
-                                    ),
-                                    R.assoc(newNodeId, newNode)
-                                ),
-                                style: R.assoc(newStyleId, newStyle),
-                            },
-                        })
+                              [state.currentDefinitionId]: {
+                                  pipe: R.merge(R.__, boxStylePipes),
+                                  vNodeBox: R.pipe(
+                                      R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeBox', id: newNodeId })),
+                                      R.assoc(newNodeId, newNode)
+                                  ),
+                                  style: R.assoc(newStyleId, newStyle),
+                              },
+                          })
                         : R.evolve({
-                            [state.currentDefinitionId]: {
-                                pipe: R.merge(R.__, boxStylePipes),
-                                vNodeBox: R.assoc(newNodeId, newNode),
-                                style: R.assoc(newStyleId, newStyle),
-                                [nodeRef.ref]: R.over(
-                                    R.lensPath([nodeId, 'children']),
-                                    R.append({ ref: 'vNodeBox', id: newNodeId })
-                                ),
-                            },
-                        })
+                              [state.currentDefinitionId]: {
+                                  pipe: R.merge(R.__, boxStylePipes),
+                                  vNodeBox: R.assoc(newNodeId, newNode),
+                                  style: R.assoc(newStyleId, newStyle),
+                                  [nodeRef.ref]: R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeBox', id: newNodeId })),
+                              },
+                          }),
             })(state)
         )
     }
@@ -1264,14 +1239,8 @@ export function ADD_NODE(nodeRef, type) {
                 selectedViewNode: R.always({ ref: 'vNodeText', id: newNodeId }),
                 definitionList: {
                     [state.currentDefinitionId]: {
-                        pipe: R.pipe(
-                            R.assoc(pipeId, newPipe),
-                            R.merge(R.__, textStylePipes)
-                        ),
-                        [nodeRef.ref]: R.over(
-                            R.lensPath([nodeId, 'children']),
-                            R.append({ ref: 'vNodeText', id: newNodeId })
-                        ),
+                        pipe: R.pipe(R.assoc(pipeId, newPipe), R.merge(R.__, textStylePipes)),
+                        [nodeRef.ref]: R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeText', id: newNodeId })),
                         vNodeText: R.assoc(newNodeId, newNode),
                         style: R.assoc(newStyleId, newStyle),
                     },
@@ -1300,14 +1269,8 @@ export function ADD_NODE(nodeRef, type) {
                 selectedViewNode: R.always({ ref: 'vNodeImage', id: newNodeId }),
                 definitionList: {
                     [state.currentDefinitionId]: {
-                        pipe: R.pipe(
-                            R.assoc(pipeId, newPipe),
-                            R.merge(R.__, boxStylePipes)
-                        ),
-                        [nodeRef.ref]: R.over(
-                            R.lensPath([nodeId, 'children']),
-                            R.append({ ref: 'vNodeImage', id: newNodeId })
-                        ),
+                        pipe: R.pipe(R.assoc(pipeId, newPipe), R.merge(R.__, boxStylePipes)),
+                        [nodeRef.ref]: R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeImage', id: newNodeId })),
                         vNodeImage: R.assoc(newNodeId, newNode),
                         style: R.assoc(newStyleId, newStyle),
                     },
@@ -1336,27 +1299,21 @@ export function ADD_NODE(nodeRef, type) {
                 definitionList:
                     nodeRef.ref === 'vNodeIf'
                         ? R.evolve({
-                            [state.currentDefinitionId]: {
-                                pipe: R.assoc(pipeId, newPipe),
-                                vNodeIf: R.pipe(
-                                    R.over(
-                                        R.lensPath([nodeId, 'children']),
-                                        R.append({ ref: 'vNodeIf', id: newNodeId })
-                                    ),
-                                    R.assoc(newNodeId, newNode)
-                                ),
-                            },
-                        })
+                              [state.currentDefinitionId]: {
+                                  pipe: R.assoc(pipeId, newPipe),
+                                  vNodeIf: R.pipe(
+                                      R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeIf', id: newNodeId })),
+                                      R.assoc(newNodeId, newNode)
+                                  ),
+                              },
+                          })
                         : R.evolve({
-                            [state.currentDefinitionId]: {
-                                pipe: R.assoc(pipeId, newPipe),
-                                vNodeIf: R.assoc(newNodeId, newNode),
-                                [nodeRef.ref]: R.over(
-                                    R.lensPath([nodeId, 'children']),
-                                    R.append({ ref: 'vNodeIf', id: newNodeId })
-                                ),
-                            },
-                        })
+                              [state.currentDefinitionId]: {
+                                  pipe: R.assoc(pipeId, newPipe),
+                                  vNodeIf: R.assoc(newNodeId, newNode),
+                                  [nodeRef.ref]: R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeIf', id: newNodeId })),
+                              },
+                          }),
             })(state)
         )
     }
@@ -1386,23 +1343,20 @@ export function ADD_NODE(nodeRef, type) {
         }
         const resolvedNodes =
             nodeRef.ref === 'vNodeList'
-            ? {
-                vNodeList: R.pipe(
-                    R.over(
-                        R.lensPath([nodeId, 'children']),
-                        R.append({ ref: 'vNodeList', id: newNodeId })
-                    ),
-                    R.assoc(newNodeId, newNode)
-                )(currentDefinition.vNodeList)
-              }
-            : {
-                  [nodeRef.ref]: R.over(
-                      R.lensPath([nodeId, 'children']),
-                      R.append({ ref: 'vNodeList', id: newNodeId }),
-                      currentDefinition[nodeRef.ref],
-                  ),
-                  vNodeList: R.assoc(newNodeId, newNode, currentDefinition.vNodeList),
-              }
+                ? {
+                      vNodeList: R.pipe(
+                          R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeList', id: newNodeId })),
+                          R.assoc(newNodeId, newNode)
+                      )(currentDefinition.vNodeList),
+                  }
+                : {
+                      [nodeRef.ref]: R.over(
+                          R.lensPath([nodeId, 'children']),
+                          R.append({ ref: 'vNodeList', id: newNodeId }),
+                          currentDefinition[nodeRef.ref]
+                      ),
+                      vNodeList: R.assoc(newNodeId, newNode, currentDefinition.vNodeList),
+                  }
 
         return setState(
             R.evolve({
@@ -1481,16 +1435,10 @@ export function ADD_NODE(nodeRef, type) {
                             R.assoc(pipeMutatorId, newPipeMutator),
                             R.merge(R.__, textStylePipes)
                         ),
-                        [nodeRef.ref]: R.over(
-                            R.lensPath([nodeId, 'children']),
-                            R.append({ ref: 'vNodeInput', id: newNodeId })
-                        ),
+                        [nodeRef.ref]: R.over(R.lensPath([nodeId, 'children']), R.append({ ref: 'vNodeInput', id: newNodeId })),
                         vNodeInput: R.assoc(newNodeId, newNode),
                         style: R.assoc(newStyleId, newStyle),
-                        nameSpace: R.over(
-                            R.lensPath(['_rootNameSpace', 'children']),
-                            R.append({ ref: 'state', id: stateId })
-                        ),
+                        nameSpace: R.over(R.lensPath(['_rootNameSpace', 'children']), R.append({ ref: 'state', id: stateId })),
                         state: R.assoc(stateId, newState),
                         mutator: R.assoc(mutatorId, newMutator),
                         event: R.assoc(eventId, newEvent),
@@ -1549,10 +1497,7 @@ export function ADD_STATE(namespaceId, type) {
                 componentState: R.assoc(newStateId, newState.defaultValue),
                 definitionList: {
                     [state.currentDefinitionId]: {
-                        nameSpace: R.over(
-                            R.lensPath([namespaceId, 'children']),
-                            R.append({ ref: 'table', id: newStateId })
-                        ),
+                        nameSpace: R.over(R.lensPath([namespaceId, 'children']), R.append({ ref: 'table', id: newStateId })),
                         table: R.assoc(newStateId, newState),
                     },
                 },
@@ -1565,10 +1510,7 @@ export function ADD_STATE(namespaceId, type) {
             componentState: R.assoc(newStateId, newState.defaultValue),
             definitionList: {
                 [state.currentDefinitionId]: {
-                    nameSpace: R.over(
-                        R.lensPath([namespaceId, 'children']),
-                        R.append({ ref: 'state', id: newStateId })
-                    ),
+                    nameSpace: R.over(R.lensPath([namespaceId, 'children']), R.append({ ref: 'state', id: newStateId })),
                     state: R.assoc(newStateId, newState),
                 },
             },
@@ -1595,11 +1537,7 @@ function deleteView(nodeRef, parentRef, state) {
             // event -> mutators -> states
             currentDefinition[eventRef.ref][eventRef.id].mutators.forEach(mutatorRef => {
                 const stateRef = currentDefinition[mutatorRef.ref][mutatorRef.id].state
-                newState = R.over(
-                    R.lensPath([stateRef.id, 'mutators']),
-                    R.filter(mutator => mutator.id !== mutatorRef.id),
-                    newState
-                )
+                newState = R.over(R.lensPath([stateRef.id, 'mutators']), R.filter(mutator => mutator.id !== mutatorRef.id), newState)
             })
         }
     })
@@ -1607,10 +1545,7 @@ function deleteView(nodeRef, parentRef, state) {
     return R.evolve({
         definitionList: {
             [state.currentDefinitionId]: {
-                [parentRef.ref]: R.over(
-                    R.lensPath([parentRef.id, 'children']),
-                    R.filter(ref => ref.id !== nodeRef.id)
-                ),
+                [parentRef.ref]: R.over(R.lensPath([parentRef.id, 'children']), R.filter(ref => ref.id !== nodeRef.id)),
                 state: R.always(newState),
             },
         },
@@ -1627,25 +1562,13 @@ export function CHANGE_VIEW_NODE_TITLE(nodeRef, e) {
     const nodeId = nodeRef.id
     const nodeType = nodeRef.ref
 
-    setState(
-        R.assocPath(
-            ['definitionList', state.currentDefinitionId, nodeType, nodeId, 'title'],
-            e.target.value,
-            state
-        )
-    )
+    setState(R.assocPath(['definitionList', state.currentDefinitionId, nodeType, nodeId, 'title'], e.target.value, state))
 }
 
 export function CHANGE_STATE_NODE_TITLE(stateRef, e) {
     e.preventDefault()
 
-    setState(
-        R.assocPath(
-            ['definitionList', state.currentDefinitionId, stateRef.ref, stateRef.id, 'title'],
-            e.target.value,
-            state
-        )
-    )
+    setState(R.assocPath(['definitionList', state.currentDefinitionId, stateRef.ref, stateRef.id, 'title'], e.target.value, state))
 }
 
 export function CHANGE_CURRENT_STATE_TEXT_VALUE(stateId, e) {
@@ -1704,13 +1627,7 @@ export function CHANGE_STATIC_VALUE(ref, propertyName, type, e) {
         value = value === true || value === 'true'
     }
 
-    setState(
-        R.assocPath(
-            ['definitionList', state.currentDefinitionId, ref.ref, ref.id, propertyName],
-            value,
-            state
-        )
-    )
+    setState(R.assocPath(['definitionList', state.currentDefinitionId, ref.ref, ref.id, propertyName], value, state))
 }
 
 export function SELECT_PIPE(pipeId, e) {
@@ -1775,10 +1692,7 @@ export function ADD_DEFAULT_TRANSFORMATION(pipeId) {
                         push: R.assoc(pushId, push),
                         pipe: R.pipe(
                             R.merge(pipes),
-                            R.over(
-                                R.lensPath([pipeId, 'transformations']),
-                                R.append({ ref: 'push', id: pushId })
-                            )
+                            R.over(R.lensPath([pipeId, 'transformations']), R.append({ ref: 'push', id: pushId }))
                         ),
                     },
                 },
@@ -1915,11 +1829,7 @@ export function DELETE_STATE(stateRef, tableState) {
     deletedState.mutators.forEach(mutatorRef => {
         const mutator = updatedDefinition[mutatorRef.ref][mutatorRef.id]
         const event = mutator.event
-        events = R.over(
-            R.lensPath([event.id, 'mutators']),
-            R.filter(mutRef => mutRef.id !== mutatorRef.id),
-            events
-        )
+        events = R.over(R.lensPath([event.id, 'mutators']), R.filter(mutRef => mutRef.id !== mutatorRef.id), events)
     })
 
     setState(
@@ -1969,11 +1879,7 @@ export function resetPipeFunc(pipeId, state) {
         const pipes = Object.keys(currentDefinition.pipe)
         for (let i = 0; i < pipes.length; i++) {
             const parentPipeId = pipes[i]
-            for (
-                let index = 0;
-                index < currentDefinition.pipe[parentPipeId].transformations.length;
-                index++
-            ) {
+            for (let index = 0; index < currentDefinition.pipe[parentPipeId].transformations.length; index++) {
                 const ref = currentDefinition.pipe[parentPipeId].transformations[index]
                 if (ref.id === parentJoinId) {
                     const joinRef = currentDefinition.pipe[parentPipeId].transformations[index + 1]
@@ -2042,7 +1948,7 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
                         [pipeRef.id]: {
                             transformations: findAndAdjust(
                                 transformation => transformation.id === oldTransformationRef.id,
-                                R.assoc('ref', newRefName),
+                                R.assoc('ref', newRefName)
                             ),
                         },
                     },
@@ -2052,10 +1958,6 @@ export function CHANGE_TRANSFORMATION(pipeRef, oldTransformationRef, index, e) {
             },
         })(state)
     )
-}
-
-export function CHANGE_MENU(type) {
-    setState(R.assoc('selectedMenu', type, state))
 }
 
 export function COMPONENT_HOVERED(id) {
@@ -2215,10 +2117,7 @@ export function REMOVE_MUTATOR(mutatorRef) {
                     table: returnRemovalFunction(mutatorRef, mutator.state, 'table'),
                     state: returnRemovalFunction(mutatorRef, mutator.state, 'state'),
                     mutator: R.always(mutatorsLeft),
-                    event: R.over(
-                        R.lensPath([mutator.event.id, 'mutators']),
-                        R.filter(ref => ref.id !== mutatorRef.id)
-                    ),
+                    event: R.over(R.lensPath([mutator.event.id, 'mutators']), R.filter(ref => ref.id !== mutatorRef.id)),
                 },
             },
         })(state)

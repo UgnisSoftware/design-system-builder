@@ -1,4 +1,4 @@
-# Ugnis 0.9.2v-alpha
+# Ugnis v0.10.0-alpha
 
 Ugnis is a visual editor for designers and developers alike. [Try it online!](http://ugnis.com)
 

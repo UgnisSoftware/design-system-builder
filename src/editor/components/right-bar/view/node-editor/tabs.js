@@ -1,6 +1,6 @@
 import React from 'react'
 import { state } from 'lape'
-import { SELECT_VIEW_SUBMENU } from '../../events'
+import { SELECT_VIEW_SUBMENU } from '../../../../events'
 
 const PropsComponent = () => (
     <div

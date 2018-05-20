@@ -1,48 +1,12 @@
 import React from 'react'
 import { state } from 'lape'
-import { WIDTH_DRAGGED, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE } from '../../events'
-import { ListIcon, IfIcon, InputIcon, TextIcon, BoxIcon, ClearIcon, ImageIcon, AppIcon } from '../icons'
+import { WIDTH_DRAGGED, COMPONENT_VIEW_DRAGGED, UNSELECT_VIEW_NODE } from '../../../../events'
+import { ListIcon, IfIcon, InputIcon, TextIcon, BoxIcon, ClearIcon, ImageIcon, AppIcon } from '../../../icons'
 import PropsMenu from './props-tab'
 import StylesMenu from './style-tab'
 import EventsMenu from './event-tab'
 import Tabs from './tabs'
 import DataMenu from './inherited-data'
-
-const DragSubComponentLeft = () => (
-    <div
-        onMouseDown={e => WIDTH_DRAGGED('subEditorWidthLeft', e)}
-        onTouchStart={e => WIDTH_DRAGGED('subEditorWidthLeft', e)}
-        style={{
-            position: 'absolute',
-            left: '2px',
-            transform: 'translateX(-100%)',
-            top: '0',
-            width: '10px',
-            height: '100%',
-            textAlign: 'center',
-            opacity: 0,
-            cursor: 'col-resize',
-        }}
-    />
-)
-
-const DragSubComponentRight = () => (
-    <div
-        onMouseDown={e => WIDTH_DRAGGED('subEditorWidth', e)}
-        onTouchStart={e => WIDTH_DRAGGED('subEditorWidth', e)}
-        style={{
-            position: 'absolute',
-            right: '2px',
-            transform: 'translateX(100%)',
-            top: '0',
-            width: '10px',
-            height: '100%',
-            textAlign: 'center',
-            opacity: 0,
-            cursor: 'col-resize',
-        }}
-    />
-)
 
 export default function generateEditNodeComponent() {
     const selectedNode = state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
@@ -51,11 +15,8 @@ export default function generateEditNodeComponent() {
     return (
         <div
             style={{
-                position: 'fixed',
                 color: 'white',
-                left: state.componentEditorPosition.x + 'px',
-                top: state.componentEditorPosition.y + 'px',
-                height: '80%',
+                height: '50%',
                 display: 'flex',
                 zIndex: '3000',
             }}
@@ -64,7 +25,6 @@ export default function generateEditNodeComponent() {
                 style={{
                     flex: '1',
                     display: 'flex',
-                    marginBottom: '10px',
                     flexDirection: 'column',
                     background: '#393939',
                     width: state.subEditorWidth + 'px',
@@ -83,8 +43,6 @@ export default function generateEditNodeComponent() {
                             fontSize: '18px',
                             padding: '13px 10px',
                         }}
-                        onMouseDown={COMPONENT_VIEW_DRAGGED}
-                        onTouchStart={COMPONENT_VIEW_DRAGGED}
                     >
                         <span
                             style={{
@@ -139,8 +97,6 @@ export default function generateEditNodeComponent() {
                     </div>
                 </div>
                 {fullVNode ? <Tabs /> : ''}
-                <DragSubComponentRight />
-                <DragSubComponentLeft />
                 {state.selectedViewSubMenu === 'props' || !fullVNode ? (
                     <PropsMenu />
                 ) : state.selectedViewSubMenu === 'style' ? (
@@ -150,8 +106,6 @@ export default function generateEditNodeComponent() {
                 ) : (
                     <span />
                 )}
-
-                <DataMenu />
             </div>
         </div>
     )

@@ -9,11 +9,9 @@ const defaultState = {
     editorLeftWidth: 200,
     subEditorWidth: 375,
     componentEditorPosition: { x: window.innerWidth - 799, y: 50 },
-    appIsFrozen: true,
     selectedViewNode: {},
     selectedPipeId: '',
     selectedStateNode: {},
-    selectedMenu: 'view', // view | state | events
     selectedViewSubMenu: 'props',
     hoveredComponent: '',
     hoveredViewWithoutDrag: '',

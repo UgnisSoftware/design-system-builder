@@ -85,8 +85,7 @@ module.exports = definition => {
     let styles = {}
     let currentMapValue = {}
     let currentMapIndex = {}
-    
-    
+
     function resolve(ref) {
         // static value (string/number)
         if (ref === undefined) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { state } from 'lape'
-import { CHANGE_STATIC_VALUE } from '../../events'
-import { ArrowIcon } from '../icons'
+import { CHANGE_STATIC_VALUE } from '../../../../events'
+import { ArrowIcon } from '../../../icons'
 import emberEditor from './ember/ember'
 import BranchButton from './branch-button'
 

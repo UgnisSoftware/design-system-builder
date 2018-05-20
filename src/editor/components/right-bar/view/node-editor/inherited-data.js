@@ -1,6 +1,6 @@
 import React from 'react'
 import { state } from 'lape'
-import { STATE_DRAGGED, HOVER_MOBILE } from '../../events'
+import { STATE_DRAGGED, HOVER_MOBILE } from '../../../../events'
 import fakeState from './fake-state'
 
 function checkInheritedStates(ref, acc = []) {

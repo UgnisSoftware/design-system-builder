@@ -1,47 +1,17 @@
 import React from 'react'
 import { state } from 'lape'
-import { AddCircleIcon } from './icons'
 import TopBar from './top-bar/top-bar'
 import Preview from './preview'
 import Left from './left'
 import Right from './right-bar/right'
-import NodeEditor from './node-editor/node-editor'
 import Loading from './loading'
 
 import Component from './right-bar/view/nodes/component'
-
-function FakeState({ stateRef }) {
-    const title =
-        stateRef.ref === 'state' || stateRef.ref === 'table'
-            ? state.definitionList[state.currentDefinitionId][stateRef.ref][stateRef.id].title
-            : stateRef.ref === 'eventData' ? stateRef.id : 'What are you dragging?'
-
-    const styles = {
-        wrapper: {
-            flex: '0 0 auto',
-            position: 'relative',
-            transform: 'translateZ(0)',
-            margin: '7px 7px 0 0',
-            boxShadow: 'inset 0 0 0 2px ' + (state.selectedStateNode.id === stateRef.id ? '#eab65c' : '#828282'),
-            background: '#1e1e1e',
-            padding: '4px 7px',
-        },
-    }
-
-    return (
-        <span style={styles.wrapper}>
-            <span style={{ color: 'white', display: 'inline-block' }}>{title}</span>
-        </span>
-    )
-}
 
 const root = () => {
     if (state.loading) {
         return <Loading isLoading={true} />
     }
-
-    const selectedNode =
-        state.selectedViewNode.ref && state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
 
     const styles = {
         root: {
@@ -71,35 +41,44 @@ const root = () => {
         },
     }
 
+    const widthLeft = window.innerWidth - ((state.leftOpen ? state.editorLeftWidth : 0) + (state.rightOpen ? state.editorRightWidth : 0))
+
+    const stylesMiddle = {
+        width: state.fullScreen ? '100vw' : widthLeft - 30 + 'px',
+        height: state.fullScreen ? '100vh' : '100%',
+        background: '#ffffff',
+        transform: 'translateZ(0)',
+        zIndex: state.fullScreen ? '2000' : '100',
+        position: 'fixed',
+        transition: state.fullScreen || (state.editorRightWidth === 425 && state.editorLeftWidth === 200) ? 'all 0.5s' : 'none', // messes up the closing of full screen, but works in 99% of cases
+        top: '0',
+        left: state.fullScreen ? '0px' : (state.leftOpen ? state.editorLeftWidth : 0) + 15 + 'px',
+        display: 'flex',
+        flexDirection: 'column',
+    }
+
+    const previewWrapper = {
+        flex: '1 1 auto',
+        paddingTop: '20px',
+        overflow: 'auto',
+    }
+
     return (
         <div style={styles.root}>
             <Loading isLoading={false} />
-            <TopBar />
             <div style={styles.main}>
-                <Preview />
+                <div style={stylesMiddle}>
+                    <TopBar />
+                    <div style={previewWrapper}>
+                        <Preview />
+                    </div>
+                </div>
                 <Left />
                 <Right />
-                {selectedNode ? <NodeEditor /> : ''}
             </div>
             {state.draggedComponentView ? (
                 <div style={styles.dragWrapper}>
                     <Component nodeRef={state.draggedComponentView} parent={{}} depth={state.draggedComponentView.depth} />
-                </div>
-            ) : (
-                ''
-            )}
-            {state.draggedComponentState.id ? (
-                <div style={styles.dragWrapper}>
-                    {state.hoveredEvent || state.hoveredPipe ? (
-                        <span>
-                            <span style={styles.circleWrapper}>
-                                <AddCircleIcon />
-                            </span>
-                            <FakeState stateRef={state.draggedComponentState} />
-                        </span>
-                    ) : (
-                        <FakeState stateRef={state.draggedComponentState} />
-                    )}
                 </div>
             ) : (
                 ''

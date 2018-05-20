@@ -8,8 +8,8 @@ import {
     CHANGE_STATIC_VALUE,
     STATE_NODE_SELECTED,
     ADD_DEFAULT_TRANSFORMATION,
-} from '../../../events'
-import { AddCircleIcon, DeleteIcon } from '../../icons'
+} from '../../../../../events'
+import { AddCircleIcon, DeleteIcon } from '../../../../icons'
 import listTransformations from './list-transformations'
 
 export default function emberEditor(ref, type) {

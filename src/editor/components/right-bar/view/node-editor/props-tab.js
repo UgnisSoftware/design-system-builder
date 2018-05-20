@@ -1,6 +1,6 @@
 import React from 'react'
 import { state } from 'lape'
-import { CHANGE_COMPONENT_PATH } from '../../events'
+import { CHANGE_COMPONENT_PATH } from '../../../../events'
 import emberEditor from './ember/ember'
 import BranchButton from './branch-button'
 

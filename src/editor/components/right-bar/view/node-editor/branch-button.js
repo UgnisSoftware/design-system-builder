@@ -1,8 +1,8 @@
 import React from 'react'
 import { state, setState } from 'lape'
 import R from 'ramda'
-import { IfIcon } from '../icons'
-import { uuid } from '../../utils'
+import { IfIcon } from '../../../icons'
+import { uuid } from '../../../../utils'
 
 function ADD_NEW_BRANCH(splitRef) {
     const defaultPipeRef = state.definitionList[state.currentDefinitionId][splitRef.ref][splitRef.id].defaultValue
