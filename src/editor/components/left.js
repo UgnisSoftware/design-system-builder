@@ -120,7 +120,7 @@ export default () => (
                 />
             </div>
         ))}
-
+        <Ugnis definition={state.definitionList['Create New Button']} onEvent={ADD_NEW_COMPONENT} />
         <div
             style={{
                 fontSize: '20px',
@@ -135,6 +135,5 @@ export default () => (
         >
             Pages
         </div>
-        <Ugnis definition={state.definitionList['Create New Button']} onEvent={ADD_NEW_COMPONENT} />
     </div>
 )
