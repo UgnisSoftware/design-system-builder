@@ -25,11 +25,6 @@ const components = [
         eventTitle: 'input',
     },
     {
-        title: 'If',
-        icon: IfIcon,
-        eventTitle: 'if',
-    },
-    {
         title: 'List',
         icon: ListIcon,
         eventTitle: 'list',

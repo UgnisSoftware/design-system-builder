@@ -18,12 +18,9 @@ export const ClearIcon = () => (
     </i>
 )
 export const AddCircleIcon = () => <i className="material-icons">add_circle</i>
-export const RepeatIcon = () => <i className="material-icons">loop</i>
-export const HistoryIcon = () => <i className="material-icons">history</i>
 export const PauseIcon = () => <i className="material-icons">pause</i>
 export const PlayIcon = () => <i className="material-icons">play_arrow</i>
 export const FullScreenIcon = () => <i className="material-icons">fullscreen</i>
-export const SaveIcon = () => <i className="material-icons">check</i>
 export const UgnisIcon = () => <img src="/images/ugn.png" width="18" height="18" />
 export const ImageIcon = () => <i className="material-icons">crop_original</i>
 export const AppIcon = () => (

@@ -1,11 +1,9 @@
 import React from 'react'
 import { state } from 'lape'
 import { WIDTH_DRAGGED } from '../../events'
-
-import StateComponent from './state/state-tab'
+import NodeEditor from './view/node-editor/node-editor'
+import ComponentButtons from './view/nodes/component-buttons'
 import ViewComponent from './view/view-tab'
-import EventComponent from './events/event-tab'
-import RightTabsComponent from './tabs'
 
 const DragComponentRight = () => (
     <div
@@ -25,27 +23,59 @@ const DragComponentRight = () => (
     />
 )
 
-export default () => (
-    <div
-        style={{
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'fixed',
-            top: '50px',
-            right: '0',
-            color: 'white',
-            height: 'calc(100% - 50px)',
-            width: state.editorRightWidth + 'px',
-            background: '#1e1e1e',
-            boxSizing: 'border-box',
-            boxShadow: 'inset 3px 0 0 #161616',
-            transition: '0.5s transform',
-            transform: state.rightOpen ? 'translateZ(0) translateX(0%)' : 'translateZ(0) translateX(100%)',
-            userSelect: 'none',
-        }}
-    >
-        <DragComponentRight />
-        <RightTabsComponent />
-        {state.selectedMenu === 'view' ? <ViewComponent /> : state.selectedMenu === 'state' ? <StateComponent /> : <EventComponent />}
-    </div>
-)
+export default () => {
+    const selectedNode =
+        state.selectedViewNode.ref && state.definitionList[state.currentDefinitionId][state.selectedViewNode.ref][state.selectedViewNode.id]
+
+    return (
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'fixed',
+                top: '0',
+                right: '0',
+                color: 'white',
+                height: '100%',
+                width: state.editorRightWidth + 'px',
+                background: '#1e1e1e',
+                boxSizing: 'border-box',
+                boxShadow: 'inset 3px 0 0 #161616',
+                transition: '0.5s transform',
+                transform: state.rightOpen ? 'translateZ(0) translateX(0%)' : 'translateZ(0) translateX(100%)',
+                userSelect: 'none',
+            }}
+        >
+            <div
+                style={{
+                    padding: '20px',
+                }}
+            >
+                <div
+                    style={{
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                        letterSpacing: '1px',
+                        color: '#8e8e8e',
+                    }}
+                >
+                    ADD NEW
+                </div>
+                <ComponentButtons />
+                <div
+                    style={{
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+                        letterSpacing: '1px',
+                        color: '#8e8e8e',
+                    }}
+                >
+                    NAVIGATOR
+                </div>
+            </div>
+            <DragComponentRight />
+            <ViewComponent />
+            {selectedNode ? <NodeEditor /> : ''}
+        </div>
+    )
+}

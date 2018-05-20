@@ -1,5 +1,5 @@
 import React from 'react'
-import { STATE_DRAGGED, HOVER_MOBILE } from '../../events'
+import { STATE_DRAGGED, HOVER_MOBILE } from '../../../../events'
 
 export default (title, dragRef) => (
     <button

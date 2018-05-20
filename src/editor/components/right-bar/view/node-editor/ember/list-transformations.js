@@ -1,7 +1,7 @@
 import React from 'react'
 import { state } from 'lape'
-import { CHANGE_TRANSFORMATION, DELETE_TRANSFORMATION } from '../../../events'
-import { DeleteIcon } from '../../icons'
+import { CHANGE_TRANSFORMATION, DELETE_TRANSFORMATION } from '../../../../../events'
+import { DeleteIcon } from '../../../../icons'
 import emberEditor from './ember'
 
 export default function listTransformations(transformations, ref) {

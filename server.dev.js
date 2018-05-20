@@ -2,8 +2,6 @@ const fs = require('fs')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const reactExporter = require('./src/exporters/react')
-const reactNativeExporter = require('./src/exporters/react-native')
 
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
