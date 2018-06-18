@@ -1,4 +1,7 @@
 node_modules
 .idea
+.cache
+dist
 .vscode
 static/bundle.min.js
+package-lock.json

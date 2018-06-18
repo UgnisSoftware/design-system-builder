@@ -18,7 +18,7 @@
 
 /*
 React exporter:
-import React from 'react';
+import * as React from 'react';
 
 class App extends Component {
   constructor(){
@@ -295,7 +295,7 @@ module.exports = definition => {
 
     const components = resolve({ ref: 'vNodeBox', id: '_rootNode' })
 
-    return `import React from 'react'
+    return `import * as React from 'react'
 
 class App extends React.Component {
   constructor(){

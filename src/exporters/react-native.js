@@ -18,7 +18,7 @@
 
 /*
 React exporter:
-import React from 'react';
+import * as React from 'react';
 
 class App extends Component {
   constructor(){
@@ -326,7 +326,7 @@ module.exports = definition => {
 
     const state = JSON.stringify(createDefaultState(), undefined, 4)
 
-    return `import React from 'react'
+    return `import * as React from 'react'
 import {StyleSheet, View, Text, Image} from 'react-native'
 
 class App extends React.Component {
