@@ -379,10 +379,10 @@ function oldRender(props) {
 }
 interface UgnisInterface {
     definition: any
-    state: any
-    frozen: boolean
-    selectedNode: any
-    frozenClick: any
+    state?: any
+    frozen?: boolean
+    selectedNode?: any
+    frozenClick?: any
     onEvent: any
 }
 export default class Ugnis extends React.PureComponent<UgnisInterface> {
