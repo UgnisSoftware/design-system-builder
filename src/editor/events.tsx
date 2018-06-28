@@ -1,6 +1,6 @@
 import * as emptyApp from '../_empty.json'
 import { state, setState } from 'lape'
-import R from 'ramda'
+import * as R from 'ramda'
 import { uuid } from './utils'
 function getAvailableEvents(type) {
     let availableEvents = [
