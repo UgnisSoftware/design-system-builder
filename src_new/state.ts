@@ -5,9 +5,13 @@ interface Router {
   componentId?: string;
 }
 
+interface Node {
+    type: 'box' | 'text' | 'input' | 'image' | 'component'
+}
+
 interface Component {
   name: string;
-  nodes: any[];
+  nodes: Node[];
 }
 
 interface Color {
@@ -72,4 +76,4 @@ const defaultState: State = {
   ],
 };
 
-export default lape(defaultState);
+export default lape(defaultState)

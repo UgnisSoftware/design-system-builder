@@ -1,18 +1,21 @@
 {
-    "compilerOptions": {
-        "moduleResolution": "node",
-        "module": "es6",
-        "jsx": "react",
-        "allowSyntheticDefaultImports": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": false,
-        "noUnusedLocals": true,
-        "noImplicitAny": false,
-        "noImplicitThis": false,
-        "suppressImplicitAnyIndexErrors": true,
-        "target": "es6",
-        "allowJs": true,
-        "lib": ["es7", "dom"],
-        "baseUrl": "."
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "es6",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es6",
+    "allowJs": true,
+    "lib": ["es7", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@state": ["src_new/state"]
     }
+  }
 }
