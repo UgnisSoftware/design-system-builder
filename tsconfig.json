@@ -15,7 +15,8 @@
     "lib": ["es7", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@state": ["src_new/state"]
+      "@state": ["src_new/state"],
+      "@components/*": ["src_new/components/*"]
     }
   }
 }

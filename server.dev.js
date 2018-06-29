@@ -6,7 +6,7 @@ const Bundler = require('parcel-bundler');
 
 async function start() {
   const file = './src_new/index.html';
-  const options = {};
+  const options = { cache: false };
   const bundler = new Bundler(file, options);
 
   app.use(bodyParser.json({ limit: '50mb' }));
