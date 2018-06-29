@@ -1,77 +1,75 @@
-import lape from 'lape'
+import lape from 'lape';
 
 interface Router {
-    path: 'default' | 'fonts' | 'colors' | 'component'
-    componentId?: string
+  path: 'default' | 'fonts' | 'colors' | 'component';
+  componentId?: string;
 }
 
 interface Component {
-    name: string
-    exports: any[] //working on this
-    nodes: any[]
+  name: string;
+  nodes: any[];
 }
 
 interface Color {
-    name: string
-    hexValue: string
+  name: string;
+  hexValue: string;
 }
 
 interface Spacing {
-    name: string
-    size: number
+  name: string;
+  size: number;
 }
 
 interface FontSizes {
-    name: string
-    size: number
-    lineHeight: number
+  name: string;
+  size: number;
+  lineHeight: number;
 }
 
 interface Font {
-    fontName: string
-    fontUrl: string
-    sizes: FontSizes[]
+  fontName: string;
+  fontUrl: string;
+  sizes: FontSizes[];
 }
 
 interface State {
-    router: Router
-    components: { [id: string]: Component }
-    colors: Color[]
-    spacing: Spacing[]
-    fonts: Font[]
+  router: Router;
+  components: { [id: string]: Component };
+  colors: Color[];
+  spacing: Spacing[];
+  fonts: Font[];
 }
 
 const defaultState: State = {
-    router: {
-        path: 'default',
+  router: {
+    path: 'default',
+  },
+  components: {
+    id: {
+      name: '',
+      nodes: [],
     },
-    components: {
-        id: {
-            name: '',
-            exports: [],
-            nodes: [],
-        },
+  },
+  colors: [],
+  spacing: [
+    {
+      name: 'S',
+      size: 4,
     },
-    colors: [],
-    spacing: [
+  ],
+  fonts: [
+    {
+      fontName: 'Roboto"',
+      fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
+      sizes: [
         {
-            name: 'S',
-            size: 4,
+          name: 'small',
+          size: 12,
+          lineHeight: 14,
         },
-    ],
-    fonts: [
-        {
-            fontName: 'Roboto"',
-            fontUrl: 'https://fonts.googleapis.com/css?family=Roboto"',
-            sizes: [
-                {
-                    name: 'small',
-                    size: 12,
-                    lineHeight: 14,
-                },
-            ],
-        },
-    ],
-}
+      ],
+    },
+  ],
+};
 
-export default lape(defaultState)
+export default lape(defaultState);
