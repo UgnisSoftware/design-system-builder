@@ -1,4 +1,5 @@
 import lape from 'lape';
+import { FontSizeName } from './interfaces';
 
 interface Router {
   path: 'default' | 'fonts' | 'colors' | 'component';
@@ -6,7 +7,7 @@ interface Router {
 }
 
 interface Node {
-    type: 'box' | 'text' | 'input' | 'image' | 'component'
+  type: 'box' | 'text' | 'input' | 'image' | 'component';
 }
 
 interface Component {
@@ -24,16 +25,16 @@ interface Spacing {
   size: number;
 }
 
-interface FontSizes {
+interface FontSize {
   name: string;
-  size: number;
-  lineHeight: number;
+  fontSize: string;
+  lineHeight: string;
 }
 
 interface Font {
   fontName: string;
   fontUrl: string;
-  sizes: FontSizes[];
+  sizes: { [size in FontSizeName]: FontSize };
 }
 
 interface State {
@@ -41,7 +42,7 @@ interface State {
   components: { [id: string]: Component };
   colors: Color[];
   spacing: Spacing[];
-  fonts: Font[];
+  font: Font;
 }
 
 const defaultState: State = {
@@ -61,19 +62,37 @@ const defaultState: State = {
       size: 4,
     },
   ],
-  fonts: [
-    {
-      fontName: 'Roboto"',
-      fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
-      sizes: [
-        {
-          name: 'small',
-          size: 12,
-          lineHeight: 14,
-        },
-      ],
+  font: {
+    fontName: 'Roboto',
+    fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
+    sizes: {
+      [FontSizeName.XS]: {
+        name: FontSizeName.XS,
+        fontSize: '12px',
+        lineHeight: '14px',
+      },
+      [FontSizeName.S]: {
+        name: FontSizeName.S,
+        fontSize: '12px',
+        lineHeight: '14px',
+      },
+      [FontSizeName.M]: {
+        name: FontSizeName.M,
+        fontSize: '12px',
+        lineHeight: '14px',
+      },
+      [FontSizeName.L]: {
+        name: FontSizeName.L,
+        fontSize: '12px',
+        lineHeight: '14px',
+      },
+      [FontSizeName.XL]: {
+        name: FontSizeName.XL,
+        fontSize: '12px',
+        lineHeight: '14px',
+      },
     },
-  ],
+  },
 };
 
-export default lape(defaultState)
+export default lape(defaultState);
