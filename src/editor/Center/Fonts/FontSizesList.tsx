@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import FontSizeRow from './FontSizeRow';
-import { FontSizeName } from '../../interfaces';
+import { FontSizeName } from '@src/interfaces';
 
 const FontSizesList = () => (
   <div className="font-sizes-list">

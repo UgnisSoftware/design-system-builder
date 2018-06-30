@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import store from '@state';
-import TextInput from '../../components/TextInput';
-import { FontSizeName } from '../../interfaces';
+import TextInput from '@src/components/TextInput';
+import { FontSizeName } from '@src/interfaces';
 
 interface ExampleTextProps {
   fontSize: string;

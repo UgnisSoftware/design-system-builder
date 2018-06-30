@@ -1,8 +1,8 @@
 const { statSync, readdirSync, writeFile, readFileSync } = require('fs')
 const { join } = require('path')
 
-const reactExporter = require('./src/exporters/react')
-const reactNativeExporter = require('./src/exporters/react-native')
+const reactExporter = require('./src_old/exporters/react')
+const reactNativeExporter = require('./src_old/exporters/react-native')
 
 const isNotDirectory = f => !statSync(join(__dirname, './ugnis_components/', f)).isDirectory()
 

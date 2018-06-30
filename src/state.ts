@@ -1,60 +1,17 @@
 import lape from 'lape';
-import { FontSizeName } from './interfaces';
-
-interface Router {
-  path: 'default' | 'fonts' | 'colors' | 'component';
-  componentId?: string;
-}
-
-interface Node {
-  type: 'box' | 'text' | 'input' | 'image' | 'component';
-}
-
-interface Component {
-  name: string;
-  nodes: Node[];
-}
-
-interface Color {
-  name: string;
-  hexValue: string;
-}
-
-interface Spacing {
-  name: string;
-  size: number;
-}
-
-interface FontSize {
-  name: string;
-  fontSize: string;
-  lineHeight: string;
-}
-
-interface Font {
-  fontName: string;
-  fontUrl: string;
-  sizes: { [size in FontSizeName]: FontSize };
-}
-
-interface State {
-  router: Router;
-  components: { [id: string]: Component };
-  colors: Color[];
-  spacing: Spacing[];
-  font: Font;
-}
+import { FontSizeName, RouterPaths, State } from '@src/interfaces';
 
 const defaultState: State = {
   router: {
-    path: 'default',
+    path: RouterPaths.fonts,
   },
   components: {
-    id: {
-      name: '',
+    'abcd-1234': {
+      name: 'Button',
       nodes: [],
     },
   },
+  componentList: ['abcd-1234'],
   colors: [],
   spacing: [
     {

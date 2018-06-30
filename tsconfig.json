@@ -15,8 +15,10 @@
     "lib": ["es7", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@state": ["src_new/state"],
-      "@components/*": ["src_new/components/*"]
+      "@src/*": ["src/*"],
+      "@state": ["src/state"],
+      "@components/*": ["src/components/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "src_old"]
 }

@@ -2,12 +2,8 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const Bundler = require('parcel-bundler');
 
 async function start() {
-  const file = './src_new/index.html';
-  const options = { cache: false };
-  const bundler = new Bundler(file, options);
 
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -75,9 +71,7 @@ async function start() {
     });
     res.send(JSON.stringify(files));
   });
-
-  app.use(bundler.middleware());
-
+  
   app.listen(3000, () => {
     console.log('Listening on port 3000');
   });
