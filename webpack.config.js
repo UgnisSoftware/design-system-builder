@@ -1,6 +1,7 @@
 const path = require("path")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const webpack = require("webpack")
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     mode: "development",
@@ -23,6 +24,10 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: "ts-loader",
+                options: {
+                    transpileOnly: true,
+                    experimentalWatchApi: true,
+                },
                 exclude: /node_modules/,
                 include: path.resolve(__dirname, "src"),
             },
@@ -43,7 +48,12 @@ module.exports = {
             },
         },
     },
-    plugins: [new webpack.NamedModulesPlugin()],
+    plugins: [
+        new webpack.NamedModulesPlugin(),
+        new ForkTsCheckerWebpackPlugin({
+            workers: ForkTsCheckerWebpackPlugin.TWO_CPUS_FREE,
+        }),
+    ],
     serve: {
         content: "./public/",
     },

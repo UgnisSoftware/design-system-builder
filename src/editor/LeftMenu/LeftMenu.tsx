@@ -69,7 +69,7 @@ export default () => (
   <LeftMenu>
     <Title>Styles</Title>
     <Item onClick={route(RouterPaths.colors)} selected={store.state.router.path === RouterPaths.colors}>
-      Colors
+      Colors & Spacing
     </Item>
     <Item onClick={route(RouterPaths.fonts)} selected={store.state.router.path === RouterPaths.fonts}>
       Fonts
