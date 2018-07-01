@@ -21,13 +21,25 @@ const InputWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
+const SymbolBox = styled.span`
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  border-radius: 7%;
+  margin-right: 24px;
+  vertical-align: middle;
+  line-height: 45px;
+`;
+
 const ExampleText = styled.span`
   @import url('${store.state.font.fontUrl}');
   font-family: '${store.state.font.fontName}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
-  padding-left: 24px;
+  padding-left: 73px;
 `;
 
 interface FontSizeRowProps {
@@ -63,6 +75,7 @@ export default class FontSizeRow extends React.Component<FontSizeRowProps> {
     return (
       <Wrapper>
         <InputWrapper>
+          <SymbolBox>{this.props.fontSizeName}</SymbolBox>
           <TextInput
             name={`fontSize_${this.props.fontSizeName}`}
             label="Font Size"

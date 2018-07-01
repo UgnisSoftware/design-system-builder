@@ -7,7 +7,7 @@ import { RouterPaths } from '@src/interfaces';
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
   background: rgb(248, 248, 248);
-  width: 200px;
+  flex: 0 0 200px;
 `;
 
 const Title = styled.div`
