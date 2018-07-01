@@ -12,25 +12,25 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   max-width: 250px;
-  
-  &:hover input {
-     box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
-  }
 `;
 
 const Label = styled.label`
   font-size: 12px;
-  margin: 0 0 7px;
   transition: all 300ms ease;
+  padding-bottom: 7px;
 `;
 
 const Input = styled.input`
-  outline: 0; 
+  outline: 0;
   box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.15);
   border: none;
   margin-right: 24px;
   padding-bottom: 7px;
   transition: all 300ms ease;
+
+  &:hover {
+    box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
+  }
 
   &:focus {
     box-shadow: inset 0 -2px 0 0 #1976d2;
