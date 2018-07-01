@@ -1,18 +1,51 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 interface Props {
-  id: string;
   name: string;
   label: string;
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TextInput = ({ id, name, label, value, onChange }: Props) => (
-  <div className="text-input">
-    <label htmlFor={id}>{label}: </label>
-    <input type="text" id={id} name={name} value={value} onChange={onChange} />
-  </div>
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 250px;
+  
+  &:hover input {
+     box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
+  }
+`;
+
+const Label = styled.label`
+  font-size: 12px;
+  margin: 0 0 7px;
+  transition: all 300ms ease;
+`;
+
+const Input = styled.input`
+  outline: 0; 
+  box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.15);
+  border: none;
+  margin-right: 24px;
+  padding-bottom: 7px;
+  transition: all 300ms ease;
+
+  &:focus {
+    box-shadow: inset 0 -2px 0 0 #1976d2;
+  }
+
+  &:focus ~ ${Label} {
+    color: #1976d2;
+  }
+`;
+
+const TextInput = ({ name, label, value, onChange }: Props) => (
+  <Wrapper>
+    <Input type="text" id={name} name={name} value={value} onChange={onChange} />
+    <Label htmlFor={name}>{label} </Label>
+  </Wrapper>
 );
 
 export default TextInput;

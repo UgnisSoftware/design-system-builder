@@ -10,10 +10,24 @@ interface ExampleTextProps {
   lineHeight: string;
 }
 
-const ExampleText = styled.p`
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex: 1 1 100%;
+  margin-bottom: 20px;
+`;
+
+const ExampleText = styled.span`
   @import url('${store.state.font.fontUrl}');
+  font-family: '${store.state.font.fontName}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
+  margin-bottom: 38px;
+  padding-left: 24px;
 `;
 
 interface FontSizeRowProps {
@@ -47,28 +61,28 @@ export default class FontSizeRow extends React.Component<FontSizeRowProps> {
 
   render() {
     return (
-      <div className="font-size-row">
-        <TextInput
-          id="fontSize"
-          name="fontSize"
-          label="Font Size"
-          value={store.state.font.sizes[this.props.fontSizeName].fontSize}
-          onChange={this.onFontSizeChange(this.props.fontSizeName)}
-        />
-        <TextInput
-          id="lineHeight"
-          name="lineHeight"
-          label="Line height"
-          value={store.state.font.sizes[this.props.fontSizeName].lineHeight}
-          onChange={this.onLineHeightChange(this.props.fontSizeName)}
-        />
+      <Wrapper>
+        <InputWrapper>
+          <TextInput
+            name={`fontSize_${this.props.fontSizeName}`}
+            label="Font Size"
+            value={store.state.font.sizes[this.props.fontSizeName].fontSize}
+            onChange={this.onFontSizeChange(this.props.fontSizeName)}
+          />
+          <TextInput
+            name={`lineHeight${this.props.fontSizeName}`}
+            label="Line height"
+            value={store.state.font.sizes[this.props.fontSizeName].lineHeight}
+            onChange={this.onLineHeightChange(this.props.fontSizeName)}
+          />
+        </InputWrapper>
         <ExampleText
           fontSize={store.state.font.sizes[this.props.fontSizeName].fontSize}
           lineHeight={store.state.font.sizes[this.props.fontSizeName].lineHeight}
         >
           Lorem ipsum
         </ExampleText>
-      </div>
+      </Wrapper>
     );
   }
 }
