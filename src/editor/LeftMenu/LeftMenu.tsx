@@ -62,7 +62,11 @@ interface ComponentItemProps {
 
 const ComponentItem = ({ id }: ComponentItemProps) => {
   const component = store.state.components[id];
-  return <Item onClick={route('fonts')}>{component.name}</Item>;
+  return (
+    <Item onClick={route(RouterPaths.component, id)} selected={store.state.router.componentId === id}>
+      {component.name}
+    </Item>
+  );
 };
 
 export default () => (
@@ -76,7 +80,5 @@ export default () => (
     </Item>
     <Title>Components</Title>
     {store.state.componentList.map(componentId => <ComponentItem id={componentId} />)}
-    <Item onClick={route('component', 'component_1')}>asdasadasdasd</Item>
-    <Item onClick={route('component', 'component_1')}>asdsadasdas</Item>
   </LeftMenu>
 );

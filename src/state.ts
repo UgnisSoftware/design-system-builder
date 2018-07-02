@@ -4,6 +4,7 @@ import { FontSizeName, RouterPaths, State } from '@src/interfaces';
 const defaultState: State = {
   router: {
     path: RouterPaths.fonts,
+    componentId: undefined,
   },
   components: {
     'abcd-1234': {
@@ -31,22 +32,22 @@ const defaultState: State = {
       [FontSizeName.S]: {
         name: FontSizeName.S,
         fontSize: '16px',
-          lineHeight: '1.2em',
+        lineHeight: '1.2em',
       },
       [FontSizeName.M]: {
         name: FontSizeName.M,
         fontSize: '24px',
-          lineHeight: '1.2em',
+        lineHeight: '1.2em',
       },
       [FontSizeName.L]: {
         name: FontSizeName.L,
         fontSize: '38px',
-          lineHeight: '1.2em',
+        lineHeight: '1.2em',
       },
       [FontSizeName.XL]: {
         name: FontSizeName.XL,
         fontSize: '50px',
-          lineHeight: '1.2em',
+        lineHeight: '1.2em',
       },
     },
   },
