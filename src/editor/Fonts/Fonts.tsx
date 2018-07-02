@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   padding: 24px;
+  overflow: scroll;
   flex: 1;
 `;
 const H1 = styled.h1`
