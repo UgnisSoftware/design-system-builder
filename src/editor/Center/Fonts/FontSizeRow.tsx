@@ -5,11 +5,6 @@ import store from '@state';
 import TextInput from '@src/components/TextInput';
 import { FontSizeName } from '@src/interfaces';
 
-interface ExampleTextProps {
-  fontSize: string;
-  lineHeight: string;
-}
-
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -32,6 +27,11 @@ const SymbolBox = styled.span`
   vertical-align: middle;
   line-height: 45px;
 `;
+
+interface ExampleTextProps {
+  fontSize: string;
+  lineHeight: string;
+}
 
 const ExampleText = styled.span`
   @import url('${store.state.font.fontUrl}');
@@ -83,7 +83,7 @@ export default class FontSizeRow extends React.Component<FontSizeRowProps> {
             onChange={this.onFontSizeChange(this.props.fontSizeName)}
           />
           <TextInput
-            name={`lineHeight${this.props.fontSizeName}`}
+            name={`lineHeight_${this.props.fontSizeName}`}
             label="Line height"
             value={store.state.font.sizes[this.props.fontSizeName].lineHeight}
             onChange={this.onLineHeightChange(this.props.fontSizeName)}

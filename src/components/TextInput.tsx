@@ -4,7 +4,7 @@ import styled from 'styled-components';
 interface Props {
   name: string;
   label: string;
-  value: string | number;
+  value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -44,7 +44,7 @@ const Input = styled.input`
 const TextInput = ({ name, label, value, onChange }: Props) => (
   <Wrapper>
     <Input type="text" id={name} name={name} value={value} onChange={onChange} />
-    <Label htmlFor={name}>{label} </Label>
+    <Label htmlFor={name}>{label}</Label>
   </Wrapper>
 );
 
