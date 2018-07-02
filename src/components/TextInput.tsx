@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 const Label = styled.label`
   font-size: 12px;
-  transition: all 300ms ease;
+  font-weight: 400;
   padding-bottom: 7px;
 `;
 
@@ -26,18 +26,18 @@ const Input = styled.input`
   border: none;
   margin-right: 24px;
   padding-bottom: 7px;
-  transition: all 300ms ease;
+  transition: all 200ms ease;
 
   &:hover {
     box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
   }
 
   &:focus {
-    box-shadow: inset 0 -2px 0 0 #1976d2;
+    box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.85);
   }
 
   &:focus ~ ${Label} {
-    color: #1976d2;
+    font-weight: 500;
   }
 `;
 
