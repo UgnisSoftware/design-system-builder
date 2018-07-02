@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import TopBar from './TopBar/TopBar';
-import Fonts from './Fonts/Fonts';
 
 const Center = styled.div`
   overflow: scroll;
@@ -13,6 +12,5 @@ const Center = styled.div`
 export default () => (
   <Center>
     <TopBar />
-    <Fonts />
   </Center>
 );
