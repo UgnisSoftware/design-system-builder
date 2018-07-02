@@ -27,11 +27,6 @@ interface Component {
   nodes: Node[];
 }
 
-interface Color {
-  name: string;
-  hexValue: string;
-}
-
 interface Spacing {
   name: string;
   size: number;
@@ -53,7 +48,7 @@ export interface State {
   router: Router;
   components: { [id: string]: Component };
   componentList: string[];
-  colors: Color[];
+  colors: { [id: string]: string };
   spacing: Spacing[];
   font: Font;
 }

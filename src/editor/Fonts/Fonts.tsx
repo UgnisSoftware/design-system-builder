@@ -1,17 +1,14 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import store from '@state';
 import FontSizesList from './FontSizesList';
-import styled from 'styled-components';
+import H1 from '@components/H1';
 
 const Wrapper = styled.div`
   padding: 24px;
   overflow: scroll;
   flex: 1;
-`;
-const H1 = styled.h1`
-  padding-bottom: 8px;
-  border-bottom: 3px dotted #d9d9d9;
 `;
 
 const FontsPage = () => (

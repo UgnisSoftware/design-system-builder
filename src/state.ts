@@ -13,7 +13,13 @@ const defaultState: State = {
     },
   },
   componentList: ['abcd-1234'],
-  colors: [],
+  colors: {
+    'vava-1823': '#f78888',
+    'blas-9999': '#f3d250',
+    'hhhh-1000': '#ececec',
+    'aaaa-9994': '#90ccf4',
+    'bbbb-9949': '#5da2d5',
+  },
   spacing: [
     {
       name: 'S',

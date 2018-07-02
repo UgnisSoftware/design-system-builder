@@ -8,6 +8,7 @@ import Fonts from './Fonts/Fonts';
 import LeftMenu from './LeftMenu/LeftMenu';
 import Center from './Center/Center';
 import RightMenu from './RightMenu/RightMenu';
+import Colors from './Colors/Colors';
 
 const Root = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {store.state.router.path === RouterPaths.colors && <div>Create page here</div>}
+      {store.state.router.path === RouterPaths.colors && <Colors />}
       {store.state.router.path === RouterPaths.fonts && <Fonts />}
       {store.state.router.path === RouterPaths.component && (
         <>
