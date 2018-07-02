@@ -22,7 +22,6 @@ const Editor = () => {
       {store.state.router.path === RouterPaths.fonts && <Fonts />}
       {store.state.router.path === RouterPaths.component && (
         <>
-          {' '}
           <Center />
           <RightMenu />
         </>
