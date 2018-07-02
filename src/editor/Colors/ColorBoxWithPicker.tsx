@@ -1,7 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { ChromePicker } from 'react-color';
 
 import store from '@state';
+
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 interface ColorBoxProps {
   color: string;
@@ -15,35 +20,30 @@ const ColorBox = styled.div`
   background-color: ${(props: ColorBoxProps) => props.color};
 `;
 
-const Card = styled.div`
-  width: 200px;
+interface PickerWrapperProps {
+  showPicker: boolean;
+}
+
+const PickerWrapper = styled.div`
   background: #fff;
   border: 0 solid rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
-  position: relative;
-`;
-
-const Triangle = styled.div`
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 9px 10px 9px;
-  border-color: transparent transparent #fff transparent;
   position: absolute;
-`;
+  bottom: 10px;
+  transform: translateY(100%);
 
-const TriangleShadow = styled.div`
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 9px 10px 9px;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-  position: absolute;
+  ${(props: PickerWrapperProps) =>
+    !props.showPicker &&
+    `
+      display: none;
+    `};
 `;
 
 interface ColorBoxWithPickerProps {
   colorId: string;
+  showPicker: boolean;
+  onColorBoxClick: () => void;
 }
 
 interface Color {
@@ -73,13 +73,15 @@ export default class ColorBoxWithPicker extends React.Component<ColorBoxWithPick
 
   render() {
     return (
-      <>
-        <ColorBox color={store.state.colors[this.props.colorId]} />
-        <Card>
-          <Triangle />
-          <TriangleShadow />
-        </Card>
-      </>
+      <Wrapper>
+        <ColorBox color={store.state.colors[this.props.colorId]} onClick={this.props.onColorBoxClick} />
+        <PickerWrapper showPicker={this.props.showPicker}>
+          <ChromePicker
+            color={store.state.colors[this.props.colorId]}
+            onChange={this.onColorChange(this.props.colorId)}
+          />
+        </PickerWrapper>
+      </Wrapper>
     );
   }
 }
