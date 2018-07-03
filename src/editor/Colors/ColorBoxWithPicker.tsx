@@ -25,7 +25,8 @@ const ColorBox = styled.div`
 const PickerWrapper = styled.div`
   z-index: 1;
   position: absolute;
-  left: 42%;
+  top: 90%;
+  left: 40%;
   transform: translateX(-50%);
 `;
 
