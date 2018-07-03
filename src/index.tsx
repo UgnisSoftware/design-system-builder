@@ -5,15 +5,21 @@ import state from '@state';
 import Editor from './editor/Editor';
 let node = document.getElementById('editor');
 
-function renderer() {
-  render(<Editor />, node);
+class Root extends React.Component {
+    componentDidMount(){
+        state.listen(() => this.forceUpdate());
+        window.addEventListener('resize', () => this.forceUpdate(), false);
+        window.addEventListener('orientationchange', () => this.forceUpdate(), false);
+    }
+
+    render() {
+        console.log('hello')
+        return <Editor />
+    }
 }
-
-state.listen(renderer);
-
-window.addEventListener('resize', renderer, false);
-window.addEventListener('orientationchange', renderer, false);
 
 if ((module as any).hot) {
     (module as any).hot.accept()
 }
+
+render(<Root />, node);
