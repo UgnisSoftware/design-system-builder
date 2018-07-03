@@ -9,11 +9,11 @@ import { uuid } from '@src/editor/utils';
 
 const Wrapper = styled.div`
   padding: 24px;
-  overflow: scroll;
   flex: 1;
 `;
 
 const ColorWrapper = styled.div`
+  padding-right: 40px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

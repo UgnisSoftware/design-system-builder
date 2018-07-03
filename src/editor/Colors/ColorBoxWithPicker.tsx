@@ -25,8 +25,8 @@ const ColorBox = styled.div`
 const PickerWrapper = styled.div`
   z-index: 1;
   position: absolute;
-  bottom: 10px;
-  transform: translateY(100%);
+  left: 42%;
+  transform: translateX(-50%);
 `;
 
 interface ColorBoxWithPickerProps {

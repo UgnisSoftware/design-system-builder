@@ -13,6 +13,7 @@ const Center = styled.div`
 const Preview = styled.div`
   margin: 16px 0;
   flex: 1;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 `;
 
 export default () => (
