@@ -29,12 +29,12 @@ const Item = styled.div`
   font-size: 16px;
   font-weight: 300;
   display: flex;
+  vertical-align: middle;
+  line-height: 40px;
   align-items: center;
-  height: 30px;
+  height: 40px;
   transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   padding-left: 24px;
-  padding-top: 5px;
-  padding-bottom: 5px;
   cursor: pointer;
   &:hover {
     background: rgb(232, 232, 233);
