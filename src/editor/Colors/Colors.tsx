@@ -39,8 +39,8 @@ const onAddColorClick = () => {
   const id = uuid();
   store.evolveState({
     editingColorId: () => id,
-    colors: () => ({
-      ...store.state.colors,
+    colors: (oldColors) => ({
+      ...oldColors,
       [id]: '#98a1a4',
     }),
   });
