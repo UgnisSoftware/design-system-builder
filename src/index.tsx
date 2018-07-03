@@ -13,7 +13,6 @@ class Root extends React.Component {
     }
 
     render() {
-        console.log('hello')
         return <Editor />
     }
 }
