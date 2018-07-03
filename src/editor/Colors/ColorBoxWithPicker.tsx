@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ChromePicker } from 'react-color';
+import ClickOutside from 'react-click-outside';
 
 import store from '@state';
 
@@ -13,6 +14,7 @@ interface ColorBoxProps {
 }
 
 const ColorBox = styled.div`
+  cursor: pointer;
   width: 65px;
   height: 65px;
   border-radius: 7%;
@@ -20,30 +22,15 @@ const ColorBox = styled.div`
   background-color: ${(props: ColorBoxProps) => props.color};
 `;
 
-interface PickerWrapperProps {
-  showPicker: boolean;
-}
-
 const PickerWrapper = styled.div`
-  background: #fff;
-  border: 0 solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
+  z-index: 1;
   position: absolute;
   bottom: 10px;
   transform: translateY(100%);
-
-  ${(props: PickerWrapperProps) =>
-    !props.showPicker &&
-    `
-      display: none;
-    `};
 `;
 
 interface ColorBoxWithPickerProps {
   colorId: string;
-  showPicker: boolean;
-  onColorBoxClick: () => void;
 }
 
 interface Color {
@@ -62,26 +49,33 @@ interface Color {
   };
 }
 
-export default class ColorBoxWithPicker extends React.Component<ColorBoxWithPickerProps> {
-  onColorChange = (colorId: string) => (color: Color) => {
-    store.evolveState({
-      colors: {
-        [colorId]: () => color.hex,
-      },
-    });
-  };
+const onEditingColorChange = id => () => {
+  store.evolveState({ editingColorId: () => id });
+};
 
-  render() {
-    return (
-      <Wrapper>
-        <ColorBox color={store.state.colors[this.props.colorId]} onClick={this.props.onColorBoxClick} />
-        <PickerWrapper showPicker={this.props.showPicker}>
-          <ChromePicker
-            color={store.state.colors[this.props.colorId]}
-            onChange={this.onColorChange(this.props.colorId)}
-          />
+const onClickOutside = () => {
+  store.evolveState({ editingColorId: () => '' });
+};
+
+const onColorChange = (colorId: string) => (color: Color) => {
+  store.evolveState({
+    colors: {
+      [colorId]: () => color.hex,
+    },
+  });
+};
+
+const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
+  <Wrapper>
+    <ColorBox color={store.state.colors[colorId]} onClick={onEditingColorChange(colorId)} />
+    {store.state.editingColorId === colorId && (
+      <ClickOutside onClickOutside={onClickOutside}>
+        <PickerWrapper>
+          <ChromePicker color={store.state.colors[colorId]} onChange={onColorChange(colorId)} />
         </PickerWrapper>
-      </Wrapper>
-    );
-  }
-}
+      </ClickOutside>
+    )}
+  </Wrapper>
+);
+
+export default ColorBoxWithPicker;

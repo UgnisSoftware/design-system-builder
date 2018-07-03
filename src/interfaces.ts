@@ -49,6 +49,7 @@ export interface State {
   components: { [id: string]: Component };
   componentList: string[];
   colors: { [id: string]: string };
+  editingColorId: string;
   spacing: Spacing[];
   font: Font;
 }

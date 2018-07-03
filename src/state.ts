@@ -20,6 +20,7 @@ const defaultState: State = {
     'aaaa-9994': '#90ccf4',
     'bbbb-9949': '#5da2d5',
   },
+  editingColorId: '',
   spacing: [
     {
       name: 'S',

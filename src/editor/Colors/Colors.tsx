@@ -5,6 +5,7 @@ import store from '@state';
 import H1 from '@components/H1';
 import PlusSign from '@components/PlusSign';
 import ColorBoxWithPicker from '@src/editor/Colors/ColorBoxWithPicker';
+import { uuid } from '@src/editor/utils';
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -15,11 +16,13 @@ const Wrapper = styled.div`
 const ColorWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 `;
 
 const AddColorBox = styled.div`
-  width: 65px;
-  height: 65px;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,39 +30,33 @@ const AddColorBox = styled.div`
   margin: 0 16px 16px 0;
   vertical-align: middle;
   line-height: 45px;
-  background-color: rgba(0, 0, 0, 0.15);
-  color: #898989;
-  padding: 9px;
+  background-color: rgb(240, 240, 240);
+  color: rgb(152, 161, 164);
+  padding: 11px;
 `;
 
-interface ColorsState {
-  editingColorId: string;
-}
+const onAddColorClick = () => {
+  const id = uuid();
+  store.evolveState({
+    editingColorId: () => id,
+    colors: () => ({
+      ...store.state.colors,
+      [id]: '#98a1a4',
+    }),
+  });
+};
 
-class Colors extends React.Component<{}, ColorsState> {
-  state = {
-    editingColorId: '',
-  };
+const Colors = () => (
+  <Wrapper>
+    <H1>Colors</H1>
 
-  onEditingColorChange = (id: string) => () => {
-    this.setState({ editingColorId: id });
-  };
-
-  render() {
-    return (
-      <Wrapper>
-        <H1>Colors</H1>
-        <ColorWrapper>
-          {Object.keys(store.state.colors).map(id => (
-            <ColorBoxWithPicker key={id} colorId={id} showPicker={id === this.state.editingColorId} onColorBoxClick={this.onEditingColorChange(id)} />
-          ))}
-          <AddColorBox>
-            <PlusSign />
-          </AddColorBox>
-        </ColorWrapper>
-      </Wrapper>
-    );
-  }
-}
+    <ColorWrapper>
+      {Object.keys(store.state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
+      <AddColorBox onClick={onAddColorClick}>
+        <PlusSign />
+      </AddColorBox>
+    </ColorWrapper>
+  </Wrapper>
+);
 
 export default Colors;
