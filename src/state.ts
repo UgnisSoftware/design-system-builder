@@ -1,5 +1,5 @@
 import lape from 'lape';
-import { FontSizeName, RouterPaths, State } from '@src/interfaces';
+import { FontSizeName, RouterPaths, SpacingSizeName, State } from '@src/interfaces';
 
 const defaultState: State = {
   router: {
@@ -21,38 +21,34 @@ const defaultState: State = {
     'bbbb-9949': '#5da2d5',
   },
   editingColorId: '',
-  spacing: [
-    {
-      name: 'S',
-      size: 4,
-    },
-  ],
+  spacing: {
+    [SpacingSizeName.XS]: '8px',
+    [SpacingSizeName.S]: '16px',
+    [SpacingSizeName.M]: '24px',
+    [SpacingSizeName.L]: '48px',
+    [SpacingSizeName.XL]: '64px',
+  },
   font: {
     fontName: 'Roboto',
     fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
     sizes: {
       [FontSizeName.XS]: {
-        name: FontSizeName.XS,
         fontSize: '12px',
         lineHeight: '1.2em',
       },
       [FontSizeName.S]: {
-        name: FontSizeName.S,
         fontSize: '16px',
         lineHeight: '1.2em',
       },
       [FontSizeName.M]: {
-        name: FontSizeName.M,
         fontSize: '24px',
         lineHeight: '1.2em',
       },
       [FontSizeName.L]: {
-        name: FontSizeName.L,
         fontSize: '38px',
         lineHeight: '1.2em',
       },
       [FontSizeName.XL]: {
-        name: FontSizeName.XL,
         fontSize: '50px',
         lineHeight: '1.2em',
       },
