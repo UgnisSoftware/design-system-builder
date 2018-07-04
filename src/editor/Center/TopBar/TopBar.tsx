@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const TopBar = styled.div`
   padding: 16px;
-  background: rgb(248, 248, 248);
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  background: rgb(0, 0, 0, 0.028);
+  box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
   flex: 0 0 50px;
 `;
 
-export default () => <TopBar>sasd</TopBar>;
+export default () => <TopBar></TopBar>;
