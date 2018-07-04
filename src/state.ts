@@ -14,11 +14,26 @@ const defaultState: State = {
   },
   componentList: ['abcd-1234'],
   colors: {
-    'vava-1823': '#f78888',
-    'blas-9999': '#f3d250',
-    'hhhh-1000': '#ececec',
-    'aaaa-9994': '#90ccf4',
-    'bbbb-9949': '#5da2d5',
+    'vava-1823': {
+      name: 'Pink',
+      hex: '#f78888',
+    },
+    'blas-9999': {
+      name: 'Yellow',
+      hex: '#f3d250',
+    },
+    'hhhh-1000': {
+      name: 'Light grey',
+      hex: '#ececec',
+    },
+    'aaaa-9994': {
+      name: 'Light blue',
+      hex: '#90ccf4',
+    },
+    'bbbb-9949': {
+      name: 'Blue',
+      hex: '#5da2d5',
+    },
   },
   editingColorId: '',
   spacing: {

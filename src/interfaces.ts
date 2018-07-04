@@ -35,6 +35,11 @@ interface Component {
   nodes: Node[];
 }
 
+interface Color {
+  name: string;
+  hex: string;
+}
+
 interface FontSize {
   fontSize: string;
   lineHeight: string;
@@ -50,7 +55,7 @@ export interface State {
   router: Router;
   components: { [id: string]: Component };
   componentList: string[];
-  colors: { [id: string]: string };
+  colors: { [id: string]: Color };
   editingColorId: string;
   spacing: { [size in SpacingSizeName]: string };
   font: Font;

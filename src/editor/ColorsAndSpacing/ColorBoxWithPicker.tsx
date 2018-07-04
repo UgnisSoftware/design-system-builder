@@ -7,6 +7,7 @@ import store from '@state';
 
 const Wrapper = styled.div`
   position: relative;
+  margin-bottom: 16px;
 `;
 
 interface ColorBoxProps {
@@ -18,16 +19,43 @@ const ColorBox = styled.div`
   width: 65px;
   height: 65px;
   border-radius: 7%;
-  margin: 0 16px 16px 0;
+  margin: 0 16px 0 0;
   background-color: ${(props: ColorBoxProps) => props.color};
+`;
+
+const Input = styled.input`
+  outline: 0;
+  border: none;
+  padding-bottom: 5px;
+  transition: all 200ms ease;
+  width: 135px;
+
+  &:hover {
+    box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
+  }
+
+  &:focus {
+    box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.85);
+  }
+`;
+
+const ColorWithInputWrapper = styled.div`
+  display: flex;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 2px 0;
+    margin-right: 15px;
 `;
 
 const PickerWrapper = styled.div`
   z-index: 1;
   position: absolute;
-  top: 90%;
-  left: 40%;
-  transform: translateX(-50%);
+  top: 110%;
+  left: 0;
 `;
 
 interface ColorBoxWithPickerProps {
@@ -61,14 +89,50 @@ const onClickOutside = () => {
 const onColorChange = (colorId: string) => (color: Color) => {
   store.evolveState({
     colors: {
-      [colorId]: () => color.hex,
+      [colorId]: oldColor => ({ ...oldColor, hex: color.hex }),
+    },
+  });
+};
+
+const onColorNameChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  store.evolveState({
+    colors: {
+      [colorId]: oldColor => ({ ...oldColor, name: event.target.value }),
+    },
+  });
+};
+
+const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  store.evolveState({
+    colors: {
+      [colorId]: oldColor => ({ ...oldColor, hex: event.target.value }),
     },
   });
 };
 
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
-    <ColorBox color={store.state.colors[colorId]} onClick={onEditingColorChange(colorId)} />
+    <ColorWithInputWrapper>
+      <ColorBox color={store.state.colors[colorId].hex} onClick={onEditingColorChange(colorId)} />
+      <InputWrapper>
+        <Input
+          type="text"
+          placeholder="Color name"
+          id={colorId}
+          name={colorId}
+          value={store.state.colors[colorId].name}
+          onChange={onColorNameChange(colorId)}
+        />
+        <Input
+          type="text"
+          placeholder="Hex value"
+          id={colorId}
+          name={colorId}
+          value={store.state.colors[colorId].hex}
+          onChange={onHexValueChange(colorId)}
+        />
+      </InputWrapper>
+    </ColorWithInputWrapper>
     {store.state.editingColorId === colorId && (
       <ClickOutside onClickOutside={onClickOutside}>
         <PickerWrapper>

@@ -15,7 +15,6 @@ const Wrapper = styled.div`
 `;
 
 const ColorWrapper = styled.div`
-  padding-right: 40px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -48,7 +47,7 @@ const onAddColorClick = () => {
     editingColorId: () => id,
     colors: oldColors => ({
       ...oldColors,
-      [id]: '#98a1a4',
+      [id]: { name: 'Grey', hex: '#98a1a4' },
     }),
   });
 };
