@@ -6,6 +6,14 @@ export enum FontSizeName {
   XL = 'XL',
 }
 
+export enum SpacingSizeName {
+  XS = 'XS',
+  S = 'S',
+  M = 'M',
+  L = 'L',
+  XL = 'XL',
+}
+
 export enum RouterPaths {
   'default' = 'default',
   'fonts' = 'fonts',
@@ -27,13 +35,7 @@ interface Component {
   nodes: Node[];
 }
 
-interface Spacing {
-  name: string;
-  size: number;
-}
-
 interface FontSize {
-  name: string;
   fontSize: string;
   lineHeight: string;
 }
@@ -50,6 +52,6 @@ export interface State {
   componentList: string[];
   colors: { [id: string]: string };
   editingColorId: string;
-  spacing: Spacing[];
+  spacing: { [size in SpacingSizeName]: string };
   font: Font;
 }

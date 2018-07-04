@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import store from '@state';
 import H1 from '@components/H1';
 import PlusSign from '@components/PlusSign';
-import ColorBoxWithPicker from '@src/editor/Colors/ColorBoxWithPicker';
+import ColorBoxWithPicker from './ColorBoxWithPicker';
 import { uuid } from '@src/editor/utils';
+import SpacingSize from './SpacingSize';
+import { SpacingSizeName } from '@src/interfaces';
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -35,28 +37,41 @@ const AddColorBox = styled.div`
   padding: 11px;
 `;
 
+const SpacingWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const onAddColorClick = () => {
   const id = uuid();
   store.evolveState({
     editingColorId: () => id,
-    colors: (oldColors) => ({
+    colors: oldColors => ({
       ...oldColors,
       [id]: '#98a1a4',
     }),
   });
 };
 
-const Colors = () => (
+const ColorsAndSpacing = () => (
   <Wrapper>
     <H1>Colors</H1>
-
     <ColorWrapper>
       {Object.keys(store.state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
       <AddColorBox onClick={onAddColorClick}>
         <PlusSign />
       </AddColorBox>
     </ColorWrapper>
+
+    <H1>Spacing</H1>
+    <SpacingWrapper>
+      <SpacingSize spacingSizeName={SpacingSizeName.XS} />
+      <SpacingSize spacingSizeName={SpacingSizeName.S} />
+      <SpacingSize spacingSizeName={SpacingSizeName.M} />
+      <SpacingSize spacingSizeName={SpacingSizeName.L} />
+      <SpacingSize spacingSizeName={SpacingSizeName.XL} />
+    </SpacingWrapper>
   </Wrapper>
 );
 
-export default Colors;
+export default ColorsAndSpacing;
