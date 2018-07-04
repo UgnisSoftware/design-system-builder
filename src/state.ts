@@ -22,11 +22,11 @@ const defaultState: State = {
   },
   editingColorId: '',
   spacing: {
-    [SpacingSizeName.XS]: '2px',
-    [SpacingSizeName.S]: '4px',
-    [SpacingSizeName.M]: '8px',
-    [SpacingSizeName.L]: '14px',
-    [SpacingSizeName.XL]: '28px',
+    [SpacingSizeName.XS]: '8px',
+    [SpacingSizeName.S]: '16px',
+    [SpacingSizeName.M]: '24px',
+    [SpacingSizeName.L]: '48px',
+    [SpacingSizeName.XL]: '64px',
   },
   font: {
     fontName: 'Roboto',
