@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import AspectRatio from '@components/Icons/AspectRatio';
+import Size from './Size/Size';
+import state from '@state';
+import Component from './Component/Component';
 
 const Preview = styled.div`
   flex: 1;
@@ -10,38 +12,25 @@ const Preview = styled.div`
   background-color: rgb(0, 0, 0, 0.01);
   background-size: 16px 16px;
   position: relative;
-  ransform: translateZ(0);
-`;
-const Size = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 16px;
-  font-size: 20px;
+  transform: translateZ(0);
   display: flex;
 `;
 
-const Ycolumn = styled.div`
+const CenterComponent = styled.div`
   display: flex;
-  flex-direction: column;
+  flex: 1;
+  justify-content: center;
   align-items: center;
 `;
-const X = styled.div`
-  display: inline-block;
-  margin-left: 8px;
-`;
-const Y = styled.div`
-  margin-top: 10px;
-`;
 
-export default () => (
-  <Preview>
-    <Size>
-      <Ycolumn>
-        <AspectRatio />
-        <Y>254</Y>
-      </Ycolumn>
-      <X>254</X>
-    </Size>
-  </Preview>
-);
+export default () => {
+  const component = state.state.components[state.state.router.componentId];
+  return (
+    <Preview>
+      <Size component={component.root} />
+      <CenterComponent>
+        <Component component={component.root} />
+      </CenterComponent>
+    </Preview>
+  );
+};

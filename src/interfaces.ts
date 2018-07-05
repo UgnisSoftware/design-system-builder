@@ -26,13 +26,29 @@ interface Router {
   componentId?: string;
 }
 
-interface Node {
-  type: 'box' | 'text' | 'input' | 'image' | 'component';
+export enum NodeTypes {
+  Root = 'Root',
+  Box = 'Box',
+  Text = 'Text',
+  Input = 'Input',
+  Image = 'Image',
+  Component = 'Component',
 }
 
-interface Component {
+export interface Nodes {
+  type: NodeTypes.Root;
+}
+
+export interface RootNode {
+  type: NodeTypes.Root;
+  width: number | 'auto';
+  height: number | 'auto';
+  nodes: Nodes[]
+}
+
+export interface Component {
   name: string;
-  nodes: Node[];
+  root: RootNode;
 }
 
 interface Color {
