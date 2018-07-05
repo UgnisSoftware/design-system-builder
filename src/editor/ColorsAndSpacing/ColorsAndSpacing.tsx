@@ -28,12 +28,17 @@ const AddColorBox = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 7%;
-  margin: 0 16px 16px 0;
+  margin: 0 10px 16px 10px;
   vertical-align: middle;
   line-height: 45px;
   background-color: rgb(240, 240, 240);
   color: rgb(152, 161, 164);
   padding: 11px;
+  transition: all 200ms ease;
+
+  &:hover {
+    background-color: rgb(232, 232, 233);
+  }
 `;
 
 const SpacingWrapper = styled.div`
