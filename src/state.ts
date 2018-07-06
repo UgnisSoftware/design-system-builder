@@ -9,11 +9,13 @@ const defaultState: State = {
   components: {
     'abcd-1234': {
       name: 'Button',
+      selectedNode: 'root',
       root: {
+        id: 'root',
         type: NodeTypes.Root,
         width: 254,
         height: 254,
-        nodes: []
+        nodes: [],
       },
     },
   },

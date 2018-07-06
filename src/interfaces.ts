@@ -36,18 +36,21 @@ export enum NodeTypes {
 }
 
 export interface Nodes {
-  type: NodeTypes.Root;
+  id: string;
+  type: NodeTypes;
 }
 
 export interface RootNode {
+  id: string;
   type: NodeTypes.Root;
   width: number | 'auto';
   height: number | 'auto';
-  nodes: Nodes[]
+  nodes: Nodes[];
 }
 
 export interface Component {
   name: string;
+  selectedNode: string;
   root: RootNode;
 }
 
