@@ -35,6 +35,12 @@ export enum NodeTypes {
   Component = 'Component',
 }
 
+export enum ViewTypes {
+  SingleCenter = 'SingleCenter',
+  CenterWithTopAndBottom = 'CenterWithTopAndBottom',
+  Repeaated = 'Repeaated',
+}
+
 type Direction = number | 'auto';
 
 interface AllDirections {
@@ -61,6 +67,7 @@ export interface Node {
 
 export interface Component {
   name: string;
+  viewMode: ViewTypes;
   selectedNode: string;
   root: Node;
 }
@@ -84,7 +91,6 @@ interface Font {
 export interface State {
   router: Router;
   components: { [id: string]: Component };
-  componentList: string[];
   colors: { [id: string]: Color };
   editingColorId: string;
   spacing: { [size in SpacingSizeName]: string };

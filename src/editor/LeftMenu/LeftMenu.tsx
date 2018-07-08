@@ -79,6 +79,6 @@ export default () => (
       Fonts
     </Item>
     <Title>Components</Title>
-    {store.state.componentList.map(componentId => <ComponentItem key={componentId} id={componentId} />)}
+    {Object.keys(store.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
   </LeftMenu>
 );

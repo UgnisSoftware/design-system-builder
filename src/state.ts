@@ -1,5 +1,5 @@
 import lape from 'lape';
-import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes } from '@src/interfaces';
+import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes } from '@src/interfaces';
 
 const defaultState: State = {
   router: {
@@ -9,9 +9,10 @@ const defaultState: State = {
   components: {
     'abcd-1234': {
       name: 'Button',
-      selectedNode: 'root',
+      selectedNode: 'rootId',
+      viewMode: ViewTypes.SingleCenter,
       root: {
-        id: 'root',
+        id: 'rootId',
         type: NodeTypes.Root,
         position: {
           top: 0,
@@ -39,7 +40,6 @@ const defaultState: State = {
       },
     },
   },
-  componentList: ['abcd-1234'],
   colors: {
     'vava-1823': {
       name: 'Pink',
