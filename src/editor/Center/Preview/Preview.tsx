@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Size from './Size/Size';
 import state from '@state';
-import Component from './Component/Component';
+import CenterWithTopAndBottom from './ComponentView/Repeated';
 
 const Preview = styled.div`
   flex: 1;
@@ -16,21 +16,12 @@ const Preview = styled.div`
   display: flex;
 `;
 
-const CenterComponent = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 export default () => {
   const component = state.state.components[state.state.router.componentId];
   return (
     <Preview>
       <Size component={component.root} />
-      <CenterComponent>
-        <Component component={component.root} />
-      </CenterComponent>
+      <CenterWithTopAndBottom component={component.root} />
     </Preview>
   );
 };

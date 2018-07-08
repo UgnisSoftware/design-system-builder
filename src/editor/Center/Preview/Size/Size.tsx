@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import AspectRatio from '@components/Icons/AspectRatio';
-import { RootNode } from '@src/interfaces';
+import { Node } from '@src/interfaces';
 
 const Size = styled.div`
   position: absolute;
@@ -26,15 +26,15 @@ const Y = styled.div`
 `;
 
 interface Props {
-  component: RootNode;
+  component: Node;
 }
 
 export default ({ component }: Props) => (
   <Size>
     <Ycolumn>
       <AspectRatio />
-      <Y>{component.height}</Y>
+      <Y>{component.size.height}</Y>
     </Ycolumn>
-    <X>{component.width}</X>
+    <X>{component.size.width}</X>
   </Size>
 );

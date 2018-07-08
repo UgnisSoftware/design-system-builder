@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="description" content="Ugnis - editor" />
     <link rel="icon" type="image/png" sizes="256x256" href="./images/logo_new256x256.png">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400&text=1234567890" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://unpkg.com/normalize.css@8.0.0/normalize.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -41,8 +42,15 @@
             border: 2px solid #ffffff;
         }
 
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            unicode-range: U+30-39;
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', 'Raleway', sans-serif;
         }
 
         * {

@@ -35,23 +35,34 @@ export enum NodeTypes {
   Component = 'Component',
 }
 
-export interface Nodes {
-  id: string;
-  type: NodeTypes;
+type Direction = number | 'auto';
+
+interface AllDirections {
+  top?: Direction;
+  bottom?: Direction;
+  left?: Direction;
+  right?: Direction;
 }
 
-export interface RootNode {
+export interface Node {
   id: string;
-  type: NodeTypes.Root;
-  width: number | 'auto';
-  height: number | 'auto';
-  nodes: Nodes[];
+  type: NodeTypes;
+  size: {
+    width: number | 'auto';
+    height: number | 'auto';
+  };
+  position: AllDirections;
+  padding?: AllDirections;
+  margin?: AllDirections;
+  border?: AllDirections;
+  background?: {};
+  children: Node[];
 }
 
 export interface Component {
   name: string;
   selectedNode: string;
-  root: RootNode;
+  root: Node;
 }
 
 interface Color {

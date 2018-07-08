@@ -13,9 +13,29 @@ const defaultState: State = {
       root: {
         id: 'root',
         type: NodeTypes.Root,
-        width: 254,
-        height: 254,
-        nodes: [],
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        children: [
+          {
+            id: '423423dsfs',
+            type: NodeTypes.Box,
+            position: {
+              top: 0,
+              left: 0,
+            },
+            size: {
+              width: 254,
+              height: 254,
+            },
+            children: [],
+          },
+        ],
       },
     },
   },
