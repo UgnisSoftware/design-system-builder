@@ -40,7 +40,14 @@ const defaultState: State = {
             background: {
               color: '#497fc6',
             },
-            children: [],
+            children: [
+              {
+                id: 'text1343',
+                type: NodeTypes.Text,
+                fontSize: FontSizeName.XL,
+                text: 'Hello',
+              },
+            ],
           },
         ],
       },
