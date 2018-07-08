@@ -1,11 +1,10 @@
 ## Goals for 1.0v release
 
-  - [ ] Remove state, events and runtime - Ugnis is a design tool only
+  - [x] Remove state, events and runtime - Ugnis is a design tool only
   - [ ] Add drag and drop while designing
-  - [ ] Add context menu
   - [ ] Export to React and Vue components
-  - [ ] Grid
+  - [ ] Pages and Grid
   - [ ] Sane positioning rules (allow custom css, but make it an exception)
-  - [ ] Fonts and colors
-  - [ ] Move state to Typescript
-  - [ ] Move styles to styled components
+  - [x] Fonts and colors
+  - [x] Move state to Typescript
+  - [x] Move styles to styled components
