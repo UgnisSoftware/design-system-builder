@@ -22,6 +22,9 @@ const defaultState: State = {
           width: 254,
           height: 254,
         },
+        background: {
+          color: '#49c67f',
+        },
         children: [
           {
             id: '423423dsfs',
@@ -31,8 +34,11 @@ const defaultState: State = {
               left: 0,
             },
             size: {
-              width: 254,
-              height: 254,
+              width: 50,
+              height: 50,
+            },
+            background: {
+              color: '#497fc6',
             },
             children: [],
           },

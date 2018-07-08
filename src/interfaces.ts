@@ -61,7 +61,9 @@ export interface Node {
   padding?: AllDirections;
   margin?: AllDirections;
   border?: AllDirections;
-  background?: {};
+  background?: {
+    color: string;
+  };
   children: Node[];
 }
 
