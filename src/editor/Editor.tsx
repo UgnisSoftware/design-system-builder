@@ -7,7 +7,6 @@ import { RouterPaths } from '@src/interfaces';
 import Fonts from './Fonts/Fonts';
 import LeftMenu from './LeftMenu/LeftMenu';
 import Center from './Center/Center';
-import RightMenu from './RightMenu/RightMenu';
 import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing';
 
 const Root = styled.div`
@@ -21,12 +20,7 @@ const Editor = () => {
       <LeftMenu />
       {store.state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
       {store.state.router.path === RouterPaths.fonts && <Fonts />}
-      {store.state.router.path === RouterPaths.component && (
-        <>
-          <Center />
-          <RightMenu />
-        </>
-      )}
+      {store.state.router.path === RouterPaths.component && <Center />}
     </Root>
   );
 };
