@@ -79,11 +79,17 @@ interface Color {
 }
 
 const onEditingColorChange = id => () => {
-  store.evolveState({ editingColorId: () => id });
+  store.evolveState({ ui: {
+      editingColorId: () => id,
+    },
+  });
 };
 
 const onClickOutside = () => {
-  store.evolveState({ editingColorId: () => '' });
+  store.evolveState({ ui: {
+      editingColorId: () => '',
+    },
+  });
 };
 
 const onColorChange = (colorId: string) => (color: Color) => {
@@ -133,7 +139,7 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
         />
       </InputWrapper>
     </ColorWithInputWrapper>
-    {store.state.editingColorId === colorId && (
+    {store.state.ui.editingColorId === colorId && (
       <ClickOutside onClickOutside={onClickOutside}>
         <PickerWrapper>
           <ChromePicker color={store.state.colors[colorId]} onChange={onColorChange(colorId)} />

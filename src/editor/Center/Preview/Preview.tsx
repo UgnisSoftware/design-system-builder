@@ -24,11 +24,11 @@ export default () => {
   return (
     <Preview>
       <Size component={component.root} />
-      {state.state.componentView === ComponentView.Center && <Center component={component.root} />}
-      {state.state.componentView === ComponentView.CenterWithTopAndBottom && (
+      {state.state.ui.componentView === ComponentView.Center && <Center component={component.root} />}
+      {state.state.ui.componentView === ComponentView.CenterWithTopAndBottom && (
         <CenterWithTopAndBottom component={component.root} />
       )}
-      {state.state.componentView === ComponentView.Repeated && <Repeated component={component.root} />}
+      {state.state.ui.componentView === ComponentView.Repeated && <Repeated component={component.root} />}
     </Preview>
   );
 };

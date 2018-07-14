@@ -127,9 +127,13 @@ export enum ComponentView {
 export interface State {
   router: Router;
   components: { [id: string]: Component };
-  componentView: ComponentView;
   colors: { [id: string]: Color };
-  editingColorId: string;
   spacing: { [size in SpacingSizeName]: string };
   font: Font;
+  ui: {
+    componentView: ComponentView;
+    editingColorId: string;
+    editingTextNode: boolean;
+    selectedNodeId: string;
+  };
 }

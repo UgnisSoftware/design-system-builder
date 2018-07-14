@@ -1,5 +1,13 @@
 import lape from 'lape';
-import {FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes, ComponentView} from '@src/interfaces';
+import {
+  FontSizeName,
+  RouterPaths,
+  SpacingSizeName,
+  State,
+  NodeTypes,
+  ViewTypes,
+  ComponentView,
+} from '@src/interfaces';
 
 const defaultState: State = {
   router: {
@@ -40,8 +48,7 @@ const defaultState: State = {
             background: {
               color: '#497fc6',
             },
-            children: [
-            ],
+            children: [],
           },
           {
             id: 'text1343',
@@ -53,7 +60,6 @@ const defaultState: State = {
       },
     },
   },
-  componentView: ComponentView.Center,
   colors: {
     'vava-1823': {
       name: 'Pink',
@@ -76,7 +82,6 @@ const defaultState: State = {
       hex: '#5da2d5',
     },
   },
-  editingColorId: '',
   spacing: {
     [SpacingSizeName.XS]: '8px',
     [SpacingSizeName.S]: '16px',
@@ -109,6 +114,12 @@ const defaultState: State = {
         lineHeight: '1.2em',
       },
     },
+  },
+  ui: {
+    editingColorId: '',
+    componentView: ComponentView.Center,
+    editingTextNode: false,
+    selectedNodeId: '',
   },
 };
 

@@ -24,7 +24,9 @@ const Divider = styled.div`
 
 const selectComponentView = (view: ComponentView) => () => {
   state.evolveState({
-    componentView: () => view,
+    ui: {
+      componentView: () => view,
+    },
   });
 };
 
@@ -38,7 +40,7 @@ export default () => (
       className="material-icons"
       style={{
         fontSize: '28px',
-        color: state.state.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
+        color: state.state.ui.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.Center)}
     >
@@ -49,7 +51,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.componentView === ComponentView.CenterWithTopAndBottom ? ' rgb(83, 212, 134)' : 'black',
+        color: state.state.ui.componentView === ComponentView.CenterWithTopAndBottom ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.CenterWithTopAndBottom)}
     >
@@ -60,7 +62,7 @@ export default () => (
       style={{
         fontSize: '24px',
         marginRight: '4px',
-        color: state.state.componentView === ComponentView.WithSidebar ? ' rgb(83, 212, 134)' : 'black',
+        color: state.state.ui.componentView === ComponentView.WithSidebar ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.WithSidebar)}
     >
@@ -71,7 +73,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.componentView === ComponentView.Repeated ? ' rgb(83, 212, 134)' : 'black',
+        color: state.state.ui.componentView === ComponentView.Repeated ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.Repeated)}
     >
@@ -82,7 +84,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.componentView === ComponentView.List ? ' rgb(83, 212, 134)' : 'black',
+        color: state.state.ui.componentView === ComponentView.List ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.List)}
     >

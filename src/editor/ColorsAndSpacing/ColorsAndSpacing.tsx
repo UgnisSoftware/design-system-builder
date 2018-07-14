@@ -49,7 +49,9 @@ const SpacingWrapper = styled.div`
 const onAddColorClick = () => {
   const id = uuid();
   store.evolveState({
-    editingColorId: () => id,
+    ui: {
+      editingColorId: () => id,
+    },
     colors: oldColors => ({
       ...oldColors,
       [id]: { name: 'Grey', hex: '#98a1a4' },
