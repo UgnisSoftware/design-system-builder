@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Node } from '@src/interfaces';
+import { RootNode } from '@src/interfaces';
 import styled from 'styled-components';
 import Component from './_Component';
 
 interface Props {
-  component: Node;
+  component: RootNode;
 }
 
 const CenterComponent = styled.div`
@@ -16,6 +16,6 @@ const CenterComponent = styled.div`
 
 export default ({ component }: Props) => (
   <CenterComponent>
-    <Component component={component}/>
+    <Component component={component} />
   </CenterComponent>
 );

@@ -116,9 +116,18 @@ interface Font {
   sizes: { [size in FontSizeName]: FontSize };
 }
 
+export enum ComponentView {
+  Center = 'Center',
+  CenterWithTopAndBottom = 'CenterWithTopAndBottom',
+  Repeated = 'Repeated',
+  WithSidebar = 'WithSidebar',
+  List = 'List',
+}
+
 export interface State {
   router: Router;
   components: { [id: string]: Component };
+  componentView: ComponentView;
   colors: { [id: string]: Color };
   editingColorId: string;
   spacing: { [size in SpacingSizeName]: string };

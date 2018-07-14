@@ -2,7 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Size from './Size/Size';
 import state from '@state';
-import CenterWithTopAndBottom from './ComponentView/Repeated';
+import Center from './ComponentView/CenterComponent';
+import CenterWithTopAndBottom from './ComponentView/CenterWithTopAndBottom';
+import Repeated from './ComponentView/Repeated';
+import { ComponentView } from '@src/interfaces';
 
 const Preview = styled.div`
   flex: 1;
@@ -21,7 +24,11 @@ export default () => {
   return (
     <Preview>
       <Size component={component.root} />
-      <CenterWithTopAndBottom component={component.root} />
+      {state.state.componentView === ComponentView.Center && <Center component={component.root} />}
+      {state.state.componentView === ComponentView.CenterWithTopAndBottom && (
+        <CenterWithTopAndBottom component={component.root} />
+      )}
+      {state.state.componentView === ComponentView.Repeated && <Repeated component={component.root} />}
     </Preview>
   );
 };
