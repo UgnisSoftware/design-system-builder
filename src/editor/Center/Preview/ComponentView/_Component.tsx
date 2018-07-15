@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BoxNode, TextNode, NodeTypes, RootNode } from '@src/interfaces';
-import state from "@state";
+import state from '@state';
+import styled from 'styled-components';
 
 interface TextProps {
   component: TextNode;
@@ -18,11 +19,33 @@ const BoxComponent = ({ component }: BoxProps) => (
   </div>
 );
 
+const X = styled.div`
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%) translateY(-100%);
+`;
+const Y = styled.div`
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%) translateX(-100%);
+`;
+
 interface RootProps {
   component: RootNode;
 }
 const RootComponent = ({ component }: RootProps) => (
-  <div style={{ width: component.size.width, height: component.size.height, background: component.background.color }}>
+  <div
+    style={{
+      position: 'relative',
+      width: component.size.width,
+      height: component.size.height,
+      background: component.background.color,
+    }}
+  >
+    <X>{component.size.width}</X>
+    <Y>{component.size.height}</Y>
     {component.children.map(component => <Component component={component} />)}
   </div>
 );

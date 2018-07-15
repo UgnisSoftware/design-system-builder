@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Size from './Size/Size';
 import state from '@state';
 import Center from './ComponentView/CenterComponent';
 import CenterWithTopAndBottom from './ComponentView/CenterWithTopAndBottom';
@@ -23,7 +22,6 @@ export default () => {
   const component = state.state.components[state.state.router.componentId];
   return (
     <Preview>
-      <Size component={component.root} />
       {state.state.ui.componentView === ComponentView.Center && <Center component={component.root} />}
       {state.state.ui.componentView === ComponentView.CenterWithTopAndBottom && (
         <CenterWithTopAndBottom component={component.root} />

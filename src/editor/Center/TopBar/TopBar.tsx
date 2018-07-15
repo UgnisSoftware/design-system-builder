@@ -11,6 +11,7 @@ const TopBar = styled.div`
   display: flex;
   align-items: center;
   font-size: 24px;
+  user-select: none;
 `;
 
 const Divider = styled.div`
