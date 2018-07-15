@@ -55,6 +55,7 @@ export interface TextNode {
   type: NodeTypes.Text;
   fontSize: FontSizeName;
   text: 'Hello';
+  position?: AllDirections
 }
 
 export interface BoxNode {

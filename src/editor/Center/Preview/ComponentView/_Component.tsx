@@ -2,19 +2,85 @@ import * as React from 'react';
 import { BoxNode, TextNode, NodeTypes, RootNode } from '@src/interfaces';
 import state from '@state';
 import styled from 'styled-components';
+import * as R from 'ramda';
+
+const startComponentDrag = component => e => {
+  e.preventDefault();
+  e.persist();
+  let currentX = e.touches ? e.touches[0].pageX : e.pageX;
+  let currentY = e.touches ? e.touches[0].pageY : e.pageY;
+  function drag(e) {
+    e.preventDefault();
+    const newX = e.touches ? e.touches[0].pageX : e.pageX;
+    const newY = e.touches ? e.touches[0].pageY : e.pageY;
+    const diffX = currentX - newX;
+    const diffY = currentY - newY;
+    state.evolveState({
+      components: {
+        [state.state.router.componentId]: {
+          root: {
+            children: children =>
+              children.map(
+                child =>
+                  child.id === component.id
+                    ? R.evolve({ position: { top: top => top - diffY, left: left => left - diffX } }, child)
+                    : child,
+              ),
+          },
+        },
+      },
+    });
+    currentX = newX;
+    currentY = newY;
+    return false;
+  }
+  window.addEventListener('mousemove', drag);
+  window.addEventListener('touchmove', drag);
+  window.addEventListener('mouseup', stopDragging);
+  window.addEventListener('touchend', stopDragging);
+  function stopDragging(event) {
+    event.preventDefault();
+    window.removeEventListener('mousemove', drag);
+    window.removeEventListener('touchmove', drag);
+    window.removeEventListener('mouseup', stopDragging);
+    window.removeEventListener('touchend', stopDragging);
+    return false;
+  }
+  return false;
+};
 
 interface TextProps {
   component: TextNode;
 }
 const TextComponent = ({ component }: TextProps) => (
-  <span style={{ fontSize: state.state.font.sizes[component.fontSize].fontSize }}>{component.text}</span>
+  <span
+    style={{
+      position: 'absolute',
+      top: component.position.top,
+      left: component.position.left,
+      fontSize: state.state.font.sizes[component.fontSize].fontSize,
+    }}
+    onMouseDown={startComponentDrag(component)}
+  >
+    {component.text}
+  </span>
 );
 
 interface BoxProps {
   component: BoxNode;
 }
 const BoxComponent = ({ component }: BoxProps) => (
-  <div style={{ width: component.size.width, height: component.size.height, background: component.background.color }}>
+  <div
+    style={{
+      position: 'absolute',
+      top: component.position.top,
+      left: component.position.left,
+      width: component.size.width,
+      height: component.size.height,
+      background: component.background.color,
+    }}
+    onMouseDown={startComponentDrag(component)}
+  >
     {component.children.map(component => <Component component={component} />)}
   </div>
 );
@@ -201,6 +267,7 @@ const RootComponent = ({ component }: RootProps) => (
     <BottomRightDrag onMouseDown={drag(Direction.SE)} />
     <div
       style={{
+        position: 'relative',
         width: component.size.width,
         height: component.size.height,
         background: component.background.color,
