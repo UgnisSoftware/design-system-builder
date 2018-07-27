@@ -25,6 +25,7 @@ const Input = styled.input`
   box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.15);
   border: none;
   margin-right: 24px;
+  max-width: 138px;
   padding-bottom: 7px;
   transition: all 200ms ease;
 
