@@ -83,8 +83,8 @@ class AddComponent extends React.Component {
     };
     state.evolveState({
       router: {
-        path: RouterPaths.component,
-        componentId: newId,
+        path: () => RouterPaths.component,
+        componentId: () => newId,
       },
       components: R.assoc(newId, newComponent),
       ui: {
