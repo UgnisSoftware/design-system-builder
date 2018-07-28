@@ -19,7 +19,7 @@ Exports to React and Vue components. Vote for more integrations [in this issue](
 
 Clone the repository, download node modules and compile:
 ```
-git clone https://github.com/UgnisSoftware/ugnis && cd ugnis && npm install && npm run compile
+git clone https://github.com/UgnisSoftware/ugnis && cd ugnis && npm install
 ```
 
 Start the editor:
