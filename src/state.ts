@@ -63,6 +63,76 @@ const defaultState: State = {
         ],
       },
     },
+    'ergefe-4356': {
+      name: 'Link',
+      selectedNode: 'rootId',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
+        children: [
+          {
+            id: '423423dsfs',
+            type: NodeTypes.Box,
+            position: {
+              top: 0,
+              left: 0,
+            },
+            size: {
+              width: 50,
+              height: 50,
+            },
+            background: {
+              color: '#497fc6',
+            },
+            children: [],
+          },
+        ],
+      },
+    },
+    'wefwef-2344': {
+      name: 'Icon',
+      selectedNode: 'rootId',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
+        children: [
+          {
+            id: 'text1343',
+            type: NodeTypes.Text,
+            fontSize: FontSizeName.XL,
+            text: 'Hello',
+            position: {
+              top: 0,
+              left: 0,
+            },
+          },
+        ],
+      },
+    },
   },
   colors: {
     'vava-1823': {
@@ -123,6 +193,7 @@ const defaultState: State = {
     editingColorId: '',
     componentView: ComponentView.Center,
     editingTextNode: false,
+    addingComponent: false,
     selectedNodeId: '',
   },
 };

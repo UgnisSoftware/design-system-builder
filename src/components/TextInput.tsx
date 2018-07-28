@@ -2,9 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  name: string;
-  label: string;
+  name: string; // TODO remove, looks useless?
+  label?: string;
   value: string;
+  className?: string;
+  autoFocus?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -21,12 +23,11 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  outline: 0;
+  all: unset;
   box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.15);
-  border: none;
   margin-right: 24px;
   max-width: 138px;
-  padding-bottom: 7px;
+  padding-bottom: 4px;
   transition: all 200ms ease;
 
   &:hover {
@@ -42,10 +43,10 @@ const Input = styled.input`
   }
 `;
 
-const TextInput = ({ name, label, value, onChange }: Props) => (
-  <Wrapper>
-    <Input type="text" id={name} name={name} value={value} onChange={onChange} />
-    <Label htmlFor={name}>{label}</Label>
+const TextInput = ({ name, label, value, onChange, className, autoFocus}: Props) => (
+  <Wrapper className={className}>
+    <Input type="text" id={name} name={name} value={value} onChange={onChange} autoFocus={autoFocus}/>
+    {label && <Label htmlFor={name}>{label}</Label> }
   </Wrapper>
 );
 

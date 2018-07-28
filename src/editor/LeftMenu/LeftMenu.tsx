@@ -1,8 +1,10 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-import store from '@state';
+import state from '@state';
 import { RouterPaths } from '@src/interfaces';
+
+import AddComponentInput from './AddComponentInput'
 
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -66,7 +68,7 @@ const Item = styled.div`
 `;
 
 const route = (path, componentId?) => () => {
-  store.evolveState({
+  state.evolveState({
     router: {
       path: () => path,
       componentId: () => componentId,
@@ -79,26 +81,35 @@ interface ComponentItemProps {
 }
 
 const ComponentItem = ({ id }: ComponentItemProps) => {
-  const component = store.state.components[id];
+  const component = state.state.components[id];
   return (
-    <Item onClick={route(RouterPaths.component, id)} selected={store.state.router.componentId === id}>
+    <Item onClick={route(RouterPaths.component, id)} selected={state.state.router.componentId === id}>
       {component.name}
     </Item>
   );
 };
 
+const addComponent = () => {
+  state.evolveState({
+    ui: {
+      addingComponent: () => true
+    }
+  })
+}
+
 export default () => (
   <LeftMenu>
     <Title>Styles</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={store.state.router.path === RouterPaths.colors}>
+    <Item onClick={route(RouterPaths.colors)} selected={state.state.router.path === RouterPaths.colors}>
       Colors & Spacing
     </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={store.state.router.path === RouterPaths.fonts}>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.state.router.path === RouterPaths.fonts}>
       Fonts
     </Item>
     <Title>
-      Components <I className="material-icons">add_box</I>
+      Components <I className="material-icons" onClick={addComponent}>add_box</I>
     </Title>
-    {Object.keys(store.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
+    {state.state.ui.addingComponent && <AddComponentInput />}
+    {Object.keys(state.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
   </LeftMenu>
 );

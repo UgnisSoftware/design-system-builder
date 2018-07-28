@@ -135,6 +135,7 @@ export interface State {
     componentView: ComponentView;
     editingColorId: string;
     editingTextNode: boolean;
+    addingComponent: boolean;
     selectedNodeId: string;
   };
 }

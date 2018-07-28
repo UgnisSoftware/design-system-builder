@@ -1,0 +1,96 @@
+import * as React from 'react';
+import styled from 'styled-components';
+import ClickOutside from 'react-click-outside';
+
+import state from '@state';
+import { uuid } from '@src/editor/utils';
+import TextInput from '@components/TextInput';
+import { NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces';
+import * as R from 'ramda';
+
+const Input = styled(TextInput)`
+  padding-left: 24px;
+  font-weight: 300;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+`;
+
+class AddComponent extends React.Component {
+  state = {
+    value: '',
+  };
+
+  updateValue = e => {
+    this.setState({ value: e.target.value });
+  };
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.maybeSave);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.maybeSave);
+  }
+
+  maybeSave = e => {
+    const ENTER = 13;
+    if (e.keyCode === ENTER) {
+      this.save();
+    }
+  };
+
+  save = () => {
+    if (!this.state.value) {
+      state.evolveState({
+        ui: {
+          addingComponent: () => false,
+        },
+      });
+      return;
+    }
+
+    const newId = uuid();
+    const newComponent = {
+      name: this.state.value,
+      selectedNode: 'rootId',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
+        children: [],
+      },
+    };
+    state.evolveState({
+      router: {
+        path: RouterPaths.component,
+        componentId: newId,
+      },
+      components: R.assoc(newId, newComponent),
+      ui: {
+        addingComponent: () => false,
+      },
+    });
+  };
+
+  render() {
+    return (
+      <ClickOutside onClickOutside={this.save}>
+        <Input value={this.state.value} name="AddComponent" autoFocus onChange={this.updateValue} />
+      </ClickOutside>
+    );
+  }
+}
+
+export default AddComponent;
