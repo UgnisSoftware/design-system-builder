@@ -11,21 +11,38 @@ const LeftMenu = styled.div`
   user-select: none;
 `;
 
+const I = styled.i`
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #8e8e8e;
+  font-size: 26px;
+  margin-left: auto;
+  opacity: 0.4;
+  padding: 8px;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  &:hover {
+    color: #53d585;
+    opacity: 1;
+  }
+`;
+
 const Title = styled.div`
+  position: relative;
   font-size: 20px;
   font-weight: 300;
   color: #8e8e8e;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  margin-left: 16px;
+  padding: 10px 0 10px 16px;
+  margin-top: 10px;
   cursor: default;
   user-select: none;
+  display: flex;
+  align-items: center;
 `;
 
 interface ItemProps {
   selected?: boolean;
 }
-
 const Item = styled.div`
   font-size: 16px;
   font-weight: 300;
@@ -79,7 +96,9 @@ export default () => (
     <Item onClick={route(RouterPaths.fonts)} selected={store.state.router.path === RouterPaths.fonts}>
       Fonts
     </Item>
-    <Title>Components</Title>
+    <Title>
+      Components <I className="material-icons">add_box</I>
+    </Title>
     {Object.keys(store.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
   </LeftMenu>
 );
