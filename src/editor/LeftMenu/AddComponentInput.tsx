@@ -35,18 +35,27 @@ class AddComponent extends React.Component {
 
   maybeSave = e => {
     const ENTER = 13;
+    const ESCAPE = 27;
     if (e.keyCode === ENTER) {
       this.save();
     }
+    if (e.keyCode === ESCAPE) {
+      this.closeWithoutSaving()
+    }
+  };
+
+  closeWithoutSaving = () => {
+    state.evolveState({
+      ui: {
+        addingComponent: () => false,
+      },
+    });
+    return;
   };
 
   save = () => {
     if (!this.state.value) {
-      state.evolveState({
-        ui: {
-          addingComponent: () => false,
-        },
-      });
+      this.closeWithoutSaving()
       return;
     }
 

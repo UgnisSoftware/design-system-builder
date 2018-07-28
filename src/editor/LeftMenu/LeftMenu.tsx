@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import state from '@state';
 import { RouterPaths } from '@src/interfaces';
 
-import AddComponentInput from './AddComponentInput'
+import AddComponentInput from './AddComponentInput';
 
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -92,10 +92,10 @@ const ComponentItem = ({ id }: ComponentItemProps) => {
 const addComponent = () => {
   state.evolveState({
     ui: {
-      addingComponent: () => true
-    }
-  })
-}
+      addingComponent: () => true,
+    },
+  });
+};
 
 export default () => (
   <LeftMenu>
@@ -107,7 +107,12 @@ export default () => (
       Fonts
     </Item>
     <Title>
-      Components <I className="material-icons" onClick={addComponent}>add_box</I>
+      Components
+      {!state.state.ui.addingComponent && (
+        <I className="material-icons" onClick={addComponent}>
+          add_box
+        </I>
+      )}
     </Title>
     {state.state.ui.addingComponent && <AddComponentInput />}
     {Object.keys(state.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
