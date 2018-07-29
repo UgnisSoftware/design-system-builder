@@ -6,7 +6,7 @@
   - [ ] Shadows and borders
   - [x] Move state to Typescript
   - [x] Move styles to styled components
-  - [ ] Allow adding new components and changing their name
+  - [x] Allow adding new components and changing their name
   - [ ] Drag and drop components into another component
   - [ ] Drop in images and icons
   - [ ] Double-Click to edit text
