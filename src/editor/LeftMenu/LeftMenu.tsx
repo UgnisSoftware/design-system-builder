@@ -1,10 +1,12 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import state from '@state';
 import { RouterPaths } from '@src/interfaces';
 
 import AddComponentInput from './AddComponentInput';
+import ComponentItem, { Item } from './ComponentItem';
+import { route } from '@src/editor/actions';
 
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -41,53 +43,6 @@ const Title = styled.div`
   display: flex;
   align-items: center;
 `;
-
-interface ItemProps {
-  selected?: boolean;
-}
-const Item = styled.div`
-  font-size: 16px;
-  font-weight: 300;
-  display: flex;
-  vertical-align: middle;
-  line-height: 40px;
-  align-items: center;
-  height: 40px;
-  transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-  padding-left: 24px;
-  cursor: pointer;
-  &:hover {
-    background: rgb(232, 232, 233);
-  }
-  ${(props: ItemProps) =>
-    props.selected &&
-    css`
-      background: rgb(219, 219, 219);
-      border-right: 3px solid rgb(83, 212, 134);
-    `};
-`;
-
-const route = (path, componentId?) => () => {
-  state.evolveState({
-    router: {
-      path: () => path,
-      componentId: () => componentId,
-    },
-  });
-};
-
-interface ComponentItemProps {
-  id: string;
-}
-
-const ComponentItem = ({ id }: ComponentItemProps) => {
-  const component = state.state.components[id];
-  return (
-    <Item onClick={route(RouterPaths.component, id)} selected={state.state.router.componentId === id}>
-      {component.name}
-    </Item>
-  );
-};
 
 const addComponent = () => {
   state.evolveState({

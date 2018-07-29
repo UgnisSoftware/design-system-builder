@@ -43,10 +43,21 @@ const Input = styled.input`
   }
 `;
 
-const TextInput = ({ name, label, value, onChange, className, autoFocus}: Props) => (
+const TextInput = ({ name, label, value, onChange, className, autoFocus }: Props) => (
   <Wrapper className={className}>
-    <Input type="text" id={name} name={name} value={value} onChange={onChange} autoFocus={autoFocus}/>
-    {label && <Label htmlFor={name}>{label}</Label> }
+    <Input
+      autoComplete="off"
+      autoCorrect="off"
+      autoCapitalize="off"
+      spellCheck={false}
+      type="text"
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+      autoFocus={autoFocus}
+    />
+    {label && <Label htmlFor={name}>{label}</Label>}
   </Wrapper>
 );
 
