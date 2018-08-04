@@ -54,7 +54,7 @@ export interface TextNode {
   id: string;
   type: NodeTypes.Text;
   fontSize: FontSizeName;
-  text: 'Hello';
+  text: string;
   position?: AllDirections
 }
 

@@ -5,7 +5,7 @@ import Center from './ComponentView/CenterComponent';
 import CenterWithTopAndBottom from './ComponentView/CenterWithTopAndBottom';
 import Repeated from './ComponentView/Repeated';
 import { ComponentView } from '@src/interfaces';
-import AddComponentMenu from "./AddComponentMenu/AddComponentMenu";
+import AddComponentMenu from './AddComponentMenu/AddComponentMenu';
 
 const Preview = styled.div`
   flex: 1;

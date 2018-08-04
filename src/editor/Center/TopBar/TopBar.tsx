@@ -42,7 +42,7 @@ const showAddComponentMenu = () => {
 export default () => (
   <TopBar>
     <i className="material-icons" onClick={showAddComponentMenu}>
-      add_circle_outline
+      {state.state.ui.showAddComponentMenu ? 'remove_circle_outline': 'add_circle_outline'}
     </i>
     <i className="material-icons">flip_to_back</i>
     <i className="material-icons">flip_to_front</i>

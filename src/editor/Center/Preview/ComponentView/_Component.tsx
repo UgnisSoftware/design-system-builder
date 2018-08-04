@@ -4,7 +4,7 @@ import state from '@state';
 import styled from 'styled-components';
 import * as R from 'ramda';
 
-const startComponentDrag = component => e => {
+export const startComponentDrag = component => e => {
   e.preventDefault();
   e.persist();
   let currentX = e.touches ? e.touches[0].pageX : e.pageX;
@@ -254,6 +254,7 @@ const RootComponent = ({ component }: RootProps) => (
     style={{
       position: 'relative',
     }}
+    id="_rootComponent"
   >
     <X>{component.size.width}</X>
     <Y>{component.size.height}</Y>
