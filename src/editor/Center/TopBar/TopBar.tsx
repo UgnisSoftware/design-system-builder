@@ -31,9 +31,19 @@ const selectComponentView = (view: ComponentView) => () => {
   });
 };
 
+const showAddComponentMenu = () => {
+  state.evolveState({
+    ui: {
+      showAddComponentMenu: (current) => !current,
+    },
+  });
+};
+
 export default () => (
   <TopBar>
-    <i className="material-icons">add_circle_outline</i>
+    <i className="material-icons" onClick={showAddComponentMenu}>
+      add_circle_outline
+    </i>
     <i className="material-icons">flip_to_back</i>
     <i className="material-icons">flip_to_front</i>
     <Divider />

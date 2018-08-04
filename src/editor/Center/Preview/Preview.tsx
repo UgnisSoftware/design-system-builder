@@ -5,6 +5,7 @@ import Center from './ComponentView/CenterComponent';
 import CenterWithTopAndBottom from './ComponentView/CenterWithTopAndBottom';
 import Repeated from './ComponentView/Repeated';
 import { ComponentView } from '@src/interfaces';
+import AddComponentMenu from "./AddComponentMenu/AddComponentMenu";
 
 const Preview = styled.div`
   flex: 1;
@@ -27,6 +28,7 @@ export default () => {
         <CenterWithTopAndBottom component={component.root} />
       )}
       {state.state.ui.componentView === ComponentView.Repeated && <Repeated component={component.root} />}
+      {state.state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Preview>
   );
 };

@@ -194,6 +194,7 @@ const defaultState: State = {
     componentView: ComponentView.Center,
     editingTextNode: false,
     addingComponent: false,
+    showAddComponentMenu: false,
     selectedNodeId: '',
   },
 };

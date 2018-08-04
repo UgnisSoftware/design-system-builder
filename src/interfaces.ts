@@ -136,6 +136,7 @@ export interface State {
     editingColorId: string;
     editingTextNode: boolean;
     addingComponent: boolean;
+    showAddComponentMenu: boolean;
     selectedNodeId: string;
   };
 }
