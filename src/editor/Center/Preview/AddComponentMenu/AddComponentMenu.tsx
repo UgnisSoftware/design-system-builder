@@ -6,7 +6,7 @@ import { uuid } from '@src/editor/utils';
 import { startComponentDrag } from '@src/editor/Center/Preview/ComponentView/_Component';
 
 const Menu = styled.div`
-  background: linear-gradient(to right, rgba(244, 255, 244, 1) 0%, rgba(244, 255, 244, 0.5) 100%);
+  background: rgba(244, 255, 244, 0.6);
   display: flex;
   flex-direction: column;
   position: absolute;

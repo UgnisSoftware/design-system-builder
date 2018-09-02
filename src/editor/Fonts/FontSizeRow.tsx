@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import store from '@state';
+import state from '@state';
 import TextInput from '@src/components/TextInput';
 import { FontSizeName } from '@src/interfaces';
 import SymbolBox from '@components/SymbolBox';
@@ -23,8 +23,8 @@ interface ExampleTextProps {
 }
 
 const ExampleText = styled.span`
-  @import url('${store.state.font.fontUrl}');
-  font-family: '${store.state.font.fontName}';
+  @import url('${state.state.font.fontUrl}');
+  font-family: '${state.state.font.fontName}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
@@ -36,7 +36,7 @@ interface FontSizeRowProps {
 }
 
 const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  store.evolveState({
+  state.evolveState({
     font: {
       sizes: {
         [fontSizeName]: {
@@ -48,7 +48,7 @@ const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEve
 };
 
 const onLineHeightChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  store.evolveState({
+  state.evolveState({
     font: {
       sizes: {
         [fontSizeName]: {
@@ -66,19 +66,19 @@ const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
       <TextInput
         name={`fontSize_${fontSizeName}`}
         label="Font Size"
-        value={store.state.font.sizes[fontSizeName].fontSize}
+        value={state.state.font.sizes[fontSizeName].fontSize}
         onChange={onFontSizeChange(fontSizeName)}
       />
       <TextInput
         name={`lineHeight_${fontSizeName}`}
         label="Line height"
-        value={store.state.font.sizes[fontSizeName].lineHeight}
+        value={state.state.font.sizes[fontSizeName].lineHeight}
         onChange={onLineHeightChange(fontSizeName)}
       />
     </InputWrapper>
     <ExampleText
-      fontSize={store.state.font.sizes[fontSizeName].fontSize}
-      lineHeight={store.state.font.sizes[fontSizeName].lineHeight}
+      fontSize={state.state.font.sizes[fontSizeName].fontSize}
+      lineHeight={state.state.font.sizes[fontSizeName].lineHeight}
     >
       Lorem ipsum
     </ExampleText>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import store from '@state';
+import state from '@state';
 import FontSizesList from './FontSizesList';
 import H1 from '@components/H1';
 
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
-    <h2>{store.state.font.fontName}</h2>
+    <h2>{state.state.font.fontName}</h2>
     <FontSizesList />
   </Wrapper>
 );

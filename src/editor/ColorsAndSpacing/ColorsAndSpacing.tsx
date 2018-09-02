@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import store from '@state';
+import state from '@state';
 import H1 from '@components/H1';
 import PlusSign from '@components/PlusSign';
 import ColorBoxWithPicker from './ColorBoxWithPicker';
@@ -48,7 +48,7 @@ const SpacingWrapper = styled.div`
 
 const onAddColorClick = () => {
   const id = uuid();
-  store.evolveState({
+  state.evolveState({
     ui: {
       editingColorId: () => id,
     },
@@ -63,7 +63,7 @@ const ColorsAndSpacing = () => (
   <Wrapper>
     <H1>Colors</H1>
     <ColorWrapper>
-      {Object.keys(store.state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
+      {Object.keys(state.state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
       <AddColorBox onClick={onAddColorClick}>
         <PlusSign />
       </AddColorBox>

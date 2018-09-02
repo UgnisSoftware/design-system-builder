@@ -1,11 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import state from '@state';
-import Center from './ComponentView/CenterComponent';
-import CenterWithTopAndBottom from './ComponentView/CenterWithTopAndBottom';
-import Repeated from './ComponentView/Repeated';
 import { ComponentView } from '@src/interfaces';
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu';
+import Component from '@src/editor/Center/Preview/ComponentView/_Component';
 
 const Wrapper = styled.div`
   position: relative;
@@ -26,21 +24,74 @@ const Preview = styled.div`
   background-size: 16px 16px;
   transform: translateZ(0);
   display: flex;
-    filter: ${(props: Props) => (props.sidebarOpen ? 'blur(10px) saturate(0.8)' : 'none')};
+  filter: ${(props: Props) => (props.sidebarOpen ? 'blur(10px) saturate(0.8)' : 'none')};
+  overflow: auto;
+  perspective: 1000px;
 `;
+
+const CenterComponent = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const ContentLoaderWrapperTop = styled.div`
+  flex: 1 1 auto;
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const ContentLoaderWrapperBottom = styled(ContentLoaderWrapperTop)`
+  justify-content: flex-start;
+`;
+
+const ContentTop = () => (
+  <ContentLoaderWrapperTop>
+    <svg height="auto" width="100%" fill="#cecece" viewBox="0 0 380 156">
+      <rect x="70" y="45" rx="4" ry="4" width="117" height="6.4" />
+      <rect x="70" y="65" rx="3" ry="3" width="85" height="6.4" />
+      <rect x="0" y="110" rx="3" ry="3" width="350" height="6.4" />
+      <rect x="0" y="130" rx="3" ry="3" width="380" height="6.4" />
+      <rect x="0" y="150" rx="3" ry="3" width="201" height="6.4" />
+      <circle cx="30" cy="60" r="30" />
+    </svg>
+  </ContentLoaderWrapperTop>
+);
+
+const ContentBottom = () => (
+  <ContentLoaderWrapperBottom>
+    <svg height="auto" width="100%" fill="#cecece" viewBox="0 0 380 156">
+      <rect x="0" y="0" rx="3" ry="3" width="350" height="6.4" />
+      <rect x="0" y="20" rx="3" ry="3" width="380" height="6.4" />
+      <rect x="0" y="40" rx="3" ry="3" width="380" height="6.4" />
+      <rect x="0" y="60" rx="3" ry="3" width="380" height="6.4" />
+      <rect x="0" y="80" rx="3" ry="3" width="201" height="6.4" />
+    </svg>
+  </ContentLoaderWrapperBottom>
+);
 
 export default () => {
   const component = state.state.components[state.state.router.componentId];
+  const showTopAndBottom = state.state.ui.componentView === ComponentView.CenterWithTopAndBottom;
+  const showRepeated = state.state.ui.componentView === ComponentView.Repeated;
   return (
     <Wrapper>
       <Preview sidebarOpen={state.state.ui.showAddComponentMenu}>
-        {state.state.ui.componentView === ComponentView.Center && <Center component={component.root} />}
-        {state.state.ui.componentView === ComponentView.CenterWithTopAndBottom && (
-          <CenterWithTopAndBottom component={component.root} />
-        )}
-        {state.state.ui.componentView === ComponentView.Repeated && <Repeated component={component.root} />}
+        {showTopAndBottom && <ContentTop />}
+        <CenterComponent>
+          {showRepeated && <Component component={component.root} />}
+          <Component component={component.root} />
+          {showRepeated && <Component component={component.root} />}
+        </CenterComponent>
+        {showTopAndBottom && <ContentBottom />}
       </Preview>
-        {state.state.ui.showAddComponentMenu && <AddComponentMenu />}
+      {state.state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Wrapper>
   );
 };

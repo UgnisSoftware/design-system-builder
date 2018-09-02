@@ -34,7 +34,7 @@ const selectComponentView = (view: ComponentView) => () => {
 const showAddComponentMenu = () => {
   state.evolveState({
     ui: {
-      showAddComponentMenu: (current) => !current,
+      showAddComponentMenu: current => !current,
     },
   });
 };
@@ -42,7 +42,7 @@ const showAddComponentMenu = () => {
 export default () => (
   <TopBar>
     <i className="material-icons" onClick={showAddComponentMenu}>
-      {state.state.ui.showAddComponentMenu ? 'remove_circle_outline': 'add_circle_outline'}
+      {state.state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
     </i>
     <i className="material-icons">flip_to_back</i>
     <i className="material-icons">flip_to_front</i>
@@ -56,6 +56,19 @@ export default () => (
       onClick={selectComponentView(ComponentView.Center)}
     >
       stop
+    </i>
+    <i
+      className="material-icons"
+      style={{
+        fontSize: '24px',
+        marginLeft: '-2px',
+        marginRight: '2px',
+        transform: 'rotateZ(40deg)',
+        color: state.state.ui.componentView === ComponentView.Tilted ? ' rgb(83, 212, 134)' : 'black',
+      }}
+      onClick={selectComponentView(ComponentView.Tilted)}
+    >
+      layers
     </i>
     <i
       className="material-icons"

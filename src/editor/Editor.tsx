@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import store from '@state';
+import state from '@state';
 import { RouterPaths } from '@src/interfaces';
 
 import Fonts from './Fonts/Fonts';
@@ -12,15 +12,16 @@ import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing';
 const Root = styled.div`
   display: flex;
   height: 100%;
+  user-select: none;
 `;
 
 const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {store.state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
-      {store.state.router.path === RouterPaths.fonts && <Fonts />}
-      {store.state.router.path === RouterPaths.component && <Center />}
+      {state.state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
+      {state.state.router.path === RouterPaths.fonts && <Fonts />}
+      {state.state.router.path === RouterPaths.component && <Center />}
     </Root>
   );
 };

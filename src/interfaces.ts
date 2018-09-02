@@ -119,6 +119,7 @@ interface Font {
 
 export enum ComponentView {
   Center = 'Center',
+  Tilted = 'Tiled',
   CenterWithTopAndBottom = 'CenterWithTopAndBottom',
   Repeated = 'Repeated',
   WithSidebar = 'WithSidebar',

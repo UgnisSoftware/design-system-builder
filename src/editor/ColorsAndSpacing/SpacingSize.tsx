@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import SymbolBox from '@components/SymbolBox';
 import { SpacingSizeName } from '@src/interfaces';
-import store from '@state';
+import state from '@state';
 import TextInput from '@components/TextInput';
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ interface SpacingSizeProps {
 }
 
 const onSpacingSizeChange = (spacingSizeName: SpacingSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  store.evolveState({
+  state.evolveState({
     spacing: {
       [spacingSizeName]: () => event.target.value,
     },
@@ -30,7 +30,7 @@ const SpacingSize = ({ spacingSizeName }: SpacingSizeProps) => (
     <TextInput
       name={`spacingSize_${spacingSizeName}`}
       label="Spacing Size"
-      value={store.state.spacing[spacingSizeName]}
+      value={state.state.spacing[spacingSizeName]}
       onChange={onSpacingSizeChange(spacingSizeName)}
     />
   </Wrapper>

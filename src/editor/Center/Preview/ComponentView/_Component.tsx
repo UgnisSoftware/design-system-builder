@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { BoxNode, TextNode, NodeTypes, RootNode } from '@src/interfaces';
+import {BoxNode, TextNode, NodeTypes, RootNode, ComponentView} from '@src/interfaces';
 import state from '@state';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as R from 'ramda';
 
 export const startComponentDrag = component => e => {
@@ -49,11 +49,22 @@ export const startComponentDrag = component => e => {
   return false;
 };
 
+
+const tiltedCSS = css`
+  transform: translateX(10px) translateY(-10px);
+  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
+`;
+
+const TextWrapper = styled.span`
+  ${() => (state.state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
+  transition: transform 0.3s, box-shadow 0.3s;
+`;
+
 interface TextProps {
   component: TextNode;
 }
 const TextComponent = ({ component }: TextProps) => (
-  <span
+  <TextWrapper
     style={{
       position: 'absolute',
       top: component.position.top,
@@ -63,14 +74,19 @@ const TextComponent = ({ component }: TextProps) => (
     onMouseDown={startComponentDrag(component)}
   >
     {component.text}
-  </span>
+  </TextWrapper>
 );
+
+const Boxxy = styled.div`
+  ${() => (state.state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
+  transition: transform 0.3s, box-shadow 0.3s;
+`;
 
 interface BoxProps {
   component: BoxNode;
 }
 const BoxComponent = ({ component }: BoxProps) => (
-  <div
+  <Boxxy
     style={{
       position: 'absolute',
       top: component.position.top,
@@ -82,7 +98,7 @@ const BoxComponent = ({ component }: BoxProps) => (
     onMouseDown={startComponentDrag(component)}
   >
     {component.children.map(component => <Component component={component} />)}
-  </div>
+  </Boxxy>
 );
 
 const X = styled.div`
@@ -246,16 +262,17 @@ const drag = (side: Direction) => e => {
   window.addEventListener('touchend', stopDragging);
 };
 
+const Rooty = styled.div`
+  position: relative;
+  transition: transform 0.3s;
+  transform: ${() => (state.state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : 'none')};
+`;
+
 interface RootProps {
   component: RootNode;
 }
 const RootComponent = ({ component }: RootProps) => (
-  <div
-    style={{
-      position: 'relative',
-    }}
-    id="_rootComponent"
-  >
+  <Rooty id="_rootComponent">
     <X>{component.size.width}</X>
     <Y>{component.size.height}</Y>
     <TopDrag onMouseDown={drag(Direction.N)} />
@@ -276,7 +293,7 @@ const RootComponent = ({ component }: RootProps) => (
     >
       {component.children.map(component => <Component component={component} />)}
     </div>
-  </div>
+  </Rooty>
 );
 
 interface Props {
