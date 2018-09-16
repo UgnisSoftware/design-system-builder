@@ -1,4 +1,4 @@
-import lape from 'lape';
+import { store } from 'react-easy-state/dist/es.es6.js';
 import {
   FontSizeName,
   RouterPaths,
@@ -199,4 +199,4 @@ const defaultState: State = {
   },
 };
 
-export default lape(defaultState);
+export default store(defaultState);

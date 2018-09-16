@@ -4,6 +4,7 @@ import state from '@state';
 import { ComponentView } from '@src/interfaces';
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu';
 import Component from '@src/editor/Center/Preview/ComponentView/_Component';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Wrapper = styled.div`
   position: relative;
@@ -76,13 +77,13 @@ const ContentBottom = () => (
   </ContentLoaderWrapperBottom>
 );
 
-export default () => {
-  const component = state.state.components[state.state.router.componentId];
-  const showTopAndBottom = state.state.ui.componentView === ComponentView.CenterWithTopAndBottom;
-  const showRepeated = state.state.ui.componentView === ComponentView.Repeated;
+export default view(() => {
+  const component = state.components[state.router.componentId];
+  const showTopAndBottom = state.ui.componentView === ComponentView.CenterWithTopAndBottom;
+  const showRepeated = state.ui.componentView === ComponentView.Repeated;
   return (
     <Wrapper>
-      <Preview sidebarOpen={state.state.ui.showAddComponentMenu}>
+      <Preview sidebarOpen={state.ui.showAddComponentMenu}>
         {showTopAndBottom && <ContentTop />}
         <CenterComponent>
           {showRepeated && <Component component={component.root} />}
@@ -91,7 +92,7 @@ export default () => {
         </CenterComponent>
         {showTopAndBottom && <ContentBottom />}
       </Preview>
-      {state.state.ui.showAddComponentMenu && <AddComponentMenu />}
+      {state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Wrapper>
   );
-};
+});

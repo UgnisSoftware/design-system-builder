@@ -5,6 +5,7 @@ import state from '@state';
 import TextInput from '@src/components/TextInput';
 import { FontSizeName } from '@src/interfaces';
 import SymbolBox from '@components/SymbolBox';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,8 +24,8 @@ interface ExampleTextProps {
 }
 
 const ExampleText = styled.span`
-  @import url('${state.state.font.fontUrl}');
-  font-family: '${state.state.font.fontName}';
+  @import url('${state.font.fontUrl}');
+  font-family: '${state.font.fontName}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
@@ -36,27 +37,11 @@ interface FontSizeRowProps {
 }
 
 const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.evolveState({
-    font: {
-      sizes: {
-        [fontSizeName]: {
-          fontSize: () => event.target.value,
-        },
-      },
-    },
-  });
+  state.font.sizes[fontSizeName].fontSize = event.target.value;
 };
 
 const onLineHeightChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.evolveState({
-    font: {
-      sizes: {
-        [fontSizeName]: {
-          lineHeight: () => event.target.value,
-        },
-      },
-    },
-  });
+  state.font.sizes[fontSizeName].lineHeight = event.target.value;
 };
 
 const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
@@ -66,23 +51,23 @@ const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
       <TextInput
         name={`fontSize_${fontSizeName}`}
         label="Font Size"
-        value={state.state.font.sizes[fontSizeName].fontSize}
+        value={state.font.sizes[fontSizeName].fontSize}
         onChange={onFontSizeChange(fontSizeName)}
       />
       <TextInput
         name={`lineHeight_${fontSizeName}`}
         label="Line height"
-        value={state.state.font.sizes[fontSizeName].lineHeight}
+        value={state.font.sizes[fontSizeName].lineHeight}
         onChange={onLineHeightChange(fontSizeName)}
       />
     </InputWrapper>
     <ExampleText
-      fontSize={state.state.font.sizes[fontSizeName].fontSize}
-      lineHeight={state.state.font.sizes[fontSizeName].lineHeight}
+      fontSize={state.font.sizes[fontSizeName].fontSize}
+      lineHeight={state.font.sizes[fontSizeName].lineHeight}
     >
       Lorem ipsum
     </ExampleText>
   </Wrapper>
 );
 
-export default FontSizeRow;
+export default view(FontSizeRow);

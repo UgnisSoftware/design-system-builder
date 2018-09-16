@@ -5,8 +5,8 @@ import ClickOutside from 'react-click-outside';
 import state from '@state';
 import { uuid } from '@src/editor/utils';
 import TextInput from '@components/TextInput';
-import { NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces';
-import * as R from 'ramda';
+import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -40,22 +40,18 @@ class AddComponent extends React.Component {
       this.save();
     }
     if (e.keyCode === ESCAPE) {
-      this.closeWithoutSaving()
+      this.closeWithoutSaving();
     }
   };
 
   closeWithoutSaving = () => {
-    state.evolveState({
-      ui: {
-        addingComponent: () => false,
-      },
-    });
+    state.ui.addingComponent = false;
     return;
   };
 
   save = () => {
     if (!this.state.value) {
-      this.closeWithoutSaving()
+      this.closeWithoutSaving();
       return;
     }
 
@@ -80,26 +76,20 @@ class AddComponent extends React.Component {
         },
         children: [],
       },
-    };
-    state.evolveState({
-      router: {
-        path: () => RouterPaths.component,
-        componentId: () => newId,
-      },
-      components: R.assoc(newId, newComponent),
-      ui: {
-        addingComponent: () => false,
-      },
-    });
+    } as Component;
+    state.router.path = RouterPaths.component;
+    state.router.componentId = newId;
+    state.components[newId] = newComponent;
+    state.ui.addingComponent = false;
   };
 
   render() {
     return (
       <ClickOutside onClickOutside={this.save}>
-        <Input value={this.state.value} name="AddComponent" autoFocus onChange={this.updateValue} />
+        <Input value={this.state.value} name="AddComponent" autoFocus={true} onChange={this.updateValue} />
       </ClickOutside>
     );
   }
 }
 
-export default AddComponent;
+export default view(AddComponent);

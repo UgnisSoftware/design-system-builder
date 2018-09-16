@@ -5,6 +5,8 @@ import ClickOutside from 'react-click-outside';
 import state from '@state';
 import { RouterPaths } from '@src/interfaces';
 import TextInput from '@components/TextInput';
+import {route} from "@src/editor/actions";
+import {view} from "react-easy-state/dist/es.es6";
 
 interface ItemProps {
   selected?: boolean;
@@ -42,15 +44,6 @@ const Input = styled(TextInput)`
   border-right: 3px solid rgb(83, 212, 134);
 `;
 
-const route = (path, componentId?) => () => {
-  state.evolveState({
-    router: {
-      path: () => path,
-      componentId: () => componentId,
-    },
-  });
-};
-
 interface Props {
   id: string;
 }
@@ -65,7 +58,7 @@ class ComponentItem extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      name: state.state.components[this.props.id].name,
+      name: state.components[this.props.id].name,
       isEditingName: false,
     };
   }
@@ -76,13 +69,7 @@ class ComponentItem extends React.Component<Props, State> {
 
   save = () => {
     if (this.state.name) {
-      state.evolveState({
-        components: {
-          [this.props.id]: {
-            name: () => this.state.name,
-          },
-        },
-      });
+      state.components[this.props.id].name = this.state.name
       this.setState({ isEditingName: false });
     } else {
       this.closeWithoutSaving();
@@ -91,7 +78,7 @@ class ComponentItem extends React.Component<Props, State> {
 
   closeWithoutSaving = () => {
     this.setState({
-      name: state.state.components[this.props.id].name,
+      name: state.components[this.props.id].name,
       isEditingName: false,
     });
   };
@@ -121,19 +108,19 @@ class ComponentItem extends React.Component<Props, State> {
 
   render() {
     const id = this.props.id;
-    const component = state.state.components[id];
+    const component = state.components[id];
 
     if (this.state.isEditingName) {
       return (
         <ClickOutside onClickOutside={this.save}>
-          <Input value={this.state.name} name="AddComponent" autoFocus onChange={this.updateName} />
+          <Input value={this.state.name} name="AddComponent" autoFocus={true} onChange={this.updateName} />
         </ClickOutside>
       );
     }
     return (
       <Item
         onClick={route(RouterPaths.component, id)}
-        selected={state.state.router.componentId === id}
+        selected={state.router.componentId === id}
         onDoubleClick={this.edit}
       >
         {component.name}
@@ -142,4 +129,4 @@ class ComponentItem extends React.Component<Props, State> {
   }
 }
 
-export default ComponentItem;
+export default view(ComponentItem);

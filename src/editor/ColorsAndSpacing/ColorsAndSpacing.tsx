@@ -8,6 +8,7 @@ import ColorBoxWithPicker from './ColorBoxWithPicker';
 import { uuid } from '@src/editor/utils';
 import SpacingSize from './SpacingSize';
 import { SpacingSizeName } from '@src/interfaces';
+import { view } from 'react-easy-state/dist/es.es6';
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -48,22 +49,16 @@ const SpacingWrapper = styled.div`
 
 const onAddColorClick = () => {
   const id = uuid();
-  state.evolveState({
-    ui: {
-      editingColorId: () => id,
-    },
-    colors: oldColors => ({
-      ...oldColors,
-      [id]: { name: 'Grey', hex: '#98a1a4' },
-    }),
-  });
+
+  state.ui.editingColorId = id;
+  state.colors[id] = { name: 'Grey', hex: '#98a1a4' };
 };
 
 const ColorsAndSpacing = () => (
   <Wrapper>
     <H1>Colors</H1>
     <ColorWrapper>
-      {Object.keys(state.state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
+      {Object.keys(state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
       <AddColorBox onClick={onAddColorClick}>
         <PlusSign />
       </AddColorBox>
@@ -80,4 +75,4 @@ const ColorsAndSpacing = () => (
   </Wrapper>
 );
 
-export default ColorsAndSpacing;
+export default view(ColorsAndSpacing);

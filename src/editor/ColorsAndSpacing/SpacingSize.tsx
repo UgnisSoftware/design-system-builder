@@ -5,6 +5,7 @@ import SymbolBox from '@components/SymbolBox';
 import { SpacingSizeName } from '@src/interfaces';
 import state from '@state';
 import TextInput from '@components/TextInput';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,11 +18,7 @@ interface SpacingSizeProps {
 }
 
 const onSpacingSizeChange = (spacingSizeName: SpacingSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.evolveState({
-    spacing: {
-      [spacingSizeName]: () => event.target.value,
-    },
-  });
+  state.spacing[spacingSizeName] = event.target.value;
 };
 
 const SpacingSize = ({ spacingSizeName }: SpacingSizeProps) => (
@@ -30,10 +27,10 @@ const SpacingSize = ({ spacingSizeName }: SpacingSizeProps) => (
     <TextInput
       name={`spacingSize_${spacingSizeName}`}
       label="Spacing Size"
-      value={state.state.spacing[spacingSizeName]}
+      value={state.spacing[spacingSizeName]}
       onChange={onSpacingSizeChange(spacingSizeName)}
     />
   </Wrapper>
 );
 
-export default SpacingSize;
+export default view(SpacingSize);

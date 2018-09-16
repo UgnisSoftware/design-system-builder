@@ -7,6 +7,7 @@ import { RouterPaths } from '@src/interfaces';
 import AddComponentInput from './AddComponentInput';
 import ComponentItem, { Item } from './ComponentItem';
 import { route } from '@src/editor/actions';
+import {view} from "react-easy-state/dist/es.es6";
 
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -45,31 +46,27 @@ const Title = styled.div`
 `;
 
 const addComponent = () => {
-  state.evolveState({
-    ui: {
-      addingComponent: () => true,
-    },
-  });
+  state.ui.addingComponent = true
 };
 
-export default () => (
+export default view(() => (
   <LeftMenu>
     <Title>Styles</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={state.state.router.path === RouterPaths.colors}>
+    <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
       Colors & Spacing
     </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={state.state.router.path === RouterPaths.fonts}>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.router.path === RouterPaths.fonts}>
       Fonts
     </Item>
     <Title>
       Components
-      {!state.state.ui.addingComponent && (
+      {!state.ui.addingComponent && (
         <I className="material-icons" onClick={addComponent}>
           add_box
         </I>
       )}
     </Title>
-    {state.state.ui.addingComponent && <AddComponentInput />}
-    {Object.keys(state.state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
+    {state.ui.addingComponent && <AddComponentInput />}
+    {Object.keys(state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
   </LeftMenu>
-);
+));

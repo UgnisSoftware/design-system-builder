@@ -41,7 +41,7 @@ export enum ViewTypes {
   Repeaated = 'Repeaated',
 }
 
-type Direction = number | 'auto';
+type Direction = number;
 
 interface AllDirections {
   top?: Direction;
@@ -79,8 +79,8 @@ export interface RootNode {
   id: string;
   type: NodeTypes.Root;
   size: {
-    width: number | 'auto';
-    height: number | 'auto';
+    width: number;
+    height: number;
   };
   position: AllDirections;
   padding?: AllDirections;

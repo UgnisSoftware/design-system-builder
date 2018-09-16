@@ -8,6 +8,7 @@ import Fonts from './Fonts/Fonts';
 import LeftMenu from './LeftMenu/LeftMenu';
 import Center from './Center/Center';
 import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing';
+import { view } from 'react-easy-state/dist/es.es6.js';
 
 const Root = styled.div`
   display: flex;
@@ -19,11 +20,11 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {state.state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
-      {state.state.router.path === RouterPaths.fonts && <Fonts />}
-      {state.state.router.path === RouterPaths.component && <Center />}
+      {state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
+      {state.router.path === RouterPaths.fonts && <Fonts />}
+      {state.router.path === RouterPaths.component && <Center />}
     </Root>
   );
 };
 
-export default Editor;
+export default view(Editor);

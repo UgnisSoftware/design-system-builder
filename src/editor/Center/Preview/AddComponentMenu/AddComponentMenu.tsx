@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import state from '@state';
-import { BoxNode, FontSizeName, NodeTypes, TextNode } from '@src/interfaces';
+import {BoxNode, FontSizeName, NodeTypes, TextNode} from '@src/interfaces';
 import { uuid } from '@src/editor/utils';
 import { startComponentDrag } from '@src/editor/Center/Preview/ComponentView/_Component';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Menu = styled.div`
   background: rgba(244, 255, 244, 0.6);
@@ -86,22 +87,13 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
     };
   }
 
-  state.evolveState({
-    components: {
-      [state.state.router.componentId]: {
-        root: {
-          children: children => children.concat(newNode),
-        },
-      },
-    },
-    ui: {
-      showAddComponentMenu: () => false,
-    },
-  });
+  state.components[state.router.componentId].root.children.push(newNode);
+  state.ui.showAddComponentMenu = false;
+
   startComponentDrag(newNode)(event);
 };
 
-export default () => {
+export default view(() => {
   return (
     <Menu>
       <ComponentWrapper>
@@ -113,7 +105,7 @@ export default () => {
         <Title>Text</Title>
       </ComponentWrapper>
 
-      {/*{Object.keys(state.state.components).map(componentId => <span>{state.state.components[componentId].name}</span>)}*/}
+      {/*{Object.keys(state.components).map(componentId => <span>{state.components[componentId].name}</span>)}*/}
     </Menu>
   );
-};
+});

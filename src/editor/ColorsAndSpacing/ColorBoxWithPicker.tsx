@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { ChromePicker } from 'react-color';
 import ClickOutside from 'react-click-outside';
 
-import store from '@state';
+import state from '@state';
+import {view} from "react-easy-state/dist/es.es6";
 
 const Wrapper = styled.div`
   position: relative;
@@ -79,54 +80,36 @@ interface Color {
 }
 
 const onEditingColorChange = id => () => {
-  store.evolveState({ ui: {
-      editingColorId: () => id,
-    },
-  });
+  state.ui.editingColorId = id;
 };
 
 const onClickOutside = () => {
-  store.evolveState({ ui: {
-      editingColorId: () => '',
-    },
-  });
+  state.ui.editingColorId = '';
 };
 
 const onColorChange = (colorId: string) => (color: Color) => {
-  store.evolveState({
-    colors: {
-      [colorId]: oldColor => ({ ...oldColor, hex: color.hex }),
-    },
-  });
+  state.colors[colorId].hex = color.hex;
 };
 
 const onColorNameChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  store.evolveState({
-    colors: {
-      [colorId]: oldColor => ({ ...oldColor, name: event.target.value }),
-    },
-  });
+  state.colors[colorId].name = event.target.value;
 };
 
 const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  store.evolveState({
-    colors: {
-      [colorId]: oldColor => ({ ...oldColor, hex: event.target.value }),
-    },
-  });
+  state.colors[colorId].hex = event.target.value;
 };
 
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
     <ColorWithInputWrapper>
-      <ColorBox color={store.state.colors[colorId].hex} onClick={onEditingColorChange(colorId)} />
+      <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)} />
       <InputWrapper>
         <Input
           type="text"
           placeholder="Color name"
           id={colorId}
           name={colorId}
-          value={store.state.colors[colorId].name}
+          value={state.colors[colorId].name}
           onChange={onColorNameChange(colorId)}
         />
         <Input
@@ -134,19 +117,19 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
           placeholder="Hex value"
           id={colorId}
           name={colorId}
-          value={store.state.colors[colorId].hex}
+          value={state.colors[colorId].hex}
           onChange={onHexValueChange(colorId)}
         />
       </InputWrapper>
     </ColorWithInputWrapper>
-    {store.state.ui.editingColorId === colorId && (
+    {state.ui.editingColorId === colorId && (
       <ClickOutside onClickOutside={onClickOutside}>
         <PickerWrapper>
-          <ChromePicker color={store.state.colors[colorId]} onChange={onColorChange(colorId)} />
+          <ChromePicker color={state.colors[colorId]} onChange={onColorChange(colorId)} />
         </PickerWrapper>
       </ClickOutside>
     )}
   </Wrapper>
 );
 
-export default ColorBoxWithPicker;
+export default view(ColorBoxWithPicker);

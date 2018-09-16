@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import state from '@state';
 import { ComponentView } from '@src/interfaces';
+import {view} from "react-easy-state/dist/es.es6";
 
 const TopBar = styled.div`
   padding: 8px 22px;
@@ -24,25 +25,17 @@ const Divider = styled.div`
 `;
 
 const selectComponentView = (view: ComponentView) => () => {
-  state.evolveState({
-    ui: {
-      componentView: () => view,
-    },
-  });
+  state.ui.componentView = view;
 };
 
 const showAddComponentMenu = () => {
-  state.evolveState({
-    ui: {
-      showAddComponentMenu: current => !current,
-    },
-  });
+  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu;
 };
 
-export default () => (
+export default view(() => (
   <TopBar>
     <i className="material-icons" onClick={showAddComponentMenu}>
-      {state.state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
+      {state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
     </i>
     <i className="material-icons">flip_to_back</i>
     <i className="material-icons">flip_to_front</i>
@@ -51,7 +44,7 @@ export default () => (
       className="material-icons"
       style={{
         fontSize: '28px',
-        color: state.state.ui.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.Center)}
     >
@@ -64,7 +57,7 @@ export default () => (
         marginLeft: '-2px',
         marginRight: '2px',
         transform: 'rotateZ(40deg)',
-        color: state.state.ui.componentView === ComponentView.Tilted ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.Tilted ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.Tilted)}
     >
@@ -75,7 +68,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.ui.componentView === ComponentView.CenterWithTopAndBottom ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.CenterWithTopAndBottom ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.CenterWithTopAndBottom)}
     >
@@ -86,7 +79,7 @@ export default () => (
       style={{
         fontSize: '24px',
         marginRight: '4px',
-        color: state.state.ui.componentView === ComponentView.WithSidebar ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.WithSidebar ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.WithSidebar)}
     >
@@ -97,7 +90,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.ui.componentView === ComponentView.Repeated ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.Repeated ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.Repeated)}
     >
@@ -108,7 +101,7 @@ export default () => (
       style={{
         fontSize: '27px',
         marginRight: '4px',
-        color: state.state.ui.componentView === ComponentView.List ? ' rgb(83, 212, 134)' : 'black',
+        color: state.ui.componentView === ComponentView.List ? ' rgb(83, 212, 134)' : 'black',
       }}
       onClick={selectComponentView(ComponentView.List)}
     >
@@ -117,4 +110,4 @@ export default () => (
     <Divider />
     <i className="material-icons">settings</i>
   </TopBar>
-);
+));
