@@ -85,7 +85,9 @@ const BoxComponent = view(({ component }: BoxProps) => (
     }}
     onMouseDown={startComponentDrag(component)}
   >
-    {component.children.map(component => <Component key={component.id} component={component} />)}
+    {component.children.map(component => (
+      <Component key={component.id} component={component} />
+    ))}
   </Boxxy>
 ))
 
@@ -263,7 +265,9 @@ const RootComponent = view(({ component }: RootProps) => (
         background: component.background.color,
       }}
     >
-      {component.children.map(component => <Component key={component.id} component={component} />)}
+      {component.children.map(component => (
+        <Component key={component.id} component={component} />
+      ))}
     </div>
   </Rooty>
 ))

@@ -1,12 +1,12 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import ClickOutside from 'react-click-outside';
+import * as React from 'react'
+import styled from 'styled-components'
+import ClickOutside from 'react-click-outside'
 
-import state from '@state';
-import { uuid } from '@src/editor/utils';
-import TextInput from '@components/TextInput';
-import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces';
-import {view} from "react-easy-state/dist/es.es6";
+import state from '@state'
+import { uuid } from '@src/editor/utils'
+import TextInput from '@components/TextInput'
+import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -14,48 +14,48 @@ const Input = styled(TextInput)`
   height: 40px;
   display: flex;
   justify-content: center;
-`;
+`
 
 class AddComponent extends React.Component {
   state = {
     value: '',
-  };
+  }
 
   updateValue = e => {
-    this.setState({ value: e.target.value });
-  };
+    this.setState({ value: e.target.value })
+  }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.maybeSave);
+    document.addEventListener('keydown', this.maybeSave)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.maybeSave);
+    document.removeEventListener('keydown', this.maybeSave)
   }
 
   maybeSave = e => {
-    const ENTER = 13;
-    const ESCAPE = 27;
+    const ENTER = 13
+    const ESCAPE = 27
     if (e.keyCode === ENTER) {
-      this.save();
+      this.save()
     }
     if (e.keyCode === ESCAPE) {
-      this.closeWithoutSaving();
+      this.closeWithoutSaving()
     }
-  };
+  }
 
   closeWithoutSaving = () => {
-    state.ui.addingComponent = false;
-    return;
-  };
+    state.ui.addingComponent = false
+    return
+  }
 
   save = () => {
     if (!this.state.value) {
-      this.closeWithoutSaving();
-      return;
+      this.closeWithoutSaving()
+      return
     }
 
-    const newId = uuid();
+    const newId = uuid()
     const newComponent = {
       name: this.state.value,
       selectedNode: 'rootId',
@@ -76,20 +76,20 @@ class AddComponent extends React.Component {
         },
         children: [],
       },
-    } as Component;
-    state.router.path = RouterPaths.component;
-    state.router.componentId = newId;
-    state.components[newId] = newComponent;
-    state.ui.addingComponent = false;
-  };
+    } as Component
+    state.router.path = RouterPaths.component
+    state.router.componentId = newId
+    state.components[newId] = newComponent
+    state.ui.addingComponent = false
+  }
 
   render() {
     return (
       <ClickOutside onClickOutside={this.save}>
         <Input value={this.state.value} name="AddComponent" autoFocus={true} onChange={this.updateValue} />
       </ClickOutside>
-    );
+    )
   }
 }
 
-export default view(AddComponent);
+export default view(AddComponent)

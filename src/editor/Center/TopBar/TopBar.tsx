@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import state from '@state';
-import { ComponentView } from '@src/interfaces';
-import {view} from "react-easy-state/dist/es.es6";
+import * as React from 'react'
+import styled from 'styled-components'
+import state from '@state'
+import { ComponentView } from '@src/interfaces'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const TopBar = styled.div`
   padding: 8px 22px;
@@ -13,7 +13,7 @@ const TopBar = styled.div`
   align-items: center;
   font-size: 24px;
   user-select: none;
-`;
+`
 
 const Divider = styled.div`
   width: 3px;
@@ -22,15 +22,15 @@ const Divider = styled.div`
   background: #dfdfdf;
   border-radius: 5px;
   margin: 0 4px;
-`;
+`
 
 const selectComponentView = (view: ComponentView) => () => {
-  state.ui.componentView = view;
-};
+  state.ui.componentView = view
+}
 
 const showAddComponentMenu = () => {
-  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu;
-};
+  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
+}
 
 export default view(() => (
   <TopBar>
@@ -110,4 +110,4 @@ export default view(() => (
     <Divider />
     <i className="material-icons">settings</i>
   </TopBar>
-));
+))

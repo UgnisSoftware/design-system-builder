@@ -1,20 +1,20 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
-import state from '@state';
-import { RouterPaths } from '@src/interfaces';
+import state from '@state'
+import { RouterPaths } from '@src/interfaces'
 
-import AddComponentInput from './AddComponentInput';
-import ComponentItem, { Item } from './ComponentItem';
-import { route } from '@src/editor/actions';
-import {view} from "react-easy-state/dist/es.es6";
+import AddComponentInput from './AddComponentInput'
+import ComponentItem, { Item } from './ComponentItem'
+import { route } from '@src/editor/actions'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const LeftMenu = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
   background: rgb(248, 248, 248);
   flex: 0 0 200px;
   user-select: none;
-`;
+`
 
 const I = styled.i`
   position: absolute;
@@ -30,7 +30,7 @@ const I = styled.i`
     color: #53d585;
     opacity: 1;
   }
-`;
+`
 
 const Title = styled.div`
   position: relative;
@@ -43,11 +43,11 @@ const Title = styled.div`
   user-select: none;
   display: flex;
   align-items: center;
-`;
+`
 
 const addComponent = () => {
   state.ui.addingComponent = true
-};
+}
 
 export default view(() => (
   <LeftMenu>
@@ -67,6 +67,8 @@ export default view(() => (
       )}
     </Title>
     {state.ui.addingComponent && <AddComponentInput />}
-    {Object.keys(state.components).map(componentId => <ComponentItem key={componentId} id={componentId} />)}
+    {Object.keys(state.components).map(componentId => (
+      <ComponentItem key={componentId} id={componentId} />
+    ))}
   </LeftMenu>
-));
+))

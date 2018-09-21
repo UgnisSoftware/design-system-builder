@@ -1,25 +1,25 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
-import state from '@state';
-import H1 from '@components/H1';
-import PlusSign from '@components/PlusSign';
-import ColorBoxWithPicker from './ColorBoxWithPicker';
-import { uuid } from '@src/editor/utils';
-import SpacingSize from './SpacingSize';
-import { SpacingSizeName } from '@src/interfaces';
-import { view } from 'react-easy-state/dist/es.es6';
+import state from '@state'
+import H1 from '@components/H1'
+import PlusSign from '@components/PlusSign'
+import ColorBoxWithPicker from './ColorBoxWithPicker'
+import { uuid } from '@src/editor/utils'
+import SpacingSize from './SpacingSize'
+import { SpacingSizeName } from '@src/interfaces'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   padding: 24px;
   flex: 1;
-`;
+`
 
 const ColorWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-`;
+`
 
 const AddColorBox = styled.div`
   cursor: pointer;
@@ -40,25 +40,27 @@ const AddColorBox = styled.div`
   &:hover {
     background-color: rgb(232, 232, 233);
   }
-`;
+`
 
 const SpacingWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-`;
+`
 
 const onAddColorClick = () => {
-  const id = uuid();
+  const id = uuid()
 
-  state.ui.editingColorId = id;
-  state.colors[id] = { name: 'Grey', hex: '#98a1a4' };
-};
+  state.ui.editingColorId = id
+  state.colors[id] = { name: 'Grey', hex: '#98a1a4' }
+}
 
 const ColorsAndSpacing = () => (
   <Wrapper>
     <H1>Colors</H1>
     <ColorWrapper>
-      {Object.keys(state.colors).map(id => <ColorBoxWithPicker key={id} colorId={id} />)}
+      {Object.keys(state.colors).map(id => (
+        <ColorBoxWithPicker key={id} colorId={id} />
+      ))}
       <AddColorBox onClick={onAddColorClick}>
         <PlusSign />
       </AddColorBox>
@@ -73,6 +75,6 @@ const ColorsAndSpacing = () => (
       <SpacingSize spacingSizeName={SpacingSizeName.XL} />
     </SpacingWrapper>
   </Wrapper>
-);
+)
 
-export default view(ColorsAndSpacing);
+export default view(ColorsAndSpacing)

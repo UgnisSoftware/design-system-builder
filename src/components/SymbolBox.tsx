@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const SymbolBox = styled.span`
   border: 2px solid rgba(0, 0, 0, 0.15);
@@ -10,6 +10,6 @@ const SymbolBox = styled.span`
   margin-right: 24px;
   vertical-align: middle;
   line-height: 45px;
-`;
+`
 
-export default SymbolBox;
+export default SymbolBox

@@ -20,5 +20,5 @@
       "@components/*": ["src/components/*"]
     }
   },
-  "exclude": ["node_modules", "src_old"]
+  "exclude": ["node_modules"]
 }

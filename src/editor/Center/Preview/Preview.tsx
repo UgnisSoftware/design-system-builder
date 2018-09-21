@@ -1,19 +1,19 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import state from '@state';
-import { ComponentView } from '@src/interfaces';
-import AddComponentMenu from './AddComponentMenu/AddComponentMenu';
-import Component from '@src/editor/Center/Preview/ComponentView/_Component';
-import {view} from "react-easy-state/dist/es.es6";
+import * as React from 'react'
+import styled from 'styled-components'
+import state from '@state'
+import { ComponentView } from '@src/interfaces'
+import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
+import Component from '@src/editor/Center/Preview/ComponentView/_Component'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex: 1;
-`;
+`
 
 interface Props {
-  sidebarOpen: boolean;
+  sidebarOpen: boolean
 }
 
 const Preview = styled.div`
@@ -28,7 +28,7 @@ const Preview = styled.div`
   filter: ${(props: Props) => (props.sidebarOpen ? 'blur(10px) saturate(0.8)' : 'none')};
   overflow: auto;
   perspective: 1000px;
-`;
+`
 
 const CenterComponent = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const CenterComponent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 
 const ContentLoaderWrapperTop = styled.div`
   flex: 1 1 auto;
@@ -46,11 +46,11 @@ const ContentLoaderWrapperTop = styled.div`
   justify-content: flex-end;
   align-items: center;
   overflow: hidden;
-`;
+`
 
 const ContentLoaderWrapperBottom = styled(ContentLoaderWrapperTop)`
   justify-content: flex-start;
-`;
+`
 
 const ContentTop = () => (
   <ContentLoaderWrapperTop>
@@ -63,7 +63,7 @@ const ContentTop = () => (
       <circle cx="30" cy="60" r="30" />
     </svg>
   </ContentLoaderWrapperTop>
-);
+)
 
 const ContentBottom = () => (
   <ContentLoaderWrapperBottom>
@@ -75,12 +75,12 @@ const ContentBottom = () => (
       <rect x="0" y="80" rx="3" ry="3" width="201" height="6.4" />
     </svg>
   </ContentLoaderWrapperBottom>
-);
+)
 
 export default view(() => {
-  const component = state.components[state.router.componentId];
-  const showTopAndBottom = state.ui.componentView === ComponentView.CenterWithTopAndBottom;
-  const showRepeated = state.ui.componentView === ComponentView.Repeated;
+  const component = state.components[state.router.componentId]
+  const showTopAndBottom = state.ui.componentView === ComponentView.CenterWithTopAndBottom
+  const showRepeated = state.ui.componentView === ComponentView.Repeated
   return (
     <Wrapper>
       <Preview sidebarOpen={state.ui.showAddComponentMenu}>
@@ -94,5 +94,5 @@ export default view(() => {
       </Preview>
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Wrapper>
-  );
-});
+  )
+})

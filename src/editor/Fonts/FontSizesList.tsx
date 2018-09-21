@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import FontSizeRow from './FontSizeRow';
-import { FontSizeName } from '@src/interfaces';
+import FontSizeRow from './FontSizeRow'
+import { FontSizeName } from '@src/interfaces'
 
 const FontSizesList = () => (
   <>
@@ -11,6 +11,6 @@ const FontSizesList = () => (
     <FontSizeRow fontSizeName={FontSizeName.L} />
     <FontSizeRow fontSizeName={FontSizeName.XL} />
   </>
-);
+)
 
-export default FontSizesList;
+export default FontSizesList

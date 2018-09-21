@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 const PlusSign = () => (
   <svg
@@ -22,6 +22,6 @@ const PlusSign = () => (
       />
     </g>
   </svg>
-);
+)
 
-export default PlusSign;
+export default PlusSign

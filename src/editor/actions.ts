@@ -1,6 +1,6 @@
-import state from '@state';
+import state from '@state'
 
 export const route = (path, componentId?) => () => {
-  state.router.path = path;
-  state.router.componentId = componentId;
-};
+  state.router.path = path
+  state.router.componentId = componentId
+}

@@ -1,20 +1,20 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
-import state from '@state';
-import { RouterPaths } from '@src/interfaces';
+import state from '@state'
+import { RouterPaths } from '@src/interfaces'
 
-import Fonts from './Fonts/Fonts';
-import LeftMenu from './LeftMenu/LeftMenu';
-import Center from './Center/Center';
-import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing';
-import { view } from 'react-easy-state/dist/es.es6.js';
+import Fonts from './Fonts/Fonts'
+import LeftMenu from './LeftMenu/LeftMenu'
+import Center from './Center/Center'
+import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing'
+import { view } from 'react-easy-state/dist/es.es6.js'
 
 const Root = styled.div`
   display: flex;
   height: 100%;
   user-select: none;
-`;
+`
 
 const Editor = () => {
   return (
@@ -24,7 +24,7 @@ const Editor = () => {
       {state.router.path === RouterPaths.fonts && <Fonts />}
       {state.router.path === RouterPaths.component && <Center />}
     </Root>
-  );
-};
+  )
+}
 
-export default view(Editor);
+export default view(Editor)

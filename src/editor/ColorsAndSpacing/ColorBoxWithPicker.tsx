@@ -1,18 +1,18 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { ChromePicker } from 'react-color';
-import ClickOutside from 'react-click-outside';
+import * as React from 'react'
+import styled from 'styled-components'
+import { ChromePicker } from 'react-color'
+import ClickOutside from 'react-click-outside'
 
-import state from '@state';
-import {view} from "react-easy-state/dist/es.es6";
+import state from '@state'
+import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   position: relative;
   margin-bottom: 16px;
-`;
+`
 
 interface ColorBoxProps {
-  color: string;
+  color: string
 }
 
 const ColorBox = styled.div`
@@ -22,7 +22,7 @@ const ColorBox = styled.div`
   border-radius: 7%;
   margin: 0 16px 0 0;
   background-color: ${(props: ColorBoxProps) => props.color};
-`;
+`
 
 const Input = styled.input`
   outline: 0;
@@ -38,66 +38,66 @@ const Input = styled.input`
   &:focus {
     box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.85);
   }
-`;
+`
 
 const ColorWithInputWrapper = styled.div`
   display: flex;
-`;
+`
 
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   padding: 2px 0;
-    margin-right: 15px;
-`;
+  margin-right: 15px;
+`
 
 const PickerWrapper = styled.div`
   z-index: 1;
   position: absolute;
   top: 110%;
   left: 0;
-`;
+`
 
 interface ColorBoxWithPickerProps {
-  colorId: string;
+  colorId: string
 }
 
 interface Color {
-  hex: string;
+  hex: string
   rgb: {
-    r: number;
-    g: number;
-    b: number;
-    a: number;
-  };
+    r: number
+    g: number
+    b: number
+    a: number
+  }
   hsl: {
-    h: number;
-    s: number;
-    l: number;
-    a: number;
-  };
+    h: number
+    s: number
+    l: number
+    a: number
+  }
 }
 
 const onEditingColorChange = id => () => {
-  state.ui.editingColorId = id;
-};
+  state.ui.editingColorId = id
+}
 
 const onClickOutside = () => {
-  state.ui.editingColorId = '';
-};
+  state.ui.editingColorId = ''
+}
 
 const onColorChange = (colorId: string) => (color: Color) => {
-  state.colors[colorId].hex = color.hex;
-};
+  state.colors[colorId].hex = color.hex
+}
 
 const onColorNameChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.colors[colorId].name = event.target.value;
-};
+  state.colors[colorId].name = event.target.value
+}
 
 const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.colors[colorId].hex = event.target.value;
-};
+  state.colors[colorId].hex = event.target.value
+}
 
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
@@ -130,6 +130,6 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
       </ClickOutside>
     )}
   </Wrapper>
-);
+)
 
-export default view(ColorBoxWithPicker);
+export default view(ColorBoxWithPicker)

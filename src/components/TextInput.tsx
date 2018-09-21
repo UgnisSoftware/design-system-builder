@@ -1,26 +1,26 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
 interface Props {
-  name: string; // TODO remove, looks useless?
-  label?: string;
-  value: string;
-  className?: string;
-  autoFocus?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string // TODO remove, looks useless?
+  label?: string
+  value: string
+  className?: string
+  autoFocus?: boolean
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   max-width: 250px;
-`;
+`
 
 const Label = styled.label`
   font-size: 12px;
   font-weight: 400;
   padding-bottom: 7px;
-`;
+`
 
 const Input = styled.input`
   all: unset;
@@ -41,7 +41,7 @@ const Input = styled.input`
   &:focus ~ ${Label} {
     font-weight: 500;
   }
-`;
+`
 
 const TextInput = ({ name, label, value, onChange, className, autoFocus }: Props) => (
   <Wrapper className={className}>
@@ -59,6 +59,6 @@ const TextInput = ({ name, label, value, onChange, className, autoFocus }: Props
     />
     {label && <Label htmlFor={name}>{label}</Label>}
   </Wrapper>
-);
+)
 
-export default TextInput;
+export default TextInput

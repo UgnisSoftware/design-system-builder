@@ -1,15 +1,15 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
-import ClickOutside from 'react-click-outside';
+import * as React from 'react'
+import styled, { css } from 'styled-components'
+import ClickOutside from 'react-click-outside'
 
-import state from '@state';
-import { RouterPaths } from '@src/interfaces';
-import TextInput from '@components/TextInput';
-import {route} from "@src/editor/actions";
-import {view} from "react-easy-state/dist/es.es6";
+import state from '@state'
+import { RouterPaths } from '@src/interfaces'
+import TextInput from '@components/TextInput'
+import { route } from '@src/editor/actions'
+import { view } from 'react-easy-state/dist/es.es6'
 
 interface ItemProps {
-  selected?: boolean;
+  selected?: boolean
 }
 export const Item = styled.div`
   font-size: 16px;
@@ -31,7 +31,7 @@ export const Item = styled.div`
       background: rgb(219, 219, 219);
       border-right: 3px solid rgb(83, 212, 134);
     `};
-`;
+`
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -42,80 +42,80 @@ const Input = styled(TextInput)`
   justify-content: center;
   background: rgb(232, 232, 233);
   border-right: 3px solid rgb(83, 212, 134);
-`;
+`
 
 interface Props {
-  id: string;
+  id: string
 }
 
 interface State {
-  name: string;
-  isEditingName: boolean;
+  name: string
+  isEditingName: boolean
 }
 
 class ComponentItem extends React.Component<Props, State> {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       name: state.components[this.props.id].name,
       isEditingName: false,
-    };
+    }
   }
 
   edit = () => {
-    this.setState({ isEditingName: true });
-  };
+    this.setState({ isEditingName: true })
+  }
 
   save = () => {
     if (this.state.name) {
       state.components[this.props.id].name = this.state.name
-      this.setState({ isEditingName: false });
+      this.setState({ isEditingName: false })
     } else {
-      this.closeWithoutSaving();
+      this.closeWithoutSaving()
     }
-  };
+  }
 
   closeWithoutSaving = () => {
     this.setState({
       name: state.components[this.props.id].name,
       isEditingName: false,
-    });
-  };
+    })
+  }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.maybeSave);
+    document.addEventListener('keydown', this.maybeSave)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.maybeSave);
+    document.removeEventListener('keydown', this.maybeSave)
   }
 
   maybeSave = e => {
-    const ENTER = 13;
-    const ESCAPE = 27;
+    const ENTER = 13
+    const ESCAPE = 27
     if (e.keyCode === ENTER) {
-      this.save();
+      this.save()
     }
     if (e.keyCode === ESCAPE) {
-      this.closeWithoutSaving();
+      this.closeWithoutSaving()
     }
-  };
+  }
 
   updateName = e => {
-    this.setState({ name: e.target.value });
-  };
+    this.setState({ name: e.target.value })
+  }
 
   render() {
-    const id = this.props.id;
-    const component = state.components[id];
+    const id = this.props.id
+    const component = state.components[id]
 
     if (this.state.isEditingName) {
       return (
         <ClickOutside onClickOutside={this.save}>
           <Input value={this.state.name} name="AddComponent" autoFocus={true} onChange={this.updateName} />
         </ClickOutside>
-      );
+      )
     }
     return (
       <Item
@@ -125,8 +125,8 @@ class ComponentItem extends React.Component<Props, State> {
       >
         {component.name}
       </Item>
-    );
+    )
   }
 }
 
-export default view(ComponentItem);
+export default view(ComponentItem)

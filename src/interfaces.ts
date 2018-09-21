@@ -22,8 +22,8 @@ export enum RouterPaths {
 }
 
 interface Router {
-  path: RouterPaths;
-  componentId?: string;
+  path: RouterPaths
+  componentId?: string
 }
 
 export enum NodeTypes {
@@ -41,80 +41,80 @@ export enum ViewTypes {
   Repeaated = 'Repeaated',
 }
 
-type Direction = number;
+type Direction = number
 
 interface AllDirections {
-  top?: Direction;
-  bottom?: Direction;
-  left?: Direction;
-  right?: Direction;
+  top?: Direction
+  bottom?: Direction
+  left?: Direction
+  right?: Direction
 }
 
 export interface TextNode {
-  id: string;
-  type: NodeTypes.Text;
-  fontSize: FontSizeName;
-  text: string;
+  id: string
+  type: NodeTypes.Text
+  fontSize: FontSizeName
+  text: string
   position?: AllDirections
 }
 
 export interface BoxNode {
-  id: string;
-  type: NodeTypes.Box;
+  id: string
+  type: NodeTypes.Box
   size: {
-    width: number | 'auto';
-    height: number | 'auto';
-  };
-  position: AllDirections;
-  padding?: AllDirections;
-  margin?: AllDirections;
-  border?: AllDirections;
+    width: number | 'auto'
+    height: number | 'auto'
+  }
+  position: AllDirections
+  padding?: AllDirections
+  margin?: AllDirections
+  border?: AllDirections
   background?: {
-    color: string;
-  };
-  children: AnyNode[];
+    color: string
+  }
+  children: AnyNode[]
 }
 
 export interface RootNode {
-  id: string;
-  type: NodeTypes.Root;
+  id: string
+  type: NodeTypes.Root
   size: {
-    width: number;
-    height: number;
-  };
-  position: AllDirections;
-  padding?: AllDirections;
-  margin?: AllDirections;
-  border?: AllDirections;
+    width: number
+    height: number
+  }
+  position: AllDirections
+  padding?: AllDirections
+  margin?: AllDirections
+  border?: AllDirections
   background?: {
-    color: string;
-  };
-  children: AnyNode[];
+    color: string
+  }
+  children: AnyNode[]
 }
 
-export type AnyNode = RootNode | BoxNode | TextNode;
+export type AnyNode = RootNode | BoxNode | TextNode
 
 export interface Component {
-  name: string;
-  viewMode: ViewTypes;
-  selectedNode: string;
-  root: RootNode;
+  name: string
+  viewMode: ViewTypes
+  selectedNode: string
+  root: RootNode
 }
 
 interface Color {
-  name: string;
-  hex: string;
+  name: string
+  hex: string
 }
 
 interface FontSize {
-  fontSize: string;
-  lineHeight: string;
+  fontSize: string
+  lineHeight: string
 }
 
 interface Font {
-  fontName: string;
-  fontUrl: string;
-  sizes: { [size in FontSizeName]: FontSize };
+  fontName: string
+  fontUrl: string
+  sizes: { [size in FontSizeName]: FontSize }
 }
 
 export enum ComponentView {
@@ -127,17 +127,17 @@ export enum ComponentView {
 }
 
 export interface State {
-  router: Router;
-  components: { [id: string]: Component };
-  colors: { [id: string]: Color };
-  spacing: { [size in SpacingSizeName]: string };
-  font: Font;
+  router: Router
+  components: { [id: string]: Component }
+  colors: { [id: string]: Color }
+  spacing: { [size in SpacingSizeName]: string }
+  font: Font
   ui: {
-    componentView: ComponentView;
-    editingColorId: string;
-    editingTextNode: boolean;
-    addingComponent: boolean;
-    showAddComponentMenu: boolean;
-    selectedNodeId: string;
-  };
+    componentView: ComponentView
+    editingColorId: string
+    editingTextNode: boolean
+    addingComponent: boolean
+    showAddComponentMenu: boolean
+    selectedNodeId: string
+  }
 }

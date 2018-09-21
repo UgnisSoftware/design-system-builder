@@ -1,13 +1,5 @@
-import { store } from 'react-easy-state/dist/es.es6.js';
-import {
-  FontSizeName,
-  RouterPaths,
-  SpacingSizeName,
-  State,
-  NodeTypes,
-  ViewTypes,
-  ComponentView,
-} from '@src/interfaces';
+import { store } from 'react-easy-state/dist/es.es6.js'
+import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes, ComponentView } from '@src/interfaces'
 
 const defaultState: State = {
   router: {
@@ -197,6 +189,6 @@ const defaultState: State = {
     showAddComponentMenu: false,
     selectedNodeId: '',
   },
-};
+}
 
-export default store(defaultState);
+export default store(defaultState)
