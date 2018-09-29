@@ -4,7 +4,6 @@ import state from '@state'
 import { BoxNode, FontSizeName, NodeTypes, TextNode } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 import { startComponentDrag } from '@src/editor/Center/Preview/ComponentView/_Component'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Menu = styled.div`
   background: rgba(244, 255, 244, 0.6);
@@ -93,7 +92,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
   startComponentDrag(newNode)(event)
 }
 
-export default view(() => {
+export default () => {
   return (
     <Menu>
       <ComponentWrapper>
@@ -108,4 +107,4 @@ export default view(() => {
       {/*{Object.keys(state.components).map(componentId => <span>{state.components[componentId].name}</span>)}*/}
     </Menu>
   )
-})
+}

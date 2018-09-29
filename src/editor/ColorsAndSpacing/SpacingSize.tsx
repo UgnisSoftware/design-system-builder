@@ -5,7 +5,6 @@ import SymbolBox from '@components/SymbolBox'
 import { SpacingSizeName } from '@src/interfaces'
 import state from '@state'
 import TextInput from '@components/TextInput'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,4 +32,4 @@ const SpacingSize = ({ spacingSizeName }: SpacingSizeProps) => (
   </Wrapper>
 )
 
-export default view(SpacingSize)
+export default SpacingSize

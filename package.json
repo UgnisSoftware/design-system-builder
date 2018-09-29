@@ -10,11 +10,11 @@
   },
   "author": "Karolis Masiulis",
   "dependencies": {
+    "lape": "4.0.4",
     "react": "16.5.1",
     "react-click-outside": "github:tj/react-click-outside",
     "react-color": "2.14.1",
     "react-dom": "16.5.1",
-    "react-easy-state": "5.1.0",
     "styled-components": "3.4.6"
   },
   "devDependencies": {

@@ -2,9 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { ComponentView } from '@src/interfaces'
-import { view } from 'react-easy-state/dist/es.es6'
 
-const TopBar = styled.div`
+const TopBarBox = styled.div`
   padding: 8px 22px;
   background: rgb(0, 0, 0, 0.028);
   box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
@@ -32,8 +31,8 @@ const showAddComponentMenu = () => {
   state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
 }
 
-export default view(() => (
-  <TopBar>
+const TopBar = () => (
+  <TopBarBox>
     <i className="material-icons" onClick={showAddComponentMenu}>
       {state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
     </i>
@@ -109,5 +108,7 @@ export default view(() => (
     </i>
     <Divider />
     <i className="material-icons">settings</i>
-  </TopBar>
-))
+  </TopBarBox>
+)
+
+export default TopBar

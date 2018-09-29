@@ -5,7 +5,6 @@ import state from '@state'
 import TextInput from '@src/components/TextInput'
 import { FontSizeName } from '@src/interfaces'
 import SymbolBox from '@components/SymbolBox'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   display: flex;
@@ -70,4 +69,4 @@ const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
   </Wrapper>
 )
 
-export default view(FontSizeRow)
+export default FontSizeRow

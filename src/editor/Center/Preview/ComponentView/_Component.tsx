@@ -2,7 +2,6 @@ import * as React from 'react'
 import { BoxNode, TextNode, NodeTypes, RootNode, ComponentView } from '@src/interfaces'
 import state from '@state'
 import styled, { css } from 'styled-components'
-import { view } from 'react-easy-state/dist/es.es6'
 
 export const startComponentDrag = component => e => {
   e.preventDefault()
@@ -51,7 +50,7 @@ const TextWrapper = styled.span`
 interface TextProps {
   component: TextNode
 }
-const TextComponent = view(({ component }: TextProps) => (
+const TextComponent = ({ component }: TextProps) => (
   <TextWrapper
     style={{
       position: 'absolute',
@@ -63,7 +62,7 @@ const TextComponent = view(({ component }: TextProps) => (
   >
     {component.text}
   </TextWrapper>
-))
+)
 
 const Boxxy = styled.div`
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
@@ -73,7 +72,7 @@ const Boxxy = styled.div`
 interface BoxProps {
   component: BoxNode
 }
-const BoxComponent = view(({ component }: BoxProps) => (
+const BoxComponent = ({ component }: BoxProps) => (
   <Boxxy
     style={{
       position: 'absolute',
@@ -89,7 +88,7 @@ const BoxComponent = view(({ component }: BoxProps) => (
       <Component key={component.id} component={component} />
     ))}
   </Boxxy>
-))
+)
 
 const X = styled.div`
   position: absolute;
@@ -245,7 +244,7 @@ const Rooty = styled.div`
 interface RootProps {
   component: RootNode
 }
-const RootComponent = view(({ component }: RootProps) => (
+const RootComponent = ({ component }: RootProps) => (
   <Rooty id="_rootComponent">
     <X>{component.size.width}</X>
     <Y>{component.size.height}</Y>
@@ -270,7 +269,7 @@ const RootComponent = view(({ component }: RootProps) => (
       ))}
     </div>
   </Rooty>
-))
+)
 
 interface Props {
   component: RootNode | BoxNode | TextNode

@@ -8,7 +8,6 @@ import ColorBoxWithPicker from './ColorBoxWithPicker'
 import { uuid } from '@src/editor/utils'
 import SpacingSize from './SpacingSize'
 import { SpacingSizeName } from '@src/interfaces'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -77,4 +76,4 @@ const ColorsAndSpacing = () => (
   </Wrapper>
 )
 
-export default view(ColorsAndSpacing)
+export default ColorsAndSpacing

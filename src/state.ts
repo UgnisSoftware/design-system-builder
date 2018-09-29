@@ -1,4 +1,4 @@
-import { store } from 'react-easy-state/dist/es.es6.js'
+import { proxify } from 'lape'
 import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes, ComponentView } from '@src/interfaces'
 
 const defaultState: State = {
@@ -191,4 +191,4 @@ const defaultState: State = {
   },
 }
 
-export default store(defaultState)
+export default proxify(defaultState)

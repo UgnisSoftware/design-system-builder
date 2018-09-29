@@ -7,9 +7,8 @@ import { RouterPaths } from '@src/interfaces'
 import AddComponentInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { route } from '@src/editor/actions'
-import { view } from 'react-easy-state/dist/es.es6'
 
-const LeftMenu = styled.div`
+const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
   background: rgb(248, 248, 248);
   flex: 0 0 200px;
@@ -49,8 +48,8 @@ const addComponent = () => {
   state.ui.addingComponent = true
 }
 
-export default view(() => (
-  <LeftMenu>
+const LeftMenu = () => (
+  <LeftMenuBox>
     <Title>Styles</Title>
     <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
       Colors & Spacing
@@ -70,5 +69,7 @@ export default view(() => (
     {Object.keys(state.components).map(componentId => (
       <ComponentItem key={componentId} id={componentId} />
     ))}
-  </LeftMenu>
-))
+  </LeftMenuBox>
+)
+
+export default LeftMenu

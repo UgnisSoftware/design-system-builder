@@ -4,7 +4,6 @@ import { ChromePicker } from 'react-color'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   position: relative;
@@ -132,4 +131,4 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   </Wrapper>
 )
 
-export default view(ColorBoxWithPicker)
+export default ColorBoxWithPicker

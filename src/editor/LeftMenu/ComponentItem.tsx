@@ -6,7 +6,6 @@ import state from '@state'
 import { RouterPaths } from '@src/interfaces'
 import TextInput from '@components/TextInput'
 import { route } from '@src/editor/actions'
-import { view } from 'react-easy-state/dist/es.es6'
 
 interface ItemProps {
   selected?: boolean
@@ -129,4 +128,4 @@ class ComponentItem extends React.Component<Props, State> {
   }
 }
 
-export default view(ComponentItem)
+export default ComponentItem

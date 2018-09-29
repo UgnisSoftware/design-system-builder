@@ -6,7 +6,6 @@ import state from '@state'
 import { uuid } from '@src/editor/utils'
 import TextInput from '@components/TextInput'
 import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -92,4 +91,4 @@ class AddComponent extends React.Component {
   }
 }
 
-export default view(AddComponent)
+export default AddComponent

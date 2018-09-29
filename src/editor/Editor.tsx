@@ -8,7 +8,6 @@ import Fonts from './Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'
 import Center from './Center/Center'
 import ColorsAndSpacing from './ColorsAndSpacing/ColorsAndSpacing'
-import { view } from 'react-easy-state/dist/es.es6.js'
 
 const Root = styled.div`
   display: flex;
@@ -27,4 +26,4 @@ const Editor = () => {
   )
 }
 
-export default view(Editor)
+export default Editor

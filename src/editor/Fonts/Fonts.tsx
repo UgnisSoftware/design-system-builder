@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import state from '@state'
 import FontSizesList from './FontSizesList'
 import H1 from '@components/H1'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -20,4 +19,4 @@ const FontsPage = () => (
   </Wrapper>
 )
 
-export default view(FontsPage)
+export default FontsPage

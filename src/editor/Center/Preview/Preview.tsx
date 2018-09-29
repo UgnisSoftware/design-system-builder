@@ -4,7 +4,6 @@ import state from '@state'
 import { ComponentView } from '@src/interfaces'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Center/Preview/ComponentView/_Component'
-import { view } from 'react-easy-state/dist/es.es6'
 
 const Wrapper = styled.div`
   position: relative;
@@ -16,7 +15,7 @@ interface Props {
   sidebarOpen: boolean
 }
 
-const Preview = styled.div`
+const PreviewBox = styled.div`
   flex: 1;
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px,
@@ -77,13 +76,13 @@ const ContentBottom = () => (
   </ContentLoaderWrapperBottom>
 )
 
-export default view(() => {
+const Preview = () => {
   const component = state.components[state.router.componentId]
   const showTopAndBottom = state.ui.componentView === ComponentView.CenterWithTopAndBottom
   const showRepeated = state.ui.componentView === ComponentView.Repeated
   return (
     <Wrapper>
-      <Preview sidebarOpen={state.ui.showAddComponentMenu}>
+      <PreviewBox sidebarOpen={state.ui.showAddComponentMenu}>
         {showTopAndBottom && <ContentTop />}
         <CenterComponent>
           {showRepeated && <Component component={component.root} />}
@@ -91,8 +90,10 @@ export default view(() => {
           {showRepeated && <Component component={component.root} />}
         </CenterComponent>
         {showTopAndBottom && <ContentBottom />}
-      </Preview>
+      </PreviewBox>
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Wrapper>
   )
-})
+}
+
+export default Preview

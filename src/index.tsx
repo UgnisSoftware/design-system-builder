@@ -1,6 +1,6 @@
 import { render } from 'react-dom'
 import * as React from 'react'
-import { view } from 'react-easy-state/dist/es.es6.js'
+import { connect } from 'lape'
 
 import Editor from './editor/Editor'
 let node = document.getElementById('editor')
@@ -20,6 +20,6 @@ if ((module as any).hot) {
   ;(module as any).hot.accept()
 }
 
-const WrappedRoot = view(Root)
+const WrappedRoot = connect(Root)
 
 render(<WrappedRoot />, node)
