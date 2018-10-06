@@ -4,6 +4,7 @@ import state from '@state'
 import { ComponentView } from '@src/interfaces'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Center/Preview/ComponentView/_Component'
+import {connect} from "lape";
 
 const Wrapper = styled.div`
   position: relative;
@@ -96,4 +97,4 @@ const Preview = () => {
   )
 }
 
-export default Preview
+export default connect(Preview)

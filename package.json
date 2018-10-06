@@ -10,7 +10,7 @@
   },
   "author": "Karolis Masiulis",
   "dependencies": {
-    "lape": "4.0.4",
+    "lape": "4.0.5",
     "react": "16.5.1",
     "react-click-outside": "github:tj/react-click-outside",
     "react-color": "2.14.1",
