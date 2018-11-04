@@ -47,6 +47,10 @@ const defaultState: State = {
             type: NodeTypes.Text,
             fontSize: FontSizeName.XL,
             text: 'Hello',
+            size: {
+              width: 254,
+              height: 254,
+            },
             position: {
               top: 0,
               left: 0,
@@ -120,6 +124,10 @@ const defaultState: State = {
             position: {
               top: 0,
               left: 0,
+            },
+            size: {
+              width: 254,
+              height: 254,
             },
           },
         ],

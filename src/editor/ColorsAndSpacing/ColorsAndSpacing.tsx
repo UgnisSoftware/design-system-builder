@@ -8,6 +8,7 @@ import ColorBoxWithPicker from './ColorBoxWithPicker'
 import { uuid } from '@src/editor/utils'
 import SpacingSize from './SpacingSize'
 import { SpacingSizeName } from '@src/interfaces'
+import { colors } from './colorList'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -48,9 +49,10 @@ const SpacingWrapper = styled.div`
 
 const onAddColorClick = () => {
   const id = uuid()
+  const randomColor = colors[Math.floor(Math.random() * colors.length)]
 
   state.ui.editingColorId = id
-  state.colors[id] = { name: 'Grey', hex: '#98a1a4' }
+  state.colors[id] = randomColor
 }
 
 const ColorsAndSpacing = () => (

@@ -77,6 +77,10 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
     newNode = {
       id: newId,
       type: NodeTypes.Text,
+      size: {
+        width,
+        height,
+      },
       position: {
         left: box.left - root.left,
         top: box.top - root.top,

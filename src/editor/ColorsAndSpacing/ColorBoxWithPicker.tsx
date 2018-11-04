@@ -4,6 +4,7 @@ import { ChromePicker } from 'react-color'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
+import { findNearestColor } from './colorList'
 
 const Wrapper = styled.div`
   position: relative;
@@ -87,6 +88,7 @@ const onClickOutside = () => {
 }
 
 const onColorChange = (colorId: string) => (color: Color) => {
+  state.colors[colorId].name = findNearestColor(color.hex).name
   state.colors[colorId].hex = color.hex
 }
 

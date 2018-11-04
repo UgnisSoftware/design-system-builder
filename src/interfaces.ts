@@ -55,15 +55,21 @@ export interface TextNode {
   type: NodeTypes.Text
   fontSize: FontSizeName
   text: string
+  size: {
+    width: number
+    height: number
+  },
   position?: AllDirections
+  padding?: AllDirections
+  margin?: AllDirections
 }
 
 export interface BoxNode {
   id: string
   type: NodeTypes.Box
   size: {
-    width: number | 'auto'
-    height: number | 'auto'
+    width: number
+    height: number
   }
   position: AllDirections
   padding?: AllDirections

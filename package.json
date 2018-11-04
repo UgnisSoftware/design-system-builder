@@ -10,6 +10,7 @@
   },
   "author": "Karolis Masiulis",
   "dependencies": {
+    "chroma-js": "1.4.0",
     "lape": "4.0.5",
     "react": "16.5.1",
     "react-click-outside": "github:tj/react-click-outside",
@@ -18,6 +19,7 @@
     "styled-components": "3.4.6"
   },
   "devDependencies": {
+    "@types/chroma-js": "^1.4.0",
     "@types/react": "16.4.14",
     "@types/react-dom": "16.0.7",
     "body-parser": "1.18.3",
