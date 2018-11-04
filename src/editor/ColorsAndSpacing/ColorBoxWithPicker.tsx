@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ChromePicker } from 'react-color'
 import ClickOutside from 'react-click-outside'
+import chroma from 'chroma-js'
 
 import state from '@state'
 import { findNearestColor } from './colorList'
@@ -15,13 +16,34 @@ interface ColorBoxProps {
   color: string
 }
 
+const ColorDelete = styled.div`
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${({ color }: ColorBoxProps) => color};
+  color: ${({ color }: ColorBoxProps) => (chroma(color).luminance() > 0.5 ? 'black' : 'white')};
+  top: -4px;
+  right: -4px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+`
+
 const ColorBox = styled.div`
+  position: relative;
   cursor: pointer;
   width: 65px;
   height: 65px;
   border-radius: 7%;
   margin: 0 16px 0 0;
   background-color: ${(props: ColorBoxProps) => props.color};
+  &:hover ${ColorDelete} {
+    opacity: 1;
+  }
 `
 
 const Input = styled.input`
@@ -100,10 +122,19 @@ const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInpu
   state.colors[colorId].hex = event.target.value
 }
 
+const onDelete = (colorId: string) => () => {
+  const { [colorId]: color, ...rest } = state.colors
+  state.colors = rest
+}
+
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
     <ColorWithInputWrapper>
-      <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)} />
+      <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)}>
+        <ColorDelete color={state.colors[colorId].hex} onClick={onDelete(colorId)}>
+          <i className="material-icons">clear</i>
+        </ColorDelete>
+      </ColorBox>
       <InputWrapper>
         <Input
           type="text"
