@@ -6,6 +6,7 @@ import chroma from 'chroma-js'
 
 import state from '@state'
 import { findNearestColor } from './colorList'
+import {connect} from "lape";
 
 const Wrapper = styled.div`
   position: relative;
@@ -52,6 +53,9 @@ const Input = styled.input`
   padding-bottom: 5px;
   transition: all 200ms ease;
   width: 135px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   &:hover {
     box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.35);
@@ -129,6 +133,7 @@ const onDelete = (colorId: string) => () => {
 
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
+    {console.log(colorId)}
     <ColorWithInputWrapper>
       <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)}>
         <ColorDelete color={state.colors[colorId].hex} onClick={onDelete(colorId)}>
@@ -164,4 +169,4 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   </Wrapper>
 )
 
-export default ColorBoxWithPicker
+export default connect(ColorBoxWithPicker)
