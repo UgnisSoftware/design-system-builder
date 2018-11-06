@@ -9,7 +9,6 @@ const defaultState: State = {
   components: {
     'abcd-1234': {
       name: 'Button',
-      selectedNode: 'rootId',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
@@ -61,7 +60,6 @@ const defaultState: State = {
     },
     'ergefe-4356': {
       name: 'Link',
-      selectedNode: 'rootId',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
@@ -99,7 +97,6 @@ const defaultState: State = {
     },
     'wefwef-2344': {
       name: 'Icon',
-      selectedNode: 'rootId',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',

@@ -103,7 +103,6 @@ export type AnyNode = RootNode | BoxNode | TextNode
 export interface Component {
   name: string
   viewMode: ViewTypes
-  selectedNode: string
   root: RootNode
 }
 

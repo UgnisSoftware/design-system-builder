@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { BoxNode, RootNode, TextNode } from '@src/interfaces'
 import * as React from 'react'
+import state from '@state'
 
 const drag = (component: BoxNode | RootNode | TextNode, side: Direction) => e => {
-  e.stopPropagation();
+  e.stopPropagation()
   e.preventDefault()
   let currentX = e.touches ? e.touches[0].pageX : e.pageX
   let currentY = e.touches ? e.touches[0].pageY : e.pageY
@@ -50,10 +51,13 @@ const drag = (component: BoxNode | RootNode | TextNode, side: Direction) => e =>
   window.addEventListener('touchend', stopDragging)
 }
 
+interface DragProps {
+  selected: boolean
+}
+
 const SideDrag = styled.div`
   position: absolute;
   transition: border 0.3s;
-  border: rgba(0, 0, 0, 0) dashed 1px;
   &:hover {
     border: #565656 dashed 1px;
   }
@@ -65,6 +69,7 @@ const TopDrag = styled(SideDrag)`
   height: 12px;
   right: 0px;
   cursor: n-resize;
+  border: ${({ selected }: DragProps) => (selected ? `#565656 dashed 1px` : `rgba(0, 0, 0, 0) dashed 1px`)};
 `
 const BottomDrag = styled(SideDrag)`
   bottom: 0px;
@@ -72,6 +77,7 @@ const BottomDrag = styled(SideDrag)`
   height: 12px;
   right: 0px;
   cursor: s-resize;
+  border: ${({ selected }: DragProps) => (selected ? `#565656 dashed 1px` : `rgba(0, 0, 0, 0) dashed 1px`)};
 `
 const LeftDrag = styled(SideDrag)`
   top: 0px;
@@ -79,6 +85,7 @@ const LeftDrag = styled(SideDrag)`
   width: 12px;
   bottom: 0px;
   cursor: w-resize;
+  border: ${({ selected }: DragProps) => (selected ? `#565656 dashed 1px` : `rgba(0, 0, 0, 0) dashed 1px`)};
 `
 const RightDrag = styled(SideDrag)`
   top: 0px;
@@ -86,6 +93,7 @@ const RightDrag = styled(SideDrag)`
   width: 12px;
   bottom: 0px;
   cursor: e-resize;
+  border: ${({ selected }: DragProps) => (selected ? `#565656 dashed 1px` : `rgba(0, 0, 0, 0) dashed 1px`)};
 `
 
 const CornerDrag = styled.div`
@@ -140,10 +148,10 @@ interface Props {
 }
 const DragCorners = ({ component }: Props) => (
   <>
-    <TopDrag onMouseDown={drag(component, Direction.N)} />
-    <LeftDrag onMouseDown={drag(component, Direction.W)} />
-    <RightDrag onMouseDown={drag(component, Direction.E)} />
-    <BottomDrag onMouseDown={drag(component, Direction.S)} />
+    <TopDrag selected={state.ui.selectedNodeId === component.id} onMouseDown={drag(component, Direction.N)} />
+    <LeftDrag selected={state.ui.selectedNodeId === component.id} onMouseDown={drag(component, Direction.W)} />
+    <RightDrag selected={state.ui.selectedNodeId === component.id} onMouseDown={drag(component, Direction.E)} />
+    <BottomDrag selected={state.ui.selectedNodeId === component.id} onMouseDown={drag(component, Direction.S)} />
     <TopLeftDrag onMouseDown={drag(component, Direction.NW)} />
     <TopRightDrag onMouseDown={drag(component, Direction.NE)} />
     <BottomLeftDrag onMouseDown={drag(component, Direction.SW)} />
