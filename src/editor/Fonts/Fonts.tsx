@@ -11,11 +11,19 @@ const Wrapper = styled.div`
   flex: 1;
 `
 
+const FontRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
     <h2>{state.font.fontName}</h2>
+    <FontRow>
     <FontSizesList />
+    </FontRow>
   </Wrapper>
 )
 

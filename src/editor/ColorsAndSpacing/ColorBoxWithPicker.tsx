@@ -133,7 +133,6 @@ const onDelete = (colorId: string) => () => {
 
 const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
   <Wrapper>
-    {console.log(colorId)}
     <ColorWithInputWrapper>
       <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)}>
         <ColorDelete color={state.colors[colorId].hex} onClick={onDelete(colorId)}>

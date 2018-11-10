@@ -8,13 +8,17 @@ import SymbolBox from '@components/SymbolBox'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
 `
 
 const InputWrapper = styled.div`
   display: flex;
-  flex: 1 1 100%;
+  flex: 0 0 auto;
   margin-bottom: 20px;
+`
+
+
+const TopAllignedTextInput = styled(TextInput)`
+  justify-content: flex-end;
 `
 
 interface ExampleTextProps {
@@ -47,13 +51,13 @@ const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
   <Wrapper>
     <InputWrapper>
       <SymbolBox>{fontSizeName}</SymbolBox>
-      <TextInput
+      <TopAllignedTextInput
         name={`fontSize_${fontSizeName}`}
         label="Font Size"
         value={state.font.sizes[fontSizeName].fontSize}
         onChange={onFontSizeChange(fontSizeName)}
       />
-      <TextInput
+      <TopAllignedTextInput
         name={`lineHeight_${fontSizeName}`}
         label="Line height"
         value={state.font.sizes[fontSizeName].lineHeight}
