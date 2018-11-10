@@ -55,9 +55,8 @@ class AddComponent extends React.Component {
     }
 
     const newId = uuid()
-    const newComponent = {
+    const newComponent: Component = {
       name: this.state.value,
-      selectedNode: 'rootId',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
@@ -75,7 +74,7 @@ class AddComponent extends React.Component {
         },
         children: [],
       },
-    } as Component
+    }
     state.router.path = RouterPaths.component
     state.router.componentId = newId
     state.components[newId] = newComponent

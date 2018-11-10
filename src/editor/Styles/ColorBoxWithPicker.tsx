@@ -87,6 +87,7 @@ const PickerWrapper = styled.div`
 
 interface ColorBoxWithPickerProps {
   colorId: string
+  editing: boolean;
 }
 
 interface Color {
@@ -127,11 +128,10 @@ const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInpu
 }
 
 const onDelete = (colorId: string) => () => {
-  const { [colorId]: color, ...rest } = state.colors
-  state.colors = rest
+  delete state.colors[colorId]
 }
 
-const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
+const ColorBoxWithPicker = ({ colorId, editing }: ColorBoxWithPickerProps) => (
   <Wrapper>
     <ColorWithInputWrapper>
       <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)}>
@@ -158,7 +158,7 @@ const ColorBoxWithPicker = ({ colorId }: ColorBoxWithPickerProps) => (
         />
       </InputWrapper>
     </ColorWithInputWrapper>
-    {state.ui.editingColorId === colorId && (
+    {editing && (
       <ClickOutside onClickOutside={onClickOutside}>
         <PickerWrapper>
           <ChromePicker color={state.colors[colorId]} onChange={onColorChange(colorId)} />

@@ -3,8 +3,8 @@ import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes
 
 const defaultState: State = {
   router: {
-    path: RouterPaths.fonts,
-    componentId: undefined,
+    path: RouterPaths.component,
+    componentId: 'abcd-1234',
   },
   components: {
     'abcd-1234': {

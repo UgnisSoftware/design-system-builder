@@ -15,9 +15,7 @@ export enum SpacingSizeName {
 }
 
 export enum RouterPaths {
-  'default' = 'default',
-  'fonts' = 'fonts',
-  'colors' = 'colors',
+  'styles' = 'styles',
   'component' = 'component',
 }
 
