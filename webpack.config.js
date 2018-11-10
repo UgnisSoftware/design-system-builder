@@ -31,10 +31,6 @@ module.exports = {
         exclude: /node_modules/,
         include: path.resolve(__dirname, 'src'),
       },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader'],
-      },
     ],
   },
   optimization: {
