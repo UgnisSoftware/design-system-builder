@@ -23,12 +23,23 @@ const Divider = styled.div`
   margin: 0 4px;
 `
 
+const ColorBox = styled.div`
+  width: 24px;
+  height: 24px;
+  background: ${({color}: any) => color};
+  cursor: pointer;
+`
+
 const selectComponentView = (view: ComponentView) => () => {
   state.ui.componentView = view
 }
 
 const showAddComponentMenu = () => {
   state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
+}
+
+const changeBackground = (hex: string) => () => {
+  state.ui.selectedNode.background.color = hex
 }
 
 const TopBar = () => (
@@ -108,6 +119,7 @@ const TopBar = () => (
     </i>
     <Divider />
     <i className="material-icons">settings</i>
+    {Object.keys(state.colors).map((colorId)=> <ColorBox color={state.colors[colorId].hex} onClick={changeBackground(state.colors[colorId].hex)}/>)}
   </TopBarBox>
 )
 

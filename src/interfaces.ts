@@ -48,23 +48,10 @@ interface AllDirections {
   right?: Direction
 }
 
-export interface TextNode {
+export interface Node {
   id: string
-  type: NodeTypes.Text
-  fontSize: FontSizeName
-  text: string
-  size: {
-    width: number
-    height: number
-  },
-  position?: AllDirections
-  padding?: AllDirections
-  margin?: AllDirections
-}
-
-export interface BoxNode {
-  id: string
-  type: NodeTypes.Box
+  type: NodeTypes
+  text?: string
   size: {
     width: number
     height: number
@@ -76,32 +63,14 @@ export interface BoxNode {
   background?: {
     color: string
   }
-  children: AnyNode[]
+  fontSize?: FontSizeName
+  children: Node[]
 }
-
-export interface RootNode {
-  id: string
-  type: NodeTypes.Root
-  size: {
-    width: number
-    height: number
-  }
-  position: AllDirections
-  padding?: AllDirections
-  margin?: AllDirections
-  border?: AllDirections
-  background?: {
-    color: string
-  }
-  children: AnyNode[]
-}
-
-export type AnyNode = RootNode | BoxNode | TextNode
 
 export interface Component {
   name: string
   viewMode: ViewTypes
-  root: RootNode
+  root: Node
 }
 
 interface Color {
@@ -141,6 +110,6 @@ export interface State {
     editingTextNode: boolean
     addingComponent: boolean
     showAddComponentMenu: boolean
-    selectedNodeId: string
+    selectedNode: Node
   }
 }

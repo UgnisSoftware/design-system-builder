@@ -1,5 +1,14 @@
 import { proxify } from 'lape'
-import { FontSizeName, RouterPaths, SpacingSizeName, State, NodeTypes, ViewTypes, ComponentView } from '@src/interfaces'
+import {
+  FontSizeName,
+  RouterPaths,
+  SpacingSizeName,
+  State,
+  NodeTypes,
+  ViewTypes,
+  ComponentView,
+  Node
+} from '@src/interfaces'
 
 const defaultState: State = {
   router: {
@@ -54,6 +63,7 @@ const defaultState: State = {
               top: 0,
               left: 0,
             },
+            children: []
           },
         ],
       },
@@ -126,6 +136,7 @@ const defaultState: State = {
               width: 254,
               height: 254,
             },
+            children: [],
           },
         ],
       },
@@ -192,7 +203,7 @@ const defaultState: State = {
     editingTextNode: false,
     addingComponent: false,
     showAddComponentMenu: false,
-    selectedNodeId: '',
+    selectedNode: {} as Node,
   },
 }
 

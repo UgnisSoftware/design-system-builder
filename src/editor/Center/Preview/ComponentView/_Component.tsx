@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { BoxNode, TextNode, NodeTypes, RootNode, ComponentView } from '@src/interfaces'
+import { Node, NodeTypes, ComponentView } from '@src/interfaces'
 import state from '@state'
 import styled, { css } from 'styled-components'
 import RootComponent from "./Root";
 import DragCorners from "@src/editor/Center/Preview/ComponentView/DragCorners";
 
 export const startComponentDrag = component => e => {
-  state.ui.selectedNodeId = component.id
+  state.ui.selectedNode = component
   e.preventDefault()
   let currentX = e.touches ? e.touches[0].pageX : e.pageX
   let currentY = e.touches ? e.touches[0].pageY : e.pageY
@@ -50,7 +50,7 @@ const TextWrapper = styled.div`
 `
 
 interface TextProps {
-  component: TextNode
+  component: Node
 }
 const TextComponent = ({ component }: TextProps) => (
   <TextWrapper
@@ -75,7 +75,7 @@ const Boxxy = styled.div`
 `
 
 interface BoxProps {
-  component: BoxNode
+  component: Node
 }
 const BoxComponent = ({ component }: BoxProps) => (
   <Boxxy
@@ -97,7 +97,7 @@ const BoxComponent = ({ component }: BoxProps) => (
 )
 
 interface Props {
-  component: RootNode | BoxNode | TextNode
+  component: Node
 }
 const Component = ({ component }: Props) => {
   if (component.type === NodeTypes.Root) {
