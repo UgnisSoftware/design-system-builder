@@ -107,7 +107,7 @@ export interface State {
   ui: {
     componentView: ComponentView
     editingColorId: string
-    editingTextNode: boolean
+    editingTextNode: Node
     addingComponent: boolean
     showAddComponentMenu: boolean
     selectedNode: Node

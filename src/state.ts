@@ -200,7 +200,7 @@ const defaultState: State = {
   ui: {
     editingColorId: '',
     componentView: ComponentView.Center,
-    editingTextNode: false,
+    editingTextNode: {} as Node,
     addingComponent: false,
     showAddComponentMenu: false,
     selectedNode: {} as Node,

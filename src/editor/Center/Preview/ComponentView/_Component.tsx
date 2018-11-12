@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Node, NodeTypes, ComponentView } from '@src/interfaces'
 import state from '@state'
 import styled, { css } from 'styled-components'
-import RootComponent from "./Root";
-import DragCorners from "@src/editor/Center/Preview/ComponentView/DragCorners";
+import RootComponent from './Root'
+import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
+import ClickOutside from 'react-click-outside'
 
 export const startComponentDrag = component => e => {
   state.ui.selectedNode = component
@@ -45,29 +46,69 @@ const tiltedCSS = css`
 `
 
 const TextWrapper = styled.div`
+  overflow-wrap: break-word;
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   transition: transform 0.3s, box-shadow 0.3s;
+`
+
+const editText = (component: Node) => () => {
+  state.ui.editingTextNode = component
+}
+const stopEdit = () => {
+  state.ui.editingTextNode = {} as Node
+}
+const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  component.text = e.target.value
+}
+
+const EmptyTextArea = styled.textarea`
+  border: none;
+  overflow: auto;
+  outline: none;
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 0;
+  resize: none; /*remove the resize handle on the bottom right*/
 `
 
 interface TextProps {
   component: Node
 }
-const TextComponent = ({ component }: TextProps) => (
-  <TextWrapper
-    style={{
-      position: 'absolute',
-      top: component.position.top,
-      left: component.position.left,
-      width: component.size.width,
-      height: component.size.height,
-      fontSize: state.font.sizes[component.fontSize].fontSize,
-    }}
-    onMouseDown={startComponentDrag(component)}
-  >
-    {component.text}
-    <DragCorners component={component}/>
-  </TextWrapper>
-)
+const TextComponent = ({ component }: TextProps) =>
+  state.ui.editingTextNode === component ? (
+    <ClickOutside onClickOutside={stopEdit} key={component.id}>
+      <EmptyTextArea
+        style={{
+          position: 'absolute',
+          top: component.position.top,
+          left: component.position.left,
+          width: component.size.width,
+          height: component.size.height,
+          fontSize: state.font.sizes[component.fontSize].fontSize,
+        }}
+        defaultValue={component.text}
+        onChange={changeText(component)}
+      />
+    </ClickOutside>
+  ) : (
+    <TextWrapper
+      style={{
+        position: 'absolute',
+        top: component.position.top,
+        left: component.position.left,
+        width: component.size.width,
+        height: component.size.height,
+        fontSize: state.font.sizes[component.fontSize].fontSize,
+      }}
+      onMouseDown={startComponentDrag(component)}
+      onDoubleClick={editText(component)}
+    >
+      {component.text}
+      <DragCorners component={component} />
+    </TextWrapper>
+  )
 
 const Boxxy = styled.div`
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
@@ -92,7 +133,7 @@ const BoxComponent = ({ component }: BoxProps) => (
     {component.children.map(component => (
       <Component key={component.id} component={component} />
     ))}
-    <DragCorners component={component}/>
+    <DragCorners component={component} />
   </Boxxy>
 )
 
