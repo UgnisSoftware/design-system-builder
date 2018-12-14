@@ -54,7 +54,7 @@ const defaultState: State = {
             id: 'text1343',
             type: NodeTypes.Text,
             fontSize: FontSizeName.XL,
-            text: 'Hey',
+            text: 'Hey ho',
             size: {
               width: 254,
               height: 254,
@@ -127,7 +127,7 @@ const defaultState: State = {
             id: 'text1343',
             type: NodeTypes.Text,
             fontSize: FontSizeName.XL,
-            text: 'Hey',
+            text: 'Hey Ho',
             position: {
               top: 0,
               left: 0,
