@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { BoxNode, FontSizeName, NodeTypes, TextNode } from '@src/interfaces'
+import { Node, FontSizeName, NodeTypes } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 import { startComponentDrag } from '@src/editor/Center/Preview/ComponentView/_Component'
 
@@ -54,7 +54,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
   const root = (document.getElementById('_rootComponent') as HTMLDivElement).getBoundingClientRect()
   const newId = uuid()
 
-  let newNode: BoxNode | TextNode
+  let newNode: Node
   if (type === NodeTypes.Box) {
     newNode = {
       id: newId,
@@ -87,6 +87,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
       },
       fontSize: FontSizeName.L,
       text: 'Hello',
+      children: [],
     }
   }
 

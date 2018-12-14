@@ -7,7 +7,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -33,6 +33,9 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
+        options: {
+          transpileOnly: true,
+        },
         exclude: /node_modules/,
       },
     ],

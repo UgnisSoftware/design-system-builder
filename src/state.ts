@@ -7,7 +7,7 @@ import {
   NodeTypes,
   ViewTypes,
   ComponentView,
-  Node
+  Node,
 } from '@src/interfaces'
 
 const defaultState: State = {
@@ -63,7 +63,7 @@ const defaultState: State = {
               top: 0,
               left: 0,
             },
-            children: []
+            children: [],
           },
         ],
       },
@@ -142,6 +142,7 @@ const defaultState: State = {
       },
     },
   },
+  pages: {},
   colors: {
     'vava-1823': {
       name: 'Pink',
@@ -202,6 +203,7 @@ const defaultState: State = {
     componentView: ComponentView.Center,
     editingTextNode: {} as Node,
     addingComponent: false,
+    addingPage: false,
     showAddComponentMenu: false,
     selectedNode: {} as Node,
   },

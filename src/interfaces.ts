@@ -15,8 +15,10 @@ export enum SpacingSizeName {
 }
 
 export enum RouterPaths {
-  'styles' = 'styles',
+  'fonts' = 'fonts',
+  'colors' = 'colors',
   'component' = 'component',
+  'page' = 'page',
 }
 
 interface Router {
@@ -73,6 +75,12 @@ export interface Component {
   root: Node
 }
 
+export interface Page {
+  name: string
+  viewMode: ViewTypes
+  root: Node
+}
+
 interface Color {
   name: string
   hex: string
@@ -101,6 +109,7 @@ export enum ComponentView {
 export interface State {
   router: Router
   components: { [id: string]: Component }
+  pages: { [id: string]: Page }
   colors: { [id: string]: Color }
   spacing: { [size in SpacingSizeName]: string }
   font: Font
@@ -109,6 +118,7 @@ export interface State {
     editingColorId: string
     editingTextNode: Node
     addingComponent: boolean
+    addingPage: boolean
     showAddComponentMenu: boolean
     selectedNode: Node
   }

@@ -2,10 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import ClickOutside from 'react-click-outside'
 
-import state from '@state'
-import { uuid } from '@src/editor/utils'
 import TextInput from '@components/TextInput'
-import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -15,7 +12,11 @@ const Input = styled(TextInput)`
   justify-content: center;
 `
 
-class AddComponent extends React.Component {
+interface Props {
+  onSave: (value: string) => void
+}
+
+class AddComponent extends React.Component<Props> {
   state = {
     value: '',
   }
@@ -36,54 +37,16 @@ class AddComponent extends React.Component {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {
-      this.save()
+      this.props.onSave(this.state.value)
     }
     if (e.keyCode === ESCAPE) {
-      this.closeWithoutSaving()
+      this.props.onSave('')
     }
-  }
-
-  closeWithoutSaving = () => {
-    state.ui.addingComponent = false
-    return
-  }
-
-  save = () => {
-    if (!this.state.value) {
-      this.closeWithoutSaving()
-      return
-    }
-
-    const newId = uuid()
-    const newComponent: Component = {
-      name: this.state.value,
-      viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
-        children: [],
-      },
-    }
-    state.router.path = RouterPaths.component
-    state.router.componentId = newId
-    state.components[newId] = newComponent
-    state.ui.addingComponent = false
   }
 
   render() {
     return (
-      <ClickOutside onClickOutside={this.save}>
+      <ClickOutside onClickOutside={() => this.props.onSave(this.state.value)}>
         <Input value={this.state.value} name="AddComponent" autoFocus={true} onChange={this.updateValue} />
       </ClickOutside>
     )

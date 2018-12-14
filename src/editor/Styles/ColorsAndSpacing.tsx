@@ -9,8 +9,7 @@ import { uuid } from '@src/editor/utils'
 import SpacingSize from './SpacingSize'
 import { SpacingSizeName } from '@src/interfaces'
 import { colors } from './colorList'
-import FontsPage from '@src/editor/Styles/Fonts/Fonts'
-import {Colors} from "@src/styles";
+import { Colors } from '@src/styles'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -80,7 +79,6 @@ const ColorsAndSpacing = () => (
       <SpacingSize spacingSizeName={SpacingSizeName.L} />
       <SpacingSize spacingSizeName={SpacingSizeName.XL} />
     </SpacingWrapper>
-    <FontsPage />
   </Wrapper>
 )
 

@@ -16,7 +16,6 @@ const InputWrapper = styled.div`
   margin-bottom: 20px;
 `
 
-
 const TopAllignedTextInput = styled(TextInput)`
   justify-content: flex-end;
 `

@@ -2,17 +2,14 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { RouterPaths } from '@src/interfaces'
+import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
 
-import AddComponentInput from './AddComponentInput'
-import ComponentItem from './ComponentItem'
+import AddInput from './AddComponentInput'
+import ComponentItem, { Item } from './ComponentItem'
 import { route } from '@src/editor/actions'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
-
-interface ItemProps {
-  selected?: boolean
-}
+import { uuid } from '@src/editor/utils'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -26,13 +23,12 @@ const Title = styled.div`
   position: relative;
   font-size: 20px;
   font-weight: 300;
-  color: ${(props: ItemProps) => (props.selected ? Colors.accent : Colors.grey)};
+  color: ${Colors.darkGrey};
   padding: 10px 16px 10px 16px;
   user-select: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
   &:hover {
     filter: brightness(0.8);
   }
@@ -57,27 +53,116 @@ const AddComponentBox = styled.div`
   }
 `
 
-const addComponent = () => {
+const showAddComponent = () => {
   state.ui.addingComponent = true
+}
+const addComponent = value => {
+  state.ui.addingComponent = false
+
+  if (!value) {
+    return
+  }
+
+  const newId = uuid()
+  const newComponent: Component = {
+    name: value,
+    viewMode: ViewTypes.SingleCenter,
+    root: {
+      id: 'rootId',
+      type: NodeTypes.Root,
+      position: {
+        top: 0,
+        left: 0,
+      },
+      size: {
+        width: 254,
+        height: 254,
+      },
+      background: {
+        color: '#49c67f',
+      },
+      children: [],
+    },
+  }
+  state.router.path = RouterPaths.component
+  state.router.componentId = newId
+  state.components[newId] = newComponent
+  state.ui.addingComponent = false
+}
+
+const showAddPage = () => {
+  state.ui.addingPage = true
+}
+
+const addPage = value => {
+  state.ui.addingPage = false
+
+  if (!value) {
+    return
+  }
+
+  const newId = uuid()
+  const newComponent: Component = {
+    name: value,
+    viewMode: ViewTypes.SingleCenter,
+    root: {
+      id: 'rootId',
+      type: NodeTypes.Root,
+      position: {
+        top: 0,
+        left: 0,
+      },
+      size: {
+        width: 254,
+        height: 254,
+      },
+      background: {
+        color: '#49c67f',
+      },
+      children: [],
+    },
+  }
+  state.router.path = RouterPaths.component
+  state.router.componentId = newId
+  state.components[newId] = newComponent
+  state.ui.addingComponent = false
 }
 
 const LeftMenu = () => (
   <LeftMenuBox>
-    <Title onClick={route(RouterPaths.styles)} selected={state.router.path === RouterPaths.styles}>
-      Styles
-    </Title>
     <Title>
       Components
       {!state.ui.addingComponent && (
-        <AddComponentBox onClick={addComponent}>
+        <AddComponentBox onClick={showAddComponent}>
           <PlusSign />
         </AddComponentBox>
       )}
     </Title>
-    {state.ui.addingComponent && <AddComponentInput />}
+    {state.ui.addingComponent && <AddInput onSave={addComponent} />}
     {Object.keys(state.components).map(componentId => (
       <ComponentItem key={componentId} id={componentId} />
     ))}
+
+    <Title>
+      Pages
+      {!state.ui.addingComponent && (
+        <AddComponentBox onClick={showAddPage}>
+          <PlusSign />
+        </AddComponentBox>
+      )}
+    </Title>
+    {state.ui.addingPage && <AddInput onSave={addPage} />}
+    {Object.keys(state.pages).map(componentId => (
+      <ComponentItem key={componentId} id={componentId} />
+    ))}
+
+    <Title>Styles</Title>
+    <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
+      Colors & Spacing
+    </Item>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.router.path === RouterPaths.fonts}>
+      Fonts
+    </Item>
   </LeftMenuBox>
 )
 
