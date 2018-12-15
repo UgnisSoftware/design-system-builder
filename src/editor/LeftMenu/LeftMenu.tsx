@@ -21,8 +21,9 @@ const LeftMenuBox = styled.div`
 
 const Title = styled.div`
   position: relative;
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 500;
   color: ${Colors.darkGrey};
   padding: 10px 16px 10px 16px;
   user-select: none;
