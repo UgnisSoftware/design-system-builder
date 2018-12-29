@@ -25,7 +25,7 @@ const Title = styled.div`
   letter-spacing: 0.05em;
   font-weight: 500;
   color: ${Colors.grey800};
-  padding: 10px 16px 10px 16px;
+  padding: 16px 16px 6px 16px;
   user-select: none;
   display: flex;
   align-items: baseline;
@@ -62,7 +62,7 @@ const Logo = styled.div`
   color: ${Colors.brand};
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 14px;
+  padding-bottom: 10px;
   padding-right: 14px;
   cursor: pointer;
 `
