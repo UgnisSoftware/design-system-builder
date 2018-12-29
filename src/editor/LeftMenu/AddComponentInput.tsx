@@ -6,7 +6,7 @@ import TextInput from '@components/TextInput'
 
 const Input = styled(TextInput)`
   padding-left: 24px;
-  font-weight: 300;
+  font-weight: 400;
   height: 40px;
   display: flex;
   justify-content: center;

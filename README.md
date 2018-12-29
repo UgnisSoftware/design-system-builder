@@ -1,7 +1,5 @@
 # Ugnis v0.10.0-alpha
 
-*Warning Ugnis is in early alpha and is changing a lot, current online version does not match this version.*
-
 Ugnis is a Design tool that exports directly to code. Creating your own Design System has never been so easy.
 
 Exports to React and Vue components. Vote for more integrations [in this issue](https://github.com/UgnisSoftware/ugnis/issues/1)

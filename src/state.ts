@@ -17,6 +17,7 @@ const defaultState: State = {
   },
   components: {
     'abcd-1234': {
+      id: 'abcd-1234',
       name: 'Button',
       viewMode: ViewTypes.SingleCenter,
       root: {
@@ -69,6 +70,7 @@ const defaultState: State = {
       },
     },
     'ergefe-4356': {
+      id: 'ergefe-4356',
       name: 'Link',
       viewMode: ViewTypes.SingleCenter,
       root: {
@@ -106,6 +108,7 @@ const defaultState: State = {
       },
     },
     'wefwef-2344': {
+      id: 'wefwef-2344',
       name: 'Icon',
       viewMode: ViewTypes.SingleCenter,
       root: {
@@ -142,7 +145,29 @@ const defaultState: State = {
       },
     },
   },
-  pages: {},
+  pages: {
+    'asde23456f-2344': {
+      id: 'asde23456f-2344',
+      name: 'Front Page',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
+        children: [],
+      },
+    },
+  },
   colors: {
     'vava-1823': {
       name: 'Pink',

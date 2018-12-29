@@ -26,7 +26,7 @@ const Divider = styled.div`
 const ColorBox = styled.div`
   width: 24px;
   height: 24px;
-  background: ${({color}: any) => color};
+  background: ${({ color }: any) => color};
   cursor: pointer;
 `
 
@@ -119,7 +119,9 @@ const TopBar = () => (
     </i>
     <Divider />
     <i className="material-icons">settings</i>
-    {Object.keys(state.colors).map((colorId)=> <ColorBox color={state.colors[colorId].hex} onClick={changeBackground(state.colors[colorId].hex)}/>)}
+    {Object.keys(state.colors).map(colorId => (
+      <ColorBox color={state.colors[colorId].hex} onClick={changeBackground(state.colors[colorId].hex)} />
+    ))}
   </TopBarBox>
 )
 

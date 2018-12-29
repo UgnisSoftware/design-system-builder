@@ -21,15 +21,16 @@ const LeftMenuBox = styled.div`
 
 const Title = styled.div`
   position: relative;
-  font-size: 18px;
-  letter-spacing: 1px;
+  font-size: 16px;
+  letter-spacing: 0.05em;
   font-weight: 500;
-  color: ${Colors.darkGrey};
+  color: ${Colors.grey800};
   padding: 10px 16px 10px 16px;
   user-select: none;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  text-transform: uppercase;
   &:hover {
     filter: brightness(0.8);
   }
@@ -37,8 +38,8 @@ const Title = styled.div`
 
 const AddComponentBox = styled.div`
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,6 +55,22 @@ const AddComponentBox = styled.div`
   }
 `
 
+const Logo = styled.div`
+  font-size: 28px;
+  font-weight: 300;
+  display: flex;
+  color: ${Colors.brand};
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 14px;
+  padding-right: 14px;
+  cursor: pointer;
+`
+
+const LogoImg = styled.img`
+  margin-right: -1px;
+`
+
 const showAddComponent = () => {
   state.ui.addingComponent = true
 }
@@ -66,6 +83,7 @@ const addComponent = value => {
 
   const newId = uuid()
   const newComponent: Component = {
+    id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
     root: {
@@ -104,6 +122,7 @@ const addPage = value => {
 
   const newId = uuid()
   const newComponent: Component = {
+    id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
     root: {
@@ -123,14 +142,20 @@ const addPage = value => {
       children: [],
     },
   }
-  state.router.path = RouterPaths.component
+  state.router.path = RouterPaths.page
   state.router.componentId = newId
-  state.components[newId] = newComponent
+  state.pages[newId] = newComponent
   state.ui.addingComponent = false
 }
 
+const sortComponents = (component1: Component, component2: Component) => component1.name.localeCompare(component2.name)
+
 const LeftMenu = () => (
   <LeftMenuBox>
+    <Logo>
+      <LogoImg src="/images/logo.png" height={32} />
+      ugnis
+    </Logo>
     <Title>
       Components
       {!state.ui.addingComponent && (
@@ -140,9 +165,11 @@ const LeftMenu = () => (
       )}
     </Title>
     {state.ui.addingComponent && <AddInput onSave={addComponent} />}
-    {Object.keys(state.components).map(componentId => (
-      <ComponentItem key={componentId} id={componentId} />
-    ))}
+    {Object.values(state.components)
+      .sort(sortComponents)
+      .map(component => (
+        <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.component, component.id)} />
+      ))}
 
     <Title>
       Pages
@@ -153,9 +180,11 @@ const LeftMenu = () => (
       )}
     </Title>
     {state.ui.addingPage && <AddInput onSave={addPage} />}
-    {Object.keys(state.pages).map(componentId => (
-      <ComponentItem key={componentId} id={componentId} />
-    ))}
+    {Object.values(state.pages)
+      .sort(sortComponents)
+      .map(page => (
+        <ComponentItem key={page.id} component={page} onClick={route(RouterPaths.page, page.id)} />
+      ))}
 
     <Title>Styles</Title>
     <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>

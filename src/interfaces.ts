@@ -70,12 +70,14 @@ export interface Node {
 }
 
 export interface Component {
+  id: string
   name: string
   viewMode: ViewTypes
   root: Node
 }
 
 export interface Page {
+  id: string
   name: string
   viewMode: ViewTypes
   root: Node

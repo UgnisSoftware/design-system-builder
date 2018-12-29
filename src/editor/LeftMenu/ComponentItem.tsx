@@ -3,16 +3,17 @@ import styled, { css } from 'styled-components'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
-import { RouterPaths } from '@src/interfaces'
+import { Component, Page } from '@src/interfaces'
 import TextInput from '@components/TextInput'
-import { route } from '@src/editor/actions'
+import { Colors } from '@src/styles'
 
 interface ItemProps {
   selected?: boolean
 }
 export const Item = styled.div`
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
+  color: ${Colors.grey900};
   display: flex;
   vertical-align: middle;
   line-height: 40px;
@@ -22,19 +23,21 @@ export const Item = styled.div`
   padding-left: 24px;
   cursor: pointer;
   &:hover {
-    background: rgb(232, 232, 233);
+    background: rgb(238, 238, 238);
   }
   ${(props: ItemProps) =>
     props.selected &&
     css`
-      background: rgb(219, 219, 219);
+      color: #308246;
+      font-weight: 500;
+      background: rgb(228, 228, 228);
       border-right: 3px solid rgb(83, 212, 134);
     `};
 `
 
 const Input = styled(TextInput)`
   padding-left: 24px;
-  font-weight: 300;
+  font-weight: 400;
   height: 40px;
   padding-top: 3px;
   display: flex;
@@ -44,7 +47,8 @@ const Input = styled(TextInput)`
 `
 
 interface Props {
-  id: string
+  component: Component | Page
+  onClick: () => void
 }
 
 interface State {
@@ -57,7 +61,7 @@ class ComponentItem extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      name: state.components[this.props.id].name,
+      name: props.component.name,
       isEditingName: false,
     }
   }
@@ -68,7 +72,7 @@ class ComponentItem extends React.Component<Props, State> {
 
   save = () => {
     if (this.state.name) {
-      state.components[this.props.id].name = this.state.name
+      this.props.component.name = this.state.name
       this.setState({ isEditingName: false })
     } else {
       this.closeWithoutSaving()
@@ -77,7 +81,7 @@ class ComponentItem extends React.Component<Props, State> {
 
   closeWithoutSaving = () => {
     this.setState({
-      name: state.components[this.props.id].name,
+      name: this.props.component.name,
       isEditingName: false,
     })
   }
@@ -106,8 +110,7 @@ class ComponentItem extends React.Component<Props, State> {
   }
 
   render() {
-    const id = this.props.id
-    const component = state.components[id]
+    const component = this.props.component
 
     if (this.state.isEditingName) {
       return (
@@ -117,11 +120,7 @@ class ComponentItem extends React.Component<Props, State> {
       )
     }
     return (
-      <Item
-        onClick={route(RouterPaths.component, id)}
-        selected={state.router.componentId === id}
-        onDoubleClick={this.edit}
-      >
+      <Item onClick={this.props.onClick} selected={state.router.componentId === component.id} onDoubleClick={this.edit}>
         {component.name}
       </Item>
     )
