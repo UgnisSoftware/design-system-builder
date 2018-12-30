@@ -25,7 +25,7 @@ const Title = styled.div`
   letter-spacing: 0.05em;
   font-weight: 500;
   color: ${Colors.grey800};
-  padding: 16px 16px 6px 16px;
+  padding: 24px 16px 6px 16px;
   user-select: none;
   display: flex;
   align-items: baseline;
