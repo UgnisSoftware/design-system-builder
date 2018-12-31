@@ -18,8 +18,8 @@ export const startComponentDrag = component => e => {
     const diffY = currentY - newY
     const nodes = state.components[state.router.componentId].nodes
     const id = nodes.findIndex(child => child.id === component.id)
-    nodes[id].position.top -= diffY
-    nodes[id].position.left -= diffX
+    nodes[id].position.top -= diffY / (state.ui.zoom / 100)
+    nodes[id].position.left -= diffX / (state.ui.zoom / 100)
     currentX = newX
     currentY = newY
     return false
