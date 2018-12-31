@@ -27,7 +27,6 @@ interface Router {
 }
 
 export enum NodeTypes {
-  Root = 'Root',
   Box = 'Box',
   Text = 'Text',
   Input = 'Input',
@@ -66,21 +65,20 @@ export interface Node {
     color: string
   }
   fontSize?: FontSizeName
-  children: Node[]
 }
 
 export interface Component {
   id: string
   name: string
   viewMode: ViewTypes
-  root: Node
+  nodes: Node[]
 }
 
 export interface Page {
   id: string
   name: string
   viewMode: ViewTypes
-  root: Node
+  nodes: Node[]
 }
 
 interface Color {
@@ -116,6 +114,10 @@ export interface State {
   spacing: { [size in SpacingSizeName]: string }
   font: Font
   ui: {
+    screenPosition: {
+      x: number
+      y: number
+    }
     componentView: ComponentView
     editingColorId: string
     editingTextNode: Node
@@ -123,5 +125,6 @@ export interface State {
     addingPage: boolean
     showAddComponentMenu: boolean
     selectedNode: Node
+    zoom: number
   }
 }

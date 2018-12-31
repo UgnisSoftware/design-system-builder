@@ -1,20 +1,16 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { ComponentView } from '@src/interfaces'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Center/Preview/ComponentView/_Component'
-import {connect} from "lape";
+import { connect } from 'lape'
+import { ComponentView, Node } from '@src/interfaces'
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex: 1;
 `
-
-interface Props {
-  sidebarOpen: boolean
-}
 
 const PreviewBox = styled.div`
   flex: 1;
@@ -23,74 +19,78 @@ const PreviewBox = styled.div`
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px;
   background-color: rgb(0, 0, 0, 0.01);
   background-size: 16px 16px;
-  transform: translateZ(0);
   display: flex;
-  filter: ${(props: Props) => (props.sidebarOpen ? 'blur(10px) saturate(0.8)' : 'none')};
-  overflow: auto;
+  filter: ${() => (state.ui.showAddComponentMenu ? 'blur(10px) saturate(0.8)' : 'none')};
+  overflow: hidden;
   perspective: 1000px;
 `
 
-const CenterComponent = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+const ScaleBox = styled.div`
+  transform: ${() => `translateZ(0) scale(${state.ui.zoom / 100})`};
+`
+const PerspectiveBox = styled.div`
+  position: relative;
+  transition: transform 0.3s;
+  transform: ${() => (state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : 'none')};
 `
 
-const ContentLoaderWrapperTop = styled.div`
-  flex: 1 1 auto;
-  display: flex;
-  width: 80%;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  overflow: hidden;
+const PositionBox = styled.div`
+  position: absolute;
+  top: ${() => state.ui.screenPosition.y}px;
+  left: ${() => state.ui.screenPosition.x}px;
 `
 
-const ContentLoaderWrapperBottom = styled(ContentLoaderWrapperTop)`
-  justify-content: flex-start;
-`
-
-const ContentTop = () => (
-  <ContentLoaderWrapperTop>
-    <svg height="auto" width="100%" fill="#cecece" viewBox="0 0 380 156">
-      <rect x="70" y="45" rx="4" ry="4" width="117" height="6.4" />
-      <rect x="70" y="65" rx="3" ry="3" width="85" height="6.4" />
-      <rect x="0" y="110" rx="3" ry="3" width="350" height="6.4" />
-      <rect x="0" y="130" rx="3" ry="3" width="380" height="6.4" />
-      <rect x="0" y="150" rx="3" ry="3" width="201" height="6.4" />
-      <circle cx="30" cy="60" r="30" />
-    </svg>
-  </ContentLoaderWrapperTop>
-)
-
-const ContentBottom = () => (
-  <ContentLoaderWrapperBottom>
-    <svg height="auto" width="100%" fill="#cecece" viewBox="0 0 380 156">
-      <rect x="0" y="0" rx="3" ry="3" width="350" height="6.4" />
-      <rect x="0" y="20" rx="3" ry="3" width="380" height="6.4" />
-      <rect x="0" y="40" rx="3" ry="3" width="380" height="6.4" />
-      <rect x="0" y="60" rx="3" ry="3" width="380" height="6.4" />
-      <rect x="0" y="80" rx="3" ry="3" width="201" height="6.4" />
-    </svg>
-  </ContentLoaderWrapperBottom>
-)
+const previewClick = e => {
+  if (e.target !== e.currentTarget) {
+    return
+  }
+  state.ui.selectedNode = {} as Node
+  e.preventDefault()
+  let currentX = e.touches ? e.touches[0].pageX : e.pageX
+  let currentY = e.touches ? e.touches[0].pageY : e.pageY
+  let initialX = state.ui.screenPosition.x
+  let initialY = state.ui.screenPosition.y
+  function drag(e) {
+    e.preventDefault()
+    const newX = e.touches ? e.touches[0].pageX : e.pageX
+    const newY = e.touches ? e.touches[0].pageY : e.pageY
+    const diffX = currentX - newX
+    const diffY = currentY - newY
+    state.ui.screenPosition.x = initialX - diffX
+    state.ui.screenPosition.y = initialY - diffY
+    return false
+  }
+  console.log('kay')
+  window.addEventListener('mousemove', drag)
+  window.addEventListener('touchmove', drag)
+  window.addEventListener('mouseup', stopDragging)
+  window.addEventListener('touchend', stopDragging)
+  function stopDragging(event) {
+    console.log('wat')
+    event.preventDefault()
+    window.removeEventListener('mousemove', drag)
+    window.removeEventListener('touchmove', drag)
+    window.removeEventListener('mouseup', stopDragging)
+    window.removeEventListener('touchend', stopDragging)
+    return false
+  }
+  return false
+}
 
 const Preview = () => {
   const component = state.components[state.router.componentId]
-  const showTopAndBottom = state.ui.componentView === ComponentView.CenterWithTopAndBottom
-  const showRepeated = state.ui.componentView === ComponentView.Repeated
   return (
     <Wrapper>
-      <PreviewBox sidebarOpen={state.ui.showAddComponentMenu}>
-        {showTopAndBottom && <ContentTop />}
-        <CenterComponent>
-          {showRepeated && <Component component={component.root} />}
-          <Component component={component.root} />
-          {showRepeated && <Component component={component.root} />}
-        </CenterComponent>
-        {showTopAndBottom && <ContentBottom />}
+      <PreviewBox onMouseDown={previewClick}>
+        <ScaleBox>
+          <PerspectiveBox>
+            <PositionBox>
+              {component.nodes.map(node => (
+                <Component component={node} />
+              ))}
+            </PositionBox>
+          </PerspectiveBox>
+        </ScaleBox>
       </PreviewBox>
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
     </Wrapper>

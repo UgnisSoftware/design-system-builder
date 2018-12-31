@@ -20,153 +20,84 @@ const defaultState: State = {
       id: 'abcd-1234',
       name: 'Button',
       viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
-        children: [
-          {
-            id: '423423dsfs',
-            type: NodeTypes.Box,
-            position: {
-              top: 0,
-              left: 0,
-            },
-            size: {
-              width: 50,
-              height: 50,
-            },
-            background: {
-              color: '#497fc6',
-            },
-            children: [],
+      nodes: [
+        {
+          id: 'rootId',
+          type: NodeTypes.Box,
+          position: {
+            top: 0,
+            left: 0,
           },
-          {
-            id: 'text1343',
-            type: NodeTypes.Text,
-            fontSize: FontSizeName.XL,
-            text: 'Hey ho',
-            size: {
-              width: 254,
-              height: 254,
-            },
-            position: {
-              top: 0,
-              left: 0,
-            },
-            children: [],
+          size: {
+            width: 254,
+            height: 254,
           },
-        ],
-      },
+          background: {
+            color: '#49c67f',
+          },
+        },
+      ],
     },
     'ergefe-4356': {
       id: 'ergefe-4356',
       name: 'Link',
       viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
-        children: [
-          {
-            id: '423423dsfs',
-            type: NodeTypes.Box,
-            position: {
-              top: 0,
-              left: 0,
-            },
-            size: {
-              width: 50,
-              height: 50,
-            },
-            background: {
-              color: '#497fc6',
-            },
-            children: [],
+      nodes: [
+        {
+          id: 'rootId',
+          type: NodeTypes.Box,
+          position: {
+            top: 0,
+            left: 0,
           },
-        ],
-      },
-    },
-    'wefwef-2344': {
-      id: 'wefwef-2344',
-      name: 'Icon',
-      viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
-        children: [
-          {
-            id: 'text1343',
-            type: NodeTypes.Text,
-            fontSize: FontSizeName.XL,
-            text: 'Hey Ho',
-            position: {
-              top: 0,
-              left: 0,
-            },
-            size: {
-              width: 254,
-              height: 254,
-            },
-            children: [],
+          size: {
+            width: 254,
+            height: 254,
           },
-        ],
-      },
+          background: {
+            color: '#49c67f',
+          },
+        },
+        {
+          id: '423423dsfs',
+          type: NodeTypes.Box,
+          position: {
+            top: 0,
+            left: 0,
+          },
+          size: {
+            width: 50,
+            height: 50,
+          },
+          background: {
+            color: '#497fc6',
+          },
+        },
+      ],
     },
   },
   pages: {
-    'asde23456f-2344': {
-      id: 'asde23456f-2344',
-      name: 'Front Page',
-      viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
-        children: [],
-      },
-    },
+    // 'asde23456f-2344': {
+    //   id: 'asde23456f-2344',
+    //   name: 'Front Page',
+    //   viewMode: ViewTypes.SingleCenter,
+    //   root: {
+    //     id: 'rootId',
+    //     type: NodeTypes.Root,
+    //     position: {
+    //       top: 0,
+    //       left: 0,
+    //     },
+    //     size: {
+    //       width: 254,
+    //       height: 254,
+    //     },
+    //     background: {
+    //       color: '#49c67f',
+    //     },
+    //     children: [],
+    //   },
+    // },
   },
   colors: {
     'vava-1823': {
@@ -224,6 +155,10 @@ const defaultState: State = {
     },
   },
   ui: {
+    screenPosition: {
+      x: 200,
+      y: 200,
+    },
     editingColorId: '',
     componentView: ComponentView.Center,
     editingTextNode: {} as Node,
@@ -231,6 +166,7 @@ const defaultState: State = {
     addingPage: false,
     showAddComponentMenu: false,
     selectedNode: {} as Node,
+    zoom: 100,
   },
 }
 

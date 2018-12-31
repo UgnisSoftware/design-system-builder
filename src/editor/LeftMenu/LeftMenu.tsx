@@ -86,22 +86,23 @@ const addComponent = value => {
     id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
-    root: {
-      id: 'rootId',
-      type: NodeTypes.Root,
-      position: {
-        top: 0,
-        left: 0,
+    nodes: [
+      {
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
       },
-      size: {
-        width: 254,
-        height: 254,
-      },
-      background: {
-        color: '#49c67f',
-      },
-      children: [],
-    },
+    ],
   }
   state.router.path = RouterPaths.component
   state.router.componentId = newId
@@ -125,22 +126,23 @@ const addPage = value => {
     id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
-    root: {
-      id: 'rootId',
-      type: NodeTypes.Root,
-      position: {
-        top: 0,
-        left: 0,
+    nodes: [
+      {
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          top: 0,
+          left: 0,
+        },
+        size: {
+          width: 254,
+          height: 254,
+        },
+        background: {
+          color: '#49c67f',
+        },
       },
-      size: {
-        width: 254,
-        height: 254,
-      },
-      background: {
-        color: '#49c67f',
-      },
-      children: [],
-    },
+    ],
   }
   state.router.path = RouterPaths.page
   state.router.componentId = newId

@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Node, NodeTypes, ComponentView } from '@src/interfaces'
 import state from '@state'
 import styled, { css } from 'styled-components'
-import RootComponent from './Root'
 import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
 import ClickOutside from 'react-click-outside'
 
@@ -17,10 +16,10 @@ export const startComponentDrag = component => e => {
     const newY = e.touches ? e.touches[0].pageY : e.pageY
     const diffX = currentX - newX
     const diffY = currentY - newY
-    const root = state.components[state.router.componentId].root
-    const id = root.children.findIndex(child => child.id === component.id)
-    root.children[id].position.top -= diffY
-    root.children[id].position.left -= diffX
+    const nodes = state.components[state.router.componentId].nodes
+    const id = nodes.findIndex(child => child.id === component.id)
+    nodes[id].position.top -= diffY
+    nodes[id].position.left -= diffX
     currentX = newX
     currentY = newY
     return false
@@ -130,9 +129,6 @@ const BoxComponent = ({ component }: BoxProps) => (
     }}
     onMouseDown={startComponentDrag(component)}
   >
-    {component.children.map(component => (
-      <Component key={component.id} component={component} />
-    ))}
     <DragCorners component={component} />
   </Boxxy>
 )
@@ -141,9 +137,6 @@ interface Props {
   component: Node
 }
 const Component = ({ component }: Props) => {
-  if (component.type === NodeTypes.Root) {
-    return <RootComponent component={component} />
-  }
   if (component.type === NodeTypes.Box) {
     return <BoxComponent component={component} />
   }

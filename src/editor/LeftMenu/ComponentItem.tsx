@@ -14,10 +14,7 @@ export const Item = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: ${Colors.grey900};
-  display: flex;
-  vertical-align: middle;
   line-height: 40px;
-  align-items: center;
   height: 40px;
   transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   padding-left: 24px;
@@ -28,7 +25,7 @@ export const Item = styled.div`
   ${(props: ItemProps) =>
     props.selected &&
     css`
-      color: #308246;
+      color: ${Colors.grey900};
       font-weight: 500;
       background: rgb(228, 228, 228);
       border-right: 3px solid rgb(83, 212, 134);

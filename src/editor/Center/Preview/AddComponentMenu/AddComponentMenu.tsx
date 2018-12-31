@@ -51,7 +51,6 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
   const height = box.bottom - box.top
   const width = box.right - box.left
-  const root = (document.getElementById('_rootComponent') as HTMLDivElement).getBoundingClientRect()
   const newId = uuid()
 
   let newNode: Node
@@ -60,8 +59,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
       id: newId,
       type: NodeTypes.Box,
       position: {
-        left: box.left - root.left,
-        top: box.top - root.top,
+        left: box.left,
+        top: box.top,
       },
       size: {
         width,
@@ -70,7 +69,6 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
       background: {
         color: '#49c67f',
       },
-      children: [],
     }
   }
   if (type === NodeTypes.Text) {
@@ -82,16 +80,15 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent) => {
         height,
       },
       position: {
-        left: box.left - root.left,
-        top: box.top - root.top,
+        left: box.left,
+        top: box.top,
       },
       fontSize: FontSizeName.L,
       text: 'Hello',
-      children: [],
     }
   }
 
-  state.components[state.router.componentId].root.children.push(newNode)
+  state.components[state.router.componentId].nodes.push(newNode)
   state.ui.showAddComponentMenu = false
 
   startComponentDrag(newNode)(event)
