@@ -15,11 +15,11 @@ const Center = styled.div`
 `
 
 const zoom = e => {
-  if (e.deltaY < 0 && state.ui.zoom - 10 > 20) {
-    state.ui.zoom -= 10
-  }
-  if (e.deltaY > 0 && state.ui.zoom + 10 < 210) {
+  if (e.deltaY < 0 && state.ui.zoom + 10 < 210) {
     state.ui.zoom += 10
+  }
+  if (e.deltaY > 0 && state.ui.zoom - 10 > 20) {
+    state.ui.zoom -= 10
   }
 }
 
