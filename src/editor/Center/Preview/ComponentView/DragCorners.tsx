@@ -19,18 +19,42 @@ const drag = (component: Node, side: Direction) => e => {
     const invertDiffX = side === Direction.SE || side === Direction.NE || side === Direction.E ? -1 : 1
     const invertDiffY = side === Direction.SE || side === Direction.SW || side === Direction.S ? -1 : 1
     const newSize: Size = {
-      width: oldSize.width + diffX * invertDiffX,
-      height: oldSize.height + diffY * invertDiffY,
+      width: oldSize.width + (diffX * invertDiffX) / (state.ui.zoom / 100),
+      height: oldSize.height + (diffY * invertDiffY) / (state.ui.zoom / 100),
     }
     if (!(newSize.width < 0 || newSize.height < 0)) {
-      if (side === Direction.NE || side === Direction.NW || side === Direction.SE || side === Direction.SW) {
+      if (side === Direction.NE) {
+        component.position.top -= diffY / (state.ui.zoom / 100)
         oldSize.width = newSize.width
         oldSize.height = newSize.height
       }
-      if (side === Direction.N || side === Direction.S) {
+      if (side === Direction.NW) {
+        component.position.top -= diffY / (state.ui.zoom / 100)
+        component.position.left -= diffX / (state.ui.zoom / 100)
+        oldSize.width = newSize.width
         oldSize.height = newSize.height
       }
-      if (side === Direction.W || side === Direction.E) {
+      if (side === Direction.SE) {
+        oldSize.width = newSize.width
+        oldSize.height = newSize.height
+      }
+      if (side === Direction.SW) {
+        component.position.left -= diffX / (state.ui.zoom / 100)
+        oldSize.width = newSize.width
+        oldSize.height = newSize.height
+      }
+      if (side === Direction.N) {
+        component.position.top -= diffY / (state.ui.zoom / 100)
+        oldSize.height = newSize.height
+      }
+      if (side === Direction.S) {
+        oldSize.height = newSize.height
+      }
+      if (side === Direction.W) {
+        component.position.left -= diffX / (state.ui.zoom / 100)
+        oldSize.width = newSize.width
+      }
+      if (side === Direction.E) {
         oldSize.width = newSize.width
       }
     }
