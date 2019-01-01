@@ -63,7 +63,7 @@ const Logo = styled.div`
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 10px;
-  padding-right: 14px;
+  padding-right: 21px;
   cursor: pointer;
 `
 
