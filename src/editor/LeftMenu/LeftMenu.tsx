@@ -31,9 +31,6 @@ const Title = styled.div`
   align-items: baseline;
   justify-content: space-between;
   text-transform: uppercase;
-  &:hover {
-    filter: brightness(0.8);
-  }
 `
 
 const AddComponentBox = styled.div`

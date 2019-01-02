@@ -27,7 +27,7 @@ export const Item = styled.div`
     css`
       color: ${Colors.grey900};
       font-weight: 500;
-      background: rgb(228, 228, 228);
+      background: rgb(238, 238, 238);
       border-right: 3px solid rgb(83, 212, 134);
     `};
 `
