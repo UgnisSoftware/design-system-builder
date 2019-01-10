@@ -10,16 +10,16 @@ export const startComponentDrag = component => e => {
   e.preventDefault()
   let currentX = e.touches ? e.touches[0].pageX : e.pageX
   let currentY = e.touches ? e.touches[0].pageY : e.pageY
+  const nodes = state.components[state.router.componentId].nodes
+  const index = nodes.findIndex(child => child.id === component.id)
   function drag(e) {
     e.preventDefault()
     const newX = e.touches ? e.touches[0].pageX : e.pageX
     const newY = e.touches ? e.touches[0].pageY : e.pageY
     const diffX = currentX - newX
     const diffY = currentY - newY
-    const nodes = state.components[state.router.componentId].nodes
-    const id = nodes.findIndex(child => child.id === component.id)
-    nodes[id].position.top -= diffY / (state.ui.zoom / 100)
-    nodes[id].position.left -= diffX / (state.ui.zoom / 100)
+    nodes[index].position.top -= diffY / (state.ui.zoom / 100)
+    nodes[index].position.left -= diffX / (state.ui.zoom / 100)
     currentX = newX
     currentY = newY
     return false
@@ -133,10 +133,46 @@ const BoxComponent = ({ component }: BoxProps) => (
   </Boxxy>
 )
 
+const ComponentWrapper = styled.div`
+  position: relative;
+  height: 320px;
+`
+
+const ComponentClickCatcher = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
+interface ComponentProps {
+  component: Node
+}
+const ComponentComponent = ({ component }: ComponentProps) => (
+  <ComponentWrapper
+    style={{
+      position: 'absolute',
+      top: component.position.top,
+      left: component.position.left,
+      width: component.size.width,
+      height: component.size.height,
+    }}
+  >
+    {state.components[component.id].nodes.map(node => (
+      <Component component={node} />
+    ))}
+    <ComponentClickCatcher onMouseDown={startComponentDrag(component)} />
+  </ComponentWrapper>
+)
+
 interface Props {
   component: Node
 }
-const Component = ({ component }: Props) => {
+function Component({ component }: Props) {
+  if (component.type === NodeTypes.Component) {
+    return <ComponentComponent component={component} />
+  }
   if (component.type === NodeTypes.Box) {
     return <BoxComponent component={component} />
   }

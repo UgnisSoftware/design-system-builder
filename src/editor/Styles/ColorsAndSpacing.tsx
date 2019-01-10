@@ -10,6 +10,7 @@ import SpacingSize from './SpacingSize'
 import { SpacingSizeName } from '@src/interfaces'
 import { colors } from './colorList'
 import { Colors } from '@src/styles'
+import BoxShadow from '@src/editor/Styles/BoxShadow'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -22,7 +23,7 @@ const ColorWrapper = styled.div`
   align-items: center;
 `
 
-const AddColorBox = styled.div`
+const AddBox = styled.div`
   cursor: pointer;
   width: 32px;
   height: 32px;
@@ -57,13 +58,17 @@ const onAddColorClick = () => {
   state.colors[id] = randomColor
 }
 
+const onAddBoxShadowClick = () => {
+  state.boxShadow.push({ value: '' })
+}
+
 const ColorsAndSpacing = () => (
   <Wrapper>
     <H1>
       Colors
-      <AddColorBox onClick={onAddColorClick}>
+      <AddBox onClick={onAddColorClick}>
         <PlusSign />
-      </AddColorBox>
+      </AddBox>
     </H1>
     <ColorWrapper>
       {Object.keys(state.colors).map(id => (
@@ -78,6 +83,18 @@ const ColorsAndSpacing = () => (
       <SpacingSize spacingSizeName={SpacingSizeName.M} />
       <SpacingSize spacingSizeName={SpacingSizeName.L} />
       <SpacingSize spacingSizeName={SpacingSizeName.XL} />
+    </SpacingWrapper>
+
+    <H1>
+      Box Shadow
+      <AddBox onClick={onAddBoxShadowClick}>
+        <PlusSign />
+      </AddBox>
+    </H1>
+    <SpacingWrapper>
+      {state.boxShadow.map((boxShadow, index) => (
+        <BoxShadow boxShadow={boxShadow} key={`boxShadow_${index}`} />
+      ))}
     </SpacingWrapper>
   </Wrapper>
 )

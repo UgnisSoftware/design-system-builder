@@ -86,6 +86,10 @@ interface Color {
   hex: string
 }
 
+export interface BoxShadow {
+  value: string
+}
+
 interface FontSize {
   fontSize: string
   lineHeight: string
@@ -112,6 +116,7 @@ export interface State {
   pages: { [id: string]: Page }
   colors: { [id: string]: Color }
   spacing: { [size in SpacingSizeName]: string }
+  boxShadow: BoxShadow[]
   font: Font
   ui: {
     screenPosition: {

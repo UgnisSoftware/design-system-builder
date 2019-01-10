@@ -185,9 +185,9 @@ const LeftMenu = () => (
         <ComponentItem key={page.id} component={page} onClick={route(RouterPaths.page, page.id)} />
       ))}
 
-    <Title>Styles</Title>
+    <Title>Settings</Title>
     <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
-      Colors & Spacing
+      Styles
     </Item>
     <Item onClick={route(RouterPaths.fonts)} selected={state.router.path === RouterPaths.fonts}>
       Fonts

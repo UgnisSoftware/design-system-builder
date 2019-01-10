@@ -128,6 +128,11 @@ const defaultState: State = {
     [SpacingSizeName.L]: '48px',
     [SpacingSizeName.XL]: '64px',
   },
+  boxShadow: [
+    {
+      value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
+    },
+  ],
   font: {
     fontName: 'Roboto',
     fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
