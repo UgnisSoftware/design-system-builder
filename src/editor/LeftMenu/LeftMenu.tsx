@@ -187,7 +187,7 @@ const LeftMenu = () => (
 
     <Title>Settings</Title>
     <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
-      Styles & Potatoes
+      Styles
     </Item>
     <Item onClick={route(RouterPaths.fonts)} selected={state.router.path === RouterPaths.fonts}>
       Fonts
