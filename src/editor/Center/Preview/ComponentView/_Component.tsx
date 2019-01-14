@@ -10,16 +10,14 @@ export const startComponentDrag = component => e => {
   e.preventDefault()
   let currentX = e.touches ? e.touches[0].pageX : e.pageX
   let currentY = e.touches ? e.touches[0].pageY : e.pageY
-  const nodes = state.components[state.router.componentId].nodes
-  const index = nodes.findIndex(child => child.id === component.id)
   function drag(e) {
     e.preventDefault()
     const newX = e.touches ? e.touches[0].pageX : e.pageX
     const newY = e.touches ? e.touches[0].pageY : e.pageY
     const diffX = currentX - newX
     const diffY = currentY - newY
-    nodes[index].position.top -= diffY / (state.ui.zoom / 100)
-    nodes[index].position.left -= diffX / (state.ui.zoom / 100)
+    component.position.top -= diffY / (state.ui.zoom / 100)
+    component.position.left -= diffX / (state.ui.zoom / 100)
     currentX = newX
     currentY = newY
     return false
