@@ -2,7 +2,6 @@ import { proxify } from 'lape'
 import {
   FontSizeName,
   RouterPaths,
-  SpacingSizeName,
   State,
   NodeTypes,
   ViewTypes,
@@ -99,38 +98,43 @@ const defaultState: State = {
     //   },
     // },
   },
-  colors: {
-    'vava-1823': {
+  colors: [
+    {
+      id: 'aaaa-1111',
       name: 'Pink',
       hex: '#f78888',
     },
-    'blas-9999': {
+    {
+      id: 'bbbb-2222',
       name: 'Yellow',
       hex: '#f3d250',
     },
-    'hhhh-1000': {
+    {
+      id: 'cccc-3333',
       name: 'Light grey',
       hex: '#ececec',
     },
-    'aaaa-9994': {
+    {
+      id: 'dddd-4444',
       name: 'Light blue',
       hex: '#90ccf4',
     },
-    'bbbb-9949': {
+    {
+      id: 'eeee-5555',
       name: 'Blue',
       hex: '#5da2d5',
     },
-  },
-  spacing: {
-    [SpacingSizeName.XS]: '8px',
-    [SpacingSizeName.S]: '16px',
-    [SpacingSizeName.M]: '24px',
-    [SpacingSizeName.L]: '48px',
-    [SpacingSizeName.XL]: '64px',
-  },
+  ],
+  spacing: ['8px', '16px', '24px', '48px', '64px'],
   boxShadow: [
     {
       value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
+    },
+  ],
+  border: [
+    {
+      radius: '80px 149px 80px 51px',
+      style: '2px solid #f78888',
     },
   ],
   font: {

@@ -7,10 +7,10 @@ import PlusSign from '@components/PlusSign'
 import ColorBoxWithPicker from './ColorBoxWithPicker'
 import { uuid } from '@src/editor/utils'
 import SpacingSize from './SpacingSize'
-import { SpacingSizeName } from '@src/interfaces'
 import { colors } from './colorList'
 import { Colors } from '@src/styles'
 import BoxShadow from '@src/editor/Styles/BoxShadow'
+import Border from '@src/editor/Styles/Border'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -52,14 +52,24 @@ const SpacingWrapper = styled.div`
 
 const onAddColorClick = () => {
   const id = uuid()
-  const randomColor = colors[Math.floor(Math.random() * colors.length)]
+  const randomColor = {
+    ...colors[Math.floor(Math.random() * colors.length)],
+    id,
+  }
 
   state.ui.editingColorId = id
-  state.colors[id] = randomColor
+  state.colors.push(randomColor)
 }
 
 const onAddBoxShadowClick = () => {
-  state.boxShadow.push({ value: '' })
+  state.boxShadow.push({ value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);' })
+}
+
+const onAddBorderClick = () => {
+  state.border.push({
+    radius: '80px 149px 80px 51px',
+    style: '2px solid #f78888',
+  })
 }
 
 const ColorsAndSpacing = () => (
@@ -71,18 +81,16 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <ColorWrapper>
-      {Object.keys(state.colors).map(id => (
-        <ColorBoxWithPicker editing={state.ui.editingColorId === id} key={id} colorId={id} />
+      {state.colors.map(color => (
+        <ColorBoxWithPicker editing={state.ui.editingColorId === color.id} key={color.id} color={color} />
       ))}
     </ColorWrapper>
 
     <H1>Spacing</H1>
     <SpacingWrapper>
-      <SpacingSize spacingSizeName={SpacingSizeName.XS} />
-      <SpacingSize spacingSizeName={SpacingSizeName.S} />
-      <SpacingSize spacingSizeName={SpacingSizeName.M} />
-      <SpacingSize spacingSizeName={SpacingSizeName.L} />
-      <SpacingSize spacingSizeName={SpacingSizeName.XL} />
+      {state.spacing.map((spacing, index) => (
+        <SpacingSize index={index} spacing={spacing} key={`boxShadow_${index}`} />
+      ))}
     </SpacingWrapper>
 
     <H1>
@@ -94,6 +102,18 @@ const ColorsAndSpacing = () => (
     <SpacingWrapper>
       {state.boxShadow.map((boxShadow, index) => (
         <BoxShadow boxShadow={boxShadow} key={`boxShadow_${index}`} />
+      ))}
+    </SpacingWrapper>
+
+    <H1>
+      Borders
+      <AddBox onClick={onAddBorderClick}>
+        <PlusSign />
+      </AddBox>
+    </H1>
+    <SpacingWrapper>
+      {state.border.map((border, index) => (
+        <Border border={border} key={`border_${index}`} />
       ))}
     </SpacingWrapper>
   </Wrapper>

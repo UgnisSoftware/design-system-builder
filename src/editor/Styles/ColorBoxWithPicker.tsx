@@ -6,7 +6,8 @@ import chroma from 'chroma-js'
 
 import state from '@state'
 import { findNearestColor } from './colorList'
-import {connect} from "lape";
+import { connect } from 'lape'
+import { Color } from '@src/interfaces'
 
 const Wrapper = styled.div`
   position: relative;
@@ -86,11 +87,11 @@ const PickerWrapper = styled.div`
 `
 
 interface ColorBoxWithPickerProps {
-  colorId: string
-  editing: boolean;
+  color: Color
+  editing: boolean
 }
 
-interface Color {
+interface ColorChroma {
   hex: string
   rgb: {
     r: number
@@ -114,28 +115,28 @@ const onClickOutside = () => {
   state.ui.editingColorId = ''
 }
 
-const onColorChange = (colorId: string) => (color: Color) => {
-  state.colors[colorId].name = findNearestColor(color.hex).name
-  state.colors[colorId].hex = color.hex
+const onColorChange = (color: Color) => (colorChroma: ColorChroma) => {
+  color.name = findNearestColor(colorChroma.hex).name
+  color.hex = colorChroma.hex
 }
 
-const onColorNameChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.colors[colorId].name = event.target.value
+const onColorNameChange = (color: Color) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  color.name = event.target.value
 }
 
-const onHexValueChange = (colorId: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.colors[colorId].hex = event.target.value
+const onHexValueChange = (color: Color) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  color.hex = event.target.value
 }
 
-const onDelete = (colorId: string) => () => {
-  delete state.colors[colorId]
+const onDelete = (color: Color) => () => {
+  state.colors.splice(state.colors.indexOf(color), 1)
 }
 
-const ColorBoxWithPicker = ({ colorId, editing }: ColorBoxWithPickerProps) => (
+const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => (
   <Wrapper>
     <ColorWithInputWrapper>
-      <ColorBox color={state.colors[colorId].hex} onClick={onEditingColorChange(colorId)}>
-        <ColorDelete color={state.colors[colorId].hex} onClick={onDelete(colorId)}>
+      <ColorBox color={color.hex} onClick={onEditingColorChange(color.id)}>
+        <ColorDelete color={color.hex} onClick={onDelete(color)}>
           <i className="material-icons">clear</i>
         </ColorDelete>
       </ColorBox>
@@ -143,25 +144,25 @@ const ColorBoxWithPicker = ({ colorId, editing }: ColorBoxWithPickerProps) => (
         <Input
           type="text"
           placeholder="Color name"
-          id={colorId}
-          name={colorId}
-          value={state.colors[colorId].name}
-          onChange={onColorNameChange(colorId)}
+          id={color.id}
+          name={color.id}
+          value={color.name}
+          onChange={onColorNameChange(color)}
         />
         <Input
           type="text"
           placeholder="Hex value"
-          id={colorId}
-          name={colorId}
-          value={state.colors[colorId].hex}
-          onChange={onHexValueChange(colorId)}
+          id={color.id}
+          name={color.id}
+          value={color.hex}
+          onChange={onHexValueChange(color)}
         />
       </InputWrapper>
     </ColorWithInputWrapper>
     {editing && (
       <ClickOutside onClickOutside={onClickOutside}>
         <PickerWrapper>
-          <ChromePicker color={state.colors[colorId]} onChange={onColorChange(colorId)} />
+          <ChromePicker color={color} onChange={onColorChange(color)} />
         </PickerWrapper>
       </ClickOutside>
     )}

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import SymbolBox from '@components/SymbolBox'
-import { SpacingSizeName } from '@src/interfaces'
 import state from '@state'
 import TextInput from '@components/TextInput'
 
@@ -13,21 +12,22 @@ const Wrapper = styled.div`
 `
 
 interface SpacingSizeProps {
-  spacingSizeName: SpacingSizeName
+  spacing: string
+  index: number
 }
 
-const onSpacingSizeChange = (spacingSizeName: SpacingSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.spacing[spacingSizeName] = event.target.value
+const onSpacingSizeChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  state.spacing[index] = event.target.value
 }
 
-const SpacingSize = ({ spacingSizeName }: SpacingSizeProps) => (
+const SpacingSize = ({ spacing, index }: SpacingSizeProps) => (
   <Wrapper>
-    <SymbolBox>{spacingSizeName}</SymbolBox>
+    <SymbolBox>{spacing}</SymbolBox>
     <TextInput
-      name={`spacingSize_${spacingSizeName}`}
+      name={`spacingSize_${index}`}
       label="Spacing Size"
-      value={state.spacing[spacingSizeName]}
-      onChange={onSpacingSizeChange(spacingSizeName)}
+      value={spacing}
+      onChange={onSpacingSizeChange(index)}
     />
   </Wrapper>
 )

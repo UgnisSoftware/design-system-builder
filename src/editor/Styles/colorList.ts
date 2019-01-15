@@ -1,11 +1,10 @@
 import chroma from 'chroma-js'
+import { Color } from '@src/interfaces'
 
-interface Colors {
-  name: string
-  hex: string
-}
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type StaticColors = Omit<Color, 'id'>
 
-export const colors: Colors[] = [
+export const colors: StaticColors[] = [
   {
     name: 'Mahogany',
     hex: '#CD4A4A',

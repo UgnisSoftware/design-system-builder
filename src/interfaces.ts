@@ -6,14 +6,6 @@ export enum FontSizeName {
   XL = 'XL',
 }
 
-export enum SpacingSizeName {
-  XS = 'XS',
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-}
-
 export enum RouterPaths {
   'fonts' = 'fonts',
   'colors' = 'colors',
@@ -81,13 +73,19 @@ export interface Page {
   nodes: Node[]
 }
 
-interface Color {
+export interface Color {
+  id: string
   name: string
   hex: string
 }
 
 export interface BoxShadow {
   value: string
+}
+
+export interface Border {
+  style: string
+  radius: string
 }
 
 interface FontSize {
@@ -114,9 +112,10 @@ export interface State {
   router: Router
   components: { [id: string]: Component }
   pages: { [id: string]: Page }
-  colors: { [id: string]: Color }
-  spacing: { [size in SpacingSizeName]: string }
+  colors: Color[]
+  spacing: string[]
   boxShadow: BoxShadow[]
+  border: Border[]
   font: Font
   ui: {
     screenPosition: {
