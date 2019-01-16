@@ -22,11 +22,32 @@ const zoom = e => {
     state.ui.zoom -= 10
   }
 }
+const deleteComponent = e => {
+  const del = e.keyCode === 46
+  const backspace = e.keyCode === 8
 
-export default () => (
-  <Center onWheel={zoom}>
-    <TopBar />
-    <Preview />
-    <Zoom />
-  </Center>
-)
+  if ((del || backspace) && state.ui.selectedNode && !state.ui.editingTextNode) {
+    const component = state.components[state.router.componentId]
+    const nodeIndex = component.nodes.indexOf(state.ui.selectedNode)
+    component.nodes.splice(nodeIndex, 1)
+  }
+}
+class CenterColumn extends React.Component {
+  componentDidMount() {
+    window.addEventListener('keydown', deleteComponent)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', deleteComponent)
+  }
+
+  render() {
+    return (
+      <Center onWheel={zoom}>
+        <TopBar />
+        <Preview />
+        <Zoom />
+      </Center>
+    )
+  }
+}
+export default CenterColumn

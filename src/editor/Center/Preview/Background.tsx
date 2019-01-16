@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { connect } from 'lape'
-import { Node } from '@src/interfaces'
 
 const Background = styled.div`
   position: absolute;
@@ -20,7 +19,7 @@ const previewClick = e => {
   if (e.target !== e.currentTarget) {
     return
   }
-  state.ui.selectedNode = {} as Node
+  state.ui.selectedNode = null
   e.preventDefault()
   let currentX = e.touches ? e.touches[0].pageX : e.pageX
   let currentY = e.touches ? e.touches[0].pageY : e.pageY

@@ -52,7 +52,7 @@ const editText = (component: Node) => () => {
   state.ui.editingTextNode = component
 }
 const stopEdit = () => {
-  state.ui.editingTextNode = {} as Node
+  state.ui.editingTextNode = null
 }
 const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>) => {
   component.text = e.target.value

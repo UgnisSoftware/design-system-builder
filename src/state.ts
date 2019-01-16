@@ -1,13 +1,5 @@
 import { proxify } from 'lape'
-import {
-  FontSizeName,
-  RouterPaths,
-  State,
-  NodeTypes,
-  ViewTypes,
-  ComponentView,
-  Node,
-} from '@src/interfaces'
+import { FontSizeName, RouterPaths, State, NodeTypes, ViewTypes, ComponentView } from '@src/interfaces'
 
 const defaultState: State = {
   router: {
@@ -170,11 +162,11 @@ const defaultState: State = {
     },
     editingColorId: '',
     componentView: ComponentView.Center,
-    editingTextNode: {} as Node,
+    editingTextNode: null,
     addingComponent: false,
     addingPage: false,
     showAddComponentMenu: false,
-    selectedNode: {} as Node,
+    selectedNode: null,
     zoom: 100,
   },
 }

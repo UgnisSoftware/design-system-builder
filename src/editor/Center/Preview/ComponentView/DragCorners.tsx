@@ -161,6 +161,7 @@ interface Props {
   component: Node
 }
 const DragCorners = ({ component }: Props) =>
+  state.ui.selectedNode &&
   state.ui.selectedNode.id === component.id && (
     <>
       <TopDrag onMouseDown={drag(component, Direction.N)} />
