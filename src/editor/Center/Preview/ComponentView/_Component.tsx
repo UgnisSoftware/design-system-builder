@@ -5,36 +5,10 @@ import styled, { css } from 'styled-components'
 import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
 import ClickOutside from 'react-click-outside'
 
-export const startComponentDrag = component => e => {
-  state.ui.selectedNode = component
+const selectComponent = (component: Node) => e => {
   e.preventDefault()
-  let currentX = e.touches ? e.touches[0].pageX : e.pageX
-  let currentY = e.touches ? e.touches[0].pageY : e.pageY
-  function drag(e) {
-    e.preventDefault()
-    const newX = e.touches ? e.touches[0].pageX : e.pageX
-    const newY = e.touches ? e.touches[0].pageY : e.pageY
-    const diffX = currentX - newX
-    const diffY = currentY - newY
-    component.position.top -= diffY / (state.ui.zoom / 100)
-    component.position.left -= diffX / (state.ui.zoom / 100)
-    currentX = newX
-    currentY = newY
-    return false
-  }
-  window.addEventListener('mousemove', drag)
-  window.addEventListener('touchmove', drag)
-  window.addEventListener('mouseup', stopDragging)
-  window.addEventListener('touchend', stopDragging)
-  function stopDragging(event) {
-    event.preventDefault()
-    window.removeEventListener('mousemove', drag)
-    window.removeEventListener('touchmove', drag)
-    window.removeEventListener('mouseup', stopDragging)
-    window.removeEventListener('touchend', stopDragging)
-    return false
-  }
-  return false
+  e.stopPropagation()
+  state.ui.selectedNode = component
 }
 
 const tiltedCSS = css`
@@ -78,11 +52,6 @@ const TextComponent = ({ component }: TextProps) =>
     <ClickOutside onClickOutside={stopEdit} key={component.id}>
       <EmptyTextArea
         style={{
-          position: 'absolute',
-          top: component.position.top,
-          left: component.position.left,
-          width: component.size.width,
-          height: component.size.height,
           fontSize: state.font.sizes[component.fontSize].fontSize,
         }}
         defaultValue={component.text}
@@ -92,14 +61,8 @@ const TextComponent = ({ component }: TextProps) =>
   ) : (
     <TextWrapper
       style={{
-        position: 'absolute',
-        top: component.position.top,
-        left: component.position.left,
-        width: component.size.width,
-        height: component.size.height,
         fontSize: state.font.sizes[component.fontSize].fontSize,
       }}
-      onMouseDown={startComponentDrag(component)}
       onDoubleClick={editText(component)}
     >
       {component.text}
@@ -107,70 +70,35 @@ const TextComponent = ({ component }: TextProps) =>
     </TextWrapper>
   )
 
-const Boxxy = styled.div`
-  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  transition: transform 0.3s, box-shadow 0.3s;
-`
-
 interface BoxProps {
   component: Node
 }
+const Boxxy = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  grid-gap: 16px;
+  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: ${({ component }: BoxProps) => component.background.color};
+`
+
 const BoxComponent = ({ component }: BoxProps) => (
-  <Boxxy
-    style={{
-      position: 'absolute',
-      top: component.position.top,
-      left: component.position.left,
-      width: component.size.width,
-      height: component.size.height,
-      background: component.background.color,
-    }}
-    onMouseDown={startComponentDrag(component)}
-  >
+  <Boxxy component={component} onMouseDown={selectComponent(component)}>
+    {component.children.map(child => (
+      <Component component={child} />
+    ))}
     <DragCorners component={component} />
   </Boxxy>
-)
-
-const ComponentWrapper = styled.div`
-  position: relative;
-  height: 320px;
-`
-
-const ComponentClickCatcher = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
-interface ComponentProps {
-  component: Node
-}
-const ComponentComponent = ({ component }: ComponentProps) => (
-  <ComponentWrapper
-    style={{
-      position: 'absolute',
-      top: component.position.top,
-      left: component.position.left,
-      width: component.size.width,
-      height: component.size.height,
-    }}
-  >
-    {state.components[component.id].nodes.map(node => (
-      <Component component={node} />
-    ))}
-    <ComponentClickCatcher onMouseDown={startComponentDrag(component)} />
-  </ComponentWrapper>
 )
 
 interface Props {
   component: Node
 }
 function Component({ component }: Props) {
-  if (component.type === NodeTypes.Component) {
-    return <ComponentComponent component={component} />
-  }
   if (component.type === NodeTypes.Box) {
     return <BoxComponent component={component} />
   }

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Node, FontSizeName, NodeTypes, Component as ComponentInterface, RouterPaths } from '@src/interfaces'
+import { Component as ComponentInterface, FontSizeName, NodeTypes, RouterPaths, Node, Units } from '@src/interfaces'
+import Component from '@src/editor/Center/Preview/ComponentView/_Component'
 import { uuid } from '@src/editor/utils'
-import Component, { startComponentDrag } from '@src/editor/Center/Preview/ComponentView/_Component'
 
 const Menu = styled.div`
   background: rgba(244, 255, 244, 0.6);
@@ -26,7 +26,7 @@ const Title = styled.div`
 `
 
 const Box = styled.div`
-  background: #49c67f;
+  background: #90ccf4;
   width: 162px;
   height: 100px;
 `
@@ -52,70 +52,83 @@ const ComponentClickCatcher = styled.div`
   right: 0;
 `
 
-const addComponent = (type: NodeTypes, component?: ComponentInterface) => (event: React.MouseEvent) => {
+const addComponent = (type: NodeTypes, component?: ComponentInterface) => (
+  event: React.MouseEvent & React.TouchEvent,
+) => {
   event.stopPropagation()
   event.persist()
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
-  const height = box.bottom - box.top
-  const width = box.right - box.left
   const newId = uuid()
 
-  let newNode: Node
-  if (type === NodeTypes.Box) {
-    newNode = {
-      id: newId,
-      type: NodeTypes.Box,
-      position: {
-        left: box.left,
-        top: box.top,
-      },
-      size: {
-        width,
-        height,
-      },
-      background: {
-        color: '#49c67f',
-      },
-    }
-  }
-  if (type === NodeTypes.Text) {
-    newNode = {
-      id: newId,
-      type: NodeTypes.Text,
-      size: {
-        width,
-        height,
-      },
-      position: {
-        left: box.left,
-        top: box.top,
-      },
-      fontSize: FontSizeName.L,
-      text: 'Hello',
-    }
-  }
-  if (type === NodeTypes.Component) {
-    newNode = {
-      id: component.id,
-      type: NodeTypes.Component,
-      position: {
-        left: box.left,
-        top: box.top,
-      },
-      size: {
-        width,
-        height,
-      },
-      background: {
-        color: '#49c67f',
-      },
-    }
-  }
+  // state.components[state.router.componentId].nodes.push(newNode)
+  let currentX = event.touches ? event.touches[0].pageX : event.pageX
+  let currentY = event.touches ? event.touches[0].pageY : event.pageY
 
-  state.components[state.router.componentId].nodes.push(newNode)
   state.ui.showAddComponentMenu = false
+  state.ui.addingAtom = {
+    type: NodeTypes.Box,
+    position: {
+      x: currentX - box.left,
+      y: currentY - box.top,
+    },
+  }
 
-  startComponentDrag(newNode)(event)
+  function drag(e) {
+    e.preventDefault()
+    const newX = e.touches ? e.touches[0].pageX : e.pageX
+    const newY = e.touches ? e.touches[0].pageY : e.pageY
+    const diffX = currentX - newX
+    const diffY = currentY - newY
+    state.ui.addingAtom.position.y -= diffY / (state.ui.zoom / 100)
+    state.ui.addingAtom.position.x -= diffX / (state.ui.zoom / 100)
+    currentX = newX
+    currentY = newY
+    return false
+  }
+  window.addEventListener('mousemove', drag)
+  window.addEventListener('touchmove', drag)
+  window.addEventListener('mouseup', stopDragging)
+  window.addEventListener('touchend', stopDragging)
+  function stopDragging(event) {
+    event.preventDefault()
+
+    if (state.ui.hoveredCell) {
+      state.ui.hoveredCell.component.children.push({
+        id: newId,
+        type: NodeTypes.Box,
+        position: {
+          columnStart: state.ui.hoveredCell.colIndex+1,
+          columnEnd: state.ui.hoveredCell.colIndex+2,
+          rowStart: state.ui.hoveredCell.rowIndex+1,
+          rowEnd: state.ui.hoveredCell.rowIndex+2,
+        },
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        children: [],
+        background: {
+          color: '#90ccf4',
+        },
+      })
+    }
+    state.ui.addingAtom = null
+    state.ui.hoveredCell = null
+    window.removeEventListener('mousemove', drag)
+    window.removeEventListener('touchmove', drag)
+    window.removeEventListener('mouseup', stopDragging)
+    window.removeEventListener('touchend', stopDragging)
+    return false
+  }
+  return false
 }
 
 export default () => {
@@ -129,15 +142,6 @@ export default () => {
         <Text onMouseDown={addComponent(NodeTypes.Text)}>Hello</Text>
         <Title>Text</Title>
       </ComponentWrapper>
-      {state.router.path === RouterPaths.page &&
-        Object.values(state.components).map(component =>
-          component.nodes.map(node => (
-            <ComponentWrapper>
-              <Component component={node} />
-              <ComponentClickCatcher onMouseDown={addComponent(NodeTypes.Component, component)} />
-            </ComponentWrapper>
-          )),
-        )}
     </Menu>
   )
 }

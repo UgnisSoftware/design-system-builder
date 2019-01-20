@@ -1,70 +1,52 @@
 import { proxify } from 'lape'
-import { FontSizeName, RouterPaths, State, NodeTypes, ViewTypes, ComponentView } from '@src/interfaces'
+import { FontSizeName, RouterPaths, State, NodeTypes, ViewTypes, ComponentView, Units } from '@src/interfaces'
 
 const defaultState: State = {
   router: {
     path: RouterPaths.component,
     componentId: 'abcd-1234',
   },
+  elements: {
+    button: [
+      {
+        name: 'Default',
+        root: {
+          type: NodeTypes.Button,
+        },
+      },
+    ],
+  },
   components: {
     'abcd-1234': {
       id: 'abcd-1234',
       name: 'Button',
       viewMode: ViewTypes.SingleCenter,
-      nodes: [
-        {
-          id: 'rootId',
-          type: NodeTypes.Box,
-          position: {
-            top: 0,
-            left: 0,
-          },
-          size: {
-            width: 254,
-            height: 254,
-          },
-          background: {
-            color: '#49c67f',
-          },
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
         },
-      ],
-    },
-    'ergefe-4356': {
-      id: 'ergefe-4356',
-      name: 'Link',
-      viewMode: ViewTypes.SingleCenter,
-      nodes: [
-        {
-          id: 'rootId',
-          type: NodeTypes.Box,
-          position: {
-            top: 0,
-            left: 0,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
           },
-          size: {
-            width: 254,
-            height: 254,
+        ],
+        rows: [
+          {
+            value: 100,
+            unit: Units.Px,
           },
-          background: {
-            color: '#49c67f',
-          },
+        ],
+        children: [],
+        background: {
+          color: '#49c67f',
         },
-        {
-          id: '423423dsfs',
-          type: NodeTypes.Box,
-          position: {
-            top: 0,
-            left: 0,
-          },
-          size: {
-            width: 50,
-            height: 50,
-          },
-          background: {
-            color: '#497fc6',
-          },
-        },
-      ],
+      },
     },
   },
   pages: {
@@ -156,16 +138,14 @@ const defaultState: State = {
     },
   },
   ui: {
-    screenPosition: {
-      x: 200,
-      y: 200,
-    },
     editingColorId: '',
     componentView: ComponentView.Center,
     editingTextNode: null,
     addingComponent: false,
     addingPage: false,
     showAddComponentMenu: false,
+    addingAtom: null,
+    hoveredCell: null,
     selectedNode: null,
     zoom: 100,
   },

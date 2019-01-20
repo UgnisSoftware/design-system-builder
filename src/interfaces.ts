@@ -23,7 +23,15 @@ export enum NodeTypes {
   Text = 'Text',
   Input = 'Input',
   Image = 'Image',
+  Button = 'Button',
+  Link = 'Link',
   Component = 'Component',
+}
+
+export enum Units {
+  Fr = 'fr',
+  Px = 'px',
+  Auto = 'Auto',
 }
 
 export enum ViewTypes {
@@ -41,21 +49,30 @@ interface AllDirections {
   right?: Direction
 }
 
+interface GridProperty {
+  value: number
+  unit: Units
+}
+
 export interface Node {
   id: string
   type: NodeTypes
   text?: string
-  size: {
-    width: number
-    height: number
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
   }
-  position: AllDirections
+  columns: GridProperty[]
+  rows: GridProperty[]
   padding?: AllDirections
   margin?: AllDirections
   border?: AllDirections
   background?: {
     color: string
   }
+  children: Node[]
   fontSize?: FontSizeName
 }
 
@@ -63,7 +80,7 @@ export interface Component {
   id: string
   name: string
   viewMode: ViewTypes
-  nodes: Node[]
+  root: Node
 }
 
 export interface Page {
@@ -108,8 +125,27 @@ export enum ComponentView {
   List = 'List',
 }
 
+export interface Elements {
+  button: any
+}
+
+export interface AddingAtom {
+  type: NodeTypes
+  position: {
+    x: number
+    y: number
+  }
+}
+
+export interface HoveredCell {
+  component: Node
+  rowIndex: number
+  colIndex: number
+}
+
 export interface State {
   router: Router
+  elements: Elements
   components: { [id: string]: Component }
   pages: { [id: string]: Page }
   colors: Color[]
@@ -118,10 +154,6 @@ export interface State {
   border: Border[]
   font: Font
   ui: {
-    screenPosition: {
-      x: number
-      y: number
-    }
     componentView: ComponentView
     editingColorId: string
     editingTextNode: Node
@@ -130,5 +162,7 @@ export interface State {
     showAddComponentMenu: boolean
     selectedNode: Node
     zoom: number
+    addingAtom: AddingAtom
+    hoveredCell: HoveredCell
   }
 }

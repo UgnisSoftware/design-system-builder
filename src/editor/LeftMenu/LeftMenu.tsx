@@ -6,7 +6,6 @@ import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
-import { route } from '@src/editor/actions'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/editor/utils'
@@ -68,6 +67,11 @@ const LogoImg = styled.img`
   margin-right: -1px;
 `
 
+const route = (path, componentId?) => () => {
+  state.router.path = path
+  state.router.componentId = componentId
+}
+
 const showAddComponent = () => {
   state.ui.addingComponent = true
 }
@@ -83,23 +87,21 @@ const addComponent = value => {
     id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
-    nodes: [
-      {
-        id: 'rootId',
-        type: NodeTypes.Box,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
+    root: {
+      id: 'rootId',
+      type: NodeTypes.Box,
+      position: {
+        top: 0,
+        left: 0,
       },
-    ],
+      size: {
+        width: 254,
+        height: 254,
+      },
+      background: {
+        color: '#49c67f',
+      },
+    },
   }
   state.router.path = RouterPaths.component
   state.router.componentId = newId
