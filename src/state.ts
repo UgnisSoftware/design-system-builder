@@ -7,7 +7,7 @@ const defaultState: State = {
     componentId: 'abcd-1234',
   },
   elements: {
-    button: [
+    Button: [
       {
         name: 'Default',
         root: {

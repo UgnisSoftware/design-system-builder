@@ -29,13 +29,14 @@ const PreviewBox = styled.div`
 `
 
 const PerspectiveBox = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 16px;
   width: 512px;
   align-items: stretch;
-  transition: transform 0.2s;
+  transition: transform 0.25s;
   transform: ${() =>
     `translateZ(0) scale(${state.ui.zoom / 100}) ${
       state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''
@@ -43,6 +44,10 @@ const PerspectiveBox = styled.div`
 `
 
 const Column = styled.div`
+  position: absolute;
+  top: -200%;
+  bottom: -200%;
+  width: 100%;
   grid-column: ${({ index }) => `${index} / ${index + 1}`};
   grid-row: 1 / 2;
   background: rgba(169, 169, 169, 0.1);
@@ -65,10 +70,7 @@ const Preview = () => {
     <Wrapper onClick={unselectComponent}>
       <PreviewBox>
         <PerspectiveBox onClick={unselectComponent}>
-          <Column index={1} />
-          <Column index={2} />
-          <Column index={3} />
-          <Column index={4} />
+
           <AlignCenter>
             <Component component={component.root} />
           </AlignCenter>

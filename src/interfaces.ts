@@ -9,6 +9,7 @@ export enum FontSizeName {
 export enum RouterPaths {
   'fonts' = 'fonts',
   'colors' = 'colors',
+  'elements' = 'elements',
   'component' = 'component',
   'page' = 'page',
 }
@@ -125,8 +126,13 @@ export enum ComponentView {
   List = 'List',
 }
 
+interface Button {
+  name: string
+  root: Node
+}
+
 export interface Elements {
-  button: any
+  Button: Button[]
 }
 
 export interface AddingAtom {

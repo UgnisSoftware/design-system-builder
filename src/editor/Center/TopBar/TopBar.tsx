@@ -4,8 +4,12 @@ import state from '@state'
 import { ComponentView } from '@src/interfaces'
 
 const TopBarBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 8px 22px;
-  background: rgb(0, 0, 0, 0.028);
+  background: rgb(248,248,248);
   box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
   flex: 0 0 50px;
   display: flex;

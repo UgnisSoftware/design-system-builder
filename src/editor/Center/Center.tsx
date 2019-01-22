@@ -43,8 +43,8 @@ class CenterColumn extends React.Component {
   render() {
     return (
       <Center onWheel={zoom}>
-        <TopBar />
         <Preview />
+        <TopBar />
         <Zoom />
       </Center>
     )

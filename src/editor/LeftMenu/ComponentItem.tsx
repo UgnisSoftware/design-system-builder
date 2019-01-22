@@ -34,7 +34,7 @@ export const Item = styled.div`
 
 const Input = styled(TextInput)`
   padding-left: 24px;
-  font-weight: 400;
+  font-weight: 500;
   height: 40px;
   padding-top: 3px;
   display: flex;
@@ -54,13 +54,9 @@ interface State {
 }
 
 class ComponentItem extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      name: props.component.name,
-      isEditingName: false,
-    }
+  state = {
+    name: this.props.component.name,
+    isEditingName: false,
   }
 
   edit = () => {

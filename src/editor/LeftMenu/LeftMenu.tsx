@@ -9,6 +9,7 @@ import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/editor/utils'
+import StaticItem from '@src/editor/LeftMenu/StaticItem'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -157,6 +158,11 @@ const LeftMenu = () => (
       <LogoImg src="/images/logo.png" height={32} />
       ugnis
     </Logo>
+    <Title>Elements</Title>
+    {Object.keys(state.elements).map(elementKey => (
+      <StaticItem onClick={route(RouterPaths.elements, elementKey)} name={elementKey} />
+    ))}
+
     <Title>
       Components
       {!state.ui.addingComponent && (
