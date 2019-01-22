@@ -116,7 +116,7 @@ const addComponent = (type: NodeTypes, component?: ComponentInterface) => (
         ],
         children: [],
         background: {
-          color: '#90ccf4',
+          colorId: 'dddd-4444',
         },
       })
     }
