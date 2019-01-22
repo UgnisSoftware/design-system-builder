@@ -33,7 +33,7 @@ const defaultState: State = {
           ],
           children: [],
           background: {
-            color: '#49c67f',
+            colorId: 'eeee-5555',
           },
         },
       },
@@ -58,8 +58,16 @@ const defaultState: State = {
             value: 1,
             unit: Units.Fr,
           },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
         ],
         rows: [
+          {
+            value: 100,
+            unit: Units.Px,
+          },
           {
             value: 100,
             unit: Units.Px,
@@ -67,7 +75,7 @@ const defaultState: State = {
         ],
         children: [],
         background: {
-          color: '#49c67f',
+          colorId: 'aaaa-1111',
         },
       },
     },

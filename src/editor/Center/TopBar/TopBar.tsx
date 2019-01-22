@@ -42,8 +42,8 @@ const showAddComponentMenu = () => {
   state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
 }
 
-const changeBackground = (hex: string) => () => {
-  state.ui.selectedNode.background.color = hex
+const changeBackground = (colorId: string) => () => {
+  state.ui.selectedNode.background.colorId = colorId
 }
 
 const TopBar = () => (
@@ -123,8 +123,8 @@ const TopBar = () => (
     </i>
     <Divider />
     <i className="material-icons">settings</i>
-    {Object.keys(state.colors).map(colorId => (
-      <ColorBox color={state.colors[colorId].hex} onClick={changeBackground(state.colors[colorId].hex)} />
+    {Object.keys(state.colors).map(colorIndex => (
+      <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
     ))}
   </TopBarBox>
 )

@@ -71,7 +71,7 @@ export interface Node {
   margin?: AllDirections
   border?: AllDirections
   background?: {
-    color: string
+    colorId: string
   }
   children: Node[]
   fontSize?: FontSizeName
