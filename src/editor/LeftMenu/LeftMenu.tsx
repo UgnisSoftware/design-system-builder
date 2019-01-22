@@ -69,6 +69,7 @@ const LogoImg = styled.img`
 `
 
 const route = (path, componentId?) => () => {
+  state.ui.selectedNode = null
   state.router.path = path
   state.router.componentId = componentId
 }

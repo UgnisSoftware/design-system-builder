@@ -9,7 +9,7 @@ const TopBarBox = styled.div`
   left: 0;
   right: 0;
   padding: 8px 22px;
-  background: rgb(248,248,248);
+  background: rgb(248, 248, 248);
   box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
   flex: 0 0 50px;
   display: flex;
@@ -51,9 +51,9 @@ const TopBar = () => (
     <i className="material-icons" onClick={showAddComponentMenu}>
       {state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
     </i>
-    <i className="material-icons">flip_to_back</i>
-    <i className="material-icons">flip_to_front</i>
+
     <Divider />
+
     <i
       className="material-icons"
       style={{
@@ -77,55 +77,18 @@ const TopBar = () => (
     >
       layers
     </i>
-    <i
-      className="material-icons"
-      style={{
-        fontSize: '27px',
-        marginRight: '4px',
-        color: state.ui.componentView === ComponentView.CenterWithTopAndBottom ? ' rgb(83, 212, 134)' : 'black',
-      }}
-      onClick={selectComponentView(ComponentView.CenterWithTopAndBottom)}
-    >
-      view_quilt
-    </i>
-    <i
-      className="material-icons"
-      style={{
-        fontSize: '24px',
-        marginRight: '4px',
-        color: state.ui.componentView === ComponentView.WithSidebar ? ' rgb(83, 212, 134)' : 'black',
-      }}
-      onClick={selectComponentView(ComponentView.WithSidebar)}
-    >
-      vertical_split
-    </i>
-    <i
-      className="material-icons"
-      style={{
-        fontSize: '27px',
-        marginRight: '4px',
-        color: state.ui.componentView === ComponentView.Repeated ? ' rgb(83, 212, 134)' : 'black',
-      }}
-      onClick={selectComponentView(ComponentView.Repeated)}
-    >
-      view_column
-    </i>
-    <i
-      className="material-icons"
-      style={{
-        fontSize: '27px',
-        marginRight: '4px',
-        color: state.ui.componentView === ComponentView.List ? ' rgb(83, 212, 134)' : 'black',
-      }}
-      onClick={selectComponentView(ComponentView.List)}
-    >
-      view_stream
-    </i>
     <Divider />
-    <i className="material-icons">settings</i>
-    {Object.keys(state.colors).map(colorIndex => (
-      <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
-    ))}
+
+    {state.ui.selectedNode && (
+      <>
+        <i className="material-icons">flip_to_back</i>
+        <i className="material-icons">flip_to_front</i>
+        <Divider />
+        {Object.keys(state.colors).map(colorIndex => (
+          <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
+        ))}
+      </>
+    )}
   </TopBarBox>
 )
 
