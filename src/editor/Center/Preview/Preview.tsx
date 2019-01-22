@@ -4,7 +4,7 @@ import state from '@state'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Center/Preview/ComponentView/_Component'
 import { connect } from 'lape'
-import { ComponentView } from '@src/interfaces'
+import { ComponentView, RouterPaths } from '@src/interfaces'
 import AddingAtom from '@src/editor/Center/Preview/AddingAtom'
 
 const Wrapper = styled.div`
@@ -65,12 +65,14 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const component = state.components[state.router.componentId]
+  const component =
+    state.router.path === RouterPaths.elements
+      ? state.elements[state.router.componentId][0]
+      : state.components[state.router.componentId]
   return (
     <Wrapper onClick={unselectComponent}>
       <PreviewBox>
         <PerspectiveBox onClick={unselectComponent}>
-
           <AlignCenter>
             <Component component={component.root} />
           </AlignCenter>

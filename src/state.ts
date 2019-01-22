@@ -11,7 +11,30 @@ const defaultState: State = {
       {
         name: 'Default',
         root: {
-          type: NodeTypes.Button,
+          id: 'rootId',
+          type: NodeTypes.Box,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+          },
+          columns: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          rows: [
+            {
+              value: 100,
+              unit: Units.Px,
+            },
+          ],
+          children: [],
+          background: {
+            color: '#49c67f',
+          },
         },
       },
     ],
@@ -19,7 +42,7 @@ const defaultState: State = {
   components: {
     'abcd-1234': {
       id: 'abcd-1234',
-      name: 'Button',
+      name: 'Card',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',

@@ -21,6 +21,7 @@ const Editor = () => {
       <LeftMenu />
       {state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
       {state.router.path === RouterPaths.fonts && <Fonts />}
+      {state.router.path === RouterPaths.elements && <Center />}
       {state.router.path === RouterPaths.component && <Center />}
     </Root>
   )
