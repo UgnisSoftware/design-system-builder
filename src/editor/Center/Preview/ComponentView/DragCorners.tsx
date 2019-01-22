@@ -42,7 +42,7 @@ const addRow = (component: Node) => _ => {
   component.rows.push({ value: 100, unit: Units.Px })
 }
 
-const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => e => {
+const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => () => {
   if (state.ui.addingAtom) {
     state.ui.hoveredCell = {
       component: component,

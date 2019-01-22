@@ -81,27 +81,45 @@ const defaultState: State = {
     },
   },
   pages: {
-    // 'asde23456f-2344': {
-    //   id: 'asde23456f-2344',
-    //   name: 'Front Page',
-    //   viewMode: ViewTypes.SingleCenter,
-    //   root: {
-    //     id: 'rootId',
-    //     type: NodeTypes.Root,
-    //     position: {
-    //       top: 0,
-    //       left: 0,
-    //     },
-    //     size: {
-    //       width: 254,
-    //       height: 254,
-    //     },
-    //     background: {
-    //       color: '#49c67f',
-    //     },
-    //     children: [],
-    //   },
-    // },
+    'qwer-1234': {
+      id: 'qwer-1234',
+      name: 'Front Page',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 100,
+            unit: Units.Px,
+          },
+          {
+            value: 100,
+            unit: Units.Px,
+          },
+        ],
+        children: [],
+        background: {
+          colorId: 'bbbb-2222',
+        },
+      },
+    },
   },
   colors: [
     {

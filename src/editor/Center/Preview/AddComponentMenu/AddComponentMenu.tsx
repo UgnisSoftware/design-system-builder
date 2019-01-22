@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Component as ComponentInterface, FontSizeName, NodeTypes, RouterPaths, Node, Units } from '@src/interfaces'
-import Component from '@src/editor/Center/Preview/ComponentView/_Component'
+import { NodeTypes, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
@@ -44,17 +43,7 @@ const Text = styled.span`
   font-size: 38px;
 `
 
-const ComponentClickCatcher = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
-const addComponent = (type: NodeTypes, component?: ComponentInterface) => (
-  event: React.MouseEvent & React.TouchEvent,
-) => {
+const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.TouchEvent) => {
   event.stopPropagation()
   event.persist()
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
@@ -66,7 +55,7 @@ const addComponent = (type: NodeTypes, component?: ComponentInterface) => (
 
   state.ui.showAddComponentMenu = false
   state.ui.addingAtom = {
-    type: NodeTypes.Box,
+    type: type,
     position: {
       x: currentX - box.left,
       y: currentY - box.top,
@@ -97,10 +86,10 @@ const addComponent = (type: NodeTypes, component?: ComponentInterface) => (
         id: newId,
         type: NodeTypes.Box,
         position: {
-          columnStart: state.ui.hoveredCell.colIndex+1,
-          columnEnd: state.ui.hoveredCell.colIndex+2,
-          rowStart: state.ui.hoveredCell.rowIndex+1,
-          rowEnd: state.ui.hoveredCell.rowIndex+2,
+          columnStart: state.ui.hoveredCell.colIndex + 1,
+          columnEnd: state.ui.hoveredCell.colIndex + 2,
+          rowStart: state.ui.hoveredCell.rowIndex + 1,
+          rowEnd: state.ui.hoveredCell.rowIndex + 2,
         },
         columns: [
           {

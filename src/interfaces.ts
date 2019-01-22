@@ -88,7 +88,7 @@ export interface Page {
   id: string
   name: string
   viewMode: ViewTypes
-  nodes: Node[]
+  root: Node
 }
 
 export interface Color {

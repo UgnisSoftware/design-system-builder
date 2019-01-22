@@ -4,8 +4,9 @@ import state from '@state'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Center/Preview/ComponentView/_Component'
 import { connect } from 'lape'
-import { ComponentView, RouterPaths } from '@src/interfaces'
+import { ComponentView } from '@src/interfaces'
 import AddingAtom from '@src/editor/Center/Preview/AddingAtom'
+import { getCurrentComponent } from '@src/selectors'
 
 const Wrapper = styled.div`
   position: relative;
@@ -43,15 +44,15 @@ const PerspectiveBox = styled.div`
     }`};
 `
 
-const Column = styled.div`
-  position: absolute;
-  top: -200%;
-  bottom: -200%;
-  width: 100%;
-  grid-column: ${({ index }) => `${index} / ${index + 1}`};
-  grid-row: 1 / 2;
-  background: rgba(169, 169, 169, 0.1);
-`
+// const Column = styled.div`
+//   position: absolute;
+//   top: -200%;
+//   bottom: -200%;
+//   width: 100%;
+//   grid-column: ${({ index }) => `${index} / ${index + 1}`};
+//   grid-row: 1 / 2;
+//   background: rgba(169, 169, 169, 0.1);
+// `
 const AlignCenter = styled.div`
   grid-column: 1 / -1;
   grid-row: 1 / -1;
@@ -65,10 +66,7 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const component =
-    state.router.path === RouterPaths.elements
-      ? state.elements[state.router.componentId][0]
-      : state.components[state.router.componentId]
+  const component = getCurrentComponent()
   return (
     <Wrapper onClick={unselectComponent}>
       <PreviewBox>

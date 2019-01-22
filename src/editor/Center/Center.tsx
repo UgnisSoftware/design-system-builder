@@ -25,11 +25,16 @@ const zoom = e => {
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
+  const component = state.components[state.router.componentId]
 
-  if ((del || backspace) && state.ui.selectedNode && !state.ui.editingTextNode) {
-    const component = state.components[state.router.componentId]
-    const nodeIndex = component.nodes.indexOf(state.ui.selectedNode)
-    component.nodes.splice(nodeIndex, 1)
+  if (
+    (del || backspace) &&
+    state.ui.selectedNode &&
+    !state.ui.editingTextNode &&
+    component.root !== state.ui.selectedNode
+  ) {
+    const nodeIndex = component.root.children.indexOf(state.ui.selectedNode)
+    component.root.children.splice(nodeIndex, 1)
   }
 }
 class CenterColumn extends React.Component {

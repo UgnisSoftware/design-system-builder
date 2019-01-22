@@ -81,8 +81,6 @@ const TopBar = () => (
 
     {state.ui.selectedNode && (
       <>
-        <i className="material-icons">flip_to_back</i>
-        <i className="material-icons">flip_to_front</i>
         <Divider />
         {Object.keys(state.colors).map(colorIndex => (
           <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />

@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Component, NodeTypes, RouterPaths, ViewTypes } from '@src/interfaces'
+import { Component, NodeTypes, RouterPaths, Units, ViewTypes } from '@src/interfaces'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
@@ -93,15 +93,26 @@ const addComponent = value => {
       id: 'rootId',
       type: NodeTypes.Box,
       position: {
-        top: 0,
-        left: 0,
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
       },
-      size: {
-        width: 254,
-        height: 254,
-      },
+      columns: [
+        {
+          value: 1,
+          unit: Units.Fr,
+        },
+      ],
+      rows: [
+        {
+          value: 100,
+          unit: Units.Px,
+        },
+      ],
+      children: [],
       background: {
-        color: '#49c67f',
+        colorId: state.colors[0].id,
       },
     },
   }
@@ -127,23 +138,32 @@ const addPage = value => {
     id: newId,
     name: value,
     viewMode: ViewTypes.SingleCenter,
-    nodes: [
-      {
-        id: 'rootId',
-        type: NodeTypes.Box,
-        position: {
-          top: 0,
-          left: 0,
-        },
-        size: {
-          width: 254,
-          height: 254,
-        },
-        background: {
-          color: '#49c67f',
-        },
+    root: {
+      id: 'rootId',
+      type: NodeTypes.Box,
+      position: {
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
       },
-    ],
+      columns: [
+        {
+          value: 1,
+          unit: Units.Fr,
+        },
+      ],
+      rows: [
+        {
+          value: 100,
+          unit: Units.Px,
+        },
+      ],
+      children: [],
+      background: {
+        colorId: state.colors[0].id,
+      },
+    },
   }
   state.router.path = RouterPaths.page
   state.router.componentId = newId
