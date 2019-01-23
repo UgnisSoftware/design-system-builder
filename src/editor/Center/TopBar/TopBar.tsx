@@ -37,10 +37,11 @@ const ColorBox = styled.div`
 const BorderBox = styled.div`
   border: ${({ border }) => border.style};
   border-radius: ${({ border }) => border.radius};
+  background: white;
+  margin-right: 8px;
   width: 25px;
   height: 25px;
 `
-
 
 const selectComponentView = (view: ComponentView) => () => {
   state.ui.componentView = view
@@ -54,6 +55,9 @@ const changeBackground = (colorId: string) => () => {
   state.ui.selectedNode.background.colorId = colorId
 }
 
+const removeBorder = () => () => {
+  state.ui.selectedNode.border = null
+}
 const changeBorder = (border: Border) => () => {
   state.ui.selectedNode.border = border.id
 }
@@ -98,6 +102,7 @@ const TopBar = () => (
           <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
         ))}
         <Divider />
+        <BorderBox border={{ style: 'none', radius: 'none' }} onClick={removeBorder()} />
         {state.border.map(border => (
           <BorderBox border={border} onClick={changeBorder(border)} />
         ))}

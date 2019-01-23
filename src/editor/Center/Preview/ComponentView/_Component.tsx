@@ -74,6 +74,7 @@ interface BoxProps {
   component: Node
 }
 const Boxxy = styled.div`
+  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -82,7 +83,6 @@ const Boxxy = styled.div`
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   grid-gap: 16px;
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  transition: transform 0.3s, box-shadow 0.3s;
   background: ${({ component }: BoxProps) => state.colors.find(color => color.id === component.background.colorId).hex};
   ${({ component }: BoxProps) => {
     const border = state.border.find(border => border.id === component.border)

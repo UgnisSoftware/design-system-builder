@@ -161,6 +161,11 @@ const defaultState: State = {
       radius: '80px 149px 80px 51px',
       style: '2px solid #5da2d5',
     },
+    {
+      id: 'barbar-7777',
+      radius: '0px 149px 0px 51px',
+      style: '2px solid #5da2d5',
+    },
   ],
   font: {
     fontName: 'Roboto',
