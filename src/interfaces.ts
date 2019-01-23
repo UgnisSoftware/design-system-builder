@@ -69,7 +69,7 @@ export interface Node {
   rows: GridProperty[]
   padding?: AllDirections
   margin?: AllDirections
-  border?: AllDirections
+  border?: string
   background?: {
     colorId: string
   }
@@ -102,6 +102,7 @@ export interface BoxShadow {
 }
 
 export interface Border {
+  id: string
   style: string
   radius: string
 }

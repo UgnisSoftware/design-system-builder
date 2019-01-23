@@ -77,6 +77,7 @@ const defaultState: State = {
         background: {
           colorId: 'aaaa-1111',
         },
+        border: 'borbor-6666',
       },
     },
   },
@@ -156,8 +157,9 @@ const defaultState: State = {
   ],
   border: [
     {
+      id: 'borbor-6666',
       radius: '80px 149px 80px 51px',
-      style: '2px solid #f78888',
+      style: '2px solid #5da2d5',
     },
   ],
   font: {

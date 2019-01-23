@@ -83,7 +83,16 @@ const Boxxy = styled.div`
   grid-gap: 16px;
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   transition: transform 0.3s, box-shadow 0.3s;
-  background: ${({ component }: BoxProps) => state.colors.find((color) => color.id === component.background.colorId).hex};
+  background: ${({ component }: BoxProps) => state.colors.find(color => color.id === component.background.colorId).hex};
+  ${({ component }: BoxProps) => {
+    const border = state.border.find(border => border.id === component.border)
+    return border
+      ? css`
+          border: ${border.style};
+          border-radius: ${border.radius};
+        `
+      : ''
+  }};
 `
 
 const BoxComponent = ({ component }: BoxProps) => (
