@@ -23,6 +23,7 @@ const Editor = () => {
       {state.router.path === RouterPaths.fonts && <Fonts />}
       {state.router.path === RouterPaths.elements && <Center />}
       {state.router.path === RouterPaths.component && <Center />}
+      {state.router.path === RouterPaths.page && <Center />}
     </Root>
   )
 }
