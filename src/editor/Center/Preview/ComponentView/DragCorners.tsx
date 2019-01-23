@@ -58,16 +58,17 @@ interface Props {
 const DragCorners = ({ component }: Props) =>
   ((state.ui.selectedNode && state.ui.selectedNode.id === component.id) || state.ui.addingAtom) && (
     <>
-      {component.rows.map((_, rowIndex) =>
-        component.columns.map((_, colIndex) => (
-          <Border
-            key={`${colIndex}_${rowIndex}`}
-            row={rowIndex + 1}
-            col={colIndex + 1}
-            onMouseOver={onMouseOver(component, rowIndex, colIndex)}
-          />
-        )),
-      )}
+      {state.ui.showGrid &&
+        component.rows.map((_, rowIndex) =>
+          component.columns.map((_, colIndex) => (
+            <Border
+              key={`${colIndex}_${rowIndex}`}
+              row={rowIndex + 1}
+              col={colIndex + 1}
+              onMouseOver={onMouseOver(component, rowIndex, colIndex)}
+            />
+          )),
+        )}
 
       {!state.ui.addingAtom && (
         <>

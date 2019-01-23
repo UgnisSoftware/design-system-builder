@@ -171,5 +171,6 @@ export interface State {
     zoom: number
     addingAtom: AddingAtom
     hoveredCell: HoveredCell
+    showGrid: boolean
   }
 }

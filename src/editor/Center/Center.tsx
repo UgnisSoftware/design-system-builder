@@ -5,6 +5,7 @@ import TopBar from './TopBar/TopBar'
 import Preview from './Preview/Preview'
 import Zoom from './Zoom/Zoom'
 import state from '@state'
+import AddComponent from '@src/editor/Center/TopBar/AddComponent'
 
 const Center = styled.div`
   position: relative;
@@ -37,6 +38,7 @@ const deleteComponent = e => {
     component.root.children.splice(nodeIndex, 1)
   }
 }
+
 class CenterColumn extends React.Component {
   componentDidMount() {
     window.addEventListener('keydown', deleteComponent)
@@ -50,6 +52,7 @@ class CenterColumn extends React.Component {
       <Center onWheel={zoom}>
         <Preview />
         <TopBar />
+        <AddComponent/>
         <Zoom />
       </Center>
     )

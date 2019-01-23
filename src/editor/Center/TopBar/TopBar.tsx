@@ -43,12 +43,17 @@ const BorderBox = styled.div`
   height: 25px;
 `
 
+const GridBox = styled.div`
+  border: #565656 dashed 1px;
+  background: white;
+  margin-right: 8px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+`
+
 const selectComponentView = (view: ComponentView) => () => {
   state.ui.componentView = view
-}
-
-const showAddComponentMenu = () => {
-  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
 }
 
 const changeBackground = (colorId: string) => () => {
@@ -62,11 +67,13 @@ const changeBorder = (border: Border) => () => {
   state.ui.selectedNode.border = border.id
 }
 
+const flipShowGrid = () => {
+  state.ui.showGrid = !state.ui.showGrid
+}
+
 const TopBar = () => (
   <TopBarBox>
-    <i className="material-icons" onClick={showAddComponentMenu}>
-      {state.ui.showAddComponentMenu ? 'remove_circle_outline' : 'add_circle_outline'}
-    </i>
+
 
     <Divider />
 
@@ -93,6 +100,7 @@ const TopBar = () => (
     >
       layers
     </i>
+    <GridBox onClick={flipShowGrid} />
     <Divider />
 
     {state.ui.selectedNode && (
