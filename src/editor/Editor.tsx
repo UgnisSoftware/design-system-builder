@@ -19,11 +19,11 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {state.router.path === RouterPaths.colors && <ColorsAndSpacing />}
-      {state.router.path === RouterPaths.fonts && <Fonts />}
-      {state.router.path === RouterPaths.elements && <Center />}
-      {state.router.path === RouterPaths.component && <Center />}
-      {state.router.path === RouterPaths.page && <Center />}
+      {state.ui.router.path === RouterPaths.colors && <ColorsAndSpacing />}
+      {state.ui.router.path === RouterPaths.fonts && <Fonts />}
+      {state.ui.router.path === RouterPaths.elements && <Center />}
+      {state.ui.router.path === RouterPaths.component && <Center />}
+      {state.ui.router.path === RouterPaths.page && <Center />}
     </Root>
   )
 }
