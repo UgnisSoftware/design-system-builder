@@ -2,10 +2,6 @@ import { proxify } from 'lape'
 import { FontSizeName, RouterPaths, State, NodeTypes, ViewTypes, ComponentView, Units } from '@src/interfaces'
 
 const defaultState: State = {
-  router: {
-    path: RouterPaths.component,
-    componentId: 'abcd-1234',
-  },
   elements: {
     Button: [
       {
@@ -194,6 +190,10 @@ const defaultState: State = {
     },
   },
   ui: {
+    router: {
+      path: RouterPaths.component,
+      componentId: 'abcd-1234',
+    },
     editingColorId: '',
     componentView: ComponentView.Center,
     editingTextNode: null,

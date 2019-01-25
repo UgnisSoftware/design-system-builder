@@ -49,7 +49,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
   const newId = uuid()
 
-  // state.components[state.router.componentId].nodes.push(newNode)
+  // state.components[state.ui.router.componentId].nodes.push(newNode)
   let currentX = event.touches ? event.touches[0].pageX : event.pageX
   let currentY = event.touches ? event.touches[0].pageY : event.pageY
 

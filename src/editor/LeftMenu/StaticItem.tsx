@@ -37,7 +37,7 @@ interface Props {
 class StaticItem extends React.Component<Props> {
   render() {
     return (
-      <Item onClick={this.props.onClick} selected={state.router.componentId === this.props.name}>
+      <Item onClick={this.props.onClick} selected={state.ui.router.componentId === this.props.name}>
         {this.props.name}
       </Item>
     )

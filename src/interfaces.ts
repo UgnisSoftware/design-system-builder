@@ -151,7 +151,6 @@ export interface HoveredCell {
 }
 
 export interface State {
-  router: Router
   elements: Elements
   components: { [id: string]: Component }
   pages: { [id: string]: Page }
@@ -161,6 +160,7 @@ export interface State {
   border: Border[]
   font: Font
   ui: {
+    router: Router
     componentView: ComponentView
     editingColorId: string
     editingTextNode: Node

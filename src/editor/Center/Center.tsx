@@ -26,7 +26,7 @@ const zoom = e => {
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
-  const component = state.components[state.router.componentId]
+  const component = state.components[state.ui.router.componentId]
 
   if (
     (del || backspace) &&

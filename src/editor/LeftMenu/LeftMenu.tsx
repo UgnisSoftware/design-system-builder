@@ -70,8 +70,8 @@ const LogoImg = styled.img`
 
 const route = (path, componentId?) => () => {
   state.ui.selectedNode = null
-  state.router.path = path
-  state.router.componentId = componentId
+  state.ui.router.path = path
+  state.ui.router.componentId = componentId
 }
 
 const showAddComponent = () => {
@@ -116,8 +116,8 @@ const addComponent = value => {
       },
     },
   }
-  state.router.path = RouterPaths.component
-  state.router.componentId = newId
+  state.ui.router.path = RouterPaths.component
+  state.ui.router.componentId = newId
   state.components[newId] = newComponent
   state.ui.addingComponent = false
 }
@@ -165,8 +165,8 @@ const addPage = value => {
       },
     },
   }
-  state.router.path = RouterPaths.page
-  state.router.componentId = newId
+  state.ui.router.path = RouterPaths.page
+  state.ui.router.componentId = newId
   state.pages[newId] = newComponent
   state.ui.addingComponent = false
 }
@@ -215,10 +215,10 @@ const LeftMenu = () => (
       ))}
 
     <Title>Settings</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={state.router.path === RouterPaths.colors}>
+    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router.path === RouterPaths.colors}>
       Styles
     </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={state.router.path === RouterPaths.fonts}>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router.path === RouterPaths.fonts}>
       Fonts
     </Item>
   </LeftMenuBox>
