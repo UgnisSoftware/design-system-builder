@@ -67,6 +67,7 @@ const onAddBoxShadowClick = () => {
 
 const onAddBorderClick = () => {
   state.border.push({
+    id: uuid(),
     radius: '80px 149px 80px 51px',
     style: '2px solid #f78888',
   })
