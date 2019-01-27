@@ -92,7 +92,11 @@ const Boxxy = styled.div`
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   grid-gap: 16px;
-  padding: ${({ component }: BoxProps) => component.padding ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}` : 'none'};
+  padding: ${({ component }: BoxProps) =>
+    component.padding
+      ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
+      : 'none'};
+  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
   background: ${({ component }: BoxProps) =>
     component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
   box-shadow: ${({ component }: BoxProps) =>

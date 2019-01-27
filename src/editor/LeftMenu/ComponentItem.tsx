@@ -113,7 +113,11 @@ class ComponentItem extends React.Component<Props, State> {
       )
     }
     return (
-      <Item onClick={this.props.onClick} selected={state.ui.router.componentId === component.id} onDoubleClick={this.edit}>
+      <Item
+        onClick={this.props.onClick}
+        selected={state.ui.router.componentId === component.id}
+        onDoubleClick={this.edit}
+      >
         {component.name}
       </Item>
     )

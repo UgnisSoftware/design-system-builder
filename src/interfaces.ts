@@ -35,6 +35,12 @@ export enum Units {
   Auto = 'Auto',
 }
 
+export enum Overflow {
+  visible = 'visible',
+  hidden = 'hidden',
+  scroll = 'scroll',
+}
+
 export enum ViewTypes {
   SingleCenter = 'SingleCenter',
   CenterWithTopAndBottom = 'CenterWithTopAndBottom',
@@ -77,6 +83,7 @@ export interface Node {
   padding: Padding
   margin?: AllDirections
   border?: string
+  overflow: Overflow
   boxShadow?: string
   background?: {
     colorId: string

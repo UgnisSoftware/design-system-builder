@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Component, NodeTypes, RouterPaths, Units, ViewTypes } from '@src/interfaces'
+import { Component, NodeTypes, Overflow, RouterPaths, Units, ViewTypes } from '@src/interfaces'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
@@ -105,6 +105,7 @@ const addComponent = value => {
         bottom: '0px',
         right: '0px',
       },
+      overflow: Overflow.visible,
       columns: [
         {
           value: 1,
@@ -160,6 +161,7 @@ const addPage = value => {
         bottom: '0px',
         right: '0px',
       },
+      overflow: Overflow.visible,
       columns: [
         {
           value: 1,

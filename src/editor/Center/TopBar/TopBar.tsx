@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow, ComponentView } from '@src/interfaces'
+import { Border, BoxShadow, ComponentView, Overflow } from '@src/interfaces'
 import AddComponent from '@src/editor/Center/TopBar/AddComponent'
 import { Colors } from '@src/styles'
 
@@ -103,6 +103,9 @@ const removeBoxShadow = () => () => {
 const changeBoxShadow = (boxShadow: BoxShadow) => () => {
   state.ui.selectedNode.boxShadow = boxShadow.id
 }
+const changeOverflow = (overflow: Overflow) => () => {
+  state.ui.selectedNode.overflow = overflow
+}
 
 const TopBar = () => (
   <TopBarBox>
@@ -189,6 +192,34 @@ const TopBar = () => (
                 onClick={changeBoxShadow(boxShadow)}
               />
             ))}
+          </IconRow>
+        </InfoColumn>
+        <Divider />
+        <InfoColumn>
+          <Title>Overflow</Title>
+          <IconRow>
+            <StylelessButton
+              title="Visible"
+              className="material-icons"
+              style={{
+                fontSize: '28px',
+                color: state.ui.selectedNode.overflow === Overflow.visible ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeOverflow(Overflow.visible)}
+            >
+              visibility
+            </StylelessButton>
+            <StylelessButton
+              title="Hidden"
+              className="material-icons"
+              style={{
+                fontSize: '28px',
+                color: state.ui.selectedNode.overflow === Overflow.hidden ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeOverflow(Overflow.hidden)}
+            >
+              visibility_off
+            </StylelessButton>
           </IconRow>
         </InfoColumn>
       </>

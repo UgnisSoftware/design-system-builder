@@ -1,5 +1,5 @@
 import { proxify } from 'lape'
-import { FontSizeName, RouterPaths, State, NodeTypes, ViewTypes, ComponentView, Units } from '@src/interfaces'
+import { ComponentView, FontSizeName, NodeTypes, Overflow, RouterPaths, State, Units, ViewTypes } from '@src/interfaces'
 
 const defaultState: State = {
   elements: {
@@ -21,6 +21,7 @@ const defaultState: State = {
             bottom: '0px',
             right: '0px',
           },
+          overflow: Overflow.visible,
           columns: [
             {
               value: 1,
@@ -61,6 +62,7 @@ const defaultState: State = {
           bottom: '8px',
           right: '8px',
         },
+        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -109,6 +111,7 @@ const defaultState: State = {
           bottom: '0px',
           right: '0px',
         },
+        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
