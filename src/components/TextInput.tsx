@@ -4,7 +4,7 @@ import styled from 'styled-components'
 interface Props {
   name: string // TODO remove, looks useless?
   label?: string
-  value: string
+  value: string | number
   className?: string
   autoFocus?: boolean
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void

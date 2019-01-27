@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import { Node, Units } from '@src/interfaces'
+import { Padding, Node, Units } from '@src/interfaces'
 import * as React from 'react'
 import state from '@state'
+import TextInput from '@components/TextInput'
 
 interface BorderProps {
   col: number
@@ -34,6 +35,33 @@ const AddRow = styled.div`
   height: 40px;
   border-radius: 50%;
 `
+const PaddingTop = styled(TextInput)`
+  position: absolute;
+  top: 0;
+  left: -72px;
+  width: 64px;
+`
+
+const PaddingLeft = styled(TextInput)`
+  position: absolute;
+  top: -46px;
+  left: 0;
+  width: 64px;
+`
+
+const PaddingBottom = styled(TextInput)`
+  position: absolute;
+  bottom: 0;
+  left: -72px;
+  width: 64px;
+`
+
+const PaddingRight = styled(TextInput)`
+  position: absolute;
+  top: -46px;
+  right: 0;
+  width: 64px;
+`
 
 const addColumn = (component: Node) => _ => {
   component.columns.push({ value: 1, unit: Units.Fr })
@@ -52,6 +80,10 @@ const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => () 
   }
 }
 
+const changePadding = (component: Node, position: keyof Padding) => e => {
+  component.padding[position] = e.target.value
+}
+
 interface Props {
   component: Node
 }
@@ -60,17 +92,32 @@ const DragCorners = ({ component }: Props) =>
     <>
       {component.rows.map((_, rowIndex) =>
         component.columns.map((_, colIndex) => (
-          <Border
-            key={`${colIndex}_${rowIndex}`}
-            row={rowIndex + 1}
-            col={colIndex + 1}
-            onMouseOver={onMouseOver(component, rowIndex, colIndex)}
-          />
+          <>
+            <Border
+              key={`${colIndex}_${rowIndex}`}
+              row={rowIndex + 1}
+              col={colIndex + 1}
+              onMouseOver={onMouseOver(component, rowIndex, colIndex)}
+            />
+          </>
         )),
       )}
 
       {!state.ui.addingAtom && (
         <>
+          <PaddingTop name="paddingTop" value={component.padding.top} onChange={changePadding(component, 'top')} />
+          <PaddingLeft name="paddingLeft" value={component.padding.left} onChange={changePadding(component, 'left')} />
+          <PaddingBottom
+            name="paddingBottom"
+            value={component.padding.bottom}
+            onChange={changePadding(component, 'bottom')}
+          />
+          <PaddingRight
+            name="paddingRight"
+            value={component.padding.right}
+            onChange={changePadding(component, 'right')}
+          />
+
           <AddColumn onClick={addColumn(component)} />
           <AddRow onClick={addRow(component)} />
         </>

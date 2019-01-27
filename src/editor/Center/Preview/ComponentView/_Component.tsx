@@ -6,11 +6,11 @@ import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
 import ClickOutside from 'react-click-outside'
 
 const selectComponent = (component: Node) => e => {
-  e.preventDefault()
-  e.stopPropagation()
-  state.ui.selectedNode = component
-  if (state.ui.editingBoxNode !== component) {
-    state.ui.editingBoxNode = null
+  if (e.currentTarget === e.target) {
+    state.ui.selectedNode = component
+    if (state.ui.editingBoxNode !== component) {
+      state.ui.editingBoxNode = null
+    }
   }
 }
 
@@ -92,6 +92,7 @@ const Boxxy = styled.div`
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   grid-gap: 16px;
+  padding: ${({ component }: BoxProps) => component.padding ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}` : 'none'};
   background: ${({ component }: BoxProps) =>
     component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
   box-shadow: ${({ component }: BoxProps) =>

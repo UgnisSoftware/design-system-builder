@@ -99,6 +99,12 @@ const addComponent = value => {
         rowStart: 1,
         rowEnd: -1,
       },
+      padding: {
+        top: '0px',
+        left: '0px',
+        bottom: '0px',
+        right: '0px',
+      },
       columns: [
         {
           value: 1,
@@ -147,6 +153,12 @@ const addPage = value => {
         columnEnd: -1,
         rowStart: 1,
         rowEnd: -1,
+      },
+      padding: {
+        top: '0px',
+        left: '0px',
+        bottom: '0px',
+        right: '0px',
       },
       columns: [
         {

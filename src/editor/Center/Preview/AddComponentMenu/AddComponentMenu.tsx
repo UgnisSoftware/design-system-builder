@@ -91,6 +91,12 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
           rowStart: state.ui.hoveredCell.rowIndex + 1,
           rowEnd: state.ui.hoveredCell.rowIndex + 2,
         },
+        padding: {
+          top: '0px',
+          left: '0px',
+          bottom: '0px',
+          right: '0px',
+        },
         columns: [
           {
             value: 1,

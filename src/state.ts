@@ -15,6 +15,12 @@ const defaultState: State = {
             rowStart: 1,
             rowEnd: -1,
           },
+          padding: {
+            top: '0px',
+            left: '0px',
+            bottom: '0px',
+            right: '0px',
+          },
           columns: [
             {
               value: 1,
@@ -49,6 +55,12 @@ const defaultState: State = {
           rowStart: 1,
           rowEnd: -1,
         },
+        padding: {
+          top: '8px',
+          left: '8px',
+          bottom: '8px',
+          right: '8px',
+        },
         columns: [
           {
             value: 1,
@@ -73,7 +85,7 @@ const defaultState: State = {
         background: {
           colorId: 'aaaa-1111',
         },
-        border: 'borbor-6666',
+        border: 'barbar-7777',
       },
     },
   },
@@ -90,6 +102,12 @@ const defaultState: State = {
           columnEnd: -1,
           rowStart: 1,
           rowEnd: -1,
+        },
+        padding: {
+          top: '0px',
+          left: '0px',
+          bottom: '0px',
+          right: '0px',
         },
         columns: [
           {
@@ -132,7 +150,7 @@ const defaultState: State = {
     {
       id: 'cccc-3333',
       name: 'Light grey',
-      hex: '#ececec',
+      hex: '#f8f8f8',
     },
     {
       id: 'dddd-4444',
@@ -159,6 +177,10 @@ const defaultState: State = {
       id: 'shadow-7777',
       value: '6px 6px 2px 1px rgba(0, 0, 255, .2);',
     },
+    {
+      id: 'shadow-6666',
+      value: 'inset 0 0 10px #4a4a4a',
+    },
   ],
   border: [
     {
@@ -169,7 +191,7 @@ const defaultState: State = {
     {
       id: 'barbar-7777',
       radius: '0px 149px 0px 51px',
-      style: '2px solid #5da2d5',
+      style: '',
     },
   ],
   font: {

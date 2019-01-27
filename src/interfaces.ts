@@ -41,9 +41,16 @@ export enum ViewTypes {
   Repeaated = 'Repeaated',
 }
 
+export interface Padding {
+  top?: string
+  bottom?: string
+  left?: string
+  right?: string
+}
+
 type Direction = number
 
-interface AllDirections {
+export interface AllDirections {
   top?: Direction
   bottom?: Direction
   left?: Direction
@@ -67,7 +74,7 @@ export interface Node {
   }
   columns: GridProperty[]
   rows: GridProperty[]
-  padding?: AllDirections
+  padding: Padding
   margin?: AllDirections
   border?: string
   boxShadow?: string
