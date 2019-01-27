@@ -45,8 +45,8 @@ const ColumnUnitInput = styled(TextInput)`
 
   position: absolute;
   top: -100px;
-  width: 80px;
-  left: calc(50% + 45px);
+  width: 50px;
+  left: calc(50% + 25px);
 `
 
 const RowDelete = styled.div`
@@ -76,8 +76,8 @@ const RowUnitInput = styled(TextInput)`
   grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
 
   position: absolute;
-  left: -35px;
-  width: 80px;
+  left: -55px;
+  width: 50px;
   top: calc(50% - 20px);
 `
 
