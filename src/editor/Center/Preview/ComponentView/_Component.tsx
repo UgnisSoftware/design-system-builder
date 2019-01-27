@@ -9,6 +9,9 @@ const selectComponent = (component: Node) => e => {
   e.preventDefault()
   e.stopPropagation()
   state.ui.selectedNode = component
+  if (state.ui.editingBoxNode !== component) {
+    state.ui.editingBoxNode = null
+  }
 }
 
 const tiltedCSS = css`
@@ -70,8 +73,10 @@ const TextComponent = ({ component }: TextProps) =>
     </TextWrapper>
   )
 
-const editBox = (component: Node) => () => {
-  state.ui.editingBoxNode = component
+const editBox = (component: Node) => e => {
+  if (e.currentTarget === e.target) {
+    state.ui.editingBoxNode = component
+  }
 }
 
 interface BoxProps {
