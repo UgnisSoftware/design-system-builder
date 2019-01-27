@@ -17,6 +17,7 @@ const LeftMenuBox = styled.div`
   flex: 0 0 200px;
   user-select: none;
   padding-top: 16px;
+  z-index: 100;
 `
 
 const Title = styled.div`

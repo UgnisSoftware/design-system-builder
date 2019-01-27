@@ -204,7 +204,6 @@ const defaultState: State = {
     hoveredCell: null,
     selectedNode: null,
     zoom: 100,
-    showGrid: true,
   },
 }
 

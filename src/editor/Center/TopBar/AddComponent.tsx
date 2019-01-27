@@ -5,8 +5,8 @@ import state from '@state'
 
 const AddCircle = styled.i`
   position: absolute;
-  top: 64px;
-  left: 32px;
+  bottom: -68px;
+  left: 16px;
   font-size: 50px;
   border-radius: 50%;
   display: flex;
@@ -20,16 +20,14 @@ const showAddComponentMenu = () => {
 
 class AddComponent extends React.Component {
   render() {
-    if(state.ui.showAddComponentMenu){
-      return null;
+    if (state.ui.showAddComponentMenu) {
+      return null
     }
 
     return (
-      <>
-        <AddCircle className="material-icons" onClick={showAddComponentMenu}>
-          add_circle_outline
-        </AddCircle>
-      </>
+      <AddCircle className="material-icons" onClick={showAddComponentMenu}>
+        add_circle_outline
+      </AddCircle>
     )
   }
 }
