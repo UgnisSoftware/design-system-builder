@@ -63,7 +63,7 @@ export interface AllDirections {
   right?: Direction
 }
 
-interface GridProperty {
+export interface GridProperty {
   value: number
   unit: Units
 }

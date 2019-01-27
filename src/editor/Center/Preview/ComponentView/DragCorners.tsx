@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Padding, Node, Units } from '@src/interfaces'
+import { Padding, Node, Units, GridProperty } from '@src/interfaces'
 import * as React from 'react'
 import state from '@state'
 import TextInput from '@components/TextInput'
@@ -15,6 +15,70 @@ const Border = styled.div`
 
   border: #565656 dashed 1px;
   user-select: none;
+`
+
+const ColumnDelete = styled.div`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  top: -130px;
+  width: 20px;
+  height: 20px;
+  left: calc(50% - 40px);
+  background: firebrick;
+  border-radius: 50%;
+  cursor: pointer;
+`
+const ColumnInput = styled(TextInput)`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  top: -100px;
+  width: 80px;
+  left: calc(50% - 40px);
+`
+const ColumnUnitInput = styled(TextInput)`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  top: -100px;
+  width: 80px;
+  left: calc(50% + 45px);
+`
+
+const RowDelete = styled.div`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  left: -145px;
+  width: 20px;
+  height: 20px;
+  top: calc(50% - 20px);
+  background: firebrick;
+  border-radius: 50%;
+  cursor: pointer;
+`
+const RowInput = styled(TextInput)`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  left: -120px;
+  width: 80px;
+  top: calc(50% - 20px);
+`
+const RowUnitInput = styled(TextInput)`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+
+  position: absolute;
+  left: -35px;
+  width: 80px;
+  top: calc(50% - 20px);
 `
 
 const AddColumn = styled.div`
@@ -84,6 +148,21 @@ const changePadding = (component: Node, position: keyof Padding) => e => {
   component.padding[position] = e.target.value
 }
 
+const changeValue = (track: GridProperty) => e => {
+  track.value = e.target.value
+}
+const changeUnit = (track: GridProperty) => e => {
+  track.unit = e.target.value
+}
+
+const deleteColumn = (component: Node, index: number) => () => {
+  component.columns.splice(index, 1)
+}
+
+const deleteRow = (component: Node, index: number) => () => {
+  component.rows.splice(index, 1)
+}
+
 interface Props {
   component: Node
 }
@@ -92,19 +171,50 @@ const DragCorners = ({ component }: Props) =>
     <>
       {component.rows.map((_, rowIndex) =>
         component.columns.map((_, colIndex) => (
-          <>
-            <Border
-              key={`${colIndex}_${rowIndex}`}
-              row={rowIndex + 1}
-              col={colIndex + 1}
-              onMouseOver={onMouseOver(component, rowIndex, colIndex)}
-            />
-          </>
+          <Border
+            key={`${colIndex}_${rowIndex}`}
+            row={rowIndex + 1}
+            col={colIndex + 1}
+            onMouseOver={onMouseOver(component, rowIndex, colIndex)}
+          />
         )),
       )}
 
       {!state.ui.addingAtom && (
         <>
+          {component.columns.map((col, colIndex) => (
+            <>
+              <ColumnInput
+                value={col.value}
+                onChange={changeValue(col)}
+                key={`${colIndex}`}
+                row={1}
+                col={colIndex + 1}
+              />
+              <ColumnUnitInput
+                value={col.unit}
+                onChange={changeUnit(col)}
+                key={`${colIndex}`}
+                row={1}
+                col={colIndex + 1}
+              />
+              <ColumnDelete row={1} col={colIndex + 1} onClick={deleteColumn(component, colIndex)} />
+            </>
+          ))}
+          {component.rows.map((row, rowIndex) => (
+            <>
+              <RowInput value={row.value} onChange={changeValue(row)} key={`${rowIndex}`} row={rowIndex + 1} col={1} />
+              <RowUnitInput
+                value={row.unit}
+                onChange={changeUnit(row)}
+                key={`${rowIndex}`}
+                row={rowIndex + 1}
+                col={1}
+              />
+              <RowDelete row={rowIndex + 1} col={1} onClick={deleteRow(component, rowIndex)} />
+            </>
+          ))}
+
           <PaddingTop name="paddingTop" value={component.padding.top} onChange={changePadding(component, 'top')} />
           <PaddingLeft name="paddingLeft" value={component.padding.left} onChange={changePadding(component, 'left')} />
           <PaddingBottom
