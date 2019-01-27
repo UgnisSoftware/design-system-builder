@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import state from '@state'
 import { Border, ComponentView } from '@src/interfaces'
 import AddComponent from '@src/editor/Center/TopBar/AddComponent'
+import { Colors } from '@src/styles'
 
 const TopBarBox = styled.div`
   position: absolute;
@@ -26,12 +27,13 @@ const Divider = styled.div`
   flex: 0 0 2px;
   background: #dfdfdf;
   border-radius: 5px;
-  margin: 0 12px;
+  margin: 0 12px 0 8px;
 `
 
 const ColorBox = styled.div`
   width: 20px;
   height: 20px;
+  margin-right: 4px;
   background: ${({ color }: any) => color};
   cursor: pointer;
 `
@@ -39,10 +41,11 @@ const ColorBox = styled.div`
 const BorderBox = styled.div`
   border: ${({ border }) => border.style};
   border-radius: ${({ border }) => border.radius};
-  background: white;
-  margin-right: 8px;
-  width: 25px;
-  height: 25px;
+  background: ${({ selected }) => (selected ? Colors.accent : 'white')};
+  margin-right: 4px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 `
 const InfoColumn = styled.div`
   height: 48px;
@@ -110,7 +113,7 @@ const TopBar = () => (
       <>
         <Divider />
         <InfoColumn>
-          <Title>Colors</Title>
+          <Title>Background</Title>
           <IconRow>
             {Object.keys(state.colors).map(colorIndex => (
               <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
@@ -121,9 +124,17 @@ const TopBar = () => (
         <InfoColumn>
           <Title>Borders</Title>
           <IconRow>
-            <BorderBox border={{ style: 'none', radius: 'none' }} onClick={removeBorder()} />
+            <BorderBox
+              border={{ style: 'none', radius: 'none' }}
+              selected={state.ui.selectedNode.border === null}
+              onClick={removeBorder()}
+            />
             {state.border.map(border => (
-              <BorderBox border={border} onClick={changeBorder(border)} />
+              <BorderBox
+                selected={state.ui.selectedNode.border === border.id}
+                border={border}
+                onClick={changeBorder(border)}
+              />
             ))}
           </IconRow>
         </InfoColumn>
