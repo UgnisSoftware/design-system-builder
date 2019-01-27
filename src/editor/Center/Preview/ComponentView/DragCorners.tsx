@@ -56,7 +56,7 @@ interface Props {
   component: Node
 }
 const DragCorners = ({ component }: Props) =>
-  ((state.ui.selectedNode && state.ui.selectedNode.id === component.id) || state.ui.addingAtom) && (
+  ((state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id) || state.ui.addingAtom) && (
     <>
       {component.rows.map((_, rowIndex) =>
         component.columns.map((_, colIndex) => (

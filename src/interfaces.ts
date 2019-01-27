@@ -70,6 +70,7 @@ export interface Node {
   padding?: AllDirections
   margin?: AllDirections
   border?: string
+  boxShadow?: string
   background?: {
     colorId: string
   }
@@ -98,6 +99,7 @@ export interface Color {
 }
 
 export interface BoxShadow {
+  id: string
   value: string
 }
 
@@ -164,6 +166,7 @@ export interface State {
     componentView: ComponentView
     editingColorId: string
     editingTextNode: Node
+    editingBoxNode: Node
     addingComponent: boolean
     addingPage: boolean
     showAddComponentMenu: boolean

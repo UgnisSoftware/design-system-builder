@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, ComponentView } from '@src/interfaces'
+import { Border, BoxShadow, ComponentView } from '@src/interfaces'
 import AddComponent from '@src/editor/Center/TopBar/AddComponent'
 import { Colors } from '@src/styles'
 
@@ -21,6 +21,15 @@ const TopBarBox = styled.div`
   height: 64px;
 `
 
+const StylelessButton = styled.button.attrs({ type: 'button' })`
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+`
+
 const Divider = styled.div`
   width: 3px;
   height: 85%;
@@ -30,23 +39,34 @@ const Divider = styled.div`
   margin: 0 12px 0 8px;
 `
 
-const ColorBox = styled.div`
+const ColorBox = styled(StylelessButton)`
   width: 20px;
   height: 20px;
   margin-right: 4px;
   background: ${({ color }: any) => color};
-  cursor: pointer;
 `
 
-const BorderBox = styled.div`
+const BorderBox = styled(StylelessButton)`
   border: ${({ border }) => border.style};
   border-radius: ${({ border }) => border.radius};
   background: ${({ selected }) => (selected ? Colors.accent : 'white')};
   margin-right: 4px;
   width: 20px;
   height: 20px;
-  cursor: pointer;
 `
+
+interface BoxShadowProps {
+  boxShadow: BoxShadow
+}
+
+const BoxShadowBox = styled(StylelessButton)`
+  box-shadow: ${({ boxShadow }: BoxShadowProps) => boxShadow.value};
+  background: ${({ selected }) => (selected ? Colors.accent : 'white')};
+  margin-right: 4px;
+  width: 20px;
+  height: 20px;
+`
+
 const InfoColumn = styled.div`
   height: 48px;
   display: flex;
@@ -77,23 +97,32 @@ const removeBorder = () => () => {
 const changeBorder = (border: Border) => () => {
   state.ui.selectedNode.border = border.id
 }
+const removeBoxShadow = () => () => {
+  state.ui.selectedNode.boxShadow = null
+}
+const changeBoxShadow = (boxShadow: BoxShadow) => () => {
+  state.ui.selectedNode.boxShadow = boxShadow.id
+}
 
 const TopBar = () => (
   <TopBarBox>
     <InfoColumn>
       <Title>View</Title>
       <IconRow>
-        <i
+        <StylelessButton
+          title="Normal"
           className="material-icons"
           style={{
             fontSize: '28px',
+            marginLeft: '-6px',
             color: state.ui.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
           }}
           onClick={selectComponentView(ComponentView.Center)}
         >
           stop
-        </i>
-        <i
+        </StylelessButton>
+        <StylelessButton
+          title="Layers"
           className="material-icons"
           style={{
             fontSize: '24px',
@@ -105,7 +134,7 @@ const TopBar = () => (
           onClick={selectComponentView(ComponentView.Tilted)}
         >
           layers
-        </i>
+        </StylelessButton>
       </IconRow>
     </InfoColumn>
 
@@ -116,7 +145,11 @@ const TopBar = () => (
           <Title>Background</Title>
           <IconRow>
             {Object.keys(state.colors).map(colorIndex => (
-              <ColorBox color={state.colors[colorIndex].hex} onClick={changeBackground(state.colors[colorIndex].id)} />
+              <ColorBox
+                title={state.colors[colorIndex].name}
+                color={state.colors[colorIndex].hex}
+                onClick={changeBackground(state.colors[colorIndex].id)}
+              />
             ))}
           </IconRow>
         </InfoColumn>
@@ -125,6 +158,7 @@ const TopBar = () => (
           <Title>Borders</Title>
           <IconRow>
             <BorderBox
+              title="None"
               border={{ style: 'none', radius: 'none' }}
               selected={state.ui.selectedNode.border === null}
               onClick={removeBorder()}
@@ -134,6 +168,25 @@ const TopBar = () => (
                 selected={state.ui.selectedNode.border === border.id}
                 border={border}
                 onClick={changeBorder(border)}
+              />
+            ))}
+          </IconRow>
+        </InfoColumn>
+        <Divider />
+        <InfoColumn>
+          <Title>Box-Shadow</Title>
+          <IconRow>
+            <BoxShadowBox
+              title="None"
+              boxShadow={{ value: 'none' }}
+              selected={state.ui.selectedNode.boxShadow === null}
+              onClick={removeBoxShadow()}
+            />
+            {state.boxShadow.map(boxShadow => (
+              <BoxShadowBox
+                selected={state.ui.selectedNode.boxShadow === boxShadow.id}
+                boxShadow={boxShadow}
+                onClick={changeBoxShadow(boxShadow)}
               />
             ))}
           </IconRow>

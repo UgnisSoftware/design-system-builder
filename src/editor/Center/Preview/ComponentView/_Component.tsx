@@ -70,9 +70,14 @@ const TextComponent = ({ component }: TextProps) =>
     </TextWrapper>
   )
 
+const editBox = (component: Node) => () => {
+  state.ui.editingBoxNode = component
+}
+
 interface BoxProps {
   component: Node
 }
+
 const Boxxy = styled.div`
   transition: all 0.3s;
   position: relative;
@@ -82,8 +87,11 @@ const Boxxy = styled.div`
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   grid-gap: 16px;
+  background: ${({ component }: BoxProps) =>
+    component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+  box-shadow: ${({ component }: BoxProps) =>
+    component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  background: ${({ component }: BoxProps) => state.colors.find(color => color.id === component.background.colorId).hex};
   ${({ component }: BoxProps) => {
     const border = state.border.find(border => border.id === component.border)
     return border
@@ -96,7 +104,7 @@ const Boxxy = styled.div`
 `
 
 const BoxComponent = ({ component }: BoxProps) => (
-  <Boxxy component={component} onMouseDown={selectComponent(component)}>
+  <Boxxy component={component} onMouseDown={selectComponent(component)} onDoubleClick={editBox(component)}>
     {component.children.map(child => (
       <Component component={child} />
     ))}

@@ -62,7 +62,10 @@ const onAddColorClick = () => {
 }
 
 const onAddBoxShadowClick = () => {
-  state.boxShadow.push({ value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);' })
+  state.boxShadow.push({
+    id: uuid(),
+    value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
+  })
 }
 
 const onAddBorderClick = () => {

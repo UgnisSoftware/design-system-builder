@@ -148,7 +148,16 @@ const defaultState: State = {
   spacing: ['8px', '16px', '24px', '48px', '64px'],
   boxShadow: [
     {
+      id: 'shadow-9999',
       value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
+    },
+    {
+      id: 'shadow-8888',
+      value: '0 0 20px rgba(0,0,0,0.8);',
+    },
+    {
+      id: 'shadow-7777',
+      value: '6px 6px 2px 1px rgba(0, 0, 255, .2);',
     },
   ],
   border: [
@@ -197,6 +206,7 @@ const defaultState: State = {
     editingColorId: '',
     componentView: ComponentView.Center,
     editingTextNode: null,
+    editingBoxNode: null,
     addingComponent: false,
     addingPage: false,
     showAddComponentMenu: false,
