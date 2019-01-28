@@ -2,18 +2,12 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { Border, BoxShadow, ComponentView, Overflow } from '@src/interfaces'
-import AddComponent from '@src/editor/Center/TopBar/AddComponent'
 import { Colors } from '@src/styles'
 
 const TopBarBox = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   padding: 8px 16px;
   background: rgb(248, 248, 248);
   box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
-  flex: 0 0 50px;
   display: flex;
   align-items: center;
   font-size: 24px;
@@ -224,8 +218,6 @@ const TopBar = () => (
         </InfoColumn>
       </>
     )}
-
-    <AddComponent />
   </TopBarBox>
 )
 

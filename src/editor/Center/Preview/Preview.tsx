@@ -7,6 +7,7 @@ import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
 import AddingAtom from '@src/editor/Center/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
+import AddComponent from '@src/editor/Center/TopBar/AddComponent'
 
 const Wrapper = styled.div`
   position: relative;
@@ -18,7 +19,6 @@ const Wrapper = styled.div`
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px;
   background-color: rgb(0, 0, 0, 0.01);
   background-size: 16px 16px;
-  position: relative;
   transform: translateZ(0);
 `
 
@@ -78,6 +78,7 @@ const Preview = () => {
           </AlignCenter>
         </PerspectiveBox>
       </PreviewBox>
+      <AddComponent />
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
       {state.ui.addingAtom && <AddingAtom />}
     </Wrapper>

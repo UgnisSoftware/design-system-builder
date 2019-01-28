@@ -5,8 +5,8 @@ import state from '@state'
 
 const AddCircle = styled.i`
   position: absolute;
-  bottom: -68px;
-  left: 16px;
+  top: 16px;
+  left: 22px;
   font-size: 50px;
   border-radius: 50%;
   display: flex;

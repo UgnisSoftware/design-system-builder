@@ -20,9 +20,25 @@ const tiltedCSS = css`
 `
 
 const TextWrapper = styled.div`
-  overflow-wrap: break-word;
+  transition: all 0.3s;
+  position: relative;
+  display: grid;
+  grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  transition: transform 0.3s, box-shadow 0.3s;
+  ${({ component }: BoxProps) => {
+    const border = state.border.find(border => border.id === component.border)
+    return border
+      ? css`
+          border: ${border.style};
+          border-radius: ${border.radius};
+        `
+      : ''
+  }};
+  overflow-wrap: break-word;
 `
 
 const editText = (component: Node) => () => {
@@ -36,6 +52,25 @@ const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>)
 }
 
 const EmptyTextArea = styled.textarea`
+  all: unset;
+  transition: all 0.3s;
+  position: relative;
+  display: grid;
+  grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
+  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
+  ${({ component }: BoxProps) => {
+    const border = state.border.find(border => border.id === component.border)
+    return border
+      ? css`
+          border: ${border.style};
+          border-radius: ${border.radius};
+        `
+      : ''
+  }};
   border: none;
   overflow: auto;
   outline: none;
@@ -52,8 +87,15 @@ interface TextProps {
 }
 const TextComponent = ({ component }: TextProps) =>
   state.ui.editingTextNode === component ? (
-    <ClickOutside onClickOutside={stopEdit} key={component.id}>
+    <ClickOutside
+      onClickOutside={stopEdit}
+      key={component.id}
+      style={{
+        display: 'contents',
+      }}
+    >
       <EmptyTextArea
+        component={component}
         style={{
           fontSize: state.font.sizes[component.fontSize].fontSize,
         }}
@@ -63,13 +105,13 @@ const TextComponent = ({ component }: TextProps) =>
     </ClickOutside>
   ) : (
     <TextWrapper
+      component={component}
       style={{
         fontSize: state.font.sizes[component.fontSize].fontSize,
       }}
       onDoubleClick={editText(component)}
     >
       {component.text}
-      <DragCorners component={component} />
     </TextWrapper>
   )
 
@@ -91,7 +133,6 @@ const Boxxy = styled.div`
   grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  grid-gap: 16px;
   padding: ${({ component }: BoxProps) =>
     component.padding
       ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`

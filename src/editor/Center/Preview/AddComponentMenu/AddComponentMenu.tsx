@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { NodeTypes, Overflow, Units } from '@src/interfaces'
+import { FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
@@ -57,8 +57,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
   state.ui.addingAtom = {
     type: type,
     position: {
-      x: currentX - box.left,
-      y: currentY - box.top,
+      x: currentX - 200 - (currentX - box.left),
+      y: currentY - 64 - (currentY - box.top),
     },
   }
 
@@ -84,7 +84,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
     if (state.ui.hoveredCell) {
       state.ui.hoveredCell.component.children.push({
         id: newId,
-        type: NodeTypes.Box,
+        type: state.ui.addingAtom.type,
         position: {
           columnStart: state.ui.hoveredCell.colIndex + 1,
           columnEnd: state.ui.hoveredCell.colIndex + 2,
@@ -110,6 +110,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
             unit: Units.Fr,
           },
         ],
+        fontSize: FontSizeName.L,
+        text: 'Hello',
         children: [],
         background: {
           colorId: 'dddd-4444',

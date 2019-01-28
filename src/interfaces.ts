@@ -71,7 +71,6 @@ export interface GridProperty {
 export interface Node {
   id: string
   type: NodeTypes
-  text?: string
   position: {
     columnStart: number
     columnEnd: number
@@ -88,6 +87,7 @@ export interface Node {
   background?: {
     colorId: string
   }
+  text?: string
   children: Node[]
   fontSize?: FontSizeName
 }
