@@ -5,16 +5,15 @@ import { FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
-  background: rgba(244, 255, 244, 0.6);
+  background: rgb(248, 248, 248);
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  bottom: 0;
+  width: 500px;
   padding: 24px;
-  user-select: none;
 `
 
 const Title = styled.div`

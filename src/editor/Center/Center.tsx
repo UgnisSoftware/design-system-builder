@@ -14,14 +14,6 @@ const Center = styled.div`
   flex: 1 1 auto;
 `
 
-const zoom = e => {
-  if (e.deltaY < 0 && state.ui.zoom + 10 < 210) {
-    state.ui.zoom += 10
-  }
-  if (e.deltaY > 0 && state.ui.zoom - 10 > 20) {
-    state.ui.zoom -= 10
-  }
-}
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
@@ -48,10 +40,10 @@ class CenterColumn extends React.Component {
 
   render() {
     return (
-      <Center onWheel={zoom}>
+      <Center>
         <TopBar />
         <Preview />
-        <Zoom />
+        {!state.ui.showAddComponentMenu && <Zoom />}
       </Center>
     )
   }

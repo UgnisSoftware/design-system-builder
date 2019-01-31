@@ -64,13 +64,23 @@ const unselectComponent = e => {
     state.ui.selectedNode = null
     state.ui.editingTextNode = null
     state.ui.editingBoxNode = null
+    state.ui.showAddComponentMenu = false
+  }
+}
+
+const zoom = e => {
+  if (e.deltaY < 0 && state.ui.zoom + 10 < 210) {
+    state.ui.zoom += 10
+  }
+  if (e.deltaY > 0 && state.ui.zoom - 10 > 20) {
+    state.ui.zoom -= 10
   }
 }
 
 const Preview = () => {
   const component = getCurrentComponent()
   return (
-    <Wrapper onClick={unselectComponent}>
+    <Wrapper onClick={unselectComponent} onWheel={zoom}>
       <PreviewBox>
         <PerspectiveBox onClick={unselectComponent}>
           <AlignCenter>
