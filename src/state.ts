@@ -1,5 +1,15 @@
 import { proxify } from 'lape'
-import { ComponentView, FontSizeName, NodeTypes, Overflow, RouterPaths, State, Units, ViewTypes } from '@src/interfaces'
+import {
+  Alignment,
+  ComponentView,
+  FontSizeName,
+  NodeTypes,
+  Overflow,
+  RouterPaths,
+  State,
+  Units,
+  ViewTypes,
+} from '@src/interfaces'
 
 const defaultState: State = {
   elements: {
@@ -14,6 +24,10 @@ const defaultState: State = {
             columnEnd: -1,
             rowStart: 1,
             rowEnd: -1,
+          },
+          alignment: {
+            horizontal: Alignment.start,
+            vertical: Alignment.start,
           },
           padding: {
             top: '0px',
@@ -55,6 +69,10 @@ const defaultState: State = {
           columnEnd: -1,
           rowStart: 1,
           rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.start,
+          vertical: Alignment.start,
         },
         padding: {
           top: '8px',
@@ -104,6 +122,10 @@ const defaultState: State = {
           columnEnd: -1,
           rowStart: 1,
           rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.start,
+          vertical: Alignment.start,
         },
         padding: {
           top: '0px',

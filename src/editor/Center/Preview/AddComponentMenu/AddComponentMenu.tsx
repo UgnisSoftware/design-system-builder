@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
+import { Alignment, FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
@@ -94,6 +94,10 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
           left: '0px',
           bottom: '0px',
           right: '0px',
+        },
+        alignment: {
+          horizontal: Alignment.start,
+          vertical: Alignment.start,
         },
         overflow: Overflow.visible,
         columns: [

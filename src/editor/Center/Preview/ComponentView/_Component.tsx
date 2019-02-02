@@ -28,6 +28,8 @@ const TextWrapper = styled.div`
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
+  justify-self: ${({ component }: BoxProps) => (component.alignment.horizontal)};
+  align-self: ${({ component }: BoxProps) => (component.alignment.vertical)};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   ${({ component }: BoxProps) => {
     const border = state.border.find(border => border.id === component.border)
@@ -109,6 +111,7 @@ const TextComponent = ({ component }: TextProps) =>
       style={{
         fontSize: state.font.sizes[component.fontSize].fontSize,
       }}
+      onMouseDown={selectComponent(component)}
       onDoubleClick={editText(component)}
     >
       {component.text}

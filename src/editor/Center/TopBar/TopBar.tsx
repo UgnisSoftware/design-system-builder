@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow, ComponentView, Overflow } from '@src/interfaces'
+import { Alignment, Border, BoxShadow, ComponentView, NodeTypes, Overflow } from '@src/interfaces'
 import { Colors } from '@src/styles'
 
 const TopBarBox = styled.div`
@@ -38,6 +38,32 @@ const ColorBox = styled(StylelessButton)`
   height: 20px;
   margin-right: 4px;
   background: ${({ color }: any) => color};
+`
+
+const HorizontalAlignmentWrapper = styled.div`
+  cursor: pointer;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: 8px 8px 8px;
+  grid-template-rows: 24px;
+  margin-right: 8px;
+`
+
+const VerticalAlignmentWrapper = styled.div`
+  cursor: pointer;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: 24px;
+  grid-template-rows: 8px 8px 8px;
+  margin-right: 8px;
+`
+
+const AlignmentItem = styled.div`
+  background: ${Colors.grey200};
+`
+
+const AlignmentItemSelected = styled(AlignmentItem)`
+  background: ${({ selected }) => (selected ? Colors.accent : Colors.grey)};
 `
 
 const BorderBox = styled(StylelessButton)`
@@ -99,6 +125,13 @@ const changeBoxShadow = (boxShadow: BoxShadow) => () => {
 }
 const changeOverflow = (overflow: Overflow) => () => {
   state.ui.selectedNode.overflow = overflow
+}
+
+const selectHorizontalAlignment = (alignment: Alignment) => () => {
+  state.ui.selectedNode.alignment.horizontal = alignment
+}
+const selectVerticalAlignment = (alignment: Alignment) => () => {
+  state.ui.selectedNode.alignment.vertical = alignment
 }
 
 const TopBar = () => (
@@ -216,6 +249,53 @@ const TopBar = () => (
             </StylelessButton>
           </IconRow>
         </InfoColumn>
+
+        {state.ui.selectedNode.type === NodeTypes.Text && (
+          <>
+            <Divider />
+            <InfoColumn>
+              <Title>Horizontal</Title>
+              <IconRow>
+                <HorizontalAlignmentWrapper onClick={selectHorizontalAlignment(Alignment.start)}>
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.start} />
+                  <AlignmentItem />
+                  <AlignmentItem />
+                </HorizontalAlignmentWrapper>
+                <HorizontalAlignmentWrapper onClick={selectHorizontalAlignment(Alignment.center)}>
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.center} />
+                  <AlignmentItem />
+                </HorizontalAlignmentWrapper>
+                <HorizontalAlignmentWrapper onClick={selectHorizontalAlignment(Alignment.end)}>
+                  <AlignmentItem />
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.end} />
+                </HorizontalAlignmentWrapper>
+              </IconRow>
+            </InfoColumn>
+            <Divider />
+            <InfoColumn>
+              <Title>Vertical</Title>
+              <IconRow>
+                <VerticalAlignmentWrapper onClick={selectVerticalAlignment(Alignment.start)}>
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.start} />
+                  <AlignmentItem />
+                  <AlignmentItem />
+                </VerticalAlignmentWrapper>
+                <VerticalAlignmentWrapper onClick={selectVerticalAlignment(Alignment.center)}>
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.center} />
+                  <AlignmentItem />
+                </VerticalAlignmentWrapper>
+                <VerticalAlignmentWrapper onClick={selectVerticalAlignment(Alignment.end)}>
+                  <AlignmentItem />
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.end} />
+                </VerticalAlignmentWrapper>
+              </IconRow>
+            </InfoColumn>
+          </>
+        )}
       </>
     )}
   </TopBarBox>

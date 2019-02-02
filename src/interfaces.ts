@@ -41,6 +41,12 @@ export enum Overflow {
   scroll = 'scroll',
 }
 
+export enum Alignment {
+  start = 'start',
+  center = 'center',
+  end = 'end',
+}
+
 export enum ViewTypes {
   SingleCenter = 'SingleCenter',
   CenterWithTopAndBottom = 'CenterWithTopAndBottom',
@@ -76,6 +82,10 @@ export interface Node {
     columnEnd: number
     rowStart: number
     rowEnd: number
+  }
+  alignment: {
+    horizontal: Alignment
+    vertical: Alignment
   }
   columns: GridProperty[]
   rows: GridProperty[]
