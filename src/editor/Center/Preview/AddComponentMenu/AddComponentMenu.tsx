@@ -5,7 +5,7 @@ import { FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
-  background: rgb(248, 248, 248);
+  background: rgb(244, 244, 244);
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -31,7 +31,6 @@ const Box = styled.div`
 
 const ComponentWrapper = styled.div`
   position: relative;
-  height: 320px;
 
   &:hover ${Title} {
     opacity: 1;
@@ -67,8 +66,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
     const newY = e.touches ? e.touches[0].pageY : e.pageY
     const diffX = currentX - newX
     const diffY = currentY - newY
-    state.ui.addingAtom.position.y -= diffY / (state.ui.zoom / 100)
-    state.ui.addingAtom.position.x -= diffX / (state.ui.zoom / 100)
+    state.ui.addingAtom.position.y -= diffY
+    state.ui.addingAtom.position.x -= diffX
     currentX = newX
     currentY = newY
     return false
@@ -131,6 +130,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
 export default () => {
   return (
     <Menu>
+      Basics
       <ComponentWrapper>
         <Box onMouseDown={addComponent(NodeTypes.Box)} />
         <Title>Box</Title>
@@ -139,6 +139,7 @@ export default () => {
         <Text onMouseDown={addComponent(NodeTypes.Text)}>Hello</Text>
         <Title>Text</Title>
       </ComponentWrapper>
+      Elements
     </Menu>
   )
 }
