@@ -5,6 +5,7 @@ import TopBar from './TopBar/TopBar'
 import Preview from './Preview/Preview'
 import Zoom from './Zoom/Zoom'
 import state from '@state'
+import { Node } from '@src/interfaces'
 
 const Center = styled.div`
   position: relative;
@@ -13,6 +14,16 @@ const Center = styled.div`
   flex-direction: column;
   flex: 1 1 auto;
 `
+
+const removeNode = (node: Node) => {
+  if (!node.children) return
+  const nodeIndex = node.children.indexOf(state.ui.selectedNode)
+  if (nodeIndex !== -1) {
+    node.children.splice(nodeIndex, 1)
+  } else {
+    node.children.forEach(removeNode)
+  }
+}
 
 const deleteComponent = e => {
   const del = e.keyCode === 46
@@ -25,8 +36,8 @@ const deleteComponent = e => {
     !state.ui.editingTextNode &&
     component.root !== state.ui.selectedNode
   ) {
-    const nodeIndex = component.root.children.indexOf(state.ui.selectedNode)
-    component.root.children.splice(nodeIndex, 1)
+    removeNode(component.root)
+    state.ui.selectedNode = null
   }
 }
 

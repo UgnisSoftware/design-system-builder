@@ -75,10 +75,10 @@ const defaultState: State = {
           vertical: Alignment.stretch,
         },
         padding: {
-          top: '8px',
-          left: '8px',
-          bottom: '8px',
-          right: '8px',
+          top: '0px',
+          left: '0px',
+          bottom: '0px',
+          right: '0px',
         },
         overflow: Overflow.visible,
         columns: [

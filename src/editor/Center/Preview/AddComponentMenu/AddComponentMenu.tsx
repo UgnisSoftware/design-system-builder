@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, FontSizeName, NodeTypes, Overflow, Units } from '@src/interfaces'
+import { Alignment, FontSizeName, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces'
 import { uuid } from '@src/editor/utils'
 
 const Menu = styled.div`
@@ -17,7 +17,7 @@ const Menu = styled.div`
 `
 
 const Title = styled.div`
-  padding-left: 8px;
+  padding-bottom: 8px;
   display: flex;
   transition: all 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   opacity: 0;
@@ -25,11 +25,20 @@ const Title = styled.div`
 
 const Box = styled.div`
   background: #90ccf4;
-  width: 162px;
+  width: 160px;
   height: 100px;
 `
 
+const Image = styled.img`
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+`
+
 const ComponentWrapper = styled.div`
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column-reverse;
   position: relative;
 
   &:hover ${Title} {
@@ -40,6 +49,18 @@ const ComponentWrapper = styled.div`
 const Text = styled.span`
   font-size: 38px;
 `
+
+const images = [
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ciri_Cosplay_%28The_Witcher_3_Wild_Hunt%29_%E2%80%A2_2.jpg/1024px-Ciri_Cosplay_%28The_Witcher_3_Wild_Hunt%29_%E2%80%A2_2.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/13-08-31-Kochtreffen-Wien-RalfR-N3S_7849-024.jpg/1280px-13-08-31-Kochtreffen-Wien-RalfR-N3S_7849-024.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/India_-_Varanasi_green_peas_-_2714.jpg/1280px-India_-_Varanasi_green_peas_-_2714.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Sadhu_V%C3%A2r%C3%A2nas%C3%AE.jpg/1280px-Sadhu_V%C3%A2r%C3%A2nas%C3%AE.jpg',
+]
+
+let randomId = Math.floor(Math.random() * images.length)
+const regenerateRandomId = () => (randomId = Math.floor(Math.random() * images.length))
+regenerateRandomId()
 
 const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.TouchEvent) => {
   event.stopPropagation()
@@ -58,6 +79,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
       x: currentX - 200 - (currentX - box.left),
       y: currentY - 64 - (currentY - box.top),
     },
+    imageUrl: images[randomId],
   }
 
   function drag(e) {
@@ -80,7 +102,7 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
     event.preventDefault()
 
     if (state.ui.hoveredCell) {
-      state.ui.hoveredCell.component.children.push({
+      const baseComponent = {
         id: newId,
         type: state.ui.addingAtom.type,
         position: {
@@ -112,13 +134,32 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
             unit: Units.Fr,
           },
         ],
-        fontSize: FontSizeName.L,
-        text: 'Hello',
-        children: [],
-        background: {
-          colorId: 'dddd-4444',
-        },
-      })
+      }
+      if (state.ui.addingAtom.type === NodeTypes.Box) {
+        state.ui.hoveredCell.component.children.push({
+          ...baseComponent,
+          children: [],
+          background: {
+            colorId: 'dddd-4444',
+          },
+        })
+      }
+      if (state.ui.addingAtom.type === NodeTypes.Text) {
+        state.ui.hoveredCell.component.children.push({
+          ...baseComponent,
+          text: 'Hello',
+          fontSize: FontSizeName.L,
+        })
+      }
+      if (state.ui.addingAtom.type === NodeTypes.Image) {
+        state.ui.hoveredCell.component.children.push({
+          ...baseComponent,
+          children: [],
+          imageUrl: images[randomId],
+          objectFit: ObjectFit.cover,
+        })
+        regenerateRandomId()
+      }
     }
     state.ui.addingAtom = null
     state.ui.hoveredCell = null
@@ -134,7 +175,6 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
 export default () => {
   return (
     <Menu>
-      Basics
       <ComponentWrapper>
         <Box onMouseDown={addComponent(NodeTypes.Box)} />
         <Title>Box</Title>
@@ -143,7 +183,10 @@ export default () => {
         <Text onMouseDown={addComponent(NodeTypes.Text)}>Hello</Text>
         <Title>Text</Title>
       </ComponentWrapper>
-      Elements
+      <ComponentWrapper>
+        <Image src={images[randomId]} onMouseDown={addComponent(NodeTypes.Image)} />
+        <Title>Image</Title>
+      </ComponentWrapper>
     </Menu>
   )
 }

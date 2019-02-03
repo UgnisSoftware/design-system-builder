@@ -36,6 +36,22 @@ const AddingAtom = () => {
       />
     )
   }
+  if (state.ui.addingAtom.type === NodeTypes.Image) {
+    return (
+      <img
+        src={state.ui.addingAtom.imageUrl}
+        style={{
+          position: 'absolute',
+          top: state.ui.addingAtom.position.y + 'px',
+          left: state.ui.addingAtom.position.x + 'px',
+          width: '160px',
+          height: '100px',
+          background: '#90ccf4',
+          pointerEvents: 'none',
+        }}
+      />
+    )
+  }
 }
 
 export default connect(AddingAtom)

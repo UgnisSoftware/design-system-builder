@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, Border, BoxShadow, ComponentView, NodeTypes, Overflow } from '@src/interfaces'
+import { Alignment, Border, BoxShadow, ComponentView, NodeTypes, ObjectFit, Overflow } from '@src/interfaces'
 import { Colors } from '@src/styles'
 
 const TopBarBox = styled.div`
@@ -129,6 +129,10 @@ const selectHorizontalAlignment = (alignment: Alignment) => () => {
 }
 const selectVerticalAlignment = (alignment: Alignment) => () => {
   state.ui.selectedNode.alignment.vertical = alignment
+}
+
+const selectObjectFit = (objectFit: ObjectFit) => () => {
+  state.ui.selectedNode.objectFit = objectFit
 }
 
 const TopBar = () => (
@@ -327,6 +331,21 @@ const TopBar = () => (
                 </StylelessButton>
               </IconRow>
             </InfoColumn>
+          </>
+        )}
+
+        {state.ui.selectedNode.type === NodeTypes.Image && (
+          <>
+            <Divider />
+            <InfoColumn>
+              <Title>Scale</Title>
+              <IconRow>
+                <StylelessButton onClick={selectObjectFit(ObjectFit.cover)}>cover/</StylelessButton>
+                <StylelessButton onClick={selectObjectFit(ObjectFit.contain)}>contain/</StylelessButton>
+                <StylelessButton onClick={selectObjectFit(ObjectFit.fill)}>fill</StylelessButton>
+              </IconRow>
+            </InfoColumn>
+            <Divider />
           </>
         )}
       </>

@@ -12,6 +12,7 @@ export enum RouterPaths {
   'elements' = 'elements',
   'component' = 'component',
   'page' = 'page',
+  'exporting' = 'exporting',
 }
 
 interface Router {
@@ -46,6 +47,12 @@ export enum Alignment {
   start = 'start',
   center = 'center',
   end = 'end',
+}
+
+export enum ObjectFit {
+  fill = 'fill',
+  contain = 'contain',
+  cover = 'cover',
 }
 
 export enum ViewTypes {
@@ -99,7 +106,9 @@ export interface Node {
     colorId: string
   }
   text?: string
-  children: Node[]
+  imageUrl?: string
+  objectFit?: ObjectFit
+  children?: Node[]
   fontSize?: FontSizeName
 }
 
@@ -169,6 +178,7 @@ export interface AddingAtom {
     x: number
     y: number
   }
+  imageUrl?: string
 }
 
 export interface HoveredCell {
