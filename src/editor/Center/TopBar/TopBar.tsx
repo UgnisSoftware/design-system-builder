@@ -44,8 +44,8 @@ const HorizontalAlignmentWrapper = styled.div`
   cursor: pointer;
   display: grid;
   grid-gap: 2px;
-  grid-template-columns: 8px 8px 8px;
-  grid-template-rows: 24px;
+  grid-template-columns: 7px 7px 7px;
+  grid-template-rows: 25px;
   margin-right: 8px;
 `
 
@@ -53,8 +53,8 @@ const VerticalAlignmentWrapper = styled.div`
   cursor: pointer;
   display: grid;
   grid-gap: 2px;
-  grid-template-columns: 24px;
-  grid-template-rows: 8px 8px 8px;
+  grid-template-columns: 25px;
+  grid-template-rows: 7px 7px 7px;
   margin-right: 8px;
 `
 
@@ -271,6 +271,11 @@ const TopBar = () => (
                   <AlignmentItem />
                   <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.end} />
                 </HorizontalAlignmentWrapper>
+                <HorizontalAlignmentWrapper onClick={selectHorizontalAlignment(Alignment.stretch)}>
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
+                </HorizontalAlignmentWrapper>
               </IconRow>
             </InfoColumn>
             <Divider />
@@ -291,6 +296,11 @@ const TopBar = () => (
                   <AlignmentItem />
                   <AlignmentItem />
                   <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.end} />
+                </VerticalAlignmentWrapper>
+                <VerticalAlignmentWrapper onClick={selectVerticalAlignment(Alignment.stretch)}>
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
+                  <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
                 </VerticalAlignmentWrapper>
               </IconRow>
             </InfoColumn>

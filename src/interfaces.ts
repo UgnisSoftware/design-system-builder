@@ -42,6 +42,7 @@ export enum Overflow {
 }
 
 export enum Alignment {
+  stretch = 'stretch',
   start = 'start',
   center = 'center',
   end = 'end',
