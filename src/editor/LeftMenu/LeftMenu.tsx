@@ -100,8 +100,8 @@ const addComponent = value => {
         rowEnd: -1,
       },
       alignment: {
-        horizontal: Alignment.start,
-        vertical: Alignment.start,
+        horizontal: Alignment.stretch,
+        vertical: Alignment.stretch,
       },
       padding: {
         top: '0px',
@@ -160,8 +160,8 @@ const addPage = value => {
         rowEnd: -1,
       },
       alignment: {
-        horizontal: Alignment.start,
-        vertical: Alignment.start,
+        horizontal: Alignment.stretch,
+        vertical: Alignment.stretch,
       },
       padding: {
         top: '0px',

@@ -96,8 +96,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
           right: '0px',
         },
         alignment: {
-          horizontal: Alignment.start,
-          vertical: Alignment.start,
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
         },
         overflow: Overflow.visible,
         columns: [

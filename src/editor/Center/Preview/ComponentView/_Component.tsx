@@ -31,15 +31,6 @@ const TextWrapper = styled.div`
   justify-self: ${({ component }: BoxProps) => (component.alignment.horizontal)};
   align-self: ${({ component }: BoxProps) => (component.alignment.vertical)};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  ${({ component }: BoxProps) => {
-    const border = state.border.find(border => border.id === component.border)
-    return border
-      ? css`
-          border: ${border.style};
-          border-radius: ${border.radius};
-        `
-      : ''
-  }};
   overflow-wrap: break-word;
 `
 
@@ -64,15 +55,6 @@ const EmptyTextArea = styled.textarea`
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  ${({ component }: BoxProps) => {
-    const border = state.border.find(border => border.id === component.border)
-    return border
-      ? css`
-          border: ${border.style};
-          border-radius: ${border.radius};
-        `
-      : ''
-  }};
   border: none;
   overflow: auto;
   outline: none;

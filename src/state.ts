@@ -26,8 +26,8 @@ const defaultState: State = {
             rowEnd: -1,
           },
           alignment: {
-            horizontal: Alignment.start,
-            vertical: Alignment.start,
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
           },
           padding: {
             top: '0px',
@@ -71,8 +71,8 @@ const defaultState: State = {
           rowEnd: -1,
         },
         alignment: {
-          horizontal: Alignment.start,
-          vertical: Alignment.start,
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
         },
         padding: {
           top: '8px',
@@ -124,8 +124,8 @@ const defaultState: State = {
           rowEnd: -1,
         },
         alignment: {
-          horizontal: Alignment.start,
-          vertical: Alignment.start,
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
         },
         padding: {
           top: '0px',
