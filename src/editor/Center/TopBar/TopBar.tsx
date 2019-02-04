@@ -1,7 +1,16 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, Border, BoxShadow, ComponentView, NodeTypes, ObjectFit, Overflow } from '@src/interfaces'
+import {
+  Alignment,
+  Border,
+  BoxShadow,
+  ComponentView,
+  FontSizeName,
+  NodeTypes,
+  ObjectFit,
+  Overflow,
+} from '@src/interfaces'
 import { Colors } from '@src/styles'
 
 const TopBarBox = styled.div`
@@ -100,6 +109,11 @@ const IconRow = styled.div`
   display: flex;
   align-items: center;
 `
+
+const FontSize = styled.div`
+  margin-right: 8px;
+  font-size: 18px;
+`
 const selectComponentView = (view: ComponentView) => () => {
   state.ui.componentView = view
 }
@@ -133,6 +147,9 @@ const selectVerticalAlignment = (alignment: Alignment) => () => {
 
 const selectObjectFit = (objectFit: ObjectFit) => () => {
   state.ui.selectedNode.objectFit = objectFit
+}
+const changeFontSize = (size: FontSizeName) => () => {
+  state.ui.selectedNode.fontSize = size
 }
 
 const TopBar = () => (
@@ -328,6 +345,27 @@ const TopBar = () => (
                     <AlignmentItem />
                     <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.end} />
                   </VerticalAlignmentWrapper>
+                </StylelessButton>
+              </IconRow>
+            </InfoColumn>
+            <Divider />
+            <InfoColumn>
+              <Title>Font size</Title>
+              <IconRow>
+                <StylelessButton title="XS" onClick={changeFontSize(FontSizeName.XS)}>
+                  <FontSize>XS</FontSize>
+                </StylelessButton>
+                <StylelessButton title="S" onClick={changeFontSize(FontSizeName.S)}>
+                  <FontSize>S</FontSize>
+                </StylelessButton>
+                <StylelessButton title="M" onClick={changeFontSize(FontSizeName.M)}>
+                  <FontSize>M</FontSize>
+                </StylelessButton>
+                <StylelessButton title="L" onClick={changeFontSize(FontSizeName.L)}>
+                  <FontSize>L</FontSize>
+                </StylelessButton>
+                <StylelessButton title="XL" onClick={changeFontSize(FontSizeName.XL)}>
+                  <FontSize>XL</FontSize>
                 </StylelessButton>
               </IconRow>
             </InfoColumn>
