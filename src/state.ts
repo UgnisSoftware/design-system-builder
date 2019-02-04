@@ -4,6 +4,7 @@ import {
   ComponentView,
   FontSizeName,
   NodeTypes,
+  ObjectFit,
   Overflow,
   RouterPaths,
   State,
@@ -44,7 +45,7 @@ const defaultState: State = {
           ],
           rows: [
             {
-              value: 100,
+              value: 80,
               unit: Units.Px,
             },
           ],
@@ -118,12 +119,8 @@ const defaultState: State = {
           bottom: '0px',
           right: '0px',
         },
-        overflow: Overflow.visible,
+        overflow: Overflow.hidden,
         columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
           {
             value: 1,
             unit: Units.Fr,
@@ -131,19 +128,93 @@ const defaultState: State = {
         ],
         rows: [
           {
-            value: 100,
+            value: 500,
             unit: Units.Px,
           },
           {
-            value: 100,
+            value: 80,
             unit: Units.Px,
           },
         ],
-        children: [],
+        children: [
+          {
+            id: '07f08fc0',
+            type: NodeTypes.Image,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            padding: {
+              top: '0px',
+              left: '0px',
+              bottom: '0px',
+              right: '0px',
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            overflow: Overflow.visible,
+            columns: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            rows: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            children: [],
+            imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            objectFit: ObjectFit.cover,
+          },
+          {
+            id: 'ef3fb266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            padding: {
+              top: '0px',
+              left: '0px',
+              bottom: '0px',
+              right: '0px',
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            overflow: Overflow.visible,
+            columns: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            rows: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            text: 'Nebula c51-b9',
+            fontSize: FontSizeName.L,
+          },
+        ],
         background: {
-          colorId: 'aaaa-1111',
+          colorId: 'cccc-3333',
         },
         border: 'barbar-7777',
+        boxShadow: 'shadow-9999',
       },
     },
   },
