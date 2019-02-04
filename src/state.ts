@@ -320,7 +320,7 @@ const defaultState: State = {
     {
       id: 'borbor-6666',
       radius: '8px 8px 8px 8px',
-      style: '2px solid #5da2d5',
+      style: '2px solid #cacafd',
     },
     {
       id: 'barbar-7777',

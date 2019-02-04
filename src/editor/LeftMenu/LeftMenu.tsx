@@ -55,7 +55,7 @@ const AddComponentBox = styled.div`
 
 const Logo = styled.div`
   font-size: 28px;
-  font-weight: 300;
+  font-weight: 400;
   display: flex;
   color: ${Colors.brand};
   justify-content: center;
