@@ -84,7 +84,7 @@ const Preview = () => {
       <PreviewBox>
         <PerspectiveBox onClick={unselectComponent}>
           <AlignCenter>
-            <Component component={component.root} />
+            <Component component={component.root} parent={null} />
           </AlignCenter>
         </PerspectiveBox>
       </PreviewBox>

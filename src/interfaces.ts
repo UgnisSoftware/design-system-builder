@@ -15,6 +15,17 @@ export enum RouterPaths {
   'exporting' = 'exporting',
 }
 
+export enum DragDirection {
+  N = 'N',
+  NE = 'NE',
+  NW = 'NW',
+  W = 'W',
+  E = 'E',
+  S = 'S',
+  SW = 'SW',
+  SE = 'SE',
+}
+
 interface Router {
   path: RouterPaths
   componentId?: string
@@ -206,6 +217,11 @@ export interface State {
     addingPage: boolean
     showAddComponentMenu: boolean
     selectedNode: Node
+    expandingNode: {
+      node: Node
+      parent: Node
+      direction: DragDirection
+    }
     zoom: number
     addingAtom: AddingAtom
     hoveredCell: HoveredCell

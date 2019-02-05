@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import { Padding, Node, Units, GridProperty } from '@src/interfaces'
+import { Padding, Node, Units, GridProperty, DragDirection } from '@src/interfaces'
 import * as React from 'react'
 import state from '@state'
 import TextInput from '@components/TextInput'
+import { Colors } from '@src/styles'
 
 interface BorderProps {
   col: number
@@ -127,6 +128,92 @@ const PaddingRight = styled(TextInput)`
   width: 64px;
 `
 
+const drag = (node: Node, parent: Node, direction: DragDirection) => e => {
+  e.stopPropagation()
+  e.preventDefault()
+  state.ui.expandingNode = {
+    node,
+    parent,
+    direction,
+  }
+
+  function stopDragging(event) {
+    state.ui.expandingNode = null
+    event.preventDefault()
+    window.removeEventListener('mouseup', stopDragging)
+    window.removeEventListener('touchend', stopDragging)
+  }
+  window.addEventListener('mouseup', stopDragging)
+  window.addEventListener('touchend', stopDragging)
+}
+
+const SideDrag = styled.div`
+  position: absolute;
+  transition: all 0.3s;
+`
+
+const TopDrag = styled(SideDrag)`
+  top: -12px;
+  left: 0px;
+  height: 12px;
+  right: 0px;
+  cursor: n-resize;
+  border-bottom: #565656 dashed 1px;
+`
+const BottomDrag = styled(SideDrag)`
+  bottom: -12px;
+  left: 0px;
+  height: 12px;
+  right: 0px;
+  cursor: s-resize;
+  border-top: #565656 dashed 1px;
+`
+const LeftDrag = styled(SideDrag)`
+  top: 0px;
+  left: -12px;
+  width: 12px;
+  bottom: 0px;
+  cursor: w-resize;
+  border-right: #565656 dashed 1px;
+`
+const RightDrag = styled(SideDrag)`
+  top: 0px;
+  right: -12px;
+  width: 12px;
+  bottom: 0px;
+  cursor: e-resize;
+  border-left: #565656 dashed 1px;
+`
+
+const CornerDrag = styled.div`
+  position: absolute;
+  transition: all 0.3s;
+  width: 12px;
+  height: 12px;
+  background: ${Colors.accent};
+`
+const TopLeftDrag = styled(CornerDrag)`
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+`
+const TopRightDrag = styled(CornerDrag)`
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
+`
+
+const BottomLeftDrag = styled(CornerDrag)`
+  bottom: -6px;
+  left: -6px;
+  cursor: sw-resize;
+`
+const BottomRightDrag = styled(CornerDrag)`
+  bottom: -6px;
+  right: -6px;
+  cursor: se-resize;
+`
+
 const addColumn = (component: Node) => _ => {
   component.columns.push({ value: 1, unit: Units.Fr })
 }
@@ -165,71 +252,94 @@ const deleteRow = (component: Node, index: number) => () => {
 
 interface Props {
   component: Node
+  parent: Node | null
 }
-const DragCorners = ({ component }: Props) =>
-  ((state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id) || state.ui.addingAtom) && (
+const DragCorners = ({ component, parent }: Props) =>
+  state.ui.selectedNode === component && (
     <>
-      {component.rows.map((_, rowIndex) =>
-        component.columns.map((_, colIndex) => (
-          <Border
-            key={`${colIndex}_${rowIndex}`}
-            row={rowIndex + 1}
-            col={colIndex + 1}
-            onMouseOver={onMouseOver(component, rowIndex, colIndex)}
-          />
-        )),
-      )}
-
-      {!state.ui.addingAtom && (
+      <TopDrag onMouseDown={drag(component, parent, DragDirection.N)} />
+      <LeftDrag onMouseDown={drag(component, parent, DragDirection.W)} />
+      <RightDrag onMouseDown={drag(component, parent, DragDirection.E)} />
+      <BottomDrag onMouseDown={drag(component, parent, DragDirection.S)} />
+      <TopLeftDrag onMouseDown={drag(component, parent, DragDirection.NW)} />
+      <TopRightDrag onMouseDown={drag(component, parent, DragDirection.NE)} />
+      <BottomLeftDrag onMouseDown={drag(component, parent, DragDirection.SW)} />
+      <BottomRightDrag onMouseDown={drag(component, parent, DragDirection.SE)} />
+      {((state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id) || state.ui.addingAtom) && (
         <>
-          {component.columns.map((col, colIndex) => (
-            <>
-              <ColumnInput
-                value={col.value}
-                onChange={changeValue(col)}
-                key={`${colIndex}`}
-                row={1}
-                col={colIndex + 1}
-              />
-              <ColumnUnitInput
-                value={col.unit}
-                onChange={changeUnit(col)}
-                key={`${colIndex}`}
-                row={1}
-                col={colIndex + 1}
-              />
-              <ColumnDelete row={1} col={colIndex + 1} onClick={deleteColumn(component, colIndex)} />
-            </>
-          ))}
-          {component.rows.map((row, rowIndex) => (
-            <>
-              <RowInput value={row.value} onChange={changeValue(row)} key={`${rowIndex}`} row={rowIndex + 1} col={1} />
-              <RowUnitInput
-                value={row.unit}
-                onChange={changeUnit(row)}
-                key={`${rowIndex}`}
+          {component.rows.map((_, rowIndex) =>
+            component.columns.map((_, colIndex) => (
+              <Border
+                key={`${colIndex}_${rowIndex}`}
                 row={rowIndex + 1}
-                col={1}
+                col={colIndex + 1}
+                onMouseOver={onMouseOver(component, rowIndex, colIndex)}
               />
-              <RowDelete row={rowIndex + 1} col={1} onClick={deleteRow(component, rowIndex)} />
+            )),
+          )}
+
+          {!state.ui.addingAtom && (
+            <>
+              {component.columns.map((col, colIndex) => (
+                <>
+                  <ColumnInput
+                    value={col.value}
+                    onChange={changeValue(col)}
+                    key={`${colIndex}`}
+                    row={1}
+                    col={colIndex + 1}
+                  />
+                  <ColumnUnitInput
+                    value={col.unit}
+                    onChange={changeUnit(col)}
+                    key={`${colIndex}`}
+                    row={1}
+                    col={colIndex + 1}
+                  />
+                  <ColumnDelete row={1} col={colIndex + 1} onClick={deleteColumn(component, colIndex)} />
+                </>
+              ))}
+              {component.rows.map((row, rowIndex) => (
+                <>
+                  <RowInput
+                    value={row.value}
+                    onChange={changeValue(row)}
+                    key={`${rowIndex}`}
+                    row={rowIndex + 1}
+                    col={1}
+                  />
+                  <RowUnitInput
+                    value={row.unit}
+                    onChange={changeUnit(row)}
+                    key={`${rowIndex}`}
+                    row={rowIndex + 1}
+                    col={1}
+                  />
+                  <RowDelete row={rowIndex + 1} col={1} onClick={deleteRow(component, rowIndex)} />
+                </>
+              ))}
+
+              <PaddingTop name="paddingTop" value={component.padding.top} onChange={changePadding(component, 'top')} />
+              <PaddingLeft
+                name="paddingLeft"
+                value={component.padding.left}
+                onChange={changePadding(component, 'left')}
+              />
+              <PaddingBottom
+                name="paddingBottom"
+                value={component.padding.bottom}
+                onChange={changePadding(component, 'bottom')}
+              />
+              <PaddingRight
+                name="paddingRight"
+                value={component.padding.right}
+                onChange={changePadding(component, 'right')}
+              />
+
+              <AddColumn onClick={addColumn(component)} />
+              <AddRow onClick={addRow(component)} />
             </>
-          ))}
-
-          <PaddingTop name="paddingTop" value={component.padding.top} onChange={changePadding(component, 'top')} />
-          <PaddingLeft name="paddingLeft" value={component.padding.left} onChange={changePadding(component, 'left')} />
-          <PaddingBottom
-            name="paddingBottom"
-            value={component.padding.bottom}
-            onChange={changePadding(component, 'bottom')}
-          />
-          <PaddingRight
-            name="paddingRight"
-            value={component.padding.right}
-            onChange={changePadding(component, 'right')}
-          />
-
-          <AddColumn onClick={addColumn(component)} />
-          <AddRow onClick={addRow(component)} />
+          )}
         </>
       )}
     </>

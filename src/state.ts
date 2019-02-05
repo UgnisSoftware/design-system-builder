@@ -119,7 +119,7 @@ const defaultState: State = {
           bottom: '0px',
           right: '0px',
         },
-        overflow: Overflow.hidden,
+        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -369,6 +369,7 @@ const defaultState: State = {
     addingAtom: null,
     hoveredCell: null,
     selectedNode: null,
+    expandingNode: null,
     zoom: 100,
   },
 }
