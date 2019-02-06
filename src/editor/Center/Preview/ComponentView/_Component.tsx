@@ -77,6 +77,7 @@ const TextWrapper = styled.div`
   overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
   justify-self: ${({ component }: BoxProps) => component.alignment.horizontal};
   align-self: ${({ component }: BoxProps) => component.alignment.vertical};
+  font-size: ${({ component }: BoxProps) => state.font.sizes[component.fontSize].fontSize};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   overflow-wrap: break-word;
 `
