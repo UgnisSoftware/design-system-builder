@@ -370,6 +370,7 @@ const defaultState: State = {
     hoveredCell: null,
     selectedNode: null,
     expandingNode: null,
+    draggingNodePosition: null,
     zoom: 100,
   },
 }

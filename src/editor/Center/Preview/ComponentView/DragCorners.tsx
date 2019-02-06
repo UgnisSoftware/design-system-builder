@@ -4,6 +4,7 @@ import * as React from 'react'
 import state from '@state'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
+import { connect } from 'lape'
 
 interface BorderProps {
   col: number
@@ -222,7 +223,7 @@ const addRow = (component: Node) => _ => {
 }
 
 const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => () => {
-  if (state.ui.addingAtom) {
+  if (state.ui.addingAtom || state.ui.draggingNodePosition) {
     state.ui.hoveredCell = {
       component: component,
       rowIndex,
@@ -268,7 +269,9 @@ const DragCorners = ({ component, parent }: Props) => (
         <BottomRightDrag onMouseDown={drag(component, parent, DragDirection.SE)} />
       </>
     )}
-    {((state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id) || state.ui.addingAtom) && (
+    {((state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id) ||
+      state.ui.addingAtom ||
+      (state.ui.draggingNodePosition && state.ui.selectedNode !== component)) && (
       <>
         {component.rows.map((_, rowIndex) =>
           component.columns.map((_, colIndex) => (
@@ -281,7 +284,7 @@ const DragCorners = ({ component, parent }: Props) => (
           )),
         )}
 
-        {!state.ui.addingAtom && (
+        {!state.ui.addingAtom && !state.ui.draggingNodePosition && (
           <>
             {component.columns.map((col, colIndex) => (
               <>
@@ -348,4 +351,4 @@ const DragCorners = ({ component, parent }: Props) => (
   </>
 )
 
-export default DragCorners
+export default connect(DragCorners)

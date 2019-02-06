@@ -222,6 +222,10 @@ export interface State {
       parent: Node
       direction: DragDirection
     }
+    draggingNodePosition: {
+      x: number
+      y: number
+    }
     zoom: number
     addingAtom: AddingAtom
     hoveredCell: HoveredCell

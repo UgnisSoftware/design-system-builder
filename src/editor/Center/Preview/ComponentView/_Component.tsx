@@ -5,12 +5,60 @@ import styled, { css } from 'styled-components'
 import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
 import ClickOutside from 'react-click-outside'
 
-const selectComponent = (component: Node) => e => {
+const selectComponent = (component: Node, parent: Node) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
     if (state.ui.editingBoxNode !== component) {
       state.ui.editingBoxNode = null
     }
+
+    let currentX = e.touches ? e.touches[0].pageX : e.pageX
+    let currentY = e.touches ? e.touches[0].pageY : e.pageY
+    function drag(e) {
+      if (!state.ui.draggingNodePosition) {
+        state.ui.draggingNodePosition = {
+          x: 0,
+          y: 0,
+        }
+      }
+      e.preventDefault()
+      const newX = e.touches ? e.touches[0].pageX : e.pageX
+      const newY = e.touches ? e.touches[0].pageY : e.pageY
+      const diffX = currentX - newX
+      const diffY = currentY - newY
+
+      state.ui.draggingNodePosition.y -= diffY / (state.ui.zoom / 100)
+      state.ui.draggingNodePosition.x -= diffX / (state.ui.zoom / 100)
+      currentX = newX
+      currentY = newY
+      return false
+    }
+    window.addEventListener('mousemove', drag)
+    window.addEventListener('touchmove', drag)
+    window.addEventListener('mouseup', stopDragging)
+    window.addEventListener('touchend', stopDragging)
+    function stopDragging(event) {
+      event.preventDefault()
+      state.ui.draggingNodePosition = null
+      if (state.ui.hoveredCell && parent) {
+        const nodeIndex = parent.children.indexOf(component)
+        parent.children.splice(nodeIndex, 1)
+        component.position = {
+          columnStart: state.ui.hoveredCell.colIndex + 1,
+          columnEnd: state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
+          rowStart: state.ui.hoveredCell.rowIndex + 1,
+          rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
+        }
+        state.ui.hoveredCell.component.children.push(component)
+        state.ui.hoveredCell = null
+      }
+      window.removeEventListener('mousemove', drag)
+      window.removeEventListener('touchmove', drag)
+      window.removeEventListener('mouseup', stopDragging)
+      window.removeEventListener('touchend', stopDragging)
+      return false
+    }
+    return false
   }
 }
 
@@ -20,7 +68,6 @@ const tiltedCSS = css`
 `
 
 const TextWrapper = styled.div`
-  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -34,6 +81,19 @@ const TextWrapper = styled.div`
   overflow-wrap: break-word;
 `
 
+const stylesForSelected = (component: Node) => {
+  if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
+    return null
+  }
+
+  return {
+    transition: 'none',
+    zIndex: 999999,
+    pointerEvents: 'none',
+    transform: `translateX(${state.ui.draggingNodePosition.x}px) translateY(${state.ui.draggingNodePosition.y}px)`,
+  }
+}
+
 const editText = (component: Node) => () => {
   state.ui.editingTextNode = component
 }
@@ -46,7 +106,7 @@ const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>)
 
 const EmptyTextArea = styled.textarea`
   all: unset;
-  transition: all 0.3s;
+  transition: border 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -54,6 +114,7 @@ const EmptyTextArea = styled.textarea`
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
+  font-size: ${({ component }: BoxProps) => state.font.sizes[component.fontSize].fontSize};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   border: none;
   overflow: auto;
@@ -70,7 +131,7 @@ interface TextProps {
   component: Node
   parent: Node
 }
-const TextComponent = ({ component }: TextProps) =>
+const TextComponent = ({ component, parent }: TextProps) =>
   state.ui.editingTextNode === component ? (
     <ClickOutside
       onClickOutside={stopEdit}
@@ -90,11 +151,9 @@ const TextComponent = ({ component }: TextProps) =>
     </ClickOutside>
   ) : (
     <TextWrapper
+      style={stylesForSelected(component)}
       component={component}
-      style={{
-        fontSize: state.font.sizes[component.fontSize].fontSize,
-      }}
-      onMouseDown={selectComponent(component)}
+      onMouseDown={selectComponent(component, parent)}
       onDoubleClick={editText(component)}
     >
       {component.text}
@@ -113,7 +172,7 @@ interface BoxProps {
 }
 
 const Boxxy = styled.div`
-  transition: all 0.3s;
+  transition: border 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -176,7 +235,12 @@ const changeGridSize = (rowIndex: number, colIndex: number) => () => {
 }
 
 const BoxComponent = ({ component, parent }: BoxProps) => (
-  <Boxxy component={component} onMouseDown={selectComponent(component)} onDoubleClick={editBox(component)}>
+  <Boxxy
+    component={component}
+    onMouseDown={selectComponent(component, parent)}
+    onDoubleClick={editBox(component)}
+    style={stylesForSelected(component)}
+  >
     {component.children.map(child => (
       <Component component={child} parent={component} />
     ))}
@@ -197,7 +261,7 @@ const BoxComponent = ({ component, parent }: BoxProps) => (
 )
 
 const Image = styled.div`
-  transition: all 0.3s;
+  transition: border 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -226,7 +290,12 @@ const Image = styled.div`
 `
 
 const ImageComponent = ({ component, parent }: BoxProps) => (
-  <Image component={component} onMouseDown={selectComponent(component)} onDoubleClick={editBox(component)}>
+  <Image
+    component={component}
+    onMouseDown={selectComponent(component, parent)}
+    onDoubleClick={editBox(component)}
+    style={stylesForSelected(component)}
+  >
     {component.children.map(child => (
       <Component component={child} parent={component} />
     ))}
