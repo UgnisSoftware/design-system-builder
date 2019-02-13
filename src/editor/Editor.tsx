@@ -9,6 +9,7 @@ import LeftMenu from './LeftMenu/LeftMenu'
 import Center from './Center/Center'
 import ColorsAndSpacing from './Styles/ColorsAndSpacing'
 import Exporting from '@src/editor/Styles/Exporting/Exporting'
+import Devtools from '@src/editor/Devtools/Devtools'
 
 const Root = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const Editor = () => {
       {state.ui.router.path === RouterPaths.component && <Center />}
       {state.ui.router.path === RouterPaths.page && <Center />}
       {state.ui.router.path === RouterPaths.exporting && <Exporting />}
+      <Devtools />
     </Root>
   )
 }

@@ -291,14 +291,14 @@ const DragCorners = ({ component, parent }: Props) => (
                 <ColumnInput
                   value={col.value}
                   onChange={changeValue(col)}
-                  key={`${colIndex}`}
+                  key={`value_${colIndex}`}
                   row={1}
                   col={colIndex + 1}
                 />
                 <ColumnUnitInput
                   value={col.unit}
                   onChange={changeUnit(col)}
-                  key={`${colIndex}`}
+                  key={`unit_${colIndex}`}
                   row={1}
                   col={colIndex + 1}
                 />
@@ -310,14 +310,14 @@ const DragCorners = ({ component, parent }: Props) => (
                 <RowInput
                   value={row.value}
                   onChange={changeValue(row)}
-                  key={`${rowIndex}`}
+                  key={`value_${rowIndex}`}
                   row={rowIndex + 1}
                   col={1}
                 />
                 <RowUnitInput
                   value={row.unit}
                   onChange={changeUnit(row)}
-                  key={`${rowIndex}`}
+                  key={`unit_${rowIndex}`}
                   row={rowIndex + 1}
                   col={1}
                 />

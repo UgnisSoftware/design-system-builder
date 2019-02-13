@@ -68,6 +68,7 @@ const tiltedCSS = css`
 `
 
 const TextWrapper = styled.div`
+  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -106,8 +107,8 @@ const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>)
 }
 
 const EmptyTextArea = styled.textarea`
+  transition: all 0.3s;
   all: unset;
-  transition: border 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -173,7 +174,7 @@ interface BoxProps {
 }
 
 const Boxxy = styled.div`
-  transition: border 0.3s;
+  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
@@ -262,7 +263,7 @@ const BoxComponent = ({ component, parent }: BoxProps) => (
 )
 
 const Image = styled.div`
-  transition: border 0.3s;
+  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
