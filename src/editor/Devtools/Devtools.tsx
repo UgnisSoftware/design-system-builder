@@ -67,7 +67,11 @@ class Devtools extends React.Component<{}, State> {
           reset = true
           return
         }
-        if (entry.receiver !== state.ui && entry.receiver !== state.ui.router) {
+        if (
+          entry.receiver !== state.ui &&
+          entry.receiver !== state.ui.router &&
+          entry.receiver !== state.ui.draggingNodePosition
+        ) {
           onlyUI = false
         }
       })
