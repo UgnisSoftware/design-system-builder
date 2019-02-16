@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import TopBar from './TopBar/TopBar'
 import Preview from './Preview/Preview'
-import Zoom from './Zoom/Zoom'
 import state from '@state'
 import { Node } from '@src/interfaces'
 
@@ -54,7 +53,6 @@ class CenterColumn extends React.Component {
       <Center>
         <TopBar />
         <Preview />
-        {!state.ui.showAddComponentMenu && <Zoom />}
       </Center>
     )
   }

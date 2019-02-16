@@ -226,7 +226,6 @@ export interface State {
       x: number
       y: number
     }
-    zoom: number
     addingAtom: AddingAtom
     hoveredCell: HoveredCell
   }

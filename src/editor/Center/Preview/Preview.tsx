@@ -39,9 +39,7 @@ const PerspectiveBox = styled.div`
   align-items: stretch;
   transition: transform 0.25s;
   transform: ${() =>
-    `translateZ(0) scale(${state.ui.zoom / 100}) ${
-      state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''
-    }`};
+    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 // const Column = styled.div`
@@ -68,19 +66,10 @@ const unselectComponent = e => {
   }
 }
 
-const zoom = e => {
-  if (e.deltaY < 0 && state.ui.zoom + 10 < 210) {
-    state.ui.zoom += 10
-  }
-  if (e.deltaY > 0 && state.ui.zoom - 10 > 20) {
-    state.ui.zoom -= 10
-  }
-}
-
 const Preview = () => {
   const component = getCurrentComponent()
   return (
-    <Wrapper onClick={unselectComponent} onWheel={zoom}>
+    <Wrapper onClick={unselectComponent}>
       <PreviewBox>
         <PerspectiveBox onClick={unselectComponent}>
           <AlignCenter>

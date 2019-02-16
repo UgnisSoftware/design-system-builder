@@ -371,7 +371,6 @@ const defaultState: State = {
     selectedNode: null,
     expandingNode: null,
     draggingNodePosition: null,
-    zoom: 100,
   },
 }
 

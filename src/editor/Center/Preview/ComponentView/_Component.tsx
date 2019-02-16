@@ -27,8 +27,8 @@ const selectComponent = (component: Node, parent: Node) => e => {
       const diffX = currentX - newX
       const diffY = currentY - newY
 
-      state.ui.draggingNodePosition.y -= diffY / (state.ui.zoom / 100)
-      state.ui.draggingNodePosition.x -= diffX / (state.ui.zoom / 100)
+      state.ui.draggingNodePosition.y -= diffY
+      state.ui.draggingNodePosition.x -= diffX
       currentX = newX
       currentY = newY
       return false
