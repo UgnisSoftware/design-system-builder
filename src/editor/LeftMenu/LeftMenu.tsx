@@ -244,6 +244,9 @@ const LeftMenu = () => (
     <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router.path === RouterPaths.fonts}>
       Fonts
     </Item>
+    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router.path === RouterPaths.assets}>
+      Assets
+    </Item>
     <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router.path === RouterPaths.exporting}>
       Exporting
     </Item>

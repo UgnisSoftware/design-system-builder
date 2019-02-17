@@ -13,6 +13,7 @@ export enum RouterPaths {
   'component' = 'component',
   'page' = 'page',
   'exporting' = 'exporting',
+  'assets' = 'assets',
 }
 
 export enum DragDirection {
@@ -174,13 +175,42 @@ export enum ComponentView {
   List = 'List',
 }
 
-interface Button {
+interface GenericPlaceholderElement {
+  name: string
+  root: Node
+}
+
+interface ButtonElement {
+  name: string
+  root: Node
+}
+
+interface TextInputElement {
   name: string
   root: Node
 }
 
 export interface Elements {
-  Button: Button[]
+  Button: ButtonElement[]
+  // 'Radio Button': GenericPlaceholderElement[]
+  // 'Check Box': GenericPlaceholderElement[]
+
+  Input: GenericPlaceholderElement[]
+  // 'Text Input': TextInputElement[]
+  // 'Autocomplete Input': GenericPlaceholderElement[]
+  // 'Number Input': GenericPlaceholderElement[]
+  // 'Slider Input': GenericPlaceholderElement[]
+  // 'Range Input': GenericPlaceholderElement[]
+  // 'Dropdown Input': GenericPlaceholderElement[]
+  // 'Date Picker': GenericPlaceholderElement[]
+
+  // 'Pop-up': GenericPlaceholderElement[]
+  // Sidebar: GenericPlaceholderElement[]
+  // Loader: GenericPlaceholderElement[]
+  // Breadcrumb: GenericPlaceholderElement[]
+  // Pagination: GenericPlaceholderElement[]
+  // Video: GenericPlaceholderElement[]
+  // Map: GenericPlaceholderElement[]
 }
 
 export interface AddingAtom {
