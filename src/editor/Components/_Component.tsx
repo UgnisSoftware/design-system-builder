@@ -2,7 +2,7 @@ import * as React from 'react'
 import { ComponentView, DragDirection, Node, NodeTypes, ObjectFit } from '@src/interfaces'
 import state from '@state'
 import styled, { css } from 'styled-components'
-import DragCorners from '@src/editor/Center/Preview/ComponentView/DragCorners'
+import DragCorners from './DragCorners'
 import ClickOutside from 'react-click-outside'
 
 const selectComponent = (component: Node, parent: Node) => e => {
@@ -159,6 +159,7 @@ const TextComponent = ({ component, parent }: TextProps) =>
       onDoubleClick={editText(component)}
     >
       {component.text}
+      <DragCorners component={component} parent={parent} />
     </TextWrapper>
   )
 

@@ -1,13 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Components/_Component'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
-import AddingAtom from '@src/editor/Center/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
-import AddComponent from '@src/editor/TopBar/AddComponent'
 
 const Wrapper = styled.div`
   position: relative;
@@ -39,7 +36,7 @@ const PerspectiveBox = styled.div`
   align-items: stretch;
   transition: transform 0.25s;
   transform: ${() =>
-    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
+  `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 // const Column = styled.div`
@@ -77,9 +74,6 @@ const Preview = () => {
           </AlignCenter>
         </PerspectiveBox>
       </PreviewBox>
-      <AddComponent />
-      {state.ui.showAddComponentMenu && <AddComponentMenu />}
-      {state.ui.addingAtom && <AddingAtom />}
     </Wrapper>
   )
 }

@@ -10,8 +10,8 @@ import {
   NodeTypes,
   ObjectFit,
   Overflow,
-} from '@src/interfaces'
-import { Colors } from '@src/styles'
+} from '../../interfaces'
+import { Colors } from '../../styles'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;

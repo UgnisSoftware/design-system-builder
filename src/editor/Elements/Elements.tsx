@@ -2,11 +2,11 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import TopBar from '../TopBar/TopBar'
-import Preview from './Preview/Preview'
+import Button from './Button/Button'
 import state from '@state'
 import { Node } from '@src/interfaces'
 
-const Center = styled.div`
+const ElementsWrapper = styled.div`
   position: relative;
   overflow: hidden;
   display: flex;
@@ -40,7 +40,7 @@ const deleteComponent = e => {
   }
 }
 
-class CenterColumn extends React.Component {
+class Elements extends React.Component {
   componentDidMount() {
     window.addEventListener('keydown', deleteComponent)
   }
@@ -50,11 +50,11 @@ class CenterColumn extends React.Component {
 
   render() {
     return (
-      <Center>
+      <ElementsWrapper>
         <TopBar />
-        <Preview />
-      </Center>
+        <Button />
+      </ElementsWrapper>
     )
   }
 }
-export default CenterColumn
+export default Elements

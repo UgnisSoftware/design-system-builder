@@ -11,6 +11,7 @@ import ColorsAndSpacing from './Styles/ColorsAndSpacing'
 import Exporting from '@src/editor/Styles/Exporting/Exporting'
 import Devtools from '@src/editor/Devtools/Devtools'
 import Assets from '@src/editor/Styles/Assets/Assets'
+import Elements from '@src/editor/Elements/Elements'
 
 const Root = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ const Editor = () => {
       <LeftMenu />
       {state.ui.router.path === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router.path === RouterPaths.fonts && <Fonts />}
-      {state.ui.router.path === RouterPaths.elements && <Center />}
+      {state.ui.router.path === RouterPaths.elements && <Elements />}
       {state.ui.router.path === RouterPaths.component && <Center />}
       {state.ui.router.path === RouterPaths.page && <Center />}
       {state.ui.router.path === RouterPaths.exporting && <Exporting />}
