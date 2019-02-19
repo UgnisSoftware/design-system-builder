@@ -5,6 +5,7 @@ import {
   Alignment,
   Border,
   BoxShadow,
+  ComponentState,
   ComponentView,
   FontSizeName,
   NodeTypes,
@@ -119,6 +120,14 @@ const selectComponentView = (view: ComponentView) => () => {
 }
 
 const changeBackground = (colorId: string) => () => {
+  if (state.ui.state !== ComponentState.default) {
+    if (state.ui.selectedNode[state.ui.state]) {
+      state.ui.selectedNode[state.ui.state].background = { colorId: colorId }
+      return
+    }
+    state.ui.selectedNode[state.ui.state] = { background: { colorId: colorId } }
+    return
+  }
   state.ui.selectedNode.background.colorId = colorId
 }
 
@@ -150,6 +159,10 @@ const selectObjectFit = (objectFit: ObjectFit) => () => {
 }
 const changeFontSize = (size: FontSizeName) => () => {
   state.ui.selectedNode.fontSize = size
+}
+
+const changeState = (componentState: ComponentState) => () => {
+  state.ui.state = componentState
 }
 
 const TopBar = () => (
@@ -188,6 +201,51 @@ const TopBar = () => (
 
     {state.ui.selectedNode && (
       <>
+        <Divider />
+        <InfoColumn>
+          <Title>State</Title>
+          <IconRow>
+            <StylelessButton
+              title="Default"
+              className="material-icons"
+              style={{
+                fontSize: '24px',
+                marginLeft: '-2px',
+                marginRight: '2px',
+                color: state.ui.state === ComponentState.default ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeState(ComponentState.default)}
+            >
+              not_interested
+            </StylelessButton>
+            <StylelessButton
+              title="Hovered"
+              className="material-icons"
+              style={{
+                fontSize: '24px',
+                marginLeft: '-2px',
+                marginRight: '2px',
+                color: state.ui.state === ComponentState.hover ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeState(ComponentState.hover)}
+            >
+              cloud
+            </StylelessButton>
+            <StylelessButton
+              title="Focused"
+              className="material-icons"
+              style={{
+                fontSize: '24px',
+                marginLeft: '-2px',
+                marginRight: '2px',
+                color: state.ui.state === ComponentState.focus ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeState(ComponentState.focus)}
+            >
+              search
+            </StylelessButton>
+          </IconRow>
+        </InfoColumn>
         {state.ui.selectedNode.type === NodeTypes.Box && (
           <>
             <Divider />

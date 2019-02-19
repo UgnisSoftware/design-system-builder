@@ -201,6 +201,16 @@ const Boxxy = styled.div`
         `
       : ''
   }};
+
+  ${({ component }: BoxProps) =>
+    component.hover
+      ? css`
+          &:hover {
+            background: ${({ component }: BoxProps) =>
+              state.colors.find(color => color.id === component.hover.background.colorId).hex};
+          }
+        `
+      : ''};
 `
 interface BorderProps {
   col: number

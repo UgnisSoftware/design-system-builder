@@ -1,6 +1,7 @@
 import { proxify } from 'lape'
 import {
   Alignment,
+  ComponentState,
   ComponentView,
   FontSizeName,
   NodeTypes,
@@ -16,81 +17,83 @@ const defaultState: State = {
   elements: {
     Button: [
       {
-        name: 'Default',
-        root: {
-          id: 'rootId',
-          type: NodeTypes.Box,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        padding: {
+          top: '8px',
+          left: '16px',
+          bottom: '8px',
+          right: '16px',
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
           },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
           },
-          padding: {
-            top: '0px',
-            left: '0px',
-            bottom: '0px',
-            right: '0px',
+        ],
+        children: [
+          {
+            id: '55a3c774',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            padding: {
+              top: '0px',
+              left: '0px',
+              bottom: '0px',
+              right: '0px',
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            overflow: Overflow.visible,
+            columns: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            rows: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            text: 'Button',
+            fontSize: FontSizeName.S,
           },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 80,
-              unit: Units.Px,
-            },
-          ],
-          children: [
-            {
-              id: '55a3c774',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              padding: {
-                top: '0px',
-                left: '0px',
-                bottom: '0px',
-                right: '0px',
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              overflow: Overflow.visible,
-              columns: [
-                {
-                  value: 1,
-                  unit: Units.Fr,
-                },
-              ],
-              rows: [
-                {
-                  value: 1,
-                  unit: Units.Fr,
-                },
-              ],
-              text: 'Button',
-              fontSize: FontSizeName.L,
-            },
-          ],
+        ],
+        background: {
+          colorId: 'cccc-3333',
+        },
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        hover: {
           background: {
-            colorId: 'cccc-3333',
+            colorId: 'cccc-3333-2',
           },
-          border: 'borbor-6666',
-          boxShadow: 'shadow-7777',
         },
       },
     ],
@@ -131,7 +134,7 @@ const defaultState: State = {
           ],
           children: [
             {
-              id: '55a3c774',
+              id: '55a38774',
               type: NodeTypes.Text,
               position: {
                 columnStart: 1,
@@ -163,7 +166,7 @@ const defaultState: State = {
                 },
               ],
               text: 'Button',
-              fontSize: FontSizeName.L,
+              fontSize: FontSizeName.S,
             },
           ],
           background: {
@@ -367,6 +370,11 @@ const defaultState: State = {
       hex: '#f8f8f8',
     },
     {
+      id: 'cccc-3333-2',
+      name: 'Grey',
+      hex: '#f0f0f0',
+    },
+    {
       id: 'dddd-4444',
       name: 'Light blue',
       hex: '#90ccf4',
@@ -451,6 +459,7 @@ const defaultState: State = {
     selectedNode: null,
     expandingNode: null,
     draggingNodePosition: null,
+    state: ComponentState.default,
   },
 }
 

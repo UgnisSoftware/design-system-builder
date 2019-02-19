@@ -27,6 +27,12 @@ export enum DragDirection {
   SE = 'SE',
 }
 
+export enum ComponentState {
+  default = 'default',
+  hover = 'hover',
+  focus = 'focus',
+}
+
 interface Router {
   path: RouterPaths
   componentId?: string
@@ -122,6 +128,8 @@ export interface Node {
   objectFit?: ObjectFit
   children?: Node[]
   fontSize?: FontSizeName
+  focus?: Partial<Node>
+  hover?: Partial<Node>
 }
 
 export interface Component {
@@ -180,18 +188,8 @@ interface GenericPlaceholderElement {
   root: Node
 }
 
-interface ButtonElement {
-  name: string
-  root: Node
-}
-
-interface TextInputElement {
-  name: string
-  root: Node
-}
-
 export interface Elements {
-  Button: ButtonElement[]
+  Button: Node[]
   // 'Radio Button': GenericPlaceholderElement[]
   // 'Check Box': GenericPlaceholderElement[]
 
@@ -258,5 +256,6 @@ export interface State {
     }
     addingAtom: AddingAtom
     hoveredCell: HoveredCell
+    state: ComponentState
   }
 }

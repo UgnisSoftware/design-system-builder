@@ -4,13 +4,15 @@ import state from '@state'
 import Component from '@src/editor/Components/_Component'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
-import { getCurrentComponent } from '@src/selectors'
 
 const Wrapper = styled.div`
   position: relative;
   display: grid;
   flex: 1;
-  justify-content: center;
+  align-items: center;
+  align-content: center;
+  justify-content: space-evenly;
+  justify-items: center;
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px,
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px;
@@ -19,39 +21,13 @@ const Wrapper = styled.div`
   transform: translateZ(0);
 `
 
-const PreviewBox = styled.div`
-  display: contents;
-  flex: 1;
-  filter: ${() => (state.ui.showAddComponentMenu ? 'blur(10px) saturate(0.8)' : 'none')};
-  perspective: 1000px;
-`
-
 const PerspectiveBox = styled.div`
+  display: contents;
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  grid-gap: 16px;
-  width: 512px;
-  align-items: stretch;
+  perspective: 1000px;
   transition: transform 0.25s;
   transform: ${() =>
-  `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
-`
-
-// const Column = styled.div`
-//   position: absolute;
-//   top: -200%;
-//   bottom: -200%;
-//   width: 100%;
-//   grid-column: ${({ index }) => `${index} / ${index + 1}`};
-//   grid-row: 1 / 2;
-//   background: rgba(169, 169, 169, 0.1);
-// `
-const AlignCenter = styled.div`
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
-  align-self: center;
+    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const unselectComponent = e => {
@@ -64,16 +40,16 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const component = getCurrentComponent()
+  const buttonElement = state.elements.Button.concat(state.elements.Button)
   return (
     <Wrapper onClick={unselectComponent}>
-      <PreviewBox>
+      {buttonElement.map(button => (
         <PerspectiveBox onClick={unselectComponent}>
-          <AlignCenter>
-            <Component component={component.root} parent={null} />
-          </AlignCenter>
+          <>
+            <Component component={button} parent={null} />
+          </>
         </PerspectiveBox>
-      </PreviewBox>
+      ))}
     </Wrapper>
   )
 }
