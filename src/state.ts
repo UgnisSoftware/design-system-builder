@@ -82,6 +82,8 @@ const defaultState: State = {
             ],
             text: 'Button',
             fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
           },
         ],
         background: {
@@ -89,11 +91,8 @@ const defaultState: State = {
         },
         border: 'borbor-6666',
         boxShadow: 'shadow-7777',
-        hover: {
-          background: {
-            colorId: 'cccc-3333-2',
-          },
-        },
+        focus: {},
+        hover: {},
       },
     ],
     Input: [
@@ -166,6 +165,8 @@ const defaultState: State = {
               ],
               text: 'Button',
               fontSize: FontSizeName.S,
+              focus: {},
+              hover: {},
             },
           ],
           background: {
@@ -173,6 +174,8 @@ const defaultState: State = {
           },
           border: 'borbor-6666',
           boxShadow: 'shadow-7777',
+          focus: {},
+          hover: {},
         },
       },
     ],
@@ -255,6 +258,8 @@ const defaultState: State = {
             imageUrl:
               'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
             objectFit: ObjectFit.cover,
+            focus: {},
+            hover: {},
           },
           {
             id: 'ef3fb266',
@@ -290,6 +295,8 @@ const defaultState: State = {
             ],
             text: 'Nebula c51-b9',
             fontSize: FontSizeName.L,
+            focus: {},
+            hover: {},
           },
         ],
         background: {
@@ -297,6 +304,8 @@ const defaultState: State = {
         },
         border: 'barbar-7777',
         boxShadow: 'shadow-9999',
+        focus: {},
+        hover: {},
       },
     },
   },
@@ -349,6 +358,8 @@ const defaultState: State = {
         background: {
           colorId: 'bbbb-2222',
         },
+        focus: {},
+        hover: {},
       },
     },
   },

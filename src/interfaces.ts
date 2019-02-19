@@ -127,8 +127,8 @@ export interface Node {
   objectFit?: ObjectFit
   children?: Node[]
   fontSize?: FontSizeName
-  focus?: Partial<Node>
-  hover?: Partial<Node>
+  focus: Partial<Node>
+  hover: Partial<Node>
 }
 
 export interface Component {

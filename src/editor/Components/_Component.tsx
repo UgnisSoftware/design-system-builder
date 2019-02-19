@@ -92,6 +92,7 @@ const stylesForSelected = (component: Node) => {
     transition: 'none',
     zIndex: 999999,
     pointerEvents: 'none',
+    opacity: '0.75',
     transform: `translateX(${state.ui.draggingNodePosition.x}px) translateY(${state.ui.draggingNodePosition.y}px)`,
   }
 }
@@ -203,11 +204,25 @@ const Boxxy = styled.div`
   }};
 
   ${({ component }: BoxProps) =>
-    component.hover
+    Object.keys(component.hover).length && !state.ui.draggingNodePosition
       ? css`
           &:hover {
-            background: ${({ component }: BoxProps) =>
-              state.colors.find(color => color.id === component.hover.background.colorId).hex};
+            ${() =>
+              component.hover.background
+                ? css`
+                    background: ${({ component }: BoxProps) =>
+                      state.colors.find(color => color.id === component.hover.background.colorId).hex};
+                  `
+                : ''}
+            ${({ component }: BoxProps) => {
+              const border = state.border.find(border => border.id === component.hover.border)
+              return border
+                ? css`
+                    border: ${border.style};
+                    border-radius: ${border.radius};
+                  `
+                : ''
+            }};
           }
         `
       : ''};
@@ -313,6 +328,18 @@ const ImageComponent = ({ component, parent }: BoxProps) => (
       <Component component={child} parent={component} />
     ))}
     <DragCorners component={component} parent={parent} />
+    {state.ui.expandingNode &&
+      state.ui.expandingNode.parent === component &&
+      component.rows.map((_, rowIndex) =>
+        component.columns.map((_, colIndex) => (
+          <Border
+            key={`${colIndex}_${rowIndex}`}
+            row={rowIndex + 1}
+            col={colIndex + 1}
+            onMouseOver={changeGridSize(rowIndex, colIndex)}
+          />
+        )),
+      )}
   </Image>
 )
 

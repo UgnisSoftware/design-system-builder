@@ -9,12 +9,13 @@ import { connect } from 'lape'
 interface BorderProps {
   col: number
   row: number
+  selected?: boolean
 }
 
 const Border = styled.div`
   grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
   grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
-
+  background: ${({ selected }: BorderProps) => (selected ? `rgba(0,0,0,.25)` : 'none')};
   border: #565656 dashed 1px;
   user-select: none;
 `
@@ -286,6 +287,12 @@ const DragCorners = ({ component, parent }: Props) => {
                 key={`${colIndex}_${rowIndex}`}
                 row={rowIndex + 1}
                 col={colIndex + 1}
+                selected={
+                  state.ui.hoveredCell &&
+                  (state.ui.hoveredCell.component === component &&
+                    state.ui.hoveredCell.colIndex === colIndex &&
+                    state.ui.hoveredCell.rowIndex === rowIndex)
+                }
                 onMouseOver={onMouseOver(component, rowIndex, colIndex)}
               />
             )),

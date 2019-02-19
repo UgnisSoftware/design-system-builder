@@ -15,6 +15,7 @@ const AddingAtom = () => {
           width: '160px',
           height: '100px',
           pointerEvents: 'none',
+          opacity: 0.75,
         }}
       >
         Hello
@@ -32,6 +33,7 @@ const AddingAtom = () => {
           height: '100px',
           background: '#90ccf4',
           pointerEvents: 'none',
+          opacity: 0.75,
         }}
       />
     )
@@ -48,6 +50,7 @@ const AddingAtom = () => {
           height: '100px',
           background: '#90ccf4',
           pointerEvents: 'none',
+          opacity: 0.75,
         }}
       />
     )

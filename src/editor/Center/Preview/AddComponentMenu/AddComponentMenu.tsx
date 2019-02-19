@@ -134,6 +134,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
             unit: Units.Fr,
           },
         ],
+        hover: {},
+        focus: {},
       }
       if (state.ui.addingAtom.type === NodeTypes.Box) {
         state.ui.hoveredCell.component.children.push({
