@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { ComponentState, Node } from '@src/interfaces'
+import { Node } from '@src/interfaces'
 
 const ElementsWrapper = styled.div`
   position: relative;
@@ -9,24 +9,6 @@ const ElementsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-`
-const DisableStateLayer = styled.div`
-  position: absolute;
-  top: 64px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 120px;
-
-  background: rgba(177, 177, 177, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
-  opacity: 0;
-  &:hover {
-    opacity: 1;
-  }
 `
 
 const removeNode = (node: Node) => {
@@ -52,11 +34,8 @@ const deleteComponent = e => {
   ) {
     removeNode(component.root)
     state.ui.selectedNode = null
+    state.ui.stateManager = null
   }
-}
-
-const deselectState = () => {
-  state.ui.state = ComponentState.default
 }
 
 class Background extends React.Component {
@@ -68,12 +47,7 @@ class Background extends React.Component {
   }
 
   render() {
-    return (
-      <ElementsWrapper>
-        {this.props.children}
-        {state.ui.state !== ComponentState.default && <DisableStateLayer onClick={deselectState} >State selected</DisableStateLayer>}
-      </ElementsWrapper>
-    )
+    return <ElementsWrapper>{this.props.children}</ElementsWrapper>
   }
 }
 export default Background

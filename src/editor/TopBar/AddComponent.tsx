@@ -5,7 +5,7 @@ import state from '@state'
 
 const AddCircle = styled.i`
   position: absolute;
-  top: 16px;
+  top: ${() => state.ui.stateManager ? `86px`: `16px`};
   left: 22px;
   font-size: 50px;
   border-radius: 50%;

@@ -1,7 +1,6 @@
 import { proxify } from 'lape'
 import {
   Alignment,
-  ComponentState,
   ComponentView,
   FontSizeName,
   NodeTypes,
@@ -459,7 +458,7 @@ const defaultState: State = {
     selectedNode: null,
     expandingNode: null,
     draggingNodePosition: null,
-    state: ComponentState.default,
+    stateManager: null,
   },
 }
 

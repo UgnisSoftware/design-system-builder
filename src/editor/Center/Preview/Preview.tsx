@@ -60,6 +60,7 @@ const AlignCenter = styled.div`
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = null
+    state.ui.stateManager = null
     state.ui.editingTextNode = null
     state.ui.editingBoxNode = null
     state.ui.showAddComponentMenu = false

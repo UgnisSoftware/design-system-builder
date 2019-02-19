@@ -27,8 +27,7 @@ export enum DragDirection {
   SE = 'SE',
 }
 
-export enum ComponentState {
-  default = 'default',
+export enum ComponentStateMenu {
   hover = 'hover',
   focus = 'focus',
 }
@@ -256,6 +255,6 @@ export interface State {
     }
     addingAtom: AddingAtom
     hoveredCell: HoveredCell
-    state: ComponentState
+    stateManager?: ComponentStateMenu
   }
 }
