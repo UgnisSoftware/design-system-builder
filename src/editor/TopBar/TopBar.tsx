@@ -68,6 +68,7 @@ const ColorBox = styled(StylelessButton)`
   height: 20px;
   margin-right: 4px;
   background: ${({ color }: any) => color};
+  box-shadow: ${({ selected }) => (selected ? `0px 0 5px 1px ${Colors.accent}` : 'none')};
 `
 
 const HorizontalAlignmentWrapper = styled.div`
@@ -231,202 +232,208 @@ interface MutatorProps {
   stateManager?: ComponentStateMenu
 }
 
-const Mutatators = ({ stateManager }: MutatorProps) => (
-  <>
-    {state.ui.selectedNode.type === NodeTypes.Box && (
-      <>
-        <Divider />
-        <InfoColumn>
-          <Title>Background</Title>
-          <IconRow>
-            {Object.keys(state.colors).map(colorIndex => (
-              <ColorBox
-                title={state.colors[colorIndex].name}
-                color={state.colors[colorIndex].hex}
-                onClick={changeBackground(state.colors[colorIndex].id, stateManager)}
-              />
-            ))}
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-        <InfoColumn>
-          <Title>Borders</Title>
-          <IconRow>
-            <BorderBox
-              title="None"
-              border={{ style: 'none', radius: 'none' }}
-              selected={state.ui.selectedNode.border === null}
-              onClick={removeBorder(stateManager)}
-            />
-            {state.border.map(border => (
+const Mutators = ({ stateManager }: MutatorProps) => {
+  const component = stateManager
+    ? { ...state.ui.selectedNode, ...state.ui.selectedNode[stateManager] }
+    : state.ui.selectedNode
+  return (
+    <>
+      {state.ui.selectedNode.type === NodeTypes.Box && (
+        <>
+          <Divider />
+          <InfoColumn>
+            <Title>Background</Title>
+            <IconRow>
+              {Object.keys(state.colors).map(colorIndex => (
+                <ColorBox
+                  selected={component.background.colorId === state.colors[colorIndex].id}
+                  title={state.colors[colorIndex].name}
+                  color={state.colors[colorIndex].hex}
+                  onClick={changeBackground(state.colors[colorIndex].id, stateManager)}
+                />
+              ))}
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Borders</Title>
+            <IconRow>
               <BorderBox
-                selected={state.ui.selectedNode.border === border.id}
-                border={border}
-                onClick={changeBorder(border, stateManager)}
+                title="None"
+                border={{ style: 'none', radius: 'none' }}
+                selected={component.border === null}
+                onClick={removeBorder(stateManager)}
               />
-            ))}
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-        <InfoColumn>
-          <Title>Box-Shadow</Title>
-          <IconRow>
-            <BoxShadowBox
-              title="None"
-              boxShadow={{ value: 'none' }}
-              selected={state.ui.selectedNode.boxShadow === null}
-              onClick={removeBoxShadow(stateManager)}
-            />
-            {state.boxShadow.map(boxShadow => (
+              {state.border.map(border => (
+                <BorderBox
+                  selected={component.border === border.id}
+                  border={border}
+                  onClick={changeBorder(border, stateManager)}
+                />
+              ))}
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Box-Shadow</Title>
+            <IconRow>
               <BoxShadowBox
-                selected={state.ui.selectedNode.boxShadow === boxShadow.id}
-                boxShadow={boxShadow}
-                onClick={changeBoxShadow(boxShadow, stateManager)}
+                title="None"
+                boxShadow={{ value: 'none' }}
+                selected={component.boxShadow === null}
+                onClick={removeBoxShadow(stateManager)}
               />
-            ))}
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-        <InfoColumn>
-          <Title>Overflow</Title>
-          <IconRow>
-            <StylelessButton
-              title="Visible"
-              className="material-icons"
-              style={{
-                fontSize: '28px',
-                color: state.ui.selectedNode.overflow === Overflow.visible ? ' rgb(83, 212, 134)' : 'black',
-              }}
-              onClick={changeOverflow(Overflow.visible, stateManager)}
-            >
-              visibility
-            </StylelessButton>
-            <StylelessButton
-              title="Hidden"
-              className="material-icons"
-              style={{
-                fontSize: '28px',
-                color: state.ui.selectedNode.overflow === Overflow.hidden ? ' rgb(83, 212, 134)' : 'black',
-              }}
-              onClick={changeOverflow(Overflow.hidden, stateManager)}
-            >
-              visibility_off
-            </StylelessButton>
-          </IconRow>
-        </InfoColumn>
-      </>
-    )}
+              {state.boxShadow.map(boxShadow => (
+                <BoxShadowBox
+                  selected={component.boxShadow === boxShadow.id}
+                  boxShadow={boxShadow}
+                  onClick={changeBoxShadow(boxShadow, stateManager)}
+                />
+              ))}
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Overflow</Title>
+            <IconRow>
+              <StylelessButton
+                title="Visible"
+                className="material-icons"
+                style={{
+                  fontSize: '28px',
+                  color: component.overflow === Overflow.visible ? ' rgb(83, 212, 134)' : 'black',
+                }}
+                onClick={changeOverflow(Overflow.visible, stateManager)}
+              >
+                visibility
+              </StylelessButton>
+              <StylelessButton
+                title="Hidden"
+                className="material-icons"
+                style={{
+                  fontSize: '28px',
+                  color: component.overflow === Overflow.hidden ? ' rgb(83, 212, 134)' : 'black',
+                }}
+                onClick={changeOverflow(Overflow.hidden, stateManager)}
+              >
+                visibility_off
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+        </>
+      )}
 
-    {state.ui.selectedNode.type === NodeTypes.Text && (
-      <>
-        <Divider />
-        <InfoColumn>
-          <Title>Horizontal</Title>
-          <IconRow>
-            <StylelessButton title="Stretch" onClick={selectHorizontalAlignment(Alignment.stretch, stateManager)}>
-              <HorizontalAlignmentWrapper>
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.stretch} />
-              </HorizontalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Left" onClick={selectHorizontalAlignment(Alignment.start, stateManager)}>
-              <HorizontalAlignmentWrapper>
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.start} />
-                <AlignmentItem />
-                <AlignmentItem />
-              </HorizontalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Middle" onClick={selectHorizontalAlignment(Alignment.center, stateManager)}>
-              <HorizontalAlignmentWrapper>
-                <AlignmentItem />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.center} />
-                <AlignmentItem />
-              </HorizontalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Right" onClick={selectHorizontalAlignment(Alignment.end, stateManager)}>
-              <HorizontalAlignmentWrapper>
-                <AlignmentItem />
-                <AlignmentItem />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.horizontal === Alignment.end} />
-              </HorizontalAlignmentWrapper>
-            </StylelessButton>
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-        <InfoColumn>
-          <Title>Vertical</Title>
-          <IconRow>
-            <StylelessButton title="Stretch" onClick={selectVerticalAlignment(Alignment.stretch, stateManager)}>
-              <VerticalAlignmentWrapper>
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.stretch} />
-              </VerticalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Top" onClick={selectVerticalAlignment(Alignment.start, stateManager)}>
-              <VerticalAlignmentWrapper>
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.start} />
-                <AlignmentItem />
-                <AlignmentItem />
-              </VerticalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Middle" onClick={selectVerticalAlignment(Alignment.center, stateManager)}>
-              <VerticalAlignmentWrapper>
-                <AlignmentItem />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.center} />
-                <AlignmentItem />
-              </VerticalAlignmentWrapper>
-            </StylelessButton>
-            <StylelessButton title="Bottom" onClick={selectVerticalAlignment(Alignment.end, stateManager)}>
-              <VerticalAlignmentWrapper>
-                <AlignmentItem />
-                <AlignmentItem />
-                <AlignmentItemSelected selected={state.ui.selectedNode.alignment.vertical === Alignment.end} />
-              </VerticalAlignmentWrapper>
-            </StylelessButton>
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-        <InfoColumn>
-          <Title>Font size</Title>
-          <IconRow>
-            <StylelessButton title="XS" onClick={changeFontSize(FontSizeName.XS, stateManager)}>
-              <FontSize>XS</FontSize>
-            </StylelessButton>
-            <StylelessButton title="S" onClick={changeFontSize(FontSizeName.S, stateManager)}>
-              <FontSize>S</FontSize>
-            </StylelessButton>
-            <StylelessButton title="M" onClick={changeFontSize(FontSizeName.M, stateManager)}>
-              <FontSize>M</FontSize>
-            </StylelessButton>
-            <StylelessButton title="L" onClick={changeFontSize(FontSizeName.L, stateManager)}>
-              <FontSize>L</FontSize>
-            </StylelessButton>
-            <StylelessButton title="XL" onClick={changeFontSize(FontSizeName.XL, stateManager)}>
-              <FontSize>XL</FontSize>
-            </StylelessButton>
-          </IconRow>
-        </InfoColumn>
-      </>
-    )}
+      {component.type === NodeTypes.Text && (
+        <>
+          <Divider />
+          <InfoColumn>
+            <Title>Horizontal</Title>
+            <IconRow>
+              <StylelessButton title="Stretch" onClick={selectHorizontalAlignment(Alignment.stretch, stateManager)}>
+                <HorizontalAlignmentWrapper>
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.stretch} />
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.stretch} />
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.stretch} />
+                </HorizontalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Left" onClick={selectHorizontalAlignment(Alignment.start, stateManager)}>
+                <HorizontalAlignmentWrapper>
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.start} />
+                  <AlignmentItem />
+                  <AlignmentItem />
+                </HorizontalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Middle" onClick={selectHorizontalAlignment(Alignment.center, stateManager)}>
+                <HorizontalAlignmentWrapper>
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.center} />
+                  <AlignmentItem />
+                </HorizontalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Right" onClick={selectHorizontalAlignment(Alignment.end, stateManager)}>
+                <HorizontalAlignmentWrapper>
+                  <AlignmentItem />
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={component.alignment.horizontal === Alignment.end} />
+                </HorizontalAlignmentWrapper>
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Vertical</Title>
+            <IconRow>
+              <StylelessButton title="Stretch" onClick={selectVerticalAlignment(Alignment.stretch, stateManager)}>
+                <VerticalAlignmentWrapper>
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.stretch} />
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.stretch} />
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.stretch} />
+                </VerticalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Top" onClick={selectVerticalAlignment(Alignment.start, stateManager)}>
+                <VerticalAlignmentWrapper>
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.start} />
+                  <AlignmentItem />
+                  <AlignmentItem />
+                </VerticalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Middle" onClick={selectVerticalAlignment(Alignment.center, stateManager)}>
+                <VerticalAlignmentWrapper>
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.center} />
+                  <AlignmentItem />
+                </VerticalAlignmentWrapper>
+              </StylelessButton>
+              <StylelessButton title="Bottom" onClick={selectVerticalAlignment(Alignment.end, stateManager)}>
+                <VerticalAlignmentWrapper>
+                  <AlignmentItem />
+                  <AlignmentItem />
+                  <AlignmentItemSelected selected={component.alignment.vertical === Alignment.end} />
+                </VerticalAlignmentWrapper>
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Font size</Title>
+            <IconRow>
+              <StylelessButton title="XS" onClick={changeFontSize(FontSizeName.XS, stateManager)}>
+                <FontSize>XS</FontSize>
+              </StylelessButton>
+              <StylelessButton title="S" onClick={changeFontSize(FontSizeName.S, stateManager)}>
+                <FontSize>S</FontSize>
+              </StylelessButton>
+              <StylelessButton title="M" onClick={changeFontSize(FontSizeName.M, stateManager)}>
+                <FontSize>M</FontSize>
+              </StylelessButton>
+              <StylelessButton title="L" onClick={changeFontSize(FontSizeName.L, stateManager)}>
+                <FontSize>L</FontSize>
+              </StylelessButton>
+              <StylelessButton title="XL" onClick={changeFontSize(FontSizeName.XL, stateManager)}>
+                <FontSize>XL</FontSize>
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+        </>
+      )}
 
-    {state.ui.selectedNode.type === NodeTypes.Image && (
-      <>
-        <Divider />
-        <InfoColumn>
-          <Title>Scale</Title>
-          <IconRow>
-            <StylelessButton onClick={selectObjectFit(ObjectFit.cover, stateManager)}>cover/</StylelessButton>
-            <StylelessButton onClick={selectObjectFit(ObjectFit.contain, stateManager)}>contain/</StylelessButton>
-            <StylelessButton onClick={selectObjectFit(ObjectFit.fill, stateManager)}>fill</StylelessButton>
-          </IconRow>
-        </InfoColumn>
-        <Divider />
-      </>
-    )}
-  </>
-)
+      {component.type === NodeTypes.Image && (
+        <>
+          <Divider />
+          <InfoColumn>
+            <Title>Scale</Title>
+            <IconRow>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.cover, stateManager)}>cover/</StylelessButton>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.contain, stateManager)}>contain/</StylelessButton>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.fill, stateManager)}>fill</StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+        </>
+      )}
+    </>
+  )
+}
 
 const TopBar = () => (
   <>
@@ -498,12 +505,12 @@ const TopBar = () => (
           </InfoColumn>
         </>
       )}
-      {state.ui.selectedNode && <Mutatators />}
+      {state.ui.selectedNode && <Mutators />}
     </TopBarBox>
     {state.ui.stateManager && state.ui.selectedNode && (
       <StateManagerWrapper>
         <StateText>{state.ui.stateManager}</StateText>
-        <Mutatators stateManager={state.ui.stateManager} />
+        <Mutators stateManager={state.ui.stateManager} />
       </StateManagerWrapper>
     )}
   </>
