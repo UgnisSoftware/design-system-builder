@@ -214,6 +214,15 @@ const Boxxy = styled.div`
                       state.colors.find(color => color.id === component.hover.background.colorId).hex};
                   `
                 : ''}
+            ${() =>
+              component.hover.boxShadow
+                ? css`
+                    box-shadow: ${({ component }: BoxProps) =>
+                      component.boxShadow
+                        ? state.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
+                        : 'none'};
+                  `
+                : ''}
             ${({ component }: BoxProps) => {
               const border = state.border.find(border => border.id === component.hover.border)
               return border
@@ -223,6 +232,7 @@ const Boxxy = styled.div`
                   `
                 : ''
             }};
+            
           }
         `
       : ''};
