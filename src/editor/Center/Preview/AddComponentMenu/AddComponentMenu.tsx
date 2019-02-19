@@ -162,6 +162,9 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
         })
         regenerateRandomId()
       }
+      // select new node
+      state.ui.selectedNode =
+        state.ui.hoveredCell.component.children[state.ui.hoveredCell.component.children.length - 1]
     }
     state.ui.addingAtom = null
     state.ui.hoveredCell = null
