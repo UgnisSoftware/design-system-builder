@@ -127,6 +127,8 @@ const addComponent = value => {
       background: {
         colorId: state.colors[0].id,
       },
+      hover: {},
+      focus: {},
     },
   }
   state.ui.router.path = RouterPaths.component
@@ -187,6 +189,8 @@ const addPage = value => {
       background: {
         colorId: state.colors[0].id,
       },
+      hover: {},
+      focus: {},
     },
   }
   state.ui.router.path = RouterPaths.page
