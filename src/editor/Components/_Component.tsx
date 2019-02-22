@@ -71,6 +71,7 @@ const TextWrapper = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
@@ -156,6 +157,7 @@ const TextComponent = ({ component, parent }: TextProps) =>
     <TextWrapper
       style={stylesForSelected(component)}
       component={component}
+      parent={parent}
       onMouseDown={selectComponent(component, parent)}
       onDoubleClick={editText(component)}
     >
@@ -179,6 +181,7 @@ const Boxxy = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
@@ -274,6 +277,7 @@ const changeGridSize = (rowIndex: number, colIndex: number) => () => {
 
 const BoxComponent = ({ component, parent }: BoxProps) => (
   <Boxxy
+    parent={parent}
     component={component}
     onMouseDown={selectComponent(component, parent)}
     onDoubleClick={editBox(component)}
@@ -302,6 +306,7 @@ const Image = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
@@ -329,6 +334,7 @@ const Image = styled.div`
 
 const ImageComponent = ({ component, parent }: BoxProps) => (
   <Image
+    parent={parent}
     component={component}
     onMouseDown={selectComponent(component, parent)}
     onDoubleClick={editBox(component)}
