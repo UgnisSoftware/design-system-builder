@@ -35,7 +35,6 @@ export enum ComponentStateMenu {
 interface Router {
   path: RouterPaths
   componentId?: string
-  elementId?: string
 }
 
 export enum NodeTypes {
