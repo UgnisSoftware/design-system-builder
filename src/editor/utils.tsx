@@ -8,10 +8,9 @@ export function uuid() {
   })
 }
 
-export const route = (path, componentId?, elementId?) => () => {
+export const route = (path, componentId?) => () => {
   state.ui.selectedNode = null
   state.ui.stateManager = null
   state.ui.router.path = path
   state.ui.router.componentId = componentId
-  state.ui.router.elementId = elementId
 }

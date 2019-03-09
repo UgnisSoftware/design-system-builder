@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import state from '@state'
 import { Colors } from '@src/styles'
 
 interface ItemProps {

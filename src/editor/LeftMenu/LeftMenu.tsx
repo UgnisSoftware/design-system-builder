@@ -204,7 +204,7 @@ const LeftMenu = () => (
         <StaticItem
           onClick={route(RouterPaths.elements, elementKey)}
           name={elementKey}
-          selected={state.ui.router.componentId === elementKey && !state.ui.router.elementId}
+          selected={state.ui.router.componentId === elementKey}
         />
       </>
     ))}
