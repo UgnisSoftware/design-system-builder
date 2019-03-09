@@ -8,7 +8,7 @@ import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
-import { uuid } from '@src/editor/utils'
+import { route, uuid } from '@src/editor/utils'
 import StaticItem from '@src/editor/LeftMenu/StaticItem'
 
 const LeftMenuBox = styled.div`
@@ -69,13 +69,6 @@ const LogoImg = styled.img`
   margin-right: -1px;
 `
 
-const route = (path, componentId?) => () => {
-  state.ui.selectedNode = null
-  state.ui.stateManager = null
-  state.ui.router.path = path
-  state.ui.router.componentId = componentId
-}
-
 const showAddComponent = () => {
   state.ui.addingComponent = true
 }
@@ -131,8 +124,7 @@ const addComponent = value => {
       focus: {},
     },
   }
-  state.ui.router.path = RouterPaths.component
-  state.ui.router.componentId = newId
+  route(RouterPaths.component, newId)
   state.components[newId] = newComponent
   state.ui.addingComponent = false
 }
@@ -193,8 +185,7 @@ const addPage = value => {
       focus: {},
     },
   }
-  state.ui.router.path = RouterPaths.page
-  state.ui.router.componentId = newId
+  route(RouterPaths.page, newId)
   state.pages[newId] = newComponent
   state.ui.addingComponent = false
 }
@@ -209,7 +200,13 @@ const LeftMenu = () => (
     </Logo>
     <Title>Elements</Title>
     {Object.keys(state.elements).map(elementKey => (
-      <StaticItem onClick={route(RouterPaths.elements, elementKey)} name={elementKey} />
+      <>
+        <StaticItem
+          onClick={route(RouterPaths.elements, elementKey)}
+          name={elementKey}
+          selected={state.ui.router.componentId === elementKey && !state.ui.router.elementId}
+        />
+      </>
     ))}
 
     <Title>

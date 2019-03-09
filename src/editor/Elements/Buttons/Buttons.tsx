@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   align-content: center;
   justify-content: space-evenly;
   justify-items: center;
+  grid-auto-flow: column;
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px,
     radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px;
@@ -21,9 +22,38 @@ const Wrapper = styled.div`
   transform: translateZ(0);
 `
 
-const PerspectiveBox = styled.div`
-  display: contents;
+const Card = styled.div`
   position: relative;
+  display: grid;
+  flex: 1;
+  align-items: center;
+  align-content: center;
+  justify-content: space-evenly;
+  justify-items: center;
+  grid-auto-flow: column;
+  background: white;
+  padding: 100px 128px 64px 128px;
+  grid-gap: 64px;
+  box-shadow: 0 10px 20px hsla(0, 0%, 0%, 0.15), 0 3px 6px hsla(0, 0%, 0%, 0.1);
+  transform: translateZ(0);
+`
+
+const Title = styled.div`
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  font-size: 24px;
+`
+
+const PerspectiveBox = styled.div`
+  position: relative;
+  display: grid;
+  flex: 1;
+  align-items: center;
+  align-content: center;
+  justify-content: space-evenly;
+  justify-items: center;
+  padding-bottom: 24px;
   perspective: 1000px;
   transition: transform 0.25s;
   transform: ${() =>
@@ -41,16 +71,19 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = state.elements.Button.concat(state.elements.Button)
+  const buttonElement = Object.values(state.elements.Button)
   return (
     <Wrapper onClick={unselectComponent}>
-      {buttonElement.map(button => (
-        <PerspectiveBox onClick={unselectComponent}>
-          <>
+      <Card>
+        <Title>
+          Buttons:
+        </Title>
+        {buttonElement.map(button => (
+          <PerspectiveBox onClick={unselectComponent}>
             <Component component={button} parent={null} />
-          </>
-        </PerspectiveBox>
-      ))}
+          </PerspectiveBox>
+        ))}
+      </Card>
     </Wrapper>
   )
 }

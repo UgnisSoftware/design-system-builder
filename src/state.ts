@@ -14,8 +14,8 @@ import {
 
 const defaultState: State = {
   elements: {
-    Button: [
-      {
+    Button: {
+      Primary: {
         id: 'rootId',
         type: NodeTypes.Box,
         position: {
@@ -94,7 +94,86 @@ const defaultState: State = {
         focus: {},
         hover: {},
       },
-    ],
+      Secondary: {
+        id: 'rootId',
+        type: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        padding: {
+          top: '8px',
+          left: '16px',
+          bottom: '8px',
+          right: '16px',
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        children: [
+          {
+            id: '55a3c774',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            padding: {
+              top: '0px',
+              left: '0px',
+              bottom: '0px',
+              right: '0px',
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            overflow: Overflow.visible,
+            columns: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            rows: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            text: 'Button',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+        ],
+        background: {
+          colorId: 'cccc-3333',
+        },
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        focus: {},
+        hover: {},
+      },
+    },
     Input: [
       {
         name: 'Default',

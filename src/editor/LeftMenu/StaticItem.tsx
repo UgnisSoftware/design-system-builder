@@ -31,13 +31,14 @@ export const Item = styled.div`
 
 interface Props {
   name: string
+  selected: boolean
   onClick: () => void
 }
 
 class StaticItem extends React.Component<Props> {
   render() {
     return (
-      <Item onClick={this.props.onClick} selected={state.ui.router.componentId === this.props.name}>
+      <Item onClick={this.props.onClick} selected={this.props.selected}>
         {this.props.name}
       </Item>
     )

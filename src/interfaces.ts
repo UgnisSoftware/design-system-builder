@@ -35,6 +35,7 @@ export enum ComponentStateMenu {
 interface Router {
   path: RouterPaths
   componentId?: string
+  elementId?: string
 }
 
 export enum NodeTypes {
@@ -188,8 +189,11 @@ interface GenericPlaceholderElement {
 }
 
 export interface Elements {
-  Button: Node[]
-  // 'Radio Button': GenericPlaceholderElement[]
+  Button: {
+    Primary: Node
+    Secondary: Node
+  }
+  // 'Radio Buttons': GenericPlaceholderElement[]
   // 'Check Box': GenericPlaceholderElement[]
 
   Input: GenericPlaceholderElement[]
