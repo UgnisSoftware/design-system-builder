@@ -182,20 +182,17 @@ export enum ComponentView {
   List = 'List',
 }
 
-interface GenericPlaceholderElement {
-  name: string
-  root: Node
-}
-
 export interface Elements {
-  Button: {
+  Buttons: {
     Primary: Node
     Secondary: Node
   }
   // 'Radio Buttons': GenericPlaceholderElement[]
   // 'Check Box': GenericPlaceholderElement[]
 
-  Input: GenericPlaceholderElement[]
+  Inputs: {
+    'Text Input': Node
+  }
   // 'Text Input': TextInputElement[]
   // 'Autocomplete Input': GenericPlaceholderElement[]
   // 'Number Input': GenericPlaceholderElement[]

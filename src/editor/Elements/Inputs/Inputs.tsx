@@ -74,11 +74,11 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = Object.entries(state.elements.Buttons)
+  const buttonElement = Object.entries(state.elements.Inputs)
   return (
     <Wrapper onClick={unselectComponent}>
       <Card>
-        <Title>Buttons:</Title>
+        <Title>Inputs:</Title>
         {buttonElement.map(([key, button]) => (
           <PerspectiveBox onClick={unselectComponent} key={key}>
             <Component component={button} parent={null} />
