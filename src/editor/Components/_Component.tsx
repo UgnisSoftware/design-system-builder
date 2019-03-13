@@ -15,18 +15,22 @@ const selectComponent = (component: Node, parent: Node) => e => {
     let currentX = e.touches ? e.touches[0].pageX : e.pageX
     let currentY = e.touches ? e.touches[0].pageY : e.pageY
     function drag(e) {
-      if (!state.ui.draggingNodePosition) {
-        state.ui.draggingNodePosition = {
-          x: 0,
-          y: 0,
-        }
-      }
       e.preventDefault()
       const newX = e.touches ? e.touches[0].pageX : e.pageX
       const newY = e.touches ? e.touches[0].pageY : e.pageY
       const diffX = currentX - newX
       const diffY = currentY - newY
 
+      if (!state.ui.draggingNodePosition) {
+        // don't drag imediately
+        if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+          return
+        }
+        state.ui.draggingNodePosition = {
+          x: 0,
+          y: 0,
+        }
+      }
       state.ui.draggingNodePosition.y -= diffY
       state.ui.draggingNodePosition.x -= diffX
       currentX = newX
