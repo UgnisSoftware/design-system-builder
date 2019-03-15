@@ -22,7 +22,7 @@ const selectComponent = (component: Node, parent: Node) => e => {
       const diffY = currentY - newY
 
       if (!state.ui.draggingNodePosition) {
-        // don't drag imediately
+        // don't drag immediately
         if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
           return
         }
