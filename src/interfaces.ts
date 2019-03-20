@@ -99,9 +99,8 @@ export interface GridProperty {
   unit: Units
 }
 
-export interface Node {
+interface SharedNodeProps {
   id: string
-  type: NodeTypes
   position: {
     columnStart: number
     columnEnd: number
@@ -115,21 +114,55 @@ export interface Node {
   columns: GridProperty[]
   rows: GridProperty[]
   padding: Padding
-  margin?: AllDirections
-  border?: string
   overflow: Overflow
-  boxShadow?: string
-  background?: {
+}
+
+type BorderPlaceholder = string
+type BoxShadowPlaceholder = string
+
+export interface BoxNode extends SharedNodeProps {
+  type: NodeTypes.Box
+  border: BorderPlaceholder
+  boxShadow?: BoxShadowPlaceholder
+  children: Node[]
+  background: {
     colorId: string
   }
-  text?: string
-  imageUrl?: string
-  objectFit?: ObjectFit
-  children?: Node[]
-  fontSize?: FontSizeName
-  focus: Partial<Node>
-  hover: Partial<Node>
+  focus: Partial<BoxNode>
+  hover: Partial<BoxNode>
 }
+export interface TextNode extends SharedNodeProps {
+  type: NodeTypes.Text
+  text: string
+  fontSize: FontSizeName
+
+  focus: Partial<TextNode>
+  hover: Partial<TextNode>
+}
+export interface InputNode extends SharedNodeProps {
+  type: NodeTypes.Input
+  label: string
+
+  background: {
+    colorId: string
+  }
+  border: BorderPlaceholder
+  boxShadow: BoxShadowPlaceholder
+  focus: Partial<InputNode>
+  hover: Partial<InputNode>
+}
+export interface ImageNode extends SharedNodeProps {
+  type: NodeTypes.Image
+  imageUrl: string
+  objectFit: ObjectFit
+
+  border: BorderPlaceholder
+  boxShadow: BoxShadowPlaceholder
+  focus: Partial<ImageNode>
+  hover: Partial<ImageNode>
+}
+
+export type Node = TextNode | BoxNode | InputNode | ImageNode
 
 export interface Component {
   id: string

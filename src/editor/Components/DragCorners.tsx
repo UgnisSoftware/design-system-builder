@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { Padding, Node, Units, GridProperty, DragDirection } from '../../interfaces'
+import { Padding, Node, Units, GridProperty, DragDirection, NodeTypes } from '@src/interfaces'
 import * as React from 'react'
 import state from '@state'
 import TextInput from '../../components/TextInput'
-import { Colors } from '../../styles'
+import { Colors } from '@src/styles'
 import { connect } from 'lape'
 
 interface BorderProps {
@@ -258,8 +258,8 @@ interface Props {
 }
 const DragCorners = ({ component, parent }: Props) => {
   const editingComponent = state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id
-  const addingNodesAndCanHaveChildren = state.ui.addingAtom && component.children
-  const draggingNode = state.ui.draggingNodePosition && state.ui.selectedNode !== component && component.children
+  const addingNodesAndCanHaveChildren = state.ui.addingAtom && component.type !== NodeTypes.Box
+  const draggingNode = state.ui.draggingNodePosition && state.ui.selectedNode !== component && component.type !== NodeTypes.Box
 
   const showCorners =
     state.ui.selectedNode === component && !(state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id)
