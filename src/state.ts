@@ -14,7 +14,7 @@ import {
 
 const defaultState: State = {
   elements: {
-    Buttons: {
+    Button: {
       Primary: {
         id: 'rootId',
         type: NodeTypes.Box,
@@ -174,7 +174,7 @@ const defaultState: State = {
         hover: {},
       },
     },
-    Inputs: {
+    Input: {
       'Text Input': {
         id: 'rootId',
         type: NodeTypes.Input,
@@ -341,60 +341,6 @@ const defaultState: State = {
         },
         border: 'barbar-7777',
         boxShadow: 'shadow-9999',
-        focus: {},
-        hover: {},
-      },
-    },
-  },
-  pages: {
-    'qwer-1234': {
-      id: 'qwer-1234',
-      name: 'Front Page',
-      viewMode: ViewTypes.SingleCenter,
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Box,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '0px',
-          left: '0px',
-          bottom: '0px',
-          right: '0px',
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 100,
-            unit: Units.Px,
-          },
-          {
-            value: 100,
-            unit: Units.Px,
-          },
-        ],
-        children: [],
-        background: {
-          colorId: 'bbbb-2222',
-        },
         focus: {},
         hover: {},
       },
