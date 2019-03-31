@@ -27,7 +27,6 @@ const Editor = () => {
       {state.ui.router.path === RouterPaths.fonts && <Fonts />}
       {state.ui.router.path === RouterPaths.elements && <Elements />}
       {state.ui.router.path === RouterPaths.component && <Center />}
-      {state.ui.router.path === RouterPaths.page && <Center />}
       {state.ui.router.path === RouterPaths.exporting && <Exporting />}
       {state.ui.router.path === RouterPaths.assets && <Assets />}
       <Devtools />

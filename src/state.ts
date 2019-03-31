@@ -445,7 +445,6 @@ const defaultState: State = {
     editingTextNode: null,
     editingBoxNode: null,
     addingComponent: false,
-    addingPage: false,
     showAddComponentMenu: false,
     addingAtom: null,
     hoveredCell: null,

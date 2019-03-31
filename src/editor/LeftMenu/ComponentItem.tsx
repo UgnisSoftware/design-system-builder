@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
-import { Component, Page } from '@src/interfaces'
+import { Component } from '@src/interfaces'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
 
@@ -44,7 +44,7 @@ const Input = styled(TextInput)`
 `
 
 interface Props {
-  component: Component | Page
+  component: Component
   onClick: () => void
 }
 
