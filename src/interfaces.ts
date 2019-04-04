@@ -107,10 +107,6 @@ interface SharedNodeProps {
     horizontal: Alignment
     vertical: Alignment
   }
-  columns: GridProperty[]
-  rows: GridProperty[]
-  padding: Padding
-  overflow: Overflow
   canBeDeleted?: boolean
   canBeMoved?: boolean
 }
@@ -122,13 +118,47 @@ export interface RootNode extends SharedNodeProps {
   type: NodeTypes.Root
   nodeType: NodeTypes
   children: Node[]
+  overflow: Overflow
   boxShadow?: BoxShadowPlaceholder
+  padding: Padding
+  columns: GridProperty[]
+  rows: GridProperty[]
   background: {
     colorId: string
+  }
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
   }
   border: BorderPlaceholder
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
+}
+
+export interface ElementNode extends SharedNodeProps {
+  type: NodeTypes.Element
+  elementType: keyof Elements
+  elementId: string
+  overrides: any
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
+}
+
+export interface ComponentNode extends SharedNodeProps {
+  type: NodeTypes.Component
+  overrides: any
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
 }
 
 export interface BoxNode extends SharedNodeProps {
@@ -198,7 +228,7 @@ export interface ImageNode extends SharedNodeProps {
   hover: Partial<ImageNode>
 }
 
-export type Node = RootNode | TextNode | BoxNode | InputNode | ImageNode
+export type Node = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | ImageNode
 
 export interface Component {
   id: string

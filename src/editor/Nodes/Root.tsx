@@ -19,6 +19,9 @@ const RootWrapper = styled.div`
   display: grid;
   grid-template-columns: ${({ component }: RootProps) => component.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ component }: RootProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   padding: ${({ component }: RootProps) =>
     component.padding

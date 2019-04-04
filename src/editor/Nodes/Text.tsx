@@ -23,8 +23,6 @@ const TextWrapper = styled.div`
   position: relative;
   display: grid;
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
-  grid-template-columns: ${({ component }: TextProps) => component.columns.map(col => col.value + col.unit).join(' ')};
-  grid-template-rows: ${({ component }: TextProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   overflow: ${({ component }: TextProps) => (component.overflow ? component.overflow : 'normal')};

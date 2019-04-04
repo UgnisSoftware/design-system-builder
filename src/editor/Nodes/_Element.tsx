@@ -5,6 +5,7 @@ import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
 import { Node, NodeTypes } from '@src/interfaces'
+import state from '@state'
 
 interface Props {
   component: Node
@@ -19,6 +20,10 @@ function Element({ component, parent }: Props) {
         ))}
       </RootAtom>
     )
+  }
+  if (component.type === NodeTypes.Element) {
+    const element = { ...state.elements[component.elementType][component.elementId], position: component.position }
+    return <Element component={element} parent={component} />
   }
   if (component.type === NodeTypes.Box) {
     return <BoxAtom component={component} parent={parent} />

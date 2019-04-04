@@ -177,8 +177,7 @@ const defaultState: State = {
     Input: {
       'Text Input': {
         id: 'rootId',
-        type: NodeTypes.Input,
-        label: 'label',
+        type: NodeTypes.Root,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -207,6 +206,10 @@ const defaultState: State = {
             value: 1,
             unit: Units.Fr,
           },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
         ],
         background: {
           colorId: 'cccc-3333',
@@ -215,6 +218,66 @@ const defaultState: State = {
         boxShadow: 'shadow-7777',
         focus: {},
         hover: {},
+        children: [
+          {
+            id: 'ef3fb266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Label',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'as541d89',
+            type: NodeTypes.Input,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            padding: {
+              top: '8px',
+              left: '16px',
+              bottom: '8px',
+              right: '16px',
+            },
+            overflow: Overflow.visible,
+            columns: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            rows: [
+              {
+                value: 1,
+                unit: Units.Fr,
+              },
+            ],
+            background: {
+              colorId: 'cccc-3333',
+            },
+            border: 'borbor-6666',
+            boxShadow: 'shadow-7777',
+            focus: {},
+            hover: {},
+          },
+        ],
       },
     },
     Dropdown: {
@@ -310,9 +373,16 @@ const defaultState: State = {
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
+        },
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
         },
         padding: {
           top: '0px',
@@ -347,29 +417,10 @@ const defaultState: State = {
               rowStart: 1,
               rowEnd: 2,
             },
-            padding: {
-              top: '0px',
-              left: '0px',
-              bottom: '0px',
-              right: '0px',
-            },
             alignment: {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
-            overflow: Overflow.visible,
-            columns: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            rows: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
             imageUrl:
               'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
             objectFit: ObjectFit.cover,
@@ -385,33 +436,30 @@ const defaultState: State = {
               rowStart: 2,
               rowEnd: 3,
             },
-            padding: {
-              top: '0px',
-              left: '0px',
-              bottom: '0px',
-              right: '0px',
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Nebula c51-b9',
+            fontSize: FontSizeName.L,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'ef3fb266',
+            type: NodeTypes.Element,
+            elementType: 'Input',
+            elementId: 'Text Input',
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
-            overflow: Overflow.visible,
-            columns: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            rows: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            text: 'Nebula c51-b9',
-            fontSize: FontSizeName.L,
-            focus: {},
-            hover: {},
           },
         ],
         background: {
