@@ -60,7 +60,7 @@ const PerspectiveBox = styled.div`
   perspective: 1000px;
   transition: transform 0.25s;
   transform: ${() =>
-  `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
+    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const unselectComponent = e => {
@@ -77,16 +77,12 @@ const Dropdowns = () => {
   const buttonElement = Object.entries(state.elements.Dropdown)
   return (
     <Wrapper onClick={unselectComponent}>
-      <Card>
-        <Title>Inputs:</Title>
-        {buttonElement.map(([key, button]) => (
-          <PerspectiveBox onClick={unselectComponent} key={key}>
-            <Element component={button.input} parent={null} />
-            <Element component={button.menu} parent={null} />
-            <Key>{key}</Key>
-          </PerspectiveBox>
-        ))}
-      </Card>
+      {buttonElement.map(([key, button]) => (
+        <div key={key}>
+          <Element component={button.input} parent={null} />
+          <Element component={button.menu} parent={null} />
+        </div>
+      ))}
     </Wrapper>
   )
 }

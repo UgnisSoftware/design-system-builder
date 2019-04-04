@@ -8,7 +8,8 @@ import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
-import { route, uuid } from '@src/editor/utils'
+import { uuid } from '@src/utils'
+import { route } from '@src/actions'
 import StaticItem from '@src/editor/LeftMenu/StaticItem'
 
 const LeftMenuBox = styled.div`

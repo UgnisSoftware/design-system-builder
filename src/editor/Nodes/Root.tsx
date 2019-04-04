@@ -1,104 +1,35 @@
-import { ComponentView, Node, RootNode } from '@src/interfaces'
+import { Node, RootNode } from '@src/interfaces'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-const selectComponent = (component: Node, parent: Node) => e => {
+const selectComponent = (component: Node) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
-    if (state.ui.editingBoxNode !== component) {
-      state.ui.editingBoxNode = null
-    }
-
-    let currentX = e.touches ? e.touches[0].pageX : e.pageX
-    let currentY = e.touches ? e.touches[0].pageY : e.pageY
-    function drag(e) {
-      e.preventDefault()
-      const newX = e.touches ? e.touches[0].pageX : e.pageX
-      const newY = e.touches ? e.touches[0].pageY : e.pageY
-      const diffX = currentX - newX
-      const diffY = currentY - newY
-
-      if (!state.ui.draggingNodePosition) {
-        // don't drag immediately
-        if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
-          return
-        }
-        state.ui.draggingNodePosition = {
-          x: 0,
-          y: 0,
-        }
-      }
-      state.ui.draggingNodePosition.y -= diffY
-      state.ui.draggingNodePosition.x -= diffX
-      currentX = newX
-      currentY = newY
-      return false
-    }
-    window.addEventListener('mousemove', drag)
-    window.addEventListener('touchmove', drag)
-    window.addEventListener('mouseup', stopDragging)
-    window.addEventListener('touchend', stopDragging)
-    function stopDragging(event) {
-      event.preventDefault()
-      state.ui.draggingNodePosition = null
-      if (state.ui.hoveredCell && parent) {
-        const nodeIndex = parent.children.indexOf(component)
-        parent.children.splice(nodeIndex, 1)
-        component.position = {
-          columnStart: state.ui.hoveredCell.colIndex + 1,
-          columnEnd: state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
-          rowStart: state.ui.hoveredCell.rowIndex + 1,
-          rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
-        }
-        state.ui.hoveredCell.component.children.push(component)
-        state.ui.hoveredCell = null
-      }
-      window.removeEventListener('mousemove', drag)
-      window.removeEventListener('touchmove', drag)
-      window.removeEventListener('mouseup', stopDragging)
-      window.removeEventListener('touchend', stopDragging)
-      return false
-    }
-    return false
   }
 }
 
-const tiltedCSS = css`
-  transform: translateX(10px) translateY(-10px);
-  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
-`
-
-const editBox = (component: Node) => e => {
-  if (e.currentTarget === e.target) {
-    state.ui.editingBoxNode = component
-  }
-}
-
-interface BoxProps {
+interface RootProps {
   component: RootNode
-  parent: Node
   children: React.ReactNode
 }
 
-const Boxxy = styled.div`
-  transition: all 0.3s;
+const RootWrapper = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
-  grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-template-columns: ${({ component }: RootProps) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }: RootProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
-  padding: ${({ component }: BoxProps) =>
+  padding: ${({ component }: RootProps) =>
     component.padding
       ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
       : 'none'};
-  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
-  background: ${({ component }: BoxProps) =>
+  overflow: ${({ component }: RootProps) => (component.overflow ? component.overflow : 'normal')};
+  background: ${({ component }: RootProps) =>
     component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
-  box-shadow: ${({ component }: BoxProps) =>
+  box-shadow: ${({ component }: RootProps) =>
     component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
-  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  ${({ component }: BoxProps) => {
+  ${({ component }: RootProps) => {
     const border = state.border.find(border => border.id === component.border)
     return border
       ? css`
@@ -107,51 +38,19 @@ const Boxxy = styled.div`
         `
       : ''
   }};
-
-  ${({ component }: BoxProps) =>
-    Object.keys(component.hover).length && !state.ui.draggingNodePosition
-      ? css`
-          &:hover {
-            ${() =>
-              component.hover.background
-                ? css`
-                    background: ${({ component }: BoxProps) =>
-                      state.colors.find(color => color.id === component.hover.background.colorId).hex};
-                  `
-                : ''}
-            ${() =>
-              component.hover.boxShadow
-                ? css`
-                    box-shadow: ${({ component }: BoxProps) =>
-                      component.boxShadow
-                        ? state.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
-                        : 'none'};
-                  `
-                : ''}
-            ${({ component }: BoxProps) => {
-              const border = state.border.find(border => border.id === component.hover.border)
-              return border
-                ? css`
-                    border: ${border.style};
-                    border-radius: ${border.radius};
-                  `
-                : ''
-            }};
-            
-          }
-        `
-      : ''};
 `
 
-const BoxComponent = ({ component, parent, children }: BoxProps) => (
-  <Boxxy
-    parent={parent}
-    component={component}
-    onMouseDown={selectComponent(component, parent)}
-    onDoubleClick={editBox(component)}
-  >
+const componentToStyle = (component: RootNode) => {
+  if (state.ui.selectedNode === component && state.ui.stateManager) {
+    return { ...component, ...component[state.ui.stateManager] }
+  }
+  return component
+}
+
+const Root = ({ component, children }: RootProps) => (
+  <RootWrapper parent={parent} component={componentToStyle(component)} onMouseDown={selectComponent(component)}>
     {children}
-  </Boxxy>
+  </RootWrapper>
 )
 
-export default BoxComponent
+export default Root

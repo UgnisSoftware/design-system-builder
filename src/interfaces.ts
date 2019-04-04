@@ -38,13 +38,15 @@ interface Router {
 
 export enum NodeTypes {
   Root = 'Root',
+  Element = 'Element',
+  Component = 'Component',
+
   Box = 'Box',
   Text = 'Text',
   Input = 'Input',
   Image = 'Image',
   Button = 'Button',
   Link = 'Link',
-  Component = 'Component',
 }
 
 export enum Units {
@@ -118,6 +120,7 @@ type BoxShadowPlaceholder = string
 
 export interface RootNode extends SharedNodeProps {
   type: NodeTypes.Root
+  nodeType: NodeTypes
   children: Node[]
   boxShadow?: BoxShadowPlaceholder
   background: {

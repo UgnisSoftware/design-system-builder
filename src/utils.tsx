@@ -7,10 +7,3 @@ export function uuid() {
     return (0 | (Math.random() * 16)).toString(16)
   })
 }
-
-export const route = (path, componentId?) => () => {
-  state.ui.selectedNode = null
-  state.ui.stateManager = null
-  state.ui.router.path = path
-  state.ui.router.componentId = componentId
-}

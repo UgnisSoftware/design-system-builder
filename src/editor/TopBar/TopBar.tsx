@@ -238,7 +238,7 @@ const Mutators = ({ stateManager }: MutatorProps) => {
     : state.ui.selectedNode
   return (
     <>
-      {state.ui.selectedNode.type === NodeTypes.Box && (
+      {(state.ui.selectedNode.type === NodeTypes.Box || state.ui.selectedNode.type === NodeTypes.Root) && (
         <>
           <Divider />
           <InfoColumn>

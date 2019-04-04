@@ -22,47 +22,6 @@ const Wrapper = styled.div`
   transform: translateZ(0);
 `
 
-const Card = styled.div`
-  position: relative;
-  display: grid;
-  flex: 1;
-  align-items: center;
-  align-content: center;
-  justify-content: space-evenly;
-  justify-items: center;
-  grid-auto-flow: column;
-  background: white;
-  padding: 100px 128px 40px 128px;
-  grid-gap: 64px;
-  box-shadow: 0 10px 20px hsla(0, 0%, 0%, 0.15), 0 3px 6px hsla(0, 0%, 0%, 0.1);
-  transform: translateZ(0);
-`
-
-const Title = styled.div`
-  position: absolute;
-  top: 32px;
-  left: 32px;
-  font-size: 24px;
-`
-const Key = styled.div`
-  padding-top: 16px;
-`
-
-const PerspectiveBox = styled.div`
-  position: relative;
-  display: grid;
-  flex: 1;
-  align-items: center;
-  align-content: center;
-  justify-content: space-evenly;
-  justify-items: center;
-  padding-bottom: 24px;
-  perspective: 1000px;
-  transition: transform 0.25s;
-  transform: ${() =>
-    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
-`
-
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = null
@@ -77,15 +36,9 @@ const Preview = () => {
   const buttonElement = Object.entries(state.elements.Button)
   return (
     <Wrapper onClick={unselectComponent}>
-      <Card>
-        <Title>Buttons:</Title>
-        {buttonElement.map(([key, button]) => (
-          <PerspectiveBox onClick={unselectComponent} key={key}>
-            <Element component={button} parent={null} />
-            <Key>{key}</Key>
-          </PerspectiveBox>
-        ))}
-      </Card>
+      {buttonElement.map(([key, button]) => (
+        <Element key={key} component={button} parent={null} />
+      ))}
     </Wrapper>
   )
 }

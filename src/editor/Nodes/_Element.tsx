@@ -13,7 +13,7 @@ interface Props {
 function Element({ component, parent }: Props) {
   if (component.type === NodeTypes.Root) {
     return (
-      <RootAtom component={component} parent={parent}>
+      <RootAtom component={component}>
         {component.children.map(node => (
           <Element component={node} parent={component} />
         ))}

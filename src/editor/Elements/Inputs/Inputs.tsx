@@ -77,15 +77,9 @@ const Preview = () => {
   const buttonElement = Object.entries(state.elements.Input)
   return (
     <Wrapper onClick={unselectComponent}>
-      <Card>
-        <Title>Inputs:</Title>
-        {buttonElement.map(([key, button]) => (
-          <PerspectiveBox onClick={unselectComponent} key={key}>
-            <Element component={button} parent={null} />
-            <Key>{key}</Key>
-          </PerspectiveBox>
-        ))}
-      </Card>
+      {buttonElement.map(([key, button]) => (
+        <Element key={key} component={button} parent={null} />
+      ))}
     </Wrapper>
   )
 }
