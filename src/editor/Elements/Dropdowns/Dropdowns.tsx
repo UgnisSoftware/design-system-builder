@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import Element from '@src/editor/Nodes/_Element'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
+import Element from '@src/editor/Nodes/_Element'
 
 const Wrapper = styled.div`
   position: relative;
@@ -60,7 +60,7 @@ const PerspectiveBox = styled.div`
   perspective: 1000px;
   transition: transform 0.25s;
   transform: ${() =>
-    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
+  `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const unselectComponent = e => {
@@ -73,15 +73,16 @@ const unselectComponent = e => {
   }
 }
 
-const Preview = () => {
-  const buttonElement = Object.entries(state.elements.Input)
+const Dropdowns = () => {
+  const buttonElement = Object.entries(state.elements.Dropdown)
   return (
     <Wrapper onClick={unselectComponent}>
       <Card>
         <Title>Inputs:</Title>
         {buttonElement.map(([key, button]) => (
           <PerspectiveBox onClick={unselectComponent} key={key}>
-            <Element component={button} parent={null} />
+            <Element component={button.input} parent={null} />
+            <Element component={button.menu} parent={null} />
             <Key>{key}</Key>
           </PerspectiveBox>
         ))}
@@ -90,4 +91,4 @@ const Preview = () => {
   )
 }
 
-export default connect(Preview)
+export default connect(Dropdowns)

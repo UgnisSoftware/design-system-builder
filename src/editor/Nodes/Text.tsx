@@ -1,11 +1,11 @@
+import state from '@state'
+import { BoxNode, ComponentView, Node } from '@src/interfaces'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import state from '@state'
-import { ComponentView, ImageNode, Node, ObjectFit } from '@src/interfaces'
-import DragCorners from '@src/editor/Components/DragCorners'
+import ClickOutside from 'react-click-outside'
 
 interface BoxProps {
-  component: ImageNode
+  component: BoxNode
   parent: Node
 }
 
@@ -75,6 +75,23 @@ const tiltedCSS = css`
   box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
 `
 
+const TextWrapper = styled.div`
+  transition: all 0.3s;
+  position: relative;
+  display: grid;
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
+  grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
+  justify-self: ${({ component }: BoxProps) => component.alignment.horizontal};
+  align-self: ${({ component }: BoxProps) => component.alignment.vertical};
+  font-size: ${({ component }: BoxProps) => state.font.sizes[component.fontSize].fontSize};
+  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
+  overflow-wrap: break-word;
+`
+
 const stylesForSelected = (component: Node) => {
   if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
     return null
@@ -89,45 +106,71 @@ const stylesForSelected = (component: Node) => {
   }
 }
 
-const Image = styled.div`
+const editText = (component: Node) => () => {
+  state.ui.editingTextNode = component
+}
+const stopEdit = () => {
+  state.ui.editingTextNode = null
+}
+const changeText = (component: Node) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  component.text = e.target.value
+}
+
+const EmptyTextArea = styled.textarea`
   transition: all 0.3s;
+  all: unset;
   position: relative;
   display: grid;
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-template-columns: ${({ component }: BoxProps) => component.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ component }: BoxProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  padding: ${({ component }: BoxProps) =>
-    component.padding
-      ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
-      : 'none'};
-  background: ${({ component }: BoxProps) => `url(${component.imageUrl})`};
-  background-size: ${({ component }: BoxProps) =>
-    component.objectFit === ObjectFit.fill ? '100% 100%' : component.objectFit};
-  box-shadow: ${({ component }: BoxProps) =>
-    component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
+  font-size: ${({ component }: BoxProps) => state.font.sizes[component.fontSize].fontSize};
   ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
-  ${({ component }: BoxProps) => {
-    const border = state.border.find(border => border.id === component.border)
-    return border
-      ? css`
-          border: ${border.style};
-          border-radius: ${border.radius};
-        `
-      : ''
-  }};
+  border: none;
+  overflow: auto;
+  outline: none;
+  background: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 0;
+  resize: none; /*remove the resize handle on the bottom right*/
 `
 
-const ImageComponent = ({ component, parent }: BoxProps) => (
-  <Image
-    parent={parent}
-    component={component}
-    onMouseDown={selectComponent(component, parent)}
-    style={stylesForSelected(component)}
-  >
-    <DragCorners component={component} parent={parent} />
-  </Image>
-)
+interface TextProps {
+  component: Node
+  parent: Node
+}
+const TextComponent = ({ component, parent }: TextProps) =>
+  state.ui.editingTextNode === component ? (
+    <ClickOutside
+      onClickOutside={stopEdit}
+      key={component.id}
+      style={{
+        display: 'contents',
+      }}
+    >
+      <EmptyTextArea
+        component={component}
+        style={{
+          fontSize: state.font.sizes[component.fontSize].fontSize,
+        }}
+        defaultValue={component.text}
+        onChange={changeText(component)}
+      />
+    </ClickOutside>
+  ) : (
+    <TextWrapper
+      style={stylesForSelected(component)}
+      component={component}
+      parent={parent}
+      onMouseDown={selectComponent(component, parent)}
+      onDoubleClick={editText(component)}
+    >
+      {component.text}
+    </TextWrapper>
+  )
 
-export default ImageComponent
+export default TextComponent

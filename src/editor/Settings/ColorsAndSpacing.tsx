@@ -9,8 +9,8 @@ import { uuid } from '@src/editor/utils'
 import SpacingSize from './SpacingSize'
 import { colors } from './colorList'
 import { Colors } from '@src/styles'
-import BoxShadow from '@src/editor/Styles/BoxShadow'
-import Border from '@src/editor/Styles/Border'
+import BoxShadow from '@src/editor/Settings/BoxShadow'
+import Border from '@src/editor/Settings/Border'
 
 const Wrapper = styled.div`
   padding: 24px;

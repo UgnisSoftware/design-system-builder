@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import Component from '@src/editor/Components/Component'
+import Element from '@src/editor/Nodes/_Element'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
 
@@ -74,14 +74,14 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = Object.entries(state.elements.Buttons)
+  const buttonElement = Object.entries(state.elements.Button)
   return (
     <Wrapper onClick={unselectComponent}>
       <Card>
         <Title>Buttons:</Title>
         {buttonElement.map(([key, button]) => (
           <PerspectiveBox onClick={unselectComponent} key={key}>
-            <Component component={button} parent={null} />
+            <Element component={button} parent={null} />
             <Key>{key}</Key>
           </PerspectiveBox>
         ))}

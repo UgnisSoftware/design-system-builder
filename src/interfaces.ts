@@ -37,6 +37,7 @@ interface Router {
 }
 
 export enum NodeTypes {
+  Root = 'Root',
   Box = 'Box',
   Text = 'Text',
   Input = 'Input',
@@ -100,12 +101,6 @@ export interface GridProperty {
 
 interface SharedNodeProps {
   id: string
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
   alignment: {
     horizontal: Alignment
     vertical: Alignment
@@ -114,24 +109,51 @@ interface SharedNodeProps {
   rows: GridProperty[]
   padding: Padding
   overflow: Overflow
+  canBeDeleted?: boolean
+  canBeMoved?: boolean
 }
 
 type BorderPlaceholder = string
 type BoxShadowPlaceholder = string
 
+export interface RootNode extends SharedNodeProps {
+  type: NodeTypes.Root
+  children: Node[]
+  boxShadow?: BoxShadowPlaceholder
+  background: {
+    colorId: string
+  }
+  border: BorderPlaceholder
+  focus: Partial<BoxNode>
+  hover: Partial<BoxNode>
+}
+
 export interface BoxNode extends SharedNodeProps {
   type: NodeTypes.Box
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
   border: BorderPlaceholder
   boxShadow?: BoxShadowPlaceholder
-  children: Node[]
   background: {
     colorId: string
   }
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
 }
+
 export interface TextNode extends SharedNodeProps {
   type: NodeTypes.Text
+
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
   text: string
   fontSize: FontSizeName
 
@@ -142,6 +164,12 @@ export interface InputNode extends SharedNodeProps {
   type: NodeTypes.Input
   label: string
 
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
   background: {
     colorId: string
   }
@@ -155,13 +183,19 @@ export interface ImageNode extends SharedNodeProps {
   imageUrl: string
   objectFit: ObjectFit
 
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
   //border: BorderPlaceholder
   //boxShadow: BoxShadowPlaceholder
   focus: Partial<ImageNode>
   hover: Partial<ImageNode>
 }
 
-export type Node = TextNode | BoxNode | InputNode | ImageNode
+export type Node = RootNode | TextNode | BoxNode | InputNode | ImageNode
 
 export interface Component {
   id: string
@@ -217,6 +251,12 @@ export interface Elements {
 
   Input: {
     'Text Input': Node
+  }
+  Dropdown: {
+    default: {
+      input: Node
+      menu: Node
+    }
   }
   // 'Text Input': TextInputElement[]
   // 'Autocomplete Input': GenericPlaceholderElement[]

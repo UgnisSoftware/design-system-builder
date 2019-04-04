@@ -2,10 +2,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
-import Component from '@src/editor/Components/Component'
+import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
-import AddingAtom from '@src/editor/Center/Preview/AddingAtom'
+import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
 import AddComponent from '@src/editor/TopBar/AddComponent'
 
@@ -42,15 +42,6 @@ const PerspectiveBox = styled.div`
     `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
-// const Column = styled.div`
-//   position: absolute;
-//   top: -200%;
-//   bottom: -200%;
-//   width: 100%;
-//   grid-column: ${({ index }) => `${index} / ${index + 1}`};
-//   grid-row: 1 / 2;
-//   background: rgba(169, 169, 169, 0.1);
-// `
 const AlignCenter = styled.div`
   grid-column: 1 / -1;
   grid-row: 1 / -1;

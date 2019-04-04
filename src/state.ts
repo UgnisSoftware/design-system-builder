@@ -217,6 +217,90 @@ const defaultState: State = {
         hover: {},
       },
     },
+    Dropdown: {
+      default: {
+        input: {
+          id: 'rootId',
+          type: NodeTypes.Box,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+          },
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
+          },
+          padding: {
+            top: '8px',
+            left: '16px',
+            bottom: '8px',
+            right: '16px',
+          },
+          overflow: Overflow.visible,
+          columns: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          rows: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          background: {
+            colorId: 'cccc-3333',
+          },
+          border: 'borbor-6666',
+          boxShadow: 'shadow-7777',
+          focus: {},
+          hover: {},
+        },
+        menu: {
+          id: 'rootId',
+          type: NodeTypes.Box,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+          },
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
+          },
+          padding: {
+            top: '8px',
+            left: '16px',
+            bottom: '8px',
+            right: '16px',
+          },
+          overflow: Overflow.visible,
+          columns: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          rows: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          background: {
+            colorId: 'cccc-3333',
+          },
+          border: 'borbor-6666',
+          boxShadow: 'shadow-7777',
+          focus: {},
+          hover: {},
+        },
+      },
+    },
   },
   components: {
     'abcd-1234': {
@@ -225,13 +309,7 @@ const defaultState: State = {
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
-        type: NodeTypes.Box,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
+        type: NodeTypes.Root,
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
@@ -242,7 +320,7 @@ const defaultState: State = {
           bottom: '0px',
           right: '0px',
         },
-        overflow: Overflow.visible,
+        overflow: Overflow.hidden,
         columns: [
           {
             value: 1,
