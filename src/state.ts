@@ -17,7 +17,8 @@ const defaultState: State = {
     Button: {
       Primary: {
         id: 'rootId',
-        type: NodeTypes.Box,
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -57,29 +58,10 @@ const defaultState: State = {
               rowStart: 1,
               rowEnd: 2,
             },
-            padding: {
-              top: '0px',
-              left: '0px',
-              bottom: '0px',
-              right: '0px',
-            },
             alignment: {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
-            overflow: Overflow.visible,
-            columns: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            rows: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
             text: 'Button',
             fontSize: FontSizeName.S,
             focus: {},
@@ -96,7 +78,8 @@ const defaultState: State = {
       },
       Secondary: {
         id: 'rootId',
-        type: NodeTypes.Box,
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -136,29 +119,10 @@ const defaultState: State = {
               rowStart: 1,
               rowEnd: 2,
             },
-            padding: {
-              top: '0px',
-              left: '0px',
-              bottom: '0px',
-              right: '0px',
-            },
             alignment: {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
-            overflow: Overflow.visible,
-            columns: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            rows: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
             text: 'Button',
             fontSize: FontSizeName.S,
             focus: {},
@@ -178,6 +142,7 @@ const defaultState: State = {
       'Text Input': {
         id: 'rootId',
         type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -214,8 +179,8 @@ const defaultState: State = {
         background: {
           colorId: 'cccc-3333',
         },
-        border: 'borbor-6666',
-        boxShadow: 'shadow-7777',
+        border: null,
+        boxShadow: null,
         focus: {},
         hover: {},
         children: [
@@ -250,25 +215,6 @@ const defaultState: State = {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
-            padding: {
-              top: '8px',
-              left: '16px',
-              bottom: '8px',
-              right: '16px',
-            },
-            overflow: Overflow.visible,
-            columns: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
-            rows: [
-              {
-                value: 1,
-                unit: Units.Fr,
-              },
-            ],
             background: {
               colorId: 'cccc-3333',
             },
@@ -284,7 +230,8 @@ const defaultState: State = {
       default: {
         input: {
           id: 'rootId',
-          type: NodeTypes.Box,
+          type: NodeTypes.Root,
+          nodeType: NodeTypes.Box,
           position: {
             columnStart: 1,
             columnEnd: -1,
@@ -321,10 +268,12 @@ const defaultState: State = {
           boxShadow: 'shadow-7777',
           focus: {},
           hover: {},
+          children: [],
         },
         menu: {
           id: 'rootId',
-          type: NodeTypes.Box,
+          type: NodeTypes.Root,
+          nodeType: NodeTypes.Box,
           position: {
             columnStart: 1,
             columnEnd: -1,
@@ -361,6 +310,7 @@ const defaultState: State = {
           boxShadow: 'shadow-7777',
           focus: {},
           hover: {},
+          children: [],
         },
       },
     },
@@ -460,6 +410,7 @@ const defaultState: State = {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
+            overrides: {},
           },
         ],
         background: {

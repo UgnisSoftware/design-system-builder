@@ -195,7 +195,6 @@ export interface TextNode extends SharedNodeProps {
 }
 export interface InputNode extends SharedNodeProps {
   type: NodeTypes.Input
-  label: string
 
   position: {
     columnStart: number

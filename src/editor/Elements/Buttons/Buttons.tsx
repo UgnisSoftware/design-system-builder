@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import state from '@state'
 import Element from '@src/editor/Nodes/_Element'
 import { connect } from 'lape'
-import { ComponentView } from '@src/interfaces'
 
+const ElementWrapper = styled.div`
+  display: grid;
+`
 const Wrapper = styled.div`
   position: relative;
   display: grid;
@@ -37,7 +39,9 @@ const Preview = () => {
   return (
     <Wrapper onClick={unselectComponent}>
       {buttonElement.map(([key, button]) => (
-        <Element key={key} component={button} parent={null} />
+        <ElementWrapper>
+          <Element key={key} component={button} parent={null} />
+        </ElementWrapper>
       ))}
     </Wrapper>
   )
