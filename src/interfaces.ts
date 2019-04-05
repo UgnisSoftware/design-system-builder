@@ -282,7 +282,6 @@ export interface Elements {
   // 'Check Box': GenericPlaceholderElement[]
 
   Input: {
-    'Checkbox': Node
     'Text Input': Node
   }
   Dropdown: {
