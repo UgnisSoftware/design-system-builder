@@ -47,6 +47,8 @@ export enum NodeTypes {
   Image = 'Image',
   Button = 'Button',
   Link = 'Link',
+  Icon = 'Icon',
+  SelectedIcon = 'SelectedIcon',
 }
 
 export enum Units {

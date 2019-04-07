@@ -69,7 +69,7 @@ const defaultState: State = {
           },
         ],
         background: {
-          colorId: 'cccc-3333',
+          colorId: 'prim-1',
         },
         border: 'borbor-6666',
         boxShadow: 'shadow-7777',
@@ -130,7 +130,7 @@ const defaultState: State = {
           },
         ],
         background: {
-          colorId: 'cccc-3333',
+          colorId: 'secn-1',
         },
         border: 'borbor-6666',
         boxShadow: 'shadow-7777',
@@ -314,6 +314,201 @@ const defaultState: State = {
         },
       },
     },
+    /* Checkbox: {
+      default: {
+        input: {
+          id: 'rootId',
+          type: NodeTypes.Root,
+          nodeType: NodeTypes.Box,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+          },
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
+          },
+          padding: {
+            top: '8px',
+            left: '16px',
+            bottom: '8px',
+            right: '16px',
+          },
+          overflow: Overflow.visible,
+          columns: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          rows: [
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+          ],
+          background: {
+            colorId: 'cccc-3333',
+          },
+          border: null,
+          boxShadow: null,
+          focus: {},
+          hover: {},
+          children: [
+            {
+              id: 'ef3fb266',
+              type: NodeTypes.Icon,
+              position: {
+                columnStart: 1,
+                columnEnd: 2,
+                rowStart: 1,
+                rowEnd: 2,
+              },
+              alignment: {
+                horizontal: Alignment.start,
+                vertical: Alignment.center,
+              },
+                background: {
+                  colorId: 'cccc-3333',
+                },
+                border: 'borbor-6666',
+                boxShadow: 'shadow-7777',
+                focus: {},
+            },
+          ]
+        },
+      },
+    },
+    Chips: {
+      Primary: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        padding: {
+          top: '8px',
+          left: '16px',
+          bottom: '8px',
+          right: '16px',
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        children: [
+          {
+            id: '55a3c774',
+            type: NodeTypes.Button,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Primary Clickable Chip',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+        ],
+        background: {
+          colorId: 'prim-1',
+        },
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        focus: {},
+        hover: {},
+      },
+      Secondary: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        padding: {
+          top: '8px',
+          left: '16px',
+          bottom: '8px',
+          right: '16px',
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        children: [
+          {
+            id: '55a3c774',
+            type: NodeTypes.Button,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Secondary Clickable Chip',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+        ],
+        background: {
+          colorId: 'secn-1',
+        },
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        focus: {},
+        hover: {},
+      },
+    }, */
   },
   components: {
     'abcd-1234': {
@@ -425,6 +620,16 @@ const defaultState: State = {
   },
   colors: [
     {
+      id: 'prim-1',
+      name: 'Primary',
+      hex: '#2196f3',
+    },
+    {
+      id: 'secn-1',
+      name: 'Secondary',
+      hex: '#e3004d',
+    },
+    {
       id: 'aaaa-1111',
       name: 'Pink',
       hex: '#f78888',
@@ -475,6 +680,11 @@ const defaultState: State = {
     },
   ],
   border: [
+    {
+      id: 'primB-1',
+      radius: '16px',
+      style: '1px solid rgba(0, 0, 0, 0.23)',
+    },
     {
       id: 'borbor-6666',
       radius: '8px 8px 8px 8px',
