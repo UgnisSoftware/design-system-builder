@@ -179,7 +179,7 @@ const defaultState: State = {
         background: {
           colorId: 'cccc-3333',
         },
-        border: null,
+        border: 'primB-1',
         boxShadow: null,
         focus: {},
         hover: {},
@@ -219,7 +219,7 @@ const defaultState: State = {
               colorId: 'cccc-3333',
             },
             border: 'borbor-6666',
-            boxShadow: 'shadow-7777',
+            boxShadow: null,
             focus: {},
             hover: {},
           },
@@ -314,6 +314,7 @@ const defaultState: State = {
         },
       },
     },
+
     /* Checkbox: {
       default: {
         input: {
@@ -385,6 +386,7 @@ const defaultState: State = {
         },
       },
     },
+
     Chips: {
       Primary: {
         id: 'rootId',
@@ -422,7 +424,7 @@ const defaultState: State = {
         children: [
           {
             id: '55a3c774',
-            type: NodeTypes.Button,
+            type: NodeTypes.Text,
             position: {
               columnStart: 1,
               columnEnd: 2,
@@ -442,7 +444,7 @@ const defaultState: State = {
         background: {
           colorId: 'prim-1',
         },
-        border: 'borbor-6666',
+        border: 'primB-1',
         boxShadow: 'shadow-7777',
         focus: {},
         hover: {},
@@ -483,7 +485,7 @@ const defaultState: State = {
         children: [
           {
             id: '55a3c774',
-            type: NodeTypes.Button,
+            type: NodeTypes.Text,
             position: {
               columnStart: 1,
               columnEnd: 2,
@@ -503,13 +505,96 @@ const defaultState: State = {
         background: {
           colorId: 'secn-1',
         },
-        border: 'borbor-6666',
+        border: 'primB-1',
         boxShadow: 'shadow-7777',
         focus: {},
         hover: {},
       },
     }, */
-
+    /* Snackbar: {
+      'alert': {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        NodeType: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        padding: {
+          top: '20px',
+          bottom: '20px',
+          left: '10px',
+          right: '12px',
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        children: [
+          {
+            id: 'doesThisMatter',
+            nodeType: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'This is an alert',
+            fontSize: FontSizeName.S,
+            color: {
+              colorId: 'prim-1',
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'doesThisAlsoMatter',
+            nodeType: NodeTypes.Button,
+            position: {
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.end,
+              vertical: Alignment.center,
+            },
+            fontSize: FontSizeName.S,
+            color: {
+              colorId: 'secn-1',
+            },
+            text: 'Lorem ipsum',
+          },
+        ],
+        background: {
+          colorId: 'bbbb-2222'
+        },
+        border: 'primB-1',
+        hover: {},
+        focus: {},
+      },
+    }, */
   },
   components: {
     'abcd-1234': {
