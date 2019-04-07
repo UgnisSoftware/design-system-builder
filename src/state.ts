@@ -31,12 +31,16 @@ const defaultState: State = {
         },
         padding: {
           top: '8px',
-          left: '16px',
+          left: '8px',
           bottom: '8px',
           right: '16px',
         },
         overflow: Overflow.visible,
         columns: [
+          {
+            value: 20,
+            unit: Units.Px,
+          },
           {
             value: 1,
             unit: Units.Fr,
@@ -53,8 +57,8 @@ const defaultState: State = {
             id: '55a3c774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: 2,
+              columnStart: 2,
+              columnEnd: 3,
               rowStart: 1,
               rowEnd: 2,
             },
@@ -64,6 +68,23 @@ const defaultState: State = {
             },
             text: 'Button',
             fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: '55a3c7745845s',
+            type: NodeTypes.Icon,
+            iconType: 'bug_report',
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
             focus: {},
             hover: {},
           },

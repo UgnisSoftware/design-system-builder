@@ -7,6 +7,7 @@ import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
 import { Node, NodeTypes } from '@src/interfaces'
+import IconAtom from '@src/editor/Nodes/Icon'
 
 interface Props {
   component: Node
@@ -36,6 +37,9 @@ function Component({ component, parent }: Props) {
   }
   if (component.type === NodeTypes.Image) {
     return <ImageAtom component={component} parent={parent} />
+  }
+  if (component.type === NodeTypes.Icon) {
+    return <IconAtom component={component} parent={parent} />
   }
 }
 

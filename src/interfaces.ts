@@ -48,7 +48,6 @@ export enum NodeTypes {
   Button = 'Button',
   Link = 'Link',
   Icon = 'Icon',
-  SelectedIcon = 'SelectedIcon',
 }
 
 export enum Units {
@@ -228,8 +227,23 @@ export interface ImageNode extends SharedNodeProps {
   focus: Partial<ImageNode>
   hover: Partial<ImageNode>
 }
+export interface IconNode extends SharedNodeProps {
+  type: NodeTypes.Icon
+  iconType: 'bug_report' // add more icon types
 
-export type Node = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | ImageNode
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
+  //border: BorderPlaceholder
+  //boxShadow: BoxShadowPlaceholder
+  focus: Partial<ImageNode>
+  hover: Partial<ImageNode>
+}
+
+export type Node = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | ImageNode | IconNode
 
 export interface Component {
   id: string
