@@ -509,6 +509,7 @@ const defaultState: State = {
         hover: {},
       },
     }, */
+
   },
   components: {
     'abcd-1234': {
