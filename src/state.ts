@@ -200,7 +200,7 @@ const defaultState: State = {
         background: {
           colorId: 'cccc-3333',
         },
-        border: 'primB-1',
+        border: 'borbor-6666',
         boxShadow: null,
         focus: {},
         hover: {},
@@ -643,7 +643,7 @@ const defaultState: State = {
           bottom: '0px',
           right: '0px',
         },
-        overflow: Overflow.hidden,
+        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -725,17 +725,152 @@ const defaultState: State = {
         hover: {},
       },
     },
+    'efgh-5678': {
+      id: 'efgh-5678',
+      name: 'Table',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        padding: {
+          top: '0px',
+          left: '0px',
+          bottom: '0px',
+          right: '0px',
+        },
+        overflow: Overflow.hidden,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+        ],
+        background: {
+          colorId: 'cccc-3333',
+        },
+        border: 'primB-1',
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'test1',
+            type: NodeTypes.Text,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 1,
+              columnEnd: 1,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            text: 'Primary',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'test2',
+            type: NodeTypes.Text,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 2,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            text: 'Secondary',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'test3',
+            type: NodeTypes.Image,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            focus: {},
+            hover: {},
+            imageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            objectFit: ObjectFit.fill,
+          },
+          {
+            id: 'test4',
+            type: NodeTypes.Element,
+            elementId: 'Text Input',
+            elementType: 'Input',
+            position: {
+              columnStart: 1,
+              columnEnd: 1,
+              rowStart: 2,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            overrides: {},
+          },
+        ],
+      },
+    },
   },
   colors: [
     {
       id: 'prim-1',
       name: 'Primary',
-      hex: '#2196f3',
+      hex: '#2196f3', //Primary color used in Material UI
     },
     {
       id: 'secn-1',
       name: 'Secondary',
-      hex: '#e3004d',
+      hex: '#e3004d', //Secondary color used in Material UI
     },
     {
       id: 'aaaa-1111',
@@ -791,7 +926,7 @@ const defaultState: State = {
     {
       id: 'primB-1',
       radius: '16px',
-      style: '1px solid rgba(0, 0, 0, 0.23)',
+      style: '1px solid rgba(0, 0, 0, 0.23)', //Primary border used in MaterialUI
     },
     {
       id: 'borbor-6666',
