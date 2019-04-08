@@ -338,7 +338,6 @@ const defaultState: State = {
 
     /* Checkbox: {
       default: {
-        input: {
           id: 'rootId',
           type: NodeTypes.Root,
           nodeType: NodeTypes.Box,
@@ -386,6 +385,7 @@ const defaultState: State = {
             {
               id: 'ef3fb266',
               type: NodeTypes.Icon,
+              iconType: 'check_box',
               position: {
                 columnStart: 1,
                 columnEnd: 2,
@@ -393,22 +393,17 @@ const defaultState: State = {
                 rowEnd: 2,
               },
               alignment: {
-                horizontal: Alignment.start,
+                horizontal: Alignment.center,
                 vertical: Alignment.center,
               },
-                background: {
-                  colorId: 'cccc-3333',
-                },
-                border: 'borbor-6666',
-                boxShadow: 'shadow-7777',
-                focus: {},
+              focus: {},
+              hover: {},
             },
-          ]
-        },
+        ],
       },
-    },
+    }, */
 
-    Chips: {
+    /*Chips: {
       Primary: {
         id: 'rootId',
         type: NodeTypes.Root,
@@ -458,6 +453,23 @@ const defaultState: State = {
             },
             text: 'Primary Clickable Chip',
             fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'chipIcon'
+            type: NodeTypes.Icon
+            iconType: 'close',
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
             focus: {},
             hover: {},
           },
@@ -522,6 +534,23 @@ const defaultState: State = {
             focus: {},
             hover: {},
           },
+          {
+            id: 'chipIcon'
+            type: NodeTypes.Icon
+            iconType: 'close',
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            focus: {},
+            hover: {},
+          },
         ],
         background: {
           colorId: 'secn-1',
@@ -533,7 +562,7 @@ const defaultState: State = {
       },
     }, */
     /* Snackbar: {
-      'alert': {
+      alert: {
         id: 'rootId',
         type: NodeTypes.Root,
         NodeType: NodeTypes.Box,
@@ -551,7 +580,7 @@ const defaultState: State = {
           top: '20px',
           bottom: '20px',
           left: '10px',
-          right: '12px',
+          right: '10px',
         },
         overflow: Overflow.visible,
         columns: [
@@ -616,7 +645,54 @@ const defaultState: State = {
         focus: {},
       },
     }, */
+    /* AppBar: {
+    id: 'AppBar',
+    type: NodeTypes.Root,
+    nodeType: NodeTypes.Box,
+    position: {
+      columnStart: 1,
+      columnEnd: -1,
+      rowStart: 1,
+      rowEnd: -1,
+    },
+    alignment:
+      {
+        horizontal: Alignment.stretch,
+        vertical: Alignment.stretch,
+      },
+    padding:
+      {
+        top: '0px',
+        bottom: '0px',
+        left: '0px',
+        right: '0px',
+      },
+    overflow: Overflow.visible,
+    rows: [
+      {
+      value: 1,
+      unit: Units.Fr,
+    },
+    ],
+    columns: [
+      {
+        value: 1,
+        unit: Units.Fr,
+      },
+      {
+        value: 1,
+        unit: Units.Fr,
+      },
+      {
+        value: 1.
+        unit: Units.Fr,
+      },
+    ],
+    background: {
+      colorId: 'prim-1'
+    },
 
+  } */
   },
   components: {
     'abcd-1234': {
@@ -727,7 +803,7 @@ const defaultState: State = {
     },
     'efgh-5678': {
       id: 'efgh-5678',
-      name: 'Table',
+      name: 'Table-test',
       viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
@@ -794,9 +870,9 @@ const defaultState: State = {
             },
             position: {
               columnStart: 1,
-              columnEnd: 1,
+              columnEnd: 2,
               rowStart: 1,
-              rowEnd: 1,
+              rowEnd: 2,
             },
             text: 'Primary',
             fontSize: FontSizeName.S,
@@ -812,9 +888,9 @@ const defaultState: State = {
             },
             position: {
               columnStart: 2,
-              columnEnd: 2,
+              columnEnd: 3,
               rowStart: 1,
-              rowEnd: 1,
+              rowEnd: 2,
             },
             text: 'Secondary',
             fontSize: FontSizeName.S,
@@ -830,9 +906,9 @@ const defaultState: State = {
             },
             position: {
               columnStart: 3,
-              columnEnd: 3,
+              columnEnd: 4,
               rowStart: 1,
-              rowEnd: 1,
+              rowEnd: 2,
             },
             focus: {},
             hover: {},
@@ -847,15 +923,94 @@ const defaultState: State = {
             elementType: 'Input',
             position: {
               columnStart: 1,
-              columnEnd: 1,
+              columnEnd: 2,
               rowStart: 2,
-              rowEnd: 2,
+              rowEnd: 3,
             },
             alignment: {
-              horizontal: Alignment.start,
+              horizontal: Alignment.center,
               vertical: Alignment.center,
             },
             overrides: {},
+          },
+          {
+            id: 'test5',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            border: 'borbor-6666',
+            background: {
+              colorId: 'secn-1',
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'test5-1',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            fontSize: FontSizeName.M,
+            text: 'Middle',
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'test-6',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 3,
+              columnEnd: -1,
+              rowStart: 2,
+              rowEnd: -1,
+            },
+            border: 'borbor-6666',
+            background: {
+            colorId: 'prim-1',
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            focus: {},
+            hover: {
+              background: {
+                colorId: 'secn-1',
+              },
+            },
+          },
+          {
+            id: 'test-7',
+            type: NodeTypes.Icon,
+            iconType: 'bug_report',
+            position: {
+              columnStart: 1,
+              columnEnd: 3,
+              rowStart: 3,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            hover: {},
+            focus: {},
           },
         ],
       },
