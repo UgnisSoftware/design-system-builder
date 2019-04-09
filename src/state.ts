@@ -1015,6 +1015,131 @@ const defaultState: State = {
         ],
       },
     },
+    'AppBar': {
+      id: 'AppBar',
+      name: 'App bar test',
+      viewMode: ViewTypes.SingleCenter,
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        overflow: Overflow.visible,
+        padding: {
+          top: '5px',
+          bottom: '5px',
+          left: '10px',
+          right: '10px',
+        },
+        columns: [
+          {
+            value: 40,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 70,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 50,
+            unit: Units.Px,
+          },
+        ],
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        background: {
+          colorId: 'prim-1',
+        },
+        border: null,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'start',
+            type: NodeTypes.Icon,
+            iconType: 'menu',
+            position: {
+              columnStart: 1,
+              columnEnd: 1,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'message',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            fontSize: FontSizeName.M,
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Menu',
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'log',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            fontSize: FontSizeName.S,
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Log in',
+            focus: {},
+            hover: {},
+          },
+         /* {
+            id: 'logButton',
+            type: NodeTypes.Button,
+            iconType: '',
+            position: {
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowStart: 1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            focus: {},
+            hover: {},
+          }, */
+        ],
+      },
+    },
   },
   colors: [
     {
