@@ -170,6 +170,13 @@ export interface Component {
   root: Node
 }
 
+export interface Page {
+  id: string
+  name: string
+  viewMode: ViewTypes
+  root: Node
+}
+
 export interface Color {
   id: string
   name: string
@@ -265,6 +272,7 @@ export interface State {
     editingTextNode: Node
     editingBoxNode: Node
     addingComponent: boolean
+    addingPage: boolean
     showAddComponentMenu: boolean
     selectedNode: Node
     expandingNode: {
