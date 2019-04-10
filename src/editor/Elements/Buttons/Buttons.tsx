@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import Component from '@src/editor/Components/Component'
+import Component from '@src/editor/Components/_Component'
 import { connect } from 'lape'
 import { ComponentView } from '@src/interfaces'
 
