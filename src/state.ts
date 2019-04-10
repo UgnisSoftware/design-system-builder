@@ -220,7 +220,7 @@ const defaultState: State = {
             background: {
               colorId: 'cccc-3333',
             },
-            border: 'borbor-6666',
+            border: 'borbor-8888',
             boxShadow: null,
             focus: {},
             hover: {},
@@ -1199,12 +1199,17 @@ const defaultState: State = {
     {
       id: 'borbor-6666',
       radius: '4px 4px 4px 4px',
-      style: '',
+      style: 'none',
     },
     {
       id: 'barbar-7777',
       radius: '0px 149px 0px 51px',
       style: '',
+    },
+    {
+      id: 'borbor-8888',
+      radius: '4px 4px 4px 4px',
+      style: '1px solid rgba(0, 0, 0, 0.23);',
     },
   ],
   font: {
