@@ -147,6 +147,13 @@ const changeBackground = (colorId: string, stateManager?: ComponentStateMenu) =>
   }
   state.ui.selectedNode.background.colorId = colorId
 }
+const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => () => {
+  if (stateManager) {
+    state.ui.selectedNode[stateManager].fontColorId = colorId
+    return
+  }
+  state.ui.selectedNode.fontColorId = colorId
+}
 
 const removeBorder = (stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
@@ -391,6 +398,20 @@ const Mutators = ({ stateManager }: MutatorProps) => {
                   <AlignmentItemSelected selected={component.alignment.vertical === Alignment.end} />
                 </VerticalAlignmentWrapper>
               </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+          <InfoColumn>
+            <Title>Color</Title>
+            <IconRow>
+              {Object.keys(state.colors).map(colorIndex => (
+                <ColorBox
+                  selected={component.fontColorId === state.colors[colorIndex].id}
+                  title={state.colors[colorIndex].name}
+                  color={state.colors[colorIndex].hex}
+                  onClick={changeFontColor(state.colors[colorIndex].id, stateManager)}
+                />
+              ))}
             </IconRow>
           </InfoColumn>
           <Divider />

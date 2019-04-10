@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Node } from '@src/interfaces'
+import { NodeTypes, RootNode } from '@src/interfaces'
 
 const ElementsWrapper = styled.div`
   position: relative;
@@ -11,7 +11,7 @@ const ElementsWrapper = styled.div`
   flex: 1 1 auto;
 `
 
-const removeNode = (node: Node) => {
+const removeNode = (node: RootNode) => {
   if (!node.children) return
   const nodeIndex = node.children.indexOf(state.ui.selectedNode)
   if (nodeIndex !== -1) {

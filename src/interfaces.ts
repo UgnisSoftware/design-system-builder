@@ -190,6 +190,7 @@ export interface TextNode extends SharedNodeProps {
   }
   text: string
   fontSize: FontSizeName
+  fontColorId?: string
 
   focus: Partial<TextNode>
   hover: Partial<TextNode>
@@ -249,7 +250,7 @@ export interface Component {
   id: string
   name: string
   viewMode: ViewTypes
-  root: Node
+  root: RootNode
 }
 
 export interface Color {

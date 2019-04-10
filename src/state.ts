@@ -31,16 +31,12 @@ const defaultState: State = {
         },
         padding: {
           top: '8px',
-          left: '8px',
+          left: '16px',
           bottom: '8px',
           right: '16px',
         },
         overflow: Overflow.visible,
         columns: [
-          {
-            value: 20,
-            unit: Units.Px,
-          },
           {
             value: 1,
             unit: Units.Fr,
@@ -57,25 +53,6 @@ const defaultState: State = {
             id: '55a3c774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Button',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-          },
-          {
-            id: '55a3c7745845s',
-            type: NodeTypes.Icon,
-            iconType: 'bug_report',
-            position: {
               columnStart: 1,
               columnEnd: 2,
               rowStart: 1,
@@ -85,6 +62,9 @@ const defaultState: State = {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
+            text: 'Button',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.S,
             focus: {},
             hover: {},
           },
@@ -145,6 +125,7 @@ const defaultState: State = {
               vertical: Alignment.center,
             },
             text: 'Button',
+            fontColorId: 'white-6666',
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
@@ -1094,6 +1075,7 @@ const defaultState: State = {
               rowEnd: 1,
             },
             fontSize: FontSizeName.M,
+            fontColorId: 'white-6666',
             alignment: {
               horizontal: Alignment.start,
               vertical: Alignment.center,
@@ -1112,6 +1094,7 @@ const defaultState: State = {
               rowEnd: 1,
             },
             fontSize: FontSizeName.S,
+            fontColorId: 'white-6666',
             alignment: {
               horizontal: Alignment.start,
               vertical: Alignment.center,
@@ -1182,6 +1165,11 @@ const defaultState: State = {
       name: 'Blue',
       hex: '#5da2d5',
     },
+    {
+      id: 'white-6666',
+      name: 'White',
+      hex: '#ffffff',
+    },
   ],
   spacing: ['8px', '16px', '24px', '48px', '64px'],
   boxShadow: [
@@ -1195,7 +1183,7 @@ const defaultState: State = {
     },
     {
       id: 'shadow-7777',
-      value: '6px 6px 2px 1px rgba(0, 0, 255, .2);',
+      value: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);',
     },
     {
       id: 'shadow-6666',
@@ -1210,8 +1198,8 @@ const defaultState: State = {
     },
     {
       id: 'borbor-6666',
-      radius: '8px 8px 8px 8px',
-      style: '2px solid #cacafd',
+      radius: '4px 4px 4px 4px',
+      style: '',
     },
     {
       id: 'barbar-7777',
