@@ -1,3 +1,5 @@
+import { iconTypes } from '@src/Interfaces/icon'
+
 export enum FontSizeName {
   XS = 'XS',
   S = 'S',
@@ -230,7 +232,7 @@ export interface ImageNode extends SharedNodeProps {
 }
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
-  iconType: string,
+  iconType: iconTypes
 
   fontColorId?: string
   position: {
