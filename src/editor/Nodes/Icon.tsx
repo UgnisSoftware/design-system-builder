@@ -25,6 +25,7 @@ const IconWrapper = styled.div`
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  color: ${({ component }: TextProps) => component.fontColorId ? state.colors.find(color => color.id === component.fontColorId).hex : 'black'};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
 `

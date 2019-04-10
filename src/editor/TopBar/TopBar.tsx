@@ -452,6 +452,26 @@ const Mutators = ({ stateManager }: MutatorProps) => {
           <Divider />
         </>
       )}
+
+      {component.type === NodeTypes.Icon && (
+        <>
+          <Divider />
+          <InfoColumn>
+            <Title>Color</Title>
+            <IconRow>
+              {Object.keys(state.colors).map(colorIndex => (
+                <ColorBox
+                  selected={component.fontColorId === state.colors[colorIndex].id}
+                  title={state.colors[colorIndex].name}
+                  color={state.colors[colorIndex].hex}
+                  onClick={changeFontColor(state.colors[colorIndex].id, stateManager)}
+                />
+              ))}
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+        </>
+      )}
     </>
   )
 }

@@ -1103,23 +1103,6 @@ const defaultState: State = {
             focus: {},
             hover: {},
           },
-         /* {
-            id: 'logButton',
-            type: NodeTypes.Button,
-            iconType: '',
-            position: {
-              columnStart: 3,
-              columnEnd: 3,
-              rowStart: 1,
-              rowStart: 1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
-            focus: {},
-            hover: {},
-          }, */
         ],
       },
     },

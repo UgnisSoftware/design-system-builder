@@ -230,8 +230,9 @@ export interface ImageNode extends SharedNodeProps {
 }
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
-  iconType: 'bug_report' // add more icon types
+  iconType: string,
 
+  fontColorId?: string
   position: {
     columnStart: number
     columnEnd: number
