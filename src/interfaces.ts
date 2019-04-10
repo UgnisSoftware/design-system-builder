@@ -11,6 +11,7 @@ export enum RouterPaths {
   'colors' = 'colors',
   'elements' = 'elements',
   'component' = 'component',
+  'page' = 'page',
   'exporting' = 'exporting',
   'assets' = 'assets',
 }
@@ -155,8 +156,8 @@ export interface ImageNode extends SharedNodeProps {
   imageUrl: string
   objectFit: ObjectFit
 
-  //border: BorderPlaceholder
-  //boxShadow: BoxShadowPlaceholder
+  border: BorderPlaceholder
+  boxShadow: BoxShadowPlaceholder
   focus: Partial<ImageNode>
   hover: Partial<ImageNode>
 }
@@ -215,14 +216,14 @@ export enum ComponentView {
 }
 
 export interface Elements {
-  Button: {
+  Buttons: {
     Primary: Node
     Secondary: Node
   }
   // 'Radio Buttons': GenericPlaceholderElement[]
   // 'Check Box': GenericPlaceholderElement[]
 
-  Input: {
+  Inputs: {
     'Text Input': Node
   }
   // 'Text Input': TextInputElement[]
@@ -260,6 +261,7 @@ export interface HoveredCell {
 export interface State {
   elements: Elements
   components: { [id: string]: Component }
+  pages: { [id: string]: Page }
   colors: Color[]
   spacing: string[]
   boxShadow: BoxShadow[]

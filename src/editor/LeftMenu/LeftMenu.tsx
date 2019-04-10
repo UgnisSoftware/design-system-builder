@@ -129,6 +129,67 @@ const addComponent = value => {
   state.ui.addingComponent = false
 }
 
+const showAddPage = () => {
+  state.ui.addingPage = true
+}
+
+const addPage = value => {
+  state.ui.addingPage = false
+
+  if (!value) {
+    return
+  }
+
+  const newId = uuid()
+  const newComponent: Component = {
+    id: newId,
+    name: value,
+    viewMode: ViewTypes.SingleCenter,
+    root: {
+      id: 'rootId',
+      type: NodeTypes.Box,
+      position: {
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+      },
+      alignment: {
+        horizontal: Alignment.stretch,
+        vertical: Alignment.stretch,
+      },
+      padding: {
+        top: '0px',
+        left: '0px',
+        bottom: '0px',
+        right: '0px',
+      },
+      overflow: Overflow.visible,
+      columns: [
+        {
+          value: 1,
+          unit: Units.Fr,
+        },
+      ],
+      rows: [
+        {
+          value: 100,
+          unit: Units.Px,
+        },
+      ],
+      children: [],
+      background: {
+        colorId: state.colors[0].id,
+      },
+      hover: {},
+      focus: {},
+    },
+  }
+  route(RouterPaths.page, newId)
+  state.pages[newId] = newComponent
+  state.ui.addingComponent = false
+}
+
 const sortComponents = (component1: Component, component2: Component) => component1.name.localeCompare(component2.name)
 
 const LeftMenu = () => (
@@ -161,6 +222,21 @@ const LeftMenu = () => (
       .sort(sortComponents)
       .map(component => (
         <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.component, component.id)} />
+      ))}
+
+    <Title>
+      Pages
+      {!state.ui.addingComponent && (
+        <AddComponentBox onClick={showAddPage}>
+          <PlusSign />
+        </AddComponentBox>
+      )}
+    </Title>
+    {state.ui.addingPage && <AddInput onSave={addPage} />}
+    {Object.values(state.pages)
+      .sort(sortComponents)
+      .map(page => (
+        <ComponentItem key={page.id} component={page} onClick={route(RouterPaths.page, page.id)} />
       ))}
 
     <Title>Settings</Title>
