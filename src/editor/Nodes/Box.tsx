@@ -1,4 +1,3 @@
-import { ComponentView } from '@src/Interfaces/components'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
@@ -65,11 +64,6 @@ const selectComponent = (component: Nodes, parent: Nodes) => e => {
   }
 }
 
-const tiltedCSS = css`
-  transform: translateX(10px) translateY(-10px);
-  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
-`
-
 const editBox = (component: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.editingBoxNode = component
@@ -97,7 +91,6 @@ const Boxxy = styled.div`
     component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
   box-shadow: ${({ component }: BoxProps) =>
     component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
-  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   ${({ component }: BoxProps) => {
     const border = state.border.find(border => border.id === component.border)
     return border

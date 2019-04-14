@@ -5,12 +5,3 @@ export interface Component {
   name: string
   root: RootNode
 }
-
-export enum ComponentView {
-  Center = 'Center',
-  Tilted = 'Tiled',
-  CenterWithTopAndBottom = 'CenterWithTopAndBottom',
-  Repeated = 'Repeated',
-  WithSidebar = 'WithSidebar',
-  List = 'List',
-}

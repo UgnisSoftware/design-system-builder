@@ -4,7 +4,6 @@ import state from '@state'
 import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
-import { ComponentView } from '@src/Interfaces/components'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
 import AddComponent from '@src/editor/TopBar/AddComponent'
@@ -38,8 +37,6 @@ const PerspectiveBox = styled.div`
   width: 512px;
   align-items: stretch;
   transition: transform 0.25s;
-  transform: ${() =>
-    `translateZ(0) ${state.ui.componentView === ComponentView.Tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const AlignCenter = styled.div`

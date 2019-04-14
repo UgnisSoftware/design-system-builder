@@ -1,5 +1,4 @@
 import state from '@state'
-import { ComponentView } from '@src/Interfaces/components'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { Nodes, TextNode } from '@src/Interfaces/nodes'
@@ -15,11 +14,6 @@ const selectComponent = (component: Nodes, parent: Nodes) => e => {
   }
 }
 
-const tiltedCSS = css`
-  transform: translateX(10px) translateY(-10px);
-  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
-`
-
 const TextWrapper = styled.div`
   position: relative;
   display: grid;
@@ -31,7 +25,6 @@ const TextWrapper = styled.div`
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
   font-size: ${({ component }: TextProps) => state.font.sizes[component.fontSize].fontSize};
   color: ${({ component }: TextProps) => component.fontColorId ? state.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   overflow-wrap: break-word;
 `
 

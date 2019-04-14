@@ -1,6 +1,5 @@
 import { Router } from '@src/Interfaces/router'
 import { Nodes, NodeTypes } from '@src/Interfaces/nodes'
-import { ComponentView } from '@src/Interfaces/components'
 
 export enum DragDirection {
   N = 'N',
@@ -35,7 +34,6 @@ export interface HoveredCell {
 
 export interface UI {
   router: Router
-  componentView: ComponentView
   editingColorId: string
   editingTextNode: Nodes
   editingBoxNode: Nodes

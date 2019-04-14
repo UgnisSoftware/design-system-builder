@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import state from '@state'
-import { ComponentView } from '@src/Interfaces/components'
 import { ImageNode, Nodes, ObjectFit } from '@src/Interfaces/nodes'
 
 interface BoxProps {
@@ -70,11 +69,6 @@ const selectComponent = (component: Nodes, parent: Nodes) => e => {
   }
 }
 
-const tiltedCSS = css`
-  transform: translateX(10px) translateY(-10px);
-  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
-`
-
 const stylesForSelected = (component: Nodes) => {
   if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
     return null
@@ -105,7 +99,6 @@ const Image = styled.div`
     component.objectFit === ObjectFit.fill ? '100% 100%' : component.objectFit};
   box-shadow: ${({ component }: BoxProps) =>
     component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
-  ${() => (state.ui.componentView === ComponentView.Tilted ? tiltedCSS : '')};
   ${({ component }: BoxProps) => {
     const border = state.border.find(border => border.id === component.border)
     return border

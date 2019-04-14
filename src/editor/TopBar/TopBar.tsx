@@ -6,7 +6,6 @@ import { Colors } from '@src/styles'
 import { FontSizeName } from '@src/Interfaces/fonts'
 import { ComponentStateMenu } from '@src/Interfaces/ui'
 import { Alignment, NodeTypes, ObjectFit, Overflow } from '@src/Interfaces/nodes'
-import { ComponentView } from '@src/Interfaces/components'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;
@@ -130,9 +129,6 @@ const FontSize = styled.div`
   margin-right: 8px;
   font-size: 18px;
 `
-const selectComponentView = (view: ComponentView) => () => {
-  state.ui.componentView = view
-}
 
 const changeBackground = (colorId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
@@ -473,37 +469,6 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 const TopBar = () => (
   <>
     <TopBarBox>
-      <InfoColumn>
-        <Title>View</Title>
-        <IconRow>
-          <StylelessButton
-            title="Normal"
-            className="material-icons"
-            style={{
-              fontSize: '28px',
-              marginLeft: '-6px',
-              color: state.ui.componentView === ComponentView.Center ? ' rgb(83, 212, 134)' : 'black',
-            }}
-            onClick={selectComponentView(ComponentView.Center)}
-          >
-            stop
-          </StylelessButton>
-          <StylelessButton
-            title="Layers"
-            className="material-icons"
-            style={{
-              fontSize: '24px',
-              marginLeft: '-2px',
-              marginRight: '2px',
-              transform: 'rotateZ(40deg)',
-              color: state.ui.componentView === ComponentView.Tilted ? ' rgb(83, 212, 134)' : 'black',
-            }}
-            onClick={selectComponentView(ComponentView.Tilted)}
-          >
-            layers
-          </StylelessButton>
-        </IconRow>
-      </InfoColumn>
       {state.ui.selectedNode && (
         <>
           <Divider />

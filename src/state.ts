@@ -3,7 +3,6 @@ import { State } from '@src/Interfaces/state'
 import { RouterPaths } from '@src/interfaces/router'
 import { FontSizeName } from '@src/Interfaces/fonts'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
-import { ComponentView } from '@src/Interfaces/components'
 
 const defaultState: State = {
   elements: {
@@ -1217,7 +1216,6 @@ const defaultState: State = {
       componentId: 'abcd-1234',
     },
     editingColorId: '',
-    componentView: ComponentView.Center,
     editingTextNode: null,
     editingBoxNode: null,
     addingComponent: false,
