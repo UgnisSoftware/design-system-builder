@@ -30,12 +30,6 @@ const Box = styled.div`
   height: 100px;
 `
 
-const Image = styled.img`
-  width: 160px;
-  height: 100px;
-  object-fit: cover;
-`
-
 const ComponentWrapper = styled.div`
   padding-bottom: 24px;
   display: flex;
@@ -188,10 +182,6 @@ export default () => {
       <ComponentWrapper>
         <Text onMouseDown={addComponent(NodeTypes.Text)}>Hello</Text>
         <Title>Text</Title>
-      </ComponentWrapper>
-      <ComponentWrapper>
-        <Image src={images[randomId]} onMouseDown={addComponent(NodeTypes.Image)} />
-        <Title>Image</Title>
       </ComponentWrapper>
     </Menu>
   )

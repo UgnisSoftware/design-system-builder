@@ -14,11 +14,6 @@ const selectComponent = (component: Nodes, parent: Nodes) => e => {
   }
 }
 
-const tiltedCSS = css`
-  transform: translateX(10px) translateY(-10px);
-  box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
-`
-
 const IconWrapper = styled.div`
   position: relative;
   display: grid;
@@ -27,6 +22,7 @@ const IconWrapper = styled.div`
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   color: ${({ component }: TextProps) =>
     component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-size: ${({ component }: TextProps) => state.styles.font.sizes[component.fontSize].fontSize};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
 `

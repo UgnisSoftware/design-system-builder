@@ -16,10 +16,14 @@ const TopBarBox = styled.div`
   user-select: none;
   height: 64px;
 `
+const AlignRight = styled.div`
+  margin-left: auto;
+`
 const StateManagerWrapper = styled.div`
   position: absolute;
   top: 70px;
-  left: 32px;
+  left: 8px;
+  padding-left: 8px;
   z-index: 99999;
   background: rgb(248, 248, 248);
   box-shadow: 0 10px 20px hsla(0, 0%, 0%, 0.15), 0 3px 6px hsla(0, 0%, 0%, 0.1);
@@ -134,7 +138,7 @@ const changeBackground = (colorId: string, stateManager?: ComponentStateMenu) =>
     state.ui.selectedNode[stateManager].background = { colorId }
     return
   }
-  state.ui.selectedNode.background.colorId = colorId
+  state.ui.selectedNode.background = { colorId }
 }
 const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
@@ -236,7 +240,6 @@ const Mutators = ({ stateManager }: MutatorProps) => {
     <>
       {(state.ui.selectedNode.type === NodeTypes.Box || state.ui.selectedNode.type === NodeTypes.Root) && (
         <>
-          <Divider />
           <InfoColumn>
             <Title>Background</Title>
             <IconRow>
@@ -321,7 +324,6 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 
       {component.type === NodeTypes.Text && (
         <>
-          <Divider />
           <InfoColumn>
             <Title>Horizontal</Title>
             <IconRow>
@@ -429,7 +431,6 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 
       {component.type === NodeTypes.Image && (
         <>
-          <Divider />
           <InfoColumn>
             <Title>Scale</Title>
             <IconRow>
@@ -444,7 +445,6 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 
       {component.type === NodeTypes.Icon && (
         <>
-          <Divider />
           <InfoColumn>
             <Title>Color</Title>
             <IconRow>
@@ -459,6 +459,26 @@ const Mutators = ({ stateManager }: MutatorProps) => {
             </IconRow>
           </InfoColumn>
           <Divider />
+          <InfoColumn>
+            <Title>Font size</Title>
+            <IconRow>
+              <StylelessButton title="XS" onClick={changeFontSize(FontSizeName.XS, stateManager)}>
+                <FontSize>XS</FontSize>
+              </StylelessButton>
+              <StylelessButton title="S" onClick={changeFontSize(FontSizeName.S, stateManager)}>
+                <FontSize>S</FontSize>
+              </StylelessButton>
+              <StylelessButton title="M" onClick={changeFontSize(FontSizeName.M, stateManager)}>
+                <FontSize>M</FontSize>
+              </StylelessButton>
+              <StylelessButton title="L" onClick={changeFontSize(FontSizeName.L, stateManager)}>
+                <FontSize>L</FontSize>
+              </StylelessButton>
+              <StylelessButton title="XL" onClick={changeFontSize(FontSizeName.XL, stateManager)}>
+                <FontSize>XL</FontSize>
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
         </>
       )}
     </>
@@ -468,8 +488,9 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 const TopBar = () => (
   <>
     <TopBarBox>
+      {state.ui.selectedNode && <Mutators />}
       {state.ui.selectedNode && (
-        <>
+        <AlignRight>
           <Divider />
           <InfoColumn>
             <Title>State</Title>
@@ -502,14 +523,13 @@ const TopBar = () => (
               </StylelessButton>
             </IconRow>
           </InfoColumn>
-        </>
+        </AlignRight>
       )}
-      {state.ui.selectedNode && <Mutators />}
     </TopBarBox>
     {state.ui.stateManager && state.ui.selectedNode && (
       <StateManagerWrapper>
-        <StateText>{state.ui.stateManager}</StateText>
         <Mutators stateManager={state.ui.stateManager} />
+        <StateText>{state.ui.stateManager}</StateText>
       </StateManagerWrapper>
     )}
   </>

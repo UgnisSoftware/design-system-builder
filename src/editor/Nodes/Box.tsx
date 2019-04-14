@@ -1,7 +1,7 @@
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { BoxNode, Nodes } from '@src/Interfaces/nodes'
+import { BoxNode, Nodes, ObjectFit } from '@src/Interfaces/nodes'
 
 const selectComponent = (component: Nodes, parent: Nodes) => e => {
   if (e.currentTarget === e.target) {
@@ -82,15 +82,22 @@ const Boxxy = styled.div`
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  padding: ${({ component }: BoxProps) =>
-    component.padding
-      ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
-      : 'none'};
-  overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
-  background: ${({ component }: BoxProps) =>
-    component.background ? state.styles.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+  ${({ component }: BoxProps) =>
+    component.background
+      ? component.background.imageUrl
+        ? css`
+            background: url(${component.background.imageUrl});
+            background-size: ${component.background.objectFit === ObjectFit.fill ? '100% 100%' : component.background.objectFit};
+          `
+        : css`
+            background: ${state.styles.colors.find(color => color.id === component.background.colorId).hex};
+          `
+      : ''}
+  
   box-shadow: ${({ component }: BoxProps) =>
-    component.boxShadow ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+    component.boxShadow
+      ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
+      : 'none'};
   ${({ component }: BoxProps) => {
     const border = state.styles.border.find(border => border.id === component.border)
     return border

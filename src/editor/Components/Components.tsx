@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import TopBar from '../TopBar/TopBar'
 import Preview from './Preview/Preview'
-import Background from '@src/editor/Background/Background'
+import Background from '@src/components/Background/Background'
 
 class CenterColumn extends React.Component {
   render() {

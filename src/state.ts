@@ -711,7 +711,7 @@ const defaultState: State = {
         children: [
           {
             id: '07f08fc0',
-            type: NodeTypes.Image,
+            type: NodeTypes.Box,
             position: {
               columnStart: 1,
               columnEnd: 2,
@@ -722,9 +722,12 @@ const defaultState: State = {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
-            imageUrl:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-            objectFit: ObjectFit.cover,
+            background: {
+              imageUrl:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+              objectFit: ObjectFit.cover,
+            },
+            border: null,
             focus: {},
             hover: {},
           },
@@ -870,7 +873,7 @@ const defaultState: State = {
           },
           {
             id: 'test3',
-            type: NodeTypes.Image,
+            type: NodeTypes.Box,
             alignment: {
               horizontal: Alignment.center,
               vertical: Alignment.center,
@@ -883,9 +886,12 @@ const defaultState: State = {
             },
             focus: {},
             hover: {},
-            imageUrl:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-            objectFit: ObjectFit.fill,
+            background: {
+              imageUrl:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+              objectFit: ObjectFit.fill,
+            },
+            border: null,
           },
           {
             id: 'test4',
@@ -970,6 +976,7 @@ const defaultState: State = {
             id: 'test-7',
             type: NodeTypes.Icon,
             iconType: 'bug_report',
+            fontSize: FontSizeName.M,
             position: {
               columnStart: 1,
               columnEnd: 3,
@@ -1041,6 +1048,8 @@ const defaultState: State = {
             id: 'start',
             type: NodeTypes.Icon,
             iconType: 'menu',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.M,
             position: {
               columnStart: 1,
               columnEnd: 1,

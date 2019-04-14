@@ -1046,6 +1046,15 @@ export interface ComponentNode extends SharedNodeProps {
   }
 }
 
+type BoxBackground =
+  | {
+      colorId: string
+    }
+  | {
+      imageUrl: string
+      objectFit: ObjectFit
+    }
+
 export interface BoxNode extends SharedNodeProps {
   type: NodeTypes.Box
   position: {
@@ -1056,9 +1065,7 @@ export interface BoxNode extends SharedNodeProps {
   }
   border: BorderPlaceholder
   boxShadow?: BoxShadowPlaceholder
-  background: {
-    colorId: string
-  }
+  background: BoxBackground
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
 }
@@ -1098,28 +1105,12 @@ export interface InputNode extends SharedNodeProps {
   hover: Partial<InputNode>
 }
 
-export interface ImageNode extends SharedNodeProps {
-  type: NodeTypes.Image
-  imageUrl: string
-  objectFit: ObjectFit
-
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
-  //border: BorderPlaceholder
-  //boxShadow: BoxShadowPlaceholder
-  focus: Partial<ImageNode>
-  hover: Partial<ImageNode>
-}
-
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
   iconType: iconTypes
 
   fontColorId?: string
+  fontSize: FontSizeName
   position: {
     columnStart: number
     columnEnd: number
@@ -1128,8 +1119,8 @@ export interface IconNode extends SharedNodeProps {
   }
   //border: BorderPlaceholder
   //boxShadow: BoxShadowPlaceholder
-  focus: Partial<ImageNode>
-  hover: Partial<ImageNode>
+  focus: Partial<IconNode>
+  hover: Partial<IconNode>
 }
 
-export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | ImageNode | IconNode
+export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode

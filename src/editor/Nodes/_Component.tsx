@@ -2,7 +2,6 @@ import * as React from 'react'
 
 import Element from './_Element'
 import RootAtom from './Root'
-import ImageAtom from './Image'
 import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
@@ -34,9 +33,6 @@ function Component({ component, parent }: Props) {
   }
   if (component.type === NodeTypes.Input) {
     return <InputAtom component={component} parent={parent} />
-  }
-  if (component.type === NodeTypes.Image) {
-    return <ImageAtom component={component} parent={parent} />
   }
   if (component.type === NodeTypes.Icon) {
     return <IconAtom component={component} parent={parent} />
