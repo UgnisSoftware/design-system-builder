@@ -1,42 +1,7 @@
-import { iconTypes } from '@src/Interfaces/icon'
-
-export enum FontSizeName {
-  XS = 'XS',
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-}
-
-export enum RouterPaths {
-  'fonts' = 'fonts',
-  'colors' = 'colors',
-  'elements' = 'elements',
-  'component' = 'component',
-  'exporting' = 'exporting',
-  'assets' = 'assets',
-}
-
-export enum DragDirection {
-  N = 'N',
-  NE = 'NE',
-  NW = 'NW',
-  W = 'W',
-  E = 'E',
-  S = 'S',
-  SW = 'SW',
-  SE = 'SE',
-}
-
-export enum ComponentStateMenu {
-  hover = 'hover',
-  focus = 'focus',
-}
-
-interface Router {
-  path: RouterPaths
-  componentId?: string
-}
+import { GridProperty, iconTypes } from '@src/Interfaces/node'
+import { Router } from '@src/Interfaces/router'
+import { FontSizeName } from '@src/Interfaces/fonts'
+import { ComponentStateMenu, DragDirection } from '@src/Interfaces/ui'
 
 export enum NodeTypes {
   Root = 'Root',
@@ -50,12 +15,6 @@ export enum NodeTypes {
   Button = 'Button',
   Link = 'Link',
   Icon = 'Icon',
-}
-
-export enum Units {
-  Fr = 'fr',
-  Px = 'px',
-  Auto = 'Auto',
 }
 
 export enum Overflow {
@@ -77,31 +36,11 @@ export enum ObjectFit {
   cover = 'cover',
 }
 
-export enum ViewTypes {
-  SingleCenter = 'SingleCenter',
-  CenterWithTopAndBottom = 'CenterWithTopAndBottom',
-  Repeaated = 'Repeaated',
-}
-
 export interface Padding {
   top?: string
   bottom?: string
   left?: string
   right?: string
-}
-
-type Direction = number
-
-export interface AllDirections {
-  top?: Direction
-  bottom?: Direction
-  left?: Direction
-  right?: Direction
-}
-
-export interface GridProperty {
-  value: number
-  unit: Units
 }
 
 interface SharedNodeProps {
@@ -252,7 +191,6 @@ export type Node = RootNode | ElementNode | ComponentNode | TextNode | BoxNode |
 export interface Component {
   id: string
   name: string
-  viewMode: ViewTypes
   root: RootNode
 }
 

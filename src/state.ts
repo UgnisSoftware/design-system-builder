@@ -1,16 +1,8 @@
 import { proxify } from 'lape'
-import {
-  Alignment,
-  ComponentView,
-  FontSizeName,
-  NodeTypes,
-  ObjectFit,
-  Overflow,
-  RouterPaths,
-  State,
-  Units,
-  ViewTypes,
-} from '@src/interfaces'
+import { Alignment, ComponentView, NodeTypes, ObjectFit, Overflow, State } from '@src/interfaces'
+import { RouterPaths } from '@src/interfaces/router'
+import { FontSizeName } from '@src/Interfaces/fonts'
+import { Units } from '@src/Interfaces/node'
 
 const defaultState: State = {
   elements: {
@@ -679,7 +671,6 @@ const defaultState: State = {
     'abcd-1234': {
       id: 'abcd-1234',
       name: 'Card',
-      viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
@@ -785,7 +776,6 @@ const defaultState: State = {
     'efgh-5678': {
       id: 'efgh-5678',
       name: 'Table-test',
-      viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
@@ -963,7 +953,7 @@ const defaultState: State = {
             },
             border: 'borbor-6666',
             background: {
-            colorId: 'prim-1',
+              colorId: 'prim-1',
             },
             alignment: {
               horizontal: Alignment.stretch,
@@ -996,10 +986,9 @@ const defaultState: State = {
         ],
       },
     },
-    'AppBar': {
+    AppBar: {
       id: 'AppBar',
       name: 'App bar test',
-      viewMode: ViewTypes.SingleCenter,
       root: {
         id: 'rootId',
         type: NodeTypes.Root,

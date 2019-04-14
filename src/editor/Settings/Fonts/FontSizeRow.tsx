@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import state from '@state'
 import TextInput from '../../../components/TextInput'
-import { FontSizeName } from '../../../interfaces'
+import { FontSizeName } from '../../../Interfaces/fonts'
 import SymbolBox from '../../../components/SymbolBox'
 
 const Wrapper = styled.div`

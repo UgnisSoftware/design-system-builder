@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { RouterPaths } from '@src/interfaces'
+import { RouterPaths } from '@src/interfaces/router'
 
 import Fonts from './Settings/Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'

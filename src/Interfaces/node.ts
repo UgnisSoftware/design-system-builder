@@ -931,3 +931,14 @@ export type iconTypes =
   | 'zoom_in'
   | 'zoom_out'
   | 'zoom_out_map'
+
+export enum Units {
+  Fr = 'fr',
+  Px = 'px',
+  Auto = 'Auto',
+}
+
+export interface GridProperty {
+  value: number
+  unit: Units
+}
