@@ -1,9 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow } from '@src/Interfaces/state'
+import { Border, BoxShadow, FontSizeName } from '@src/Interfaces/styles'
 import { Colors } from '@src/styles'
-import { FontSizeName } from '@src/Interfaces/fonts'
 import { ComponentStateMenu } from '@src/Interfaces/ui'
 import { Alignment, NodeTypes, ObjectFit, Overflow } from '@src/Interfaces/nodes'
 
@@ -84,7 +83,7 @@ const AlignmentItem = styled.div`
 `
 
 const AlignmentItemSelected = styled(AlignmentItem)`
-  background: ${({ selected }) => (selected ? Colors.accent : Colors.grey)};
+  background: ${({ selected }) => (selected ? Colors.accent : Colors.grey500)};
 `
 
 const BorderBox = styled(StylelessButton)`

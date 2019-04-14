@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
-import { Color } from '@src/Interfaces/state'
+import { Color } from '@src/Interfaces/styles'
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 type StaticColors = Omit<Color, 'id'>

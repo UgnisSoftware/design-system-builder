@@ -1,4 +1,4 @@
-import { FontSizeName } from '@src/Interfaces/fonts'
+import { FontSizeName } from '@src/Interfaces/styles'
 import { Elements } from '@src/Interfaces/elements'
 
 export type iconTypes =

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import state from '@state'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
 import { uuid } from '@src/utils'
-import { FontSizeName } from '@src/Interfaces/fonts'
+import { FontSizeName } from '@src/Interfaces/styles'
 
 const Menu = styled.div`
   background: rgb(244, 244, 244);

@@ -1,7 +1,7 @@
 import { proxify } from 'lape'
 import { State } from '@src/Interfaces/state'
 import { RouterPaths } from '@src/interfaces/router'
-import { FontSizeName } from '@src/Interfaces/fonts'
+import { FontSizeName } from '@src/Interfaces/styles'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
 
 const defaultState: State = {
@@ -1119,7 +1119,7 @@ const defaultState: State = {
     },
     {
       id: 'cccc-3333',
-      name: 'Light grey',
+      name: 'Light grey500',
       hex: '#f8f8f8',
     },
     {
