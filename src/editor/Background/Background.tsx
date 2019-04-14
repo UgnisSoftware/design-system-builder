@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { NodeTypes, RootNode } from '@src/interfaces'
+import { RootNode } from '@src/Interfaces/nodes'
 
 const ElementsWrapper = styled.div`
   position: relative;

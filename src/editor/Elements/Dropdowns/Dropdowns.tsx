@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { connect } from 'lape'
-import { ComponentView } from '@src/interfaces'
+import { ComponentView } from '@src/Interfaces/components'
 import Element from '@src/editor/Nodes/_Element'
 
 const Wrapper = styled.div`

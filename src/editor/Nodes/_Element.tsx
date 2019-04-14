@@ -5,12 +5,12 @@ import IconAtom from './Icon'
 import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
-import { Node, NodeTypes } from '@src/interfaces'
+import { Nodes, NodeTypes } from '@src/Interfaces/nodes'
 import state from '@state'
 
 interface Props {
-  component: Node
-  parent: Node | null
+  component: Nodes
+  parent: Nodes | null
 }
 function Element({ component, parent }: Props) {
   if (component.type === NodeTypes.Root) {

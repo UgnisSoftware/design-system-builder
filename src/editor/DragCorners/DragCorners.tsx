@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { Node, NodeTypes, Padding } from '@src/interfaces'
+import { GridProperty, Nodes, NodeTypes, Padding, Units } from '@src/Interfaces/nodes'
 import * as React from 'react'
 import state from '@state'
 import TextInput from '../../components/TextInput'
 import { Colors } from '@src/styles'
 import { connect } from 'lape'
 import { DragDirection } from '@src/Interfaces/ui'
-import { GridProperty, Units } from '@src/Interfaces/node'
 
 interface BorderProps {
   col: number
@@ -132,7 +131,7 @@ const PaddingRight = styled(TextInput)`
   width: 64px;
 `
 
-const drag = (node: Node, parent: Node, direction: DragDirection) => e => {
+const drag = (node: Nodes, parent: Nodes, direction: DragDirection) => e => {
   e.stopPropagation()
   e.preventDefault()
   state.ui.expandingNode = {
@@ -218,14 +217,14 @@ const BottomRightDrag = styled(CornerDrag)`
   cursor: se-resize;
 `
 
-const addColumn = (component: Node) => _ => {
+const addColumn = (component: Nodes) => _ => {
   component.columns.push({ value: 1, unit: Units.Fr })
 }
-const addRow = (component: Node) => _ => {
+const addRow = (component: Nodes) => _ => {
   component.rows.push({ value: 100, unit: Units.Px })
 }
 
-const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => () => {
+const onMouseOver = (component: Nodes, rowIndex: number, colIndex: number) => () => {
   if (state.ui.addingAtom || state.ui.draggingNodePosition) {
     state.ui.hoveredCell = {
       component: component,
@@ -235,7 +234,7 @@ const onMouseOver = (component: Node, rowIndex: number, colIndex: number) => () 
   }
 }
 
-const changePadding = (component: Node, position: keyof Padding) => e => {
+const changePadding = (component: Nodes, position: keyof Padding) => e => {
   component.padding[position] = e.target.value
 }
 
@@ -246,17 +245,17 @@ const changeUnit = (track: GridProperty) => e => {
   track.unit = e.target.value
 }
 
-const deleteColumn = (component: Node, index: number) => () => {
+const deleteColumn = (component: Nodes, index: number) => () => {
   component.columns.splice(index, 1)
 }
 
-const deleteRow = (component: Node, index: number) => () => {
+const deleteRow = (component: Nodes, index: number) => () => {
   component.rows.splice(index, 1)
 }
 
 interface Props {
-  component: Node
-  parent: Node | null
+  component: Nodes
+  parent: Nodes | null
 }
 const DragCorners = ({ component, parent }: Props) => {
   const editingComponent = state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id

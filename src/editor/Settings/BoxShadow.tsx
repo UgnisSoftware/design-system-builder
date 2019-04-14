@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { BoxShadow } from '@src/interfaces'
+import { BoxShadow } from '@src/Interfaces/state'
 
 const Wrapper = styled.div`
   display: flex;

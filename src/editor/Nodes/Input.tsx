@@ -1,9 +1,9 @@
-import { InputNode, Node } from '@src/interfaces'
+import { InputNode, Nodes } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-const selectComponent = (component: Node) => e => {
+const selectComponent = (component: Nodes) => e => {
   e.preventDefault()
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
@@ -12,7 +12,7 @@ const selectComponent = (component: Node) => e => {
 
 interface BoxProps {
   component: InputNode
-  parent: Node
+  parent: Nodes
 }
 
 const Label = styled.label`

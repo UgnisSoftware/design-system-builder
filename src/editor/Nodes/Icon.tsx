@@ -1,14 +1,14 @@
 import state from '@state'
-import { ComponentView, IconNode, Node } from '@src/interfaces'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
+import { IconNode, Nodes } from '@src/Interfaces/nodes'
 
 interface TextProps {
   component: IconNode
-  parent: Node
+  parent: Nodes
 }
 
-const selectComponent = (component: Node, parent: Node) => e => {
+const selectComponent = (component: Nodes, parent: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
   }

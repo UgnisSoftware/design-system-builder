@@ -4,7 +4,7 @@
   "description": "Ugnis - visual component editor",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-serve ./webpack.config.js --port=3000 --open",
+    "start": "webpack-serve ./webpack.config.js --port=3001 --open",
     "build": "webpack --config webpack.config.prod.js",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json --fix"
   },

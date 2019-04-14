@@ -1,10 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, Border, BoxShadow, ComponentView, NodeTypes, ObjectFit, Overflow } from '@src/interfaces'
+import { Border, BoxShadow } from '@src/Interfaces/state'
 import { Colors } from '@src/styles'
 import { FontSizeName } from '@src/Interfaces/fonts'
 import { ComponentStateMenu } from '@src/Interfaces/ui'
+import { Alignment, NodeTypes, ObjectFit, Overflow } from '@src/Interfaces/nodes'
+import { ComponentView } from '@src/Interfaces/components'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;

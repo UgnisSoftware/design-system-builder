@@ -1,8 +1,9 @@
 import { proxify } from 'lape'
-import { Alignment, ComponentView, NodeTypes, ObjectFit, Overflow, State } from '@src/interfaces'
+import { State } from '@src/Interfaces/state'
 import { RouterPaths } from '@src/interfaces/router'
 import { FontSizeName } from '@src/Interfaces/fonts'
-import { Units } from '@src/Interfaces/node'
+import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
+import { ComponentView } from '@src/Interfaces/components'
 
 const defaultState: State = {
   elements: {

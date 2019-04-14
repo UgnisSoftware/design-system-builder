@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Alignment, Component, NodeTypes, Overflow } from '@src/interfaces'
+import { Component } from '@src/Interfaces/components'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -12,7 +12,7 @@ import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/utils'
 import { route } from '@src/actions'
 import StaticItem from '@src/editor/LeftMenu/StaticItem'
-import { Units } from '@src/Interfaces/node'
+import { Alignment, NodeTypes, Overflow, Units } from '@src/Interfaces/nodes'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;

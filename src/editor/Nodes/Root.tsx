@@ -1,9 +1,9 @@
-import { Node, RootNode } from '@src/interfaces'
+import { Nodes, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-const selectComponent = (component: Node) => e => {
+const selectComponent = (component: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
   }

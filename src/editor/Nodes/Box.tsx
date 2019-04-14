@@ -1,9 +1,10 @@
-import { BoxNode, ComponentView, Node } from '@src/interfaces'
+import { ComponentView } from '@src/Interfaces/components'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
+import { BoxNode, Nodes } from '@src/Interfaces/nodes'
 
-const selectComponent = (component: Node, parent: Node) => e => {
+const selectComponent = (component: Nodes, parent: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
     if (state.ui.editingBoxNode !== component) {
@@ -69,7 +70,7 @@ const tiltedCSS = css`
   box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
 `
 
-const editBox = (component: Node) => e => {
+const editBox = (component: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.editingBoxNode = component
   }
@@ -77,7 +78,7 @@ const editBox = (component: Node) => e => {
 
 interface BoxProps {
   component: BoxNode
-  parent: Node
+  parent: Nodes
 }
 
 const Boxxy = styled.div`

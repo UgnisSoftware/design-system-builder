@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import state from '@state'
 import Element from '@src/editor/Nodes/_Element'
 import { connect } from 'lape'
-import { ComponentView } from '@src/interfaces'
+import { ComponentView } from '@src/Interfaces/components'
 
 const Wrapper = styled.div`
   position: relative;

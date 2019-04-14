@@ -1,14 +1,15 @@
 import state from '@state'
-import { ComponentView, Node, TextNode } from '@src/interfaces'
+import { ComponentView } from '@src/Interfaces/components'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
+import { Nodes, TextNode } from '@src/Interfaces/nodes'
 
 interface TextProps {
   component: TextNode
-  parent: Node
+  parent: Nodes
 }
 
-const selectComponent = (component: Node, parent: Node) => e => {
+const selectComponent = (component: Nodes, parent: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
   }
@@ -34,7 +35,7 @@ const TextWrapper = styled.div`
   overflow-wrap: break-word;
 `
 
-const stylesForSelected = (component: Node) => {
+const stylesForSelected = (component: Nodes) => {
   if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
     return null
   }
@@ -48,7 +49,7 @@ const stylesForSelected = (component: Node) => {
   }
 }
 
-const editText = (component: Node) => () => {
+const editText = (component: Nodes) => () => {
   state.ui.editingTextNode = component
 }
 

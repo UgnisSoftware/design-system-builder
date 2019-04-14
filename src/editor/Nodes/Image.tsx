@@ -1,14 +1,15 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import state from '@state'
-import { ComponentView, ImageNode, Node, ObjectFit } from '@src/interfaces'
+import { ComponentView } from '@src/Interfaces/components'
+import { ImageNode, Nodes, ObjectFit } from '@src/Interfaces/nodes'
 
 interface BoxProps {
   component: ImageNode
-  parent: Node
+  parent: Nodes
 }
 
-const selectComponent = (component: Node, parent: Node) => e => {
+const selectComponent = (component: Nodes, parent: Nodes) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
     if (state.ui.editingBoxNode !== component) {
@@ -74,7 +75,7 @@ const tiltedCSS = css`
   box-shadow: -10px 10px 3px -3px rgba(100, 100, 100, 0.5);
 `
 
-const stylesForSelected = (component: Node) => {
+const stylesForSelected = (component: Nodes) => {
   if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
     return null
   }
