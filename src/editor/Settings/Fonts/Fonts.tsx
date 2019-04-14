@@ -20,7 +20,7 @@ const FontRow = styled.div`
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
-    <h2>{state.font.fontName}</h2>
+    <h2>{state.styles.font.fontName}</h2>
     <FontRow>
       <FontSizesList />
     </FontRow>
