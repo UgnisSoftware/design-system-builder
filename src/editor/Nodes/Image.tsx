@@ -98,9 +98,9 @@ const Image = styled.div`
   background-size: ${({ component }: BoxProps) =>
     component.objectFit === ObjectFit.fill ? '100% 100%' : component.objectFit};
   box-shadow: ${({ component }: BoxProps) =>
-    component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+    component.boxShadow ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
   ${({ component }: BoxProps) => {
-    const border = state.border.find(border => border.id === component.border)
+    const border = state.styles.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};

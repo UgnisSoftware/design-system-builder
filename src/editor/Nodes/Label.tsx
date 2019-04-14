@@ -30,7 +30,7 @@ const Label = styled.label`
               component.hover.background
                 ? css`
                     background: ${({ component }: BoxProps) =>
-                      state.colors.find(color => color.id === component.hover.background.colorId).hex};
+                      state.styles.colors.find(color => color.id === component.hover.background.colorId).hex};
                   `
                 : ''}
             ${() =>
@@ -38,12 +38,12 @@ const Label = styled.label`
                 ? css`
                     box-shadow: ${({ component }: BoxProps) =>
                       component.boxShadow
-                        ? state.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
+                        ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
                         : 'none'};
                   `
                 : ''}
             ${({ component }: BoxProps) => {
-              const border = state.border.find(border => border.id === component.hover.border)
+              const border = state.styles.border.find(border => border.id === component.hover.border)
               return border
                 ? css`
                     border: ${border.style};
@@ -77,11 +77,11 @@ const Input = styled.input`
       : 'none'};
   overflow: ${({ component }: BoxProps) => (component.overflow ? component.overflow : 'normal')};
   background: ${({ component }: BoxProps) =>
-    component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+    component.background ? state.styles.colors.find(color => color.id === component.background.colorId).hex : 'none'};
   box-shadow: ${({ component }: BoxProps) =>
-    component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+    component.boxShadow ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
   ${({ component }: BoxProps) => {
-    const border = state.border.find(border => border.id === component.border)
+    const border = state.styles.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};
@@ -98,7 +98,7 @@ const Input = styled.input`
               component.hover.background
                 ? css`
                     background: ${({ component }: BoxProps) =>
-                      state.colors.find(color => color.id === component.hover.background.colorId).hex};
+                      state.styles.colors.find(color => color.id === component.hover.background.colorId).hex};
                   `
                 : ''}
             ${() =>
@@ -106,12 +106,12 @@ const Input = styled.input`
                 ? css`
                     box-shadow: ${({ component }: BoxProps) =>
                       component.boxShadow
-                        ? state.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
+                        ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
                         : 'none'};
                   `
                 : ''}
             ${({ component }: BoxProps) => {
-              const border = state.border.find(border => border.id === component.hover.border)
+              const border = state.styles.border.find(border => border.id === component.hover.border)
               return border
                 ? css`
                     border: ${border.style};

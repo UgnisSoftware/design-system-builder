@@ -24,7 +24,8 @@ const TextWrapper = styled.div`
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
   font-size: ${({ component }: TextProps) => state.font.sizes[component.fontSize].fontSize};
-  color: ${({ component }: TextProps) => component.fontColorId ? state.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  color: ${({ component }: TextProps) =>
+    component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
   overflow-wrap: break-word;
 `
 

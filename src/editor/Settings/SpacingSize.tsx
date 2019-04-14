@@ -17,7 +17,7 @@ interface SpacingSizeProps {
 }
 
 const onSpacingSizeChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.spacing[index] = event.target.value
+  state.styles.spacing[index] = event.target.value
 }
 
 const SpacingSize = ({ spacing, index }: SpacingSizeProps) => (

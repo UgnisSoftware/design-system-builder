@@ -1096,117 +1096,119 @@ const defaultState: State = {
       },
     },
   },
-  colors: [
-    {
-      id: 'prim-1',
-      name: 'Primary',
-      hex: '#2196f3', //Primary color used in Material UI
-    },
-    {
-      id: 'secn-1',
-      name: 'Secondary',
-      hex: '#e3004d', //Secondary color used in Material UI
-    },
-    {
-      id: 'aaaa-1111',
-      name: 'Pink',
-      hex: '#f78888',
-    },
-    {
-      id: 'bbbb-2222',
-      name: 'Yellow',
-      hex: '#f3d250',
-    },
-    {
-      id: 'cccc-3333',
-      name: 'Light grey500',
-      hex: '#f8f8f8',
-    },
-    {
-      id: 'cccc-3333-2',
-      name: 'Grey',
-      hex: '#f0f0f0',
-    },
-    {
-      id: 'dddd-4444',
-      name: 'Light blue',
-      hex: '#90ccf4',
-    },
-    {
-      id: 'eeee-5555',
-      name: 'Blue',
-      hex: '#5da2d5',
-    },
-    {
-      id: 'white-6666',
-      name: 'White',
-      hex: '#ffffff',
-    },
-  ],
-  spacing: ['8px', '16px', '24px', '48px', '64px'],
-  boxShadow: [
-    {
-      id: 'shadow-9999',
-      value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
-    },
-    {
-      id: 'shadow-8888',
-      value: '0 0 20px rgba(0,0,0,0.8);',
-    },
-    {
-      id: 'shadow-7777',
-      value: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);',
-    },
-    {
-      id: 'shadow-6666',
-      value: 'inset 0 0 10px #4a4a4a',
-    },
-  ],
-  border: [
-    {
-      id: 'primB-1',
-      radius: '16px',
-      style: '1px solid rgba(0, 0, 0, 0.23)', //Primary border used in MaterialUI
-    },
-    {
-      id: 'borbor-6666',
-      radius: '4px 4px 4px 4px',
-      style: 'none',
-    },
-    {
-      id: 'barbar-7777',
-      radius: '0px 149px 0px 51px',
-      style: '',
-    },
-    {
-      id: 'borbor-8888',
-      radius: '4px 4px 4px 4px',
-      style: '1px solid rgba(0, 0, 0, 0.23);',
-    },
-  ],
-  font: {
-    fontName: 'Roboto',
-    fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
-    sizes: {
-      [FontSizeName.XS]: {
-        fontSize: '12px',
-        lineHeight: '1.2em',
+  styles: {
+    colors: [
+      {
+        id: 'prim-1',
+        name: 'Primary',
+        hex: '#2196f3', //Primary color used in Material UI
       },
-      [FontSizeName.S]: {
-        fontSize: '16px',
-        lineHeight: '1.2em',
+      {
+        id: 'secn-1',
+        name: 'Secondary',
+        hex: '#e3004d', //Secondary color used in Material UI
       },
-      [FontSizeName.M]: {
-        fontSize: '24px',
-        lineHeight: '1.2em',
+      {
+        id: 'aaaa-1111',
+        name: 'Pink',
+        hex: '#f78888',
       },
-      [FontSizeName.L]: {
-        fontSize: '38px',
-        lineHeight: '1.2em',
+      {
+        id: 'bbbb-2222',
+        name: 'Yellow',
+        hex: '#f3d250',
       },
-      [FontSizeName.XL]: {
-        fontSize: '50px',
-        lineHeight: '1.2em',
+      {
+        id: 'cccc-3333',
+        name: 'Light grey500',
+        hex: '#f8f8f8',
+      },
+      {
+        id: 'cccc-3333-2',
+        name: 'Grey',
+        hex: '#f0f0f0',
+      },
+      {
+        id: 'dddd-4444',
+        name: 'Light blue',
+        hex: '#90ccf4',
+      },
+      {
+        id: 'eeee-5555',
+        name: 'Blue',
+        hex: '#5da2d5',
+      },
+      {
+        id: 'white-6666',
+        name: 'White',
+        hex: '#ffffff',
+      },
+    ],
+    spacing: ['8px', '16px', '24px', '48px', '64px'],
+    boxShadow: [
+      {
+        id: 'shadow-9999',
+        value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
+      },
+      {
+        id: 'shadow-8888',
+        value: '0 0 20px rgba(0,0,0,0.8);',
+      },
+      {
+        id: 'shadow-7777',
+        value: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);',
+      },
+      {
+        id: 'shadow-6666',
+        value: 'inset 0 0 10px #4a4a4a',
+      },
+    ],
+    border: [
+      {
+        id: 'primB-1',
+        radius: '16px',
+        style: '1px solid rgba(0, 0, 0, 0.23)', //Primary border used in MaterialUI
+      },
+      {
+        id: 'borbor-6666',
+        radius: '4px 4px 4px 4px',
+        style: 'none',
+      },
+      {
+        id: 'barbar-7777',
+        radius: '0px 149px 0px 51px',
+        style: '',
+      },
+      {
+        id: 'borbor-8888',
+        radius: '4px 4px 4px 4px',
+        style: '1px solid rgba(0, 0, 0, 0.23);',
+      },
+    ],
+    font: {
+      fontName: 'Roboto',
+      fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
+      sizes: {
+        [FontSizeName.XS]: {
+          fontSize: '12px',
+          lineHeight: '1.2em',
+        },
+        [FontSizeName.S]: {
+          fontSize: '16px',
+          lineHeight: '1.2em',
+        },
+        [FontSizeName.M]: {
+          fontSize: '24px',
+          lineHeight: '1.2em',
+        },
+        [FontSizeName.L]: {
+          fontSize: '38px',
+          lineHeight: '1.2em',
+        },
+        [FontSizeName.XL]: {
+          fontSize: '50px',
+          lineHeight: '1.2em',
+        },
       },
     },
   },

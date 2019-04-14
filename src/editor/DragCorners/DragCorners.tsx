@@ -260,7 +260,8 @@ interface Props {
 const DragCorners = ({ component, parent }: Props) => {
   const editingComponent = state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id
   const addingNodesAndCanHaveChildren = state.ui.addingAtom && component.type !== NodeTypes.Box
-  const draggingNode = state.ui.draggingNodePosition && state.ui.selectedNode !== component && component.type !== NodeTypes.Box
+  const draggingNode =
+    state.ui.draggingNodePosition && state.ui.selectedNode !== component && component.type !== NodeTypes.Box
 
   const showCorners =
     state.ui.selectedNode === component && !(state.ui.editingBoxNode && state.ui.editingBoxNode.id === component.id)

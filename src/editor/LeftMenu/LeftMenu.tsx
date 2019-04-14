@@ -120,7 +120,7 @@ const addComponent = value => {
       ],
       children: [],
       background: {
-        colorId: state.colors[0].id,
+        colorId: state.styles.colors[0].id,
       },
       hover: {},
       focus: {},

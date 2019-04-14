@@ -240,12 +240,12 @@ const Mutators = ({ stateManager }: MutatorProps) => {
           <InfoColumn>
             <Title>Background</Title>
             <IconRow>
-              {Object.keys(state.colors).map(colorIndex => (
+              {Object.keys(state.styles.colors).map(colorIndex => (
                 <ColorBox
-                  selected={component.background.colorId === state.colors[colorIndex].id}
-                  title={state.colors[colorIndex].name}
-                  color={state.colors[colorIndex].hex}
-                  onClick={changeBackground(state.colors[colorIndex].id, stateManager)}
+                  selected={component.background.colorId === state.styles.colors[colorIndex].id}
+                  title={state.styles.colors[colorIndex].name}
+                  color={state.styles.colors[colorIndex].hex}
+                  onClick={changeBackground(state.styles.colors[colorIndex].id, stateManager)}
                 />
               ))}
             </IconRow>
@@ -260,7 +260,7 @@ const Mutators = ({ stateManager }: MutatorProps) => {
                 selected={component.border === null}
                 onClick={removeBorder(stateManager)}
               />
-              {state.border.map(border => (
+              {state.styles.border.map(border => (
                 <BorderBox
                   selected={component.border === border.id}
                   border={border}
@@ -279,7 +279,7 @@ const Mutators = ({ stateManager }: MutatorProps) => {
                 selected={component.boxShadow === null}
                 onClick={removeBoxShadow(stateManager)}
               />
-              {state.boxShadow.map(boxShadow => (
+              {state.styles.boxShadow.map(boxShadow => (
                 <BoxShadowBox
                   selected={component.boxShadow === boxShadow.id}
                   boxShadow={boxShadow}
@@ -393,12 +393,12 @@ const Mutators = ({ stateManager }: MutatorProps) => {
           <InfoColumn>
             <Title>Color</Title>
             <IconRow>
-              {Object.keys(state.colors).map(colorIndex => (
+              {Object.keys(state.styles.colors).map(colorIndex => (
                 <ColorBox
-                  selected={component.fontColorId === state.colors[colorIndex].id}
-                  title={state.colors[colorIndex].name}
-                  color={state.colors[colorIndex].hex}
-                  onClick={changeFontColor(state.colors[colorIndex].id, stateManager)}
+                  selected={component.fontColorId === state.styles.colors[colorIndex].id}
+                  title={state.styles.colors[colorIndex].name}
+                  color={state.styles.colors[colorIndex].hex}
+                  onClick={changeFontColor(state.styles.colors[colorIndex].id, stateManager)}
                 />
               ))}
             </IconRow>
@@ -448,12 +448,12 @@ const Mutators = ({ stateManager }: MutatorProps) => {
           <InfoColumn>
             <Title>Color</Title>
             <IconRow>
-              {Object.keys(state.colors).map(colorIndex => (
+              {Object.keys(state.styles.colors).map(colorIndex => (
                 <ColorBox
-                  selected={component.fontColorId === state.colors[colorIndex].id}
-                  title={state.colors[colorIndex].name}
-                  color={state.colors[colorIndex].hex}
-                  onClick={changeFontColor(state.colors[colorIndex].id, stateManager)}
+                  selected={component.fontColorId === state.styles.colors[colorIndex].id}
+                  title={state.styles.colors[colorIndex].name}
+                  color={state.styles.colors[colorIndex].hex}
+                  onClick={changeFontColor(state.styles.colors[colorIndex].id, stateManager)}
                 />
               ))}
             </IconRow>

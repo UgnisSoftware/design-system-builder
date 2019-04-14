@@ -129,7 +129,7 @@ const onHexValueChange = (color: Color) => (event: React.ChangeEvent<HTMLInputEl
 }
 
 const onDelete = (color: Color) => () => {
-  state.colors.splice(state.colors.indexOf(color), 1)
+  state.styles.colors.splice(state.styles.colors.indexOf(color), 1)
 }
 
 const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => (

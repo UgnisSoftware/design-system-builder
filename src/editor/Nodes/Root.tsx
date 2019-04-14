@@ -21,7 +21,7 @@ const RootWrapper = styled.div`
   grid-template-rows: ${({ component }: RootProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  
+
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   padding: ${({ component }: RootProps) =>
     component.padding
@@ -29,11 +29,11 @@ const RootWrapper = styled.div`
       : 'none'};
   overflow: ${({ component }: RootProps) => (component.overflow ? component.overflow : 'normal')};
   background: ${({ component }: RootProps) =>
-    component.background ? state.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+    component.background ? state.styles.colors.find(color => color.id === component.background.colorId).hex : 'none'};
   box-shadow: ${({ component }: RootProps) =>
-    component.boxShadow ? state.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+    component.boxShadow ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
   ${({ component }: RootProps) => {
-    const border = state.border.find(border => border.id === component.border)
+    const border = state.styles.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};
