@@ -82,17 +82,21 @@ const Boxxy = styled.div`
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  ${({ component }: BoxProps) =>
-    component.background
-      ? component.background.imageUrl
-        ? css`
-            background: url(${component.background.imageUrl});
-            background-size: ${component.background.objectFit === ObjectFit.fill ? '100% 100%' : component.background.objectFit};
-          `
-        : css`
-            background: ${state.styles.colors.find(color => color.id === component.background.colorId).hex};
-          `
-      : ''}
+  ${({ component }: BoxProps) => {
+    if (component.backgroundImageUrl) {
+      return css`
+        background: url(${component.backgroundImageUrl});
+        background-size: ${component.backgroundImagePosition !== ObjectFit.fill
+          ? component.backgroundImagePosition
+          : '100% 100%'};
+      `
+    }
+    if (component.backgroundColorId) {
+      return css`
+        background: ${state.styles.colors.find(color => color.id === component.backgroundColorId).hex};
+      `
+    }
+  }}
   
   box-shadow: ${({ component }: BoxProps) =>
     component.boxShadow
@@ -113,10 +117,10 @@ const Boxxy = styled.div`
       ? css`
           &:hover {
             ${() =>
-              component.hover.background
+              component.hover.backgroundColorId
                 ? css`
                     background: ${({ component }: BoxProps) =>
-                      state.styles.colors.find(color => color.id === component.hover.background.colorId).hex};
+                      state.styles.colors.find(color => color.id === component.hover.backgroundColorId).hex};
                   `
                 : ''}
             ${() =>

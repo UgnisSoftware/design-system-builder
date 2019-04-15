@@ -45,18 +45,6 @@ const Text = styled.span`
   font-size: 38px;
 `
 
-const images = [
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Ciri_Cosplay_%28The_Witcher_3_Wild_Hunt%29_%E2%80%A2_2.jpg/1024px-Ciri_Cosplay_%28The_Witcher_3_Wild_Hunt%29_%E2%80%A2_2.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/13-08-31-Kochtreffen-Wien-RalfR-N3S_7849-024.jpg/1280px-13-08-31-Kochtreffen-Wien-RalfR-N3S_7849-024.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/India_-_Varanasi_green_peas_-_2714.jpg/1280px-India_-_Varanasi_green_peas_-_2714.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Sadhu_V%C3%A2r%C3%A2nas%C3%AE.jpg/1280px-Sadhu_V%C3%A2r%C3%A2nas%C3%AE.jpg',
-]
-
-let randomId = Math.floor(Math.random() * images.length)
-const regenerateRandomId = () => (randomId = Math.floor(Math.random() * images.length))
-regenerateRandomId()
-
 const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.TouchEvent) => {
   event.stopPropagation()
   event.persist()
@@ -74,7 +62,6 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
       x: currentX - 200 - (currentX - box.left),
       y: currentY - 64 - (currentY - box.top),
     },
-    imageUrl: images[randomId],
   }
 
   function drag(e) {
@@ -152,10 +139,8 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
         state.ui.hoveredCell.component.children.push({
           ...baseComponent,
           children: [],
-          imageUrl: images[randomId],
           objectFit: ObjectFit.cover,
         })
-        regenerateRandomId()
       }
       // select new node
       state.ui.selectedNode =

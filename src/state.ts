@@ -61,9 +61,7 @@ const defaultState: State = {
             hover: {},
           },
         ],
-        background: {
-          colorId: 'prim-1',
-        },
+        backgroundColorId: 'prim-1',
         border: 'borbor-6666',
         boxShadow: 'shadow-7777',
         focus: {},
@@ -123,9 +121,7 @@ const defaultState: State = {
             hover: {},
           },
         ],
-        background: {
-          colorId: 'secn-1',
-        },
+        backgroundColorId: 'secn-1',
         border: 'borbor-6666',
         boxShadow: 'shadow-7777',
         focus: {},
@@ -170,9 +166,7 @@ const defaultState: State = {
             unit: Units.Fr,
           },
         ],
-        background: {
-          colorId: 'cccc-3333',
-        },
+        backgroundColorId: 'cccc-3333',
         border: 'borbor-6666',
         boxShadow: null,
         focus: {},
@@ -209,9 +203,7 @@ const defaultState: State = {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
-            background: {
-              colorId: 'cccc-3333',
-            },
+            backgroundColorId: 'cccc-3333',
             border: 'borbor-8888',
             boxShadow: null,
             focus: {},
@@ -255,9 +247,7 @@ const defaultState: State = {
               unit: Units.Fr,
             },
           ],
-          background: {
-            colorId: 'cccc-3333',
-          },
+          backgroundColorId: 'cccc-3333',
           border: 'borbor-6666',
           boxShadow: 'shadow-7777',
           focus: {},
@@ -297,9 +287,7 @@ const defaultState: State = {
               unit: Units.Fr,
             },
           ],
-          background: {
-            colorId: 'cccc-3333',
-          },
+          backgroundColorId: 'cccc-3333',
           border: 'borbor-6666',
           boxShadow: 'shadow-7777',
           focus: {},
@@ -722,11 +710,9 @@ const defaultState: State = {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
-            background: {
-              imageUrl:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-              objectFit: ObjectFit.cover,
-            },
+            backgroundImageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            backgroundImagePosition: ObjectFit.fill,
             border: null,
             focus: {},
             hover: {},
@@ -767,9 +753,7 @@ const defaultState: State = {
             overrides: {},
           },
         ],
-        background: {
-          colorId: 'cccc-3333',
-        },
+        backgroundColorId: 'cccc-3333',
         border: 'barbar-7777',
         boxShadow: 'shadow-9999',
         focus: {},
@@ -828,9 +812,7 @@ const defaultState: State = {
             unit: Units.Px,
           },
         ],
-        background: {
-          colorId: 'cccc-3333',
-        },
+        backgroundColorId: 'cccc-3333',
         border: 'primB-1',
         focus: {},
         hover: {},
@@ -886,11 +868,9 @@ const defaultState: State = {
             },
             focus: {},
             hover: {},
-            background: {
-              imageUrl:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-              objectFit: ObjectFit.fill,
-            },
+            backgroundImageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            backgroundImagePosition: ObjectFit.fill,
             border: null,
           },
           {
@@ -920,9 +900,7 @@ const defaultState: State = {
               rowEnd: 3,
             },
             border: 'borbor-6666',
-            background: {
-              colorId: 'secn-1',
-            },
+            backgroundColorId: 'prim-1',
             alignment: {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
@@ -958,18 +936,14 @@ const defaultState: State = {
               rowEnd: -1,
             },
             border: 'borbor-6666',
-            background: {
-              colorId: 'prim-1',
-            },
+            backgroundColorId: 'prim-1',
             alignment: {
               horizontal: Alignment.stretch,
               vertical: Alignment.stretch,
             },
             focus: {},
             hover: {
-              background: {
-                colorId: 'secn-1',
-              },
+              backgroundColorId: 'secn-1',
             },
           },
           {
@@ -1033,9 +1007,7 @@ const defaultState: State = {
           rowStart: 1,
           rowEnd: -1,
         },
-        background: {
-          colorId: 'prim-1',
-        },
+        backgroundColorId: 'prim-1',
         border: null,
         alignment: {
           horizontal: Alignment.stretch,

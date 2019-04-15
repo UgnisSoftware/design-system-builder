@@ -22,7 +22,7 @@ const Input = styled.input`
   outline: none;
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   background: ${({ component }: BoxProps) =>
-    component.background ? state.styles.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+    component.backgroundColorId ? state.styles.colors.find(color => color.id === component.backgroundColorId).hex : 'none'};
   ${({ component }: BoxProps) => {
     const border = state.styles.border.find(border => border.id === component.border)
     return border

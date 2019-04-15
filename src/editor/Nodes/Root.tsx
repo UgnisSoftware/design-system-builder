@@ -1,4 +1,4 @@
-import { Nodes, RootNode } from '@src/Interfaces/nodes'
+import { Nodes, ObjectFit, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
@@ -28,10 +28,26 @@ const RootWrapper = styled.div`
       ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
       : 'none'};
   overflow: ${({ component }: RootProps) => (component.overflow ? component.overflow : 'normal')};
-  background: ${({ component }: RootProps) =>
-    component.background ? state.styles.colors.find(color => color.id === component.background.colorId).hex : 'none'};
+    ${({ component }: RootProps) => {
+      if (component.backgroundImageUrl) {
+        return css`
+          background: url(${component.backgroundImageUrl});
+          background-size: ${component.backgroundImagePosition !== ObjectFit.fill
+            ? component.backgroundImagePosition
+            : '100% 100%'};
+        `
+      }
+      if (component.backgroundColorId) {
+        return css`
+          background: ${state.styles.colors.find(color => color.id === component.backgroundColorId).hex};
+        `
+      }
+    }}
+  
   box-shadow: ${({ component }: RootProps) =>
-    component.boxShadow ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value : 'none'};
+    component.boxShadow
+      ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
+      : 'none'};
   ${({ component }: RootProps) => {
     const border = state.styles.border.find(border => border.id === component.border)
     return border

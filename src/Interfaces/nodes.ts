@@ -1008,9 +1008,9 @@ export interface RootNode extends SharedNodeProps {
   padding: Padding
   columns: GridProperty[]
   rows: GridProperty[]
-  background: {
-    colorId: string
-  }
+  backgroundColorId?: string
+  backgroundImageUrl?: string
+  backgroundImagePosition?: ObjectFit
   position: {
     columnStart: number
     columnEnd: number
@@ -1046,15 +1046,6 @@ export interface ComponentNode extends SharedNodeProps {
   }
 }
 
-type BoxBackground =
-  | {
-      colorId: string
-    }
-  | {
-      imageUrl: string
-      objectFit: ObjectFit
-    }
-
 export interface BoxNode extends SharedNodeProps {
   type: NodeTypes.Box
   position: {
@@ -1065,7 +1056,9 @@ export interface BoxNode extends SharedNodeProps {
   }
   border: BorderPlaceholder
   boxShadow?: BoxShadowPlaceholder
-  background: BoxBackground
+  backgroundColorId?: string
+  backgroundImageUrl?: string
+  backgroundImagePosition?: ObjectFit
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
 }
@@ -1096,9 +1089,7 @@ export interface InputNode extends SharedNodeProps {
     rowStart: number
     rowEnd: number
   }
-  background: {
-    colorId: string
-  }
+  backgroundColorId?: string
   border: BorderPlaceholder
   boxShadow: BoxShadowPlaceholder
   focus: Partial<InputNode>
