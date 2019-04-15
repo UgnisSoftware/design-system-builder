@@ -1113,10 +1113,20 @@ const defaultState: State = {
         hex: '#2196f3', //Primary color used in Material UI
       },
       {
+        id: 'prim-2',
+        name: 'StrongPrimary',
+        hex: '#1976d2'. //Used for background effects or emphasis
+      }
+      {
         id: 'secn-1',
         name: 'Secondary',
         hex: '#e3004d', //Secondary color used in Material UI
       },
+      {
+        id: 'secn-2',
+        name: 'StrongSecondary',
+        hex: '#9d0038', //Used for background effects and emphasis
+      }
       {
         id: 'aaaa-1111',
         name: 'Pink',
