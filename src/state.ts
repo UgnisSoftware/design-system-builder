@@ -1115,8 +1115,8 @@ const defaultState: State = {
       {
         id: 'prim-2',
         name: 'StrongPrimary',
-        hex: '#1976d2'. //Used for background effects or emphasis
-      }
+        hex: '#1976d2', //Used for background effects or emphasis
+      },
       {
         id: 'secn-1',
         name: 'Secondary',
@@ -1126,7 +1126,7 @@ const defaultState: State = {
         id: 'secn-2',
         name: 'StrongSecondary',
         hex: '#9d0038', //Used for background effects and emphasis
-      }
+      },
       {
         id: 'aaaa-1111',
         name: 'Pink',
