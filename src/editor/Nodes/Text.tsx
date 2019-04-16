@@ -29,6 +29,7 @@ const TextWrapper = styled.div`
   font-family: ${({ component }: TextProps) =>
     component.fontFamily ? state.styles.fonts.find(font => font.id === component.fontFamily).fontFamily : ''};
   overflow-wrap: break-word;
+  
 `
 
 const stylesForSelected = (component: Nodes) => {
