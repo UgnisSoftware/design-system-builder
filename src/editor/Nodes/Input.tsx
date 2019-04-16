@@ -22,7 +22,9 @@ const Input = styled.input`
   outline: none;
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   background: ${({ component }: BoxProps) =>
-    component.backgroundColorId ? state.styles.colors.find(color => color.id === component.backgroundColorId).hex : 'none'};
+    component.backgroundColorId
+      ? state.styles.colors.find(color => color.id === component.backgroundColorId).hex
+      : 'none'};
   ${({ component }: BoxProps) => {
     const border = state.styles.border.find(border => border.id === component.border)
     return border
@@ -32,40 +34,6 @@ const Input = styled.input`
         `
       : ''
   }};
-
-  ${({ component }: BoxProps) =>
-    Object.keys(component.hover).length && !state.ui.draggingNodePosition
-      ? css`
-          &:hover {
-            ${() =>
-              component.hover.background
-                ? css`
-                    background: ${({ component }: BoxProps) =>
-                      state.styles.colors.find(color => color.id === component.hover.background.colorId).hex};
-                  `
-                : ''}
-            ${() =>
-              component.hover.boxShadow
-                ? css`
-                    box-shadow: ${({ component }: BoxProps) =>
-                      component.boxShadow
-                        ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.hover.boxShadow).value
-                        : 'none'};
-                  `
-                : ''}
-            ${({ component }: BoxProps) => {
-              const border = state.styles.border.find(border => border.id === component.hover.border)
-              return border
-                ? css`
-                    border: ${border.style};
-                    border-radius: ${border.radius};
-                  `
-                : ''
-            }};
-            
-          }
-        `
-      : ''};
 `
 
 const InputElement = ({ component }: BoxProps) => (

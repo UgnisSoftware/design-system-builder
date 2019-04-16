@@ -1075,7 +1075,7 @@ export interface TextNode extends SharedNodeProps {
   text: string
   fontSize: FontSizeName
   fontColorId?: string
-  fontFamily: string
+  fontFamilyId: string
 
   focus: Partial<TextNode>
   hover: Partial<TextNode>

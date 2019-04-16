@@ -59,7 +59,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
         ],
         backgroundColorId: 'prim-1',
@@ -120,7 +120,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
         ],
         backgroundColorId: 'secn-1',
@@ -191,7 +191,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'as541d89',
@@ -737,7 +737,7 @@ const defaultState: State = {
             fontSize: FontSizeName.L,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'ef3fb266',
@@ -838,7 +838,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'test2',
@@ -857,7 +857,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'test3',
@@ -931,7 +931,7 @@ const defaultState: State = {
             text: 'Middle',
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'test-6',
@@ -1060,7 +1060,7 @@ const defaultState: State = {
             text: 'Menu',
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
           {
             id: 'log',
@@ -1080,7 +1080,7 @@ const defaultState: State = {
             text: 'Log in',
             focus: {},
             hover: {},
-            fontFamily: 'Roboto',
+            fontFamilyId: 'R1-123332',
           },
         ],
       },
@@ -1187,7 +1187,7 @@ const defaultState: State = {
     ],
     fonts: [
       {
-        id: 'R1',
+        id: 'R1-123332',
         fontFamily: 'Roboto',
         fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
         sizes: {

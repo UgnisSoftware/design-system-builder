@@ -244,6 +244,13 @@ const changeFontSize = (size: FontSizeName, stateManager?: ComponentStateMenu) =
   }
   state.ui.selectedNode.fontSize = size
 }
+const changeFontFamily = (fontFamilyId: string, stateManager?: ComponentStateMenu) => () => {
+  if (stateManager) {
+    state.ui.selectedNode[stateManager].fontFamilyId = fontFamilyId
+    return
+  }
+  state.ui.selectedNode.fontFamilyId = fontFamilyId
+}
 
 const changeState = (componentState: ComponentStateMenu) => () => {
   if (state.ui.stateManager === componentState) {
@@ -474,12 +481,16 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
         </StylelessButton>
       </IconRow>
     </InfoColumn>
-    /* <InfoColumn>
+    <InfoColumn>
       <Title>Font family</Title>
       <IconRow>
-        <StylelessButton title="Roboto" onClick={changeFontFamily(FontSizeName.Roboto, stateManager)}>Roboto</StylelessButton>
+        {state.styles.fonts.map(font => (
+          <StylelessButton title={font.fontFamily} onClick={changeFontFamily(font.id, stateManager)}>
+            {font.fontFamily}
+          </StylelessButton>
+        ))}
       </IconRow>
-    </InfoColumn> */
+    </InfoColumn>
   </>
 )
 

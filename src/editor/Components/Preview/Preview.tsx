@@ -7,6 +7,7 @@ import { connect } from 'lape'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
 import AddComponent from '@src/editor/TopBar/AddComponent'
+import GridOverlay from '@src/editor/Overlay/Grid'
 
 const Wrapper = styled.div`
   position: relative;
@@ -21,17 +22,10 @@ const Wrapper = styled.div`
   transform: translateZ(0);
 `
 
-const PreviewBox = styled.div`
-  display: contents;
-  flex: 1;
-  filter: ${() => (state.ui.showAddComponentMenu ? 'blur(10px) saturate(0.8)' : 'none')};
-  perspective: 1000px;
-`
-
 const PerspectiveBox = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 16px;
   width: 512px;
@@ -40,9 +34,19 @@ const PerspectiveBox = styled.div`
 `
 
 const AlignCenter = styled.div`
+  position: relative;
   grid-column: 1 / -1;
   grid-row: 1 / -1;
   align-self: center;
+`
+
+const GridOverlayWrapper = styled.div`
+  position: absolute;
+  left: -70px;
+  top: -70px;
+  width: calc(100% + 70px);
+  height: calc(100% + 70px);
+  background: rgba(0, 0, 0, 0.3);
 `
 
 const unselectComponent = e => {
@@ -59,13 +63,14 @@ const Preview = () => {
   const component = getCurrentComponent()
   return (
     <Wrapper onClick={unselectComponent}>
-      <PreviewBox>
-        <PerspectiveBox onClick={unselectComponent}>
-          <AlignCenter>
-            <Component component={component.root} parent={null} />
-          </AlignCenter>
-        </PerspectiveBox>
-      </PreviewBox>
+      <PerspectiveBox onClick={unselectComponent}>
+        <AlignCenter>
+          <GridOverlayWrapper>
+            <GridOverlay component={component.root} />
+          </GridOverlayWrapper>
+          <Component component={component.root} parent={null} />
+        </AlignCenter>
+      </PerspectiveBox>
       <AddComponent />
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
       {state.ui.addingAtom && <AddingAtom />}
