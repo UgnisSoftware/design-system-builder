@@ -205,6 +205,14 @@ const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentS
   state.ui.selectedNode.alignment.vertical = alignment
 }
 
+/* const changeFontFamily = (fontFamily = string, stateManager?: ComponentStateMenu) => () => {
+  if (stateManager) {
+    state.ui.selectedNode[stateManager].fontFamily = fontFamily
+    return
+  }
+  state.ui.selectedNode.fontFamily = fontFamily
+} fix this nonsense?*/
+
 const selectImage = (stateManager?: ComponentStateMenu) => () => {
   const images = [
     'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
@@ -466,6 +474,12 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
         </StylelessButton>
       </IconRow>
     </InfoColumn>
+    /* <InfoColumn>
+      <Title>Font family</Title>
+      <IconRow>
+        <StylelessButton title="Roboto" onClick={changeFontFamily(FontSizeName.Roboto, stateManager)}>Roboto</StylelessButton>
+      </IconRow>
+    </InfoColumn> */
   </>
 )
 

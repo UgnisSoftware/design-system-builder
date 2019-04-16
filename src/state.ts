@@ -59,6 +59,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
         ],
         backgroundColorId: 'prim-1',
@@ -119,6 +120,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
         ],
         backgroundColorId: 'secn-1',
@@ -189,6 +191,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'as541d89',
@@ -734,6 +737,7 @@ const defaultState: State = {
             fontSize: FontSizeName.L,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'ef3fb266',
@@ -834,6 +838,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'test2',
@@ -852,6 +857,7 @@ const defaultState: State = {
             fontSize: FontSizeName.S,
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'test3',
@@ -925,6 +931,7 @@ const defaultState: State = {
             text: 'Middle',
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'test-6',
@@ -1053,6 +1060,7 @@ const defaultState: State = {
             text: 'Menu',
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
           {
             id: 'log',
@@ -1072,6 +1080,7 @@ const defaultState: State = {
             text: 'Log in',
             focus: {},
             hover: {},
+            fontFamily: 'Roboto',
           },
         ],
       },
@@ -1176,32 +1185,35 @@ const defaultState: State = {
         style: '1px solid rgba(0, 0, 0, 0.23);',
       },
     ],
-    font: {
-      fontName: 'Roboto',
-      fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
-      sizes: {
-        [FontSizeName.XS]: {
-          fontSize: '12px',
-          lineHeight: '1.2em',
-        },
-        [FontSizeName.S]: {
-          fontSize: '16px',
-          lineHeight: '1.2em',
-        },
-        [FontSizeName.M]: {
-          fontSize: '24px',
-          lineHeight: '1.2em',
-        },
-        [FontSizeName.L]: {
-          fontSize: '38px',
-          lineHeight: '1.2em',
-        },
-        [FontSizeName.XL]: {
-          fontSize: '50px',
-          lineHeight: '1.2em',
+    fonts: [
+      {
+        id: 'R1',
+        fontFamily: 'Roboto',
+        fontUrl: 'https://fonts.googleapis.com/css?family=Roboto',
+        sizes: {
+          [FontSizeName.XS]: {
+            fontSize: '12px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.S]: {
+            fontSize: '16px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.M]: {
+            fontSize: '24px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.L]: {
+            fontSize: '38px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.XL]: {
+            fontSize: '50px',
+            lineHeight: '1.2em',
+          },
         },
       },
-    },
+    ],
   },
   ui: {
     router: {

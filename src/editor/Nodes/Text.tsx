@@ -23,9 +23,11 @@ const TextWrapper = styled.div`
   overflow: ${({ component }: TextProps) => (component.overflow ? component.overflow : 'normal')};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
-  font-size: ${({ component }: TextProps) => state.styles.font.sizes[component.fontSize].fontSize};
+  font-size: ${({ component }: TextProps) => state.styles.fonts.sizes[component.fontSize].fontSize};
   color: ${({ component }: TextProps) =>
     component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-family: ${({ component }: TextProps) =>
+    component.fontFamily ? state.styles.fonts.find(font => font.id === component.fontFamily).fontFamily : ''};
   overflow-wrap: break-word;
 `
 

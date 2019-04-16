@@ -26,8 +26,8 @@ interface ExampleTextProps {
 }
 
 const ExampleText = styled.span`
-  @import url('${state.styles.font.fontUrl}');
-  font-family: '${state.styles.font.fontName}';
+  @import url('${state.styles.fonts.fontUrl}');
+  font-family: '${state.styles.fonts.fontName}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
@@ -39,11 +39,11 @@ interface FontSizeRowProps {
 }
 
 const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.styles.font.sizes[fontSizeName].fontSize = event.target.value
+  state.styles.fonts.sizes[fontSizeName].fontSize = event.target.value
 }
 
 const onLineHeightChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.styles.font.sizes[fontSizeName].lineHeight = event.target.value
+  state.styles.fonts.sizes[fontSizeName].lineHeight = event.target.value
 }
 
 const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
@@ -53,19 +53,19 @@ const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
       <TopAllignedTextInput
         name={`fontSize_${fontSizeName}`}
         label="Font Size"
-        value={state.styles.font.sizes[fontSizeName].fontSize}
+        value={state.styles.fonts.sizes[fontSizeName].fontSize}
         onChange={onFontSizeChange(fontSizeName)}
       />
       <TopAllignedTextInput
         name={`lineHeight_${fontSizeName}`}
         label="Line height"
-        value={state.styles.font.sizes[fontSizeName].lineHeight}
+        value={state.styles.fonts.sizes[fontSizeName].lineHeight}
         onChange={onLineHeightChange(fontSizeName)}
       />
     </InputWrapper>
     <ExampleText
-      fontSize={state.styles.font.sizes[fontSizeName].fontSize}
-      lineHeight={state.styles.font.sizes[fontSizeName].lineHeight}
+      fontSize={state.styles.fonts.sizes[fontSizeName].fontSize}
+      lineHeight={state.styles.fonts.sizes[fontSizeName].lineHeight}
     >
       Lorem ipsum
     </ExampleText>

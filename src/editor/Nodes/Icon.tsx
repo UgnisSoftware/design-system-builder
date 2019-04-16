@@ -22,7 +22,7 @@ const IconWrapper = styled.div`
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   color: ${({ component }: TextProps) =>
     component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-size: ${({ component }: TextProps) => state.styles.font.sizes[component.fontSize].fontSize};
+  font-size: ${({ component }: TextProps) => state.styles.fonts.sizes[component.fontSize].fontSize};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
 `

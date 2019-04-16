@@ -12,8 +12,9 @@ interface FontSize {
 }
 
 export interface Font {
-  fontName: string
+  fontFamily: string
   fontUrl: string
+  id: string
   sizes: { [size in FontSizeName]: FontSize }
 }
 
@@ -39,5 +40,5 @@ export interface Styles {
   spacing: string[]
   boxShadow: BoxShadow[]
   border: Border[]
-  font: Font
+  fonts: Font[]
 }
