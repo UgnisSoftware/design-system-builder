@@ -979,13 +979,6 @@ export enum ObjectFit {
   cover = 'cover',
 }
 
-export interface Padding {
-  top?: string
-  bottom?: string
-  left?: string
-  right?: string
-}
-
 interface SharedNodeProps {
   id: string
   alignment: {
@@ -1005,7 +998,6 @@ export interface RootNode extends SharedNodeProps {
   children: Nodes[]
   overflow: Overflow
   boxShadow?: BoxShadowPlaceholder
-  padding: Padding
   columns: GridProperty[]
   rows: GridProperty[]
   backgroundColorId?: string

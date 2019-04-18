@@ -1,6 +1,7 @@
 export const Colors = {
   brand: '#9f250a',
   accent: '#53d585',
+  grey100: '#ededed',
   grey200: '#c8c8c8',
   grey500: '#8e8e8e',
   grey800: '#44484B',

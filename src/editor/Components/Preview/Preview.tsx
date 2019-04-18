@@ -8,6 +8,7 @@ import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
 import AddComponent from '@src/editor/TopBar/AddComponent'
 import GridOverlay from '@src/editor/Overlay/Grid'
+import AddComponentOverlay from '@src/editor/Overlay/AddComponent'
 
 const Wrapper = styled.div`
   position: relative;
@@ -46,7 +47,15 @@ const GridOverlayWrapper = styled.div`
   top: -70px;
   width: calc(100% + 70px);
   height: calc(100% + 70px);
-  background: rgba(0, 0, 0, 0.3);
+`
+const AddComponentOverlayWrapper = styled.div`
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
 `
 
 const unselectComponent = e => {
@@ -69,6 +78,9 @@ const Preview = () => {
             <GridOverlay component={component.root} />
           </GridOverlayWrapper>
           <Component component={component.root} parent={null} />
+          <AddComponentOverlayWrapper>
+            <AddComponentOverlay component={component.root} />
+          </AddComponentOverlayWrapper>
         </AlignCenter>
       </PerspectiveBox>
       <AddComponent />

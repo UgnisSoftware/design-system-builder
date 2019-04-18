@@ -21,12 +21,6 @@ const defaultState: State = {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        padding: {
-          top: '8px',
-          left: '16px',
-          bottom: '8px',
-          right: '16px',
-        },
         overflow: Overflow.visible,
         columns: [
           {
@@ -81,12 +75,6 @@ const defaultState: State = {
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '8px',
-          left: '16px',
-          bottom: '8px',
-          right: '16px',
         },
         overflow: Overflow.visible,
         columns: [
@@ -144,12 +132,6 @@ const defaultState: State = {
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '8px',
-          left: '16px',
-          bottom: '8px',
-          right: '16px',
         },
         overflow: Overflow.visible,
         columns: [
@@ -231,12 +213,6 @@ const defaultState: State = {
             horizontal: Alignment.stretch,
             vertical: Alignment.stretch,
           },
-          padding: {
-            top: '8px',
-            left: '16px',
-            bottom: '8px',
-            right: '16px',
-          },
           overflow: Overflow.visible,
           columns: [
             {
@@ -270,12 +246,6 @@ const defaultState: State = {
           alignment: {
             horizontal: Alignment.stretch,
             vertical: Alignment.stretch,
-          },
-          padding: {
-            top: '8px',
-            left: '16px',
-            bottom: '8px',
-            right: '16px',
           },
           overflow: Overflow.visible,
           columns: [
@@ -676,12 +646,6 @@ const defaultState: State = {
           rowStart: 1,
           rowEnd: -1,
         },
-        padding: {
-          top: '0px',
-          left: '0px',
-          bottom: '0px',
-          right: '0px',
-        },
         overflow: Overflow.visible,
         columns: [
           {
@@ -780,12 +744,6 @@ const defaultState: State = {
           columnEnd: -1,
           rowStart: 1,
           rowEnd: -1,
-        },
-        padding: {
-          top: '0px',
-          left: '0px',
-          bottom: '0px',
-          right: '0px',
         },
         overflow: Overflow.hidden,
         columns: [
@@ -982,12 +940,6 @@ const defaultState: State = {
         type: NodeTypes.Root,
         nodeType: NodeTypes.Box,
         overflow: Overflow.visible,
-        padding: {
-          top: '5px',
-          bottom: '5px',
-          left: '10px',
-          right: '10px',
-        },
         columns: [
           {
             value: 40,
