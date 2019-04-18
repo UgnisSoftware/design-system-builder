@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 const PerspectiveBox = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 16px;
   width: 512px;
