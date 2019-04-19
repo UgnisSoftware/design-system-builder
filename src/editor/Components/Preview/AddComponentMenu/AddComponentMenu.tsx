@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
+import { Alignment, NodeTypes } from '@src/Interfaces/nodes'
 import { uuid } from '@src/utils'
 import { FontSizeName } from '@src/Interfaces/styles'
 
@@ -86,60 +86,33 @@ const addComponent = (type: NodeTypes) => (event: React.MouseEvent & React.Touch
     if (state.ui.hoveredCell) {
       const baseComponent = {
         id: newId,
-        type: state.ui.addingAtom.type,
         position: {
           columnStart: state.ui.hoveredCell.colIndex + 1,
           columnEnd: state.ui.hoveredCell.colIndex + 2,
           rowStart: state.ui.hoveredCell.rowIndex + 1,
           rowEnd: state.ui.hoveredCell.rowIndex + 2,
         },
-        padding: {
-          top: '0px',
-          left: '0px',
-          bottom: '0px',
-          right: '0px',
-        },
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
         hover: {},
         focus: {},
       }
       if (state.ui.addingAtom.type === NodeTypes.Box) {
         state.ui.hoveredCell.component.children.push({
           ...baseComponent,
-          children: [],
-          background: {
-            colorId: 'dddd-4444',
-          },
+          type: NodeTypes.Box,
+          backgroundColorId: 'dddd-4444',
         })
       }
       if (state.ui.addingAtom.type === NodeTypes.Text) {
         state.ui.hoveredCell.component.children.push({
           ...baseComponent,
+          type: NodeTypes.Text,
           text: 'Hello',
           fontSize: FontSizeName.L,
-        })
-      }
-      if (state.ui.addingAtom.type === NodeTypes.Image) {
-        state.ui.hoveredCell.component.children.push({
-          ...baseComponent,
-          children: [],
-          objectFit: ObjectFit.cover,
+          fontFamilyId: state.styles.fonts[0].id,
         })
       }
       // select new node

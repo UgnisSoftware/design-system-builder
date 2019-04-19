@@ -1,17 +1,12 @@
 import state from '@state'
 import * as React from 'react'
-import styled, { css } from 'styled-components'
-import { IconNode, Nodes } from '@src/Interfaces/nodes'
+import styled from 'styled-components'
+import { IconNode, RootNode } from '@src/Interfaces/nodes'
+import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface TextProps {
   component: IconNode
-  parent: Nodes
-}
-
-const selectComponent = (component: Nodes, parent: Nodes) => e => {
-  if (e.currentTarget === e.target) {
-    state.ui.selectedNode = component
-  }
+  parent: RootNode
 }
 
 const IconWrapper = styled.div`
@@ -34,7 +29,7 @@ const IconComponent = ({ component, parent }: TextProps) => (
     className="material-icons"
     onMouseDown={selectComponent(component, parent)}
   >
-    {component.iconType} {console.log(component)}
+    {component.iconType}
   </IconWrapper>
 )
 

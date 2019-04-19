@@ -1046,7 +1046,7 @@ export interface BoxNode extends SharedNodeProps {
     rowStart: number
     rowEnd: number
   }
-  border: BorderPlaceholder
+  border?: BorderPlaceholder
   boxShadow?: BoxShadowPlaceholder
   backgroundColorId?: string
   backgroundImageUrl?: string

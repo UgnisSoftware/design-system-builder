@@ -260,6 +260,10 @@ const changeState = (componentState: ComponentStateMenu) => () => {
   state.ui.stateManager = componentState
 }
 
+const changeGrid = () => {
+  state.ui.showGrid = !state.ui.showGrid
+}
+
 interface MutatorProps {
   stateManager?: ComponentStateMenu
 }
@@ -560,12 +564,33 @@ const TopBar = () => (
   <>
     <TopBarBox>
       {state.ui.selectedNode && <Mutators />}
+      <AlignRight>
+        <InfoColumn>
+          <Title>Grid</Title>
+          <IconRow>
+            <StylelessButton
+              title="Hovered"
+              className="material-icons"
+              style={{
+                fontSize: '24px',
+                marginLeft: '-2px',
+                marginRight: '2px',
+                color: state.ui.showGrid ? ' rgb(83, 212, 134)' : 'black',
+              }}
+              onClick={changeGrid}
+            >
+              {state.ui.showGrid ? 'grid_off' : 'grid_on'}
+            </StylelessButton>
+          </IconRow>
+        </InfoColumn>
+      </AlignRight>
       {state.ui.selectedNode && (
         <AlignRight>
           <Divider />
           <InfoColumn>
             <Title>State</Title>
             <IconRow>
+              <Divider />
               <StylelessButton
                 title="Hovered"
                 className="material-icons"

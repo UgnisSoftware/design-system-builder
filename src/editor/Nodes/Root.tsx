@@ -21,33 +21,27 @@ const RootWrapper = styled.div`
   grid-template-rows: ${({ component }: RootProps) => component.rows.map(col => col.value + col.unit).join(' ')};
   grid-column: ${({ component }: RootProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: RootProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
-  padding: ${({ component }: RootProps) =>
-    component.padding
-      ? `${component.padding.top} ${component.padding.right} ${component.padding.bottom} ${component.padding.left}`
-      : 'none'};
   overflow: ${({ component }: RootProps) => (component.overflow ? component.overflow : 'normal')};
-    ${({ component }: RootProps) => {
-      if (component.backgroundImageUrl) {
-        return css`
-          background: url(${component.backgroundImageUrl});
-          background-size: ${component.backgroundImagePosition !== ObjectFit.fill
-            ? component.backgroundImagePosition
-            : '100% 100%'};
-        `
-      }
-      if (component.backgroundColorId) {
-        return css`
-          background: ${state.styles.colors.find(color => color.id === component.backgroundColorId).hex};
-        `
-      }
-    }}
-  
   box-shadow: ${({ component }: RootProps) =>
     component.boxShadow
       ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
       : 'none'};
+  ${({ component }: RootProps) => {
+    if (component.backgroundImageUrl) {
+      return css`
+        background: url(${component.backgroundImageUrl});
+        background-size: ${component.backgroundImagePosition !== ObjectFit.fill
+          ? component.backgroundImagePosition
+          : '100% 100%'};
+      `
+    }
+    if (component.backgroundColorId) {
+      return css`
+        background: ${state.styles.colors.find(color => color.id === component.backgroundColorId).hex};
+      `
+    }
+  }}
   ${({ component }: RootProps) => {
     const border = state.styles.border.find(border => border.id === component.border)
     return border

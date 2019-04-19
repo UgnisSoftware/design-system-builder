@@ -18,7 +18,7 @@ const showAddComponentMenu = () => {
   state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
 }
 
-class AddComponent extends React.Component {
+class AddComponentButton extends React.Component {
   render() {
     if (state.ui.showAddComponentMenu) {
       return null
@@ -31,4 +31,4 @@ class AddComponent extends React.Component {
     )
   }
 }
-export default AddComponent
+export default AddComponentButton

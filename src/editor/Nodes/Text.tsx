@@ -1,17 +1,12 @@
 import state from '@state'
 import * as React from 'react'
-import styled  from 'styled-components'
-import { Nodes, TextNode } from '@src/Interfaces/nodes'
+import styled from 'styled-components'
+import { Nodes, RootNode, TextNode } from '@src/Interfaces/nodes'
+import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface TextProps {
   component: TextNode
-  parent: Nodes
-}
-
-const selectComponent = (component: Nodes, parent: Nodes) => e => {
-  if (e.currentTarget === e.target) {
-    state.ui.selectedNode = component
-  }
+  parent: RootNode
 }
 
 const TextWrapper = styled.div`
@@ -20,13 +15,14 @@ const TextWrapper = styled.div`
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  overflow: ${({ component }: TextProps) => (component.overflow ? component.overflow : 'normal')};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
-  font-size: ${({ component }: TextProps) => state.styles.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
+  font-size: ${({ component }: TextProps) =>
+    state.styles.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
   color: ${({ component }: TextProps) =>
     component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-family: ${({ component }: TextProps) => state.styles.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
+  font-family: ${({ component }: TextProps) =>
+    state.styles.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
 `
 

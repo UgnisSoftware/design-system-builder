@@ -6,9 +6,8 @@ import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
 import { getCurrentComponent } from '@src/selectors'
-import AddComponent from '@src/editor/TopBar/AddComponent'
+import AddComponentButton from '@src/editor/TopBar/AddComponentButton'
 import GridOverlay from '@src/editor/Overlay/Grid'
-import AddComponentOverlay from '@src/editor/Overlay/AddComponent'
 
 const Wrapper = styled.div`
   position: relative;
@@ -41,23 +40,6 @@ const AlignCenter = styled.div`
   align-self: center;
 `
 
-const GridOverlayWrapper = styled.div`
-  position: absolute;
-  left: -70px;
-  top: -70px;
-  width: calc(100% + 70px);
-  height: calc(100% + 70px);
-`
-const AddComponentOverlayWrapper = styled.div`
-  user-select: none;
-  pointer-events: none;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-`
-
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = null
@@ -74,16 +56,11 @@ const Preview = () => {
     <Wrapper onClick={unselectComponent}>
       <PerspectiveBox onClick={unselectComponent}>
         <AlignCenter>
-          <GridOverlayWrapper>
-            <GridOverlay component={component.root} />
-          </GridOverlayWrapper>
           <Component component={component.root} parent={null} />
-          <AddComponentOverlayWrapper>
-            <AddComponentOverlay component={component.root} />
-          </AddComponentOverlayWrapper>
+          <GridOverlay rootNode={component.root} />
         </AlignCenter>
       </PerspectiveBox>
-      <AddComponent />
+      <AddComponentButton />
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
       {state.ui.addingAtom && <AddingAtom />}
     </Wrapper>

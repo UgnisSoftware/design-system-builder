@@ -1,18 +1,12 @@
-import { InputNode, Nodes } from '@src/Interfaces/nodes'
+import { InputNode, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-
-const selectComponent = (component: Nodes) => e => {
-  e.preventDefault()
-  if (e.currentTarget === e.target) {
-    state.ui.selectedNode = component
-  }
-}
+import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface BoxProps {
   component: InputNode
-  parent: Nodes
+  parent: RootNode
 }
 
 const Input = styled.input`
@@ -36,8 +30,8 @@ const Input = styled.input`
   }};
 `
 
-const InputElement = ({ component }: BoxProps) => (
-  <Input id={component.id} component={component} onMouseDown={selectComponent(component)} />
+const InputElement = ({ component, parent }: BoxProps) => (
+  <Input id={component.id} component={component} onMouseDown={selectComponent(component, parent)} />
 )
 
 export default InputElement

@@ -1,5 +1,5 @@
 import { Router } from '@src/Interfaces/router'
-import { Nodes, NodeTypes } from '@src/Interfaces/nodes'
+import { Nodes, NodeTypes, RootNode } from '@src/Interfaces/nodes'
 
 export enum DragDirection {
   N = 'N',
@@ -27,7 +27,7 @@ export interface AddingAtom {
 }
 
 export interface HoveredCell {
-  component: Nodes
+  component: RootNode
   rowIndex: number
   colIndex: number
 }
@@ -39,10 +39,11 @@ export interface UI {
   editingBoxNode: Nodes
   addingComponent: boolean
   showAddComponentMenu: boolean
+  showGrid: boolean
   selectedNode: Nodes
   expandingNode: {
     node: Nodes
-    parent: Nodes
+    parent: RootNode
     direction: DragDirection
   }
   draggingNodePosition: {

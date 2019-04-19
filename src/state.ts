@@ -1176,13 +1176,14 @@ const defaultState: State = {
     editingTextNode: null,
     editingBoxNode: null,
     addingComponent: false,
-    showAddComponentMenu: false,
     addingAtom: null,
     hoveredCell: null,
     selectedNode: null,
     expandingNode: null,
     draggingNodePosition: null,
     stateManager: null,
+    showAddComponentMenu: false,
+    showGrid: false,
   },
 }
 
