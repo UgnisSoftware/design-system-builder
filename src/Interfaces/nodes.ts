@@ -950,7 +950,6 @@ export enum NodeTypes {
   Root = 'Root',
   Element = 'Element',
   Component = 'Component',
-
   Box = 'Box',
   Text = 'Text',
   Input = 'Input',

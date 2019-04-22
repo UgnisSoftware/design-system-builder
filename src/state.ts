@@ -1165,6 +1165,33 @@ const defaultState: State = {
           },
         },
       },
+      {
+        id: 'A1-333444',
+        fontFamily: 'Alegreya',
+        fontUrl: 'https://fonts.googleapis.com/css?family=Alegreya',
+        sizes: {
+          [FontSizeName.XS]: {
+            fontSize: '12px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.S]: {
+            fontSize: '16px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.M]: {
+            fontSize: '24px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.L]: {
+            fontSize: '38px',
+            lineHeight: '1.2em',
+          },
+          [FontSizeName.XL]: {
+            fontSize: '50px',
+            lineHeight: '1.2em',
+          },
+        },
+      },
     ],
   },
   ui: {
