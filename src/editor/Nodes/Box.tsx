@@ -1,19 +1,18 @@
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { BoxNode, ObjectFit, RootNode } from '@src/Interfaces/nodes'
+import { BoxNode, ElementNode, ObjectFit } from '@src/Interfaces/nodes'
 import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface BoxProps {
   component: BoxNode
-  parent: RootNode
+  parent?: ElementNode
 }
 
 const BoxAtom = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   box-shadow: ${({ component }: BoxProps) =>
@@ -47,7 +46,7 @@ const BoxAtom = styled.div`
 `
 
 const BoxComponent = ({ component, parent }: BoxProps) => (
-  <BoxAtom parent={parent} component={component} onMouseDown={selectComponent(component, parent)} />
+  <BoxAtom component={component} onMouseDown={selectComponent(component, parent)} />
 )
 
 export default BoxComponent

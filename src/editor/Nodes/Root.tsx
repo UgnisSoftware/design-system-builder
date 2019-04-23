@@ -1,4 +1,4 @@
-import { Nodes, ObjectFit, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, ObjectFit, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
@@ -11,6 +11,7 @@ const selectComponent = (component: Nodes) => e => {
 
 interface RootProps {
   component: RootNode
+  parent: ElementNode | null
   children: React.ReactNode
 }
 

@@ -1,12 +1,12 @@
 import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
-import { Nodes, RootNode, TextNode } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, RootNode, TextNode } from '@src/Interfaces/nodes'
 import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface TextProps {
   component: TextNode
-  parent: RootNode
+  parent?: ElementNode
 }
 
 const TextWrapper = styled.div`

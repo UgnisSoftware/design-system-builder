@@ -13,6 +13,7 @@ import { uuid } from '@src/utils'
 import { route } from '@src/actions'
 import StaticItem from '@src/editor/LeftMenu/StaticItem'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/Interfaces/nodes'
+import Link from '@components/Link/Link'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -57,7 +58,7 @@ const AddComponentBox = styled.div`
 `
 
 const Logo = styled.div`
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 400;
   display: flex;
   color: ${Colors.brand};
@@ -88,7 +89,8 @@ const addComponent = value => {
     name: value,
     root: {
       id: 'rootId',
-      type: NodeTypes.Box,
+      type: NodeTypes.Root,
+      nodeType: NodeTypes.Box,
       position: {
         columnStart: 1,
         columnEnd: -1,
@@ -98,12 +100,6 @@ const addComponent = value => {
       alignment: {
         horizontal: Alignment.stretch,
         vertical: Alignment.stretch,
-      },
-      padding: {
-        top: '0px',
-        left: '0px',
-        bottom: '0px',
-        right: '0px',
       },
       overflow: Overflow.visible,
       columns: [
@@ -118,10 +114,9 @@ const addComponent = value => {
           unit: Units.Px,
         },
       ],
+      border: null,
       children: [],
-      background: {
-        colorId: state.styles.colors[0].id,
-      },
+      backgroundColorId: state.styles.colors[0].id,
       hover: {},
       focus: {},
     },
@@ -135,17 +130,19 @@ const sortComponents = (component1: Component, component2: Component) => compone
 
 const LeftMenu = () => (
   <LeftMenuBox>
-    <Logo>
-      <LogoImg src="/images/logo.png" height={32} />
-      ugnis
-    </Logo>
+    <Link href="/">
+      <Logo>
+        <LogoImg src="/images/logo.png" height={32} />
+        Ugnis
+      </Logo>
+    </Link>
     <Title>Elements</Title>
     {Object.keys(state.elements).map(elementKey => (
       <>
         <StaticItem
           onClick={route(RouterPaths.elements, elementKey)}
           name={elementKey}
-          selected={state.ui.router.componentId === elementKey}
+          selected={state.ui.router[1] === elementKey}
         />
       </>
     ))}
@@ -166,16 +163,16 @@ const LeftMenu = () => (
       ))}
 
     <Title>Settings</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router.path === RouterPaths.colors}>
+    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router[1] === RouterPaths.colors}>
       Styles
     </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router.path === RouterPaths.fonts}>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router[1] === RouterPaths.fonts}>
       Fonts
     </Item>
-    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router.path === RouterPaths.assets}>
+    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router[1] === RouterPaths.assets}>
       Assets
     </Item>
-    <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router.path === RouterPaths.exporting}>
+    <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router[1] === RouterPaths.exporting}>
       Exporting
     </Item>
   </LeftMenuBox>

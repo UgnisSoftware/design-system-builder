@@ -985,8 +985,12 @@ interface SharedNodeProps {
     horizontal: Alignment
     vertical: Alignment
   }
-  canBeDeleted?: boolean
-  canBeMoved?: boolean
+  position: {
+    columnStart: number
+    columnEnd: number
+    rowStart: number
+    rowEnd: number
+  }
 }
 
 type BorderPlaceholder = string
@@ -1003,12 +1007,6 @@ export interface RootNode extends SharedNodeProps {
   backgroundColorId?: string
   backgroundImageUrl?: string
   backgroundImagePosition?: ObjectFit
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
   border: BorderPlaceholder
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
@@ -1019,33 +1017,15 @@ export interface ElementNode extends SharedNodeProps {
   elementType: keyof Elements
   elementId: string
   overrides: any
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
 }
 
 export interface ComponentNode extends SharedNodeProps {
   type: NodeTypes.Component
   overrides: any
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
 }
 
 export interface BoxNode extends SharedNodeProps {
   type: NodeTypes.Box
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
   border?: BorderPlaceholder
   boxShadow?: BoxShadowPlaceholder
   backgroundColorId?: string
@@ -1057,31 +1037,16 @@ export interface BoxNode extends SharedNodeProps {
 
 export interface TextNode extends SharedNodeProps {
   type: NodeTypes.Text
-
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
   text: string
   fontSize: FontSizeName
   fontColorId?: string
   fontFamilyId: string
-
   focus: Partial<TextNode>
   hover: Partial<TextNode>
 }
 
 export interface InputNode extends SharedNodeProps {
   type: NodeTypes.Input
-
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
   backgroundColorId?: string
   border: BorderPlaceholder
   boxShadow: BoxShadowPlaceholder
@@ -1092,17 +1057,6 @@ export interface InputNode extends SharedNodeProps {
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
   iconType: iconTypes
-
-  fontColorId?: string
-  fontSize: FontSizeName
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
-  //border: BorderPlaceholder
-  //boxShadow: BoxShadowPlaceholder
   focus: Partial<IconNode>
   hover: Partial<IconNode>
 }

@@ -1,8 +1,8 @@
 import { proxify } from 'lape'
 import { State } from '@src/Interfaces/state'
-import { RouterPaths } from '@src/interfaces/router'
 import { FontSizeName } from '@src/Interfaces/styles'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
+import { parseUrl } from '@src/utils'
 
 const defaultState: State = {
   elements: {
@@ -1168,10 +1168,7 @@ const defaultState: State = {
     ],
   },
   ui: {
-    router: {
-      path: RouterPaths.component,
-      componentId: 'abcd-1234',
-    },
+    router: parseUrl(),
     editingColorId: '',
     editingTextNode: null,
     editingBoxNode: null,

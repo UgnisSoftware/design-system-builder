@@ -2,6 +2,7 @@ const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const webpack = require('webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
 module.exports = {
   mode: 'development',
@@ -9,6 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     filename: '[name].js',
+    publicPath: '/',
     path: path.resolve(__dirname, 'public'),
   },
   resolve: {
@@ -45,12 +47,14 @@ module.exports = {
     },
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new ForkTsCheckerWebpackPlugin({
-      workers: ForkTsCheckerWebpackPlugin.TWO_CPUS_FREE,
+    new ForkTsCheckerWebpackPlugin(),
+    new Serve({
+      client: { silent: true },
+      historyFallback: true,
+      progress: false,
+      port: 3000,
+      static: path.resolve(__dirname, 'public'),
     }),
   ],
-  serve: {
-    content: './public/',
-  },
+  watch: true,
 }

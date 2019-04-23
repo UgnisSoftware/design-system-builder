@@ -5,7 +5,7 @@ import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
-import { getCurrentComponent } from '@src/selectors'
+import { getCurrentComponent } from '@src/selectors/router'
 import AddComponentButton from '@src/editor/TopBar/AddComponentButton'
 import GridOverlay from '@src/editor/Overlay/Grid'
 
@@ -51,7 +51,7 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const component = getCurrentComponent()
+  const component = state.components[state.ui.router[1]]
   return (
     <Wrapper onClick={unselectComponent}>
       <PerspectiveBox onClick={unselectComponent}>

@@ -1,5 +1,4 @@
-import { Router } from '@src/Interfaces/router'
-import { Nodes, NodeTypes, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, NodeTypes, RootNode } from '@src/Interfaces/nodes'
 
 export enum DragDirection {
   N = 'N',
@@ -33,7 +32,7 @@ export interface HoveredCell {
 }
 
 export interface UI {
-  router: Router
+  router: string[]
   editingColorId: string
   editingTextNode: Nodes
   editingBoxNode: Nodes
@@ -41,6 +40,7 @@ export interface UI {
   showAddComponentMenu: boolean
   showGrid: boolean
   selectedNode: Nodes
+  selectedNodeParent: ElementNode
   expandingNode: {
     node: Nodes
     parent: RootNode

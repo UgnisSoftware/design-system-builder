@@ -12,9 +12,9 @@ class Elements extends React.Component {
     return (
       <Background>
         <TopBar />
-        {state.ui.router.componentId === 'Button' && <Buttons />}
-        {state.ui.router.componentId === 'Input' && <Inputs />}
-        {state.ui.router.componentId === 'Dropdown' && <Dropdowns />}
+        {state.ui.router[1] === 'Button' && <Buttons />}
+        {state.ui.router[1] === 'Input' && <Inputs />}
+        {state.ui.router[1] === 'Dropdown' && <Dropdowns />}
       </Background>
     )
   }

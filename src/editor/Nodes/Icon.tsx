@@ -1,12 +1,12 @@
 import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
-import { IconNode, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, IconNode, RootNode } from '@src/Interfaces/nodes'
 import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface TextProps {
   component: IconNode
-  parent: RootNode
+  parent?: ElementNode
 }
 
 const IconWrapper = styled.div`

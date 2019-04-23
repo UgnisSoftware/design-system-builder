@@ -1,3 +1,7 @@
+export const parseUrl = () => {
+  return window.location.pathname.split('/').filter(a => a)
+}
+
 export function uuid() {
   // return ('' + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[10]/g, function() {
   return ('' + 1e7).replace(/[10]/g, function() {

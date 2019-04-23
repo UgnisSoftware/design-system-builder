@@ -1,4 +1,4 @@
-import { InputNode, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, InputNode, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
@@ -6,7 +6,7 @@ import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface BoxProps {
   component: InputNode
-  parent: RootNode
+  parent?: ElementNode
 }
 
 const Label = styled.label`
