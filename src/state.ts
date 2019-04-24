@@ -1177,6 +1177,7 @@ const defaultState: State = {
     hoveredCell: null,
     selectedCell: null,
     selectedNode: null,
+    selectedNodeToOverride: null,
     expandingNode: null,
     draggingNodePosition: null,
     stateManager: null,

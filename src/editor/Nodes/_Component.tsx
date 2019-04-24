@@ -7,35 +7,36 @@ import InputAtom from './Input'
 import TextAtom from './Text'
 import { Nodes, NodeTypes } from '@src/Interfaces/nodes'
 import IconAtom from '@src/editor/Nodes/Icon'
+import state from '@state'
 
 interface Props {
   component: Nodes
-  parent: Nodes | null
 }
-function Component({ component, parent }: Props) {
+function Component({ component }: Props) {
   if (component.type === NodeTypes.Root) {
     return (
-      <RootAtom component={component}>
+      <RootAtom component={component} parent={null}>
         {component.children.map(node => (
-          <Component component={node} />
+          <Component key={node.id} component={node} />
         ))}
       </RootAtom>
     )
   }
   if (component.type === NodeTypes.Element) {
-    return <Element component={component} parent={parent} />
+    const element = { ...state.elements[component.elementType][component.elementId], position: component.position }
+    return <Element component={element} parent={component} />
   }
   if (component.type === NodeTypes.Box) {
-    return <BoxAtom component={component} parent={parent} />
+    return <BoxAtom component={component} parent={null} />
   }
   if (component.type === NodeTypes.Text) {
-    return <TextAtom component={component} parent={parent} />
+    return <TextAtom component={component} parent={null} />
   }
   if (component.type === NodeTypes.Input) {
-    return <InputAtom component={component} parent={parent} />
+    return <InputAtom component={component} parent={null} />
   }
   if (component.type === NodeTypes.Icon) {
-    return <IconAtom component={component} parent={parent} />
+    return <IconAtom component={component} parent={null} />
   }
 }
 

@@ -140,6 +140,7 @@ const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => e => {
 
   function stopDragging(event) {
     state.ui.expandingNode = null
+    state.ui.hoveredCell = null
     event.preventDefault()
     window.removeEventListener('mouseup', stopDragging)
     window.removeEventListener('touchend', stopDragging)
@@ -264,7 +265,6 @@ const onTileClick = (rootNode: RootNode, rowIndex: number, colIndex: number) => 
 }
 
 const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
-  console.log(rowIndex, colIndex)
   if (state.ui.expandingNode || state.ui.addingAtom || state.ui.draggingNodePosition) {
     state.ui.hoveredCell = {
       component: rootNode,
@@ -280,13 +280,11 @@ const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => 
     const columnNegative = [DragDirection.W, DragDirection.SW, DragDirection.NW].includes(direction)
     const rowPositive = [DragDirection.S, DragDirection.SW, DragDirection.SE].includes(direction)
     const rowNegative = [DragDirection.N, DragDirection.NE, DragDirection.NW].includes(direction)
-    console.log(columnPositive, columnNegative, rowPositive, rowNegative)
 
     if (columnPositive && colIndex + 2 > position.columnStart) {
       position.columnEnd = colIndex + 2
     }
     if (columnNegative && colIndex + 1 < position.columnEnd) {
-      console.log('wtf')
       position.columnStart = colIndex + 1
     }
     if (rowPositive && rowIndex + 2 > position.rowStart) {

@@ -18,6 +18,7 @@ const TopBarBox = styled.div`
 `
 const AlignRight = styled.div`
   margin-left: auto;
+  display: flex;
 `
 const StateManagerWrapper = styled.div`
   position: absolute;
@@ -542,12 +543,17 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
   </>
 )
 
+const ElementMutators = ({ component, stateManager }: IconMutatorProps) => <>Overrides</>
+
 const Mutators = ({ stateManager }: MutatorProps) => {
   const component = stateManager
     ? { ...state.ui.selectedNode, ...state.ui.selectedNode[stateManager] }
     : state.ui.selectedNode
   if (state.ui.selectedNode.type === NodeTypes.Root) {
     return <RootMutators stateManager={stateManager} component={component} />
+  }
+  if (state.ui.selectedNode.type === NodeTypes.Element) {
+    return <ElementMutators stateManager={stateManager} component={component} />
   }
   if (state.ui.selectedNode.type === NodeTypes.Box) {
     return <BoxMutators stateManager={stateManager} component={component} />
@@ -584,44 +590,44 @@ const TopBar = () => (
             </StylelessButton>
           </IconRow>
         </InfoColumn>
+        {state.ui.selectedNode && (
+          <>
+            <Divider />
+            <InfoColumn>
+              <Title>State</Title>
+              <IconRow>
+                <Divider />
+                <StylelessButton
+                  title="Hovered"
+                  className="material-icons"
+                  style={{
+                    fontSize: '24px',
+                    marginLeft: '-2px',
+                    marginRight: '2px',
+                    color: state.ui.stateManager === ComponentStateMenu.hover ? ' rgb(83, 212, 134)' : 'black',
+                  }}
+                  onClick={changeState(ComponentStateMenu.hover)}
+                >
+                  cloud
+                </StylelessButton>
+                <StylelessButton
+                  title="Focused"
+                  className="material-icons"
+                  style={{
+                    fontSize: '24px',
+                    marginLeft: '-2px',
+                    marginRight: '2px',
+                    color: state.ui.stateManager === ComponentStateMenu.focus ? ' rgb(83, 212, 134)' : 'black',
+                  }}
+                  onClick={changeState(ComponentStateMenu.focus)}
+                >
+                  search
+                </StylelessButton>
+              </IconRow>
+            </InfoColumn>
+          </>
+        )}
       </AlignRight>
-      {state.ui.selectedNode && (
-        <AlignRight>
-          <Divider />
-          <InfoColumn>
-            <Title>State</Title>
-            <IconRow>
-              <Divider />
-              <StylelessButton
-                title="Hovered"
-                className="material-icons"
-                style={{
-                  fontSize: '24px',
-                  marginLeft: '-2px',
-                  marginRight: '2px',
-                  color: state.ui.stateManager === ComponentStateMenu.hover ? ' rgb(83, 212, 134)' : 'black',
-                }}
-                onClick={changeState(ComponentStateMenu.hover)}
-              >
-                cloud
-              </StylelessButton>
-              <StylelessButton
-                title="Focused"
-                className="material-icons"
-                style={{
-                  fontSize: '24px',
-                  marginLeft: '-2px',
-                  marginRight: '2px',
-                  color: state.ui.stateManager === ComponentStateMenu.focus ? ' rgb(83, 212, 134)' : 'black',
-                }}
-                onClick={changeState(ComponentStateMenu.focus)}
-              >
-                search
-              </StylelessButton>
-            </IconRow>
-          </InfoColumn>
-        </AlignRight>
-      )}
     </TopBarBox>
     {state.ui.stateManager && state.ui.selectedNode && (
       <StateManagerWrapper>

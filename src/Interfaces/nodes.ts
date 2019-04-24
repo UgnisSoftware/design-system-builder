@@ -1053,12 +1053,20 @@ export interface InputNode extends SharedNodeProps {
   focus: Partial<InputNode>
   hover: Partial<InputNode>
 }
+export interface LabelNode extends SharedNodeProps {
+  type: NodeTypes.Input
+  label: string
+  focus: Partial<InputNode>
+  hover: Partial<InputNode>
+}
 
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
   iconType: iconTypes
+  fontSize: FontSizeName
+  fontColorId?: string
   focus: Partial<IconNode>
   hover: Partial<IconNode>
 }
 
-export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode
+export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | LabelNode | IconNode
