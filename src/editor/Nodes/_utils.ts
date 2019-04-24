@@ -1,10 +1,11 @@
-import { Nodes, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, RootNode } from '@src/Interfaces/nodes'
 import state from '@state'
 
-export const selectComponent = (component: Nodes, parent: RootNode) => e => {
+export const selectComponent = (component: Nodes, parent?: ElementNode) => e => {
   e.preventDefault()
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = component
+    state.ui.selectedNodeParent = parent
 
     let currentX = e.touches ? e.touches[0].pageX : e.pageX
     let currentY = e.touches ? e.touches[0].pageY : e.pageY
@@ -38,16 +39,24 @@ export const selectComponent = (component: Nodes, parent: RootNode) => e => {
     function stopDragging(event) {
       event.preventDefault()
       state.ui.draggingNodePosition = null
-      if (state.ui.hoveredCell && parent) {
-        const nodeIndex = parent.children.indexOf(component)
-        parent.children.splice(nodeIndex, 1)
-        component.position = {
-          columnStart: state.ui.hoveredCell.colIndex + 1,
-          columnEnd: state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
-          rowStart: state.ui.hoveredCell.rowIndex + 1,
-          rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
+      if (state.ui.hoveredCell) {
+        if (parent) {
+          parent.position = {
+            columnStart: state.ui.hoveredCell.colIndex + 1,
+            columnEnd:
+              state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
+            rowStart: state.ui.hoveredCell.rowIndex + 1,
+            rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
+          }
+        } else {
+          component.position = {
+            columnStart: state.ui.hoveredCell.colIndex + 1,
+            columnEnd:
+              state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
+            rowStart: state.ui.hoveredCell.rowIndex + 1,
+            rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
+          }
         }
-        state.ui.hoveredCell.component.children.push(component)
         state.ui.hoveredCell = null
       }
       window.removeEventListener('mousemove', drag)

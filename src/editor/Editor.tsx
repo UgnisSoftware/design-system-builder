@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import state from '@state'
 import { RouterPaths } from '@src/interfaces/router'
 
+import HomePage from './HomePage/HomePage'
 import Fonts from './Settings/Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'
 import ColorsAndSpacing from './Settings/ColorsAndSpacing'
@@ -23,12 +24,13 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {state.ui.router.path === RouterPaths.elements && <Elements />}
-      {state.ui.router.path === RouterPaths.component && <Components />}
-      {state.ui.router.path === RouterPaths.colors && <ColorsAndSpacing />}
-      {state.ui.router.path === RouterPaths.fonts && <Fonts />}
-      {state.ui.router.path === RouterPaths.exporting && <Exporting />}
-      {state.ui.router.path === RouterPaths.assets && <Assets />}
+      {state.ui.router[0] === undefined && <HomePage />}
+      {state.ui.router[0] === RouterPaths.elements && <Elements />}
+      {state.ui.router[0] === RouterPaths.component && <Components />}
+      {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
+      {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
+      {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
+      {state.ui.router[0] === RouterPaths.assets && <Assets />}
       <Devtools />
     </Root>
   )

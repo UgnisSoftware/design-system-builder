@@ -5,3 +5,5 @@ export interface Component {
   name: string
   root: RootNode
 }
+
+export type Components = { [id: string]: Component }

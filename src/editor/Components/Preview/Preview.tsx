@@ -5,8 +5,8 @@ import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
-import { getCurrentComponent } from '@src/selectors'
-import AddComponent from '@src/editor/TopBar/AddComponent'
+import { getCurrentComponent } from '@src/selectors/router'
+import AddComponentButton from '@src/editor/TopBar/AddComponentButton'
 import GridOverlay from '@src/editor/Overlay/Grid'
 
 const Wrapper = styled.div`
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const PerspectiveBox = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 16px;
   width: 512px;
@@ -40,15 +40,6 @@ const AlignCenter = styled.div`
   align-self: center;
 `
 
-const GridOverlayWrapper = styled.div`
-  position: absolute;
-  left: -70px;
-  top: -70px;
-  width: calc(100% + 70px);
-  height: calc(100% + 70px);
-  background: rgba(0, 0, 0, 0.15);
-`
-
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = null
@@ -60,18 +51,16 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const component = getCurrentComponent()
+  const component = state.components[state.ui.router[1]]
   return (
     <Wrapper onClick={unselectComponent}>
       <PerspectiveBox onClick={unselectComponent}>
         <AlignCenter>
-          <GridOverlayWrapper>
-            <GridOverlay component={component.root} />
-          </GridOverlayWrapper>
           <Component component={component.root} parent={null} />
+          <GridOverlay rootNode={component.root} />
         </AlignCenter>
       </PerspectiveBox>
-      <AddComponent />
+      <AddComponentButton />
       {state.ui.showAddComponentMenu && <AddComponentMenu />}
       {state.ui.addingAtom && <AddingAtom />}
     </Wrapper>

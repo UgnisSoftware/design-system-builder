@@ -558,6 +558,7 @@ const Mutators = ({ stateManager }: MutatorProps) => {
   if (component.type === NodeTypes.Icon) {
     return <IconMutators stateManager={stateManager} component={component} />
   }
+  return null
 }
 
 const TopBar = () => (
