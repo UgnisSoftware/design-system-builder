@@ -36,7 +36,7 @@ const defaultState: State = {
         ],
         children: [
           {
-            id: '55a3c774',
+            id: '55a53c774',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -91,7 +91,7 @@ const defaultState: State = {
         ],
         children: [
           {
-            id: '55a3c774',
+            id: '55a3c7774',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -157,7 +157,7 @@ const defaultState: State = {
         hover: {},
         children: [
           {
-            id: 'ef3fb266',
+            id: 'ef3fb8266',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -176,7 +176,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'as541d89',
+            id: 'as5491d89',
             type: NodeTypes.Input,
             position: {
               columnStart: 1,
@@ -665,7 +665,7 @@ const defaultState: State = {
         ],
         children: [
           {
-            id: '07f08fc0',
+            id: '07f083fc0',
             type: NodeTypes.Box,
             position: {
               columnStart: 1,
@@ -685,7 +685,7 @@ const defaultState: State = {
             hover: {},
           },
           {
-            id: 'ef3fb266',
+            id: 'ef3fb4266',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -704,7 +704,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'ef3fb266',
+            id: 'ef3f5b266',
             type: NodeTypes.Element,
             elementType: 'Input',
             elementId: 'Text Input',
@@ -780,7 +780,7 @@ const defaultState: State = {
         hover: {},
         children: [
           {
-            id: 'test1',
+            id: 'te6st1',
             type: NodeTypes.Text,
             alignment: {
               horizontal: Alignment.center,
@@ -799,7 +799,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'test2',
+            id: 'test32',
             type: NodeTypes.Text,
             alignment: {
               horizontal: Alignment.center,
