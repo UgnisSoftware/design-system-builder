@@ -52,5 +52,6 @@ export interface UI {
   }
   addingAtom: AddingAtom
   hoveredCell: HoveredCell
+  selectedCell: HoveredCell
   stateManager?: ComponentStateMenu
 }

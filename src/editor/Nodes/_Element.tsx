@@ -53,6 +53,15 @@ const component = {
         },
       },
       {
+        id: '543523412',
+        type: 'element',
+        elementId: 'button',
+        overrides: {
+          // overrides exposed by elements are also overrides exposed by component
+          buttonText: { text: 'goodbye2' }, // <- find by id and merge
+        },
+      },
+      {
         id: '3232323',
         type: 'text',
         text: 'componentText',
@@ -77,7 +86,10 @@ const Page = {
         id: 'AppBar',
         overrides: {
           3232323: { text: 'goodbye' }, // <- find by id and merge
-          buttonText: { text: 'goodbye' }, // <- find by id, if no id, look for elements and merge
+          123213: { overrides: { text: 'goodbye' } }, // <- find by id, if no id, look for elements and merge
+          1232132: {
+            buttonText: { text: 'goodbye' },
+          }, // <- find by id, if no id, look for elements and merge
         },
       },
       {

@@ -17,7 +17,7 @@ function Component({ component, parent }: Props) {
     return (
       <RootAtom component={component}>
         {component.children.map(node => (
-          <Component component={node} parent={component} />
+          <Component component={node} />
         ))}
       </RootAtom>
     )

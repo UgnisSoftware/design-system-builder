@@ -1175,6 +1175,7 @@ const defaultState: State = {
     addingComponent: false,
     addingAtom: null,
     hoveredCell: null,
+    selectedCell: null,
     selectedNode: null,
     expandingNode: null,
     draggingNodePosition: null,

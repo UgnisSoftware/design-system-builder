@@ -39,6 +39,9 @@ const AlignCenter = styled.div`
   grid-row: 1 / -1;
   align-self: center;
 `
+const Dimmer = styled.div`
+  opacity: ${() => state.ui.showGrid ? 0.3 : 1};
+`
 
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
@@ -56,7 +59,9 @@ const Preview = () => {
     <Wrapper onClick={unselectComponent}>
       <PerspectiveBox onClick={unselectComponent}>
         <AlignCenter>
-          <Component component={component.root} parent={null} />
+          <Dimmer>
+            <Component component={component.root} parent={null} />
+          </Dimmer>
           <GridOverlay rootNode={component.root} />
         </AlignCenter>
       </PerspectiveBox>
