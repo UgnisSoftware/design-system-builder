@@ -264,11 +264,36 @@ const onTileClick = (rootNode: RootNode, rowIndex: number, colIndex: number) => 
 }
 
 const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
-  if (state.ui.addingAtom || state.ui.draggingNodePosition) {
+  console.log(rowIndex, colIndex)
+  if (state.ui.expandingNode || state.ui.addingAtom || state.ui.draggingNodePosition) {
     state.ui.hoveredCell = {
       component: rootNode,
       rowIndex,
       colIndex,
+    }
+  }
+
+  if (state.ui.expandingNode) {
+    const direction = state.ui.expandingNode.direction
+    const position = state.ui.expandingNode.node.position
+    const columnPositive = [DragDirection.E, DragDirection.SE, DragDirection.NE].includes(direction)
+    const columnNegative = [DragDirection.W, DragDirection.SW, DragDirection.NW].includes(direction)
+    const rowPositive = [DragDirection.S, DragDirection.SW, DragDirection.SE].includes(direction)
+    const rowNegative = [DragDirection.N, DragDirection.NE, DragDirection.NW].includes(direction)
+    console.log(columnPositive, columnNegative, rowPositive, rowNegative)
+
+    if (columnPositive && colIndex + 2 > position.columnStart) {
+      position.columnEnd = colIndex + 2
+    }
+    if (columnNegative && colIndex + 1 < position.columnEnd) {
+      console.log('wtf')
+      position.columnStart = colIndex + 1
+    }
+    if (rowPositive && rowIndex + 2 > position.rowStart) {
+      position.rowEnd = rowIndex + 2
+    }
+    if (rowNegative && rowIndex + 1 < position.rowEnd) {
+      position.rowStart = rowIndex + 1
     }
   }
 }
@@ -332,7 +357,9 @@ const changeRowUnits = (rootNode: RootNode, index: number) => e => {
  *   Editing text - state.ui.editingTextNode
  */
 const GridOverlay = ({ rootNode }: Props) => (
-  <GridOverlayWrapper visible={state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition}>
+  <GridOverlayWrapper
+    visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition}
+  >
     {state.ui.showGrid && (
       <>
         <GridTop rootNode={rootNode}>
@@ -395,20 +422,21 @@ const GridOverlay = ({ rootNode }: Props) => (
     )}
     <GridWrapper>
       <Grid rootNode={rootNode}>
-        {(state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition) && (
+        {!(state.ui.addingAtom || state.ui.draggingNodePosition || state.ui.expandingNode) &&
+          rootNode.children.includes(state.ui.selectedNode) && (
+            <BorderForSelected node={state.ui.selectedNode}>
+              <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
+              <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
+              <RightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
+              <BottomDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
+              <TopLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NW)} />
+              <TopRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NE)} />
+              <BottomLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SW)} />
+              <BottomRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SE)} />
+            </BorderForSelected>
+          )}
+        {(state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition) && (
           <FullGrid rootNode={rootNode} />
-        )}
-        {!(state.ui.addingAtom || state.ui.draggingNodePosition) && rootNode.children.includes(state.ui.selectedNode) && (
-          <BorderForSelected node={state.ui.selectedNode}>
-            <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
-            <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
-            <RightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
-            <BottomDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
-            <TopLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NW)} />
-            <TopRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NE)} />
-            <BottomLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SW)} />
-            <BottomRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SE)} />
-          </BorderForSelected>
         )}
       </Grid>
     </GridWrapper>
