@@ -4,7 +4,7 @@ import IconAtom from './Icon'
 import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
-import { ElementNode, Nodes, NodeTypes } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
 
 // element -> root node ->                       text node
 //                                               ^       ^

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, NodeTypes } from '@src/Interfaces/nodes'
+import { Alignment, NodeTypes } from '@src/interfaces/nodes'
 import { uuid } from '@src/utils'
-import { FontSizeName } from '@src/Interfaces/styles'
+import { FontSizeName } from '@src/interfaces/styles'
 
 const Menu = styled.div`
   background: rgb(244, 244, 244);

@@ -26,7 +26,7 @@ const Editor = () => {
       <LeftMenu />
       {state.ui.router[0] === undefined && <HomePage />}
       {state.ui.router[0] === RouterPaths.elements && <Elements />}
-      {state.ui.router[0] === RouterPaths.component && <Components />}
+      {state.ui.router[0] === RouterPaths.components && <Components />}
       {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}

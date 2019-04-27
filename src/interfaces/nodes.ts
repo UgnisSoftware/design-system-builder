@@ -1,5 +1,5 @@
-import { FontSizeName } from '@src/Interfaces/styles'
-import { Elements } from '@src/Interfaces/elements'
+import { FontSizeName } from '@src/interfaces/styles'
+import { Elements } from '@src/interfaces/elements'
 
 export type iconTypes =
   | '3d_rotation'

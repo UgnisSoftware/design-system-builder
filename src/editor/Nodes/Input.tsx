@@ -1,4 +1,4 @@
-import { ElementNode, InputNode, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, InputNode, RootNode } from '@src/interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'

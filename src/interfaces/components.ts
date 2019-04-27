@@ -1,4 +1,4 @@
-import { RootNode } from '@src/Interfaces/nodes'
+import { RootNode } from '@src/interfaces/nodes'
 
 export interface Component {
   id: string

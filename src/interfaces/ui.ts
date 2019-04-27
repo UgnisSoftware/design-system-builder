@@ -1,4 +1,4 @@
-import { Nodes, NodeTypes, RootNode } from '@src/Interfaces/nodes'
+import { Nodes, NodeTypes, RootNode } from '@src/interfaces/nodes'
 
 export enum DragDirection {
   N = 'N',

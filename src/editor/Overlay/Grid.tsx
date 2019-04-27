@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { Nodes, RootNode, Units } from '@src/Interfaces/nodes'
+import { Nodes, RootNode, Units } from '@src/interfaces/nodes'
 import { Colors } from '@src/styles'
 import state from '@state'
-import { DragDirection } from '@src/Interfaces/ui'
+import { DragDirection } from '@src/interfaces/ui'
 
 interface BorderProps {
   col: number

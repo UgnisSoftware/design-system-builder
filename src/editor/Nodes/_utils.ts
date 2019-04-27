@@ -1,4 +1,4 @@
-import { ElementNode, Nodes, NodeTypes } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
 import state from '@state'
 
 export const selectComponent = (component: Nodes, parent?: ElementNode) => e => {

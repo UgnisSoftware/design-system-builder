@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow, FontSizeName } from '@src/Interfaces/styles'
+import { Border, BoxShadow, FontSizeName } from '@src/interfaces/styles'
 import { Colors } from '@src/styles'
-import { ComponentStateMenu } from '@src/Interfaces/ui'
-import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/Interfaces/nodes'
+import { ComponentStateMenu } from '@src/interfaces/ui'
+import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/interfaces/nodes'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;
@@ -134,7 +134,7 @@ const FontSize = styled.div`
   font-size: 18px;
 `
 
-const changeBackground = (colorId: string, stateManager?: ComponentStateMenu) => () => {
+const changeBackground = (colorId: string | null, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].backgroundColorId = colorId
     return
@@ -278,8 +278,14 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
     <InfoColumn>
       <Title>Background Color</Title>
       <IconRow>
+        <ColorBox
+          selected={component.backgroundColorId === null}
+          color="#ffffff"
+          onClick={changeBackground(null, stateManager)}
+        />
         {Object.keys(state.styles.colors).map(colorIndex => (
           <ColorBox
+            key={colorIndex}
             selected={component.backgroundColorId === state.styles.colors[colorIndex].id}
             title={state.styles.colors[colorIndex].name}
             color={state.styles.colors[colorIndex].hex}
@@ -310,6 +316,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
         />
         {state.styles.border.map(border => (
           <BorderBox
+            key={border.id}
             selected={component.border === border.id}
             border={border}
             onClick={changeBorder(border, stateManager)}
@@ -329,6 +336,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
         />
         {state.styles.boxShadow.map(boxShadow => (
           <BoxShadowBox
+            key={boxShadow.id}
             selected={component.boxShadow === boxShadow.id}
             boxShadow={boxShadow}
             onClick={changeBoxShadow(boxShadow, stateManager)}
@@ -457,6 +465,7 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
       <IconRow>
         {Object.keys(state.styles.colors).map(colorIndex => (
           <ColorBox
+            key={colorIndex}
             selected={component.fontColorId === state.styles.colors[colorIndex].id}
             title={state.styles.colors[colorIndex].name}
             color={state.styles.colors[colorIndex].hex}
@@ -490,7 +499,7 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
       <Title>Font family</Title>
       <IconRow>
         {state.styles.fonts.map(font => (
-          <StylelessButton title={font.fontFamily} onClick={changeFontFamily(font.id, stateManager)}>
+          <StylelessButton key={font.id} title={font.fontFamily} onClick={changeFontFamily(font.id, stateManager)}>
             {font.fontFamily}
           </StylelessButton>
         ))}
@@ -511,6 +520,7 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
       <IconRow>
         {Object.keys(state.styles.colors).map(colorIndex => (
           <ColorBox
+            key={colorIndex}
             selected={component.fontColorId === state.styles.colors[colorIndex].id}
             title={state.styles.colors[colorIndex].name}
             color={state.styles.colors[colorIndex].hex}
@@ -543,7 +553,7 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
   </>
 )
 
-const ElementMutators = ({ component, stateManager }: IconMutatorProps) => <>Overrides</>
+const ElementMutators = ({  }: IconMutatorProps) => <>Overrides</>
 
 const Mutators = ({ stateManager }: MutatorProps) => {
   const component = stateManager

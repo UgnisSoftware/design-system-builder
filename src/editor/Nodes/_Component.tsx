@@ -5,7 +5,7 @@ import RootAtom from './Root'
 import BoxAtom from './Box'
 import InputAtom from './Input'
 import TextAtom from './Text'
-import { Nodes, NodeTypes } from '@src/Interfaces/nodes'
+import { Nodes, NodeTypes } from '@src/interfaces/nodes'
 import IconAtom from '@src/editor/Nodes/Icon'
 import state from '@state'
 

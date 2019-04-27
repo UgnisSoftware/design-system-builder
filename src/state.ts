@@ -1,7 +1,7 @@
 import { proxify } from 'lape'
-import { State } from '@src/Interfaces/state'
-import { FontSizeName } from '@src/Interfaces/styles'
-import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
+import { State } from '@src/interfaces/state'
+import { FontSizeName } from '@src/interfaces/styles'
+import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 
 const defaultState: State = {
@@ -24,14 +24,30 @@ const defaultState: State = {
         overflow: Overflow.visible,
         columns: [
           {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
           },
         ],
         rows: [
           {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
           },
         ],
         children: [
@@ -39,10 +55,10 @@ const defaultState: State = {
             id: '55a53c774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.center,
@@ -79,14 +95,30 @@ const defaultState: State = {
         overflow: Overflow.visible,
         columns: [
           {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
           },
         ],
         rows: [
           {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
           },
         ],
         children: [
@@ -94,10 +126,10 @@ const defaultState: State = {
             id: '55a3c7774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.center,
@@ -150,7 +182,7 @@ const defaultState: State = {
             unit: Units.Fr,
           },
         ],
-        backgroundColorId: 'cccc-3333',
+        backgroundColorId: null,
         border: 'borbor-6666',
         boxShadow: null,
         focus: {},

@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { GridProperty, Nodes, NodeTypes, Padding, Units } from '@src/Interfaces/nodes'
+import { GridProperty, Nodes, NodeTypes, Padding, Units } from '@src/interfaces/nodes'
 import * as React from 'react'
 import state from '@state'
 import TextInput from '../TextInput'
 import { Colors } from '@src/styles'
 import { connect } from 'lape'
-import { DragDirection } from '@src/Interfaces/ui'
+import { DragDirection } from '@src/interfaces/ui'
 
 interface BorderProps {
   col: number

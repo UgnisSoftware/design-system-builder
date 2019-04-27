@@ -7,7 +7,7 @@ import chroma from 'chroma-js'
 import state from '@state'
 import { findNearestColor } from './colorList'
 import { connect } from 'lape'
-import { Color } from '@src/Interfaces/styles'
+import { Color } from '@src/interfaces/styles'
 
 const Wrapper = styled.div`
   position: relative;

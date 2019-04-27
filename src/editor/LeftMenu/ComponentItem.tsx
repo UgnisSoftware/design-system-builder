@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
-import { Component } from '@src/Interfaces/components'
+import { Component } from '@src/interfaces/components'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
 
