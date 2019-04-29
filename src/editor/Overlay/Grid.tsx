@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { Nodes, RootNode } from '@src/Interfaces/nodes'
+import { Nodes, RootNode, Units } from '@src/interfaces/nodes'
 import { Colors } from '@src/styles'
 import state from '@state'
-import { DragDirection } from '@src/Interfaces/ui'
+import { DragDirection } from '@src/interfaces/ui'
 
 interface BorderProps {
   col: number
@@ -12,21 +12,47 @@ interface BorderProps {
 }
 
 const BorderTop = styled.div`
+  position: relative;
   grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
   grid-row: 1 / 2;
   border: ${Colors.grey200} dashed 1px;
   user-select: none;
-  background: ${Colors.grey100};
+  background: ${({ selected }) => (selected ? Colors.grey200 : Colors.grey100)};
   border-radius: 4px;
 `
 
 const BorderLeft = styled.div`
+  position: relative;
   grid-column: 1 / 2;
   grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
   border: ${Colors.grey200} dashed 1px;
   user-select: none;
-  background: ${Colors.grey100};
+  background: ${({ selected }) => (selected ? Colors.grey200 : Colors.grey100)};
   border-radius: 4px;
+`
+
+const TopText = styled.div`
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+`
+
+const LeftText = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 30px;
+  display: flex;
+  align-items: center;
+`
+
+const Input = styled.input`
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid ${Colors.grey200};
 `
 
 interface Props {
@@ -38,9 +64,9 @@ interface SelectedProps {
 
 const GridTop = styled.div`
   position: absolute;
-  width: calc(100% - 70px);
-  left: 70px;
-  top: 0px;
+  width: 100%;
+  left: 0px;
+  top: -70px;
   display: grid;
   grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: 20px;
@@ -48,9 +74,9 @@ const GridTop = styled.div`
 const GridLeft = styled.div`
   position: absolute;
   width: 20px;
-  height: calc(100% - 70px);
-  left: 0px;
-  top: 70px;
+  height: 100%;
+  left: -70px;
+  top: 0px;
   display: grid;
   grid-template-columns: 20px;
   grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map(col => col.value + col.unit).join(' ')};
@@ -71,8 +97,8 @@ const BorderForSelected = styled.div`
 
 const GridWrapper = styled.div`
   position: absolute;
-  left: 70px;
-  top: 70px;
+  left: 0;
+  top: 0;
   right: 0;
   bottom: 0;
 `
@@ -97,10 +123,10 @@ const GridOverlayWrapper = styled.div`
         `
       : ''};
   position: absolute;
-  left: -70px;
-  top: -70px;
-  width: calc(100% + 70px);
-  height: calc(100% + 70px);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 `
 
 const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => e => {
@@ -114,6 +140,7 @@ const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => e => {
 
   function stopDragging(event) {
     state.ui.expandingNode = null
+    state.ui.hoveredCell = null
     event.preventDefault()
     window.removeEventListener('mouseup', stopDragging)
     window.removeEventListener('touchend', stopDragging)
@@ -191,16 +218,80 @@ const BottomRightDrag = styled(CornerDrag)`
   cursor: se-resize;
 `
 
+const StylelessButton = styled.button.attrs({ type: 'button' })`
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+`
+
+const AddColumnButton = styled(StylelessButton)`
+  position: absolute;
+  top: -76px;
+  right: -40px;
+  border: 1px solid ${Colors.grey500};
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: ${Colors.grey100};
+  font-size: 28px;
+`
+const AddRowButton = styled(StylelessButton)`
+  position: absolute;
+  bottom: -40px;
+  left: -76px;
+  border: 1px solid ${Colors.grey500};
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: ${Colors.grey100};
+  font-size: 28px;
+`
+
 interface Props {
   rootNode: RootNode
 }
 
+const onTileClick = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
+  if (state.ui.showGrid) {
+    state.ui.selectedCell = {
+      component: rootNode,
+      rowIndex,
+      colIndex,
+    }
+  }
+}
+
 const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
-  if (state.ui.addingAtom || state.ui.draggingNodePosition) {
+  if (state.ui.expandingNode || state.ui.addingAtom || state.ui.draggingNodePosition) {
     state.ui.hoveredCell = {
       component: rootNode,
       rowIndex,
       colIndex,
+    }
+  }
+
+  if (state.ui.expandingNode) {
+    const direction = state.ui.expandingNode.direction
+    const position = state.ui.expandingNode.node.position
+    const columnPositive = [DragDirection.E, DragDirection.SE, DragDirection.NE].includes(direction)
+    const columnNegative = [DragDirection.W, DragDirection.SW, DragDirection.NW].includes(direction)
+    const rowPositive = [DragDirection.S, DragDirection.SW, DragDirection.SE].includes(direction)
+    const rowNegative = [DragDirection.N, DragDirection.NE, DragDirection.NW].includes(direction)
+
+    if (columnPositive && colIndex + 2 > position.columnStart) {
+      position.columnEnd = colIndex + 2
+    }
+    if (columnNegative && colIndex + 1 < position.columnEnd) {
+      position.columnStart = colIndex + 1
+    }
+    if (rowPositive && rowIndex + 2 > position.rowStart) {
+      position.rowEnd = rowIndex + 2
+    }
+    if (rowNegative && rowIndex + 1 < position.rowEnd) {
+      position.rowStart = rowIndex + 1
     }
   }
 }
@@ -219,12 +310,41 @@ const FullGrid = ({ rootNode }: Props) => (
               state.ui.hoveredCell.colIndex === colIndex &&
               state.ui.hoveredCell.rowIndex === rowIndex)
           }
+          onClick={onTileClick(rootNode, rowIndex, colIndex)}
           onMouseOver={onMouseOver(rootNode, rowIndex, colIndex)}
         />
       )),
     )}
   </>
 )
+
+const addColumn = (rootNode: RootNode) => () => {
+  rootNode.columns.push({
+    value: 100,
+    unit: Units.Px,
+  })
+}
+
+const addRow = (rootNode: RootNode) => () => {
+  rootNode.rows.push({
+    value: 100,
+    unit: Units.Px,
+  })
+}
+
+const changeColumnValue = (rootNode: RootNode, index: number) => e => {
+  rootNode.columns[index].value = e.target.value
+}
+const changeRowValue = (rootNode: RootNode, index: number) => e => {
+  rootNode.rows[index].value = e.target.value
+}
+
+const changeColumnUnits = (rootNode: RootNode, index: number) => e => {
+  rootNode.columns[index].unit = e.target.value
+}
+const changeRowUnits = (rootNode: RootNode, index: number) => e => {
+  rootNode.rows[index].unit = e.target.value
+}
 
 /*
  * This Component is responsible for:
@@ -235,37 +355,86 @@ const FullGrid = ({ rootNode }: Props) => (
  *   Editing text - state.ui.editingTextNode
  */
 const GridOverlay = ({ rootNode }: Props) => (
-  <GridOverlayWrapper visible={state.ui.addingAtom || state.ui.draggingNodePosition}>
+  <GridOverlayWrapper
+    visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition}
+  >
     {state.ui.showGrid && (
       <>
         <GridTop rootNode={rootNode}>
-          {rootNode.columns.map((_, colIndex) => (
-            <BorderTop key={`col_${colIndex}`} col={colIndex + 1} />
-          ))}
+          {rootNode.columns.map((_, colIndex) => {
+            const selected =
+              state.ui.selectedCell &&
+              state.ui.selectedCell.component === rootNode &&
+              state.ui.selectedCell.colIndex === colIndex
+            return (
+              <BorderTop
+                key={`col_${colIndex}`}
+                col={colIndex + 1}
+                selected={selected}
+                onClick={onTileClick(rootNode, null, colIndex)}
+              >
+                {selected && (
+                  <TopText>
+                    <Input value={rootNode.columns[colIndex].value} onChange={changeColumnValue(rootNode, colIndex)} />
+                    <select value={rootNode.columns[colIndex].unit} onChange={changeColumnUnits(rootNode, colIndex)}>
+                      <option value={Units.Px}>Px</option>
+                      <option value={Units.Fr}>Fr</option>
+                    </select>
+                  </TopText>
+                )}
+              </BorderTop>
+            )
+          })}
         </GridTop>
         <GridLeft rootNode={rootNode}>
-          {rootNode.rows.map((_, rowIndex) => (
-            <BorderLeft key={`row_${rowIndex}`} row={rowIndex + 1} />
-          ))}
+          {rootNode.rows.map((_, rowIndex) => {
+            const selected =
+              state.ui.selectedCell &&
+              state.ui.selectedCell.component === rootNode &&
+              state.ui.selectedCell.rowIndex === rowIndex
+            return (
+              <>
+                <BorderLeft
+                  key={`row_${rowIndex}`}
+                  row={rowIndex + 1}
+                  selected={selected}
+                  onClick={onTileClick(rootNode, rowIndex, null)}
+                >
+                  {selected && (
+                    <LeftText>
+                      <Input value={rootNode.rows[rowIndex].value} onChange={changeRowValue(rootNode, rowIndex)} />
+                      <select value={rootNode.rows[rowIndex].unit} onChange={changeRowUnits(rootNode, rowIndex)}>
+                        <option value={Units.Px}>Px</option>
+                        <option value={Units.Fr}>Fr</option>
+                      </select>
+                    </LeftText>
+                  )}
+                </BorderLeft>
+              </>
+            )
+          })}
         </GridLeft>
+        <AddColumnButton onClick={addColumn(rootNode)}>+</AddColumnButton>
+        <AddRowButton onClick={addRow(rootNode)}>+</AddRowButton>
       </>
     )}
     <GridWrapper>
       <Grid rootNode={rootNode}>
-        {(state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition) && (
+        {!(state.ui.addingAtom || state.ui.draggingNodePosition || state.ui.expandingNode) &&
+          rootNode.children.includes(state.ui.selectedNode) && (
+            <BorderForSelected node={state.ui.selectedNode}>
+              <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
+              <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
+              <RightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
+              <BottomDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
+              <TopLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NW)} />
+              <TopRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NE)} />
+              <BottomLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SW)} />
+              <BottomRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SE)} />
+            </BorderForSelected>
+          )}
+        {(state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition) && (
           <FullGrid rootNode={rootNode} />
-        )}
-        {!(state.ui.addingAtom || state.ui.draggingNodePosition) && rootNode.children.includes(state.ui.selectedNode) && (
-          <BorderForSelected node={state.ui.selectedNode}>
-            <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
-            <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
-            <RightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
-            <BottomDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
-            <TopLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NW)} />
-            <TopRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NE)} />
-            <BottomLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SW)} />
-            <BottomRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SE)} />
-          </BorderForSelected>
         )}
       </Grid>
     </GridWrapper>

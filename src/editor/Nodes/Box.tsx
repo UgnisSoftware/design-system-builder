@@ -1,7 +1,7 @@
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { BoxNode, ElementNode, ObjectFit } from '@src/Interfaces/nodes'
+import { BoxNode, ElementNode, ObjectFit } from '@src/interfaces/nodes'
 import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface BoxProps {

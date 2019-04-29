@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Border } from '@src/Interfaces/styles'
+import { Border } from '@src/interfaces/styles'
 
 const Wrapper = styled.div`
   display: flex;

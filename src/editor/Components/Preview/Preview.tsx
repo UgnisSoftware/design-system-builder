@@ -5,7 +5,6 @@ import AddComponentMenu from './AddComponentMenu/AddComponentMenu'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import AddingAtom from '@src/editor/Components/Preview/AddingAtom'
-import { getCurrentComponent } from '@src/selectors/router'
 import AddComponentButton from '@src/editor/TopBar/AddComponentButton'
 import GridOverlay from '@src/editor/Overlay/Grid'
 
@@ -39,6 +38,9 @@ const AlignCenter = styled.div`
   grid-row: 1 / -1;
   align-self: center;
 `
+const Dimmer = styled.div`
+  opacity: ${() => (state.ui.showGrid ? 0.3 : 1)};
+`
 
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
@@ -56,7 +58,9 @@ const Preview = () => {
     <Wrapper onClick={unselectComponent}>
       <PerspectiveBox onClick={unselectComponent}>
         <AlignCenter>
-          <Component component={component.root} parent={null} />
+          <Dimmer>
+            <Component component={component.root} />
+          </Dimmer>
           <GridOverlay rootNode={component.root} />
         </AlignCenter>
       </PerspectiveBox>

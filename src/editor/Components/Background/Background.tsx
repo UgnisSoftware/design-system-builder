@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { RootNode } from '@src/Interfaces/nodes'
+import { NodeTypes, RootNode } from '@src/interfaces/nodes'
 
 const ElementsWrapper = styled.div`
   position: relative;
@@ -24,13 +24,13 @@ const removeNode = (node: RootNode) => {
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
-  const component = state.components[state.ui.router[2]]
+  const component = state[state.ui.router[0]][state.ui.router[1]]
 
   if (
     (del || backspace) &&
     state.ui.selectedNode &&
     !state.ui.editingTextNode &&
-    component.root !== state.ui.selectedNode
+    state.ui.selectedNode.type !== NodeTypes.Root
   ) {
     removeNode(component.root)
     state.ui.selectedNode = null

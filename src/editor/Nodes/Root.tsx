@@ -1,13 +1,8 @@
-import { ElementNode, Nodes, ObjectFit, RootNode } from '@src/Interfaces/nodes'
+import { ElementNode, ObjectFit, RootNode } from '@src/interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-
-const selectComponent = (component: Nodes) => e => {
-  if (e.currentTarget === e.target) {
-    state.ui.selectedNode = component
-  }
-}
+import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface RootProps {
   component: RootNode
@@ -61,8 +56,8 @@ const componentToStyle = (component: RootNode) => {
   return component
 }
 
-const Root = ({ component, children }: RootProps) => (
-  <RootWrapper parent={parent} component={componentToStyle(component)} onMouseDown={selectComponent(component)}>
+const Root = ({ component, parent, children }: RootProps) => (
+  <RootWrapper parent={parent} component={componentToStyle(component)} onMouseDown={selectComponent(component, parent)}>
     {children}
   </RootWrapper>
 )

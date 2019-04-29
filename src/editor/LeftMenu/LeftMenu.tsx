@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Component } from '@src/Interfaces/components'
+import { Component } from '@src/interfaces/components'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -12,7 +12,7 @@ import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/utils'
 import { route } from '@src/actions'
 import StaticItem from '@src/editor/LeftMenu/StaticItem'
-import { Alignment, NodeTypes, Overflow, Units } from '@src/Interfaces/nodes'
+import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import Link from '@components/Link/Link'
 
 const LeftMenuBox = styled.div`
@@ -121,7 +121,7 @@ const addComponent = value => {
       focus: {},
     },
   }
-  route(RouterPaths.component, newId)
+  route(RouterPaths.components, newId)
   state.components[newId] = newComponent
   state.ui.addingComponent = false
 }
@@ -159,7 +159,7 @@ const LeftMenu = () => (
     {Object.values(state.components)
       .sort(sortComponents)
       .map(component => (
-        <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.component, component.id)} />
+        <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.components, component.id)} />
       ))}
 
     <Title>Settings</Title>

@@ -1,7 +1,7 @@
 import { proxify } from 'lape'
-import { State } from '@src/Interfaces/state'
-import { FontSizeName } from '@src/Interfaces/styles'
-import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/Interfaces/nodes'
+import { State } from '@src/interfaces/state'
+import { FontSizeName } from '@src/interfaces/styles'
+import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 
 const defaultState: State = {
@@ -24,25 +24,41 @@ const defaultState: State = {
         overflow: Overflow.visible,
         columns: [
           {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
           },
         ],
         rows: [
           {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
           },
         ],
         children: [
           {
-            id: '55a3c774',
+            id: '55a53c774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.center,
@@ -79,25 +95,41 @@ const defaultState: State = {
         overflow: Overflow.visible,
         columns: [
           {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
           },
         ],
         rows: [
           {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
           },
         ],
         children: [
           {
-            id: '55a3c774',
+            id: '55a3c7774',
             type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.center,
@@ -150,14 +182,14 @@ const defaultState: State = {
             unit: Units.Fr,
           },
         ],
-        backgroundColorId: 'cccc-3333',
+        backgroundColorId: null,
         border: 'borbor-6666',
         boxShadow: null,
         focus: {},
         hover: {},
         children: [
           {
-            id: 'ef3fb266',
+            id: 'ef3fb8266',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -176,7 +208,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'as541d89',
+            id: 'as5491d89',
             type: NodeTypes.Input,
             position: {
               columnStart: 1,
@@ -665,7 +697,7 @@ const defaultState: State = {
         ],
         children: [
           {
-            id: '07f08fc0',
+            id: '07f083fc0',
             type: NodeTypes.Box,
             position: {
               columnStart: 1,
@@ -685,7 +717,7 @@ const defaultState: State = {
             hover: {},
           },
           {
-            id: 'ef3fb266',
+            id: 'ef3fb4266',
             type: NodeTypes.Text,
             position: {
               columnStart: 1,
@@ -704,7 +736,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'ef3fb266',
+            id: 'ef3f5b266',
             type: NodeTypes.Element,
             elementType: 'Input',
             elementId: 'Text Input',
@@ -780,7 +812,7 @@ const defaultState: State = {
         hover: {},
         children: [
           {
-            id: 'test1',
+            id: 'te6st1',
             type: NodeTypes.Text,
             alignment: {
               horizontal: Alignment.center,
@@ -799,7 +831,7 @@ const defaultState: State = {
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'test2',
+            id: 'test32',
             type: NodeTypes.Text,
             alignment: {
               horizontal: Alignment.center,
@@ -1202,7 +1234,9 @@ const defaultState: State = {
     addingComponent: false,
     addingAtom: null,
     hoveredCell: null,
+    selectedCell: null,
     selectedNode: null,
+    selectedNodeToOverride: null,
     expandingNode: null,
     draggingNodePosition: null,
     stateManager: null,

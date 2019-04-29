@@ -1,7 +1,7 @@
 import * as React from 'react'
 import state from '@state'
 import { connect } from 'lape'
-import { NodeTypes } from '@src/Interfaces/nodes'
+import { NodeTypes } from '@src/interfaces/nodes'
 
 const AddingAtom = () => {
   if (state.ui.addingAtom.type === NodeTypes.Text) {

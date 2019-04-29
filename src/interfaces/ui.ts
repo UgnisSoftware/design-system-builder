@@ -1,4 +1,4 @@
-import { ElementNode, Nodes, NodeTypes, RootNode } from '@src/Interfaces/nodes'
+import { Nodes, NodeTypes, RootNode } from '@src/interfaces/nodes'
 
 export enum DragDirection {
   N = 'N',
@@ -40,7 +40,7 @@ export interface UI {
   showAddComponentMenu: boolean
   showGrid: boolean
   selectedNode: Nodes
-  selectedNodeParent: ElementNode
+  selectedNodeToOverride: Nodes
   expandingNode: {
     node: Nodes
     parent: RootNode
@@ -52,5 +52,6 @@ export interface UI {
   }
   addingAtom: AddingAtom
   hoveredCell: HoveredCell
+  selectedCell: HoveredCell
   stateManager?: ComponentStateMenu
 }

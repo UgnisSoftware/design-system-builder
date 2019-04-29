@@ -1,7 +1,7 @@
 import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
-import { ElementNode, Nodes, RootNode, TextNode } from '@src/Interfaces/nodes'
+import { ElementNode, Nodes, TextNode } from '@src/interfaces/nodes'
 import { selectComponent } from '@src/editor/Nodes/_utils'
 
 interface TextProps {

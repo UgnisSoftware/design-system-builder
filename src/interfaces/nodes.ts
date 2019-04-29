@@ -1,5 +1,5 @@
-import { FontSizeName } from '@src/Interfaces/styles'
-import { Elements } from '@src/Interfaces/elements'
+import { FontSizeName } from '@src/interfaces/styles'
+import { Elements } from '@src/interfaces/elements'
 
 export type iconTypes =
   | '3d_rotation'
@@ -1052,12 +1052,20 @@ export interface InputNode extends SharedNodeProps {
   focus: Partial<InputNode>
   hover: Partial<InputNode>
 }
+export interface LabelNode extends SharedNodeProps {
+  type: NodeTypes.Input
+  label: string
+  focus: Partial<InputNode>
+  hover: Partial<InputNode>
+}
 
 export interface IconNode extends SharedNodeProps {
   type: NodeTypes.Icon
   iconType: iconTypes
+  fontSize: FontSizeName
+  fontColorId?: string
   focus: Partial<IconNode>
   hover: Partial<IconNode>
 }
 
-export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode
+export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | LabelNode | IconNode
