@@ -6,8 +6,8 @@ import { parseUrl } from '@src/utils'
 
 const defaultState: State = {
   elements: {
-    Button: {
-      Primary: {
+    Buttons: [
+      {
         id: 'rootId',
         type: NodeTypes.Root,
         nodeType: NodeTypes.Button,
@@ -78,7 +78,7 @@ const defaultState: State = {
         focus: {},
         hover: {},
       },
-      Secondary: {
+      {
         id: 'rootId',
         type: NodeTypes.Root,
         nodeType: NodeTypes.Button,
@@ -149,9 +149,9 @@ const defaultState: State = {
         focus: {},
         hover: {},
       },
-    },
-    Input: {
-      'Text Input': {
+    ],
+    Inputs: [
+      {
         id: 'rootId',
         type: NodeTypes.Root,
         nodeType: NodeTypes.Box,
@@ -228,9 +228,9 @@ const defaultState: State = {
           },
         ],
       },
-    },
-    Dropdown: {
-      default: {
+    ],
+    Dropdowns: [
+      {
         input: {
           id: 'rootId',
           type: NodeTypes.Root,
@@ -300,7 +300,7 @@ const defaultState: State = {
           children: [],
         },
       },
-    },
+    ],
 
     /* Checkbox: {
       default: {
@@ -738,7 +738,7 @@ const defaultState: State = {
           {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
-            elementType: 'Input',
+            elementType: 'Inputs',
             elementId: 'Text Input',
             position: {
               columnStart: 1,
@@ -873,7 +873,7 @@ const defaultState: State = {
             id: 'test4',
             type: NodeTypes.Element,
             elementId: 'Text Input',
-            elementType: 'Input',
+            elementType: 'Inputs',
             position: {
               columnStart: 1,
               columnEnd: 2,

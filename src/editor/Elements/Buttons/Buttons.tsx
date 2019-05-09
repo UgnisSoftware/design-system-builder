@@ -35,7 +35,7 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = Object.entries(state.elements.Button)
+  const buttonElement = Object.entries(state.elements.Buttons)
   return (
     <Wrapper onClick={unselectComponent}>
       {buttonElement.map(([key, button]) => (

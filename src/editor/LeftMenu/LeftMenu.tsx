@@ -38,6 +38,20 @@ const Title = styled.div`
   text-transform: uppercase;
 `
 
+const SubTitle = styled.div`
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  color: ${Colors.grey800};
+  padding: 16px 16px 6px 24px;
+  user-select: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  text-transform: uppercase;
+`
+
 const AddComponentBox = styled.div`
   cursor: pointer;
   width: 12px;
@@ -137,15 +151,14 @@ const LeftMenu = () => (
       </Logo>
     </Link>
     <Title>Elements</Title>
-    {Object.keys(state.elements).map(elementKey => (
-      <>
-        <StaticItem
-          onClick={route(RouterPaths.elements, elementKey)}
-          name={elementKey}
-          selected={state.ui.router[1] === elementKey}
-        />
-      </>
-    ))}
+    <SubTitle>
+      Buttons
+      {Object.keys({}).map(elementKey => (
+        <>
+          <StaticItem onClick={route(elementKey)} name={elementKey} selected={state.ui.router[1] === elementKey} />
+        </>
+      ))}
+    </SubTitle>
 
     <Title>
       Components

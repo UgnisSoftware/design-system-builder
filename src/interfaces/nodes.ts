@@ -953,6 +953,7 @@ export enum NodeTypes {
   Box = 'Box',
   Text = 'Text',
   Input = 'Input',
+  Label = 'Label',
   Image = 'Image',
   Button = 'Button',
   Link = 'Link',
@@ -1052,8 +1053,9 @@ export interface InputNode extends SharedNodeProps {
   focus: Partial<InputNode>
   hover: Partial<InputNode>
 }
+
 export interface LabelNode extends SharedNodeProps {
-  type: NodeTypes.Input
+  type: NodeTypes.Label
   label: string
   focus: Partial<InputNode>
   hover: Partial<InputNode>
