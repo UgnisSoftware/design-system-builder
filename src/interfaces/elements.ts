@@ -24,45 +24,36 @@ export interface Element {
 
 //export type Elements = { [id: string]: Element }
 
+/*
+ * Elements
+ *
+ */
+
+// const Buttons: Element[] = [
+//   {
+//     id: '1233345',
+//     name: 'Primary',
+//     type: ElementTypes.Breadcrumb,
+//     root: {
+//       id: '1233',
+//
+//     },
+//   },
+// ]
+
 export interface Elements {
-  Buttons: {
-    Primary: RootNode // text overridable background overridable
-    Secondary: RootNode // text overridable background overridable
-    Tertiary: RootNode // text overridable background overridable
-    Icon: RootNode // Icon overridable, background overridable
-  }
-
-  Inputs: {
-    'Text Input': RootNode
-    'Number Input': RootNode // React number format
-    'Autocomplete Input': RootNode
-    'Autocomplete Dropdown': RootNode
-    'Select Input': RootNode // React Select
-    'Select Dropdown': RootNode // React Select
-    'Slider Input': RootNode
-    'Range Input': RootNode
-    'Radio Buttons': RootNode
-    'Check Box': RootNode
-    'Date Picker Input': RootNode
-    'Date Picker Dropdown': RootNode
-  }
-
-  Popups: {
-    Sidebar: RootNode
-    Popup: RootNode
-    Tooltip: RootNode
-  }
-
-  Loaders: {
-    Spinner: RootNode
-  }
-  Tables: {}
-  // Breadcrumb: GenericPlaceholderElement[]
-  // Pagination: GenericPlaceholderElement[]
-  // Video: GenericPlaceholderElement[]
-  // Map: GenericPlaceholderElement[]
-}
-
-export interface ElementProxies {
-  elements: string[]
+  Buttons: Element[]
+  TextInputs: Element[]
+  Autocomplete: Element[]
+  Select: Element[]
+  Slider: Element[]
+  Range: Element[]
+  Radio: Element[]
+  CheckBox: Element[]
+  DatePicker: Element[]
+  Sidebar: Element[]
+  Popup: Element[]
+  Tooltip: Element[]
+  Loaders: Element[]
+  Tables: Element[]
 }

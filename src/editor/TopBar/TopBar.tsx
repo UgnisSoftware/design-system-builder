@@ -11,10 +11,10 @@ const TopBarBox = styled.div`
   background: rgb(248, 248, 248);
   box-shadow: inset 0 -1px 0 0 rgb(0, 0, 0, 0.113);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   font-size: 24px;
   user-select: none;
-  height: 64px;
 `
 const AlignRight = styled.div`
   margin-left: auto;
@@ -52,9 +52,8 @@ const StylelessButton = styled.button.attrs({ type: 'button' })`
 `
 
 const Divider = styled.div`
-  width: 3px;
-  height: 85%;
-  flex: 0 0 2px;
+  width: 2px;
+  align-self: stretch;
   background: #dfdfdf;
   border-radius: 5px;
   margin: 0 12px 0 8px;
@@ -606,7 +605,6 @@ const TopBar = () => (
             <InfoColumn>
               <Title>State</Title>
               <IconRow>
-                <Divider />
                 <StylelessButton
                   title="Hovered"
                   className="material-icons"

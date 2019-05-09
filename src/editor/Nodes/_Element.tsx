@@ -3,6 +3,7 @@ import RootAtom from './Root'
 import IconAtom from './Icon'
 import BoxAtom from './Box'
 import InputAtom from './Input'
+import LabelAtom from './Label'
 import TextAtom from './Text'
 import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
 
@@ -45,7 +46,8 @@ import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
 //       {
 //         id: '123213',
 //         type: 'element',
-//         elementId: 'button',
+//         elementType: 'button'
+//         elementId: 'button-id', // Changing ElementId removes overrides
 //         overrides: {
 //           // overrides exposed by elements are also overrides exposed by component
 //           buttonText: { text: 'goodbye' }, // <- find by id and merge
@@ -130,6 +132,9 @@ function Element({ component, parent }: Props) {
   }
   if (component.type === NodeTypes.Input) {
     return <InputAtom component={component} parent={parent} />
+  }
+  if (component.type === NodeTypes.Label) {
+    return <LabelAtom component={component} parent={parent} />
   }
   if (component.type === NodeTypes.Icon) {
     return <IconAtom component={component} parent={parent} />
