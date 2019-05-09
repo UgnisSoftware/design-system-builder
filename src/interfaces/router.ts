@@ -4,13 +4,7 @@ export enum RouterPaths {
   components = 'components',
   exporting = 'exporting',
   assets = 'assets',
-
-  // Elements
   buttons = 'buttons',
   inputs = 'inputs',
   popups = 'popups',
-}
-
-export enum ElementRoutes {
-
 }

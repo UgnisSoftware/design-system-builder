@@ -11,7 +11,7 @@ import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/utils'
 import { route } from '@src/actions'
-import StaticItem from '@src/editor/LeftMenu/StaticItem'
+import ElementItem from '@src/editor/LeftMenu/StaticItem'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import Link from '@components/Link/Link'
 
@@ -150,15 +150,22 @@ const LeftMenu = () => (
         Ugnis
       </Logo>
     </Link>
-    <Title>Elements</Title>
+    <Title>
+      Elements
+    </Title>
     <SubTitle>
       Buttons
-      {Object.keys({}).map(elementKey => (
-        <>
-          <StaticItem onClick={route(elementKey)} name={elementKey} selected={state.ui.router[1] === elementKey} />
-        </>
-      ))}
+      <AddComponentBox><PlusSign/></AddComponentBox>
     </SubTitle>
+    {state.elements.Buttons.map(element => (
+      <>
+        <ElementItem
+          onClick={route(RouterPaths.buttons, element.id)}
+          name={element.name}
+          selected={state.ui.router[1] === element.id}
+        />
+      </>
+    ))}
 
     <Title>
       Components

@@ -8,7 +8,8 @@ const defaultState: State = {
   elements: {
     Buttons: [
       {
-        id: 'rootId',
+        id: 'button1',
+        name: 'button1',
         type: NodeTypes.Root,
         nodeType: NodeTypes.Button,
         position: {
@@ -79,8 +80,8 @@ const defaultState: State = {
         hover: {},
       },
       {
-        id: 'rootId',
-        type: NodeTypes.Root,
+        id: 'button2',
+        name: 'button2',
         nodeType: NodeTypes.Button,
         position: {
           columnStart: 1,

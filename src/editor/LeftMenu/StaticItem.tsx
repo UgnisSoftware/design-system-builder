@@ -13,7 +13,7 @@ export const Item = styled.div`
   line-height: 40px;
   height: 40px;
   transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-  padding-left: 24px;
+  padding-left: 32px;
   cursor: pointer;
   &:hover {
     background: rgb(238, 238, 238);
