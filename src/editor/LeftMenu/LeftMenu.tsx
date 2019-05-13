@@ -92,6 +92,7 @@ const LogoImg = styled.img`
 const showAddButton = () => {
   state.ui.addingButton = true
 }
+
 const addButton = value => {
   state.ui.addingButton = false
 
