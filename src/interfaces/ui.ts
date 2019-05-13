@@ -37,6 +37,7 @@ export interface UI {
   editingTextNode: Nodes
   editingBoxNode: Nodes
   addingComponent: boolean
+  addingButton: boolean
   showAddComponentMenu: boolean
   showGrid: boolean
   selectedNode: Nodes
