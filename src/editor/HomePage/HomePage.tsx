@@ -17,7 +17,6 @@ const HomePage = () => {
       <Container>Click on the left menu to start</Container>
       <Container>Setup - `npm i --save ugnis`, `ugnis open` or `ugnis compile`</Container>
       <Container>Ugnis as component library</Container>
-      <Paragraph>The application allows you to easily create your own components</Paragraph>
       <Container>Ugnis as CSS generator</Container>
     </Container>
   )
