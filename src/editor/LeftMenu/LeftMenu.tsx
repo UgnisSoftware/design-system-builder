@@ -13,7 +13,9 @@ import { uuid } from '@src/utils'
 import { route } from '@src/actions'
 import ElementItem from '@src/editor/LeftMenu/StaticItem'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
+import { Element } from '@src/interfaces/elements'
 import Link from '@components/Link/Link'
+import { FontSizeName } from '@src/Interfaces/styles'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -87,6 +89,92 @@ const LogoImg = styled.img`
   margin-right: -1px;
 `
 
+const showAddButton = () => {
+  state.ui.addingButton = true
+}
+const addButton = value => {
+  state.ui.addingButton = false
+
+  if (!value) {
+    return
+  }
+  const newId = uuid()
+  const newButton: Element = {
+    id: newId,
+    name: newId,
+    type: NodeTypes.Root,
+    nodeType: NodeTypes.Button,
+    position: {
+      columnStart: 1,
+      columnEnd: -1,
+      rowStart: 1,
+      rowEnd: -1,
+    },
+    alignment: {
+      horizontal: Alignment.stretch,
+      vertical: Alignment.stretch,
+    },
+    overflow: Overflow.visible,
+    columns: [
+      {
+        value: 12,
+        unit: Units.Px,
+      },
+      {
+        value: 1,
+        unit: Units.Fr,
+      },
+      {
+        value: 12,
+        unit: Units.Px,
+      },
+    ],
+    rows: [
+      {
+        value: 8,
+        unit: Units.Px,
+      },
+      {
+        value: 1,
+        unit: Units.Fr,
+      },
+      {
+        value: 8,
+        unit: Units.Px,
+      },
+    ],
+    children: [
+      {
+        id: '55a53c774',
+        type: NodeTypes.Text,
+        position: {
+          columnStart: 2,
+          columnEnd: 3,
+          rowStart: 2,
+          rowEnd: 3,
+        },
+        alignment: {
+          horizontal: Alignment.center,
+          vertical: Alignment.center,
+        },
+        text: 'Button',
+        fontColorId: 'white-6666',
+        fontSize: FontSizeName.S,
+        focus: {},
+        hover: {},
+        fontFamilyId: 'R1-123332',
+      },
+    ],
+    backgroundColorId: 'prim-1',
+    border: 'borbor-6666',
+    boxShadow: 'shadow-7777',
+    focus: {},
+    hover: {},
+  }
+  route(RouterPaths.buttons, newId)
+  state.elements.Buttons.push(newButton)
+}
+
 const showAddComponent = () => {
   state.ui.addingComponent = true
 }
@@ -150,12 +238,12 @@ const LeftMenu = () => (
         Ugnis
       </Logo>
     </Link>
-    <Title>
-      Elements
-    </Title>
+    <Title>Elements</Title>
     <SubTitle>
       Buttons
-      <AddComponentBox><PlusSign/></AddComponentBox>
+      <AddComponentBox onClick={addButton}>
+        <PlusSign />
+      </AddComponentBox>
     </SubTitle>
     {state.elements.Buttons.map(element => (
       <>

@@ -11,6 +11,7 @@
   "author": "Karolis Masiulis",
   "dependencies": {
     "chroma-js": "2.0.3",
+    "express": "^4.16.4",
     "lape": "4.2.1",
     "react": "16.8.6",
     "react-click-outside": "github:tj/react-click-outside",
