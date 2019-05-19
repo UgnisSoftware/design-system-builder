@@ -35,14 +35,13 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = Object.entries(state.elements.Buttons)
+  const buttonElement = state.elements.Buttons.find(button => button.id === state.ui.router[1])
+
   return (
     <Wrapper onClick={unselectComponent}>
-      {buttonElement.map(([key, button]) => (
-        <ElementWrapper>
-          <Element key={key} component={button} parent={null} />
-        </ElementWrapper>
-      ))}
+      <ElementWrapper>
+        <Element component={buttonElement.root} parent={null} />
+      </ElementWrapper>
     </Wrapper>
   )
 }

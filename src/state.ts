@@ -10,145 +10,152 @@ const defaultState: State = {
       {
         id: 'button1',
         name: 'button1',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 12,
-            unit: Units.Px,
+        root: {
+          id: 'button2',
+          type: NodeTypes.Root,
+          nodeType: NodeTypes.Button,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
           },
-          {
-            value: 1,
-            unit: Units.Fr,
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
           },
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-        ],
-        rows: [
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-        ],
-        children: [
-          {
-            id: '55a53c774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
+          overflow: Overflow.visible,
+          columns: [
+            {
+              value: 12,
+              unit: Units.Px,
             },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
+            {
+              value: 1,
+              unit: Units.Fr,
             },
-            text: 'Button',
-            fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-        ],
-        backgroundColorId: 'prim-1',
-        border: 'borbor-6666',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
+            {
+              value: 12,
+              unit: Units.Px,
+            },
+          ],
+          rows: [
+            {
+              value: 8,
+              unit: Units.Px,
+            },
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+            {
+              value: 8,
+              unit: Units.Px,
+            },
+          ],
+          children: [
+            {
+              id: '55a53c774',
+              type: NodeTypes.Text,
+              position: {
+                columnStart: 2,
+                columnEnd: 3,
+                rowStart: 2,
+                rowEnd: 3,
+              },
+              alignment: {
+                horizontal: Alignment.center,
+                vertical: Alignment.center,
+              },
+              text: 'Button',
+              fontColorId: 'white-6666',
+              fontSize: FontSizeName.S,
+              focus: {},
+              hover: {},
+              fontFamilyId: 'R1-123332',
+            },
+          ],
+          backgroundColorId: 'prim-1',
+          border: 'borbor-6666',
+          boxShadow: 'shadow-7777',
+          focus: {},
+          hover: {},
+        },
       },
       {
         id: 'button2',
         name: 'button2',
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 12,
-            unit: Units.Px,
+        root: {
+          id: 'button2',
+          type: NodeTypes.Root,
+          nodeType: NodeTypes.Button,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
           },
-          {
-            value: 1,
-            unit: Units.Fr,
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
           },
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-        ],
-        rows: [
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-        ],
-        children: [
-          {
-            id: '55a3c7774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
+          overflow: Overflow.visible,
+          columns: [
+            {
+              value: 12,
+              unit: Units.Px,
             },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
+            {
+              value: 1,
+              unit: Units.Fr,
             },
-            text: 'Button',
-            fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-        ],
-        backgroundColorId: 'secn-1',
-        border: 'borbor-6666',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
+            {
+              value: 12,
+              unit: Units.Px,
+            },
+          ],
+          rows: [
+            {
+              value: 8,
+              unit: Units.Px,
+            },
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
+            {
+              value: 8,
+              unit: Units.Px,
+            },
+          ],
+          children: [
+            {
+              id: '55a3c7774',
+              type: NodeTypes.Text,
+              position: {
+                columnStart: 2,
+                columnEnd: 3,
+                rowStart: 2,
+                rowEnd: 3,
+              },
+              alignment: {
+                horizontal: Alignment.center,
+                vertical: Alignment.center,
+              },
+              text: 'Button',
+              fontColorId: 'white-6666',
+              fontSize: FontSizeName.S,
+              focus: {},
+              hover: {},
+              fontFamilyId: 'R1-123332',
+            },
+          ],
+          backgroundColorId: 'secn-1',
+          border: 'borbor-6666',
+          boxShadow: 'shadow-7777',
+          focus: {},
+          hover: {},
+        },
       },
     ],
     Inputs: [

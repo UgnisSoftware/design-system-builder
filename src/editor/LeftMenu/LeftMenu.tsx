@@ -15,7 +15,7 @@ import ElementItem from '@src/editor/LeftMenu/StaticItem'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import { Element } from '@src/interfaces/elements'
 import Link from '@components/Link/Link'
-import { FontSizeName } from '@src/Interfaces/styles'
+import { FontSizeName } from '@src/interfaces/styles'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
