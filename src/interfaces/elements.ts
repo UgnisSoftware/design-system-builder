@@ -28,6 +28,7 @@ export interface Element {
 export interface Elements {
   buttons: Element[]
   textInputs: Element[]
+  dropdowns: Element[]
   autocomplete: Element[]
   select: Element[]
   slider: Element[]

@@ -160,87 +160,10 @@ const defaultState: State = {
     ],
     textInputs: [
       {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        backgroundColorId: null,
-        border: 'borbor-6666',
-        boxShadow: null,
-        focus: {},
-        hover: {},
-        children: [
-          {
-            id: 'ef3fb8266',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
-            text: 'Label',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-          {
-            id: 'as5491d89',
-            type: NodeTypes.Input,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
-            backgroundColorId: 'cccc-3333',
-            border: 'borbor-8888',
-            boxShadow: null,
-            focus: {},
-            hover: {},
-          },
-        ],
-      },
-    ],
-    dropdowns: [
-      {
-        input: {
-          id: 'rootId',
+        id: 'textInput-1234',
+        name: 'Input',
+        root: {
+          id: 'oijsadoijas-12323',
           type: NodeTypes.Root,
           nodeType: NodeTypes.Box,
           position: {
@@ -265,101 +188,20 @@ const defaultState: State = {
               value: 1,
               unit: Units.Fr,
             },
+            {
+              value: 1,
+              unit: Units.Fr,
+            },
           ],
-          backgroundColorId: 'cccc-3333',
+          backgroundColorId: null,
           border: 'borbor-6666',
-          boxShadow: 'shadow-7777',
-          focus: {},
-          hover: {},
-          children: [],
-        },
-        menu: {
-          id: 'rootId',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          backgroundColorId: 'cccc-3333',
-          border: 'borbor-6666',
-          boxShadow: 'shadow-7777',
-          focus: {},
-          hover: {},
-          children: [],
-        },
-      },
-    ],
-
-    /* Checkbox: {
-      default: {
-          id: 'rootId',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          padding: {
-            top: '8px',
-            left: '16px',
-            bottom: '8px',
-            right: '16px',
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          background: {
-            colorId: 'cccc-3333',
-          },
-          border: null,
           boxShadow: null,
           focus: {},
           hover: {},
           children: [
             {
-              id: 'ef3fb266',
-              type: NodeTypes.Icon,
-              iconType: 'check_box',
+              id: 'ef3fb8266',
+              type: NodeTypes.Text,
               position: {
                 columnStart: 1,
                 columnEnd: 2,
@@ -367,306 +209,51 @@ const defaultState: State = {
                 rowEnd: 2,
               },
               alignment: {
-                horizontal: Alignment.center,
+                horizontal: Alignment.start,
                 vertical: Alignment.center,
               },
+              text: 'Label',
+              fontSize: FontSizeName.S,
+              focus: {},
+              hover: {},
+              fontFamilyId: 'R1-123332',
+            },
+            {
+              id: 'as5491d89',
+              type: NodeTypes.Input,
+              position: {
+                columnStart: 1,
+                columnEnd: -1,
+                rowStart: 2,
+                rowEnd: 3,
+              },
+              alignment: {
+                horizontal: Alignment.stretch,
+                vertical: Alignment.stretch,
+              },
+              backgroundColorId: 'cccc-3333',
+              border: 'borbor-8888',
+              boxShadow: null,
               focus: {},
               hover: {},
             },
-        ],
-      },
-    }, */
-
-    /*Chips: {
-      Primary: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
+          ],
         },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '8px',
-          left: '16px',
-          bottom: '8px',
-          right: '16px',
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        children: [
-          {
-            id: '55a3c774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Primary Clickable Chip',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-          },
-          {
-            id: 'chipIcon'
-            type: NodeTypes.Icon
-            iconType: 'close',
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            focus: {},
-            hover: {},
-          },
-        ],
-        background: {
-          colorId: 'prim-1',
-        },
-        border: 'primB-1',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
-      },
-      Secondary: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '8px',
-          left: '16px',
-          bottom: '8px',
-          right: '16px',
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        children: [
-          {
-            id: '55a3c774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Secondary Clickable Chip',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-          },
-          {
-            id: 'chipIcon'
-            type: NodeTypes.Icon
-            iconType: 'close',
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            focus: {},
-            hover: {},
-          },
-        ],
-        background: {
-          colorId: 'secn-1',
-        },
-        border: 'primB-1',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
-      },
-    }, */
-    /* Snackbar: {
-      alert: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        NodeType: NodeTypes.Box,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        padding: {
-          top: '20px',
-          bottom: '20px',
-          left: '10px',
-          right: '10px',
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        children: [
-          {
-            id: 'doesThisMatter',
-            nodeType: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
-            text: 'This is an alert',
-            fontSize: FontSizeName.S,
-            color: {
-              colorId: 'prim-1',
-            },
-            focus: {},
-            hover: {},
-          },
-          {
-            id: 'doesThisAlsoMatter',
-            nodeType: NodeTypes.Button,
-            position: {
-              columnStart: 3,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.end,
-              vertical: Alignment.center,
-            },
-            fontSize: FontSizeName.S,
-            color: {
-              colorId: 'secn-1',
-            },
-            text: 'Lorem ipsum',
-          },
-        ],
-        background: {
-          colorId: 'bbbb-2222'
-        },
-        border: 'primB-1',
-        hover: {},
-        focus: {},
-      },
-    }, */
-    /* AppBar: {
-    id: 'AppBar',
-    type: NodeTypes.Root,
-    nodeType: NodeTypes.Box,
-    position: {
-      columnStart: 1,
-      columnEnd: -1,
-      rowStart: 1,
-      rowEnd: -1,
-    },
-    alignment:
-      {
-        horizontal: Alignment.stretch,
-        vertical: Alignment.stretch,
-      },
-    padding:
-      {
-        top: '0px',
-        bottom: '0px',
-        left: '0px',
-        right: '0px',
-      },
-    overflow: Overflow.visible,
-    rows: [
-      {
-      value: 1,
-      unit: Units.Fr,
-    },
-    ],
-    columns: [
-      {
-        value: 1,
-        unit: Units.Fr,
-      },
-      {
-        value: 1,
-        unit: Units.Fr,
-      },
-      {
-        value: 1.
-        unit: Units.Fr,
       },
     ],
-    background: {
-      colorId: 'prim-1'
-    },
-
-  } */
+    dropdowns: [],
+    autocomplete: [],
+    select: [],
+    slider: [],
+    range: [],
+    radio: [],
+    checkBox: [],
+    datePicker: [],
+    sidebar: [],
+    popup: [],
+    tooltip: [],
+    loaders: [],
+    tables: [],
     components: [
       {
         id: 'abcd-1234',
