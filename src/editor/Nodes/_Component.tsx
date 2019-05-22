@@ -23,7 +23,10 @@ function Component({ component }: Props) {
     )
   }
   if (component.type === NodeTypes.Element) {
-    const element = { ...state.elements[component.elementType][component.elementId], position: component.position }
+    const element = {
+      ...state.elements[component.elementType].find(el => el.id === component.elementId).root,
+      position: component.position,
+    }
     return <Element component={element} parent={component} />
   }
   if (component.type === NodeTypes.Box) {

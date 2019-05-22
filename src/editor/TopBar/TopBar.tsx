@@ -282,13 +282,13 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
           color="#ffffff"
           onClick={changeBackground(null, stateManager)}
         />
-        {Object.keys(state.styles.colors).map(colorIndex => (
+        {state.styles.colors.map(color => (
           <ColorBox
-            key={colorIndex}
-            selected={component.backgroundColorId === state.styles.colors[colorIndex].id}
-            title={state.styles.colors[colorIndex].name}
-            color={state.styles.colors[colorIndex].hex}
-            onClick={changeBackground(state.styles.colors[colorIndex].id, stateManager)}
+            key={color.id}
+            selected={component.backgroundColorId === color.id}
+            title={color.name}
+            color={color.hex}
+            onClick={changeBackground(color.id, stateManager)}
           />
         ))}
       </IconRow>
@@ -462,13 +462,13 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
     <InfoColumn>
       <Title>Color</Title>
       <IconRow>
-        {Object.keys(state.styles.colors).map(colorIndex => (
+        {state.styles.colors.map(color => (
           <ColorBox
-            key={colorIndex}
-            selected={component.fontColorId === state.styles.colors[colorIndex].id}
-            title={state.styles.colors[colorIndex].name}
-            color={state.styles.colors[colorIndex].hex}
-            onClick={changeFontColor(state.styles.colors[colorIndex].id, stateManager)}
+            key={color.id}
+            selected={component.fontColorId === color.id}
+            title={color.name}
+            color={color.hex}
+            onClick={changeBackground(color.id, stateManager)}
           />
         ))}
       </IconRow>
@@ -517,13 +517,13 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
     <InfoColumn>
       <Title>Color</Title>
       <IconRow>
-        {Object.keys(state.styles.colors).map(colorIndex => (
+        {state.styles.colors.map(color => (
           <ColorBox
-            key={colorIndex}
-            selected={component.fontColorId === state.styles.colors[colorIndex].id}
-            title={state.styles.colors[colorIndex].name}
-            color={state.styles.colors[colorIndex].hex}
-            onClick={changeFontColor(state.styles.colors[colorIndex].id, stateManager)}
+            key={color.id}
+            selected={component.fontColorId === color.id}
+            title={color.name}
+            color={color.hex}
+            onClick={changeBackground(color.id, stateManager)}
           />
         ))}
       </IconRow>

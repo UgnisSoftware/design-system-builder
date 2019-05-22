@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import TopBar from '../TopBar/TopBar'
+import TopBar from '../../TopBar/TopBar'
 import Preview from './Preview/Preview'
 import Background from './Background/Background'
 

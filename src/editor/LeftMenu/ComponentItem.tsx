@@ -3,14 +3,28 @@ import styled, { css } from 'styled-components'
 import ClickOutside from 'react-click-outside'
 
 import state from '@state'
-import { Component } from '@src/interfaces/components'
+import { Element } from '@src/interfaces/elements'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
 
 interface ItemProps {
   selected?: boolean
 }
+
+const DeleteIcon = styled.div`
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0 8px;
+  right: 0;
+  &:hover {
+    background: rgb(225, 225, 225);
+  }
+`
+
 export const Item = styled.div`
+  position: relative;
   font-size: 16px;
   font-weight: 400;
   color: ${Colors.grey900};
@@ -21,6 +35,9 @@ export const Item = styled.div`
   cursor: pointer;
   &:hover {
     background: rgb(238, 238, 238);
+  }
+  &:hover ${DeleteIcon} {
+    display: block;
   }
   ${(props: ItemProps) =>
     props.selected &&
@@ -44,8 +61,9 @@ const Input = styled(TextInput)`
 `
 
 interface Props {
-  component: Component
+  component: Element
   onClick: () => void
+  onDelete: () => void
 }
 
 interface State {
@@ -105,6 +123,11 @@ class ComponentItem extends React.Component<Props, State> {
   render() {
     const component = this.props.component
 
+    const onDelete = e => {
+      e.stopPropagation()
+      this.props.onDelete()
+    }
+
     if (this.state.isEditingName) {
       return (
         <ClickOutside onClickOutside={this.save}>
@@ -115,6 +138,9 @@ class ComponentItem extends React.Component<Props, State> {
     return (
       <Item onClick={this.props.onClick} selected={state.ui.router[1] === component.id} onDoubleClick={this.edit}>
         {component.name}
+        <DeleteIcon className="material-icons" onClick={onDelete}>
+          delete
+        </DeleteIcon>
       </Item>
     )
   }

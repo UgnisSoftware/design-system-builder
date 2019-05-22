@@ -12,7 +12,7 @@ import Exporting from '@src/editor/Settings/Exporting/Exporting'
 import Devtools from '@src/components/Devtools/Devtools'
 import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
-import Components from './Components/Components'
+import Components from './Elements/Components/Components'
 
 const Root = styled.div`
   display: flex;

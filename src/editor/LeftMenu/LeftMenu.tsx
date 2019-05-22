@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Component } from '@src/interfaces/components'
+import { Element } from '@src/interfaces/elements'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -11,9 +11,7 @@ import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
 import { uuid } from '@src/utils'
 import { route } from '@src/actions'
-import ElementItem from '@src/editor/LeftMenu/StaticItem'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
-import { Element } from '@src/interfaces/elements'
 import Link from '@components/Link/Link'
 import { FontSizeName } from '@src/interfaces/styles'
 
@@ -89,11 +87,16 @@ const LogoImg = styled.img`
   margin-right: -1px;
 `
 
-const showAddButton = () => {
-  state.ui.addingElement = 'Buttons'
+const deleteItem = (array, item) => () => {
+  const index = array.indexOf(item)
+  array.splice(index, 1)
 }
 
-const addButton = value => {
+const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
+  state.ui.addingElement = elementName
+}
+
+const addElement = (elementName: typeof state.ui.addingElement) => value => {
   state.ui.addingElement = null
 
   if (!value) {
@@ -101,7 +104,7 @@ const addButton = value => {
   }
   const newId = uuid()
   const newRootId = uuid()
-  const newButton: Element = {
+  const newElement: Element = {
     id: newId,
     name: value,
     root: {
@@ -177,63 +180,10 @@ const addButton = value => {
     },
   }
   route(RouterPaths.buttons, newId)
-  state.elements.Buttons.push(newButton)
+  state.elements[elementName].push(newElement)
 }
 
-const showAddComponent = () => {
-  state.ui.addingComponent = true
-}
-const addComponent = value => {
-  state.ui.addingComponent = false
-
-  if (!value) {
-    return
-  }
-
-  const newId = uuid()
-  const newComponent: Component = {
-    id: newId,
-    name: value,
-    root: {
-      id: 'rootId',
-      type: NodeTypes.Root,
-      nodeType: NodeTypes.Box,
-      position: {
-        columnStart: 1,
-        columnEnd: -1,
-        rowStart: 1,
-        rowEnd: -1,
-      },
-      alignment: {
-        horizontal: Alignment.stretch,
-        vertical: Alignment.stretch,
-      },
-      overflow: Overflow.visible,
-      columns: [
-        {
-          value: 1,
-          unit: Units.Fr,
-        },
-      ],
-      rows: [
-        {
-          value: 100,
-          unit: Units.Px,
-        },
-      ],
-      border: null,
-      children: [],
-      backgroundColorId: state.styles.colors[0].id,
-      hover: {},
-      focus: {},
-    },
-  }
-  route(RouterPaths.components, newId)
-  state.components[newId] = newComponent
-  state.ui.addingComponent = false
-}
-
-const sortComponents = (component1: Component, component2: Component) => component1.name.localeCompare(component2.name)
+const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
 
 const LeftMenu = () => (
   <LeftMenuBox>
@@ -246,34 +196,38 @@ const LeftMenu = () => (
     <Title>Elements</Title>
     <SubTitle>
       Buttons
-      <AddComponentBox onClick={showAddButton}>
+      <AddComponentBox onClick={showAddElement('buttons')}>
         <PlusSign />
       </AddComponentBox>
     </SubTitle>
-    {state.ui.addingElement === 'Buttons' && <AddInput onSave={addButton} />}
-    {state.elements.Buttons.map(element => (
+    {state.ui.addingElement === 'buttons' && <AddInput onSave={addElement('buttons')} />}
+    {state.elements.buttons.map(element => (
       <>
-        <ElementItem
+        <ComponentItem
+          onDelete={deleteItem(state.elements.buttons, element)}
           onClick={route(RouterPaths.buttons, element.id)}
-          name={element.name}
-          selected={state.ui.router[1] === element.id}
+          component={element}
         />
       </>
     ))}
 
     <Title>
       Components
-      {!state.ui.addingComponent && (
-        <AddComponentBox onClick={showAddComponent}>
-          <PlusSign />
-        </AddComponentBox>
-      )}
+      <AddComponentBox onClick={showAddElement('components')}>
+        <PlusSign />
+      </AddComponentBox>
     </Title>
-    {state.ui.addingComponent && <AddInput onSave={addComponent} />}
-    {Object.values(state.components)
+    {state.ui.addingElement === 'components' && <AddInput onSave={addElement('components')} />}
+    {state.elements.components
+      .concat()
       .sort(sortComponents)
       .map(component => (
-        <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.components, component.id)} />
+        <ComponentItem
+          key={component.id}
+          component={component}
+          onClick={route(RouterPaths.components, component.id)}
+          onDelete={deleteItem(state.elements.components, component)}
+        />
       ))}
 
     <Title>Settings</Title>

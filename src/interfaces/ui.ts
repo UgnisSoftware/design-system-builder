@@ -38,7 +38,6 @@ export interface UI {
   editingColorId: string
   editingTextNode: Nodes
   editingBoxNode: Nodes
-  addingComponent: boolean
   addingElement: keyof Elements | null
   showAddComponentMenu: boolean
   showGrid: boolean

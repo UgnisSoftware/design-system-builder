@@ -6,7 +6,6 @@ import Buttons from './Buttons/Buttons'
 import Inputs from './Inputs/Inputs'
 import Background from './Background/Background'
 import state from '@state'
-import Dropdowns from '@src/editor/Elements/Dropdowns/Dropdowns'
 import { RouterPaths } from '@src/interfaces/router'
 
 const Wrapper = styled.div`

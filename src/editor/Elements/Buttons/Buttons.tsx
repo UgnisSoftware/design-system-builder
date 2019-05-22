@@ -35,7 +35,11 @@ const unselectComponent = e => {
 }
 
 const Preview = () => {
-  const buttonElement = state.elements.Buttons.find(button => button.id === state.ui.router[1])
+  const buttonElement = state.elements.buttons.find(button => button.id === state.ui.router[1])
+
+  if (!buttonElement) {
+    return <Wrapper>No Element found</Wrapper>
+  }
 
   return (
     <Wrapper onClick={unselectComponent}>
