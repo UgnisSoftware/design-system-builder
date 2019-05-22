@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import TopBar from '../TopBar/TopBar'
 import Buttons from './Buttons/Buttons'
-import Inputs from './Inputs/Inputs'
 import Background from './Background/Background'
 import state from '@state'
 import { RouterPaths } from '@src/interfaces/router'
@@ -21,8 +20,6 @@ class Elements extends React.Component {
         <Background>
           <TopBar />
           {state.ui.router[0] === RouterPaths.buttons && <Buttons />}
-          {state.ui.router[0] === RouterPaths.inputs && <Inputs />}
-          {state.ui.router[0] === RouterPaths.popups && <Inputs />}
         </Background>
       </Wrapper>
     )

@@ -4,11 +4,6 @@ import styled from 'styled-components'
 const Container = styled.div`
   padding: 64px;
 `
-const Paragraph = styled.div`
-  padding: 64px;
-  font-size: medium;
-  font-family: Roboto;
-`
 
 const HomePage = () => {
   return (

@@ -138,14 +138,14 @@ const changeBackground = (colorId: string | null, stateManager?: ComponentStateM
     state.ui.selectedNode[stateManager].backgroundColorId = colorId
     return
   }
-  state.ui.selectedNode.backgroundColorId = colorId
+  ;(state.ui.selectedNode as BoxNode).backgroundColorId = colorId
 }
 const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].fontColorId = colorId
     return
   }
-  state.ui.selectedNode.fontColorId = colorId
+  ;(state.ui.selectedNode as TextNode).fontColorId = colorId
 }
 
 const removeBorder = (stateManager?: ComponentStateMenu) => () => {
@@ -153,35 +153,35 @@ const removeBorder = (stateManager?: ComponentStateMenu) => () => {
     state.ui.selectedNode[stateManager].border = null
     return
   }
-  state.ui.selectedNode.border = null
+  ;(state.ui.selectedNode as BoxNode).border = null
 }
 const changeBorder = (border: Border, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].border = border.id
     return
   }
-  state.ui.selectedNode.border = border.id
+  ;(state.ui.selectedNode as BoxNode).border = border.id
 }
 const removeBoxShadow = (stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].boxShadow = null
     return
   }
-  state.ui.selectedNode.boxShadow = null
+  ;(state.ui.selectedNode as BoxNode).boxShadow = null
 }
 const changeBoxShadow = (boxShadow: BoxShadow, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].boxShadow = boxShadow.id
     return
   }
-  state.ui.selectedNode.boxShadow = boxShadow.id
+  ;(state.ui.selectedNode as BoxNode).boxShadow = boxShadow.id
 }
 const changeOverflow = (overflow: Overflow, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].overflow = overflow
     return
   }
-  state.ui.selectedNode.overflow = overflow
+  ;(state.ui.selectedNode as RootNode).overflow = overflow
 }
 
 const selectHorizontalAlignment = (alignment: Alignment, stateManager?: ComponentStateMenu) => () => {
@@ -227,7 +227,7 @@ const selectImage = (stateManager?: ComponentStateMenu) => () => {
     state.ui.selectedNode[stateManager].backgroundImageUrl = url
     return
   }
-  state.ui.selectedNode.backgroundImageUrl = url
+  ;(state.ui.selectedNode as BoxNode).backgroundImageUrl = url
 }
 
 const selectObjectFit = (objectFit: ObjectFit, stateManager?: ComponentStateMenu) => () => {
@@ -235,21 +235,21 @@ const selectObjectFit = (objectFit: ObjectFit, stateManager?: ComponentStateMenu
     state.ui.selectedNode[stateManager].backgroundImagePosition = objectFit
     return
   }
-  state.ui.selectedNode.backgroundImagePosition = objectFit
+  ;(state.ui.selectedNode as BoxNode).backgroundImagePosition = objectFit
 }
 const changeFontSize = (size: FontSizeName, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].fontSize = size
     return
   }
-  state.ui.selectedNode.fontSize = size
+  ;(state.ui.selectedNode as TextNode).fontSize = size
 }
 const changeFontFamily = (fontFamilyId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
     state.ui.selectedNode[stateManager].fontFamilyId = fontFamilyId
     return
   }
-  state.ui.selectedNode.fontFamilyId = fontFamilyId
+  ;(state.ui.selectedNode as TextNode).fontFamilyId = fontFamilyId
 }
 
 const changeState = (componentState: ComponentStateMenu) => () => {
@@ -468,7 +468,7 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
             selected={component.fontColorId === color.id}
             title={color.name}
             color={color.hex}
-            onClick={changeBackground(color.id, stateManager)}
+            onClick={changeFontColor(color.id, stateManager)}
           />
         ))}
       </IconRow>
