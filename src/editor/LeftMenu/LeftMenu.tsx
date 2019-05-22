@@ -90,87 +90,91 @@ const LogoImg = styled.img`
 `
 
 const showAddButton = () => {
-  state.ui.addingButton = true
+  state.ui.addingElement = 'Buttons'
 }
 
 const addButton = value => {
-  state.ui.addingButton = false
+  state.ui.addingElement = null
 
   if (!value) {
     return
   }
   const newId = uuid()
+  const newRootId = uuid()
   const newButton: Element = {
     id: newId,
-    name: newId,
-    type: NodeTypes.Root,
-    nodeType: NodeTypes.Button,
-    position: {
-      columnStart: 1,
-      columnEnd: -1,
-      rowStart: 1,
-      rowEnd: -1,
-    },
-    alignment: {
-      horizontal: Alignment.stretch,
-      vertical: Alignment.stretch,
-    },
-    overflow: Overflow.visible,
-    columns: [
-      {
-        value: 12,
-        unit: Units.Px,
+    name: value,
+    root: {
+      id: newRootId,
+      type: NodeTypes.Root,
+      nodeType: NodeTypes.Button,
+      position: {
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
       },
-      {
-        value: 1,
-        unit: Units.Fr,
+      alignment: {
+        horizontal: Alignment.stretch,
+        vertical: Alignment.stretch,
       },
-      {
-        value: 12,
-        unit: Units.Px,
-      },
-    ],
-    rows: [
-      {
-        value: 8,
-        unit: Units.Px,
-      },
-      {
-        value: 1,
-        unit: Units.Fr,
-      },
-      {
-        value: 8,
-        unit: Units.Px,
-      },
-    ],
-    children: [
-      {
-        id: '55a53c774',
-        type: NodeTypes.Text,
-        position: {
-          columnStart: 2,
-          columnEnd: 3,
-          rowStart: 2,
-          rowEnd: 3,
+      overflow: Overflow.visible,
+      columns: [
+        {
+          value: 12,
+          unit: Units.Px,
         },
-        alignment: {
-          horizontal: Alignment.center,
-          vertical: Alignment.center,
+        {
+          value: 1,
+          unit: Units.Fr,
         },
-        text: 'Button',
-        fontColorId: 'white-6666',
-        fontSize: FontSizeName.S,
-        focus: {},
-        hover: {},
-        fontFamilyId: 'R1-123332',
-      },
-    ],
-    backgroundColorId: 'prim-1',
-    border: 'borbor-6666',
-    boxShadow: 'shadow-7777',
-    focus: {},
-    hover: {},
+        {
+          value: 12,
+          unit: Units.Px,
+        },
+      ],
+      rows: [
+        {
+          value: 8,
+          unit: Units.Px,
+        },
+        {
+          value: 1,
+          unit: Units.Fr,
+        },
+        {
+          value: 8,
+          unit: Units.Px,
+        },
+      ],
+      children: [
+        {
+          id: '55a53c774',
+          type: NodeTypes.Text,
+          position: {
+            columnStart: 2,
+            columnEnd: 3,
+            rowStart: 2,
+            rowEnd: 3,
+          },
+          alignment: {
+            horizontal: Alignment.center,
+            vertical: Alignment.center,
+          },
+          text: 'Button',
+          fontColorId: 'white-6666',
+          fontSize: FontSizeName.S,
+          focus: {},
+          hover: {},
+          fontFamilyId: 'R1-123332',
+        },
+      ],
+      backgroundColorId: 'prim-1',
+      border: 'borbor-6666',
+      boxShadow: 'shadow-7777',
+      focus: {},
+      hover: {},
+    },
   }
   route(RouterPaths.buttons, newId)
   state.elements.Buttons.push(newButton)
@@ -242,10 +246,11 @@ const LeftMenu = () => (
     <Title>Elements</Title>
     <SubTitle>
       Buttons
-      <AddComponentBox onClick={addButton}>
+      <AddComponentBox onClick={showAddButton}>
         <PlusSign />
       </AddComponentBox>
     </SubTitle>
+    {state.ui.addingElement === 'Buttons' && <AddInput onSave={addButton} />}
     {state.elements.Buttons.map(element => (
       <>
         <ElementItem

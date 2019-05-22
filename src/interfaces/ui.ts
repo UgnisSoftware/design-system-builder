@@ -1,5 +1,6 @@
 import { Nodes, NodeTypes, RootNode } from '@src/interfaces/nodes'
 import { RouterPaths } from '@src/interfaces/router'
+import { Elements } from '@src/interfaces/elements'
 
 export enum DragDirection {
   N = 'N',
@@ -38,7 +39,7 @@ export interface UI {
   editingTextNode: Nodes
   editingBoxNode: Nodes
   addingComponent: boolean
-  addingButton: boolean
+  addingElement: keyof Elements | null
   showAddComponentMenu: boolean
   showGrid: boolean
   selectedNode: Nodes

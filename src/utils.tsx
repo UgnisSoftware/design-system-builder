@@ -1,5 +1,7 @@
+import { RouterPaths } from '@src/interfaces/router'
+
 export const parseUrl = () => {
-  return window.location.pathname.split('/').filter(a => a)
+  return window.location.pathname.split('/').filter(a => a) as RouterPaths[]
 }
 
 export function uuid() {

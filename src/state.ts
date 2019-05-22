@@ -1240,6 +1240,7 @@ const defaultState: State = {
     editingTextNode: null,
     editingBoxNode: null,
     addingComponent: false,
+    addingElement: null,
     addingAtom: null,
     hoveredCell: null,
     selectedCell: null,
