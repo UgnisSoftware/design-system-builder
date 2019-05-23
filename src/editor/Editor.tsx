@@ -9,10 +9,10 @@ import Fonts from './Settings/Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'
 import ColorsAndSpacing from './Settings/ColorsAndSpacing'
 import Exporting from '@src/editor/Settings/Exporting/Exporting'
-import Devtools from '@src/components/Devtools/Devtools'
 import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
 import Components from './Elements/Components/Components'
+import { connectDevTools } from '@src/utils'
 
 const Root = styled.div`
   display: flex;
@@ -31,9 +31,10 @@ const Editor = () => {
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
       {state.ui.router[0] === RouterPaths.assets && <Assets />}
-      <Devtools />
     </Root>
   )
 }
+
+connectDevTools(state)
 
 export default Editor

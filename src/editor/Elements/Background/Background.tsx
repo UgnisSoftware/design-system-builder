@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { NodeTypes, RootNode } from '@src/interfaces/nodes'
-import { toCamelCase } from '@src/utils'
 
 const ElementsWrapper = styled.div`
   position: relative;
@@ -25,8 +24,7 @@ const removeNode = (node: RootNode) => {
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
-  const component = state.elements[toCamelCase(state.ui.router[0])].find(elm => elm.id === state.ui.router[1])
-  console.log(component)
+  const component = state.elements[state.ui.router[0]].find(elm => elm.id === state.ui.router[1])
 
   if (
     (del || backspace) &&
