@@ -134,7 +134,7 @@ const FontSize = styled.div`
   font-size: 18px;
 `
 
-let moveLayer = (by: number) => () => {
+const moveLayer = (by: number) => () => {
   const node = state.ui.selectedNode
   const children = getSelectedElement().root.children
   const fromIndex = children.indexOf(node)
