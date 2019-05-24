@@ -523,7 +523,7 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
             selected={component.fontColorId === color.id}
             title={color.name}
             color={color.hex}
-            onClick={changeBackground(color.id, stateManager)}
+            onClick={changeFontColor(color.id, stateManager)}
           />
         ))}
       </IconRow>
