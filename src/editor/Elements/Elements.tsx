@@ -44,7 +44,12 @@ class Elements extends React.Component {
     const element = state.elements[state.ui.router[0]].find(el => el.id === state.ui.router[1])
 
     if (!element) {
-      return <>No Button with id {state.ui.router[1]} was found</>
+      return (
+        <Wrapper>
+          <div />
+          <Background>No Button with id {state.ui.router[1]} was found</Background>
+        </Wrapper>
+      )
     }
 
     return (
