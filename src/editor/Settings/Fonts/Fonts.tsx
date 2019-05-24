@@ -22,7 +22,7 @@ const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
     {state.styles.fonts.map(font => (
-      <div>
+      <div key={font.id}>
         <h2>{font.fontFamily}</h2>
         <FontRow>
           <FontSizeRow font={font} fontSizeName={FontSizeName.XS} />

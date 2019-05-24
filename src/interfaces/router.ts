@@ -9,4 +9,4 @@ export enum RouterPaths {
   popups = 'popups',
 }
 
-export const ElementRoutes = [RouterPaths.buttons, RouterPaths.inputs, RouterPaths.popups]
+export const ElementRoutes = [RouterPaths.buttons, RouterPaths.inputs, RouterPaths.popups, RouterPaths.components]

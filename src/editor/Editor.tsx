@@ -11,7 +11,6 @@ import ColorsAndSpacing from './Settings/ColorsAndSpacing'
 import Exporting from '@src/editor/Settings/Exporting/Exporting'
 import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
-import Components from './Elements/Components/Components'
 import { connectDevTools } from '@src/utils'
 
 const Root = styled.div`
@@ -26,7 +25,6 @@ const Editor = () => {
       <LeftMenu />
       {state.ui.router[0] === undefined && <HomePage />}
       {ElementRoutes.includes(state.ui.router[0]) && <Elements />}
-      {state.ui.router[0] === RouterPaths.components && <Components />}
       {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
