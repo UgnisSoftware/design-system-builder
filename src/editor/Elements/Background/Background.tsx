@@ -4,11 +4,18 @@ import state from '@state'
 import { NodeTypes, RootNode } from '@src/interfaces/nodes'
 
 const ElementsWrapper = styled.div`
+  background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px;
+  background-color: rgb(0, 0, 0, 0.01);
+  background-size: 16px 16px;
+  transform: translateZ(0);
+  align-items: center;
+  align-content: center;
+  justify-items: center;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
+  display: grid;
 `
 
 const removeNode = (node: RootNode) => {
