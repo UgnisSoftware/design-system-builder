@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
 import { NodeTypes, RootNode } from '@src/interfaces/nodes'
+import { getSelectedElement } from '@src/selector'
 
 const ElementsWrapper = styled.div`
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
@@ -32,7 +33,7 @@ const removeNode = (node: RootNode) => {
 const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
-  const component = state.elements[state.ui.router[0]].find(elm => elm.id === state.ui.router[1])
+  const component = getSelectedElement()
 
   if (
     (del || backspace) &&

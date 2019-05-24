@@ -10,6 +10,7 @@ import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddComponent
 import AddingAtom from '@src/editor/Overlay/AddingAtom'
 import Component from '@src/editor/Nodes/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
+import { getSelectedElement } from '@src/selector'
 
 const Wrapper = styled.div`
   flex: 1;
@@ -31,7 +32,7 @@ const Dimmer = styled.div`
 
 class Elements extends React.Component {
   render() {
-    const element = state.elements[state.ui.router[0]].find(el => el.id === state.ui.router[1])
+    const element = getSelectedElement()
 
     if (!element) {
       return (

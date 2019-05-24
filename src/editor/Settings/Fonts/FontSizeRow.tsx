@@ -26,8 +26,8 @@ interface ExampleTextProps {
 }
 
 const ExampleText = styled.span`
-  @import url('${state.styles.fonts[0].fontUrl}');
-  font-family: '${state.styles.fonts[0].fontFamily}';
+  @import url('${state.styles.fonts[1].fontUrl}');
+  font-family: '${state.styles.fonts[1].fontFamily}';
   font-size: ${(props: ExampleTextProps) => props.fontSize};
   line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
@@ -44,6 +44,7 @@ const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEve
 
 const onLineHeightChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
   state.styles.fonts[0].sizes[fontSizeName].lineHeight = event.target.value
+
 }
 
 const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (

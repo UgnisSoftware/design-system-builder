@@ -5,6 +5,7 @@ import { Border, BoxShadow, FontSizeName } from '@src/interfaces/styles'
 import { Colors } from '@src/styles'
 import { ComponentStateMenu } from '@src/interfaces/ui'
 import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/interfaces/nodes'
+import { getSelectedElement } from '@src/selector'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;
@@ -132,6 +133,19 @@ const FontSize = styled.div`
   margin-right: 8px;
   font-size: 18px;
 `
+
+let moveLayer = (by: number) => () => {
+  const node = state.ui.selectedNode
+  const children = getSelectedElement().root.children
+  const fromIndex = children.indexOf(node)
+  const toIndex = fromIndex + by
+  // out of bounds
+  if (toIndex < 0 || toIndex > children.length) {
+    return
+  }
+  children.splice(fromIndex, 1)
+  children.splice(toIndex, 0, node)
+}
 
 const changeBackground = (colorId: string | null, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
@@ -579,15 +593,15 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 const TopBar = () => (
   <>
     <TopBarBox>
-      {state.ui.selectedNode && (
+      {state.ui.selectedNode && state.ui.selectedNode.type !== NodeTypes.Root && (
         <>
           <InfoColumn>
             <Title>Z index</Title>
             <IconRow>
-              <StylelessButton title="Move to front" className="material-icons">
+              <StylelessButton title="Move to front" className="material-icons" onClick={moveLayer(1)}>
                 flip_to_front
               </StylelessButton>
-              <StylelessButton title="Move to back" className="material-icons">
+              <StylelessButton title="Move to back" className="material-icons" onClick={moveLayer(-1)}>
                 flip_to_back
               </StylelessButton>
             </IconRow>
