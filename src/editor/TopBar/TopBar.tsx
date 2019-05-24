@@ -584,11 +584,11 @@ const TopBar = () => (
           <InfoColumn>
             <Title>Z index</Title>
             <IconRow>
-              <StylelessButton title="Move to back" className="material-icons">
-                flip_to_back
-              </StylelessButton>
               <StylelessButton title="Move to front" className="material-icons">
                 flip_to_front
+              </StylelessButton>
+              <StylelessButton title="Move to back" className="material-icons">
+                flip_to_back
               </StylelessButton>
             </IconRow>
           </InfoColumn>
