@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import state from '@state'
 import TextInput from '../../../components/TextInput'
-import { Font, FontSizeName } from '@src/interfaces/styles'
+import { FontSizeName } from '../../../interfaces/styles'
 import SymbolBox from '../../../components/SymbolBox'
 
 const Wrapper = styled.div`
@@ -22,52 +23,49 @@ const TopAllignedTextInput = styled(TextInput)`
 interface ExampleTextProps {
   fontSize: string
   lineHeight: string
-  font: Font
 }
 
 const ExampleText = styled.span`
-  @import url('${({ font }: ExampleTextProps) => font.fontUrl}');
-  font-family: '${({ font }: ExampleTextProps) => font.fontFamily}';
-  font-size: ${({ fontSize }: ExampleTextProps) => fontSize};
-  line-height: ${({ lineHeight }: ExampleTextProps) => lineHeight};
+  @import url('${state.styles.fonts[0].fontUrl}');
+  font-family: '${state.styles.fonts[0].fontFamily}';
+  font-size: ${(props: ExampleTextProps) => props.fontSize};
+  line-height: ${(props: ExampleTextProps) => props.lineHeight};
   margin-bottom: 38px;
   padding-left: 73px;
 `
 
 interface FontSizeRowProps {
-  font: Font
   fontSizeName: FontSizeName
 }
 
-const onFontSizeChange = (font: Font, fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  font.sizes[fontSizeName].fontSize = event.target.value
+const onFontSizeChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  state.styles.fonts[0].sizes[fontSizeName].fontSize = event.target.value
 }
 
-const onLineHeightChange = (font: Font, fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  font.sizes[fontSizeName].lineHeight = event.target.value
+const onLineHeightChange = (fontSizeName: FontSizeName) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  state.styles.fonts[0].sizes[fontSizeName].lineHeight = event.target.value
 }
 
-const FontSizeRow = ({ font, fontSizeName }: FontSizeRowProps) => (
+const FontSizeRow = ({ fontSizeName }: FontSizeRowProps) => (
   <Wrapper>
     <InputWrapper>
       <SymbolBox>{fontSizeName}</SymbolBox>
       <TopAllignedTextInput
         name={`fontSize_${fontSizeName}`}
         label="Font Size"
-        value={font.sizes[fontSizeName].fontSize}
-        onChange={onFontSizeChange(font, fontSizeName)}
+        value={state.styles.fonts[0].sizes[fontSizeName].fontSize}
+        onChange={onFontSizeChange(fontSizeName)}
       />
       <TopAllignedTextInput
         name={`lineHeight_${fontSizeName}`}
         label="Line height"
-        value={font.sizes[fontSizeName].lineHeight}
-        onChange={onLineHeightChange(font, fontSizeName)}
+        value={state.styles.fonts[0].sizes[fontSizeName].lineHeight}
+        onChange={onLineHeightChange(fontSizeName)}
       />
     </InputWrapper>
     <ExampleText
-      font={font}
-      fontSize={font.sizes[fontSizeName].fontSize}
-      lineHeight={font.sizes[fontSizeName].lineHeight}
+      fontSize={state.styles.fonts[0].sizes[fontSizeName].fontSize}
+      lineHeight={state.styles.fonts[0].sizes[fontSizeName].lineHeight}
     >
       Lorem ipsum
     </ExampleText>
