@@ -523,7 +523,7 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
             selected={component.fontColorId === color.id}
             title={color.name}
             color={color.hex}
-            onClick={changeBackground(color.id, stateManager)}
+            onClick={changeFontColor(color.id, stateManager)}
           />
         ))}
       </IconRow>
@@ -579,6 +579,23 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 const TopBar = () => (
   <>
     <TopBarBox>
+      {state.ui.selectedNode && (
+        <>
+          <InfoColumn>
+            <Title>Z index</Title>
+            <IconRow>
+              <StylelessButton title="Move to front" className="material-icons">
+                flip_to_front
+              </StylelessButton>
+              <StylelessButton title="Move to back" className="material-icons">
+                flip_to_back
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+        </>
+      )}
+
       {state.ui.selectedNode && <Mutators />}
       <AlignRight>
         <InfoColumn>
