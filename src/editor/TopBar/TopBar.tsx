@@ -579,6 +579,23 @@ const Mutators = ({ stateManager }: MutatorProps) => {
 const TopBar = () => (
   <>
     <TopBarBox>
+      {state.ui.selectedNode && (
+        <>
+          <InfoColumn>
+            <Title>Z index</Title>
+            <IconRow>
+              <StylelessButton title="Move to back" className="material-icons">
+                flip_to_back
+              </StylelessButton>
+              <StylelessButton title="Move to front" className="material-icons">
+                flip_to_front
+              </StylelessButton>
+            </IconRow>
+          </InfoColumn>
+          <Divider />
+        </>
+      )}
+
       {state.ui.selectedNode && <Mutators />}
       <AlignRight>
         <InfoColumn>
