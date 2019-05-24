@@ -13,6 +13,7 @@ const ElementsWrapper = styled.div`
   align-items: center;
   align-content: center;
   justify-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
   display: grid;
@@ -45,6 +46,16 @@ const deleteComponent = e => {
   }
 }
 
+const unselectComponent = e => {
+  if (e.currentTarget === e.target) {
+    state.ui.selectedNode = null
+    state.ui.stateManager = null
+    state.ui.editingTextNode = null
+    state.ui.editingBoxNode = null
+    state.ui.showAddComponentMenu = false
+  }
+}
+
 class Background extends React.Component {
   componentDidMount() {
     window.addEventListener('keydown', deleteComponent)
@@ -54,7 +65,7 @@ class Background extends React.Component {
   }
 
   render() {
-    return <ElementsWrapper>{this.props.children}</ElementsWrapper>
+    return <ElementsWrapper onClick={unselectComponent}>{this.props.children}</ElementsWrapper>
   }
 }
 export default Background

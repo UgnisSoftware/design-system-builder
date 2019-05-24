@@ -29,16 +29,6 @@ const Dimmer = styled.div`
   opacity: ${() => (state.ui.showGrid ? 0.3 : 1)};
 `
 
-const unselectComponent = e => {
-  if (e.currentTarget === e.target) {
-    state.ui.selectedNode = null
-    state.ui.stateManager = null
-    state.ui.editingTextNode = null
-    state.ui.editingBoxNode = null
-    state.ui.showAddComponentMenu = false
-  }
-}
-
 class Elements extends React.Component {
   render() {
     const element = state.elements[state.ui.router[0]].find(el => el.id === state.ui.router[1])
@@ -57,7 +47,7 @@ class Elements extends React.Component {
         <TopBar />
         <Background>
           <AddComponentButton />
-          <ElementWrapper onClick={unselectComponent}>
+          <ElementWrapper>
             <Dimmer>
               <Component component={element.root} />
             </Dimmer>
