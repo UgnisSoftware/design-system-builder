@@ -96,6 +96,9 @@ const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
   state.ui.addingElement = elementName
 }
 
+const showAddButton = showAddElement('buttons')
+const showAddComponent = showAddElement('components')
+
 const addElement = (elementName: typeof state.ui.addingElement) => value => {
   state.ui.addingElement = null
 
@@ -196,7 +199,7 @@ const LeftMenu = () => (
     <Title>Elements</Title>
     <SubTitle>
       Buttons
-      <AddComponentBox onClick={showAddElement('buttons')}>
+      <AddComponentBox onClick={showAddButton}>
         <PlusSign />
       </AddComponentBox>
     </SubTitle>
@@ -213,7 +216,7 @@ const LeftMenu = () => (
 
     <Title>
       Components
-      <AddComponentBox onClick={showAddElement('components')}>
+      <AddComponentBox onClick={showAddComponent}>
         <PlusSign />
       </AddComponentBox>
     </Title>
