@@ -4,6 +4,8 @@ import { FontSizeName } from '@src/interfaces/styles'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 
+const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
+
 const defaultState: State = {
   elements: {
     buttons: [
@@ -838,6 +840,7 @@ const defaultState: State = {
     showAddComponentMenu: false,
     showGrid: false,
   },
+  ...mergeSaved,
 }
 
 export default proxify(defaultState)

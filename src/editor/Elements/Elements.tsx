@@ -54,6 +54,13 @@ class Elements extends React.Component<{}, State> {
 
   componentDidMount() {
     Emitter.addSet(data => {
+      localStorage.setItem(
+        'state',
+        JSON.stringify({
+          elements: state.elements,
+          styles: state.styles,
+        }),
+      )
       if (this.state.changingState) {
         this.setState({ changingState: false })
         return
