@@ -13,6 +13,12 @@ const BoxAtom = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
+
+  opacity: ${({ parent, component }) =>
+    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
+    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
+      ? 0.4
+      : 1};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   box-shadow: ${({ component }: BoxProps) =>

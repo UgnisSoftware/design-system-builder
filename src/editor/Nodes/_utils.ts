@@ -2,10 +2,13 @@ import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
 import state from '@state'
 
 export const selectComponent = (component: Nodes, parent?: ElementNode) => e => {
-  e.preventDefault()
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = parent || component
     state.ui.selectedNodeToOverride = parent ? component : null
+
+    if (component.type === NodeTypes.Root) {
+      return
+    }
 
     let currentX = e.touches ? e.touches[0].pageX : e.pageX
     let currentY = e.touches ? e.touches[0].pageY : e.pageY

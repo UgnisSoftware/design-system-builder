@@ -9,21 +9,26 @@ interface TextProps {
   parent?: ElementNode
 }
 
-const TextWrapper = styled.div`
+const TextWrapper = styled.div<TextProps>`
+  outline: none;
   position: relative;
   display: grid;
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
-  grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
-  grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
-  align-self: ${({ component }: TextProps) => component.alignment.vertical};
-  font-size: ${({ component }: TextProps) =>
+  opacity: ${({ parent, component }) =>
+    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
+    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
+      ? 0.4
+      : 1};
+  grid-column: ${({ component }) => `${component.position.columnStart} / ${component.position.columnEnd}`};
+  grid-row: ${({ component }) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  justify-self: ${({ component }) => component.alignment.horizontal};
+  align-self: ${({ component }) => component.alignment.vertical};
+  font-size: ${({ component }) =>
     state.styles.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
-  color: ${({ component }: TextProps) =>
+  color: ${({ component }) =>
     component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-family: ${({ component }: TextProps) =>
-    state.styles.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
+  font-family: ${({ component }) => state.styles.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
+  white-space: pre;
 `
 
 const stylesForSelected = (component: Nodes) => {
@@ -40,20 +45,61 @@ const stylesForSelected = (component: Nodes) => {
   }
 }
 
-const editText = (component: Nodes) => () => {
-  state.ui.editingTextNode = component
+const changeTextValue = e => {
+  e.preventDefault()
+  e.stopPropagation()
+  ;(state.ui.selectedNode as TextNode).text = e.target.innerText
 }
 
-const TextComponent = ({ component, parent }: TextProps) => (
-  <TextWrapper
-    style={stylesForSelected(component)}
-    component={component}
-    parent={parent}
-    onMouseDown={selectComponent(component, parent)}
-    onDoubleClick={editText(component)}
-  >
-    {component.text}
-  </TextWrapper>
-)
+class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
+  state = {
+    inEditing: false,
+  }
+
+  editText = (component: Nodes) => () => {
+    this.setState({ inEditing: true })
+    state.ui.editingTextNode = component
+  }
+
+  static getDerivedStateFromProps(props, componentState) {
+    const stopEditing = state.ui.editingTextNode !== props.component
+    if (componentState.inEditing && stopEditing) {
+      return { inEditing: false }
+    }
+  }
+
+  shouldComponentUpdate(_, nextState) {
+    if (this.state.inEditing !== nextState.inEditing) {
+      return true
+    }
+    if (this.state.inEditing) {
+      return false
+    }
+    return true
+  }
+
+  render() {
+    const { component, parent } = this.props
+    return (
+      <TextWrapper
+        style={stylesForSelected(component)}
+        component={component}
+        parent={parent}
+        onMouseDown={selectComponent(component, parent)}
+        onDoubleClick={this.editText(component)}
+        onInput={changeTextValue}
+        suppressContentEditableWarning={true}
+        contentEditable={this.state.inEditing ? 'true' : 'false'}
+        onPaste={e => {
+          e.preventDefault()
+          const text = e.clipboardData.getData('text/plain')
+          document.execCommand('insertHTML', false, text)
+        }}
+      >
+        {component.text}
+      </TextWrapper>
+    )
+  }
+}
 
 export default TextComponent
