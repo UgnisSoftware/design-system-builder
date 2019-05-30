@@ -4,21 +4,26 @@ import state from '@state'
 import { Alignment, NodeTypes } from '@src/interfaces/nodes'
 import { uuid } from '@src/utils'
 import { FontSizeName } from '@src/interfaces/styles'
+import Component from '@src/editor/Nodes/_Component'
 
 const Menu = styled.div`
   background: rgb(244, 244, 244);
-  display: flex;
-  flex-direction: column;
+  padding: 64px 24px;
+  display: grid;
+  grid-gap: 32px;
+  align-items: start;
+  align-content: start;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   width: 500px;
-  padding: 24px;
 `
 
 const Title = styled.div`
-  padding-bottom: 8px;
+  position: absolute;
+  top: -20px;
+  left: 0;
   display: flex;
   transition: all 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   opacity: 0;
@@ -31,10 +36,9 @@ const Box = styled.div`
 `
 
 const ComponentWrapper = styled.div`
-  padding-bottom: 24px;
   display: flex;
-  flex-direction: column-reverse;
   position: relative;
+  flex-direction: column-reverse;
 
   &:hover ${Title} {
     opacity: 1;
@@ -141,6 +145,12 @@ export default () => {
         <Text onMouseDown={addComponent(NodeTypes.Text)}>Hello</Text>
         <Title>Text</Title>
       </ComponentWrapper>
+      {state.ui.router[0] === 'components' &&
+        state.elements.buttons.map(component => (
+          <ComponentWrapper>
+            <Component component={component.root} /> <Title>{component.name}</Title>
+          </ComponentWrapper>
+        ))}
     </Menu>
   )
 }
