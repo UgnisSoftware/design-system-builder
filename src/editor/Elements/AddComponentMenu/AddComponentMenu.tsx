@@ -18,6 +18,13 @@ const Menu = styled.div`
   left: 0;
   bottom: 0;
   width: 500px;
+  overflow: scroll;
+  box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
+  background: radial-gradient(circle, transparent 20%, #f3f3f3 20%, #f3f3f3 80%, transparent 80%, transparent),
+    radial-gradient(circle, transparent 20%, #f3f3f3 20%, #f3f3f3 80%, transparent 80%, transparent) 50px 50px,
+    linear-gradient(#ffffff 8px, transparent 8px) 0 -4px, linear-gradient(90deg, #ffffff 8px, transparent 8px) -4px 0;
+  background-color: #f3f3f3;
+  background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
 `
 
 const Title = styled.div`
@@ -146,11 +153,15 @@ export default () => {
         <Title>Text</Title>
       </ComponentWrapper>
       {state.ui.router[0] === 'components' &&
-        state.elements.buttons.map(component => (
-          <ComponentWrapper>
-            <Component component={component.root} /> <Title>{component.name}</Title>
-          </ComponentWrapper>
-        ))}
+        Object.keys(state.elements)
+          .filter(key => key !== 'components')
+          .map(key =>
+            state.elements[key].map(component => (
+              <ComponentWrapper key={component.id}>
+                <Component component={component.root} /> <Title>{component.name}</Title>
+              </ComponentWrapper>
+            )),
+          )}
     </Menu>
   )
 }
