@@ -2,7 +2,7 @@ import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
 import { ElementNode, Nodes, TextNode } from '@src/interfaces/nodes'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface TextProps {
   component: TextNode
@@ -13,11 +13,7 @@ const TextWrapper = styled.div<TextProps>`
   outline: none;
   position: relative;
   display: grid;
-  opacity: ${({ parent, component }) =>
-    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
-    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
-      ? 0.4
-      : 1};
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   justify-self: ${({ component }) => component.alignment.horizontal};
@@ -30,20 +26,6 @@ const TextWrapper = styled.div<TextProps>`
   overflow-wrap: break-word;
   white-space: pre;
 `
-
-const stylesForSelected = (component: Nodes) => {
-  if (state.ui.selectedNode !== component || !state.ui.draggingNodePosition) {
-    return null
-  }
-
-  return {
-    transition: 'none',
-    zIndex: 999999,
-    pointerEvents: 'none',
-    opacity: '0.75',
-    transform: `translateX(${state.ui.draggingNodePosition.x}px) translateY(${state.ui.draggingNodePosition.y}px)`,
-  }
-}
 
 const changeTextValue = e => {
   e.preventDefault()
@@ -82,7 +64,6 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
     const { component, parent } = this.props
     return (
       <TextWrapper
-        style={stylesForSelected(component)}
         component={component}
         parent={parent}
         onMouseDown={selectComponent(component, parent)}

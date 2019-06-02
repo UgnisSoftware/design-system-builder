@@ -835,7 +835,6 @@ const defaultState: State = {
     selectedNode: null,
     selectedNodeToOverride: null,
     expandingNode: null,
-    draggingNodePosition: null,
     stateManager: null,
     showAddComponentMenu: false,
     showGrid: false,

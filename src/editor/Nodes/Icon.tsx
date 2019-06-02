@@ -2,7 +2,7 @@ import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
 import { ElementNode, IconNode } from '@src/interfaces/nodes'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface TextProps {
   component: IconNode

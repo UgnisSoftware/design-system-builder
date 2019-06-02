@@ -2,7 +2,7 @@ import { ElementNode, ObjectFit, RootNode } from '@src/interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface RootProps {
   component: RootNode

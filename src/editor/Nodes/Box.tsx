@@ -2,7 +2,7 @@ import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { BoxNode, ElementNode, ObjectFit } from '@src/interfaces/nodes'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface BoxProps {
   component: BoxNode
@@ -13,12 +13,7 @@ const BoxAtom = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
-
-  opacity: ${({ parent, component }) =>
-    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
-    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
-      ? 0.4
-      : 1};
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   box-shadow: ${({ component }: BoxProps) =>

@@ -1,7 +1,7 @@
 import { ElementNode, LabelNode } from '@src/interfaces/nodes'
 import * as React from 'react'
 import styled from 'styled-components'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface BoxProps {
   component: LabelNode

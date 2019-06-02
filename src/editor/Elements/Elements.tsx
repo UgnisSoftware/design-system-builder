@@ -78,7 +78,7 @@ class Elements extends React.Component<{}, State> {
         if (
           entry.receiver !== state.ui &&
           entry.receiver !== state.ui.router &&
-          entry.receiver !== state.ui.draggingNodePosition
+          entry.receiver !== state.ui.addingAtom
         ) {
           onlyUI = false
         }
@@ -172,7 +172,7 @@ class Elements extends React.Component<{}, State> {
             </Dimmer>
             <GridOverlay rootNode={element.root} />
           </ElementWrapper>
-          {state.ui.showAddComponentMenu && <AddComponentMenu />}
+          <AddComponentMenu />
           {state.ui.addingAtom && <AddingAtom />}
         </Background>
       </Wrapper>

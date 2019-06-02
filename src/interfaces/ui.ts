@@ -1,4 +1,4 @@
-import { Nodes, NodeTypes, RootNode } from '@src/interfaces/nodes'
+import { Nodes, RootNode } from '@src/interfaces/nodes'
 import { RouterPaths } from '@src/interfaces/router'
 import { Elements } from '@src/interfaces/elements'
 
@@ -19,12 +19,9 @@ export enum ComponentStateMenu {
 }
 
 export interface AddingAtom {
-  type: NodeTypes
-  position: {
-    x: number
-    y: number
-  }
-  imageUrl?: string
+  node: Nodes
+  x: number
+  y: number
 }
 
 export interface HoveredCell {
@@ -48,10 +45,7 @@ export interface UI {
     parent: RootNode
     direction: DragDirection
   }
-  draggingNodePosition: {
-    x: number
-    y: number
-  }
+  draggingNode: AddingAtom
   addingAtom: AddingAtom
   hoveredCell: HoveredCell
   selectedCell: HoveredCell

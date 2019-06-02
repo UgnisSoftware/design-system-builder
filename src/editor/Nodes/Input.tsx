@@ -2,7 +2,7 @@ import { ElementNode, InputNode } from '@src/interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { selectComponent } from '@src/editor/Nodes/_utils'
+import { selectComponent } from '@src/actions'
 
 interface BoxProps {
   component: InputNode
@@ -14,11 +14,11 @@ const Input = styled.input`
   position: relative;
   display: grid;
   outline: none;
-  opacity: ${({ parent, component }) =>
-    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
-    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
-      ? 0.4
-      : 1};
+
+  opacity: ${({ parent }) =>
+  (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
+    ? 0.4
+    : 1};
   background: ${({ component }: BoxProps) =>
     component.backgroundColorId
       ? state.styles.colors.find(color => color.id === component.backgroundColorId).hex

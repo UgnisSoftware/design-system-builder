@@ -270,7 +270,7 @@ const onTileClick = (rootNode: RootNode, rowIndex: number, colIndex: number) => 
 }
 
 const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
-  if (state.ui.expandingNode || state.ui.addingAtom || state.ui.draggingNodePosition) {
+  if (state.ui.expandingNode || state.ui.addingAtom) {
     state.ui.hoveredCell = {
       component: rootNode,
       rowIndex,
@@ -361,7 +361,7 @@ const changeRowUnits = (rootNode: RootNode, index: number) => e => {
  */
 const GridOverlay = ({ rootNode }: Props) => (
   <GridOverlayWrapper
-    visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition}
+    visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom}
   >
     {state.ui.showGrid && (
       <>
@@ -425,7 +425,7 @@ const GridOverlay = ({ rootNode }: Props) => (
     )}
     <GridWrapper>
       <Grid rootNode={rootNode}>
-        {!(state.ui.addingAtom || state.ui.draggingNodePosition || state.ui.expandingNode) && state.ui.selectedNode && (
+        {!(state.ui.addingAtom || state.ui.expandingNode) && state.ui.selectedNode && (
           <BorderForSelected node={state.ui.selectedNode}>
             <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
             <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
@@ -438,9 +438,7 @@ const GridOverlay = ({ rootNode }: Props) => (
           </BorderForSelected>
         )}
 
-        {(state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom || state.ui.draggingNodePosition) && (
-          <FullGrid rootNode={rootNode} />
-        )}
+        {(state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom) && <FullGrid rootNode={rootNode} />}
       </Grid>
     </GridWrapper>
   </GridOverlayWrapper>
