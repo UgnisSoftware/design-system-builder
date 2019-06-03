@@ -2,16 +2,16 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { RouterPaths } from '@src/interfaces'
+import { ElementRoutes, RouterPaths } from '@src/interfaces/router'
 
-import Fonts from './Styles/Fonts/Fonts'
+import HomePage from './HomePage/HomePage'
+import Fonts from './Settings/Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'
-import Center from './Center/Center'
-import ColorsAndSpacing from './Styles/ColorsAndSpacing'
-import Exporting from '@src/editor/Styles/Exporting/Exporting'
-import Devtools from '@src/editor/Devtools/Devtools'
-import Assets from '@src/editor/Styles/Assets/Assets'
+import ColorsAndSpacing from './Settings/ColorsAndSpacing'
+import Exporting from '@src/editor/Settings/Exporting/Exporting'
+import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
+import { connectDevTools } from '@src/utils'
 
 const Root = styled.div`
   display: flex;
@@ -23,15 +23,16 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {state.ui.router.path === RouterPaths.colors && <ColorsAndSpacing />}
-      {state.ui.router.path === RouterPaths.fonts && <Fonts />}
-      {state.ui.router.path === RouterPaths.elements && <Elements />}
-      {state.ui.router.path === RouterPaths.component && <Center />}
-      {state.ui.router.path === RouterPaths.exporting && <Exporting />}
-      {state.ui.router.path === RouterPaths.assets && <Assets />}
-      <Devtools />
+      {state.ui.router[0] === undefined && <HomePage />}
+      {ElementRoutes.includes(state.ui.router[0]) && <Elements />}
+      {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
+      {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
+      {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
+      {state.ui.router[0] === RouterPaths.assets && <Assets />}
     </Root>
   )
 }
+
+connectDevTools(state)
 
 export default Editor

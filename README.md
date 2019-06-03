@@ -1,4 +1,4 @@
-# Ugnis v0.11.0-alpha
+# Ugnis v0.12.0-alpha
 
 Ugnis is a Design tool that exports directly to code. Creating your own Design System has never been so easy.
 

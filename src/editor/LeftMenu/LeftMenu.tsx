@@ -2,14 +2,18 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Alignment, Component, NodeTypes, Overflow, RouterPaths, Units, ViewTypes } from '@src/interfaces'
+import { Element } from '@src/interfaces/elements'
+import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
-import { route, uuid } from '@src/editor/utils'
-import StaticItem from '@src/editor/LeftMenu/StaticItem'
+import { uuid } from '@src/utils'
+import { route } from '@src/actions'
+import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
+import Link from '@components/Link/Link'
+import { FontSizeName } from '@src/interfaces/styles'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -27,6 +31,20 @@ const Title = styled.div`
   font-weight: 500;
   color: ${Colors.grey800};
   padding: 24px 16px 6px 16px;
+  user-select: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  text-transform: uppercase;
+`
+
+const SubTitle = styled.div`
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  color: ${Colors.grey800};
+  padding: 16px 16px 6px 24px;
   user-select: none;
   display: flex;
   align-items: baseline;
@@ -54,7 +72,7 @@ const AddComponentBox = styled.div`
 `
 
 const Logo = styled.div`
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 400;
   display: flex;
   color: ${Colors.brand};
@@ -69,24 +87,33 @@ const LogoImg = styled.img`
   margin-right: -1px;
 `
 
-const showAddComponent = () => {
-  state.ui.addingComponent = true
+const deleteItem = (array, item) => () => {
+  const index = array.indexOf(item)
+  array.splice(index, 1)
 }
-const addComponent = value => {
-  state.ui.addingComponent = false
+
+const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
+  state.ui.addingElement = elementName
+}
+
+const showAddButton = showAddElement('buttons')
+const showAddComponent = showAddElement('components')
+
+const addElement = (elementName: typeof state.ui.addingElement) => value => {
+  state.ui.addingElement = null
 
   if (!value) {
     return
   }
-
   const newId = uuid()
-  const newComponent: Component = {
+  const newRootId = uuid()
+  const newElement: Element = {
     id: newId,
     name: value,
-    viewMode: ViewTypes.SingleCenter,
     root: {
-      id: 'rootId',
-      type: NodeTypes.Box,
+      id: newRootId,
+      type: NodeTypes.Root,
+      nodeType: NodeTypes.Button,
       position: {
         columnStart: 1,
         columnEnd: -1,
@@ -97,83 +124,126 @@ const addComponent = value => {
         horizontal: Alignment.stretch,
         vertical: Alignment.stretch,
       },
-      padding: {
-        top: '0px',
-        left: '0px',
-        bottom: '0px',
-        right: '0px',
-      },
       overflow: Overflow.visible,
       columns: [
+        {
+          value: 12,
+          unit: Units.Px,
+        },
         {
           value: 1,
           unit: Units.Fr,
         },
-      ],
-      rows: [
         {
-          value: 100,
+          value: 12,
           unit: Units.Px,
         },
       ],
-      children: [],
-      background: {
-        colorId: state.colors[0].id,
-      },
-      hover: {},
+      rows: [
+        {
+          value: 8,
+          unit: Units.Px,
+        },
+        {
+          value: 1,
+          unit: Units.Fr,
+        },
+        {
+          value: 8,
+          unit: Units.Px,
+        },
+      ],
+      children: [
+        {
+          id: '55a53c774',
+          type: NodeTypes.Text,
+          position: {
+            columnStart: 2,
+            columnEnd: 3,
+            rowStart: 2,
+            rowEnd: 3,
+          },
+          alignment: {
+            horizontal: Alignment.center,
+            vertical: Alignment.center,
+          },
+          text: 'Button',
+          fontColorId: 'white-6666',
+          fontSize: FontSizeName.S,
+          focus: {},
+          hover: {},
+          fontFamilyId: 'R1-123332',
+        },
+      ],
+      backgroundColorId: 'prim-1',
+      border: 'borbor-6666',
+      boxShadow: 'shadow-7777',
       focus: {},
+      hover: {},
     },
   }
-  route(RouterPaths.component, newId)
-  state.components[newId] = newComponent
-  state.ui.addingComponent = false
+  route(RouterPaths.buttons, newId)
+  state.elements[elementName].push(newElement)
 }
 
-const sortComponents = (component1: Component, component2: Component) => component1.name.localeCompare(component2.name)
+const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
 
 const LeftMenu = () => (
   <LeftMenuBox>
-    <Logo>
-      <LogoImg src="/images/logo.png" height={32} />
-      ugnis
-    </Logo>
+    <Link href="/">
+      <Logo>
+        <LogoImg src="/images/logo.png" height={32} />
+        Ugnis
+      </Logo>
+    </Link>
     <Title>Elements</Title>
-    {Object.keys(state.elements).map(elementKey => (
+    <SubTitle>
+      Buttons
+      <AddComponentBox onClick={showAddButton}>
+        <PlusSign />
+      </AddComponentBox>
+    </SubTitle>
+    {state.ui.addingElement === 'buttons' && <AddInput onSave={addElement('buttons')} />}
+    {state.elements.buttons.map(element => (
       <>
-        <StaticItem
-          onClick={route(RouterPaths.elements, elementKey)}
-          name={elementKey}
-          selected={state.ui.router.componentId === elementKey}
+        <ComponentItem
+          onDelete={deleteItem(state.elements.buttons, element)}
+          onClick={route(RouterPaths.buttons, element.id)}
+          component={element}
         />
       </>
     ))}
 
     <Title>
       Components
-      {!state.ui.addingComponent && (
-        <AddComponentBox onClick={showAddComponent}>
-          <PlusSign />
-        </AddComponentBox>
-      )}
+      <AddComponentBox onClick={showAddComponent}>
+        <PlusSign />
+      </AddComponentBox>
     </Title>
-    {state.ui.addingComponent && <AddInput onSave={addComponent} />}
-    {Object.values(state.components)
+    {state.ui.addingElement === 'components' && <AddInput onSave={addElement('components')} />}
+    {state.elements.components
+      .concat()
       .sort(sortComponents)
       .map(component => (
-        <ComponentItem key={component.id} component={component} onClick={route(RouterPaths.component, component.id)} />
+        <ComponentItem
+          key={component.id}
+          component={component}
+          onClick={route(RouterPaths.components, component.id)}
+          onDelete={deleteItem(state.elements.components, component)}
+        />
       ))}
 
     <Title>Settings</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router.path === RouterPaths.colors}>
+    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router[1] === RouterPaths.colors}>
       Styles
     </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router.path === RouterPaths.fonts}>
+    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router[1] === RouterPaths.fonts}>
       Fonts
     </Item>
-    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router.path === RouterPaths.assets}>
+    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router[1] === RouterPaths.assets}>
       Assets
     </Item>
-    <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router.path === RouterPaths.exporting}>
+    <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router[1] === RouterPaths.exporting}>
       Exporting
     </Item>
   </LeftMenuBox>
