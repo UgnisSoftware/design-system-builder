@@ -33,11 +33,12 @@ const Content = styled.div`
 `
 
 const HomePage = () => {
-
   return (
     <Container>
       <Container>
-        <Top><h3>Welcome to Ugnis</h3></Top>
+        <Top>
+          <h3>Welcome to Ugnis</h3>
+        </Top>
         <SubTop>A visual design tool with no CSS</SubTop>
       </Container>
       <Subhead>Click on the left menu to start</Subhead>

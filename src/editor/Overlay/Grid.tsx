@@ -360,9 +360,7 @@ const changeRowUnits = (rootNode: RootNode, index: number) => e => {
  *   Editing text - state.ui.editingTextNode
  */
 const GridOverlay = ({ rootNode }: Props) => (
-  <GridOverlayWrapper
-    visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom}
-  >
+  <GridOverlayWrapper visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom}>
     {state.ui.showGrid && (
       <>
         <GridTop rootNode={rootNode}>
