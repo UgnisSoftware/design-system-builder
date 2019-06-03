@@ -48,6 +48,7 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
     if (componentState.inEditing && stopEditing) {
       return { inEditing: false }
     }
+    return null
   }
 
   shouldComponentUpdate(_, nextState) {

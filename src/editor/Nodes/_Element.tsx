@@ -119,7 +119,7 @@ function Element({ component, parent }: Props) {
     return (
       <RootAtom component={component} parent={parent}>
         {component.children.map(node => (
-          <Element key={node.id} component={node} parent={parent} />
+          <Element key={parent ? parent.id + node.id : node.id} component={node} parent={parent} />
         ))}
       </RootAtom>
     )

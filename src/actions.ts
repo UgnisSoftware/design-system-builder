@@ -9,7 +9,7 @@ export const selectComponent = (component: Nodes, parent?: ElementNode) => e => 
     state.ui.selectedNode = parent || component
     state.ui.selectedNodeToOverride = parent ? component : null
 
-    if (component.type === NodeTypes.Root) {
+    if (component.type === NodeTypes.Root && !parent) {
       return
     }
 
@@ -27,7 +27,7 @@ export const selectComponent = (component: Nodes, parent?: ElementNode) => e => 
       }
 
       const children = getSelectedElement().root.children
-      const fromIndex = children.indexOf(component)
+      const fromIndex = children.indexOf(parent || component)
       if (fromIndex !== -1) {
         children.splice(fromIndex, 1)
       }
@@ -43,37 +43,11 @@ export const selectComponent = (component: Nodes, parent?: ElementNode) => e => 
     window.addEventListener('touchmove', drag)
     window.addEventListener('mouseup', stopDragging)
     window.addEventListener('touchend', stopDragging)
-    function stopDragging(event) {
+    function stopDragging() {
       window.removeEventListener('mousemove', drag)
       window.removeEventListener('touchmove', drag)
       window.removeEventListener('mouseup', stopDragging)
       window.removeEventListener('touchend', stopDragging)
-      return
-      event.preventDefault()
-      if (state.ui.hoveredCell) {
-        if (parent) {
-          getSelectedElement().root.children.push(parent)
-          parent.position = {
-            columnStart: state.ui.hoveredCell.colIndex + 1,
-            columnEnd:
-              state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
-            rowStart: state.ui.hoveredCell.rowIndex + 1,
-            rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
-          }
-        } else {
-          getSelectedElement().root.children.push(component)
-          component.position = {
-            columnStart: state.ui.hoveredCell.colIndex + 1,
-            columnEnd:
-              state.ui.hoveredCell.colIndex + 1 + component.position.columnEnd - component.position.columnStart,
-            rowStart: state.ui.hoveredCell.rowIndex + 1,
-            rowEnd: state.ui.hoveredCell.rowIndex + 1 + component.position.rowEnd - component.position.rowStart,
-          }
-        }
-        state.ui.hoveredCell = null
-      } else {
-        state.ui.selectedNode = null
-      }
       return false
     }
     return false

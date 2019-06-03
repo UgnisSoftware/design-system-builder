@@ -39,7 +39,7 @@ const deleteComponent = e => {
     (del || backspace) &&
     state.ui.selectedNode &&
     !state.ui.editingTextNode &&
-    state.ui.selectedNode.type !== NodeTypes.Root
+    (state.ui.selectedNode.type !== NodeTypes.Root || state.ui.selectedNodeToOverride)
   ) {
     removeNode(component.root)
     state.ui.selectedNode = null
