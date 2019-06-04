@@ -37,6 +37,7 @@ export interface UI {
   editingBoxNode: Nodes
   addingElement: keyof Elements | null
   showAddComponentMenu: boolean
+  showExportMenu: boolean
   showGrid: boolean
   selectedNode: Nodes
   selectedNodeToOverride: Nodes

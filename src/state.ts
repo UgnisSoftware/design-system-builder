@@ -837,6 +837,7 @@ const defaultState: State = {
     expandingNode: null,
     stateManager: null,
     showAddComponentMenu: false,
+    showExportMenu: false,
     showGrid: false,
   },
   ...mergeSaved,

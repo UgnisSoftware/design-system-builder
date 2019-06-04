@@ -6,7 +6,7 @@ import state from '@state'
 const AddCircle = styled.i`
   position: absolute;
   top: ${() => (state.ui.stateManager ? `86px` : `16px`)};
-  left: 22px;
+  right: 22px;
   font-size: 50px;
   border-radius: 50%;
   display: flex;
@@ -14,17 +14,17 @@ const AddCircle = styled.i`
   justify-content: center;
 `
 
-const showAddComponentMenu = () => {
-  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
+const showExportMenu = () => {
+  state.ui.showExportMenu = !state.ui.showExportMenu
 }
 
-class AddComponentButton extends React.Component {
+class ShowExportButton extends React.Component {
   render() {
     return (
-      <AddCircle className="material-icons" onClick={showAddComponentMenu}>
-        add_circle_outline
+      <AddCircle className="material-icons" onClick={showExportMenu}>
+        exit_to_app
       </AddCircle>
     )
   }
 }
-export default AddComponentButton
+export default ShowExportButton

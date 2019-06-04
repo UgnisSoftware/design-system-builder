@@ -14,6 +14,8 @@ import AddingAtom from '@src/editor/Overlay/AddingAtom'
 import Component from '@src/editor/Nodes/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
 import { getSelectedElement } from '@src/selector'
+import ShowExportButton from '@src/editor/TopBar/ShowExportButton'
+import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
 
 const Wrapper = styled.div`
   flex: 1;
@@ -166,6 +168,7 @@ class Elements extends React.Component<{}, State> {
         <TopBar />
         <Background>
           <AddComponentButton />
+          <ShowExportButton />
           <ElementWrapper>
             <Dimmer>
               <Component component={element.root} />
@@ -173,6 +176,7 @@ class Elements extends React.Component<{}, State> {
             <GridOverlay rootNode={element.root} />
           </ElementWrapper>
           <AddComponentMenu />
+          <ExporterMenu />
           {state.ui.addingAtom && <AddingAtom />}
         </Background>
       </Wrapper>
