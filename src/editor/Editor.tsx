@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { ElementRoutes, RouterPaths } from '@src/interfaces/router'
+import { RouterPaths } from '@src/interfaces/router'
 
 import HomePage from './HomePage/HomePage'
 import Fonts from './Settings/Fonts/Fonts'
@@ -24,7 +24,7 @@ const Editor = () => {
     <Root>
       <LeftMenu />
       {state.ui.router[0] === undefined && <HomePage />}
-      {ElementRoutes.includes(state.ui.router[0]) && <Elements />}
+      {Object.keys(state.elements).includes(state.ui.router[0]) && <Elements />}
       {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}

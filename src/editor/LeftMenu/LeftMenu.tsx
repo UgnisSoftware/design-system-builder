@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Element } from '@src/interfaces/elements'
+import { Element, Elements } from '@src/interfaces/elements'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -22,6 +22,9 @@ const LeftMenuBox = styled.div`
   user-select: none;
   padding-top: 16px;
   z-index: 100;
+  overflow: scroll;
+  max-height: 100vh;
+  padding-bottom: 32px;
 `
 
 const Title = styled.div`
@@ -43,8 +46,8 @@ const SubTitle = styled.div`
   font-size: 14px;
   letter-spacing: 0.05em;
   font-weight: 500;
-  color: ${Colors.grey800};
-  padding: 16px 16px 6px 24px;
+  color: ${Colors.grey500};
+  padding: 16px 16px 6px 16px;
   user-select: none;
   display: flex;
   align-items: baseline;
@@ -95,9 +98,6 @@ const deleteItem = (array, item) => () => {
 const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
   state.ui.addingElement = elementName
 }
-
-const showAddButton = showAddElement('buttons')
-const showAddComponent = showAddElement('components')
 
 const addElement = (elementName: typeof state.ui.addingElement) => value => {
   state.ui.addingElement = null
@@ -182,7 +182,7 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
       hover: {},
     },
   }
-  route(RouterPaths.buttons, newId)
+  route(elementName, newId)
   state.elements[elementName].push(newElement)
 }
 
@@ -197,26 +197,33 @@ const LeftMenu = () => (
       </Logo>
     </Link>
     <Title>Elements</Title>
-    <SubTitle>
-      Buttons
-      <AddComponentBox onClick={showAddButton}>
-        <PlusSign />
-      </AddComponentBox>
-    </SubTitle>
-    {state.ui.addingElement === 'buttons' && <AddInput onSave={addElement('buttons')} />}
-    {state.elements.buttons.map(element => (
-      <>
-        <ComponentItem
-          onDelete={deleteItem(state.elements.buttons, element)}
-          onClick={route(RouterPaths.buttons, element.id)}
-          component={element}
-        />
-      </>
-    ))}
+
+    {Object.keys(state.elements)
+      .filter(key => key !== 'components')
+      .map((key: keyof Elements) => (
+        <>
+          <SubTitle>
+            {key}
+            <AddComponentBox onClick={showAddElement(key)}>
+              <PlusSign />
+            </AddComponentBox>
+          </SubTitle>
+          {state.ui.addingElement === key && <AddInput onSave={addElement(key)} />}
+          {state.elements[key].map(element => (
+            <>
+              <ComponentItem
+                onDelete={deleteItem(state.elements[key], element)}
+                onClick={route(key, element.id)}
+                component={element}
+              />
+            </>
+          ))}
+        </>
+      ))}
 
     <Title>
       Components
-      <AddComponentBox onClick={showAddComponent}>
+      <AddComponentBox onClick={showAddElement('components')}>
         <PlusSign />
       </AddComponentBox>
     </Title>
@@ -228,7 +235,7 @@ const LeftMenu = () => (
         <ComponentItem
           key={component.id}
           component={component}
-          onClick={route(RouterPaths.components, component.id)}
+          onClick={route('components', component.id)}
           onDelete={deleteItem(state.elements.components, component)}
         />
       ))}

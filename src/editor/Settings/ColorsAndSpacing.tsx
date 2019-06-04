@@ -15,6 +15,8 @@ import Border from '@src/editor/Settings/Border'
 const Wrapper = styled.div`
   padding: 24px;
   flex: 1;
+  overflow: scroll;
+  max-height: 100vh;
 `
 
 const ColorWrapper = styled.div`
