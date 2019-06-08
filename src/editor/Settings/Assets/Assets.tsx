@@ -10,6 +10,8 @@ import { ImageAsset } from '@src/interfaces/settings'
 const Wrapper = styled.div`
   padding: 24px;
   flex: 1;
+  overflow: scroll;
+  max-height: 100vh;
 `
 
 const AddBox = styled.div`
@@ -90,7 +92,7 @@ const Assets = () => (
     </H1>
     <ImagesWrapper>
       {state.settings.images.map(img => (
-        <div>
+        <div key={img.id}>
           <div onClick={onDeleteImage(img)}>
             <i className="material-icons">clear</i>
           </div>
