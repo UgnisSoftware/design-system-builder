@@ -36,11 +36,8 @@ export interface Color {
 }
 
 export interface ImageAsset {
+  id: string
   url: string
-}
-
-export interface Assets {
-  images: ImageAsset
 }
 
 export interface Settings {
@@ -49,5 +46,5 @@ export interface Settings {
   boxShadow: BoxShadow[]
   border: Border[]
   fonts: Font[]
-  assets: Assets
+  images: ImageAsset[]
 }
