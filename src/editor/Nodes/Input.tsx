@@ -18,10 +18,10 @@ const Input = styled.input`
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   background: ${({ component }: BoxProps) =>
     component.backgroundColorId
-      ? state.styles.colors.find(color => color.id === component.backgroundColorId).hex
+      ? state.settings.colors.find(color => color.id === component.backgroundColorId).hex
       : 'none'};
   ${({ component }: BoxProps) => {
-    const border = state.styles.border.find(border => border.id === component.border)
+    const border = state.settings.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow, FontSizeName } from '@src/interfaces/styles'
+import { Border, BoxShadow, FontSizeName } from '@src/interfaces/settings'
 import { Colors } from '@src/styles'
 import { ComponentStateMenu } from '@src/interfaces/ui'
 import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/interfaces/nodes'
@@ -296,7 +296,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
           color="#ffffff"
           onClick={changeBackground(null, stateManager)}
         />
-        {state.styles.colors.map(color => (
+        {state.settings.colors.map(color => (
           <ColorBox
             key={color.id}
             selected={component.backgroundColorId === color.id}
@@ -327,7 +327,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
           selected={component.border === null}
           onClick={removeBorder(stateManager)}
         />
-        {state.styles.border.map(border => (
+        {state.settings.border.map(border => (
           <BorderBox
             key={border.id}
             selected={component.border === border.id}
@@ -347,7 +347,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
           selected={component.boxShadow === null}
           onClick={removeBoxShadow(stateManager)}
         />
-        {state.styles.boxShadow.map(boxShadow => (
+        {state.settings.boxShadow.map(boxShadow => (
           <BoxShadowBox
             key={boxShadow.id}
             selected={component.boxShadow === boxShadow.id}
@@ -476,7 +476,7 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
     <InfoColumn>
       <Title>Color</Title>
       <IconRow>
-        {state.styles.colors.map(color => (
+        {state.settings.colors.map(color => (
           <ColorBox
             key={color.id}
             selected={component.fontColorId === color.id}
@@ -511,7 +511,7 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
     <InfoColumn>
       <Title>Font family</Title>
       <IconRow>
-        {state.styles.fonts.map(font => (
+        {state.settings.fonts.map(font => (
           <StylelessButton key={font.id} title={font.fontFamily} onClick={changeFontFamily(font.id, stateManager)}>
             {font.fontFamily}
           </StylelessButton>
@@ -531,7 +531,7 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
     <InfoColumn>
       <Title>Color</Title>
       <IconRow>
-        {state.styles.colors.map(color => (
+        {state.settings.colors.map(color => (
           <ColorBox
             key={color.id}
             selected={component.fontColorId === color.id}

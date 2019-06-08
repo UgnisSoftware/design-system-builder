@@ -16,8 +16,8 @@ const IconWrapper = styled.div`
   grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   color: ${({ component }: TextProps) =>
-    component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-size: ${({ component }: TextProps) => state.styles.fonts[0].sizes[component.fontSize].fontSize};
+    component.fontColorId ? state.settings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-size: ${({ component }: TextProps) => state.settings.fonts[0].sizes[component.fontSize].fontSize};
   justify-self: ${({ component }: TextProps) => component.alignment.horizontal};
   align-self: ${({ component }: TextProps) => component.alignment.vertical};
 `

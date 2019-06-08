@@ -60,18 +60,18 @@ const onAddColorClick = () => {
   }
 
   state.ui.editingColorId = id
-  state.styles.colors.push(randomColor)
+  state.settings.colors.push(randomColor)
 }
 
 const onAddBoxShadowClick = () => {
-  state.styles.boxShadow.push({
+  state.settings.boxShadow.push({
     id: uuid(),
     value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
   })
 }
 
 const onAddBorderClick = () => {
-  state.styles.border.push({
+  state.settings.border.push({
     id: uuid(),
     radius: '80px 149px 80px 51px',
     style: '2px solid #f78888',
@@ -87,14 +87,14 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <ColorWrapper>
-      {state.styles.colors.map(color => (
+      {state.settings.colors.map(color => (
         <ColorBoxWithPicker editing={state.ui.editingColorId === color.id} key={color.id} color={color} />
       ))}
     </ColorWrapper>
 
     <H1>Spacing</H1>
     <SpacingWrapper>
-      {state.styles.spacing.map((spacing, index) => (
+      {state.settings.spacing.map((spacing, index) => (
         <SpacingSize index={index} spacing={spacing} key={`boxShadow_${index}`} />
       ))}
     </SpacingWrapper>
@@ -106,7 +106,7 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <SpacingWrapper>
-      {state.styles.boxShadow.map((boxShadow, index) => (
+      {state.settings.boxShadow.map((boxShadow, index) => (
         <BoxShadow boxShadow={boxShadow} key={`boxShadow_${index}`} />
       ))}
     </SpacingWrapper>
@@ -118,7 +118,7 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <SpacingWrapper>
-      {state.styles.border.map((border, index) => (
+      {state.settings.border.map((border, index) => (
         <Border border={border} key={`border_${index}`} />
       ))}
     </SpacingWrapper>

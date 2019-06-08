@@ -7,7 +7,7 @@ import chroma from 'chroma-js'
 import state from '@state'
 import { findNearestColor } from './colorList'
 import { connect } from 'lape'
-import { Color } from '@src/interfaces/styles'
+import { Color } from '@src/interfaces/settings'
 
 const Wrapper = styled.div`
   position: relative;
@@ -129,7 +129,7 @@ const onHexValueChange = (color: Color) => (event: React.ChangeEvent<HTMLInputEl
 }
 
 const onDelete = (color: Color) => () => {
-  state.styles.colors.splice(state.styles.colors.indexOf(color), 1)
+  state.settings.colors.splice(state.settings.colors.indexOf(color), 1)
 }
 
 const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => (

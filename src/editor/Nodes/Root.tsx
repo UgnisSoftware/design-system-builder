@@ -21,7 +21,7 @@ const RootWrapper = styled.div`
   overflow: ${({ component }: RootProps) => (component.overflow ? component.overflow : 'normal')};
   box-shadow: ${({ component }: RootProps) =>
     component.boxShadow
-      ? state.styles.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
+      ? state.settings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
       : 'none'};
   ${({ component }: RootProps) => {
     if (component.backgroundImageUrl) {
@@ -34,12 +34,12 @@ const RootWrapper = styled.div`
     }
     if (component.backgroundColorId) {
       return css`
-        background: ${state.styles.colors.find(color => color.id === component.backgroundColorId).hex};
+        background: ${state.settings.colors.find(color => color.id === component.backgroundColorId).hex};
       `
     }
   }}
   ${({ component }: RootProps) => {
-    const border = state.styles.border.find(border => border.id === component.border)
+    const border = state.settings.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};

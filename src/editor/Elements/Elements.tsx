@@ -60,7 +60,7 @@ class Elements extends React.Component<{}, State> {
         'state',
         JSON.stringify({
           elements: state.elements,
-          styles: state.styles,
+          styles: state.settings,
         }),
       )
       if (this.state.changingState) {

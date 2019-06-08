@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import TextInput from '../../../components/TextInput'
-import { Font, FontSizeName } from '@src/interfaces/styles'
+import { Font, FontSizeName } from '@src/interfaces/settings'
 import SymbolBox from '../../../components/SymbolBox'
 
 const Wrapper = styled.div`

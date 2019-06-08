@@ -35,10 +35,19 @@ export interface Color {
   hex: string
 }
 
-export interface Styles {
+export interface ImageAsset {
+  url: string
+}
+
+export interface Assets {
+  images: ImageAsset
+}
+
+export interface Settings {
   colors: Color[]
   spacing: string[]
   boxShadow: BoxShadow[]
   border: Border[]
   fonts: Font[]
+  assets: Assets
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import state from '@state'
 import H1 from '../../../components/H1'
 import FontSizeRow from '@src/editor/Settings/Fonts/FontSizeRow'
-import { FontSizeName } from '@src/interfaces/styles'
+import { FontSizeName } from '@src/interfaces/settings'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -22,7 +22,7 @@ const FontRow = styled.div`
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
-    {state.styles.fonts.map(font => (
+    {state.settings.fonts.map(font => (
       <div key={font.id}>
         <h2>{font.fontFamily}</h2>
         <FontRow>

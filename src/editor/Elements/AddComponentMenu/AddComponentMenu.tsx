@@ -5,7 +5,7 @@ import { Alignment, Nodes, NodeTypes } from '@src/interfaces/nodes'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import { addComponent } from '@src/actions'
-import { FontSizeName } from '@src/interfaces/styles'
+import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
 import { Element, Elements } from '@src/interfaces/elements'
 
@@ -110,7 +110,7 @@ const generateComponent = (type: NodeTypes, key?: keyof Elements, element?: Elem
       type: NodeTypes.Text,
       text: 'Hello',
       fontSize: FontSizeName.L,
-      fontFamilyId: state.styles.fonts[0].id,
+      fontFamilyId: state.settings.fonts[0].id,
     }
   }
 }

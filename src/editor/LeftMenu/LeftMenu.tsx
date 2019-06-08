@@ -13,7 +13,7 @@ import { uuid } from '@src/utils'
 import { route } from '@src/actions'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import Link from '@components/Link/Link'
-import { FontSizeName } from '@src/interfaces/styles'
+import { FontSizeName } from '@src/interfaces/settings'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;

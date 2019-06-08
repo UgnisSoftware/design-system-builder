@@ -19,10 +19,10 @@ const TextWrapper = styled.div<TextProps>`
   justify-self: ${({ component }) => component.alignment.horizontal};
   align-self: ${({ component }) => component.alignment.vertical};
   font-size: ${({ component }) =>
-    state.styles.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
+    state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
   color: ${({ component }) =>
-    component.fontColorId ? state.styles.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-family: ${({ component }) => state.styles.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
+    component.fontColorId ? state.settings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-family: ${({ component }) => state.settings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
   white-space: pre;
 `

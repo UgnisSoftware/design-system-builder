@@ -1,6 +1,6 @@
 import { proxify } from 'lape'
 import { State } from '@src/interfaces/state'
-import { FontSizeName } from '@src/interfaces/styles'
+import { FontSizeName } from '@src/interfaces/settings'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 
@@ -667,7 +667,7 @@ const defaultState: State = {
       },
     ],
   },
-  styles: {
+  settings: {
     colors: [
       {
         id: 'prim-1',
