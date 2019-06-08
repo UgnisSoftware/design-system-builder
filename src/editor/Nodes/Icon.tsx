@@ -12,11 +12,7 @@ interface TextProps {
 const IconWrapper = styled.div`
   position: relative;
   display: grid;
-  opacity: ${({ parent, component }) =>
-    (state.ui.selectedNode && state.ui.selectedNode !== component) ||
-    (state.ui.editingBoxNode && state.ui.editingBoxNode === parent)
-      ? 0.4
-      : 1};
+  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }: TextProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   color: ${({ component }: TextProps) =>

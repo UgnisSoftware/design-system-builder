@@ -31,7 +31,7 @@ export interface HoveredCell {
 }
 
 export interface UI {
-  router: RouterPaths[]
+  router: (RouterPaths | keyof Elements)[]
   editingColorId: string
   editingTextNode: Nodes
   editingBoxNode: Nodes
