@@ -209,9 +209,11 @@ const moveLayer = (by: number) => () => {
 
 const changeBackground = (colorId: string | null, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
+    state.ui.selectedNode[stateManager].backgroundImageUrl = null
     state.ui.selectedNode[stateManager].backgroundColorId = colorId
     return
   }
+  ;(state.ui.selectedNode as BoxNode).backgroundImageUrl = null
   ;(state.ui.selectedNode as BoxNode).backgroundColorId = colorId
 }
 const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => () => {
@@ -288,12 +290,13 @@ const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentS
 } fix this nonsense?*/
 
 const selectImage = (image: ImageAsset, stateManager?: ComponentStateMenu) => () => {
-
   const url = image.url
   if (stateManager) {
     state.ui.selectedNode[stateManager].backgroundImageUrl = url
+    state.ui.selectedNode[stateManager].backgroundColorId = null
     return
   }
+  ;(state.ui.selectedNode as BoxNode).backgroundColorId = null
   ;(state.ui.selectedNode as BoxNode).backgroundImageUrl = url
 }
 
