@@ -1,11 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Border, BoxShadow, FontSizeName } from '@src/interfaces/settings'
+import { Border, BoxShadow, FontSizeName, ImageAsset } from '@src/interfaces/settings'
 import { Colors } from '@src/styles'
 import { ComponentStateMenu } from '@src/interfaces/ui'
 import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/interfaces/nodes'
 import { getSelectedElement } from '@src/selector'
+import { useState } from 'react'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;
@@ -24,11 +25,12 @@ const AlignRight = styled.div`
 const StateManagerWrapper = styled.div`
   position: absolute;
   top: 70px;
-  left: 8px;
+  left: 208px;
   padding-left: 8px;
   z-index: 99999;
   background: rgb(248, 248, 248);
-  box-shadow: 0 10px 20px hsla(0, 0%, 0%, 0.15), 0 3px 6px hsla(0, 0%, 0%, 0.1);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;
   font-size: 24px;
@@ -63,10 +65,68 @@ const Divider = styled.div`
 const ColorBox = styled(StylelessButton)`
   width: 20px;
   height: 20px;
+  font-size: 18px;
   margin-right: 4px;
   background: ${({ color }: any) => color};
   box-shadow: ${({ selected }) => (selected ? `0px 0 5px 1px ${Colors.accent}` : 'none')};
 `
+
+const ImageBoxWrapper = styled.div`
+  position: relative;
+`
+
+const ImageDropdown = styled.div`
+  position: absolute;
+  padding: 24px;
+  top: 40px;
+  width: 500px;
+  height: 400px;
+  overflow: scroll;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  right: 0;
+  z-index: 999999;
+  background: #f8f8f8;
+`
+
+const Image = styled.img`
+  object-fit: contain;
+  width: 200px;
+  height: 200px;
+`
+
+const ImageGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 200px);
+  grid-gap: 24px;
+`
+
+const ImageBox = () => {
+  const [open, updateOpen] = useState(false)
+
+  return (
+    <ImageBoxWrapper>
+      <div onClick={() => updateOpen(!open)}>img</div>
+      {open && (
+        <ImageDropdown>
+          <div>
+            <Title>Background Image</Title>
+            <IconRow>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.cover)}>cover/</StylelessButton>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.contain)}>contain/</StylelessButton>
+              <StylelessButton onClick={selectObjectFit(ObjectFit.fill)}>fill</StylelessButton>
+            </IconRow>
+          </div>
+          <ImageGrid>
+            {state.settings.images.map(img => (
+              <Image src={img.url} key={img.id} onClick={selectImage(img)} />
+            ))}
+          </ImageGrid>
+        </ImageDropdown>
+      )}
+    </ImageBoxWrapper>
+  )
+}
 
 const HorizontalAlignmentWrapper = styled.div`
   cursor: pointer;
@@ -227,10 +287,9 @@ const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentS
   state.ui.selectedNode.fontFamily = fontFamily
 } fix this nonsense?*/
 
-const selectImage = (stateManager?: ComponentStateMenu) => () => {
-  const images = state.settings.images
+const selectImage = (image: ImageAsset, stateManager?: ComponentStateMenu) => () => {
 
-  const url = images[Math.floor(Math.random() * images.length)].url
+  const url = image.url
   if (stateManager) {
     state.ui.selectedNode[stateManager].backgroundImageUrl = url
     return
@@ -283,13 +342,15 @@ interface BoxMutatorProps {
 const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
   <>
     <InfoColumn>
-      <Title>Background Color</Title>
+      <Title>Background</Title>
       <IconRow>
         <ColorBox
           selected={component.backgroundColorId === null}
           color="#ffffff"
           onClick={changeBackground(null, stateManager)}
-        />
+        >
+          <i className="material-icons">clear</i>
+        </ColorBox>
         {state.settings.colors.map(color => (
           <ColorBox
             key={color.id}
@@ -299,16 +360,7 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
             onClick={changeBackground(color.id, stateManager)}
           />
         ))}
-      </IconRow>
-    </InfoColumn>
-    <Divider />
-    <InfoColumn>
-      <Title>Background Image</Title>
-      <IconRow>
-        <StylelessButton onClick={selectImage()}>Select image</StylelessButton>
-        <StylelessButton onClick={selectObjectFit(ObjectFit.cover, stateManager)}>cover/</StylelessButton>
-        <StylelessButton onClick={selectObjectFit(ObjectFit.contain, stateManager)}>contain/</StylelessButton>
-        <StylelessButton onClick={selectObjectFit(ObjectFit.fill, stateManager)}>fill</StylelessButton>
+        <ImageBox />
       </IconRow>
     </InfoColumn>
     <Divider />
