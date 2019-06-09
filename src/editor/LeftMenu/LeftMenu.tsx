@@ -9,11 +9,9 @@ import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
-import { uuid } from '@src/utils'
 import { route } from '@src/actions'
-import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import Link from '@components/Link/Link'
-import { FontSizeName } from '@src/interfaces/settings'
+import ButtonElement from '@src/elements/ButtonElement'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -105,84 +103,8 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
   if (!value) {
     return
   }
-  const newId = uuid()
-  const newRootId = uuid()
-  const newElement: Element = {
-    id: newId,
-    name: value,
-    root: {
-      id: newRootId,
-      type: NodeTypes.Root,
-      nodeType: NodeTypes.Button,
-      position: {
-        columnStart: 1,
-        columnEnd: -1,
-        rowStart: 1,
-        rowEnd: -1,
-      },
-      alignment: {
-        horizontal: Alignment.stretch,
-        vertical: Alignment.stretch,
-      },
-      overflow: Overflow.visible,
-      columns: [
-        {
-          value: 12,
-          unit: Units.Px,
-        },
-        {
-          value: 1,
-          unit: Units.Fr,
-        },
-        {
-          value: 12,
-          unit: Units.Px,
-        },
-      ],
-      rows: [
-        {
-          value: 8,
-          unit: Units.Px,
-        },
-        {
-          value: 1,
-          unit: Units.Fr,
-        },
-        {
-          value: 8,
-          unit: Units.Px,
-        },
-      ],
-      children: [
-        {
-          id: '55a53c774',
-          type: NodeTypes.Text,
-          position: {
-            columnStart: 2,
-            columnEnd: 3,
-            rowStart: 2,
-            rowEnd: 3,
-          },
-          alignment: {
-            horizontal: Alignment.center,
-            vertical: Alignment.center,
-          },
-          text: 'Button',
-          fontColorId: 'white-6666',
-          fontSize: FontSizeName.S,
-          focus: {},
-          hover: {},
-          fontFamilyId: 'R1-123332',
-        },
-      ],
-      backgroundColorId: 'prim-1',
-      border: 'borbor-6666',
-      boxShadow: 'shadow-7777',
-      focus: {},
-      hover: {},
-    },
-  }
-  route(elementName, newId)
+  const newElement = ButtonElement(value)
+  route(elementName, newElement.id)()
   state.elements[elementName].push(newElement)
 }
 
