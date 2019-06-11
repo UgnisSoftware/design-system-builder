@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ChromePicker } from 'react-color'
+import ChromePicker from 'react-color/lib/Chrome'
 import ClickOutside from 'react-click-outside'
 import chroma from 'chroma-js'
 
