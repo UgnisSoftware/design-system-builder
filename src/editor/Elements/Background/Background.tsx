@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import state from '@state'
 import { NodeTypes, RootNode } from '@src/interfaces/nodes'
 import { getSelectedElement } from '@src/selector'
+import useKey from 'react-use/esm/useKey'
 
 const ElementsWrapper = styled.div`
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
@@ -45,6 +46,7 @@ const deleteComponent = e => {
     state.ui.selectedNode = null
     state.ui.stateManager = null
   }
+  return false
 }
 
 const unselectComponent = e => {
@@ -58,16 +60,8 @@ const unselectComponent = e => {
   }
 }
 
-class Background extends React.Component {
-  componentDidMount() {
-    window.addEventListener('keydown', deleteComponent)
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', deleteComponent)
-  }
-
-  render() {
-    return <ElementsWrapper onClick={unselectComponent}>{this.props.children}</ElementsWrapper>
-  }
+const Background = props => {
+  useKey(deleteComponent)
+  return <ElementsWrapper onClick={unselectComponent}>{props.children}</ElementsWrapper>
 }
 export default Background

@@ -1,6 +1,5 @@
 const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const webpack = require('webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
@@ -34,17 +33,6 @@ module.exports = {
         include: path.resolve(__dirname, 'src'),
       },
     ],
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),

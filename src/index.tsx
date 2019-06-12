@@ -4,10 +4,16 @@ import { connect, Emitter } from 'lape'
 
 import Editor from './editor/Editor'
 import state from '@state'
+import useOrientation from 'react-use/esm/useOrientation'
+import useWindowSize from 'react-use/esm/useWindowSize'
+import useEffectOnce from 'react-use/esm/useEffectOnce'
 let node = document.getElementById('editor')
 
-class Root extends React.Component {
-  componentDidMount() {
+const Root = () => {
+  useOrientation()
+  useWindowSize()
+
+  useEffectOnce(() => {
     Emitter.addSet(() => {
       localStorage.setItem(
         'state',
@@ -17,14 +23,9 @@ class Root extends React.Component {
         }),
       )
     })
+  })
 
-    window.addEventListener('resize', () => this.forceUpdate(), false)
-    window.addEventListener('orientationchange', () => this.forceUpdate(), false)
-  }
-
-  render() {
-    return <Editor />
-  }
+  return <Editor />
 }
 
 if ((module as any).hot) {

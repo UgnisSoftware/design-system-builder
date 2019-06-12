@@ -16,6 +16,9 @@ import GridOverlay from '@src/editor/Overlay/Grid'
 import { getSelectedElement } from '@src/selector'
 import ShowExportButton from '@src/editor/TopBar/ShowExportButton'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
+import useSetState from 'react-use/esm/useSetState'
+import useEffectOnce from 'react-use/esm/useEffectOnce'
+import useKey from 'react-use/esm/useKey'
 
 const Wrapper = styled.div`
   flex: 1;
@@ -46,18 +49,18 @@ interface State {
   stack: Map<object, Data>[]
 }
 
-class Elements extends React.Component<{}, State> {
-  state = {
+const Elements = () => {
+  const [localState, setState] = useSetState<State>({
     changingState: false,
     disabled: true,
     index: 0,
     stack: [],
-  }
+  })
 
-  componentDidMount() {
+  useEffectOnce(() => {
     Emitter.addSet(data => {
-      if (this.state.changingState) {
-        this.setState({ changingState: false })
+      if (localState.changingState) {
+        setState({ changingState: false })
         return
       }
 
@@ -66,7 +69,7 @@ class Elements extends React.Component<{}, State> {
       let onlyUI = true
       data.forEach(entry => {
         if (entry.receiver === state.ui.router) {
-          this.setState({ stack: [], index: 0 })
+          setState({ stack: [], index: 0 })
           reset = true
           return
         }
@@ -83,97 +86,86 @@ class Elements extends React.Component<{}, State> {
         return
       }
       // delete redo stack if a new change came in
-      if (this.state.index !== this.state.stack.length - 1) {
-        this.state.stack.length = this.state.index + 1
+      if (localState.index !== localState.stack.length - 1) {
+        localState.stack.length = localState.index + 1
       }
-      this.state.stack.push(data)
-      this.state.index = this.state.stack.length - 1
-      this.setState({})
+      localState.stack.push(data)
+      localState.index = localState.stack.length - 1
+      setState({})
     })
+  })
 
-    window.addEventListener('keydown', this.onKey)
-  }
-
-  onKey = e => {
+  useKey(e => {
     if (!e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
-      this.goBack()
+      const mutations = localState.stack[localState.index]
+      if (mutations) {
+        localState.changingState = true
+
+        mutations.forEach(data => {
+          // ignore UI state
+          if (data.receiver === state.ui || data.receiver === state.ui.router) {
+            return
+          }
+          data.props.forEach(prop => {
+            data.receiver[prop] = data.previous[prop]
+          })
+        })
+
+        setState({ index: localState.index - 1 })
+      }
     }
     if (
       (e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) ||
       (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))
     ) {
-      this.goForward()
-    }
-  }
+      const mutations = localState.stack[localState.index + 1]
+      if (mutations) {
+        localState.changingState = true
 
-  goBack = () => {
-    const mutations = this.state.stack[this.state.index]
-    if (mutations) {
-      this.state.changingState = true
-
-      mutations.forEach(data => {
-        // ignore UI state
-        if (data.receiver === state.ui || data.receiver === state.ui.router) {
-          return
-        }
-        data.props.forEach(prop => {
-          data.receiver[prop] = data.previous[prop]
+        mutations.forEach(data => {
+          // ignore UI state
+          if (data.receiver == state.ui || data.receiver === state.ui.router) {
+            return
+          }
+          data.props.forEach(prop => {
+            data.receiver[prop] = data.next[prop]
+          })
         })
-      })
 
-      this.setState({ index: this.state.index - 1 })
+        setState({ index: localState.index + 1 })
+      }
     }
-  }
+    return false
+  })
 
-  goForward = () => {
-    const mutations = this.state.stack[this.state.index + 1]
-    if (mutations) {
-      this.state.changingState = true
+  const element = getSelectedElement()
 
-      mutations.forEach(data => {
-        // ignore UI state
-        if (data.receiver == state.ui || data.receiver === state.ui.router) {
-          return
-        }
-        data.props.forEach(prop => {
-          data.receiver[prop] = data.next[prop]
-        })
-      })
-
-      this.setState({ index: this.state.index + 1 })
-    }
-  }
-
-  render() {
-    const element = getSelectedElement()
-
-    if (!element) {
-      return (
-        <Wrapper>
-          <div />
-          <Background>No Button with id {state.ui.router[1]} was found</Background>
-        </Wrapper>
-      )
-    }
-
+  if (!element) {
     return (
       <Wrapper>
-        <TopBar />
-        <Background>
-          <AddComponentButton />
-          <ShowExportButton />
-          <ElementWrapper>
-            <Dimmer>
-              <Component component={element.root} />
-            </Dimmer>
-            <GridOverlay rootNode={element.root} />
-          </ElementWrapper>
-          <AddComponentMenu />
-          <ExporterMenu />
-          {state.ui.addingAtom && <AddingAtom />}
-        </Background>
+        <div />
+        <Background>No Button with id {state.ui.router[1]} was found</Background>
       </Wrapper>
     )
   }
+
+  return (
+    <Wrapper>
+      <TopBar />
+      <Background>
+        <AddComponentButton />
+        <ShowExportButton />
+        <ElementWrapper>
+          <Dimmer>
+            <Component component={element.root} />
+          </Dimmer>
+          <GridOverlay rootNode={element.root} />
+        </ElementWrapper>
+        <AddComponentMenu />
+        <ExporterMenu />
+        {state.ui.addingAtom && <AddingAtom />}
+      </Background>
+    </Wrapper>
+  )
 }
 export default Elements
