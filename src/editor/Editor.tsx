@@ -12,6 +12,7 @@ import Exporting from '@src/editor/Settings/Exporting/Exporting'
 import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
 import { connectDevTools } from '@src/utils'
+import { ElementType } from '@src/interfaces/elements'
 
 const Root = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ const Editor = () => {
     <Root>
       <LeftMenu />
       {state.ui.router[0] === undefined && <HomePage />}
-      {Object.keys(state.elements).includes(state.ui.router[0]) && <Elements />}
+      {Object.values(ElementType).includes(state.ui.router[0]) && <Elements />}
       {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}

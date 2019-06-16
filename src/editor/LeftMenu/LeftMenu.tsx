@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Element, Elements } from '@src/interfaces/elements'
+import { Element, ElementType } from '@src/interfaces/elements'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -11,7 +11,7 @@ import { Colors } from '@src/styles'
 import PlusSign from '@components/PlusSign'
 import { route } from '@src/actions'
 import Link from '@components/Link/Link'
-import ButtonElement from '@src/elements/ButtonElement'
+import NewElement from '@src/elements/NewElement'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -32,20 +32,6 @@ const Title = styled.div`
   font-weight: 500;
   color: ${Colors.grey800};
   padding: 24px 16px 6px 16px;
-  user-select: none;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  text-transform: uppercase;
-`
-
-const SubTitle = styled.div`
-  position: relative;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-  color: ${Colors.grey500};
-  padding: 16px 16px 6px 16px;
   user-select: none;
   display: flex;
   align-items: baseline;
@@ -103,7 +89,7 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
   if (!value) {
     return
   }
-  const newElement = ButtonElement(value)
+  const newElement = NewElement(value)
   route(elementName, newElement.id)()
   state.elements[elementName].push(newElement)
 }
@@ -118,39 +104,36 @@ const LeftMenu = () => (
         Ugnis
       </Logo>
     </Link>
-    <Title>Elements</Title>
+    <Title>
+      Elements
+      <AddComponentBox onClick={showAddElement(ElementType.Button)}>
+        <PlusSign />
+      </AddComponentBox>
+    </Title>
+    {state.ui.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
 
-    {Object.keys(state.elements)
-      .filter(key => key !== 'components')
-      .map((key: keyof Elements) => (
-        <>
-          <SubTitle>
-            {key}
-            <AddComponentBox onClick={showAddElement(key)}>
-              <PlusSign />
-            </AddComponentBox>
-          </SubTitle>
-          {state.ui.addingElement === key && <AddInput onSave={addElement(key)} />}
-          {state.elements[key].map(element => (
-            <>
-              <ComponentItem
-                onDelete={deleteItem(state.elements[key], element)}
-                onClick={route(key, element.id)}
-                component={element}
-              />
-            </>
-          ))}
-        </>
+    {state.elements
+      .filter(element => element.type !== ElementType.Component)
+      .concat()
+      .sort(sortComponents)
+      .map(element => (
+        <ComponentItem
+          key={element.id}
+          onDelete={deleteItem(state.elements, element)}
+          onClick={route(element.type, element.id)}
+          component={element}
+        />
       ))}
 
     <Title>
       Components
-      <AddComponentBox onClick={showAddElement('components')}>
+      <AddComponentBox onClick={showAddElement(ElementType.Component)}>
         <PlusSign />
       </AddComponentBox>
     </Title>
-    {state.ui.addingElement === 'components' && <AddInput onSave={addElement('components')} />}
-    {state.elements.components
+    {state.ui.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
+    {state.elements
+      .filter(element => element.type === ElementType.Component)
       .concat()
       .sort(sortComponents)
       .map(component => (
@@ -158,7 +141,7 @@ const LeftMenu = () => (
           key={component.id}
           component={component}
           onClick={route('components', component.id)}
-          onDelete={deleteItem(state.elements.components, component)}
+          onDelete={deleteItem(state.elements, component)}
         />
       ))}
 

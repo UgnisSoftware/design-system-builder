@@ -1,9 +1,9 @@
 import { Settings } from '@src/interfaces/settings'
 import { UI } from '@src/interfaces/ui'
-import { Elements } from '@src/interfaces/elements'
+import { Element } from '@src/interfaces/elements'
 
 export interface State {
-  elements: Elements
+  elements: Element[]
   settings: Settings
   ui: UI
 }

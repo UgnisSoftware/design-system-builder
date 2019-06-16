@@ -1,4 +1,4 @@
-import { Element } from '@src/interfaces/elements'
+import { Element, ElementType } from '@src/interfaces/elements'
 import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
 import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
@@ -8,6 +8,7 @@ export default (name): Element => {
   const newRootId = uuid()
   return {
     id: newId,
+    type: ElementType.Button,
     name: name,
     root: {
       id: newRootId,

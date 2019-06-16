@@ -7,7 +7,8 @@ import { connect } from 'lape'
 import { addComponent } from '@src/actions'
 import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
-import { Element, Elements } from '@src/interfaces/elements'
+import { Element, ElementType } from '@src/interfaces/elements'
+import { getSelectedElement } from '@src/selector'
 
 const bgColor = '#fcfcfc'
 const Menu = styled.div`
@@ -69,7 +70,7 @@ const OnClickOverlay = styled.div`
   bottom: 0;
 `
 
-const generateComponent = (type: NodeTypes, key?: keyof Elements, element?: Element): Nodes => {
+const generateComponent = (type: NodeTypes, element?: Element): Nodes => {
   const newId = uuid()
   const baseComponent = {
     id: newId,
@@ -91,7 +92,6 @@ const generateComponent = (type: NodeTypes, key?: keyof Elements, element?: Elem
     return {
       ...baseComponent,
       type: NodeTypes.Element,
-      elementType: key,
       elementId: element.id,
       overrides: {},
     }
@@ -116,6 +116,7 @@ const generateComponent = (type: NodeTypes, key?: keyof Elements, element?: Elem
 }
 
 const MenuComponent = () => {
+  const element = getSelectedElement()
   return (
     <Menu>
       <ComponentWrapper>
@@ -128,20 +129,16 @@ const MenuComponent = () => {
         <Title>Text</Title>
         <OnClickOverlay onMouseDown={e => addComponent(generateComponent(NodeTypes.Text))(e)} />
       </ComponentWrapper>
-      {state.ui.router[0] === 'components' &&
-        Object.keys(state.elements)
-          .filter(key => key !== 'components')
-          .map((key: keyof Elements) =>
-            state.elements[key].map(component => (
-              <ComponentWrapper key={component.id}>
-                <Component component={component.root} />
-                <Title>{component.name}</Title>
-                <OnClickOverlay
-                  onMouseDown={e => addComponent(generateComponent(NodeTypes.Element, key, component))(e)}
-                />
-              </ComponentWrapper>
-            )),
-          )}
+      {element.type === ElementType.Component &&
+        state.elements
+          .filter(element => element.type === ElementType.Component)
+          .map(component => (
+            <ComponentWrapper key={component.id}>
+              <Component component={component.root} />
+              <Title>{component.name}</Title>
+              <OnClickOverlay onMouseDown={e => addComponent(generateComponent(NodeTypes.Element, component))(e)} />
+            </ComponentWrapper>
+          ))}
     </Menu>
   )
 }

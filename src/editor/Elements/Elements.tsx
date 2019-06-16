@@ -144,7 +144,16 @@ const Elements = () => {
     return (
       <Wrapper>
         <div />
-        <Background>No Button with id {state.ui.router[1]} was found</Background>
+        <Background>No Element with id {state.ui.router[1]} was found</Background>
+      </Wrapper>
+    )
+  }
+
+  if (!element.root) {
+    return (
+      <Wrapper>
+        <div />
+        <Background>Hello</Background>
       </Wrapper>
     )
   }

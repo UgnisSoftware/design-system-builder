@@ -24,7 +24,7 @@ function Component({ component }: Props) {
   }
   if (component.type === NodeTypes.Element) {
     const element = {
-      ...state.elements[component.elementType].find(el => el.id === component.elementId).root,
+      ...state.elements.find(el => el.id === component.elementId).root,
       position: component.position,
     }
     return <Element component={element} parent={component} />

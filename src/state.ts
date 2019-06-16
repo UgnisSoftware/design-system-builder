@@ -3,670 +3,658 @@ import { State } from '@src/interfaces/state'
 import { FontSizeName } from '@src/interfaces/settings'
 import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
+import { ElementType } from '@src/interfaces/elements'
 
 const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
 
 const defaultState: State = {
-  elements: {
-    buttons: [
-      {
-        id: 'button1_id',
-        name: 'button1',
-        root: {
-          id: 'button2',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Button,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 12,
-              unit: Units.Px,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 12,
-              unit: Units.Px,
-            },
-          ],
-          rows: [
-            {
-              value: 8,
-              unit: Units.Px,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 8,
-              unit: Units.Px,
-            },
-          ],
-          children: [
-            {
-              id: '55a53c774',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              text: 'Button',
-              fontColorId: 'white-6666',
-              fontSize: FontSizeName.S,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-          ],
-          backgroundColorId: 'prim-1',
-          border: 'borbor-6666',
-          boxShadow: 'shadow-7777',
-          focus: {},
-          hover: {},
-        },
-      },
-      {
+  elements: [
+    {
+      id: 'button1_id',
+      type: ElementType.Button,
+      name: 'button1',
+      root: {
         id: 'button2',
-        name: 'button2',
-        root: {
-          id: 'button2',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Button,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 12,
-              unit: Units.Px,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 12,
-              unit: Units.Px,
-            },
-          ],
-          rows: [
-            {
-              value: 8,
-              unit: Units.Px,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 8,
-              unit: Units.Px,
-            },
-          ],
-          children: [
-            {
-              id: '55a3c7774',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              text: 'Button',
-              fontColorId: 'white-6666',
-              fontSize: FontSizeName.S,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-          ],
-          backgroundColorId: 'secn-1',
-          border: 'borbor-6666',
-          boxShadow: 'shadow-7777',
-          focus: {},
-          hover: {},
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
         },
-      },
-    ],
-    textInputs: [
-      {
-        id: 'textInput-1234',
-        name: 'Input',
-        root: {
-          id: 'oijsadoijas-12323',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          backgroundColorId: null,
-          border: 'borbor-6666',
-          boxShadow: null,
-          focus: {},
-          hover: {},
-          children: [
-            {
-              id: 'ef3fb8266',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              alignment: {
-                horizontal: Alignment.start,
-                vertical: Alignment.center,
-              },
-              text: 'Label',
-              fontSize: FontSizeName.S,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'as5491d89',
-              type: NodeTypes.Input,
-              position: {
-                columnStart: 1,
-                columnEnd: -1,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.stretch,
-                vertical: Alignment.stretch,
-              },
-              backgroundColorId: 'cccc-3333',
-              border: 'borbor-8888',
-              boxShadow: null,
-              focus: {},
-              hover: {},
-            },
-          ],
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
         },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+        ],
+        children: [
+          {
+            id: '55a53c774',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Button',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+        ],
+        backgroundColorId: 'prim-1',
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        focus: {},
+        hover: {},
       },
-    ],
-    dropdowns: [],
-    autocomplete: [],
-    select: [],
-    slider: [],
-    range: [],
-    radio: [],
-    checkBox: [],
-    datePicker: [],
-    sidebar: [],
-    popup: [],
-    tooltip: [],
-    loaders: [],
-    tables: [],
-    components: [
-      {
-        id: 'abcd-1234',
-        name: 'Card',
-        root: {
-          id: 'rootId',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 500,
-              unit: Units.Px,
-            },
-            {
-              value: 80,
-              unit: Units.Px,
-            },
-          ],
-          children: [
-            {
-              id: '07f083fc0',
-              type: NodeTypes.Box,
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              alignment: {
-                horizontal: Alignment.stretch,
-                vertical: Alignment.stretch,
-              },
-              backgroundImageUrl:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-              backgroundImagePosition: ObjectFit.fill,
-              border: null,
-              focus: {},
-              hover: {},
-            },
-            {
-              id: 'ef3fb4266',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              text: 'Nebula c51-b9',
-              fontSize: FontSizeName.L,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'ef3f5b266',
-              type: NodeTypes.Element,
-              elementType: 'buttons',
-              elementId: 'button1_id',
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              overrides: {},
-            },
-          ],
-          backgroundColorId: 'cccc-3333',
-          border: 'barbar-7777',
-          boxShadow: 'shadow-9999',
-          focus: {},
-          hover: {},
+    },
+    {
+      id: 'button2',
+      type: ElementType.Button,
+      name: 'button2',
+      root: {
+        id: 'button2',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
         },
-      },
-      {
-        id: 'efgh-5678',
-        name: 'Table-test',
-        root: {
-          id: 'rootId',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          overflow: Overflow.hidden,
-          columns: [
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-          ],
-          rows: [
-            {
-              value: 80,
-              unit: Units.Px,
-            },
-            {
-              value: 80,
-              unit: Units.Px,
-            },
-            {
-              value: 80,
-              unit: Units.Px,
-            },
-          ],
-          backgroundColorId: 'cccc-3333',
-          border: 'primB-1',
-          focus: {},
-          hover: {},
-          children: [
-            {
-              id: 'te6st1',
-              type: NodeTypes.Text,
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              text: 'Primary',
-              fontSize: FontSizeName.S,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'test32',
-              type: NodeTypes.Text,
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              text: 'Secondary',
-              fontSize: FontSizeName.S,
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'test3',
-              type: NodeTypes.Box,
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              position: {
-                columnStart: 3,
-                columnEnd: 4,
-                rowStart: 1,
-                rowEnd: 2,
-              },
-              focus: {},
-              hover: {},
-              backgroundImageUrl:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-              backgroundImagePosition: ObjectFit.fill,
-              border: null,
-            },
-            {
-              id: 'ef3f5b266',
-              type: NodeTypes.Element,
-              elementType: 'buttons',
-              elementId: 'button1_id',
-              position: {
-                columnStart: 1,
-                columnEnd: 2,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              overrides: {},
-            },
-            {
-              id: 'test5',
-              type: NodeTypes.Box,
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              border: 'borbor-6666',
-              backgroundColorId: 'prim-1',
-              alignment: {
-                horizontal: Alignment.stretch,
-                vertical: Alignment.stretch,
-              },
-              focus: {},
-              hover: {},
-            },
-            {
-              id: 'test5-1',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 2,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              fontSize: FontSizeName.M,
-              text: 'Middle',
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'test-6',
-              type: NodeTypes.Box,
-              position: {
-                columnStart: 3,
-                columnEnd: -1,
-                rowStart: 2,
-                rowEnd: -1,
-              },
-              border: 'borbor-6666',
-              backgroundColorId: 'prim-1',
-              alignment: {
-                horizontal: Alignment.stretch,
-                vertical: Alignment.stretch,
-              },
-              focus: {},
-              hover: {
-                backgroundColorId: 'secn-1',
-              },
-            },
-            {
-              id: 'test-7',
-              type: NodeTypes.Icon,
-              iconType: 'bug_report',
-              fontSize: FontSizeName.M,
-              position: {
-                columnStart: 1,
-                columnEnd: 3,
-                rowStart: 3,
-                rowEnd: 3,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              hover: {},
-              focus: {},
-            },
-          ],
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
         },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+        ],
+        children: [
+          {
+            id: '55a3c7774',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Button',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+        ],
+        backgroundColorId: 'secn-1',
+        border: 'borbor-6666',
+        boxShadow: 'shadow-7777',
+        focus: {},
+        hover: {},
       },
-      {
-        id: 'AppBar',
-        name: 'App bar test',
-        root: {
-          id: 'rootId',
-          type: NodeTypes.Root,
-          nodeType: NodeTypes.Box,
-          overflow: Overflow.visible,
-          columns: [
-            {
-              value: 40,
-              unit: Units.Px,
-            },
-            {
-              value: 1,
-              unit: Units.Fr,
-            },
-            {
-              value: 70,
-              unit: Units.Px,
-            },
-          ],
-          rows: [
-            {
-              value: 50,
-              unit: Units.Px,
-            },
-          ],
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          backgroundColorId: 'prim-1',
-          border: null,
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          focus: {},
-          hover: {},
-          children: [
-            {
-              id: 'start',
-              type: NodeTypes.Icon,
-              iconType: 'menu',
-              fontColorId: 'white-6666',
-              fontSize: FontSizeName.M,
-              position: {
-                columnStart: 1,
-                columnEnd: 1,
-                rowStart: 1,
-                rowEnd: 1,
-              },
-              alignment: {
-                horizontal: Alignment.center,
-                vertical: Alignment.center,
-              },
-              focus: {},
-              hover: {},
-            },
-            {
-              id: 'message',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 2,
-                columnEnd: 3,
-                rowStart: 1,
-                rowEnd: 1,
-              },
-              fontSize: FontSizeName.M,
-              fontColorId: 'white-6666',
-              alignment: {
-                horizontal: Alignment.start,
-                vertical: Alignment.center,
-              },
-              text: 'Menu',
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-            {
-              id: 'log',
-              type: NodeTypes.Text,
-              position: {
-                columnStart: 3,
-                columnEnd: 3,
-                rowStart: 1,
-                rowEnd: 1,
-              },
-              fontSize: FontSizeName.S,
-              fontColorId: 'white-6666',
-              alignment: {
-                horizontal: Alignment.start,
-                vertical: Alignment.center,
-              },
-              text: 'Log in',
-              focus: {},
-              hover: {},
-              fontFamilyId: 'R1-123332',
-            },
-          ],
+    },
+    {
+      id: 'textInput-1234',
+      type: ElementType.TextInput,
+      name: 'Input',
+      root: {
+        id: 'oijsadoijas-12323',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
         },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        backgroundColorId: null,
+        border: 'borbor-6666',
+        boxShadow: null,
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'ef3fb8266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Label',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'as5491d89',
+            type: NodeTypes.Input,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            backgroundColorId: 'cccc-3333',
+            border: 'borbor-8888',
+            boxShadow: null,
+            focus: {},
+            hover: {},
+          },
+        ],
       },
-    ],
-  },
+    },
+    {
+      id: 'abcd-1234',
+      type: ElementType.Component,
+      name: 'Card',
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 500,
+            unit: Units.Px,
+          },
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+        ],
+        children: [
+          {
+            id: '07f083fc0',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            backgroundImageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            backgroundImagePosition: ObjectFit.fill,
+            border: null,
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'ef3fb4266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Nebula c51-b9',
+            fontSize: FontSizeName.L,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'ef3f5b266',
+            type: NodeTypes.Element,
+            elementType: 'buttons',
+            elementId: 'button1_id',
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            overrides: {},
+          },
+        ],
+        backgroundColorId: 'cccc-3333',
+        border: 'barbar-7777',
+        boxShadow: 'shadow-9999',
+        focus: {},
+        hover: {},
+      },
+    },
+    {
+      id: 'efgh-5678',
+      type: ElementType.Component,
+      name: 'Table-test',
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        overflow: Overflow.hidden,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+          {
+            value: 80,
+            unit: Units.Px,
+          },
+        ],
+        backgroundColorId: 'cccc-3333',
+        border: 'primB-1',
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'te6st1',
+            type: NodeTypes.Text,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            text: 'Primary',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'test32',
+            type: NodeTypes.Text,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            text: 'Secondary',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'test3',
+            type: NodeTypes.Box,
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            position: {
+              columnStart: 3,
+              columnEnd: 4,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            focus: {},
+            hover: {},
+            backgroundImageUrl:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
+            backgroundImagePosition: ObjectFit.fill,
+            border: null,
+          },
+          {
+            id: 'ef3f5b266',
+            type: NodeTypes.Element,
+            elementType: 'buttons',
+            elementId: 'button1_id',
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            overrides: {},
+          },
+          {
+            id: 'test5',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            border: 'borbor-6666',
+            backgroundColorId: 'prim-1',
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'test5-1',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            fontSize: FontSizeName.M,
+            text: 'Middle',
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'test-6',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 3,
+              columnEnd: -1,
+              rowStart: 2,
+              rowEnd: -1,
+            },
+            border: 'borbor-6666',
+            backgroundColorId: 'prim-1',
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            focus: {},
+            hover: {
+              backgroundColorId: 'secn-1',
+            },
+          },
+          {
+            id: 'test-7',
+            type: NodeTypes.Icon,
+            iconType: 'bug_report',
+            fontSize: FontSizeName.M,
+            position: {
+              columnStart: 1,
+              columnEnd: 3,
+              rowStart: 3,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            hover: {},
+            focus: {},
+          },
+        ],
+      },
+    },
+    {
+      id: 'AppBar',
+      type: ElementType.Component,
+      name: 'App bar test',
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 40,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 70,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 50,
+            unit: Units.Px,
+          },
+        ],
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        backgroundColorId: 'prim-1',
+        border: null,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'start',
+            type: NodeTypes.Icon,
+            iconType: 'menu',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.M,
+            position: {
+              columnStart: 1,
+              columnEnd: 1,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'message',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            fontSize: FontSizeName.M,
+            fontColorId: 'white-6666',
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Menu',
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'log',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            fontSize: FontSizeName.S,
+            fontColorId: 'white-6666',
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Log in',
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+        ],
+      },
+    },
+  ],
   settings: {
     colors: [
       {

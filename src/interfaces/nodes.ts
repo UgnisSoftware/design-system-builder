@@ -1,5 +1,4 @@
 import { FontSizeName } from '@src/interfaces/settings'
-import { Elements } from '@src/interfaces/elements'
 
 export type iconTypes =
   | '3d_rotation'
@@ -997,6 +996,7 @@ type BorderPlaceholder = string
 type BoxShadowPlaceholder = string
 
 export interface RootNode extends SharedNodeProps {
+  empty?: boolean // used after creation
   type: NodeTypes.Root
   nodeType: NodeTypes
   children: Nodes[]
@@ -1014,7 +1014,6 @@ export interface RootNode extends SharedNodeProps {
 
 export interface ElementNode extends SharedNodeProps {
   type: NodeTypes.Element
-  elementType: keyof Elements
   elementId: string
   overrides: any
 }
