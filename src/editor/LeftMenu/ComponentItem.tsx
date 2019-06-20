@@ -1,11 +1,14 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import ClickOutside from 'react-click-outside'
 
 import state from '@state'
 import { Element } from '@src/interfaces/elements'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
+import { useState } from 'react'
+import { useRef } from 'react'
+import useClickAway from 'react-use/esm/useClickAway'
+import useKeyPress from 'react-use/esm/useKeyPress'
 
 interface ItemProps {
   selected?: boolean
@@ -66,84 +69,60 @@ interface Props {
   onDelete: () => void
 }
 
-interface State {
-  name: string
-  isEditingName: boolean
-}
+const ComponentItem = (props: Props) => {
+  const [editingName, updateEditingName] = useState(false)
+  const [name, updateName] = useState('')
 
-class ComponentItem extends React.Component<Props, State> {
-  state = {
-    name: this.props.component.name,
-    isEditingName: false,
+  const onExitWithoutSave = () => {
+    updateName(props.component.name)
+    updateEditingName(false)
   }
-
-  edit = () => {
-    this.setState({ isEditingName: true })
-  }
-
-  save = () => {
-    if (this.state.name) {
-      this.props.component.name = this.state.name
-      this.setState({ isEditingName: false })
+  const save = () => {
+    if (name) {
+      props.component.name = name
+      updateEditingName(false)
     } else {
-      this.closeWithoutSaving()
+      onExitWithoutSave()
     }
   }
-
-  closeWithoutSaving = () => {
-    this.setState({
-      name: this.props.component.name,
-      isEditingName: false,
-    })
+  const onDelete = e => {
+    e.stopPropagation()
+    props.onDelete()
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.maybeSave)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.maybeSave)
-  }
-
-  maybeSave = e => {
+  const ref = useRef(null)
+  useClickAway(ref, save)
+  useKeyPress(e => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {
-      this.save()
+      save()
     }
     if (e.keyCode === ESCAPE) {
-      this.closeWithoutSaving()
+      onExitWithoutSave()
     }
-  }
+    return false
+  })
 
-  updateName = e => {
-    this.setState({ name: e.target.value })
-  }
-
-  render() {
-    const component = this.props.component
-
-    const onDelete = e => {
-      e.stopPropagation()
-      this.props.onDelete()
-    }
-
-    if (this.state.isEditingName) {
-      return (
-        <ClickOutside onClickOutside={this.save}>
-          <Input value={this.state.name} name="AddComponent" autoFocus={true} onChange={this.updateName} />
-        </ClickOutside>
-      )
-    }
+  if (editingName) {
     return (
-      <Item onClick={this.props.onClick} selected={state.ui.router[1] === component.id} onDoubleClick={this.edit}>
-        {component.name}
-        <DeleteIcon className="material-icons" onClick={onDelete}>
-          delete
-        </DeleteIcon>
-      </Item>
+      <div ref={ref}>
+        <Input value={name} name="AddComponent" autoFocus={true} onChange={e => updateName(e.target.value)} />
+      </div>
     )
   }
+  return (
+    <Item
+      onClick={props.onClick}
+      selected={state.ui.router[1] === props.component.id}
+      onDoubleClick={() => updateEditingName(true)}
+    >
+      {props.component.name}
+      <DeleteIcon className="material-icons" onClick={onDelete}>
+        delete
+      </DeleteIcon>
+    </Item>
+  )
 }
 
 export default ComponentItem

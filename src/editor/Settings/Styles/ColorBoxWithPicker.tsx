@@ -1,13 +1,14 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import ChromePicker from 'react-color/lib/Chrome'
-import ClickOutside from 'react-click-outside'
 import chroma from 'chroma-js'
 
 import state from '@state'
 import { findNearestColor } from './colorList'
 import { connect } from 'lape'
 import { Color } from '@src/interfaces/settings'
+import { useRef } from 'react'
+import useClickAway from 'react-use/esm/useClickAway'
 
 const Wrapper = styled.div`
   position: relative;
@@ -132,41 +133,44 @@ const onDelete = (color: Color) => () => {
   state.settings.colors.splice(state.settings.colors.indexOf(color), 1)
 }
 
-const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => (
-  <Wrapper>
-    <ColorWithInputWrapper>
-      <ColorBox color={color.hex} onClick={onEditingColorChange(color.id)}>
-        <ColorDelete color={color.hex} onClick={onDelete(color)}>
-          <i className="material-icons">clear</i>
-        </ColorDelete>
-      </ColorBox>
-      <InputWrapper>
-        <Input
-          type="text"
-          placeholder="Color name"
-          id={color.id}
-          name={color.id}
-          value={color.name}
-          onChange={onColorNameChange(color)}
-        />
-        <Input
-          type="text"
-          placeholder="Hex value"
-          id={color.id}
-          name={color.id}
-          value={color.hex}
-          onChange={onHexValueChange(color)}
-        />
-      </InputWrapper>
-    </ColorWithInputWrapper>
-    {editing && (
-      <ClickOutside onClickOutside={onClickOutside}>
-        <PickerWrapper>
+const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => {
+  const ref = useRef(null)
+  useClickAway(ref, onClickOutside)
+
+  return (
+    <Wrapper>
+      <ColorWithInputWrapper>
+        <ColorBox color={color.hex} onClick={onEditingColorChange(color.id)}>
+          <ColorDelete color={color.hex} onClick={onDelete(color)}>
+            <i className="material-icons">clear</i>
+          </ColorDelete>
+        </ColorBox>
+        <InputWrapper>
+          <Input
+            type="text"
+            placeholder="Color name"
+            id={color.id}
+            name={color.id}
+            value={color.name}
+            onChange={onColorNameChange(color)}
+          />
+          <Input
+            type="text"
+            placeholder="Hex value"
+            id={color.id}
+            name={color.id}
+            value={color.hex}
+            onChange={onHexValueChange(color)}
+          />
+        </InputWrapper>
+      </ColorWithInputWrapper>
+      {editing && (
+        <PickerWrapper ref={ref}>
           <ChromePicker color={color} onChange={onColorChange(color)} />
         </PickerWrapper>
-      </ClickOutside>
-    )}
-  </Wrapper>
-)
+      )}
+    </Wrapper>
+  )
+}
 
 export default connect(ColorBoxWithPicker)

@@ -1,8 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import ClickOutside from 'react-click-outside'
 
 import TextInput from '@components/TextInput'
+import useClickAway from 'react-use/esm/useClickAway'
+import useKeyPress from 'react-use/esm/useKeyPress'
+import { useRef, useState } from 'react'
 
 const Input = styled(TextInput)`
   padding-left: 24px;
@@ -16,41 +18,26 @@ interface Props {
   onSave: (value: string) => void
 }
 
-class AddComponent extends React.Component<Props> {
-  state = {
-    value: '',
-  }
-
-  updateValue = e => {
-    this.setState({ value: e.target.value })
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.maybeSave)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.maybeSave)
-  }
-
-  maybeSave = e => {
+const AddComponent = (props: Props) => {
+  const [value, updateValue] = useState('')
+  const ref = useRef(null)
+  useClickAway(ref, () => props.onSave(value))
+  useKeyPress(e => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {
-      this.props.onSave(this.state.value)
+      props.onSave(value)
     }
     if (e.keyCode === ESCAPE) {
-      this.props.onSave('')
+      props.onSave('')
     }
-  }
-
-  render() {
-    return (
-      <ClickOutside onClickOutside={() => this.props.onSave(this.state.value)}>
-        <Input value={this.state.value} name="AddComponent" autoFocus={true} onChange={this.updateValue} />
-      </ClickOutside>
-    )
-  }
+    return false
+  })
+  return (
+    <div ref={ref}>
+      <Input value={value} name="AddComponent" autoFocus={true} onChange={e => updateValue(e.target.value)} />
+    </div>
+  )
 }
 
 export default AddComponent

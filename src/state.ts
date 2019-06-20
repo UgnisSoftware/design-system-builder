@@ -5,14 +5,14 @@ import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interface
 import { parseUrl } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
 
-const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
+// const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
 
 const defaultState: State = {
   elements: [
     {
       id: 'button1_id',
       type: ElementType.Button,
-      name: 'button1',
+      name: 'Button Primary',
       root: {
         id: 'button2',
         type: NodeTypes.Root,
@@ -72,7 +72,7 @@ const defaultState: State = {
             },
             text: 'Button',
             fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
+            fontSize: FontSizeName.M,
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
@@ -88,7 +88,7 @@ const defaultState: State = {
     {
       id: 'button2',
       type: ElementType.Button,
-      name: 'button2',
+      name: 'Button Secondary',
       root: {
         id: 'button2',
         type: NodeTypes.Root,
@@ -148,7 +148,7 @@ const defaultState: State = {
             },
             text: 'Button',
             fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
+            fontSize: FontSizeName.M,
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
@@ -162,11 +162,169 @@ const defaultState: State = {
       },
     },
     {
+      id: 'button3',
+      type: ElementType.Button,
+      name: 'Button Text',
+      root: {
+        id: 'button33',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Button,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 12,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 8,
+            unit: Units.Px,
+          },
+        ],
+        children: [
+          {
+            id: '55a3csdf7774',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            text: 'Button',
+            fontColorId: 'secn-2',
+            fontSize: FontSizeName.M,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+        ],
+        backgroundColorId: null,
+        border: null,
+        boxShadow: null,
+        focus: {},
+        hover: {},
+      },
+    },
+    {
       id: 'textInput-1234',
       type: ElementType.TextInput,
       name: 'Input',
       root: {
         id: 'oijsadoijas-12323',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        backgroundColorId: null,
+        border: 'borbor-6666',
+        boxShadow: null,
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'ef3fb8266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Label',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+          {
+            id: 'as5491d89',
+            type: NodeTypes.Input,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 2,
+              rowEnd: 3,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            backgroundColorId: 'cccc-3333',
+            border: 'borbor-8888',
+            boxShadow: null,
+            focus: {},
+            hover: {},
+          },
+        ],
+      },
+    },
+    {
+      id: 'slider-1234',
+      type: ElementType.Slider,
+      name: 'Slider',
+      root: {
+        id: 'oijsawefdoijas-12323',
         type: NodeTypes.Root,
         nodeType: NodeTypes.Box,
         position: {
@@ -321,7 +479,6 @@ const defaultState: State = {
           {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
-            elementType: 'buttons',
             elementId: 'button1_id',
             position: {
               columnStart: 1,
@@ -456,7 +613,6 @@ const defaultState: State = {
           {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
-            elementType: 'buttons',
             elementId: 'button1_id',
             position: {
               columnStart: 1,
@@ -844,6 +1000,7 @@ const defaultState: State = {
     editingTextNode: null,
     editingBoxNode: null,
     addingElement: null,
+    draggingNode: null,
     addingAtom: null,
     hoveredCell: null,
     selectedCell: null,
@@ -855,7 +1012,7 @@ const defaultState: State = {
     showExportMenu: false,
     showGrid: false,
   },
-  ...mergeSaved,
+  // ...mergeSaved,
 }
 
 export default proxify(defaultState)

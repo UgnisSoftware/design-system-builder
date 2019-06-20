@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import { Element, ElementType } from '@src/interfaces/elements'
+import { ElementType } from '@src/interfaces/elements'
 import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
@@ -91,10 +91,10 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
   }
   const newElement = NewElement(value)
   route(elementName, newElement.id)()
-  state.elements[elementName].push(newElement)
+  state.elements.push(newElement)
 }
 
-const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
+// const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
 
 const LeftMenu = () => (
   <LeftMenuBox>
@@ -114,8 +114,8 @@ const LeftMenu = () => (
 
     {state.elements
       .filter(element => element.type !== ElementType.Component)
-      .concat()
-      .sort(sortComponents)
+      // .concat()
+      // .sort(sortComponents)
       .map(element => (
         <ComponentItem
           key={element.id}
@@ -134,8 +134,8 @@ const LeftMenu = () => (
     {state.ui.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
     {state.elements
       .filter(element => element.type === ElementType.Component)
-      .concat()
-      .sort(sortComponents)
+      // .concat()
+      // .sort(sortComponents)
       .map(component => (
         <ComponentItem
           key={component.id}
