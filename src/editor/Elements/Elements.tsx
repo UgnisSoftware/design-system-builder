@@ -153,7 +153,7 @@ const Elements = () => {
     return (
       <Wrapper>
         <div />
-        <Background>Hello</Background>
+        <Background>New component TODO add root selection</Background>
       </Wrapper>
     )
   }

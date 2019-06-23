@@ -8,7 +8,7 @@ import { Colors } from '@src/styles'
 import { useState } from 'react'
 import { useRef } from 'react'
 import useClickAway from 'react-use/esm/useClickAway'
-import useKeyPress from 'react-use/esm/useKeyPress'
+import useKey from 'react-use/esm/useKey'
 
 interface ItemProps {
   selected?: boolean
@@ -92,7 +92,7 @@ const ComponentItem = (props: Props) => {
 
   const ref = useRef(null)
   useClickAway(ref, save)
-  useKeyPress(e => {
+  useKey(e => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {

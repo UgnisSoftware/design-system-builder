@@ -86,6 +86,7 @@ const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
 const addElement = (elementName: typeof state.ui.addingElement) => value => {
   state.ui.addingElement = null
 
+  console.log(value)
   if (!value) {
     return
   }
@@ -140,7 +141,7 @@ const LeftMenu = () => (
         <ComponentItem
           key={component.id}
           component={component}
-          onClick={route('components', component.id)}
+          onClick={route('component', component.id)}
           onDelete={deleteItem(state.elements, component)}
         />
       ))}

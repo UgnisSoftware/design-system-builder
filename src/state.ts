@@ -10,7 +10,7 @@ import { ElementType } from '@src/interfaces/elements'
 const defaultState: State = {
   elements: [
     {
-      id: 'button1_id',
+      id: 'button1',
       type: ElementType.Button,
       name: 'Button Primary',
       root: {
@@ -72,7 +72,7 @@ const defaultState: State = {
             },
             text: 'Button',
             fontColorId: 'white-6666',
-            fontSize: FontSizeName.M,
+            fontSize: FontSizeName.S,
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
@@ -148,7 +148,7 @@ const defaultState: State = {
             },
             text: 'Button',
             fontColorId: 'white-6666',
-            fontSize: FontSizeName.M,
+            fontSize: FontSizeName.S,
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
@@ -223,11 +223,49 @@ const defaultState: State = {
               vertical: Alignment.center,
             },
             text: 'Button',
-            fontColorId: 'secn-2',
-            fontSize: FontSizeName.M,
+            fontColorId: 'prim-1',
+            fontSize: FontSizeName.S,
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
+          },
+        ],
+        backgroundColorId: null,
+        border: 'primB-1',
+        boxShadow: null,
+        focus: {},
+        hover: {},
+      },
+    },
+    {
+      id: 'label',
+      type: ElementType.TextInput,
+      name: 'Label',
+      root: {
+        id: '1ijsa1233s-12323',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 1,
+            unit: Units.Fr,
           },
         ],
         backgroundColorId: null,
@@ -235,6 +273,27 @@ const defaultState: State = {
         boxShadow: null,
         focus: {},
         hover: {},
+        children: [
+          {
+            id: 'ef3fb8266',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: 1,
+              rowEnd: 2,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Label',
+            fontSize: FontSizeName.S,
+            focus: {},
+            hover: {},
+            fontFamilyId: 'R1-123332',
+          },
+        ],
       },
     },
     {
@@ -267,44 +326,21 @@ const defaultState: State = {
             value: 1,
             unit: Units.Fr,
           },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
         ],
         backgroundColorId: null,
-        border: 'borbor-6666',
+        border: null,
         boxShadow: null,
         focus: {},
         hover: {},
         children: [
-          {
-            id: 'ef3fb8266',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
-            text: 'Label',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
           {
             id: 'as5491d89',
             type: NodeTypes.Input,
             position: {
               columnStart: 1,
               columnEnd: -1,
-              rowStart: 2,
-              rowEnd: 3,
+              rowStart: 1,
+              rowEnd: 2,
             },
             alignment: {
               horizontal: Alignment.stretch,
@@ -343,15 +379,27 @@ const defaultState: State = {
             value: 1,
             unit: Units.Fr,
           },
-        ],
-        rows: [
           {
-            value: 1,
-            unit: Units.Fr,
+            value: 28,
+            unit: Units.Px,
           },
           {
             value: 1,
             unit: Units.Fr,
+          },
+        ],
+        rows: [
+          {
+            value: 13,
+            unit: Units.Px,
+          },
+          {
+            value: 2,
+            unit: Units.Px,
+          },
+          {
+            value: 13,
+            unit: Units.Px,
           },
         ],
         backgroundColorId: null,
@@ -362,41 +410,148 @@ const defaultState: State = {
         children: [
           {
             id: 'ef3fb8266',
-            type: NodeTypes.Text,
+            type: NodeTypes.Box,
             position: {
               columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
+              columnEnd: 4,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.start,
               vertical: Alignment.center,
             },
-            text: 'Label',
-            fontSize: FontSizeName.S,
+            border: 'borbor-6666',
+            boxShadow: null,
+            backgroundColorId: 'prim-1',
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'ef3ghvhfb8266',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 4,
+            },
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            border: 'borbor-9999',
+            boxShadow: 'shadow-5555',
+            backgroundColorId: 'white-6666',
+            focus: {},
+            hover: {},
+          },
+        ],
+      },
+    },
+
+    {
+      id: 'AppBar',
+      type: ElementType.Component,
+      name: 'App bar',
+      root: {
+        id: 'rootId',
+        type: NodeTypes.Root,
+        nodeType: NodeTypes.Box,
+        overflow: Overflow.visible,
+        columns: [
+          {
+            value: 40,
+            unit: Units.Px,
+          },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
+          {
+            value: 70,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 50,
+            unit: Units.Px,
+          },
+        ],
+        position: {
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+        },
+        backgroundColorId: 'prim-1',
+        border: null,
+        alignment: {
+          horizontal: Alignment.stretch,
+          vertical: Alignment.stretch,
+        },
+        focus: {},
+        hover: {},
+        children: [
+          {
+            id: 'start',
+            type: NodeTypes.Icon,
+            iconType: 'menu',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.M,
+            position: {
+              columnStart: 1,
+              columnEnd: 1,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            alignment: {
+              horizontal: Alignment.center,
+              vertical: Alignment.center,
+            },
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'message',
+            type: NodeTypes.Text,
+            position: {
+              columnStart: 2,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
+            },
+            fontSize: FontSizeName.M,
+            fontColorId: 'white-6666',
+            alignment: {
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
+            },
+            text: 'Menu',
             focus: {},
             hover: {},
             fontFamilyId: 'R1-123332',
           },
           {
-            id: 'as5491d89',
-            type: NodeTypes.Input,
+            id: 'log',
+            type: NodeTypes.Text,
             position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 2,
-              rowEnd: 3,
+              columnStart: 3,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 1,
             },
+            fontSize: FontSizeName.S,
+            fontColorId: 'white-6666',
             alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
+              horizontal: Alignment.start,
+              vertical: Alignment.center,
             },
-            backgroundColorId: 'cccc-3333',
-            border: 'borbor-8888',
-            boxShadow: null,
+            text: 'Log in',
             focus: {},
             hover: {},
+            fontFamilyId: 'R1-123332',
           },
         ],
       },
@@ -479,7 +634,7 @@ const defaultState: State = {
           {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
-            elementId: 'button1_id',
+            elementId: 'button1',
             position: {
               columnStart: 1,
               columnEnd: 2,
@@ -613,7 +768,7 @@ const defaultState: State = {
           {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
-            elementId: 'button1_id',
+            elementId: 'button1',
             position: {
               columnStart: 1,
               columnEnd: 2,
@@ -704,112 +859,6 @@ const defaultState: State = {
         ],
       },
     },
-    {
-      id: 'AppBar',
-      type: ElementType.Component,
-      name: 'App bar test',
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 40,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 70,
-            unit: Units.Px,
-          },
-        ],
-        rows: [
-          {
-            value: 50,
-            unit: Units.Px,
-          },
-        ],
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        backgroundColorId: 'prim-1',
-        border: null,
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        focus: {},
-        hover: {},
-        children: [
-          {
-            id: 'start',
-            type: NodeTypes.Icon,
-            iconType: 'menu',
-            fontColorId: 'white-6666',
-            fontSize: FontSizeName.M,
-            position: {
-              columnStart: 1,
-              columnEnd: 1,
-              rowStart: 1,
-              rowEnd: 1,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            focus: {},
-            hover: {},
-          },
-          {
-            id: 'message',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 1,
-            },
-            fontSize: FontSizeName.M,
-            fontColorId: 'white-6666',
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
-            text: 'Menu',
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-          {
-            id: 'log',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 3,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 1,
-            },
-            fontSize: FontSizeName.S,
-            fontColorId: 'white-6666',
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
-            text: 'Log in',
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-        ],
-      },
-    },
   ],
   settings: {
     colors: [
@@ -884,6 +933,10 @@ const defaultState: State = {
         value: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12);',
       },
       {
+        id: 'shadow-5555',
+        value: '0 3px 1px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,0,0,0.02);',
+      },
+      {
         id: 'shadow-6666',
         value: 'inset 0 0 10px #4a4a4a',
       },
@@ -891,8 +944,8 @@ const defaultState: State = {
     border: [
       {
         id: 'primB-1',
-        radius: '16px',
-        style: '1px solid rgba(0, 0, 0, 0.23)', //Primary border used in MaterialUI
+        radius: '4px',
+        style: '1px solid #2196f3',
       },
       {
         id: 'borbor-6666',
@@ -908,6 +961,11 @@ const defaultState: State = {
         id: 'borbor-8888',
         radius: '4px 4px 4px 4px',
         style: '1px solid rgba(0, 0, 0, 0.23);',
+      },
+      {
+        id: 'borbor-9999',
+        radius: '50%',
+        style: 'none',
       },
     ],
     fonts: [

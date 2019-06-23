@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import TextInput from '@components/TextInput'
 import useClickAway from 'react-use/esm/useClickAway'
-import useKeyPress from 'react-use/esm/useKeyPress'
+import useKey from 'react-use/esm/useKey'
 import { useRef, useState } from 'react'
 
 const Input = styled(TextInput)`
@@ -22,7 +22,7 @@ const AddComponent = (props: Props) => {
   const [value, updateValue] = useState('')
   const ref = useRef(null)
   useClickAway(ref, () => props.onSave(value))
-  useKeyPress(e => {
+  useKey(e => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {

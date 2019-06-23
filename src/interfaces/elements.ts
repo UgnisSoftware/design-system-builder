@@ -2,6 +2,7 @@ import { RootNode } from '@src/interfaces/nodes'
 
 export enum ElementType {
   Button = 'button',
+  Label = 'label',
   TextInput = 'TextInput',
   Select = 'select',
   Slider = 'slider',
