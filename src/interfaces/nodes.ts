@@ -990,13 +990,14 @@ interface SharedNodeProps {
     rowStart: number
     rowEnd: number
   }
+  preventDelete?: boolean
+  preventSelection?: boolean
 }
 
 type BorderPlaceholder = string
 type BoxShadowPlaceholder = string
 
 export interface RootNode extends SharedNodeProps {
-  empty?: boolean // used after creation
   type: NodeTypes.Root
   nodeType: NodeTypes
   children: Nodes[]
@@ -1008,8 +1009,9 @@ export interface RootNode extends SharedNodeProps {
   backgroundImageUrl?: string
   backgroundImagePosition?: ObjectFit
   border: BorderPlaceholder
-  focus: Partial<BoxNode>
-  hover: Partial<BoxNode>
+  focus: Partial<RootNode>
+  hover: Partial<RootNode>
+  preventGrid?: boolean
 }
 
 export interface ElementNode extends SharedNodeProps {
@@ -1030,6 +1032,8 @@ export interface BoxNode extends SharedNodeProps {
   backgroundColorId?: string
   backgroundImageUrl?: string
   backgroundImagePosition?: ObjectFit
+  width?: number
+  height?: number
   focus: Partial<BoxNode>
   hover: Partial<BoxNode>
 }

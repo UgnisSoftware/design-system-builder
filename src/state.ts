@@ -380,10 +380,6 @@ const defaultState: State = {
             unit: Units.Fr,
           },
           {
-            value: 28,
-            unit: Units.Px,
-          },
-          {
             value: 1,
             unit: Units.Fr,
           },
@@ -391,10 +387,6 @@ const defaultState: State = {
         rows: [
           {
             value: 13,
-            unit: Units.Px,
-          },
-          {
-            value: 2,
             unit: Units.Px,
           },
           {
@@ -413,14 +405,15 @@ const defaultState: State = {
             type: NodeTypes.Box,
             position: {
               columnStart: 1,
-              columnEnd: 4,
-              rowStart: 2,
+              columnEnd: 2,
+              rowStart: 1,
               rowEnd: 3,
             },
             alignment: {
-              horizontal: Alignment.start,
+              horizontal: Alignment.stretch,
               vertical: Alignment.center,
             },
+            height: 2,
             border: 'borbor-6666',
             boxShadow: null,
             backgroundColorId: 'prim-1',
@@ -428,16 +421,38 @@ const defaultState: State = {
             hover: {},
           },
           {
-            id: 'ef3ghvhfb8266',
+            id: 'ef3fb8266',
             type: NodeTypes.Box,
             position: {
               columnStart: 2,
               columnEnd: 3,
               rowStart: 1,
-              rowEnd: 4,
+              rowEnd: 3,
             },
             alignment: {
-              horizontal: Alignment.start,
+              horizontal: Alignment.stretch,
+              vertical: Alignment.center,
+            },
+            height: 2,
+            border: 'borbor-6666',
+            boxShadow: null,
+            backgroundColorId: 'dddd-4444',
+            focus: {},
+            hover: {},
+          },
+          {
+            id: 'ef3ghvhfb8266',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: 3,
+              rowStart: 1,
+              rowEnd: 4,
+            },
+            width: 24,
+            height: 24,
+            alignment: {
+              horizontal: Alignment.center,
               vertical: Alignment.center,
             },
             border: 'borbor-9999',
@@ -863,24 +878,24 @@ const defaultState: State = {
   settings: {
     colors: [
       {
+        id: 'dddd-4444',
+        name: 'Light blue',
+        hex: '#add1f5',
+      },
+      {
+        id: 'eeee-5555',
+        name: 'Blue',
+        hex: '#5da2d5',
+      },
+      {
         id: 'prim-1',
         name: 'Primary',
-        hex: '#2196f3', //Primary color used in Material UI
+        hex: '#2196f3',
       },
       {
         id: 'prim-2',
         name: 'StrongPrimary',
-        hex: '#1976d2', //Used for background effects or emphasis
-      },
-      {
-        id: 'secn-1',
-        name: 'Secondary',
-        hex: '#e3004d', //Secondary color used in Material UI
-      },
-      {
-        id: 'secn-2',
-        name: 'StrongSecondary',
-        hex: '#9d0038', //Used for background effects and emphasis
+        hex: '#1976d2',
       },
       {
         id: 'aaaa-1111',
@@ -888,9 +903,24 @@ const defaultState: State = {
         hex: '#f78888',
       },
       {
+        id: 'secn-1',
+        name: 'Secondary',
+        hex: '#e3004d',
+      },
+      {
+        id: 'secn-2',
+        name: 'StrongSecondary',
+        hex: '#9d0038',
+      },
+      {
         id: 'bbbb-2222',
         name: 'Yellow',
         hex: '#f3d250',
+      },
+      {
+        id: 'white-6666',
+        name: 'White',
+        hex: '#ffffff',
       },
       {
         id: 'cccc-3333',
@@ -900,22 +930,7 @@ const defaultState: State = {
       {
         id: 'cccc-3333-2',
         name: 'Grey',
-        hex: '#f0f0f0',
-      },
-      {
-        id: 'dddd-4444',
-        name: 'Light blue',
-        hex: '#90ccf4',
-      },
-      {
-        id: 'eeee-5555',
-        name: 'Blue',
-        hex: '#5da2d5',
-      },
-      {
-        id: 'white-6666',
-        name: 'White',
-        hex: '#ffffff',
+        hex: '#bfbfbf',
       },
     ],
     spacing: ['8px', '16px', '24px', '48px', '64px'],

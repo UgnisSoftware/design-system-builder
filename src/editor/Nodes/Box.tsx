@@ -14,6 +14,10 @@ const BoxAtom = styled.div`
   position: relative;
   display: grid;
   opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
+  width: ${({ component }) => (component.width ? `${component.width}px` : 'auto')};
+  height: ${({ component }) => (component.height ? `${component.height}px` : 'auto')};
+  justify-self: ${({ component }) => component.alignment.horizontal};
+  align-self: ${({ component }) => component.alignment.vertical};
   grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   box-shadow: ${({ component }: BoxProps) =>
