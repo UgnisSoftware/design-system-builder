@@ -15,7 +15,6 @@ const Input = styled.input`
   display: grid;
   outline: none;
 
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   background: ${({ component }: BoxProps) =>
     component.backgroundColorId
       ? state.settings.colors.find(color => color.id === component.backgroundColorId).hex

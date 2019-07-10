@@ -4,9 +4,10 @@ import state from '@state'
 import { Border, BoxShadow, FontSizeName, ImageAsset } from '@src/interfaces/settings'
 import { Colors } from '@src/styles'
 import { ComponentStateMenu } from '@src/interfaces/ui'
-import { Alignment, BoxNode, NodeTypes, ObjectFit, Overflow, RootNode, TextNode } from '@src/interfaces/nodes'
+import { Alignment, BoxNode, NodeTypes, ObjectFit, TextNode } from '@src/interfaces/nodes'
 import { getSelectedElement } from '@src/selector'
 import { useState } from 'react'
+import Select from '@components/Select'
 
 const TopBarBox = styled.div`
   padding: 8px 16px;
@@ -21,28 +22,6 @@ const TopBarBox = styled.div`
 const AlignRight = styled.div`
   margin-left: auto;
   display: flex;
-`
-const StateManagerWrapper = styled.div`
-  position: absolute;
-  top: 70px;
-  left: 208px;
-  padding-left: 8px;
-  z-index: 99999;
-  background: rgb(248, 248, 248);
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  user-select: none;
-  height: 64px;
-  border-radius: 5px;
-  padding-right: 8px;
-`
-const StateText = styled.div`
-  width: 100px;
-  display: grid;
-  justify-content: center;
 `
 
 const StylelessButton = styled.button.attrs({ type: 'button' })`
@@ -209,8 +188,8 @@ const moveLayer = (by: number) => () => {
 
 const changeBackground = (colorId: string | null, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].backgroundImageUrl = null
-    state.ui.selectedNode[stateManager].backgroundColorId = colorId
+    state.ui.selectedNode.states[stateManager].backgroundImageUrl = null
+    state.ui.selectedNode.states[stateManager].backgroundColorId = colorId
     return
   }
   ;(state.ui.selectedNode as BoxNode).backgroundImageUrl = null
@@ -218,7 +197,7 @@ const changeBackground = (colorId: string | null, stateManager?: ComponentStateM
 }
 const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].fontColorId = colorId
+    state.ui.selectedNode.states[stateManager].fontColorId = colorId
     return
   }
   ;(state.ui.selectedNode as TextNode).fontColorId = colorId
@@ -226,44 +205,37 @@ const changeFontColor = (colorId: string, stateManager?: ComponentStateMenu) => 
 
 const removeBorder = (stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].border = null
+    state.ui.selectedNode.states[stateManager].border = null
     return
   }
   ;(state.ui.selectedNode as BoxNode).border = null
 }
 const changeBorder = (border: Border, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].border = border.id
+    state.ui.selectedNode.states[stateManager].border = border.id
     return
   }
   ;(state.ui.selectedNode as BoxNode).border = border.id
 }
 const removeBoxShadow = (stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].boxShadow = null
+    state.ui.selectedNode.states[stateManager].boxShadow = null
     return
   }
   ;(state.ui.selectedNode as BoxNode).boxShadow = null
 }
 const changeBoxShadow = (boxShadow: BoxShadow, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].boxShadow = boxShadow.id
+    state.ui.selectedNode.states[stateManager].boxShadow = boxShadow.id
     return
   }
   ;(state.ui.selectedNode as BoxNode).boxShadow = boxShadow.id
 }
-const changeOverflow = (overflow: Overflow, stateManager?: ComponentStateMenu) => () => {
-  if (stateManager) {
-    state.ui.selectedNode[stateManager].overflow = overflow
-    return
-  }
-  ;(state.ui.selectedNode as RootNode).overflow = overflow
-}
 
 const selectHorizontalAlignment = (alignment: Alignment, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].alignment = {
-      ...state.ui.selectedNode[stateManager].alignment,
+    state.ui.selectedNode.states[stateManager].alignment = {
+      ...state.ui.selectedNode.states[stateManager].alignment,
       horizontal: alignment,
     }
     return
@@ -272,8 +244,8 @@ const selectHorizontalAlignment = (alignment: Alignment, stateManager?: Componen
 }
 const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].alignment = {
-      ...state.ui.selectedNode[stateManager].alignment,
+    state.ui.selectedNode.states[stateManager].alignment = {
+      ...state.ui.selectedNode.states[stateManager].alignment,
       horizontal: alignment,
     }
     return
@@ -283,7 +255,7 @@ const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentS
 
 /* const changeFontFamily = (fontFamily = string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].fontFamily = fontFamily
+    state.ui.selectedNode.states[stateManager].fontFamily = fontFamily
     return
   }
   state.ui.selectedNode.fontFamily = fontFamily
@@ -292,8 +264,8 @@ const selectVerticalAlignment = (alignment: Alignment, stateManager?: ComponentS
 const selectImage = (image: ImageAsset, stateManager?: ComponentStateMenu) => () => {
   const url = image.url
   if (stateManager) {
-    state.ui.selectedNode[stateManager].backgroundImageUrl = url
-    state.ui.selectedNode[stateManager].backgroundColorId = null
+    state.ui.selectedNode.states[stateManager].backgroundImageUrl = url
+    state.ui.selectedNode.states[stateManager].backgroundColorId = null
     return
   }
   ;(state.ui.selectedNode as BoxNode).backgroundColorId = null
@@ -302,28 +274,29 @@ const selectImage = (image: ImageAsset, stateManager?: ComponentStateMenu) => ()
 
 const selectObjectFit = (objectFit: ObjectFit, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].backgroundImagePosition = objectFit
+    state.ui.selectedNode.states[stateManager].backgroundImagePosition = objectFit
     return
   }
   ;(state.ui.selectedNode as BoxNode).backgroundImagePosition = objectFit
 }
 const changeFontSize = (size: FontSizeName, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].fontSize = size
+    state.ui.selectedNode.states[stateManager].fontSize = size
     return
   }
   ;(state.ui.selectedNode as TextNode).fontSize = size
 }
 const changeFontFamily = (fontFamilyId: string, stateManager?: ComponentStateMenu) => () => {
   if (stateManager) {
-    state.ui.selectedNode[stateManager].fontFamilyId = fontFamilyId
+    state.ui.selectedNode.states[stateManager].fontFamilyId = fontFamilyId
     return
   }
   ;(state.ui.selectedNode as TextNode).fontFamilyId = fontFamilyId
 }
 
-const changeState = (componentState: ComponentStateMenu) => () => {
-  if (state.ui.stateManager === componentState) {
+const DefaultValue = 'Default'
+const changeState = (componentState: ComponentStateMenu) => {
+  if (componentState === DefaultValue) {
     state.ui.stateManager = null
     return
   }
@@ -339,7 +312,7 @@ interface MutatorProps {
 }
 interface BoxMutatorProps {
   stateManager?: ComponentStateMenu
-  component: BoxNode | RootNode
+  component: BoxNode
 }
 
 const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
@@ -408,45 +381,6 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
     </InfoColumn>
   </>
 )
-interface RootMutatorProps {
-  stateManager?: ComponentStateMenu
-  component: RootNode
-}
-
-const RootMutators = ({ component, stateManager }: RootMutatorProps) => (
-  <>
-    <BoxMutators component={component} stateManager={stateManager} />
-    <Divider />
-    <InfoColumn>
-      <Title>Overflow</Title>
-      <IconRow>
-        <StylelessButton
-          title="Visible"
-          className="material-icons"
-          style={{
-            fontSize: '28px',
-            color: component.overflow === Overflow.visible ? ' rgb(83, 212, 134)' : 'black',
-          }}
-          onClick={changeOverflow(Overflow.visible, stateManager)}
-        >
-          visibility
-        </StylelessButton>
-        <StylelessButton
-          title="Hidden"
-          className="material-icons"
-          style={{
-            fontSize: '28px',
-            color: component.overflow === Overflow.hidden ? ' rgb(83, 212, 134)' : 'black',
-          }}
-          onClick={changeOverflow(Overflow.hidden, stateManager)}
-        >
-          visibility_off
-        </StylelessButton>
-      </IconRow>
-    </InfoColumn>
-  </>
-)
-
 interface TextMutatorProps {
   stateManager?: ComponentStateMenu
   component: TextNode
@@ -619,11 +553,8 @@ const ElementMutators = ({  }: IconMutatorProps) => <>Overrides</>
 
 const Mutators = ({ stateManager }: MutatorProps) => {
   const component = stateManager
-    ? { ...state.ui.selectedNode, ...state.ui.selectedNode[stateManager] }
+    ? { ...state.ui.selectedNode, ...state.ui.selectedNode.states[stateManager] }
     : state.ui.selectedNode
-  if (state.ui.selectedNode.type === NodeTypes.Root) {
-    return <RootMutators stateManager={stateManager} component={component} />
-  }
   if (state.ui.selectedNode.type === NodeTypes.Element) {
     return <ElementMutators stateManager={stateManager} component={component} />
   }
@@ -659,7 +590,7 @@ const TopBar = () => (
         </>
       )}
 
-      {state.ui.selectedNode && <Mutators />}
+      {state.ui.selectedNode && <Mutators stateManager={state.ui.stateManager} />}
       <AlignRight>
         <InfoColumn>
           <Title>Grid</Title>
@@ -685,44 +616,18 @@ const TopBar = () => (
             <InfoColumn>
               <Title>State</Title>
               <IconRow>
-                <StylelessButton
-                  title="Hovered"
-                  className="material-icons"
-                  style={{
-                    fontSize: '24px',
-                    marginLeft: '-2px',
-                    marginRight: '2px',
-                    color: state.ui.stateManager === ComponentStateMenu.hover ? ' rgb(83, 212, 134)' : 'black',
-                  }}
-                  onClick={changeState(ComponentStateMenu.hover)}
-                >
-                  cloud
-                </StylelessButton>
-                <StylelessButton
-                  title="Focused"
-                  className="material-icons"
-                  style={{
-                    fontSize: '24px',
-                    marginLeft: '-2px',
-                    marginRight: '2px',
-                    color: state.ui.stateManager === ComponentStateMenu.focus ? ' rgb(83, 212, 134)' : 'black',
-                  }}
-                  onClick={changeState(ComponentStateMenu.focus)}
-                >
-                  search
-                </StylelessButton>
+                <Select
+                  value={state.ui.stateManager}
+                  placeholder="Default"
+                  onChange={changeState}
+                  options={[DefaultValue].concat(Object.keys(state.ui.selectedNode.states))}
+                />
               </IconRow>
             </InfoColumn>
           </>
         )}
       </AlignRight>
     </TopBarBox>
-    {state.ui.stateManager && state.ui.selectedNode && (
-      <StateManagerWrapper>
-        <Mutators stateManager={state.ui.stateManager} />
-        <StateText>{state.ui.stateManager}</StateText>
-      </StateManagerWrapper>
-    )}
   </>
 )
 

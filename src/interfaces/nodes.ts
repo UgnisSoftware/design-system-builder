@@ -953,16 +953,9 @@ export enum NodeTypes {
   Text = 'Text',
   Input = 'Input',
   Label = 'Label',
-  Image = 'Image',
   Button = 'Button',
   Link = 'Link',
   Icon = 'Icon',
-}
-
-export enum Overflow {
-  visible = 'visible',
-  hidden = 'hidden',
-  scroll = 'scroll',
 }
 
 export enum Alignment {
@@ -999,30 +992,25 @@ type BoxShadowPlaceholder = string
 
 export interface RootNode extends SharedNodeProps {
   type: NodeTypes.Root
-  nodeType: NodeTypes
   children: Nodes[]
-  overflow: Overflow
-  boxShadow?: BoxShadowPlaceholder
   columns: GridProperty[]
   rows: GridProperty[]
-  backgroundColorId?: string
-  backgroundImageUrl?: string
-  backgroundImagePosition?: ObjectFit
-  border: BorderPlaceholder
-  focus: Partial<RootNode>
-  hover: Partial<RootNode>
-  preventGrid?: boolean
+  states: {
+    [key: string]: Partial<RootNode>
+  }
 }
 
 export interface ElementNode extends SharedNodeProps {
   type: NodeTypes.Element
   elementId: string
   overrides: any
+  states: {}
 }
 
 export interface ComponentNode extends SharedNodeProps {
   type: NodeTypes.Component
   overrides: any
+  states: {}
 }
 
 export interface BoxNode extends SharedNodeProps {
@@ -1034,8 +1022,10 @@ export interface BoxNode extends SharedNodeProps {
   backgroundImagePosition?: ObjectFit
   width?: number
   height?: number
-  focus: Partial<BoxNode>
-  hover: Partial<BoxNode>
+  states: {
+    hover: Partial<BoxNode>
+    parentHover: Partial<BoxNode>
+  }
 }
 
 export interface TextNode extends SharedNodeProps {
@@ -1044,8 +1034,24 @@ export interface TextNode extends SharedNodeProps {
   fontSize: FontSizeName
   fontColorId?: string
   fontFamilyId: string
-  focus: Partial<TextNode>
-  hover: Partial<TextNode>
+  states: {
+    hover: Partial<TextNode>
+    parentHover: Partial<TextNode>
+  }
+}
+
+export interface LinkNode extends SharedNodeProps {
+  type: NodeTypes.Link
+  text: string
+  fontSize: FontSizeName
+  fontColorId?: string
+  fontFamilyId: string
+  states: {
+    focus: Partial<LinkNode>
+    hover: Partial<LinkNode>
+    parentHover: Partial<LinkNode>
+    visited: Partial<LinkNode>
+  }
 }
 
 export interface InputNode extends SharedNodeProps {
@@ -1053,15 +1059,11 @@ export interface InputNode extends SharedNodeProps {
   backgroundColorId?: string
   border: BorderPlaceholder
   boxShadow: BoxShadowPlaceholder
-  focus: Partial<InputNode>
-  hover: Partial<InputNode>
-}
-
-export interface LabelNode extends SharedNodeProps {
-  type: NodeTypes.Label
-  label: string
-  focus: Partial<InputNode>
-  hover: Partial<InputNode>
+  states: {
+    focus: Partial<InputNode>
+    hover: Partial<InputNode>
+    parentHover: Partial<InputNode>
+  }
 }
 
 export interface IconNode extends SharedNodeProps {
@@ -1069,8 +1071,10 @@ export interface IconNode extends SharedNodeProps {
   iconType: iconTypes
   fontSize: FontSizeName
   fontColorId?: string
-  focus: Partial<IconNode>
-  hover: Partial<IconNode>
+  states: {
+    hover: Partial<IconNode>
+    parentHover: Partial<IconNode>
+  }
 }
 
-export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | LabelNode | IconNode
+export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode | LinkNode

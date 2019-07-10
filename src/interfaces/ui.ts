@@ -13,10 +13,7 @@ export enum DragDirection {
   SE = 'SE',
 }
 
-export enum ComponentStateMenu {
-  hover = 'hover',
-  focus = 'focus',
-}
+export type ComponentStateMenu = string
 
 export interface AddingAtom {
   node: Nodes
@@ -34,7 +31,6 @@ export interface UI {
   router: (RouterPaths | ElementType)[]
   editingColorId: string
   editingTextNode: Nodes
-  editingBoxNode: Nodes
   addingElement: ElementType | null
   showAddComponentMenu: boolean
   showExportMenu: boolean
@@ -50,5 +46,5 @@ export interface UI {
   addingAtom: AddingAtom
   hoveredCell: HoveredCell
   selectedCell: HoveredCell
-  stateManager?: ComponentStateMenu
+  stateManager: ComponentStateMenu
 }

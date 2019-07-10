@@ -1,22 +1,20 @@
 import { proxify } from 'lape'
 import { State } from '@src/interfaces/state'
 import { FontSizeName } from '@src/interfaces/settings'
-import { Alignment, NodeTypes, ObjectFit, Overflow, Units } from '@src/interfaces/nodes'
+import { Alignment, NodeTypes, ObjectFit, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
 
 // const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
-
 const defaultState: State = {
   elements: [
     {
       id: 'button1',
       type: ElementType.Button,
-      name: 'Button Primary',
+      name: 'Button',
       root: {
         id: 'button2',
         type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -27,7 +25,6 @@ const defaultState: State = {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        overflow: Overflow.visible,
         columns: [
           {
             value: 12,
@@ -57,6 +54,27 @@ const defaultState: State = {
           },
         ],
         children: [
+          {
+            id: '2345553c774',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'prim-1',
+            border: 'borbor-6666',
+            boxShadow: 'shadow-7777',
+          },
           {
             id: '55a53c774',
             type: NodeTypes.Text,
@@ -73,178 +91,25 @@ const defaultState: State = {
             text: 'Button',
             fontColorId: 'white-6666',
             fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
+            states: {
+              hover: {},
+              parentHover: {},
+            },
             fontFamilyId: 'R1-123332',
           },
         ],
-        backgroundColorId: 'prim-1',
-        border: 'borbor-6666',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
+        states: {
+          secondary: {},
+        },
       },
     },
     {
-      id: 'button2',
-      type: ElementType.Button,
-      name: 'Button Secondary',
-      root: {
-        id: 'button2',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-        ],
-        rows: [
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-        ],
-        children: [
-          {
-            id: '55a3c7774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Button',
-            fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-        ],
-        backgroundColorId: 'secn-1',
-        border: 'borbor-6666',
-        boxShadow: 'shadow-7777',
-        focus: {},
-        hover: {},
-      },
-    },
-    {
-      id: 'button3',
-      type: ElementType.Button,
-      name: 'Button Text',
-      root: {
-        id: 'button33',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Button,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 12,
-            unit: Units.Px,
-          },
-        ],
-        rows: [
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 8,
-            unit: Units.Px,
-          },
-        ],
-        children: [
-          {
-            id: '55a3csdf7774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Button',
-            fontColorId: 'prim-1',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-        ],
-        backgroundColorId: null,
-        border: 'primB-1',
-        boxShadow: null,
-        focus: {},
-        hover: {},
-      },
-    },
-    {
-      id: 'label',
+      id: 'textInput-1234',
       type: ElementType.TextInput,
-      name: 'Label',
+      name: 'Input',
       root: {
-        id: '1ijsa1233s-12323',
+        id: 'oijsadoijas-12323',
         type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -255,7 +120,6 @@ const defaultState: State = {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -267,13 +131,41 @@ const defaultState: State = {
             value: 1,
             unit: Units.Fr,
           },
+          {
+            value: 1,
+            unit: Units.Fr,
+          },
         ],
-        backgroundColorId: null,
-        border: null,
-        boxShadow: null,
-        focus: {},
-        hover: {},
+        states: {
+          focus: {},
+          hover: {},
+          disabled: {},
+          error: {},
+          warning: {},
+        },
         children: [
+          {
+            id: 'asd33215553c774',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+
+            backgroundColorId: null,
+            border: null,
+            boxShadow: null,
+          },
           {
             id: 'ef3fb8266',
             type: NodeTypes.Text,
@@ -289,58 +181,20 @@ const defaultState: State = {
             },
             text: 'Label',
             fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
+            states: {
+              hover: {},
+              parentHover: {},
+            },
             fontFamilyId: 'R1-123332',
           },
-        ],
-      },
-    },
-    {
-      id: 'textInput-1234',
-      type: ElementType.TextInput,
-      name: 'Input',
-      root: {
-        id: 'oijsadoijas-12323',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        overflow: Overflow.visible,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        backgroundColorId: null,
-        border: null,
-        boxShadow: null,
-        focus: {},
-        hover: {},
-        children: [
           {
             id: 'as5491d89',
             type: NodeTypes.Input,
             position: {
               columnStart: 1,
               columnEnd: -1,
-              rowStart: 1,
-              rowEnd: 2,
+              rowStart: 2,
+              rowEnd: 3,
             },
             alignment: {
               horizontal: Alignment.stretch,
@@ -349,12 +203,23 @@ const defaultState: State = {
             backgroundColorId: 'cccc-3333',
             border: 'borbor-8888',
             boxShadow: null,
-            focus: {},
-            hover: {},
+            states: {
+              focus: {},
+              hover: {},
+              parentHover: {},
+            },
           },
         ],
       },
     },
+
+    {
+      id: 'select-1234',
+      type: ElementType.Select,
+      name: 'Select',
+      root: null,
+    },
+
     {
       id: 'slider-1234',
       type: ElementType.Slider,
@@ -362,7 +227,6 @@ const defaultState: State = {
       root: {
         id: 'oijsawefdoijas-12323',
         type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
         position: {
           columnStart: 1,
           columnEnd: -1,
@@ -373,7 +237,6 @@ const defaultState: State = {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -394,14 +257,31 @@ const defaultState: State = {
             unit: Units.Px,
           },
         ],
-        backgroundColorId: null,
-        border: 'borbor-6666',
-        boxShadow: null,
-        focus: {},
-        hover: {},
+        states: {},
         children: [
           {
-            id: 'ef3fb8266',
+            id: 'asd33215553c774',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: null,
+            border: null,
+            boxShadow: null,
+          },
+          {
+            id: 'ef3fb2348266',
             type: NodeTypes.Box,
             position: {
               columnStart: 1,
@@ -417,11 +297,13 @@ const defaultState: State = {
             border: 'borbor-6666',
             boxShadow: null,
             backgroundColorId: 'prim-1',
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
           },
           {
-            id: 'ef3fb8266',
+            id: 'ef3fsdfb8266',
             type: NodeTypes.Box,
             position: {
               columnStart: 2,
@@ -437,8 +319,10 @@ const defaultState: State = {
             border: 'borbor-6666',
             boxShadow: null,
             backgroundColorId: 'dddd-4444',
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
           },
           {
             id: 'ef3ghvhfb8266',
@@ -458,11 +342,43 @@ const defaultState: State = {
             border: 'borbor-9999',
             boxShadow: 'shadow-5555',
             backgroundColorId: 'white-6666',
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
           },
         ],
       },
+    },
+    {
+      id: 'checkbox-1234',
+      type: ElementType.CheckBox,
+      name: 'Checkbox',
+      root: null,
+    },
+    {
+      id: 'switch-1234',
+      type: ElementType.CheckBox,
+      name: 'Switch',
+      root: null,
+    },
+    {
+      id: 'radio-1234',
+      type: ElementType.Radio,
+      name: 'Radio Button',
+      root: null,
+    },
+    {
+      id: 'link-1234',
+      type: ElementType.Link,
+      name: 'Link',
+      root: null,
+    },
+    {
+      id: 'loader-1234',
+      type: ElementType.Loader,
+      name: 'Loader',
+      root: null,
     },
 
     {
@@ -472,8 +388,6 @@ const defaultState: State = {
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
-        overflow: Overflow.visible,
         columns: [
           {
             value: 40,
@@ -500,15 +414,32 @@ const defaultState: State = {
           rowStart: 1,
           rowEnd: -1,
         },
-        backgroundColorId: 'prim-1',
-        border: null,
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
         },
-        focus: {},
-        hover: {},
+        states: {},
         children: [
+          {
+            id: '2231553c774',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'prim-1',
+            border: null,
+          },
           {
             id: 'start',
             type: NodeTypes.Icon,
@@ -525,8 +456,10 @@ const defaultState: State = {
               horizontal: Alignment.center,
               vertical: Alignment.center,
             },
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
           },
           {
             id: 'message',
@@ -544,8 +477,10 @@ const defaultState: State = {
               vertical: Alignment.center,
             },
             text: 'Menu',
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
             fontFamilyId: 'R1-123332',
           },
           {
@@ -564,8 +499,10 @@ const defaultState: State = {
               vertical: Alignment.center,
             },
             text: 'Log in',
-            focus: {},
-            hover: {},
+            states: {
+              parentHover: {},
+              hover: {},
+            },
             fontFamilyId: 'R1-123332',
           },
         ],
@@ -578,7 +515,6 @@ const defaultState: State = {
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
         alignment: {
           horizontal: Alignment.stretch,
           vertical: Alignment.stretch,
@@ -589,7 +525,6 @@ const defaultState: State = {
           rowStart: 1,
           rowEnd: -1,
         },
-        overflow: Overflow.visible,
         columns: [
           {
             value: 1,
@@ -608,6 +543,27 @@ const defaultState: State = {
         ],
         children: [
           {
+            id: '123345553c774',
+            type: NodeTypes.Box,
+            position: {
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+            },
+            alignment: {
+              horizontal: Alignment.stretch,
+              vertical: Alignment.stretch,
+            },
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'cccc-3333',
+            border: 'barbar-7777',
+            boxShadow: 'shadow-9999',
+          },
+          {
             id: '07f083fc0',
             type: NodeTypes.Box,
             position: {
@@ -624,8 +580,10 @@ const defaultState: State = {
               'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
             backgroundImagePosition: ObjectFit.fill,
             border: null,
-            focus: {},
-            hover: {},
+            states: {
+              hover: {},
+              parentHover: {},
+            },
           },
           {
             id: 'ef3fb4266',
@@ -642,8 +600,10 @@ const defaultState: State = {
             },
             text: 'Nebula c51-b9',
             fontSize: FontSizeName.L,
-            focus: {},
-            hover: {},
+            states: {
+              hover: {},
+              parentHover: {},
+            },
             fontFamilyId: 'R1-123332',
           },
           {
@@ -661,217 +621,10 @@ const defaultState: State = {
               vertical: Alignment.center,
             },
             overrides: {},
+            states: {},
           },
         ],
-        backgroundColorId: 'cccc-3333',
-        border: 'barbar-7777',
-        boxShadow: 'shadow-9999',
-        focus: {},
-        hover: {},
-      },
-    },
-    {
-      id: 'efgh-5678',
-      type: ElementType.Component,
-      name: 'Table-test',
-      root: {
-        id: 'rootId',
-        type: NodeTypes.Root,
-        nodeType: NodeTypes.Box,
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        overflow: Overflow.hidden,
-        columns: [
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-          {
-            value: 1,
-            unit: Units.Fr,
-          },
-        ],
-        rows: [
-          {
-            value: 80,
-            unit: Units.Px,
-          },
-          {
-            value: 80,
-            unit: Units.Px,
-          },
-          {
-            value: 80,
-            unit: Units.Px,
-          },
-        ],
-        backgroundColorId: 'cccc-3333',
-        border: 'primB-1',
-        focus: {},
-        hover: {},
-        children: [
-          {
-            id: 'te6st1',
-            type: NodeTypes.Text,
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            text: 'Primary',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-          {
-            id: 'test32',
-            type: NodeTypes.Text,
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            text: 'Secondary',
-            fontSize: FontSizeName.S,
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-          {
-            id: 'test3',
-            type: NodeTypes.Box,
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            position: {
-              columnStart: 3,
-              columnEnd: 4,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            focus: {},
-            hover: {},
-            backgroundImageUrl:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
-            backgroundImagePosition: ObjectFit.fill,
-            border: null,
-          },
-          {
-            id: 'ef3f5b266',
-            type: NodeTypes.Element,
-            elementId: 'button1',
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            overrides: {},
-          },
-          {
-            id: 'test5',
-            type: NodeTypes.Box,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            border: 'borbor-6666',
-            backgroundColorId: 'prim-1',
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
-            focus: {},
-            hover: {},
-          },
-          {
-            id: 'test5-1',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            fontSize: FontSizeName.M,
-            text: 'Middle',
-            focus: {},
-            hover: {},
-            fontFamilyId: 'R1-123332',
-          },
-          {
-            id: 'test-6',
-            type: NodeTypes.Box,
-            position: {
-              columnStart: 3,
-              columnEnd: -1,
-              rowStart: 2,
-              rowEnd: -1,
-            },
-            border: 'borbor-6666',
-            backgroundColorId: 'prim-1',
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
-            focus: {},
-            hover: {
-              backgroundColorId: 'secn-1',
-            },
-          },
-          {
-            id: 'test-7',
-            type: NodeTypes.Icon,
-            iconType: 'bug_report',
-            fontSize: FontSizeName.M,
-            position: {
-              columnStart: 1,
-              columnEnd: 3,
-              rowStart: 3,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            hover: {},
-            focus: {},
-          },
-        ],
+        states: {},
       },
     },
   ],
@@ -1071,7 +824,6 @@ const defaultState: State = {
     router: parseUrl(),
     editingColorId: '',
     editingTextNode: null,
-    editingBoxNode: null,
     addingElement: null,
     draggingNode: null,
     addingAtom: null,

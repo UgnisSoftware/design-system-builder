@@ -54,7 +54,6 @@ const unselectComponent = e => {
     state.ui.selectedNode = null
     state.ui.stateManager = null
     state.ui.editingTextNode = null
-    state.ui.editingBoxNode = null
     state.ui.showAddComponentMenu = false
     state.ui.showExportMenu = false
   }

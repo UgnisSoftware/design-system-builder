@@ -13,7 +13,6 @@ const BoxAtom = styled.div`
   transition: all 0.3s;
   position: relative;
   display: grid;
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   width: ${({ component }) => (component.width ? `${component.width}px` : 'auto')};
   height: ${({ component }) => (component.height ? `${component.height}px` : 'auto')};
   justify-self: ${({ component }) => component.alignment.horizontal};
@@ -49,9 +48,15 @@ const BoxAtom = styled.div`
       : ''
   }};
 `
+const componentToStyle = (component: BoxNode) => {
+  if (state.ui.selectedNode === component && state.ui.stateManager) {
+    return { ...component, ...component.states[state.ui.stateManager] }
+  }
+  return component
+}
 
 const BoxComponent = ({ component, parent }: BoxProps) => (
-  <BoxAtom component={component} onMouseDown={selectComponent(component, parent)} />
+  <BoxAtom component={componentToStyle(component)} onMouseDown={selectComponent(component, parent)} />
 )
 
 export default BoxComponent

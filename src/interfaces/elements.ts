@@ -14,6 +14,7 @@ export enum ElementType {
   Tooltip = 'tooltip',
   Loader = 'loader',
   Table = 'table',
+  Link = 'Link',
   Component = 'component',
   New = 'new',
 }

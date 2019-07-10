@@ -4,6 +4,7 @@ import { Nodes, RootNode, Units } from '@src/interfaces/nodes'
 import { Colors } from '@src/styles'
 import state from '@state'
 import { DragDirection } from '@src/interfaces/ui'
+import { getSelectedElement } from '@src/selector'
 
 interface BorderProps {
   col: number
@@ -254,6 +255,32 @@ const AddRowButton = styled(StylelessButton)`
   background: ${Colors.grey100};
   font-size: 28px;
 `
+const DeleteRowButton = styled(StylelessButton)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: -40px;
+  border: 1px solid ${Colors.grey500};
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${Colors.grey100};
+  font-size: 18px;
+`
+const DeleteColumnButton = styled(StylelessButton)`
+  position: absolute;
+  bottom: -40px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  border: 1px solid ${Colors.grey500};
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${Colors.grey100};
+  font-size: 18px;
+`
 
 interface Props {
   rootNode: RootNode
@@ -351,6 +378,15 @@ const changeRowUnits = (rootNode: RootNode, index: number) => e => {
   rootNode.rows[index].unit = e.target.value
 }
 
+const deleteRow = rowIndex => {
+  const element = getSelectedElement()
+  element.root.rows.splice(rowIndex, 1)
+}
+const deleteColumn = colIndex => {
+  const element = getSelectedElement()
+  element.root.columns.splice(colIndex, 1)
+}
+
 /*
  * This Component is responsible for:
  *   Changing grid size  -- SHOW GRID
@@ -383,6 +419,7 @@ const GridOverlay = ({ rootNode }: Props) => (
                       <option value={Units.Px}>Px</option>
                       <option value={Units.Fr}>Fr</option>
                     </select>
+                    <DeleteColumnButton onClick={deleteColumn(colIndex)}>X</DeleteColumnButton>
                   </TopText>
                 )}
               </BorderTop>
@@ -410,6 +447,7 @@ const GridOverlay = ({ rootNode }: Props) => (
                         <option value={Units.Px}>Px</option>
                         <option value={Units.Fr}>Fr</option>
                       </select>
+                      <DeleteRowButton onClick={deleteRow(rowIndex)}>X</DeleteRowButton>
                     </LeftText>
                   )}
                 </BorderLeft>

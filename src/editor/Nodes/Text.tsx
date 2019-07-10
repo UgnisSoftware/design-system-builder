@@ -13,7 +13,6 @@ const TextWrapper = styled.div<TextProps>`
   outline: none;
   position: relative;
   display: grid;
-  opacity: ${({ parent }) => (state.ui.editingBoxNode && state.ui.editingBoxNode === parent ? 0.4 : 1)};
   grid-column: ${({ component }) => `${component.position.columnStart} / ${component.position.columnEnd}`};
   grid-row: ${({ component }) => `${component.position.rowStart} / ${component.position.rowEnd}`};
   justify-self: ${({ component }) => component.alignment.horizontal};
@@ -31,6 +30,13 @@ const changeTextValue = e => {
   e.preventDefault()
   e.stopPropagation()
   ;(state.ui.selectedNode as TextNode).text = e.target.innerText
+}
+
+const componentToStyle = (component: TextNode) => {
+  if (state.ui.selectedNode === component && state.ui.stateManager) {
+    return { ...component, ...component.states[state.ui.stateManager] }
+  }
+  return component
 }
 
 class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
@@ -65,7 +71,7 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
     const { component, parent } = this.props
     return (
       <TextWrapper
-        component={component}
+        component={componentToStyle(component)}
         parent={parent}
         onMouseDown={selectComponent(component, parent)}
         onDoubleClick={this.editText(component)}

@@ -1,5 +1,5 @@
 import { Element, ElementType } from '@src/interfaces/elements'
-import { Alignment, NodeTypes, Overflow, Units } from '@src/interfaces/nodes'
+import { Alignment, NodeTypes, Units } from '@src/interfaces/nodes'
 import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
 
@@ -13,7 +13,6 @@ export default (name): Element => {
     root: {
       id: newRootId,
       type: NodeTypes.Root,
-      nodeType: NodeTypes.Button,
       position: {
         columnStart: 1,
         columnEnd: -1,
@@ -24,7 +23,6 @@ export default (name): Element => {
         horizontal: Alignment.stretch,
         vertical: Alignment.stretch,
       },
-      overflow: Overflow.visible,
       columns: [
         {
           value: 12,
@@ -55,6 +53,27 @@ export default (name): Element => {
       ],
       children: [
         {
+          id: '2345553c774',
+          type: NodeTypes.Box,
+          position: {
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+          },
+          alignment: {
+            horizontal: Alignment.stretch,
+            vertical: Alignment.stretch,
+          },
+          states: {
+            hover: {},
+            parentHover: {},
+          },
+          backgroundColorId: 'prim-1',
+          border: 'borbor-6666',
+          boxShadow: 'shadow-7777',
+        },
+        {
           id: '55a53c774',
           type: NodeTypes.Text,
           position: {
@@ -70,16 +89,16 @@ export default (name): Element => {
           text: 'Button',
           fontColorId: 'white-6666',
           fontSize: FontSizeName.S,
-          focus: {},
-          hover: {},
+          states: {
+            hover: {},
+            parentHover: {},
+          },
           fontFamilyId: 'R1-123332',
         },
       ],
-      backgroundColorId: 'prim-1',
-      border: 'borbor-6666',
-      boxShadow: 'shadow-7777',
-      focus: {},
-      hover: {},
+      states: {
+        secondary: {},
+      },
     },
   }
 }

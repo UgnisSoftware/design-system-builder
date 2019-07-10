@@ -84,8 +84,7 @@ const generateComponent = (type: NodeTypes, element?: Element): Nodes => {
       horizontal: Alignment.stretch,
       vertical: Alignment.stretch,
     },
-    hover: {},
-    focus: {},
+    states: {},
   }
 
   if (element) {
@@ -102,6 +101,10 @@ const generateComponent = (type: NodeTypes, element?: Element): Nodes => {
       ...baseComponent,
       type: NodeTypes.Box,
       backgroundColorId: 'dddd-4444',
+      states: {
+        hover: {},
+        parentHover: {},
+      },
     }
   }
   if (type === NodeTypes.Text) {
@@ -111,6 +114,10 @@ const generateComponent = (type: NodeTypes, element?: Element): Nodes => {
       text: 'Hello',
       fontSize: FontSizeName.L,
       fontFamilyId: state.settings.fonts[0].id,
+      states: {
+        hover: {},
+        parentHover: {},
+      },
     }
   }
 }
