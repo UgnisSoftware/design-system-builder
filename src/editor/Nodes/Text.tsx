@@ -19,6 +19,8 @@ const TextWrapper = styled.div<TextProps>`
   align-self: ${({ component }) => component.alignment.vertical};
   font-size: ${({ component }) =>
     state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
+  line-height: ${({ component }) =>
+    state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].lineHeight};
   color: ${({ component }) =>
     component.fontColorId ? state.settings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
   font-family: ${({ component }) => state.settings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};

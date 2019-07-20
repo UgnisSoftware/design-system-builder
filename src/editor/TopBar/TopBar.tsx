@@ -19,6 +19,7 @@ const TopBarBox = styled.div`
   font-size: 24px;
   user-select: none;
 `
+
 const AlignRight = styled.div`
   margin-left: auto;
   display: flex;
@@ -286,7 +287,7 @@ const changeFontSize = (size: FontSizeName, stateManager?: ComponentStateMenu) =
   }
   ;(state.ui.selectedNode as TextNode).fontSize = size
 }
-const changeFontFamily = (fontFamilyId: string, stateManager?: ComponentStateMenu) => () => {
+const changeFontFamily = (stateManager?: ComponentStateMenu) => (fontFamilyId: string) => {
   if (stateManager) {
     state.ui.selectedNode.states[stateManager].fontFamilyId = fontFamilyId
     return
@@ -307,16 +308,51 @@ const changeGrid = () => {
   state.ui.showGrid = !state.ui.showGrid
 }
 
-interface MutatorProps {
-  stateManager?: ComponentStateMenu
+const showExportMenu = () => {
+  state.ui.showExportMenu = !state.ui.showExportMenu
 }
+
+const ZIndexMutators = () => (
+  <>
+    <InfoColumn>
+      <Title>Z index</Title>
+      <IconRow>
+        <StylelessButton title="Move to front" className="material-icons" onClick={moveLayer(1)}>
+          flip_to_front
+        </StylelessButton>
+        <StylelessButton title="Move to back" className="material-icons" onClick={moveLayer(-1)}>
+          flip_to_back
+        </StylelessButton>
+      </IconRow>
+    </InfoColumn>
+    <Divider />
+  </>
+)
+const NodeStateMutators = () => (
+  <AlignRight>
+    <Divider />
+    <InfoColumn>
+      <Title>State</Title>
+      <IconRow>
+        <Select
+          value={state.ui.stateManager}
+          placeholder="Default"
+          onChange={changeState}
+          options={[DefaultValue].concat(Object.keys(state.ui.selectedNode.states))}
+        />
+      </IconRow>
+    </InfoColumn>
+  </AlignRight>
+)
+
 interface BoxMutatorProps {
   stateManager?: ComponentStateMenu
   component: BoxNode
 }
 
 const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
-  <>
+  <TopBarBox>
+    <ZIndexMutators />
     <InfoColumn>
       <Title>Background</Title>
       <IconRow>
@@ -379,7 +415,8 @@ const BoxMutators = ({ component, stateManager }: BoxMutatorProps) => (
         ))}
       </IconRow>
     </InfoColumn>
-  </>
+    <NodeStateMutators />
+  </TopBarBox>
 )
 interface TextMutatorProps {
   stateManager?: ComponentStateMenu
@@ -387,7 +424,8 @@ interface TextMutatorProps {
 }
 
 const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
-  <>
+  <TopBarBox>
+    <ZIndexMutators />
     <InfoColumn>
       <Title>Horizontal</Title>
       <IconRow>
@@ -491,17 +529,20 @@ const TextMutators = ({ component, stateManager }: TextMutatorProps) => (
         </StylelessButton>
       </IconRow>
     </InfoColumn>
+    <Divider />
     <InfoColumn>
       <Title>Font family</Title>
       <IconRow>
-        {state.settings.fonts.map(font => (
-          <StylelessButton key={font.id} title={font.fontFamily} onClick={changeFontFamily(font.id, stateManager)}>
-            {font.fontFamily}
-          </StylelessButton>
-        ))}
+        <Select
+          options={state.settings.fonts.map(font => font.id)}
+          value={component.fontFamilyId}
+          toName={id => state.settings.fonts.find(font => font.id === id).fontFamily}
+          onChange={changeFontFamily(stateManager)}
+        />
       </IconRow>
     </InfoColumn>
-  </>
+    <NodeStateMutators />
+  </TopBarBox>
 )
 
 interface IconMutatorProps {
@@ -510,7 +551,8 @@ interface IconMutatorProps {
 }
 
 const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
-  <>
+  <TopBarBox>
+    <ZIndexMutators />
     <InfoColumn>
       <Title>Color</Title>
       <IconRow>
@@ -546,12 +588,68 @@ const IconMutators = ({ component, stateManager }: IconMutatorProps) => (
         </StylelessButton>
       </IconRow>
     </InfoColumn>
-  </>
+    <NodeStateMutators />
+  </TopBarBox>
 )
 
-const ElementMutators = ({  }: IconMutatorProps) => <>Overrides</>
+const ElementMutators = ({  }: IconMutatorProps) => (
+  <TopBarBox>
+    <InfoColumn>TODO Overrides</InfoColumn>
+  </TopBarBox>
+)
 
-const Mutators = ({ stateManager }: MutatorProps) => {
+const NoneSelectedMutators = () => {
+  return (
+    <TopBarBox>
+      {state.ui.showAddComponentMenu && 'Click and drag'}
+      <InfoColumn style={{ marginLeft: 'auto' }}>
+        <Title>Edit Grid</Title>
+        <IconRow>
+          <StylelessButton
+            title="Show grid"
+            className="material-icons"
+            style={{
+              fontSize: '24px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              color: state.ui.showGrid ? ' rgb(83, 212, 134)' : 'black',
+            }}
+            onClick={changeGrid}
+          >
+            {state.ui.showGrid ? 'grid_on' : 'grid_off'}
+          </StylelessButton>
+        </IconRow>
+      </InfoColumn>
+      <Divider />
+      <InfoColumn>
+        <Title>Export</Title>
+        <IconRow>
+          <StylelessButton
+            title="Show export menu"
+            className="material-icons"
+            style={{
+              fontSize: '28px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginTop: '2px',
+
+              color: state.ui.showExportMenu ? ' rgb(83, 212, 134)' : 'black',
+            }}
+            onClick={showExportMenu}
+          >
+            exit_to_app
+          </StylelessButton>
+        </IconRow>
+      </InfoColumn>
+    </TopBarBox>
+  )
+}
+
+const TopBar = () => {
+  const stateManager = state.ui.stateManager
+  if (!state.ui.selectedNode) {
+    return <NoneSelectedMutators />
+  }
   const component = stateManager
     ? { ...state.ui.selectedNode, ...state.ui.selectedNode.states[stateManager] }
     : state.ui.selectedNode
@@ -569,66 +667,5 @@ const Mutators = ({ stateManager }: MutatorProps) => {
   }
   return null
 }
-
-const TopBar = () => (
-  <>
-    <TopBarBox>
-      {state.ui.selectedNode && state.ui.selectedNode.type !== NodeTypes.Root && (
-        <>
-          <InfoColumn>
-            <Title>Z index</Title>
-            <IconRow>
-              <StylelessButton title="Move to front" className="material-icons" onClick={moveLayer(1)}>
-                flip_to_front
-              </StylelessButton>
-              <StylelessButton title="Move to back" className="material-icons" onClick={moveLayer(-1)}>
-                flip_to_back
-              </StylelessButton>
-            </IconRow>
-          </InfoColumn>
-          <Divider />
-        </>
-      )}
-
-      {state.ui.selectedNode && <Mutators stateManager={state.ui.stateManager} />}
-      <AlignRight>
-        <InfoColumn>
-          <Title>Grid</Title>
-          <IconRow>
-            <StylelessButton
-              title="Hovered"
-              className="material-icons"
-              style={{
-                fontSize: '24px',
-                marginLeft: '-2px',
-                marginRight: '2px',
-                color: state.ui.showGrid ? ' rgb(83, 212, 134)' : 'black',
-              }}
-              onClick={changeGrid}
-            >
-              {state.ui.showGrid ? 'grid_off' : 'grid_on'}
-            </StylelessButton>
-          </IconRow>
-        </InfoColumn>
-        {state.ui.selectedNode && (
-          <>
-            <Divider />
-            <InfoColumn>
-              <Title>State</Title>
-              <IconRow>
-                <Select
-                  value={state.ui.stateManager}
-                  placeholder="Default"
-                  onChange={changeState}
-                  options={[DefaultValue].concat(Object.keys(state.ui.selectedNode.states))}
-                />
-              </IconRow>
-            </InfoColumn>
-          </>
-        )}
-      </AlignRight>
-    </TopBarBox>
-  </>
-)
 
 export default TopBar

@@ -6,7 +6,8 @@
   },
   "rules": {
     "prettier": true,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "jsx-boolean-value": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }

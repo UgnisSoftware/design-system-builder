@@ -18,7 +18,7 @@ const showAddComponentMenu = () => {
   state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
 }
 
-class AddComponentButton extends React.Component {
+class AddMenuButton extends React.Component {
   render() {
     return (
       <AddCircle className="material-icons" onClick={showAddComponentMenu}>
@@ -27,4 +27,4 @@ class AddComponentButton extends React.Component {
     )
   }
 }
-export default AddComponentButton
+export default AddMenuButton

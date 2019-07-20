@@ -6,15 +6,17 @@ import useClickAway from 'react-use/esm/useClickAway'
 interface Props {
   options: string[]
   value: string
-  placeholder: string
+  placeholder?: string
   className?: string
   onChange: (option: string) => void
+  toName?: (option: string) => void
 }
 
 interface MenuProps {
   options: string[]
   updateOpen: (isOpen: boolean) => void
   onChange: (option: string) => void
+  toName?: (option: string) => void
 }
 
 const Wrapper = styled.div`
@@ -44,7 +46,7 @@ const MenuItem = styled.div`
   }
 `
 
-const Menu = ({ options, updateOpen, onChange }: MenuProps) => {
+const Menu = ({ options, updateOpen, onChange, toName }: MenuProps) => {
   const ref = useRef(null)
 
   useClickAway(ref, () => {
@@ -61,27 +63,27 @@ const Menu = ({ options, updateOpen, onChange }: MenuProps) => {
             updateOpen(false)
           }}
         >
-          {option}
+          {toName ? toName(option) : option}
         </MenuItem>
       ))}
     </MenuWrapper>
   )
 }
 
-const Select = ({ value, onChange, options, className, placeholder }: Props) => {
+const Select = ({ value, onChange, options, className, placeholder, toName }: Props) => {
   const [open, updateOpen] = useState(false)
 
   return (
     <Wrapper className={className}>
       <ValueWrapper>
         {value ? (
-          <Value onClick={() => updateOpen(true)}>{value}</Value>
+          <Value onClick={() => updateOpen(true)}>{toName ? toName(value) : value}</Value>
         ) : (
           <Placeholder onClick={() => updateOpen(true)}>{placeholder}</Placeholder>
         )}
       </ValueWrapper>
 
-      {open && <Menu options={options} updateOpen={updateOpen} onChange={onChange} />}
+      {open && <Menu options={options} updateOpen={updateOpen} onChange={onChange} toName={toName} />}
     </Wrapper>
   )
 }

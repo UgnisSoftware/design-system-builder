@@ -8,13 +8,12 @@ import state from '@state'
 import { Emitter } from 'lape'
 import { Data } from 'lape/dist/eventEmitter'
 
-import AddComponentButton from '@src/editor/TopBar/AddComponentButton'
-import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddComponentMenu'
+import AddMenuButton from '@src/editor/Elements/AddComponentMenu/AddMenuButton'
+import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddMenu'
 import AddingAtom from '@src/editor/Overlay/AddingAtom'
 import Component from '@src/editor/Nodes/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
 import { getSelectedElement } from '@src/selector'
-import ShowExportButton from '@src/editor/TopBar/ShowExportButton'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
 import useSetState from 'react-use/esm/useSetState'
 import useEffectOnce from 'react-use/esm/useEffectOnce'
@@ -162,8 +161,7 @@ const Elements = () => {
     <Wrapper>
       <TopBar />
       <Background>
-        <AddComponentButton />
-        <ShowExportButton />
+        <AddMenuButton />
         <ElementWrapper>
           <Dimmer>
             <Component component={element.root} />

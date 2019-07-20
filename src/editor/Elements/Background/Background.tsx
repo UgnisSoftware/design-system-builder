@@ -56,6 +56,7 @@ const unselectComponent = e => {
     state.ui.editingTextNode = null
     state.ui.showAddComponentMenu = false
     state.ui.showExportMenu = false
+    state.ui.showGrid = false
   }
 }
 

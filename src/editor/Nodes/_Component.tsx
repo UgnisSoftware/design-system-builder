@@ -13,6 +13,9 @@ interface Props {
   component: Nodes
 }
 function Component({ component }: Props) {
+  if (!component) {
+    return null
+  }
   if (component.type === NodeTypes.Root) {
     return (
       <RootAtom component={component} parent={null}>

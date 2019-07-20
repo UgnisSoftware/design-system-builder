@@ -20,6 +20,8 @@ const Menu = styled.div`
   overflow: scroll;
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
   background-size: 20px 20px, 20px 20px, 10px 10px, 10px 10px;
+  user-select: all;
+  z-index: 200;
 `
 
 const ExporterMenu = () => {

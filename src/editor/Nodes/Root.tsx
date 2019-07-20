@@ -2,7 +2,6 @@ import { ElementNode, RootNode } from '@src/interfaces/nodes'
 import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
-import { selectComponent } from '@src/actions'
 
 interface RootProps {
   component: RootNode
@@ -27,7 +26,7 @@ const componentToStyle = (component: RootNode) => {
 }
 
 const Root = ({ component, parent, children }: RootProps) => (
-  <RootWrapper parent={parent} component={componentToStyle(component)} onMouseDown={selectComponent(component, parent)}>
+  <RootWrapper parent={parent} component={componentToStyle(component)}>
     {children}
   </RootWrapper>
 )

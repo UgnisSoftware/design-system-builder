@@ -378,11 +378,11 @@ const changeRowUnits = (rootNode: RootNode, index: number) => e => {
   rootNode.rows[index].unit = e.target.value
 }
 
-const deleteRow = rowIndex => {
+const deleteRow = rowIndex => () =>  {
   const element = getSelectedElement()
   element.root.rows.splice(rowIndex, 1)
 }
-const deleteColumn = colIndex => {
+const deleteColumn = colIndex => () =>  {
   const element = getSelectedElement()
   element.root.columns.splice(colIndex, 1)
 }

@@ -138,7 +138,7 @@ const MenuComponent = () => {
       </ComponentWrapper>
       {element.type === ElementType.Component &&
         state.elements
-          .filter(element => element.type === ElementType.Component)
+          .filter(element => element.type !== ElementType.Component)
           .map(component => (
             <ComponentWrapper key={component.id}>
               <Component component={component.root} />
