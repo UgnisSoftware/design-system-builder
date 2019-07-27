@@ -1,5 +1,4 @@
 import { ElementNode, RootNode } from '@src/interfaces/nodes'
-import state from '@state'
 import * as React from 'react'
 import styled from 'styled-components'
 
@@ -9,24 +8,17 @@ interface RootProps {
   children: React.ReactNode
 }
 
-const RootWrapper = styled.div`
+const RootWrapper = styled.div<RootProps>`
   position: relative;
   display: grid;
-  grid-template-columns: ${({ component }: RootProps) => component.columns.map(col => col.value + col.unit).join(' ')};
-  grid-template-rows: ${({ component }: RootProps) => component.rows.map(col => col.value + col.unit).join(' ')};
-  grid-column: ${({ component }: RootProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
-  grid-row: ${({ component }: RootProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  grid-template-columns: ${({ component }) => component.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ component }) => component.rows.map(col => col.value + col.unit).join(' ')};
+  grid-column: ${({ component }) => `${component.columnStart} / ${component.columnEnd}`};
+  grid-row: ${({ component }) => `${component.rowStart} / ${component.rowEnd}`};
 `
 
-const componentToStyle = (component: RootNode) => {
-  if (state.ui.selectedNode === component && state.ui.stateManager) {
-    return { ...component, ...component.states[state.ui.stateManager] }
-  }
-  return component
-}
-
 const Root = ({ component, parent, children }: RootProps) => (
-  <RootWrapper parent={parent} component={componentToStyle(component)}>
+  <RootWrapper parent={parent} component={component}>
     {children}
   </RootWrapper>
 )

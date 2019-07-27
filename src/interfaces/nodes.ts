@@ -973,16 +973,12 @@ export enum ObjectFit {
 
 interface SharedNodeProps {
   id: string
-  alignment: {
-    horizontal: Alignment
-    vertical: Alignment
-  }
-  position: {
-    columnStart: number
-    columnEnd: number
-    rowStart: number
-    rowEnd: number
-  }
+  horizontalAlign: Alignment
+  verticalAlign: Alignment
+  columnStart: number
+  columnEnd: number
+  rowStart: number
+  rowEnd: number
   preventDelete?: boolean
   preventSelection?: boolean
 }
@@ -992,12 +988,12 @@ type BoxShadowPlaceholder = string
 
 export interface RootNode extends SharedNodeProps {
   type: NodeTypes.Root
-  children: Nodes[]
+  children: {
+    [key: string]: EditableNodes
+  }
+  order: string[]
   columns: GridProperty[]
   rows: GridProperty[]
-  states: {
-    [key: string]: Partial<RootNode>
-  }
 }
 
 export interface ElementNode extends SharedNodeProps {
@@ -1020,8 +1016,6 @@ export interface BoxNode extends SharedNodeProps {
   backgroundColorId?: string
   backgroundImageUrl?: string
   backgroundImagePosition?: ObjectFit
-  width?: number
-  height?: number
   states: {
     hover: Partial<BoxNode>
     parentHover: Partial<BoxNode>
@@ -1078,3 +1072,9 @@ export interface IconNode extends SharedNodeProps {
 }
 
 export type Nodes = RootNode | ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode | LinkNode
+
+export type EditableNodes = ElementNode | ComponentNode | TextNode | BoxNode | InputNode | IconNode | LinkNode
+
+export type AnyNodes = RootNode & ElementNode & ComponentNode & TextNode & BoxNode & InputNode & IconNode & LinkNode
+
+export type AnyEditableNodes = ElementNode & ComponentNode & TextNode & BoxNode & InputNode & IconNode & LinkNode

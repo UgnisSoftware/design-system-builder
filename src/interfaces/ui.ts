@@ -1,4 +1,4 @@
-import { Nodes, RootNode } from '@src/interfaces/nodes'
+import { EditableNodes, Nodes, RootNode } from '@src/interfaces/nodes'
 import { RouterPaths } from '@src/interfaces/router'
 import { ElementType } from '@src/interfaces/elements'
 
@@ -22,7 +22,6 @@ export interface AddingAtom {
 }
 
 export interface HoveredCell {
-  component: RootNode
   rowIndex: number
   colIndex: number
 }
@@ -35,7 +34,7 @@ export interface UI {
   showAddComponentMenu: boolean
   showExportMenu: boolean
   showGrid: boolean
-  selectedNode: Nodes
+  selectedNode: EditableNodes
   selectedNodeToOverride: Nodes
   expandingNode: {
     node: Nodes

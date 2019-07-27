@@ -6,6 +6,8 @@ import { uuid } from '@src/utils'
 export default (name): Element => {
   const newId = uuid()
   const newRootId = uuid()
+  const newBoxId = uuid()
+  const newTextId = uuid()
   return {
     id: newId,
     type: ElementType.Button,
@@ -13,16 +15,12 @@ export default (name): Element => {
     root: {
       id: newRootId,
       type: NodeTypes.Root,
-      position: {
-        columnStart: 1,
-        columnEnd: -1,
-        rowStart: 1,
-        rowEnd: -1,
-      },
-      alignment: {
-        horizontal: Alignment.stretch,
-        vertical: Alignment.stretch,
-      },
+      columnStart: 1,
+      columnEnd: -1,
+      rowStart: 1,
+      rowEnd: -1,
+      horizontalAlign: Alignment.stretch,
+      verticalAlign: Alignment.stretch,
       columns: [
         {
           value: 12,
@@ -51,53 +49,53 @@ export default (name): Element => {
           unit: Units.Px,
         },
       ],
-      children: [
-        {
-          id: '2345553c774',
+      order: [newBoxId, newTextId],
+      children: {
+        [newBoxId]: {
+          id: newBoxId,
           type: NodeTypes.Box,
-          position: {
-            columnStart: 1,
-            columnEnd: -1,
-            rowStart: 1,
-            rowEnd: -1,
-          },
-          alignment: {
-            horizontal: Alignment.stretch,
-            vertical: Alignment.stretch,
-          },
-          states: {
-            hover: {},
-            parentHover: {},
-          },
+          columnStart: 1,
+          columnEnd: -1,
+          rowStart: 1,
+          rowEnd: -1,
+          horizontalAlign: Alignment.stretch,
+          verticalAlign: Alignment.stretch,
           backgroundColorId: 'prim-1',
           border: 'borbor-6666',
           boxShadow: 'shadow-7777',
-        },
-        {
-          id: '55a53c774',
-          type: NodeTypes.Text,
-          position: {
-            columnStart: 2,
-            columnEnd: 3,
-            rowStart: 2,
-            rowEnd: 3,
-          },
-          alignment: {
-            horizontal: Alignment.center,
-            vertical: Alignment.center,
-          },
-          text: 'Button',
-          fontColorId: 'white-6666',
-          fontSize: FontSizeName.S,
           states: {
             hover: {},
             parentHover: {},
           },
-          fontFamilyId: 'R1-123332',
         },
-      ],
-      states: {
-        secondary: {},
+        [newTextId]: {
+          id: newTextId,
+          type: NodeTypes.Text,
+          columnStart: 2,
+          columnEnd: 3,
+          rowStart: 2,
+          rowEnd: 3,
+          horizontalAlign: Alignment.center,
+          verticalAlign: Alignment.center,
+          text: 'Button',
+          fontColorId: 'white-6666',
+          fontSize: FontSizeName.S,
+          fontFamilyId: 'R1-123332',
+          states: {
+            hover: {},
+            parentHover: {},
+          },
+        },
+      },
+    },
+    modifiers: {
+      Disabled: {
+        order: [newBoxId, newTextId],
+        children: {
+          [newBoxId]: {
+            backgroundColorId: 'cccc-3333-2',
+          },
+        },
       },
     },
   }

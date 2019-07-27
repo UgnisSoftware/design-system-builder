@@ -8,5 +8,6 @@ export default (name): Element => {
     name: name,
     type: ElementType.New,
     root: null,
+    modifiers: {},
   }
 }

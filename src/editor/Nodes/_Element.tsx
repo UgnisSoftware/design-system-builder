@@ -117,7 +117,7 @@ function Element({ component, parent }: Props) {
     // when clicked check if overridable, when dragged - reposition element
     return (
       <RootAtom component={component} parent={parent}>
-        {component.children.map(node => (
+        {Object.values(component.children).map(node => (
           <Element key={parent ? parent.id + node.id : node.id} component={node} parent={parent} />
         ))}
       </RootAtom>

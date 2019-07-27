@@ -1,5 +1,10 @@
 import { RouterPaths } from '@src/interfaces/router'
 import { Emitter } from 'lape'
+import { DeepPartial, Element } from './interfaces/elements'
+import { RootNode } from '@src/interfaces/nodes'
+import mergeDeepRight from 'ramda/es/mergeDeepRight'
+import state from '@state'
+import { getSelectedElement, getSelectedModifier } from '@src/selector'
 
 export const parseUrl = () => {
   return window.location.pathname.split('/').filter(a => a) as RouterPaths[]
@@ -37,4 +42,23 @@ export const connectDevTools = state => {
   Emitter.addSet(() => {
     devTools.send('State changed', state)
   })
+}
+
+export const mergeElements = (a: Element, b: DeepPartial<RootNode>): Element => {
+  return { ...a, root: { ...mergeDeepRight(a.root, b), order: b.order } as RootNode }
+}
+
+export const getSelectedNode = () => {
+  if (!state.ui.selectedNode) {
+    return null
+  }
+  const selectedElement = getSelectedElement()
+  const modifier = getSelectedModifier()
+  const elementState = state.ui.stateManager
+  const mergedElement = modifier ? mergeElements(selectedElement, selectedElement.modifiers[modifier]) : selectedElement
+
+  const child = mergedElement.root.children[state.ui.selectedNode.id]
+  const node = elementState ? mergeDeepRight(child, child.states[elementState]) : child
+
+  return node
 }

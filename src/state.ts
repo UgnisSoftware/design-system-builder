@@ -15,16 +15,12 @@ const defaultState: State = {
       root: {
         id: 'button2',
         type: NodeTypes.Root,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
         columns: [
           {
             value: 12,
@@ -53,53 +49,53 @@ const defaultState: State = {
             unit: Units.Px,
           },
         ],
-        children: [
-          {
+        order: ['2345553c774', '55a53c774'],
+        children: {
+          '2345553c774': {
             id: '2345553c774',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 1,
-              rowEnd: -1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
-            states: {
-              hover: {},
-              parentHover: {},
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
             backgroundColorId: 'prim-1',
             border: 'borbor-6666',
             boxShadow: 'shadow-7777',
-          },
-          {
-            id: '55a53c774',
-            type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
-            text: 'Button',
-            fontColorId: 'white-6666',
-            fontSize: FontSizeName.S,
             states: {
               hover: {},
               parentHover: {},
             },
-            fontFamilyId: 'R1-123332',
           },
-        ],
-        states: {
-          secondary: {},
+          '55a53c774': {
+            id: '55a53c774',
+            type: NodeTypes.Text,
+            columnStart: 2,
+            columnEnd: 3,
+            rowStart: 2,
+            rowEnd: 3,
+            horizontalAlign: Alignment.center,
+            verticalAlign: Alignment.center,
+            text: 'Button',
+            fontColorId: 'white-6666',
+            fontSize: FontSizeName.S,
+            fontFamilyId: 'R1-123332',
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+          },
+        },
+      },
+      modifiers: {
+        Disabled: {
+          order: ['2345553c774', '55a53c774'],
+          children: {
+            '2345553c774': {
+              backgroundColorId: 'cccc-3333-2',
+            },
+          },
         },
       },
     },
@@ -110,16 +106,14 @@ const defaultState: State = {
       root: {
         id: 'oijsadoijas-12323',
         type: NodeTypes.Root,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
+
         columns: [
           {
             value: 1,
@@ -136,27 +130,19 @@ const defaultState: State = {
             unit: Units.Fr,
           },
         ],
-        states: {
-          focus: {},
-          hover: {},
-          disabled: {},
-          error: {},
-          warning: {},
-        },
-        children: [
-          {
+        order: ['asd33215553c774', 'ef3fb8266', 'as5491d89'],
+        children: {
+          asd33215553c774: {
             id: 'asd33215553c774',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 1,
-              rowEnd: -1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+
             states: {
               hover: {},
               parentHover: {},
@@ -166,19 +152,17 @@ const defaultState: State = {
             border: null,
             boxShadow: null,
           },
-          {
+          ef3fb8266: {
             id: 'ef3fb8266',
             type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
+            columnStart: 1,
+            columnEnd: 2,
+            rowStart: 1,
+            rowEnd: 2,
+
+            horizontalAlign: Alignment.start,
+            verticalAlign: Alignment.center,
+
             text: 'Label',
             fontSize: FontSizeName.S,
             states: {
@@ -187,19 +171,17 @@ const defaultState: State = {
             },
             fontFamilyId: 'R1-123332',
           },
-          {
+          as5491d89: {
             id: 'as5491d89',
             type: NodeTypes.Input,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 2,
+            rowEnd: 3,
+
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+
             backgroundColorId: 'cccc-3333',
             border: 'borbor-8888',
             boxShadow: null,
@@ -209,17 +191,17 @@ const defaultState: State = {
               parentHover: {},
             },
           },
-        ],
+        },
       },
+      modifiers: {},
     },
-
     {
       id: 'select-1234',
       type: ElementType.Select,
       name: 'Select',
       root: null,
+      modifiers: {},
     },
-
     {
       id: 'slider-1234',
       type: ElementType.Slider,
@@ -227,20 +209,20 @@ const defaultState: State = {
       root: {
         id: 'oijsawefdoijas-12323',
         type: NodeTypes.Root,
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
         columns: [
           {
             value: 1,
             unit: Units.Fr,
+          },
+          {
+            value: 24,
+            unit: Units.Px,
           },
           {
             value: 1,
@@ -249,29 +231,29 @@ const defaultState: State = {
         ],
         rows: [
           {
-            value: 13,
+            value: 11,
             unit: Units.Px,
           },
           {
-            value: 13,
+            value: 2,
+            unit: Units.Px,
+          },
+          {
+            value: 11,
             unit: Units.Px,
           },
         ],
-        states: {},
-        children: [
-          {
+        order: ['asd33215553c774', 'ef3fb2348266', 'ef3fsdfb8266', 'ef3ghvhfb8266'],
+        children: {
+          asd33215553c774: {
             id: 'asd33215553c774',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 1,
-              rowEnd: -1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
             states: {
               hover: {},
               parentHover: {},
@@ -280,20 +262,15 @@ const defaultState: State = {
             border: null,
             boxShadow: null,
           },
-          {
+          ef3fb2348266: {
             id: 'ef3fb2348266',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.center,
-            },
-            height: 2,
+            columnStart: 1,
+            columnEnd: 3,
+            rowStart: 2,
+            rowEnd: 3,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.center,
             border: 'borbor-6666',
             boxShadow: null,
             backgroundColorId: 'prim-1',
@@ -302,20 +279,15 @@ const defaultState: State = {
               hover: {},
             },
           },
-          {
+          ef3fsdfb8266: {
             id: 'ef3fsdfb8266',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.center,
-            },
-            height: 2,
+            columnStart: 2,
+            columnEnd: 4,
+            rowStart: 2,
+            rowEnd: 3,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.center,
             border: 'borbor-6666',
             boxShadow: null,
             backgroundColorId: 'dddd-4444',
@@ -324,21 +296,15 @@ const defaultState: State = {
               hover: {},
             },
           },
-          {
+          ef3ghvhfb8266: {
             id: 'ef3ghvhfb8266',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 4,
-            },
-            width: 24,
-            height: 24,
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
+            columnStart: 2,
+            columnEnd: 3,
+            rowStart: 1,
+            rowEnd: 4,
+            horizontalAlign: Alignment.center,
+            verticalAlign: Alignment.center,
             border: 'borbor-9999',
             boxShadow: 'shadow-5555',
             backgroundColorId: 'white-6666',
@@ -347,38 +313,44 @@ const defaultState: State = {
               hover: {},
             },
           },
-        ],
+        },
       },
+      modifiers: {},
     },
     {
       id: 'checkbox-1234',
       type: ElementType.CheckBox,
       name: 'Checkbox',
       root: null,
+      modifiers: {},
     },
     {
       id: 'switch-1234',
       type: ElementType.CheckBox,
       name: 'Switch',
       root: null,
+      modifiers: {},
     },
     {
       id: 'radio-1234',
       type: ElementType.Radio,
       name: 'Radio Button',
       root: null,
+      modifiers: {},
     },
     {
       id: 'link-1234',
       type: ElementType.Link,
       name: 'Link',
       root: null,
+      modifiers: {},
     },
     {
       id: 'loader-1234',
       type: ElementType.Loader,
       name: 'Loader',
       root: null,
+      modifiers: {},
     },
 
     {
@@ -408,31 +380,25 @@ const defaultState: State = {
             unit: Units.Px,
           },
         ],
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        states: {},
-        children: [
-          {
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
+        order: ['2231553c774', 'start123', 'message123', 'log123'],
+        children: {
+          '2231553c774': {
             id: '2231553c774',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 1,
-              rowEnd: -1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+
             states: {
               hover: {},
               parentHover: {},
@@ -440,42 +406,36 @@ const defaultState: State = {
             backgroundColorId: 'prim-1',
             border: null,
           },
-          {
-            id: 'start',
+          start123: {
+            id: 'start123',
             type: NodeTypes.Icon,
             iconType: 'menu',
             fontColorId: 'white-6666',
             fontSize: FontSizeName.M,
-            position: {
-              columnStart: 1,
-              columnEnd: 1,
-              rowStart: 1,
-              rowEnd: 1,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
+            columnStart: 1,
+            columnEnd: 1,
+            rowStart: 1,
+            rowEnd: 1,
+
+            horizontalAlign: Alignment.center,
+            verticalAlign: Alignment.center,
+
             states: {
               parentHover: {},
               hover: {},
             },
           },
-          {
-            id: 'message',
+          message123: {
+            id: 'message123',
             type: NodeTypes.Text,
-            position: {
-              columnStart: 2,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 1,
-            },
+            columnStart: 2,
+            columnEnd: 3,
+            rowStart: 1,
+            rowEnd: 1,
             fontSize: FontSizeName.M,
             fontColorId: 'white-6666',
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
+            horizontalAlign: Alignment.start,
+            verticalAlign: Alignment.center,
             text: 'Menu',
             states: {
               parentHover: {},
@@ -483,21 +443,17 @@ const defaultState: State = {
             },
             fontFamilyId: 'R1-123332',
           },
-          {
-            id: 'log',
+          log123: {
+            id: 'log123',
             type: NodeTypes.Text,
-            position: {
-              columnStart: 3,
-              columnEnd: 3,
-              rowStart: 1,
-              rowEnd: 1,
-            },
+            columnStart: 3,
+            columnEnd: 3,
+            rowStart: 1,
+            rowEnd: 1,
             fontSize: FontSizeName.S,
             fontColorId: 'white-6666',
-            alignment: {
-              horizontal: Alignment.start,
-              vertical: Alignment.center,
-            },
+            horizontalAlign: Alignment.start,
+            verticalAlign: Alignment.center,
             text: 'Log in',
             states: {
               parentHover: {},
@@ -505,8 +461,9 @@ const defaultState: State = {
             },
             fontFamilyId: 'R1-123332',
           },
-        ],
+        },
       },
+      modifiers: {},
     },
     {
       id: 'abcd-1234',
@@ -515,16 +472,12 @@ const defaultState: State = {
       root: {
         id: 'rootId',
         type: NodeTypes.Root,
-        alignment: {
-          horizontal: Alignment.stretch,
-          vertical: Alignment.stretch,
-        },
-        position: {
-          columnStart: 1,
-          columnEnd: -1,
-          rowStart: 1,
-          rowEnd: -1,
-        },
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
         columns: [
           {
             value: 1,
@@ -541,20 +494,19 @@ const defaultState: State = {
             unit: Units.Px,
           },
         ],
-        children: [
-          {
-            id: '123345553c774',
+        order: ['a123345553c774', 's07f083fc0', 'ef3fb4266', 'ef3f5b266'],
+        children: {
+          a123345553c774: {
+            id: 'a123345553c774',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: -1,
-              rowStart: 1,
-              rowEnd: -1,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+
             states: {
               hover: {},
               parentHover: {},
@@ -563,19 +515,17 @@ const defaultState: State = {
             border: 'barbar-7777',
             boxShadow: 'shadow-9999',
           },
-          {
-            id: '07f083fc0',
+          s07f083fc0: {
+            id: 's07f083fc0',
             type: NodeTypes.Box,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 1,
-              rowEnd: 2,
-            },
-            alignment: {
-              horizontal: Alignment.stretch,
-              vertical: Alignment.stretch,
-            },
+            columnStart: 1,
+            columnEnd: 2,
+            rowStart: 1,
+            rowEnd: 2,
+
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+
             backgroundImageUrl:
               'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg/1280px-NASA_Unveils_Celestial_Fireworks_as_Official_Hubble_25th_Anniversary_Image.jpg',
             backgroundImagePosition: ObjectFit.fill,
@@ -585,19 +535,16 @@ const defaultState: State = {
               parentHover: {},
             },
           },
-          {
+          ef3fb4266: {
             id: 'ef3fb4266',
             type: NodeTypes.Text,
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
+            columnStart: 1,
+            columnEnd: 2,
+            rowStart: 2,
+            rowEnd: 3,
+
+            horizontalAlign: Alignment.center,
+            verticalAlign: Alignment.center,
             text: 'Nebula c51-b9',
             fontSize: FontSizeName.L,
             states: {
@@ -606,26 +553,24 @@ const defaultState: State = {
             },
             fontFamilyId: 'R1-123332',
           },
-          {
+          ef3f5b266: {
             id: 'ef3f5b266',
             type: NodeTypes.Element,
             elementId: 'button1',
-            position: {
-              columnStart: 1,
-              columnEnd: 2,
-              rowStart: 2,
-              rowEnd: 3,
-            },
-            alignment: {
-              horizontal: Alignment.center,
-              vertical: Alignment.center,
-            },
+            columnStart: 1,
+            columnEnd: 2,
+            rowStart: 2,
+            rowEnd: 3,
+
+            horizontalAlign: Alignment.center,
+            verticalAlign: Alignment.center,
+
             overrides: {},
             states: {},
           },
-        ],
-        states: {},
+        },
       },
+      modifiers: {},
     },
   ],
   settings: {

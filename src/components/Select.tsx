@@ -21,6 +21,7 @@ interface MenuProps {
 
 const Wrapper = styled.div`
   position: relative;
+  font-size: 20px;
 `
 
 const ValueWrapper = styled.div``

@@ -28,11 +28,6 @@ const Subhead = styled.div`
   padding: 15px;
   border-bottom: 3px dotted #d9d9d9;
 `
-const Content = styled.div`
-  display: block;
-  padding-top: 5px;
-  align-self: auto;
-`
 
 const HomePage = () => {
   return (
@@ -44,10 +39,6 @@ const HomePage = () => {
         <SubTop>A visual design tool with no CSS</SubTop>
       </Container>
       <Subhead>Click on the left menu to start</Subhead>
-      <Subhead>How to setup</Subhead>
-      <Content>Setup - `npm i --save ugnis`, `ugnis open` or `ugnis compile`</Content>
-      <Subhead>Ugnis as component library</Subhead>
-      <Subhead>Ugnis as CSS generator</Subhead>
 
       <h4> What is Ugnis</h4>
       <p>

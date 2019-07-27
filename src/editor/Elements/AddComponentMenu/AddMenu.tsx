@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, Nodes, NodeTypes } from '@src/interfaces/nodes'
+import { Alignment, EditableNodes, NodeTypes } from '@src/interfaces/nodes'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
-import { addComponent } from '@src/actions'
+import { dragComponent } from '@src/actions'
 import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
 import { Element, ElementType } from '@src/interfaces/elements'
@@ -70,20 +70,16 @@ const OnClickOverlay = styled.div`
   bottom: 0;
 `
 
-const generateComponent = (type: NodeTypes, element?: Element): Nodes => {
+const generateComponent = (type: NodeTypes, element?: Element): EditableNodes => {
   const newId = uuid()
   const baseComponent = {
     id: newId,
-    position: {
-      columnStart: 1,
-      columnEnd: 2,
-      rowStart: 1,
-      rowEnd: 2,
-    },
-    alignment: {
-      horizontal: Alignment.stretch,
-      vertical: Alignment.stretch,
-    },
+    columnStart: 1,
+    columnEnd: 2,
+    rowStart: 1,
+    rowEnd: 2,
+    horizontalAlign: Alignment.stretch,
+    verticalAlign: Alignment.stretch,
     states: {},
   }
 
@@ -129,12 +125,12 @@ const MenuComponent = () => {
       <ComponentWrapper>
         <Box />
         <Title>Box</Title>
-        <OnClickOverlay onMouseDown={e => addComponent(generateComponent(NodeTypes.Box))(e)} />
+        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Box))(e)} />
       </ComponentWrapper>
       <ComponentWrapper>
         <Text>Text</Text>
         <Title>Text</Title>
-        <OnClickOverlay onMouseDown={e => addComponent(generateComponent(NodeTypes.Text))(e)} />
+        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Text))(e)} />
       </ComponentWrapper>
       {element.type === ElementType.Component &&
         state.elements
@@ -143,7 +139,7 @@ const MenuComponent = () => {
             <ComponentWrapper key={component.id}>
               <Component component={component.root} />
               <Title>{component.name}</Title>
-              <OnClickOverlay onMouseDown={e => addComponent(generateComponent(NodeTypes.Element, component))(e)} />
+              <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Element, component))(e)} />
             </ComponentWrapper>
           ))}
     </Menu>

@@ -3,6 +3,7 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { BoxNode, ElementNode, ObjectFit } from '@src/interfaces/nodes'
 import { selectComponent } from '@src/actions'
+import { getSelectedNode } from '@src/utils'
 
 interface BoxProps {
   component: BoxNode
@@ -15,10 +16,10 @@ const BoxAtom = styled.div`
   display: grid;
   width: ${({ component }) => (component.width ? `${component.width}px` : 'auto')};
   height: ${({ component }) => (component.height ? `${component.height}px` : 'auto')};
-  justify-self: ${({ component }) => component.alignment.horizontal};
-  align-self: ${({ component }) => component.alignment.vertical};
-  grid-column: ${({ component }: BoxProps) => `${component.position.columnStart} / ${component.position.columnEnd}`};
-  grid-row: ${({ component }: BoxProps) => `${component.position.rowStart} / ${component.position.rowEnd}`};
+  justify-self: ${({ component }) => component.horizontal};
+  align-self: ${({ component }) => component.vertical};
+  grid-column: ${({ component }: BoxProps) => `${component.columnStart} / ${component.columnEnd}`};
+  grid-row: ${({ component }: BoxProps) => `${component.rowStart} / ${component.rowEnd}`};
   box-shadow: ${({ component }: BoxProps) =>
     component.boxShadow
       ? state.settings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
@@ -49,8 +50,8 @@ const BoxAtom = styled.div`
   }};
 `
 const componentToStyle = (component: BoxNode) => {
-  if (state.ui.selectedNode === component && state.ui.stateManager) {
-    return { ...component, ...component.states[state.ui.stateManager] }
+  if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
+    return getSelectedNode()
   }
   return component
 }

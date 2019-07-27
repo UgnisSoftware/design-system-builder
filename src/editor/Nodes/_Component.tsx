@@ -19,8 +19,8 @@ function Component({ component }: Props) {
   if (component.type === NodeTypes.Root) {
     return (
       <RootAtom component={component} parent={null}>
-        {component.children.map(node => (
-          <Component key={node.id} component={node} />
+        {component.order.map(id => (
+          <Component key={id} component={component.children[id]} />
         ))}
       </RootAtom>
     )
@@ -28,7 +28,10 @@ function Component({ component }: Props) {
   if (component.type === NodeTypes.Element) {
     const element = {
       ...state.elements.find(el => el.id === component.elementId).root,
-      position: component.position,
+      columnStart: component.columnStart,
+      columnEnd: component.columnEnd,
+      rowStart: component.rowStart,
+      rowEnd: component.rowEnd,
     }
     return <Element component={element} parent={component} />
   }

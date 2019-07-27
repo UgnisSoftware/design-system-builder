@@ -12,6 +12,8 @@ import PlusSign from '@components/PlusSign'
 import { route } from '@src/actions'
 import Link from '@components/Link/Link'
 import NewElement from '@src/elements/NewElement'
+import { getSelectedElement, getSelectedModifier } from '@src/selector'
+import { Element } from '@src/interfaces/elements'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -95,71 +97,94 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
   state.elements.push(newElement)
 }
 
-// const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
+const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
 
-const LeftMenu = () => (
-  <LeftMenuBox>
-    <Link href="/">
-      <Logo>
-        <LogoImg src="/images/logo.png" height={32} />
-        Ugnis
-      </Logo>
-    </Link>
-    <Title>
-      Elements
-      <AddComponentBox onClick={showAddElement(ElementType.Button)}>
-        <PlusSign />
-      </AddComponentBox>
-    </Title>
-    {state.ui.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
+const LeftMenu = () => {
+  const selectedElement = getSelectedElement()
+  const selectedModifierName = getSelectedModifier()
 
-    {state.elements
-      .filter(element => element.type !== ElementType.Component)
-      // .concat()
-      // .sort(sortComponents)
-      .map(element => (
-        <ComponentItem
-          key={element.id}
-          onDelete={deleteItem(state.elements, element)}
-          onClick={route(element.type, element.id)}
-          component={element}
-        />
-      ))}
+  return (
+    <LeftMenuBox>
+      <Link href="/">
+        <Logo>
+          <LogoImg src="/images/logo.png" height={32} />
+          Ugnis
+        </Logo>
+      </Link>
+      <Title>
+        Elements
+        <AddComponentBox onClick={showAddElement(ElementType.Button)}>
+          <PlusSign />
+        </AddComponentBox>
+      </Title>
+      {state.ui.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
 
-    <Title>
-      Components
-      <AddComponentBox onClick={showAddElement(ElementType.Component)}>
-        <PlusSign />
-      </AddComponentBox>
-    </Title>
-    {state.ui.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
-    {state.elements
-      .filter(element => element.type === ElementType.Component)
-      // .concat()
-      // .sort(sortComponents)
-      .map(component => (
-        <ComponentItem
-          key={component.id}
-          component={component}
-          onClick={route('component', component.id)}
-          onDelete={deleteItem(state.elements, component)}
-        />
-      ))}
+      {state.elements
+        .filter(element => element.type !== ElementType.Component)
+        .concat()
+        .sort(sortComponents)
+        .map(element => (
+          <>
+            <ComponentItem
+              key={element.id}
+              selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
+              onDelete={deleteItem(state.elements, element)}
+              onClick={route(element.type, element.id)}
+              name={element.name}
+            />
+            {selectedElement &&
+              selectedElement.id === element.id &&
+              element.modifiers &&
+              Object.keys(element.modifiers).map(modifierName => {
+                return (
+                  <ComponentItem
+                    subComponent
+                    selected={selectedModifierName === modifierName}
+                    key={modifierName}
+                    name={modifierName}
+                    onClick={route(element.type, element.id, modifierName)}
+                    onDelete={deleteItem(state.elements, element)}
+                  />
+                )
+              })}
+          </>
+        ))}
 
-    <Title>Settings</Title>
-    <Item onClick={route(RouterPaths.colors)} selected={state.ui.router[1] === RouterPaths.colors}>
-      Styles
-    </Item>
-    <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router[1] === RouterPaths.fonts}>
-      Fonts
-    </Item>
-    <Item onClick={route(RouterPaths.assets)} selected={state.ui.router[1] === RouterPaths.assets}>
-      Assets
-    </Item>
-    <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router[1] === RouterPaths.exporting}>
-      Exporting
-    </Item>
-  </LeftMenuBox>
-)
+      <Title>
+        Components
+        <AddComponentBox onClick={showAddElement(ElementType.Component)}>
+          <PlusSign />
+        </AddComponentBox>
+      </Title>
+      {state.ui.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
+      {state.elements
+        .filter(element => element.type === ElementType.Component)
+        .concat()
+        .sort(sortComponents)
+        .map(component => (
+          <ComponentItem
+            key={component.id}
+            name={component.name}
+            onClick={route('component', component.id)}
+            onDelete={deleteItem(state.elements, component)}
+          />
+        ))}
+
+      <Title>Settings</Title>
+      <Item onClick={route(RouterPaths.colors)} selected={state.ui.router[1] === RouterPaths.colors}>
+        Styles
+      </Item>
+      <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router[1] === RouterPaths.fonts}>
+        Fonts
+      </Item>
+      <Item onClick={route(RouterPaths.assets)} selected={state.ui.router[1] === RouterPaths.assets}>
+        Assets
+      </Item>
+      <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router[1] === RouterPaths.exporting}>
+        Exporting
+      </Item>
+    </LeftMenuBox>
+  )
+}
 
 export default LeftMenu

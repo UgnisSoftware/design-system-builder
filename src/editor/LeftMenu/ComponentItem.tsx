@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import state from '@state'
-import { Element } from '@src/interfaces/elements'
 import TextInput from '@components/TextInput'
 import { Colors } from '@src/styles'
 import { useState } from 'react'
@@ -26,15 +24,15 @@ const DeleteIcon = styled.div`
   }
 `
 
-export const Item = styled.div`
+export const Item = styled.div<{ subComponent: boolean }>`
   position: relative;
-  font-size: 16px;
+  font-size: ${({ subComponent }) => (!subComponent ? '16px' : '14px')};
   font-weight: 400;
-  color: ${Colors.grey900};
+  color: ${({ subComponent }) => (!subComponent ? Colors.grey900 : Colors.grey800)};
   line-height: 40px;
   height: 40px;
   transition: background 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-  padding-left: 24px;
+  padding-left: ${({ subComponent }) => (!subComponent ? '24px' : '32px')};
   cursor: pointer;
   &:hover {
     background: rgb(238, 238, 238);
@@ -64,9 +62,11 @@ const Input = styled(TextInput)`
 `
 
 interface Props {
-  component: Element
+  subComponent?: boolean
   onClick: () => void
   onDelete: () => void
+  selected?: boolean
+  name: string
 }
 
 const ComponentItem = (props: Props) => {
@@ -74,12 +74,12 @@ const ComponentItem = (props: Props) => {
   const [name, updateName] = useState('')
 
   const onExitWithoutSave = () => {
-    updateName(props.component.name)
+    updateName(props.name)
     updateEditingName(false)
   }
   const save = () => {
     if (name) {
-      props.component.name = name
+      props.name = name
       updateEditingName(false)
     } else {
       onExitWithoutSave()
@@ -111,13 +111,15 @@ const ComponentItem = (props: Props) => {
       </div>
     )
   }
+
   return (
     <Item
+      subComponent={props.subComponent}
       onClick={props.onClick}
-      selected={state.ui.router[1] === props.component.id}
+      selected={props.selected}
       onDoubleClick={() => updateEditingName(true)}
     >
-      {props.component.name}
+      {props.name}
       <DeleteIcon className="material-icons" onClick={onDelete}>
         delete
       </DeleteIcon>

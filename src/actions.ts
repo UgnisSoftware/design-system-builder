@@ -1,17 +1,15 @@
 import { parseUrl } from '@src/utils'
-import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
+import { AnyEditableNodes, EditableNodes, ElementNode, Units } from '@src/interfaces/nodes'
 import state from '@state'
-import { getSelectedElement } from '@src/selector'
+import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import * as React from 'react'
+import { AnyNodes } from '@src/interfaces/nodes'
+import { DeepPartial } from '@src/interfaces/elements'
 
-export const selectComponent = (component: Nodes, parent?: ElementNode) => e => {
+export const selectComponent = (component: EditableNodes, parent?: ElementNode) => e => {
   if (e.currentTarget === e.target) {
     state.ui.selectedNode = parent || component
     state.ui.selectedNodeToOverride = parent ? component : null
-
-    if (component.type === NodeTypes.Root && !parent) {
-      return
-    }
 
     let currentX = e.touches ? e.touches[0].pageX : e.pageX
     let currentY = e.touches ? e.touches[0].pageY : e.pageY
@@ -26,39 +24,34 @@ export const selectComponent = (component: Nodes, parent?: ElementNode) => e => 
         return
       }
 
-      const children = getSelectedElement().root.children
-      const fromIndex = children.indexOf(parent || component)
+      const children = getSelectedElement().root.order
+      const fromIndex = children.indexOf(parent.id || component.id)
       if (fromIndex !== -1) {
         children.splice(fromIndex, 1)
       }
 
-      addComponent(parent || component)(e)
-
-      window.removeEventListener('mousemove', drag)
-      window.removeEventListener('touchmove', drag)
-      window.removeEventListener('mouseup', stopDragging)
-      window.removeEventListener('touchend', stopDragging)
+      stopListening()
+      dragComponent(parent || component)(e)
     }
     window.addEventListener('mousemove', drag)
     window.addEventListener('touchmove', drag)
-    window.addEventListener('mouseup', stopDragging)
-    window.addEventListener('touchend', stopDragging)
-    function stopDragging() {
+    window.addEventListener('mouseup', stopListening)
+    window.addEventListener('touchend', stopListening)
+    function stopListening() {
       window.removeEventListener('mousemove', drag)
       window.removeEventListener('touchmove', drag)
-      window.removeEventListener('mouseup', stopDragging)
-      window.removeEventListener('touchend', stopDragging)
+      window.removeEventListener('mouseup', stopListening)
+      window.removeEventListener('touchend', stopListening)
       return false
     }
     return false
   }
 }
 
-export const addComponent = (component: Nodes) => (event: React.MouseEvent & React.TouchEvent) => {
+export const dragComponent = (component: EditableNodes) => (event: React.MouseEvent & React.TouchEvent) => {
   event.stopPropagation()
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
 
-  // state.components[state.ui.router.componentId].nodes.push(newNode)
   let currentX = event.touches ? event.touches[0].pageX : event.pageX
   let currentY = event.touches ? event.touches[0].pageY : event.pageY
 
@@ -88,18 +81,7 @@ export const addComponent = (component: Nodes) => (event: React.MouseEvent & Rea
   function stopDragging(event) {
     event.preventDefault()
 
-    if (state.ui.hoveredCell) {
-      component.position = {
-        columnStart: state.ui.hoveredCell.colIndex + 1,
-        columnEnd: state.ui.hoveredCell.colIndex + 2,
-        rowStart: state.ui.hoveredCell.rowIndex + 1,
-        rowEnd: state.ui.hoveredCell.rowIndex + 2,
-      }
-      state.ui.hoveredCell.component.children.push(component)
-      state.ui.selectedNode = component
-    }
-    state.ui.addingAtom = null
-    state.ui.hoveredCell = null
+    addComponent(component)
     window.removeEventListener('mousemove', drag)
     window.removeEventListener('touchmove', drag)
     window.removeEventListener('mouseup', stopDragging)
@@ -109,9 +91,186 @@ export const addComponent = (component: Nodes) => (event: React.MouseEvent & Rea
   return false
 }
 
-export const route = (path, componentId?) => () => {
+const addComponent = (component: EditableNodes) => {
+  if (state.ui.hoveredCell) {
+    const modifier = getSelectedModifier()
+    const selectedElement = getSelectedElement()
+    const order = modifier ? selectedElement.modifiers[modifier].order : selectedElement.root.order
+
+    component.columnStart = state.ui.hoveredCell.colIndex + 1
+    component.columnEnd = state.ui.hoveredCell.colIndex + 2
+    component.rowStart = state.ui.hoveredCell.rowIndex + 1
+    component.rowEnd = state.ui.hoveredCell.rowIndex + 2
+
+    if (modifier) {
+      const children = selectedElement.modifiers[modifier].children as { [key: string]: DeepPartial<AnyEditableNodes> }
+
+      if (!children) {
+        selectedElement.modifiers[modifier].children = {}
+      }
+      order.push(component.id)
+      children[component.id] = component
+    } else {
+      const children = selectedElement.root.children as { [key: string]: EditableNodes }
+      order.push(component.id)
+      Object.values(selectedElement.modifiers).forEach(mod => mod.order.push(component.id))
+      children[component.id] = component
+    }
+
+    state.ui.selectedNode = component
+  }
+  state.ui.addingAtom = null
+  state.ui.hoveredCell = null
+}
+
+export const route = (path, componentId?, subComponentId?) => () => {
   state.ui.selectedNode = null
   state.ui.stateManager = null
-  history.pushState(null, '', componentId ? `/${path}/${componentId}` : `/${path}`)
+  history.pushState(null, '', `/${[path, componentId, subComponentId].filter(Boolean).join('/')}`)
   state.ui.router = parseUrl()
+}
+
+export const changeProperty = <T extends keyof AnyEditableNodes>(propertyName: T, value: AnyNodes[T]) => {
+  const stateManager = state.ui.stateManager
+  const modifier = getSelectedModifier()
+  const selectedElement = getSelectedElement()
+  const selectedNode = state.ui.selectedNode
+  if (modifier) {
+    const children = selectedElement.modifiers[modifier].children as { [key: string]: DeepPartial<AnyEditableNodes> }
+
+    if (!children) {
+      selectedElement.modifiers[modifier].children = {}
+    }
+    if (!children[selectedNode.id]) {
+      children[selectedNode.id] = stateManager
+        ? {
+            states: {
+              [stateManager]: {
+                [propertyName]: value,
+              },
+            },
+          }
+        : {
+            [propertyName]: value,
+          }
+      return
+    }
+    if (stateManager) {
+      children[selectedNode.id] = {
+        ...children[selectedNode.id],
+        states: {
+          ...children[selectedNode.id].states,
+          [stateManager]: {
+            ...(children[selectedNode.id].states && children[selectedNode.id].states[stateManager]),
+            [propertyName]: value,
+          },
+        },
+      }
+      return
+    }
+    children[selectedNode.id] = {
+      ...children[selectedNode.id],
+      [propertyName]: value,
+    }
+    return
+  }
+  const children = selectedElement.root.children as { [key: string]: AnyEditableNodes }
+  if (stateManager) {
+    children[selectedNode.id] = {
+      ...children[selectedNode.id],
+      states: {
+        ...children[selectedNode.id].states,
+        [stateManager]: {
+          ...(children[selectedNode.id].states && children[selectedNode.id].states[stateManager]),
+          [propertyName]: value,
+        },
+      },
+    }
+    return
+  }
+  children[selectedNode.id] = {
+    ...children[selectedNode.id],
+    [propertyName]: value,
+  }
+  return
+}
+
+export const moveLayer = (by: number) => () => {
+  const node = state.ui.selectedNode.id
+  const modifier = getSelectedModifier()
+  const order = modifier ? getSelectedElement().modifiers[modifier].order : getSelectedElement().root.order
+  const fromIndex = order.indexOf(node)
+  const toIndex = fromIndex + by
+  // out of bounds
+  if (toIndex < 0 || toIndex > order.length) {
+    return
+  }
+  order.splice(fromIndex, 1)
+  order.splice(toIndex, 0, node)
+}
+
+export const deleteComponent = e => {
+  const del = e.keyCode === 46
+  const backspace = e.keyCode === 8
+  const component = getSelectedElement()
+  // TODO hide in modifier
+  // TODO delete in all modifiers if deleted in master
+
+  if ((del || backspace) && state.ui.selectedNode && !state.ui.editingTextNode) {
+    const node = component.root
+    const nodeIndex = node.order.indexOf(state.ui.selectedNode.id)
+    node.order.splice(nodeIndex, 1)
+    delete node.children[state.ui.selectedNode.id]
+    state.ui.selectedNode = null
+    state.ui.stateManager = null
+  }
+  return false
+}
+
+// TODO modifier logic
+export const addColumn = () => {
+  const element = getSelectedElement()
+  element.root.columns.push({
+    value: 100,
+    unit: Units.Px,
+  })
+}
+// TODO modifier logic
+export const addRow = () => {
+  const element = getSelectedElement()
+  element.root.rows.push({
+    value: 100,
+    unit: Units.Px,
+  })
+}
+// TODO modifier logic
+export const changeColumnValue = (index: number) => e => {
+  const element = getSelectedElement()
+  element.root.columns[index].value = e.target.value
+}
+// TODO modifier logic
+export const changeRowValue = (index: number) => e => {
+  const element = getSelectedElement()
+  element.root.rows[index].value = e.target.value
+}
+// TODO modifier logic
+export const changeColumnUnits = (index: number) => e => {
+  const element = getSelectedElement()
+  element.root.columns[index].unit = e.target.value
+}
+// TODO modifier logic
+export const changeRowUnits = (index: number) => e => {
+  const element = getSelectedElement()
+  element.root.rows[index].unit = e.target.value
+}
+
+// TODO modifier logic
+export const deleteRow = rowIndex => () => {
+  const element = getSelectedElement()
+  element.root.rows.splice(rowIndex, 1)
+}
+// TODO modifier logic
+export const deleteColumn = colIndex => () => {
+  const element = getSelectedElement()
+  element.root.columns.splice(colIndex, 1)
 }

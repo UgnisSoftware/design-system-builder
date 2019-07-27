@@ -3,6 +3,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ElementNode, Nodes, TextNode } from '@src/interfaces/nodes'
 import { selectComponent } from '@src/actions'
+import { getSelectedNode } from '@src/utils'
 
 interface TextProps {
   component: TextNode
@@ -10,13 +11,14 @@ interface TextProps {
 }
 
 const TextWrapper = styled.div<TextProps>`
+  transition: all 0.3s;
   outline: none;
   position: relative;
   display: grid;
-  grid-column: ${({ component }) => `${component.position.columnStart} / ${component.position.columnEnd}`};
-  grid-row: ${({ component }) => `${component.position.rowStart} / ${component.position.rowEnd}`};
-  justify-self: ${({ component }) => component.alignment.horizontal};
-  align-self: ${({ component }) => component.alignment.vertical};
+  grid-column: ${({ component }) => `${component.columnStart} / ${component.columnEnd}`};
+  grid-row: ${({ component }) => `${component.rowStart} / ${component.rowEnd}`};
+  justify-self: ${({ component }) => component.horizontalAlign};
+  align-self: ${({ component }) => component.verticalAlign};
   font-size: ${({ component }) =>
     state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
   line-height: ${({ component }) =>
@@ -35,8 +37,8 @@ const changeTextValue = e => {
 }
 
 const componentToStyle = (component: TextNode) => {
-  if (state.ui.selectedNode === component && state.ui.stateManager) {
-    return { ...component, ...component.states[state.ui.stateManager] }
+  if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
+    return getSelectedNode()
   }
   return component
 }

@@ -4,7 +4,16 @@ import { Nodes, RootNode, Units } from '@src/interfaces/nodes'
 import { Colors } from '@src/styles'
 import state from '@state'
 import { DragDirection } from '@src/interfaces/ui'
-import { getSelectedElement } from '@src/selector'
+import {
+  addColumn,
+  addRow,
+  changeColumnUnits,
+  changeColumnValue,
+  changeRowUnits,
+  changeRowValue,
+  deleteColumn,
+  deleteRow,
+} from '@src/actions'
 
 interface BorderProps {
   col: number
@@ -92,8 +101,8 @@ const Border = styled.div`
 
 const BorderForSelected = styled.div`
   position: relative;
-  grid-column: ${({ node }: SelectedProps) => `${node.position.columnStart} / ${node.position.columnEnd}`};
-  grid-row: ${({ node }: SelectedProps) => `${node.position.rowStart} / ${node.position.rowEnd}`};
+  grid-column: ${({ node }: SelectedProps) => `${node.columnStart} / ${node.columnEnd}`};
+  grid-row: ${({ node }: SelectedProps) => `${node.rowStart} / ${node.rowEnd}`};
 `
 
 const GridWrapper = styled.div`
@@ -286,20 +295,18 @@ interface Props {
   rootNode: RootNode
 }
 
-const onTileClick = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
+const onTileClick = (rowIndex: number, colIndex: number) => () => {
   if (state.ui.showGrid) {
     state.ui.selectedCell = {
-      component: rootNode,
       rowIndex,
       colIndex,
     }
   }
 }
 
-const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => () => {
+const onMouseOver = (rowIndex: number, colIndex: number) => () => {
   if (state.ui.expandingNode || state.ui.addingAtom) {
     state.ui.hoveredCell = {
-      component: rootNode,
       rowIndex,
       colIndex,
     }
@@ -307,23 +314,23 @@ const onMouseOver = (rootNode: RootNode, rowIndex: number, colIndex: number) => 
 
   if (state.ui.expandingNode) {
     const direction = state.ui.expandingNode.direction
-    const position = state.ui.expandingNode.node.position
+    const node = state.ui.expandingNode.node
     const columnPositive = [DragDirection.E, DragDirection.SE, DragDirection.NE].includes(direction)
     const columnNegative = [DragDirection.W, DragDirection.SW, DragDirection.NW].includes(direction)
     const rowPositive = [DragDirection.S, DragDirection.SW, DragDirection.SE].includes(direction)
     const rowNegative = [DragDirection.N, DragDirection.NE, DragDirection.NW].includes(direction)
 
-    if (columnPositive && colIndex + 2 > position.columnStart) {
-      position.columnEnd = colIndex + 2
+    if (columnPositive && colIndex + 2 > node.columnStart) {
+      node.columnEnd = colIndex + 2
     }
-    if (columnNegative && colIndex + 1 < position.columnEnd) {
-      position.columnStart = colIndex + 1
+    if (columnNegative && colIndex + 1 < node.columnEnd) {
+      node.columnStart = colIndex + 1
     }
-    if (rowPositive && rowIndex + 2 > position.rowStart) {
-      position.rowEnd = rowIndex + 2
+    if (rowPositive && rowIndex + 2 > node.rowStart) {
+      node.rowEnd = rowIndex + 2
     }
-    if (rowNegative && rowIndex + 1 < position.rowEnd) {
-      position.rowStart = rowIndex + 1
+    if (rowNegative && rowIndex + 1 < node.rowEnd) {
+      node.rowStart = rowIndex + 1
     }
   }
 }
@@ -338,54 +345,15 @@ const FullGrid = ({ rootNode }: Props) => (
           col={colIndex + 1}
           selected={
             state.ui.hoveredCell &&
-            (state.ui.hoveredCell.component === rootNode &&
-              state.ui.hoveredCell.colIndex === colIndex &&
-              state.ui.hoveredCell.rowIndex === rowIndex)
+            (state.ui.hoveredCell.colIndex === colIndex && state.ui.hoveredCell.rowIndex === rowIndex)
           }
-          onClick={onTileClick(rootNode, rowIndex, colIndex)}
-          onMouseOver={onMouseOver(rootNode, rowIndex, colIndex)}
+          onClick={onTileClick(rowIndex, colIndex)}
+          onMouseOver={onMouseOver(rowIndex, colIndex)}
         />
       )),
     )}
   </>
 )
-
-const addColumn = (rootNode: RootNode) => () => {
-  rootNode.columns.push({
-    value: 100,
-    unit: Units.Px,
-  })
-}
-
-const addRow = (rootNode: RootNode) => () => {
-  rootNode.rows.push({
-    value: 100,
-    unit: Units.Px,
-  })
-}
-
-const changeColumnValue = (rootNode: RootNode, index: number) => e => {
-  rootNode.columns[index].value = e.target.value
-}
-const changeRowValue = (rootNode: RootNode, index: number) => e => {
-  rootNode.rows[index].value = e.target.value
-}
-
-const changeColumnUnits = (rootNode: RootNode, index: number) => e => {
-  rootNode.columns[index].unit = e.target.value
-}
-const changeRowUnits = (rootNode: RootNode, index: number) => e => {
-  rootNode.rows[index].unit = e.target.value
-}
-
-const deleteRow = rowIndex => () =>  {
-  const element = getSelectedElement()
-  element.root.rows.splice(rowIndex, 1)
-}
-const deleteColumn = colIndex => () =>  {
-  const element = getSelectedElement()
-  element.root.columns.splice(colIndex, 1)
-}
 
 /*
  * This Component is responsible for:
@@ -401,21 +369,18 @@ const GridOverlay = ({ rootNode }: Props) => (
       <>
         <GridTop rootNode={rootNode}>
           {rootNode.columns.map((_, colIndex) => {
-            const selected =
-              state.ui.selectedCell &&
-              state.ui.selectedCell.component === rootNode &&
-              state.ui.selectedCell.colIndex === colIndex
+            const selected = state.ui.selectedCell && state.ui.selectedCell.colIndex === colIndex
             return (
               <BorderTop
                 key={`col_${colIndex}`}
                 col={colIndex + 1}
                 selected={selected}
-                onClick={onTileClick(rootNode, null, colIndex)}
+                onClick={onTileClick(null, colIndex)}
               >
                 {selected && (
                   <TopText>
-                    <Input value={rootNode.columns[colIndex].value} onChange={changeColumnValue(rootNode, colIndex)} />
-                    <select value={rootNode.columns[colIndex].unit} onChange={changeColumnUnits(rootNode, colIndex)}>
+                    <Input value={rootNode.columns[colIndex].value} onChange={changeColumnValue(colIndex)} />
+                    <select value={rootNode.columns[colIndex].unit} onChange={changeColumnUnits(colIndex)}>
                       <option value={Units.Px}>Px</option>
                       <option value={Units.Fr}>Fr</option>
                     </select>
@@ -428,22 +393,19 @@ const GridOverlay = ({ rootNode }: Props) => (
         </GridTop>
         <GridLeft rootNode={rootNode}>
           {rootNode.rows.map((_, rowIndex) => {
-            const selected =
-              state.ui.selectedCell &&
-              state.ui.selectedCell.component === rootNode &&
-              state.ui.selectedCell.rowIndex === rowIndex
+            const selected = state.ui.selectedCell && state.ui.selectedCell.rowIndex === rowIndex
             return (
               <>
                 <BorderLeft
                   key={`row_${rowIndex}`}
                   row={rowIndex + 1}
                   selected={selected}
-                  onClick={onTileClick(rootNode, rowIndex, null)}
+                  onClick={onTileClick(rowIndex, null)}
                 >
                   {selected && (
                     <LeftText>
-                      <Input value={rootNode.rows[rowIndex].value} onChange={changeRowValue(rootNode, rowIndex)} />
-                      <select value={rootNode.rows[rowIndex].unit} onChange={changeRowUnits(rootNode, rowIndex)}>
+                      <Input value={rootNode.rows[rowIndex].value} onChange={changeRowValue(rowIndex)} />
+                      <select value={rootNode.rows[rowIndex].unit} onChange={changeRowUnits(rowIndex)}>
                         <option value={Units.Px}>Px</option>
                         <option value={Units.Fr}>Fr</option>
                       </select>
@@ -455,8 +417,8 @@ const GridOverlay = ({ rootNode }: Props) => (
             )
           })}
         </GridLeft>
-        <AddColumnButton onClick={addColumn(rootNode)}>+</AddColumnButton>
-        <AddRowButton onClick={addRow(rootNode)}>+</AddRowButton>
+        <AddColumnButton onClick={addColumn}>+</AddColumnButton>
+        <AddRowButton onClick={addRow}>+</AddRowButton>
       </>
     )}
     <GridWrapper>

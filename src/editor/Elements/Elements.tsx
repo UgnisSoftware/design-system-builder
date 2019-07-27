@@ -13,11 +13,13 @@ import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddMenu'
 import AddingAtom from '@src/editor/Overlay/AddingAtom'
 import Component from '@src/editor/Nodes/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
-import { getSelectedElement } from '@src/selector'
+import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
 import useSetState from 'react-use/esm/useSetState'
 import useEffectOnce from 'react-use/esm/useEffectOnce'
 import useKey from 'react-use/esm/useKey'
+import { mergeElements } from '@src/utils'
+import { deleteComponent } from '@src/actions'
 
 const Wrapper = styled.div`
   flex: 1;
@@ -63,7 +65,6 @@ const Elements = () => {
         return
       }
 
-      // I should have just used arrays...
       let reset = false
       let onlyUI = true
       data.forEach(entry => {
@@ -94,6 +95,7 @@ const Elements = () => {
     })
   })
 
+  useKey(deleteComponent)
   useKey(e => {
     if (!e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
       const mutations = localState.stack[localState.index]
@@ -137,7 +139,9 @@ const Elements = () => {
     return false
   })
 
-  const element = getSelectedElement()
+  const modifier = getSelectedModifier()
+  const selectedElement = getSelectedElement()
+  const element = !modifier ? selectedElement : mergeElements(selectedElement, selectedElement.modifiers[modifier])
 
   if (!element) {
     return (
