@@ -213,12 +213,19 @@ export const deleteComponent = e => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
   const component = getSelectedElement()
-  // TODO hide in modifier
-  // TODO delete in all modifiers if deleted in master
-
+  const modifier = getSelectedModifier()
   if ((del || backspace) && state.ui.selectedNode && !state.ui.editingTextNode) {
-    const node = component.root
+    const node = modifier ? component.modifiers[modifier] : component.root
     const nodeIndex = node.order.indexOf(state.ui.selectedNode.id)
+    // delete in all modifiers too
+    if (!modifier) {
+      Object.values(component.modifiers).forEach(mod => {
+        const nodeIndex = mod.order.indexOf(state.ui.selectedNode.id)
+        if (nodeIndex > -1) {
+          mod.order.splice(nodeIndex, 1)
+        }
+      })
+    }
     node.order.splice(nodeIndex, 1)
     delete node.children[state.ui.selectedNode.id]
     state.ui.selectedNode = null

@@ -4,6 +4,8 @@ import FontSizeMutator from '@src/editor/TopBar/shared/FontSizeMutator'
 import ZIndexMutator from '@src/editor/TopBar/shared/ZIndexMutator'
 import StateMutator from '@src/editor/TopBar/shared/StateMutator'
 import FontColorMutator from '@src/editor/TopBar/shared/FontColorMutator'
+import IconTypeMutator from '@src/editor/TopBar/shared/IconTypeMutator'
+import AlignmentMutators from '@src/editor/TopBar/shared/AlingmentMutators'
 
 const IconMutators = () => {
   return (
@@ -13,6 +15,10 @@ const IconMutators = () => {
       <FontColorMutator />
       <Divider />
       <FontSizeMutator />
+      <Divider />
+      <AlignmentMutators />
+      <Divider />
+      <IconTypeMutator />
       <StateMutator />
     </TopBarBox>
   )

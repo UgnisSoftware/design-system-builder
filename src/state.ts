@@ -1,7 +1,7 @@
 import { proxify } from 'lape'
 import { State } from '@src/interfaces/state'
 import { FontSizeName } from '@src/interfaces/settings'
-import { Alignment, NodeTypes, ObjectFit, Units } from '@src/interfaces/nodes'
+import { Alignment, IconTypes, NodeTypes, ObjectFit, Units } from '@src/interfaces/nodes'
 import { parseUrl } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
 
@@ -321,8 +321,105 @@ const defaultState: State = {
       id: 'checkbox-1234',
       type: ElementType.CheckBox,
       name: 'Checkbox',
-      root: null,
-      modifiers: {},
+      root: {
+        id: 'oijsawefdoijas-12323',
+        type: NodeTypes.Root,
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
+        columns: [
+          {
+            value: 24,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 24,
+            unit: Units.Px,
+          },
+        ],
+        order: ['oijqwe12333'],
+        children: {
+          oijqwe12333: {
+            id: 'oijqwe12333',
+            type: NodeTypes.Box,
+            columnStart: 1,
+            columnEnd: -1,
+            rowStart: 1,
+            rowEnd: -1,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'white-6666',
+            border: 'primB-1',
+            boxShadow: null,
+          },
+        },
+      },
+      modifiers: {
+        Checked: {
+          order: ['oijqwe12333', 'weyfiwedj1234'],
+          children: {
+            weyfiwedj1234: {
+              id: 'weyfiwedj1234',
+              type: NodeTypes.Icon,
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+              horizontalAlign: Alignment.center,
+              verticalAlign: Alignment.center,
+              states: {
+                hover: {},
+                parentHover: {},
+              },
+              fontColorId: 'prim-1',
+              fontSize: FontSizeName.M,
+              iconType: IconTypes.check,
+            },
+          },
+        },
+        Disabled: {
+          order: ['oijqwe12333'],
+          children: {
+            oijqwe12333: {
+              border: 'borbor-8888',
+            },
+          },
+        },
+        DisabledChecked: {
+          order: ['oijqwe12333', 'weyfiwedj1234'],
+          children: {
+            oijqwe12333: {
+              border: 'borbor-8888',
+            },
+            weyfiwedj1234: {
+              id: 'weyfiwedj1234',
+              type: NodeTypes.Icon,
+              columnStart: 1,
+              columnEnd: -1,
+              rowStart: 1,
+              rowEnd: -1,
+              horizontalAlign: Alignment.center,
+              verticalAlign: Alignment.center,
+              states: {
+                hover: {},
+                parentHover: {},
+              },
+              fontColorId: 'cccc-3333-2',
+              fontSize: FontSizeName.M,
+              iconType: IconTypes.check,
+            },
+          },
+        },
+      },
     },
     {
       id: 'switch-1234',
@@ -409,7 +506,7 @@ const defaultState: State = {
           start123: {
             id: 'start123',
             type: NodeTypes.Icon,
-            iconType: 'menu',
+            iconType: IconTypes.menu,
             fontColorId: 'white-6666',
             fontSize: FontSizeName.M,
             columnStart: 1,

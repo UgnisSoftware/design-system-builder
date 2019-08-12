@@ -3,13 +3,14 @@ import { ColorBox, IconRow, InfoColumn, Title } from './_styles'
 import state from '@state'
 import { IconNode, TextNode } from '@src/interfaces/nodes'
 import { changeProperty } from '@src/actions'
+import { getSelectedNode } from '@src/utils'
 
 const changeFontColor = (colorId: string) => () => {
   changeProperty('fontColorId', colorId)
 }
 
 const FontColorMutator = () => {
-  const component = state.ui.selectedNode as (TextNode | IconNode)
+  const component = getSelectedNode() as (TextNode | IconNode)
   return (
     <>
       <InfoColumn>

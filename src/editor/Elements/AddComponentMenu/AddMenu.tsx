@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import state from '@state'
-import { Alignment, EditableNodes, NodeTypes } from '@src/interfaces/nodes'
+import { Alignment, EditableNodes, IconTypes, NodeTypes } from '@src/interfaces/nodes'
 import Component from '@src/editor/Nodes/_Component'
 import { connect } from 'lape'
 import { dragComponent } from '@src/actions'
@@ -39,6 +39,7 @@ const Title = styled.div`
   top: -20px;
   left: 0;
   display: flex;
+  font-size: 18px;
   transition: all 250ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   opacity: 0;
 `
@@ -58,6 +59,9 @@ const ComponentWrapper = styled.div`
     opacity: 1;
   }
 `
+const ComponentWrapperIcons = styled(ComponentWrapper)`
+  font-size: 38px;
+`
 
 const Text = styled.span`
   font-size: 38px;
@@ -69,6 +73,20 @@ const OnClickOverlay = styled.div`
   right: 0;
   bottom: 0;
 `
+
+const icons: IconTypes[] = [
+  IconTypes.beach_access,
+  IconTypes.casino,
+  IconTypes.golf_course,
+  IconTypes.pool,
+  IconTypes.business_center,
+  IconTypes.public,
+  IconTypes.sentiment_very_satisfied,
+  IconTypes.cake,
+  IconTypes.fitness_center,
+]
+
+let icon = icons[Math.floor(Math.random() * icons.length)]
 
 const generateComponent = (type: NodeTypes, element?: Element): EditableNodes => {
   const newId = uuid()
@@ -116,10 +134,25 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       },
     }
   }
+  if (type === NodeTypes.Icon) {
+    const newComponent = {
+      ...baseComponent,
+      type: NodeTypes.Icon as NodeTypes.Icon,
+      iconType: icon,
+      fontSize: FontSizeName.L,
+      states: {
+        hover: {},
+        parentHover: {},
+      },
+    }
+    icon = icons[Math.floor(Math.random() * icons.length)]
+    return newComponent
+  }
 }
 
 const MenuComponent = () => {
   const element = getSelectedElement()
+
   return (
     <Menu>
       <ComponentWrapper>
@@ -132,6 +165,11 @@ const MenuComponent = () => {
         <Title>Text</Title>
         <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Text))(e)} />
       </ComponentWrapper>
+      <ComponentWrapperIcons>
+        <div className="material-icons">{icon}</div>
+        <Title>Icon</Title>
+        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Icon))(e)} />
+      </ComponentWrapperIcons>
       {element.type === ElementType.Component &&
         state.elements
           .filter(element => element.type !== ElementType.Component)

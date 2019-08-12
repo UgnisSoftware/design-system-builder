@@ -120,6 +120,7 @@ const Grid = styled.div`
   left: 0px;
   top: 0px;
   display: grid;
+  justify-content: center;
   grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map(col => col.value + col.unit).join(' ')};
 `

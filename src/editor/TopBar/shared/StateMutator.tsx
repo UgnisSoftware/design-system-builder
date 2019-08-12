@@ -3,6 +3,7 @@ import state from '@state'
 import Select from '@components/Select'
 import * as React from 'react'
 import { AlignRight, Divider, IconRow, InfoColumn, Title } from './_styles'
+import { getSelectedNode } from '@src/utils'
 
 const DefaultValue = 'Default'
 const changeState = (componentState: ComponentStateMenu) => {
@@ -14,7 +15,7 @@ const changeState = (componentState: ComponentStateMenu) => {
 }
 
 const StateMutator = () => {
-  const component = state.ui.selectedNode
+  const component = getSelectedNode()
 
   return (
     <AlignRight>
