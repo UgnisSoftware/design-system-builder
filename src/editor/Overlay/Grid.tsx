@@ -78,6 +78,7 @@ const GridTop = styled.div`
   left: 0px;
   top: -70px;
   display: grid;
+  justify-content: center;
   grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map(col => col.value + col.unit).join(' ')};
   grid-template-rows: 20px;
 `

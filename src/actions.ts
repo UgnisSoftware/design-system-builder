@@ -8,6 +8,8 @@ import { DeepPartial } from '@src/interfaces/elements'
 
 export const selectComponent = (component: EditableNodes, parent?: ElementNode) => e => {
   if (e.currentTarget === e.target) {
+    const modifier = getSelectedModifier()
+
     state.ui.selectedNode = parent || component
     state.ui.selectedNodeToOverride = parent ? component : null
 
@@ -24,8 +26,8 @@ export const selectComponent = (component: EditableNodes, parent?: ElementNode) 
         return
       }
 
-      const children = getSelectedElement().root.order
-      const fromIndex = children.indexOf(parent.id || component.id)
+      const children = modifier ? getSelectedElement().modifiers[modifier].order : getSelectedElement().root.order
+      const fromIndex = children.indexOf((parent && parent.id) || component.id)
       if (fromIndex !== -1) {
         children.splice(fromIndex, 1)
       }
@@ -234,50 +236,157 @@ export const deleteComponent = e => {
   return false
 }
 
-// TODO modifier logic
 export const addColumn = () => {
   const element = getSelectedElement()
-  element.root.columns.push({
-    value: 100,
-    unit: Units.Px,
-  })
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const columns = element.modifiers[modifier].columns
+
+    if (!columns) {
+      element.modifiers[modifier].columns = [
+        ...element.root.columns,
+        {
+          value: 100,
+          unit: Units.Px,
+        },
+      ]
+    } else {
+      columns.push({
+        value: 100,
+        unit: Units.Px,
+      })
+    }
+  } else {
+    element.root.columns.push({
+      value: 100,
+      unit: Units.Px,
+    })
+  }
 }
-// TODO modifier logic
 export const addRow = () => {
   const element = getSelectedElement()
-  element.root.rows.push({
-    value: 100,
-    unit: Units.Px,
-  })
-}
-// TODO modifier logic
-export const changeColumnValue = (index: number) => e => {
-  const element = getSelectedElement()
-  element.root.columns[index].value = e.target.value
-}
-// TODO modifier logic
-export const changeRowValue = (index: number) => e => {
-  const element = getSelectedElement()
-  element.root.rows[index].value = e.target.value
-}
-// TODO modifier logic
-export const changeColumnUnits = (index: number) => e => {
-  const element = getSelectedElement()
-  element.root.columns[index].unit = e.target.value
-}
-// TODO modifier logic
-export const changeRowUnits = (index: number) => e => {
-  const element = getSelectedElement()
-  element.root.rows[index].unit = e.target.value
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const rows = element.modifiers[modifier].rows
+
+    if (!rows) {
+      element.modifiers[modifier].rows = [
+        ...element.root.rows,
+        {
+          value: 100,
+          unit: Units.Px,
+        },
+      ]
+    } else {
+      rows.push({
+        value: 100,
+        unit: Units.Px,
+      })
+    }
+  } else {
+    element.root.rows.push({
+      value: 100,
+      unit: Units.Px,
+    })
+  }
 }
 
-// TODO modifier logic
-export const deleteRow = rowIndex => () => {
+export const changeColumnValue = (index: number) => e => {
   const element = getSelectedElement()
-  element.root.rows.splice(rowIndex, 1)
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const columns = element.modifiers[modifier].columns
+
+    if (!columns) {
+      element.modifiers[modifier].columns = [...element.root.columns]
+    }
+    element.modifiers[modifier].columns[index].value = e.target.value
+  } else {
+    element.root.columns[index].value = e.target.value
+  }
 }
-// TODO modifier logic
+export const changeRowValue = (index: number) => e => {
+  const element = getSelectedElement()
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const rows = element.modifiers[modifier].rows
+
+    if (!rows) {
+      element.modifiers[modifier].rows = [...element.root.rows]
+    }
+    element.modifiers[modifier].rows[index].value = e.target.value
+  } else {
+    element.root.rows[index].value = e.target.value
+  }
+}
+
+export const changeColumnUnits = (index: number) => e => {
+  const element = getSelectedElement()
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const columns = element.modifiers[modifier].columns
+
+    if (!columns) {
+      element.modifiers[modifier].columns = [...element.root.columns]
+    }
+    element.modifiers[modifier].columns[index].unit = e.target.value
+  } else {
+    element.root.columns[index].unit = e.target.value
+  }
+}
+export const changeRowUnits = (index: number) => e => {
+  const element = getSelectedElement()
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const rows = element.modifiers[modifier].rows
+
+    if (!rows) {
+      element.modifiers[modifier].rows = [...element.root.rows]
+    }
+    element.modifiers[modifier].rows[index].unit = e.target.value
+  } else {
+    element.root.rows[index].unit = e.target.value
+  }
+}
+
 export const deleteColumn = colIndex => () => {
   const element = getSelectedElement()
-  element.root.columns.splice(colIndex, 1)
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const columns = element.modifiers[modifier].columns
+
+    if (!columns) {
+      element.modifiers[modifier].columns = [...element.root.columns]
+      element.modifiers[modifier].columns.splice(colIndex, 1)
+    } else {
+      columns.splice(colIndex, 1)
+    }
+  } else {
+    element.root.columns.splice(colIndex, 1)
+  }
+}
+
+export const deleteRow = rowIndex => () => {
+  const element = getSelectedElement()
+  const modifier = getSelectedModifier()
+
+  if (modifier) {
+    const rows = element.modifiers[modifier].rows
+
+    if (!rows) {
+      element.modifiers[modifier].rows = [...element.root.rows]
+      element.modifiers[modifier].rows.splice(rowIndex, 1)
+    } else {
+      rows.splice(rowIndex, 1)
+    }
+  } else {
+    element.root.rows.splice(rowIndex, 1)
+  }
 }
