@@ -425,8 +425,124 @@ const defaultState: State = {
       id: 'switch-1234',
       type: ElementType.CheckBox,
       name: 'Switch',
-      root: null,
-      modifiers: {},
+      root: {
+        id: 'im2od23d-12323',
+        type: NodeTypes.Root,
+        columnStart: 1,
+        columnEnd: -1,
+        rowStart: 1,
+        rowEnd: -1,
+        horizontalAlign: Alignment.stretch,
+        verticalAlign: Alignment.stretch,
+        columns: [
+          {
+            value: 3,
+            unit: Units.Px,
+          },
+          {
+            value: 17,
+            unit: Units.Px,
+          },
+          {
+            value: 17,
+            unit: Units.Px,
+          },
+          {
+            value: 3,
+            unit: Units.Px,
+          },
+        ],
+        rows: [
+          {
+            value: 3,
+            unit: Units.Px,
+          },
+          {
+            value: 14,
+            unit: Units.Px,
+          },
+          {
+            value: 3,
+            unit: Units.Px,
+          },
+        ],
+        order: ['doim2i3dm', 'oisdjnd12334'],
+        children: {
+          doim2i3dm: {
+            id: 'doim2i3dm',
+            type: NodeTypes.Box,
+            columnStart: 2,
+            columnEnd: 4,
+            rowStart: 2,
+            rowEnd: 3,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'cccc-3333-2',
+            border: 'borbor-5555',
+            boxShadow: null,
+          },
+          oisdjnd12334: {
+            id: 'oisdjnd12334',
+            type: NodeTypes.Box,
+            columnStart: 1,
+            columnEnd: 3,
+            rowStart: 1,
+            rowEnd: -1,
+            horizontalAlign: Alignment.stretch,
+            verticalAlign: Alignment.stretch,
+            states: {
+              hover: {},
+              parentHover: {},
+            },
+            backgroundColorId: 'white-6666',
+            border: 'borbor-9999',
+            boxShadow: 'shadow-5555',
+          },
+        },
+      },
+      modifiers: {
+        Checked: {
+          order: ['doim2i3dm', 'oisdjnd12334'],
+          children: {
+            doim2i3dm: {
+              backgroundColorId: 'dddd-4444',
+            },
+            oisdjnd12334: {
+              backgroundColorId: 'prim-1',
+              columnStart: 3,
+              columnEnd: 5,
+            },
+          },
+        },
+        Disabled: {
+          order: ['doim2i3dm', 'oisdjnd12334'],
+          children: {
+            doim2i3dm: {
+              backgroundColorId: 'cccc-3333-3',
+            },
+            oisdjnd12334: {
+              backgroundColorId: 'cccc-3333-2',
+            },
+          },
+        },
+        DisabledChecked: {
+          order: ['doim2i3dm', 'oisdjnd12334'],
+          children: {
+            doim2i3dm: {
+              backgroundColorId: 'cccc-3333-3',
+            },
+            oisdjnd12334: {
+              backgroundColorId: 'cccc-3333-2',
+              columnStart: 3,
+              columnEnd: 5,
+            },
+          },
+        },
+      },
     },
     {
       id: 'radio-1234',
@@ -727,6 +843,11 @@ const defaultState: State = {
         name: 'Grey',
         hex: '#bfbfbf',
       },
+      {
+        id: 'cccc-3333-3',
+        name: 'Light grey',
+        hex: '#d8d8d8',
+      },
     ],
     spacing: ['8px', '16px', '24px', '48px', '64px'],
     boxShadow: [
@@ -756,6 +877,11 @@ const defaultState: State = {
         id: 'primB-1',
         radius: '4px',
         style: '1px solid #2196f3',
+      },
+      {
+        id: 'borbor-5555',
+        radius: '8px',
+        style: 'none',
       },
       {
         id: 'borbor-6666',
