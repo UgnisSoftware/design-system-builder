@@ -8,6 +8,8 @@ import { getSelectedNode } from '@src/utils'
 interface BoxProps {
   component: BoxNode
   parent?: ElementNode
+  tilted: boolean
+  index: number
 }
 
 const BoxAtom = styled.div`
@@ -20,8 +22,10 @@ const BoxAtom = styled.div`
   align-self: ${({ component }) => component.vertical};
   grid-column: ${({ component }: BoxProps) => `${component.columnStart} / ${component.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.rowStart} / ${component.rowEnd}`};
-  box-shadow: ${({ component }: BoxProps) =>
-    component.boxShadow
+  box-shadow: ${({ component, tilted }: BoxProps) =>
+    tilted
+      ? `-10px 10px 3px -3px rgba(100, 100, 100, 0.5)`
+      : component.boxShadow
       ? state.settings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
       : 'none'};
   ${({ component }: BoxProps) => {
@@ -48,6 +52,8 @@ const BoxAtom = styled.div`
         `
       : ''
   }};
+  transform: ${({ tilted, index }) =>
+    tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
 `
 const componentToStyle = (component: BoxNode) => {
   if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
@@ -56,8 +62,13 @@ const componentToStyle = (component: BoxNode) => {
   return component
 }
 
-const BoxComponent = ({ component, parent }: BoxProps) => (
-  <BoxAtom component={componentToStyle(component)} onMouseDown={selectComponent(component, parent)} />
+const BoxComponent = ({ component, parent, tilted, index }: BoxProps) => (
+  <BoxAtom
+    component={componentToStyle(component)}
+    onMouseDown={selectComponent(component, parent)}
+    tilted={tilted}
+    index={index}
+  />
 )
 
 export default BoxComponent

@@ -7,6 +7,8 @@ import { selectComponent } from '@src/actions'
 interface BoxProps {
   component: InputNode
   parent?: ElementNode
+  tilted: boolean
+  index: number
 }
 
 const Input = styled.input`
@@ -28,10 +30,19 @@ const Input = styled.input`
         `
       : ''
   }};
+  transform: ${({ tilted, index }) =>
+    tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
+  box-shadow: ${({ tilted }) => (tilted ? `-10px 10px 3px -3px rgba(100, 100, 100, 0.5)` : '')};
 `
 
-const InputElement = ({ component, parent }: BoxProps) => (
-  <Input id={component.id} component={component} onMouseDown={selectComponent(component, parent)} />
+const InputElement = ({ component, parent, tilted, index }: BoxProps) => (
+  <Input
+    id={component.id}
+    component={component}
+    onMouseDown={selectComponent(component, parent)}
+    tilted={tilted}
+    index={index}
+  />
 )
 
 export default InputElement

@@ -47,4 +47,5 @@ export interface UI {
   selectedCell: HoveredCell
   stateManager: ComponentStateMenu
   zoom: number
+  tilted: boolean
 }

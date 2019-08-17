@@ -124,9 +124,8 @@ const LeftMenu = () => {
         .concat()
         .sort(sortComponents)
         .map(element => (
-          <>
+          <React.Fragment key={element.id}>
             <ComponentItem
-              key={element.id}
               selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
               onDelete={deleteItem(state.elements, element)}
               onClick={route(element.type, element.id)}
@@ -140,14 +139,14 @@ const LeftMenu = () => {
                   <ComponentItem
                     subComponent
                     selected={selectedModifierName === modifierName}
-                    key={modifierName}
+                    key={element.id + modifierName}
                     name={modifierName}
                     onClick={route(element.type, element.id, modifierName)}
                     onDelete={deleteItem(state.elements, element)}
                   />
                 )
               })}
-          </>
+          </React.Fragment>
         ))}
 
       <Title>

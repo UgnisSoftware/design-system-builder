@@ -997,6 +997,7 @@ const defaultState: State = {
     showExportMenu: false,
     showGrid: false,
     zoom: 100,
+    tilted: false,
   },
   // ...mergeSaved,
 }

@@ -10,11 +10,35 @@ const showExportMenu = () => {
   state.ui.showExportMenu = !state.ui.showExportMenu
 }
 
+const tiltView = () => {
+  state.ui.tilted = !state.ui.tilted
+}
+
 const NoneSelectedMutators = () => {
   return (
     <TopBarBox>
       {state.ui.showAddComponentMenu && 'Click and drag'}
       <InfoColumn style={{ marginLeft: 'auto' }}>
+        <Title>Layer view</Title>
+        <IconRow>
+          <StylelessButton
+            title="Layers"
+            className="material-icons"
+            style={{
+              fontSize: '24px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              transform: 'rotateZ(40deg)',
+              color: state.ui.tilted ? ' rgb(83, 212, 134)' : 'black',
+            }}
+            onClick={tiltView}
+          >
+            layers
+          </StylelessButton>
+        </IconRow>
+      </InfoColumn>
+      <Divider />
+      <InfoColumn>
         <Title>Edit Grid</Title>
         <IconRow>
           <StylelessButton

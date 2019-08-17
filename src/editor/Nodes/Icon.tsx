@@ -8,9 +8,12 @@ import { getSelectedNode } from '@src/utils'
 interface TextProps {
   component: IconNode
   parent?: ElementNode
+  tilted: boolean
+  index: number
 }
 
 const IconWrapper = styled.div`
+  transition: all 0.3s;
   position: relative;
   display: grid;
   grid-column: ${({ component }: TextProps) => `${component.columnStart} / ${component.columnEnd}`};
@@ -20,6 +23,9 @@ const IconWrapper = styled.div`
   font-size: ${({ component }: TextProps) => state.settings.fonts[0].sizes[component.fontSize].fontSize};
   justify-self: ${({ component }: TextProps) => component.horizontalAlign};
   align-self: ${({ component }: TextProps) => component.verticalAlign};
+  transform: ${({ tilted, index }) =>
+    tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
+  text-shadow: ${({ tilted }) => (tilted ? `-10px 10px rgba(100, 100, 100, 0.5)` : '')};
 `
 
 const componentToStyle = (component: IconNode) => {
@@ -29,12 +35,14 @@ const componentToStyle = (component: IconNode) => {
   return component
 }
 
-const IconComponent = ({ component, parent }: TextProps) => (
+const IconComponent = ({ component, parent, tilted, index }: TextProps) => (
   <IconWrapper
     component={componentToStyle(component)}
     title="Visible"
     className="material-icons"
     onMouseDown={selectComponent(component, parent)}
+    tilted={tilted}
+    index={index}
   >
     {component.iconType}
   </IconWrapper>

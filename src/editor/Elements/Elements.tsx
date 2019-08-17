@@ -27,14 +27,17 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: auto 1fr;
+  perspective: 1000px;
 `
 
 const ElementWrapper = styled.div`
+  transition: all 0.3s;
   width: 512px;
   position: relative;
   display: grid;
   flex: 1;
-  transform: ${() => `translateZ(0) scale(${state.ui.zoom / 100})`};
+  transform: ${() =>
+    `translateZ(0)  scale(${state.ui.zoom / 100}) ${state.ui.tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const Dimmer = styled.div`
@@ -170,7 +173,7 @@ const Elements = () => {
         <AddMenuButton />
         <ElementWrapper>
           <Dimmer>
-            <Component component={element.root} />
+            <Component component={element.root} tilted={state.ui.tilted} />
           </Dimmer>
           <GridOverlay rootNode={element.root} />
         </ElementWrapper>

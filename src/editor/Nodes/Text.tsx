@@ -8,6 +8,8 @@ import { getSelectedNode } from '@src/utils'
 interface TextProps {
   component: TextNode
   parent?: ElementNode
+  tilted: boolean
+  index: number
 }
 
 const TextWrapper = styled.div<TextProps>`
@@ -28,6 +30,9 @@ const TextWrapper = styled.div<TextProps>`
   font-family: ${({ component }) => state.settings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
   white-space: pre;
+  transform: ${({ tilted, index }) =>
+    tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
+  text-shadow: ${({ tilted }) => (tilted ? `-10px 10px rgba(100, 100, 100, 0.5)` : '')};
 `
 
 const changeTextValue = e => {
@@ -72,7 +77,7 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
   }
 
   render() {
-    const { component, parent } = this.props
+    const { component, parent, tilted, index } = this.props
     return (
       <TextWrapper
         component={componentToStyle(component)}
@@ -87,6 +92,8 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
           const text = e.clipboardData.getData('text/plain')
           document.execCommand('insertHTML', false, text)
         }}
+        tilted={tilted}
+        index={index}
       >
         {component.text}
       </TextWrapper>

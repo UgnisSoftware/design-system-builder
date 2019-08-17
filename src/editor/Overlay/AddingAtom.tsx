@@ -2,7 +2,7 @@ import * as React from 'react'
 import state from '@state'
 import { connect } from 'lape'
 import styled from 'styled-components'
-import Component from '@src/editor/Nodes/_Component'
+import Atom from '@src/editor/Nodes/_Atoms'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 const AddingAtom = () => {
   return (
     <Wrapper>
-      <Component component={state.ui.addingAtom.node} />
+      <Atom component={state.ui.addingAtom.node} parent={null} />
     </Wrapper>
   )
 }
