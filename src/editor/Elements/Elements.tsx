@@ -177,7 +177,7 @@ const Elements = () => {
         <AddComponentMenu />
         <ExporterMenu />
         {state.ui.addingAtom && <AddingAtom />}
-        <Zoom />
+        {!state.ui.showAddComponentMenu && <Zoom />}
       </Background>
     </Wrapper>
   )
