@@ -25,7 +25,7 @@ const IconWrapper = styled.div`
   align-self: ${({ component }: TextProps) => component.verticalAlign};
   transform: ${({ tilted, index }) =>
     tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
-  text-shadow: ${({ tilted }) => (tilted ? `-10px 10px rgba(100, 100, 100, 0.5)` : '')};
+  text-shadow: ${({ tilted }) => (tilted ? `-10px 10px 2px rgba(100, 100, 100, 0.5)` : '')};
 `
 
 const componentToStyle = (component: IconNode) => {
