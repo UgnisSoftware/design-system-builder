@@ -546,7 +546,7 @@ const defaultState: State = {
     },
     {
       id: 'radio-1234',
-      type: ElementType.Radio,
+      type: ElementType.CheckBox,
       name: 'Radio Button',
       root: null,
       modifiers: {},
@@ -558,14 +558,6 @@ const defaultState: State = {
       root: null,
       modifiers: {},
     },
-    {
-      id: 'loader-1234',
-      type: ElementType.Loader,
-      name: 'Loader',
-      root: null,
-      modifiers: {},
-    },
-
     {
       id: 'AppBar',
       type: ElementType.Component,
@@ -1004,6 +996,7 @@ const defaultState: State = {
     showAddComponentMenu: false,
     showExportMenu: false,
     showGrid: false,
+    zoom: 100,
   },
   // ...mergeSaved,
 }

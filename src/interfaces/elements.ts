@@ -6,17 +6,20 @@ export enum ElementType {
   TextInput = 'TextInput',
   Select = 'select',
   Slider = 'slider',
-  Radio = 'radio',
   CheckBox = 'checkBox',
   DatePicker = 'datePicker',
-  Sidebar = 'sidebar',
-  Popup = 'popup',
-  Tooltip = 'tooltip',
-  Loader = 'loader',
   Table = 'table',
   Link = 'Link',
   Component = 'component',
   New = 'new',
+}
+
+export enum Systems {
+  Alert = 'alert',
+  Sidebar = 'sidebar',
+  Tooltip = 'tooltip',
+  Popup = 'popup',
+  Map = 'map',
 }
 
 export type DeepPartial<T> = {

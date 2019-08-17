@@ -20,6 +20,7 @@ import useEffectOnce from 'react-use/esm/useEffectOnce'
 import useKey from 'react-use/esm/useKey'
 import { mergeElements } from '@src/utils'
 import { deleteComponent } from '@src/actions'
+import Zoom from './Zoom/Zoom'
 
 const Wrapper = styled.div`
   flex: 1;
@@ -33,6 +34,7 @@ const ElementWrapper = styled.div`
   position: relative;
   display: grid;
   flex: 1;
+  transform: ${() => `translateZ(0) scale(${state.ui.zoom / 100})`};
 `
 
 const Dimmer = styled.div`
@@ -175,6 +177,7 @@ const Elements = () => {
         <AddComponentMenu />
         <ExporterMenu />
         {state.ui.addingAtom && <AddingAtom />}
+        <Zoom />
       </Background>
     </Wrapper>
   )

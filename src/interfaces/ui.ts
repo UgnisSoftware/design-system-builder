@@ -46,4 +46,5 @@ export interface UI {
   hoveredCell: HoveredCell
   selectedCell: HoveredCell
   stateManager: ComponentStateMenu
+  zoom: number
 }
