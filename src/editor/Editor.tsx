@@ -5,6 +5,7 @@ import state from '@state'
 import { RouterPaths } from '@src/interfaces/router'
 
 import HomePage from './HomePage/HomePage'
+import Docs from './HomePage/Docs'
 import Fonts from './Settings/Fonts/Fonts'
 import LeftMenu from './LeftMenu/LeftMenu'
 import ColorsAndSpacing from './Settings/Styles/ColorsAndSpacing'
@@ -26,6 +27,7 @@ const Editor = () => {
     <Root>
       <LeftMenu />
       {state.ui.router[0] === undefined && <HomePage />}
+      {state.ui.router[0] === RouterPaths.docs && <Docs />}
       {Object.values(ElementType).includes(state.ui.router[0]) && <Elements />}
       {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}

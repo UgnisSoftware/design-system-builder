@@ -3,4 +3,5 @@ export enum RouterPaths {
   colors = 'colors',
   exporting = 'exporting',
   assets = 'assets',
+  docs = 'docs',
 }
