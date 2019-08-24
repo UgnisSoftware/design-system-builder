@@ -14,6 +14,7 @@ import {
   deleteColumn,
   deleteRow,
 } from '@src/actions'
+import times from 'ramda/src/times'
 
 interface BorderProps {
   col: number
@@ -99,6 +100,16 @@ const Border = styled.div`
   background: ${({ selected }: BorderProps) => (selected ? `rgba(0,0,0,.25)` : 'none')};
   border: #565656 dashed 1px;
 `
+const InvisibleColumn = styled.div`
+  grid-column: ${({ col }: BorderProps) => `${col} / ${col + 1}`};
+  height: 100vh;
+  transform: translateY(-50%);
+`
+const InvisibleRow = styled.div`
+  grid-row: ${({ row }: BorderProps) => `${row} / ${row + 1}`};
+  width: 100vw;
+  transform: translateX(-50%);
+`
 
 const BorderForSelected = styled.div`
   position: relative;
@@ -167,9 +178,9 @@ const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => e => {
 }
 
 const SideDrag = styled.div`
-  pointer-events: all;
   position: absolute;
   transition: all 0.3s;
+  pointer-events: none;
 `
 
 const TopDrag = styled(SideDrag)`
@@ -177,7 +188,6 @@ const TopDrag = styled(SideDrag)`
   left: 0px;
   height: 12px;
   right: 0px;
-  cursor: n-resize;
   border-bottom: #565656 dashed 1px;
 `
 const BottomDrag = styled(SideDrag)`
@@ -185,7 +195,6 @@ const BottomDrag = styled(SideDrag)`
   left: 0px;
   height: 12px;
   right: 0px;
-  cursor: s-resize;
   border-top: #565656 dashed 1px;
 `
 const LeftDrag = styled(SideDrag)`
@@ -193,7 +202,6 @@ const LeftDrag = styled(SideDrag)`
   left: -12px;
   width: 12px;
   bottom: 0px;
-  cursor: w-resize;
   border-right: #565656 dashed 1px;
 `
 const RightDrag = styled(SideDrag)`
@@ -201,38 +209,7 @@ const RightDrag = styled(SideDrag)`
   right: -12px;
   width: 12px;
   bottom: 0px;
-  cursor: e-resize;
   border-left: #565656 dashed 1px;
-`
-
-const CornerDrag = styled.div`
-  pointer-events: all;
-  position: absolute;
-  transition: all 0.3s;
-  width: 8px;
-  height: 8px;
-  background: ${Colors.accent};
-`
-const TopLeftDrag = styled(CornerDrag)`
-  top: -4px;
-  left: -4px;
-  cursor: nw-resize;
-`
-const TopRightDrag = styled(CornerDrag)`
-  top: -4px;
-  right: -4px;
-  cursor: ne-resize;
-`
-
-const BottomLeftDrag = styled(CornerDrag)`
-  bottom: -4px;
-  left: -4px;
-  cursor: sw-resize;
-`
-const BottomRightDrag = styled(CornerDrag)`
-  bottom: -4px;
-  right: -4px;
-  cursor: se-resize;
 `
 
 const StylelessButton = styled.button.attrs({ type: 'button' })`
@@ -292,6 +269,66 @@ const DeleteColumnButton = styled(StylelessButton)`
   background: ${Colors.grey100};
   font-size: 18px;
 `
+const ArrowRight = styled(StylelessButton)`
+  position: absolute;
+  top: -20px;
+  right: -8px;
+  width: 16px;
+  height: 8px;
+  background: ${Colors.accent};
+  cursor: e-resize;
+  pointer-events: all;
+  filter: drop-shadow(0 0 1px #fff);
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    width: 0;
+    height: 0;
+    border-top: solid 8px ${Colors.accent};
+    border-left: solid 8px transparent;
+    border-right: solid 8px transparent;
+  }
+`
+
+const ArrowLeft = styled(ArrowRight)`
+  left: -8px;
+  right: auto;
+  cursor: w-resize;
+`
+
+const ArrowTop = styled(StylelessButton)`
+  position: absolute;
+  left: -20px;
+  top: -8px;
+  width: 8px;
+  height: 16px;
+  background: ${Colors.accent};
+  cursor: n-resize;
+  pointer-events: all;
+  filter: drop-shadow(0 0 1px #fff);
+  &:after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -8px;
+    width: 0;
+    height: 0;
+    border-left: solid 8px ${Colors.accent};
+    border-top: solid 8px transparent;
+    border-bottom: solid 8px transparent;
+  }
+`
+
+const ArrowBottom = styled(ArrowTop)`
+  bottom: -8px;
+  top: 0px;
+  cursor: s-resize;
+`
 
 interface Props {
   rootNode: RootNode
@@ -306,8 +343,15 @@ const onTileClick = (rowIndex: number, colIndex: number) => () => {
   }
 }
 
-const onMouseOver = (rowIndex: number, colIndex: number) => () => {
-  if (state.ui.expandingNode || state.ui.addingAtom) {
+const onMouseOver = (rowIndex: number, colIndex: number) => event => {
+  if (state.ui.addingAtom) {
+    const box = (event.target as HTMLDivElement).getBoundingClientRect()
+
+    state.ui.addingAtom = {
+      ...state.ui.addingAtom,
+      width: box.width,
+      height: box.height,
+    }
     state.ui.hoveredCell = {
       rowIndex,
       colIndex,
@@ -315,6 +359,10 @@ const onMouseOver = (rowIndex: number, colIndex: number) => () => {
   }
 
   if (state.ui.expandingNode) {
+    state.ui.hoveredCell = {
+      rowIndex,
+      colIndex,
+    }
     const direction = state.ui.expandingNode.direction
     const node = state.ui.expandingNode.node
     const columnPositive = [DragDirection.E, DragDirection.SE, DragDirection.NE].includes(direction)
@@ -357,6 +405,139 @@ const FullGrid = ({ rootNode }: Props) => (
   </>
 )
 
+const DragGrid = ({ rootNode }: Props) => {
+  const direction = state.ui.expandingNode.direction
+  if (direction === DragDirection.E || direction === DragDirection.W) {
+    return (
+      <>
+        {rootNode.columns.map((_, colIndex) => (
+          <InvisibleColumn key={`${colIndex}`} col={colIndex + 1} onMouseOver={onMouseOver(0, colIndex)} />
+        ))}
+      </>
+    )
+  }
+  return (
+    <>
+      {rootNode.rows.map((_, rowIndex) => (
+        <InvisibleRow key={`${rowIndex}`} row={rowIndex + 1} onMouseOver={onMouseOver(rowIndex, 0)} />
+      ))}
+    </>
+  )
+}
+
+interface SideProps {
+  selected: number
+  rootNode: RootNode
+}
+
+const GridColumns = ({ rootNode, selected }: SideProps) => {
+  return (
+    <GridTop rootNode={rootNode}>
+      {rootNode.columns.map((_, colIndex) => {
+        const isSelected = selected === colIndex
+        return (
+          <BorderTop
+            key={`col_${colIndex}`}
+            col={colIndex + 1}
+            selected={isSelected}
+            onClick={onTileClick(null, colIndex)}
+          >
+            {isSelected && (
+              <TopText>
+                <Input value={rootNode.columns[colIndex].value} onChange={changeColumnValue(colIndex)} />
+                <select value={rootNode.columns[colIndex].unit} onChange={changeColumnUnits(colIndex)}>
+                  <option value={Units.Px}>Px</option>
+                  <option value={Units.Fr}>Fr</option>
+                </select>
+                <DeleteColumnButton onClick={deleteColumn(colIndex)}>X</DeleteColumnButton>
+              </TopText>
+            )}
+          </BorderTop>
+        )
+      })}
+    </GridTop>
+  )
+}
+const GridRows = ({ rootNode, selected }: SideProps) => {
+  return (
+    <GridLeft rootNode={rootNode}>
+      {rootNode.rows.map((_, rowIndex) => {
+        const isSelected = selected === rowIndex
+        return (
+          <BorderLeft
+            key={`row_${rowIndex}`}
+            row={rowIndex + 1}
+            selected={isSelected}
+            onClick={onTileClick(rowIndex, null)}
+          >
+            {isSelected && (
+              <LeftText>
+                <Input value={rootNode.rows[rowIndex].value} onChange={changeRowValue(rowIndex)} />
+                <select value={rootNode.rows[rowIndex].unit} onChange={changeRowUnits(rowIndex)}>
+                  <option value={Units.Px}>Px</option>
+                  <option value={Units.Fr}>Fr</option>
+                </select>
+                <DeleteRowButton onClick={deleteRow(rowIndex)}>X</DeleteRowButton>
+              </LeftText>
+            )}
+          </BorderLeft>
+        )
+      })}
+    </GridLeft>
+  )
+}
+
+interface SideForSelectedProps {
+  selectedNode: Nodes
+  rootNode: RootNode
+}
+const GridColumnsForSelected = ({ rootNode, selectedNode }: SideForSelectedProps) => {
+  const selected = times(
+    index => index + selectedNode.columnStart - 1,
+    (selectedNode.columnEnd === -1 ? rootNode.columns.length + 1 : selectedNode.columnEnd) - selectedNode.columnStart,
+  )
+  return (
+    <GridTop rootNode={rootNode}>
+      {rootNode.columns.map((_, colIndex) => {
+        const isSelected = selected.includes(colIndex)
+        return (
+          <BorderTop key={`col_${colIndex}`} col={colIndex + 1} selected={isSelected}>
+            {selected[0] === colIndex && (
+              <ArrowLeft onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
+            )}
+            {selected[selected.length - 1] === colIndex && (
+              <ArrowRight onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
+            )}
+          </BorderTop>
+        )
+      })}
+    </GridTop>
+  )
+}
+const GridRowsForSelected = ({ rootNode, selectedNode }: SideForSelectedProps) => {
+  const selected = times(
+    index => index + selectedNode.rowStart - 1,
+    (selectedNode.rowEnd === -1 ? rootNode.rows.length + 1 : selectedNode.rowEnd) - selectedNode.rowStart,
+  )
+  return (
+    <GridLeft rootNode={rootNode}>
+      {rootNode.rows.map((_, rowIndex) => {
+        const isSelected = selected.includes(rowIndex)
+        return (
+          <BorderLeft key={`row_${rowIndex}`} row={rowIndex + 1} selected={isSelected}>
+            {selected[0] === rowIndex && (
+              <ArrowTop onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
+            )}
+            {selected[selected.length - 1] === rowIndex && (
+              <ArrowBottom onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
+            )}
+          </BorderLeft>
+        )
+      })}
+    </GridLeft>
+  )
+}
+
 /*
  * This Component is responsible for:
  *   Changing grid size  -- SHOW GRID
@@ -365,83 +546,42 @@ const FullGrid = ({ rootNode }: Props) => (
  *   Resizing components -- state.ui.expandingNode
  *   Editing text - state.ui.editingTextNode
  */
-const GridOverlay = ({ rootNode }: Props) => (
-  <GridOverlayWrapper visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom}>
-    {state.ui.showGrid && (
-      <>
-        <GridTop rootNode={rootNode}>
-          {rootNode.columns.map((_, colIndex) => {
-            const selected = state.ui.selectedCell && state.ui.selectedCell.colIndex === colIndex
-            return (
-              <BorderTop
-                key={`col_${colIndex}`}
-                col={colIndex + 1}
-                selected={selected}
-                onClick={onTileClick(null, colIndex)}
-              >
-                {selected && (
-                  <TopText>
-                    <Input value={rootNode.columns[colIndex].value} onChange={changeColumnValue(colIndex)} />
-                    <select value={rootNode.columns[colIndex].unit} onChange={changeColumnUnits(colIndex)}>
-                      <option value={Units.Px}>Px</option>
-                      <option value={Units.Fr}>Fr</option>
-                    </select>
-                    <DeleteColumnButton onClick={deleteColumn(colIndex)}>X</DeleteColumnButton>
-                  </TopText>
-                )}
-              </BorderTop>
-            )
-          })}
-        </GridTop>
-        <GridLeft rootNode={rootNode}>
-          {rootNode.rows.map((_, rowIndex) => {
-            const selected = state.ui.selectedCell && state.ui.selectedCell.rowIndex === rowIndex
-            return (
-              <>
-                <BorderLeft
-                  key={`row_${rowIndex}`}
-                  row={rowIndex + 1}
-                  selected={selected}
-                  onClick={onTileClick(rowIndex, null)}
-                >
-                  {selected && (
-                    <LeftText>
-                      <Input value={rootNode.rows[rowIndex].value} onChange={changeRowValue(rowIndex)} />
-                      <select value={rootNode.rows[rowIndex].unit} onChange={changeRowUnits(rowIndex)}>
-                        <option value={Units.Px}>Px</option>
-                        <option value={Units.Fr}>Fr</option>
-                      </select>
-                      <DeleteRowButton onClick={deleteRow(rowIndex)}>X</DeleteRowButton>
-                    </LeftText>
-                  )}
-                </BorderLeft>
-              </>
-            )
-          })}
-        </GridLeft>
-        <AddColumnButton onClick={addColumn}>+</AddColumnButton>
-        <AddRowButton onClick={addRow}>+</AddRowButton>
-      </>
-    )}
-    <GridWrapper>
-      <Grid rootNode={rootNode}>
-        {!(state.ui.addingAtom || state.ui.expandingNode) && state.ui.selectedNode && (
-          <BorderForSelected node={state.ui.selectedNode}>
-            <TopDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.N)} />
-            <LeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.W)} />
-            <RightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.E)} />
-            <BottomDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.S)} />
-            <TopLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NW)} />
-            <TopRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.NE)} />
-            <BottomLeftDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SW)} />
-            <BottomRightDrag onMouseDown={drag(state.ui.selectedNode, rootNode, DragDirection.SE)} />
-          </BorderForSelected>
-        )}
+const GridOverlay = ({ rootNode }: Props) => {
+  const nodeSelected = !state.ui.addingAtom && state.ui.selectedNode
 
-        {(state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom) && <FullGrid rootNode={rootNode} />}
-      </Grid>
-    </GridWrapper>
-  </GridOverlayWrapper>
-)
-
+  return (
+    <GridOverlayWrapper visible={state.ui.expandingNode || state.ui.showGrid || state.ui.addingAtom}>
+      {state.ui.showGrid && (
+        <>
+          <GridColumns rootNode={rootNode} selected={state.ui.selectedCell && state.ui.selectedCell.colIndex} />
+          <GridRows rootNode={rootNode} selected={state.ui.selectedCell && state.ui.selectedCell.rowIndex} />
+          <AddColumnButton onClick={addColumn}>+</AddColumnButton>
+          <AddRowButton onClick={addRow}>+</AddRowButton>
+        </>
+      )}
+      {nodeSelected && (
+        <>
+          <GridColumnsForSelected rootNode={rootNode} selectedNode={nodeSelected} />
+          <GridRowsForSelected rootNode={rootNode} selectedNode={nodeSelected} />
+        </>
+      )}
+      <GridWrapper>
+        <Grid rootNode={rootNode}>
+          {nodeSelected && (
+            <BorderForSelected node={state.ui.selectedNode}>
+              <TopDrag />
+              <LeftDrag />
+              <RightDrag />
+              <BottomDrag />
+            </BorderForSelected>
+          )}
+        </Grid>
+        <Grid rootNode={rootNode}>
+          {(state.ui.showGrid || state.ui.addingAtom) && <FullGrid rootNode={rootNode} />}
+          {state.ui.expandingNode && <DragGrid rootNode={rootNode} />}
+        </Grid>
+      </GridWrapper>
+    </GridOverlayWrapper>
+  )
+}
 export default GridOverlay

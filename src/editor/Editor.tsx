@@ -13,6 +13,7 @@ import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
 import { connectDevTools } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
+import AddingAtom from '@src/editor/Overlay/AddingAtom'
 
 const Root = styled.div`
   display: flex;
@@ -30,6 +31,7 @@ const Editor = () => {
       {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
       {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
       {state.ui.router[0] === RouterPaths.assets && <Assets />}
+      {state.ui.addingAtom && <AddingAtom />}
     </Root>
   )
 }

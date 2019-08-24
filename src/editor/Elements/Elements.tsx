@@ -10,7 +10,6 @@ import { Data } from 'lape/dist/eventEmitter'
 
 import AddMenuButton from '@src/editor/Elements/AddComponentMenu/AddMenuButton'
 import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddMenu'
-import AddingAtom from '@src/editor/Overlay/AddingAtom'
 import Component from '@src/editor/Nodes/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
@@ -179,7 +178,6 @@ const Elements = () => {
         </ElementWrapper>
         <AddComponentMenu />
         <ExporterMenu />
-        {state.ui.addingAtom && <AddingAtom />}
         {!state.ui.showAddComponentMenu && <Zoom />}
       </Background>
     </Wrapper>

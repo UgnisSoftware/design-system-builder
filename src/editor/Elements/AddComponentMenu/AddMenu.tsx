@@ -46,11 +46,13 @@ const Title = styled.div`
 
 const Box = styled.div`
   background: #90ccf4;
+  width: 130px;
   height: 80px;
 `
 
 const ComponentWrapper = styled.div`
   display: grid;
+  justify-content: start;
   position: relative;
   flex-direction: column-reverse;
   align-content: center;
@@ -96,8 +98,6 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
     columnEnd: 2,
     rowStart: 1,
     rowEnd: 2,
-    horizontalAlign: Alignment.stretch,
-    verticalAlign: Alignment.stretch,
     states: {},
   }
 
@@ -106,6 +106,8 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       ...baseComponent,
       type: NodeTypes.Element,
       elementId: element.id,
+      horizontalAlign: Alignment.stretch,
+      verticalAlign: Alignment.stretch,
       overrides: {},
     }
   }
@@ -115,6 +117,8 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       ...baseComponent,
       type: NodeTypes.Box,
       backgroundColorId: 'dddd-4444',
+      horizontalAlign: Alignment.stretch,
+      verticalAlign: Alignment.stretch,
       states: {
         hover: {},
         parentHover: {},
@@ -125,9 +129,11 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
     return {
       ...baseComponent,
       type: NodeTypes.Text,
-      text: 'Hello',
+      text: 'Text',
       fontSize: FontSizeName.L,
       fontFamilyId: state.settings.fonts[0].id,
+      horizontalAlign: Alignment.center,
+      verticalAlign: Alignment.center,
       states: {
         hover: {},
         parentHover: {},
@@ -140,6 +146,8 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       type: NodeTypes.Icon as NodeTypes.Icon,
       iconType: icon,
       fontSize: FontSizeName.L,
+      horizontalAlign: Alignment.center,
+      verticalAlign: Alignment.center,
       states: {
         hover: {},
         parentHover: {},
@@ -156,19 +164,18 @@ const MenuComponent = () => {
   return (
     <Menu>
       <ComponentWrapper>
-        <Box />
+        <Box onMouseDown={e => dragComponent(generateComponent(NodeTypes.Box))(e)} />
         <Title>Box</Title>
-        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Box))(e)} />
       </ComponentWrapper>
       <ComponentWrapper>
-        <Text>Text</Text>
+        <Text onMouseDown={e => dragComponent(generateComponent(NodeTypes.Text))(e)}>Text</Text>
         <Title>Text</Title>
-        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Text))(e)} />
       </ComponentWrapper>
       <ComponentWrapperIcons>
-        <div className="material-icons">{icon}</div>
+        <div onMouseDown={e => dragComponent(generateComponent(NodeTypes.Icon))(e as any)} className="material-icons">
+          {icon}
+        </div>
         <Title>Icon</Title>
-        <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Icon))(e)} />
       </ComponentWrapperIcons>
       {element.type === ElementType.Component &&
         state.elements

@@ -8,8 +8,6 @@ import { DeepPartial } from '@src/interfaces/elements'
 
 export const selectComponent = (component: EditableNodes, parent?: ElementNode) => e => {
   if (e.currentTarget === e.target) {
-    const modifier = getSelectedModifier()
-
     state.ui.selectedNode = parent || component
     state.ui.selectedNodeToOverride = parent ? component : null
 
@@ -26,14 +24,8 @@ export const selectComponent = (component: EditableNodes, parent?: ElementNode) 
         return
       }
 
-      const children = modifier ? getSelectedElement().modifiers[modifier].order : getSelectedElement().root.order
-      const fromIndex = children.indexOf((parent && parent.id) || component.id)
-      if (fromIndex !== -1) {
-        children.splice(fromIndex, 1)
-      }
-
       stopListening()
-      dragComponent(parent || component)(e)
+      dragComponent(parent || component, parent)(e)
     }
     window.addEventListener('mousemove', drag)
     window.addEventListener('touchmove', drag)
@@ -50,30 +42,28 @@ export const selectComponent = (component: EditableNodes, parent?: ElementNode) 
   }
 }
 
-export const dragComponent = (component: EditableNodes) => (event: React.MouseEvent & React.TouchEvent) => {
-  event.stopPropagation()
+export const dragComponent = (component: EditableNodes, parent?: ElementNode) => (
+  event: React.MouseEvent & React.TouchEvent,
+) => {
   const box = (event.target as HTMLDivElement).getBoundingClientRect()
-
   let currentX = event.touches ? event.touches[0].pageX : event.pageX
   let currentY = event.touches ? event.touches[0].pageY : event.pageY
 
   state.ui.showAddComponentMenu = false
   state.ui.addingAtom = {
     node: component,
-    x: currentX - 200 - (currentX - box.left),
-    y: currentY - 64 - (currentY - box.top),
+    x: currentX,
+    y: currentY,
+    width: box.width,
+    height: box.height,
   }
 
   function drag(e) {
     e.preventDefault()
     const newX = e.touches ? e.touches[0].pageX : e.pageX
     const newY = e.touches ? e.touches[0].pageY : e.pageY
-    const diffX = currentX - newX
-    const diffY = currentY - newY
-    state.ui.addingAtom.y -= diffY
-    state.ui.addingAtom.x -= diffX
-    currentX = newX
-    currentY = newY
+    state.ui.addingAtom.x = newX
+    state.ui.addingAtom.y = newY
     return false
   }
   window.addEventListener('mousemove', drag)
@@ -82,6 +72,13 @@ export const dragComponent = (component: EditableNodes) => (event: React.MouseEv
   window.addEventListener('touchend', stopDragging)
   function stopDragging(event) {
     event.preventDefault()
+    const modifier = getSelectedModifier()
+
+    const children = modifier ? getSelectedElement().modifiers[modifier].order : getSelectedElement().root.order
+    const fromIndex = children.indexOf((parent && parent.id) || component.id)
+    if (fromIndex !== -1) {
+      children.splice(fromIndex, 1)
+    }
 
     addComponent(component)
     window.removeEventListener('mousemove', drag)

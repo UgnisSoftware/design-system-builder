@@ -43,13 +43,6 @@ const AlignmentMutators = () => {
       <InfoColumn>
         <Title>Horizontal</Title>
         <IconRow>
-          <StylelessButton title="Stretch" onClick={changeHorizontalAlignment(Alignment.stretch)}>
-            <HorizontalAlignmentWrapper>
-              <AlignmentItemSelected selected={component.horizontalAlign === Alignment.stretch} />
-              <AlignmentItemSelected selected={component.horizontalAlign === Alignment.stretch} />
-              <AlignmentItemSelected selected={component.horizontalAlign === Alignment.stretch} />
-            </HorizontalAlignmentWrapper>
-          </StylelessButton>
           <StylelessButton title="Left" onClick={changeHorizontalAlignment(Alignment.start)}>
             <HorizontalAlignmentWrapper>
               <AlignmentItemSelected selected={component.horizontalAlign === Alignment.start} />
@@ -77,13 +70,6 @@ const AlignmentMutators = () => {
       <InfoColumn>
         <Title>Vertical</Title>
         <IconRow>
-          <StylelessButton title="Stretch" onClick={changeVerticalAlignment(Alignment.stretch)}>
-            <VerticalAlignmentWrapper>
-              <AlignmentItemSelected selected={component.verticalAlign === Alignment.stretch} />
-              <AlignmentItemSelected selected={component.verticalAlign === Alignment.stretch} />
-              <AlignmentItemSelected selected={component.verticalAlign === Alignment.stretch} />
-            </VerticalAlignmentWrapper>
-          </StylelessButton>
           <StylelessButton title="Top" onClick={changeVerticalAlignment(Alignment.start)}>
             <VerticalAlignmentWrapper>
               <AlignmentItemSelected selected={component.verticalAlign === Alignment.start} />

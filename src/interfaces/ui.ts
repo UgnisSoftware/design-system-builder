@@ -19,6 +19,8 @@ export interface AddingAtom {
   node: Nodes
   x: number
   y: number
+  width: number
+  height: number
 }
 
 export interface HoveredCell {
