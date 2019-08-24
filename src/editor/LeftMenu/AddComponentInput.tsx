@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import TextInput from '@components/TextInput'
+import TextInput from '@src/editor/components/TextInput'
 import useClickAway from 'react-use/esm/useClickAway'
 import useKey from 'react-use/esm/useKey'
 import { useRef, useState } from 'react'

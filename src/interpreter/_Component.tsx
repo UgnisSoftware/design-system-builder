@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import RootAtom from './Root'
 import { Nodes, NodeTypes } from '@src/interfaces/nodes'
-import Atoms from '@src/editor/Nodes/_Atoms'
+import Atoms from '@src/interpreter/_Atoms'
 
 interface RootProps {
   component: Nodes

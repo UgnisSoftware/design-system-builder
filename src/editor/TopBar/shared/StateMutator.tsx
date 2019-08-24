@@ -1,6 +1,6 @@
 import { ComponentStateMenu } from '@src/interfaces/ui'
 import state from '@state'
-import Select from '@components/Select'
+import Select from '@src/editor/components/Select'
 import * as React from 'react'
 import { AlignRight, Divider, IconRow, InfoColumn, Title } from './_styles'
 import { getSelectedNode } from '@src/utils'

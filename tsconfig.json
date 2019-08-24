@@ -16,7 +16,7 @@
     "paths": {
       "@src/*": ["src/*"],
       "@state": ["src/state"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/editor/components/*"]
     }
   },
   "exclude": ["node_modules"]

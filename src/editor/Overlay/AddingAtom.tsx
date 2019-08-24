@@ -2,7 +2,7 @@ import * as React from 'react'
 import state from '@state'
 import { connect } from 'lape'
 import styled from 'styled-components'
-import Atom from '@src/editor/Nodes/_Atoms'
+import Atom from '@src/interpreter/_Atoms'
 
 const Wrapper = styled.div`
   transition: width 0.3s, height 0.3s;

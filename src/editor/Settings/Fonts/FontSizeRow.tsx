@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import TextInput from '../../../components/TextInput'
+import TextInput from '../../components/TextInput'
 import { Font, FontSizeName } from '@src/interfaces/settings'
-import SymbolBox from '../../../components/SymbolBox'
+import SymbolBox from '../../components/SymbolBox'
 
 const Wrapper = styled.div`
   display: flex;

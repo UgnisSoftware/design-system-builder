@@ -1,6 +1,6 @@
 import state from '@state'
 import { TextNode } from '@src/interfaces/nodes'
-import Select from '@components/Select'
+import Select from '@src/editor/components/Select'
 import * as React from 'react'
 import { Divider, IconRow, InfoColumn, Title, TopBarBox } from './shared/_styles'
 import FontSizeMutator from '@src/editor/TopBar/shared/FontSizeMutator'

@@ -10,7 +10,7 @@ import { Data } from 'lape/dist/eventEmitter'
 
 import AddMenuButton from '@src/editor/Elements/AddComponentMenu/AddMenuButton'
 import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddMenu'
-import Component from '@src/editor/Nodes/_Component'
+import Component from '@src/interpreter/_Component'
 import GridOverlay from '@src/editor/Overlay/Grid'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'

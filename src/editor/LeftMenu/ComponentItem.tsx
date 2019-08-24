@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import TextInput from '@components/TextInput'
+import TextInput from '@src/editor/components/TextInput'
 import { Colors } from '@src/styles'
 import { useState } from 'react'
 import { useRef } from 'react'

@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import state from '@state'
-import H1 from '../../../components/H1'
+import H1 from '../../components/H1'
 import FontSizeRow from '@src/editor/Settings/Fonts/FontSizeRow'
 import { FontSizeName } from '@src/interfaces/settings'
 
