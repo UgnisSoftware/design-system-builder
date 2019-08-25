@@ -14,12 +14,8 @@ interface BoxProps {
 
 const BoxAtom = styled.div`
   transition: all 0.3s;
-  position: relative;
-  display: grid;
-  width: ${({ component }) => (component.width ? `${component.width}px` : 'auto')};
-  height: ${({ component }) => (component.height ? `${component.height}px` : 'auto')};
-  justify-self: ${({ component }) => component.horizontal};
-  align-self: ${({ component }) => component.vertical};
+  justify-self: stretch;
+  align-self: stretch;
   grid-column: ${({ component }: BoxProps) => `${component.columnStart} / ${component.columnEnd}`};
   grid-row: ${({ component }: BoxProps) => `${component.rowStart} / ${component.rowEnd}`};
   box-shadow: ${({ component, tilted }: BoxProps) =>

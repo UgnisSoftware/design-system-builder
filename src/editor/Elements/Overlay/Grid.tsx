@@ -326,7 +326,7 @@ const ArrowTop = styled(StylelessButton)`
 
 const ArrowBottom = styled(ArrowTop)`
   bottom: -8px;
-  top: 0px;
+  top: auto;
   cursor: s-resize;
 `
 
