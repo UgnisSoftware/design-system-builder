@@ -5,3 +5,4 @@ dist
 .vscode
 static/bundle.min.js
 package-lock.json
+/public/main.js
