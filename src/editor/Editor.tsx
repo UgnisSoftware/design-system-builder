@@ -14,7 +14,7 @@ import Assets from '@src/editor/Settings/Assets/Assets'
 import Elements from '@src/editor/Elements/Elements'
 import { connectDevTools } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
-import AddingAtom from '@src/editor/Overlay/AddingAtom'
+import AddingAtom from '@src/editor/Elements/Overlay/AddingAtom'
 
 const Root = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import TopBar from '../TopBar/TopBar'
+import TopBar from './TopBar/TopBar'
 import Background from './Background/Background'
 import state from '@state'
 
@@ -11,7 +11,7 @@ import { Data } from 'lape/dist/eventEmitter'
 import AddMenuButton from '@src/editor/Elements/AddComponentMenu/AddMenuButton'
 import AddComponentMenu from '@src/editor/Elements/AddComponentMenu/AddMenu'
 import Component from '@src/interpreter/_Component'
-import GridOverlay from '@src/editor/Overlay/Grid'
+import GridOverlay from '@src/editor/Elements/Overlay/Grid'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
 import useSetState from 'react-use/esm/useSetState'

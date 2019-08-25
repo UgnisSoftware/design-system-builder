@@ -13,10 +13,10 @@ import {
   StylelessButton,
   Title,
   TopBarBox,
-} from '@src/editor/TopBar/shared/_styles'
+} from '@src/editor/Elements/TopBar/shared/_styles'
 import { changeProperty } from '@src/actions'
-import StateMutator from '@src/editor/TopBar/shared/StateMutator'
-import ZIndexMutator from '@src/editor/TopBar/shared/ZIndexMutator'
+import StateMutator from '@src/editor/Elements/TopBar/shared/StateMutator'
+import ZIndexMutator from '@src/editor/Elements/TopBar/shared/ZIndexMutator'
 import { getSelectedNode } from '@src/utils'
 
 const ImageBoxWrapper = styled.div`

@@ -1,7 +1,7 @@
 import { IconTypes } from '@src/interfaces/nodes'
 import { changeProperty } from '@src/actions'
 import { default as React, useState } from 'react'
-import { StylelessButton } from '@src/editor/TopBar/shared/_styles'
+import { StylelessButton } from '@src/editor/Elements/TopBar/shared/_styles'
 import styled from 'styled-components'
 
 const ImageBoxWrapper = styled.div`

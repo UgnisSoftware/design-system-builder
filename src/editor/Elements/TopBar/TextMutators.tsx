@@ -1,15 +1,15 @@
 import state from '@state'
 import { TextNode } from '@src/interfaces/nodes'
-import Select from '@src/editor/components/Select'
+import Select from '@components/Select'
 import * as React from 'react'
 import { Divider, IconRow, InfoColumn, Title, TopBarBox } from './shared/_styles'
-import FontSizeMutator from '@src/editor/TopBar/shared/FontSizeMutator'
-import FontColorMutator from '@src/editor/TopBar/shared/FontColorMutator'
-import StateMutator from '@src/editor/TopBar/shared/StateMutator'
-import ZIndexMutator from '@src/editor/TopBar/shared/ZIndexMutator'
+import FontSizeMutator from '@src/editor/Elements/TopBar/shared/FontSizeMutator'
+import FontColorMutator from '@src/editor/Elements/TopBar/shared/FontColorMutator'
+import StateMutator from '@src/editor/Elements/TopBar/shared/StateMutator'
+import ZIndexMutator from '@src/editor/Elements/TopBar/shared/ZIndexMutator'
 import { changeProperty } from '@src/actions'
 import { getSelectedNode } from '@src/utils'
-import AlignmentMutators from '@src/editor/TopBar/shared/AlingmentMutators'
+import AlignmentMutators from '@src/editor/Elements/TopBar/shared/AlingmentMutators'
 
 const changeFontFamily = (fontFamilyId: string) => {
   changeProperty('fontFamilyId', fontFamilyId)
