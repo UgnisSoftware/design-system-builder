@@ -6,3 +6,4 @@ dist
 static/bundle.min.js
 package-lock.json
 /public/main.js
+/public/*hmr*
