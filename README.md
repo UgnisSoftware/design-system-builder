@@ -11,11 +11,13 @@ Exports to React components. Vote for more integrations [in this issue](https://
 ## How to try it locally
 
 Clone the repository, download node modules and compile:
+
 ```
 git clone https://github.com/UgnisSoftware/ugnis && cd ugnis && npm install
 ```
 
 Start the editor:
+
 ```
 npm start
 ```
@@ -28,5 +30,4 @@ Editor and compilers are under AGPL. Other Licenses are available upon request.
 
 ## Contributors
 
-[Karolis Masiulis](https://www.github.com/masiulis) | [Jonas Bernotas](https://github.com/Djonix) | [Justinas Petuchovas](https://github.com/jpetuchovas) | [Vytas Butkus](http://vytasbutkus.com/)
-
+[Karolis Masiulis](https://www.github.com/masiulis) | [Julita Kriaučiūnaitė](https://github.com/JulitorK) | [Jonas Bernotas](https://github.com/Djonix) | [Justinas Petuchovas](https://github.com/jpetuchovas) | [Vytas Butkus](http://vytasbutkus.com/)
