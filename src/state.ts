@@ -5,7 +5,6 @@ import { Alignment, IconTypes, NodeTypes, ObjectFit, Units } from '@src/interfac
 import { parseUrl } from '@src/utils'
 import { ElementType } from '@src/interfaces/elements'
 
-// const mergeSaved = JSON.parse(localStorage.getItem('state')) || {}
 const defaultState: State = {
   elements: [
     {
@@ -999,7 +998,6 @@ const defaultState: State = {
     zoom: 100,
     tilted: false,
   },
-  // ...mergeSaved,
 }
 
 export default proxify(defaultState)
