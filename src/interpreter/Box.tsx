@@ -1,4 +1,5 @@
-import state from '@state'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { BoxNode, ElementNode, ObjectFit } from '@src/interfaces/nodes'
@@ -22,7 +23,7 @@ const BoxAtom = styled.div`
     tilted
       ? `-10px 10px 3px -3px rgba(100, 100, 100, 0.5)`
       : component.boxShadow
-      ? state.settings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
+      ? stateSettings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
       : 'none'};
   ${({ component }: BoxProps) => {
     if (component.backgroundImageUrl) {
@@ -35,12 +36,12 @@ const BoxAtom = styled.div`
     }
     if (component.backgroundColorId) {
       return css`
-        background: ${state.settings.colors.find(color => color.id === component.backgroundColorId).hex};
+        background: ${stateSettings.colors.find(color => color.id === component.backgroundColorId).hex};
       `
     }
   }}
   ${({ component }: BoxProps) => {
-    const border = state.settings.border.find(border => border.id === component.border)
+    const border = stateSettings.border.find(border => border.id === component.border)
     return border
       ? css`
           border: ${border.style};
@@ -52,7 +53,7 @@ const BoxAtom = styled.div`
     tilted ? `translateZ(0) translateX(${10 * index}px) translateY(-${10 * index}px)` : ''};
 `
 const componentToStyle = (component: BoxNode) => {
-  if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
+  if (stateUi.selectedNode && stateUi.selectedNode.id === component.id && stateUi.stateManager) {
     return getSelectedNode()
   }
   return component

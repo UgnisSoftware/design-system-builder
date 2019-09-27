@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import state from '@state'
+import stateUi from '@state/ui'
 
 const AddCircle = styled.i`
   position: absolute;
@@ -15,7 +15,7 @@ const AddCircle = styled.i`
 `
 
 const showAddComponentMenu = () => {
-  state.ui.showAddComponentMenu = !state.ui.showAddComponentMenu
+  stateUi.showAddComponentMenu = !stateUi.showAddComponentMenu
 }
 
 class AddMenuButton extends React.Component {

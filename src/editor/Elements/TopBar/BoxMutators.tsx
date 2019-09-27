@@ -1,4 +1,4 @@
-import state from '@state'
+import stateSettings from '@state/settings'
 import { BoxNode, ObjectFit } from '@src/interfaces/nodes'
 import * as React from 'react'
 import styled from 'styled-components'
@@ -104,7 +104,7 @@ const ImageBox = () => {
             </IconRow>
           </div>
           <ImageGrid>
-            {state.settings.images.map(img => (
+            {stateSettings.images.map(img => (
               <Image src={img.url} key={img.id} onClick={changeBackgroundToImage(img)} />
             ))}
           </ImageGrid>
@@ -126,7 +126,7 @@ const BoxMutators = () => {
           <ColorBox selected={component.backgroundColorId === null} color="#ffffff" onClick={changeBackground(null)}>
             <i className="material-icons">clear</i>
           </ColorBox>
-          {state.settings.colors.map(color => (
+          {stateSettings.colors.map(color => (
             <ColorBox
               key={color.id}
               selected={component.backgroundColorId === color.id}
@@ -148,7 +148,7 @@ const BoxMutators = () => {
             selected={component.border === null}
             onClick={changeBorder(null)}
           />
-          {state.settings.border.map(border => (
+          {stateSettings.border.map(border => (
             <BorderBox
               key={border.id}
               selected={component.border === border.id}
@@ -168,7 +168,7 @@ const BoxMutators = () => {
             selected={component.boxShadow === null}
             onClick={changeBoxShadow(null)}
           />
-          {state.settings.boxShadow.map(boxShadow => (
+          {stateSettings.boxShadow.map(boxShadow => (
             <BoxShadowBox
               key={boxShadow.id}
               selected={component.boxShadow === boxShadow.id}

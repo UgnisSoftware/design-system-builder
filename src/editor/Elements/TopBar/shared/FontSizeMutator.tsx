@@ -17,19 +17,19 @@ const FontSizeMutator = () => (
   <InfoColumn>
     <Title>Font size</Title>
     <IconRow>
-      <StylelessButton title="XS" onClick={changeFontSize(FontSizeName.XS)}>
+      <StylelessButton title="XS" onClick={changeFontSize('XS')}>
         <FontSize>XS</FontSize>
       </StylelessButton>
-      <StylelessButton title="S" onClick={changeFontSize(FontSizeName.S)}>
+      <StylelessButton title="S" onClick={changeFontSize('S')}>
         <FontSize>S</FontSize>
       </StylelessButton>
-      <StylelessButton title="M" onClick={changeFontSize(FontSizeName.M)}>
+      <StylelessButton title="M" onClick={changeFontSize('M')}>
         <FontSize>M</FontSize>
       </StylelessButton>
-      <StylelessButton title="L" onClick={changeFontSize(FontSizeName.L)}>
+      <StylelessButton title="L" onClick={changeFontSize('L')}>
         <FontSize>L</FontSize>
       </StylelessButton>
-      <StylelessButton title="XL" onClick={changeFontSize(FontSizeName.XL)}>
+      <StylelessButton title="XL" onClick={changeFontSize('XL')}>
         <FontSize>XL</FontSize>
       </StylelessButton>
     </IconRow>

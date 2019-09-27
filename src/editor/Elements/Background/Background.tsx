@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import state from '@state'
+import stateUi from '@state/ui'
 
 const ElementsWrapper = styled.div`
   background: radial-gradient(#f7f7f7 15%, transparent 16%) 0 0, radial-gradient(#ececec 15%, transparent 16%) 8px 8px,
@@ -20,12 +20,12 @@ const ElementsWrapper = styled.div`
 
 const unselectComponent = e => {
   if (e.currentTarget === e.target) {
-    state.ui.selectedNode = null
-    state.ui.stateManager = null
-    state.ui.editingTextNode = null
-    state.ui.showAddComponentMenu = false
-    state.ui.showExportMenu = false
-    state.ui.showGrid = false
+    stateUi.selectedNode = null
+    stateUi.stateManager = null
+    stateUi.editingTextNode = null
+    stateUi.showAddComponentMenu = false
+    stateUi.showExportMenu = false
+    stateUi.showGrid = false
   }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import state from '@state'
+import stateUi from '@state/ui'
 import { Colors } from '@src/styles'
 
 const Zoom = styled.div`
@@ -27,17 +27,17 @@ const Item = styled.div`
 `
 
 const zoom = (zoomIn: boolean) => () => {
-  if (!zoomIn && state.ui.zoom - 20 > 10) {
-    state.ui.zoom -= 20
+  if (!zoomIn && stateUi.zoom - 20 > 10) {
+    stateUi.zoom -= 20
   }
-  if (zoomIn && state.ui.zoom + 20 < 310) {
-    state.ui.zoom += 20
+  if (zoomIn && stateUi.zoom + 20 < 310) {
+    stateUi.zoom += 20
   }
 }
 
 export default () => (
   <Zoom>
     <Item onClick={zoom(false)}>-</Item>
-    {state.ui.zoom}%<Item onClick={zoom(true)}>+</Item>
+    {stateUi.zoom}%<Item onClick={zoom(true)}>+</Item>
   </Zoom>
 )

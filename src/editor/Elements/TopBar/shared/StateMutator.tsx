@@ -1,5 +1,5 @@
 import { ComponentStateMenu } from '@src/interfaces/ui'
-import state from '@state'
+import stateUi from '@state/ui'
 import Select from '@components/Select'
 import * as React from 'react'
 import { AlignRight, Divider, IconRow, InfoColumn, Title } from './_styles'
@@ -8,10 +8,10 @@ import { getSelectedNode } from '@src/utils'
 const DefaultValue = 'Default'
 const changeState = (componentState: ComponentStateMenu) => {
   if (componentState === DefaultValue) {
-    state.ui.stateManager = null
+    stateUi.stateManager = null
     return
   }
-  state.ui.stateManager = componentState
+  stateUi.stateManager = componentState
 }
 
 const StateMutator = () => {
@@ -24,7 +24,7 @@ const StateMutator = () => {
         <Title>State</Title>
         <IconRow>
           <Select
-            value={state.ui.stateManager}
+            value={stateUi.stateManager}
             placeholder="Default"
             onChange={changeState}
             options={[DefaultValue].concat(Object.keys(component.states))}

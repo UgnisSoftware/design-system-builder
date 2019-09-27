@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import state from '@state'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import H1 from '@src/editor/components/H1'
 import PlusSign from '@src/editor/components/PlusSign'
 import ColorBoxWithPicker from './ColorBoxWithPicker'
@@ -59,19 +60,19 @@ const onAddColorClick = () => {
     id,
   }
 
-  state.ui.editingColorId = id
-  state.settings.colors.push(randomColor)
+  stateUi.editingColorId = id
+  stateSettings.colors.push(randomColor)
 }
 
 const onAddBoxShadowClick = () => {
-  state.settings.boxShadow.push({
+  stateSettings.boxShadow.push({
     id: uuid(),
     value: '0 10px 20px hsla(0, 0%, 0%,.15), 0 3px 6px hsla(0, 0%, 0%, .10);',
   })
 }
 
 const onAddBorderClick = () => {
-  state.settings.border.push({
+  stateSettings.border.push({
     id: uuid(),
     radius: '80px 149px 80px 51px',
     style: '2px solid #f78888',
@@ -87,14 +88,14 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <ColorWrapper>
-      {state.settings.colors.map(color => (
-        <ColorBoxWithPicker editing={state.ui.editingColorId === color.id} key={color.id} color={color} />
+      {stateSettings.colors.map(color => (
+        <ColorBoxWithPicker editing={stateUi.editingColorId === color.id} key={color.id} color={color} />
       ))}
     </ColorWrapper>
 
     <H1>Spacing</H1>
     <SpacingWrapper>
-      {state.settings.spacing.map((spacing, index) => (
+      {stateSettings.spacing.map((spacing, index) => (
         <SpacingSize index={index} spacing={spacing} key={`boxShadow_${index}`} />
       ))}
     </SpacingWrapper>
@@ -106,7 +107,7 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <SpacingWrapper>
-      {state.settings.boxShadow.map((boxShadow, index) => (
+      {stateSettings.boxShadow.map((boxShadow, index) => (
         <BoxShadow boxShadow={boxShadow} key={`boxShadow_${index}`} />
       ))}
     </SpacingWrapper>
@@ -118,7 +119,7 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <SpacingWrapper>
-      {state.settings.border.map((border, index) => (
+      {stateSettings.border.map((border, index) => (
         <Border border={border} key={`border_${index}`} />
       ))}
     </SpacingWrapper>

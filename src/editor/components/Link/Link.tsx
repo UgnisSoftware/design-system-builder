@@ -1,12 +1,12 @@
 import * as React from 'react'
-import state from '@state'
+import stateUi from '@state/ui'
 import { parseUrl } from '@src/utils'
 import styled from 'styled-components'
 
 const onLinkClick = (href: string) => e => {
   e.preventDefault()
   history.pushState(null, '', `${href}`)
-  state.ui.router = parseUrl()
+  stateUi.router = parseUrl()
 }
 
 const A = styled.a`

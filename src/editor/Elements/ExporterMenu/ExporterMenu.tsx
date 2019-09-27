@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import state from '@state'
+import stateUi from '@state/ui'
 import { connect } from 'lape'
 
 const Menu = styled.div`
-  transform: translateX(${() => (state.ui.showExportMenu ? '0' : '100%')});
+  transform: translateX(${() => (stateUi.showExportMenu ? '0' : '100%')});
   transition: 0.3s all cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: rgb(244, 244, 244);
   padding: 64px 24px;

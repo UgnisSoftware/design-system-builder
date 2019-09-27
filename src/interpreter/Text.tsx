@@ -1,4 +1,5 @@
-import state from '@state'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import * as React from 'react'
 import styled from 'styled-components'
 import { ElementNode, Nodes, TextNode } from '@src/interfaces/nodes'
@@ -22,12 +23,12 @@ const TextWrapper = styled.div<TextProps>`
   justify-self: ${({ component }) => component.horizontalAlign};
   align-self: ${({ component }) => component.verticalAlign};
   font-size: ${({ component }) =>
-    state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
+    stateSettings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
   line-height: ${({ component }) =>
-    state.settings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].lineHeight};
+    stateSettings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].lineHeight};
   color: ${({ component }) =>
-    component.fontColorId ? state.settings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-family: ${({ component }) => state.settings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
+    component.fontColorId ? stateSettings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-family: ${({ component }) => stateSettings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
   white-space: pre;
   transform: ${({ tilted, index }) =>
@@ -38,11 +39,11 @@ const TextWrapper = styled.div<TextProps>`
 const changeTextValue = e => {
   e.preventDefault()
   e.stopPropagation()
-  ;(state.ui.selectedNode as TextNode).text = e.target.innerText
+  ;(stateUi.selectedNode as TextNode).text = e.target.innerText
 }
 
 const componentToStyle = (component: TextNode) => {
-  if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
+  if (stateUi.selectedNode && stateUi.selectedNode.id === component.id && stateUi.stateManager) {
     return getSelectedNode()
   }
   return component
@@ -55,11 +56,11 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
 
   editText = (component: Nodes) => () => {
     this.setState({ inEditing: true })
-    state.ui.editingTextNode = component
+    stateUi.editingTextNode = component
   }
 
   static getDerivedStateFromProps(props, componentState) {
-    const stopEditing = state.ui.editingTextNode !== props.component
+    const stopEditing = stateUi.editingTextNode !== props.component
     if (componentState.inEditing && stopEditing) {
       return { inEditing: false }
     }

@@ -1,4 +1,5 @@
-import state from '@state'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import * as React from 'react'
 import styled from 'styled-components'
 import { ElementNode, IconNode } from '@src/interfaces/nodes'
@@ -19,8 +20,8 @@ const IconWrapper = styled.div`
   grid-column: ${({ component }: TextProps) => `${component.columnStart} / ${component.columnEnd}`};
   grid-row: ${({ component }: TextProps) => `${component.rowStart} / ${component.rowEnd}`};
   color: ${({ component }: TextProps) =>
-    component.fontColorId ? state.settings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-size: ${({ component }: TextProps) => state.settings.fonts[0].sizes[component.fontSize].fontSize};
+    component.fontColorId ? stateSettings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
+  font-size: ${({ component }: TextProps) => stateSettings.fonts[0].sizes[component.fontSize].fontSize};
   justify-self: ${({ component }: TextProps) => component.horizontalAlign};
   align-self: ${({ component }: TextProps) => component.verticalAlign};
   transform: ${({ tilted, index }) =>
@@ -29,7 +30,7 @@ const IconWrapper = styled.div`
 `
 
 const componentToStyle = (component: IconNode) => {
-  if (state.ui.selectedNode && state.ui.selectedNode.id === component.id && state.ui.stateManager) {
+  if (stateUi.selectedNode && stateUi.selectedNode.id === component.id && stateUi.stateManager) {
     return getSelectedNode()
   }
   return component

@@ -1,6 +1,7 @@
 import { render } from 'react-dom'
 import * as React from 'react'
 import { connect } from 'lape'
+import './state/router'
 
 import Editor from './editor/Editor'
 import useOrientation from 'react-use/esm/useOrientation'

@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import state from '@state'
+import stateSettings from '@state/settings'
 import H1 from '../../components/H1'
 import FontSizeRow from '@src/editor/Settings/Fonts/FontSizeRow'
-import { FontSizeName } from '@src/interfaces/settings'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -22,15 +21,15 @@ const FontRow = styled.div`
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
-    {state.settings.fonts.map(font => (
+    {stateSettings.fonts.map(font => (
       <div key={font.id}>
         <h2>{font.fontFamily}</h2>
         <FontRow>
-          <FontSizeRow font={font} fontSizeName={FontSizeName.XS} />
-          <FontSizeRow font={font} fontSizeName={FontSizeName.S} />
-          <FontSizeRow font={font} fontSizeName={FontSizeName.M} />
-          <FontSizeRow font={font} fontSizeName={FontSizeName.L} />
-          <FontSizeRow font={font} fontSizeName={FontSizeName.XL} />
+          <FontSizeRow font={font} fontSizeName="XS" />
+          <FontSizeRow font={font} fontSizeName="S" />
+          <FontSizeRow font={font} fontSizeName="M" />
+          <FontSizeRow font={font} fontSizeName="L" />
+          <FontSizeRow font={font} fontSizeName="XL" />
         </FontRow>
       </div>
     ))}

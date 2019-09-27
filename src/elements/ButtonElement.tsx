@@ -1,6 +1,5 @@
 import { Element, ElementType } from '@src/interfaces/elements'
 import { Alignment, NodeTypes, Units } from '@src/interfaces/nodes'
-import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
 
 export default (name): Element => {
@@ -79,7 +78,7 @@ export default (name): Element => {
           verticalAlign: Alignment.center,
           text: 'Button',
           fontColorId: 'white-6666',
-          fontSize: FontSizeName.S,
+          fontSize: 'S',
           fontFamilyId: 'R1-123332',
           states: {
             hover: {},

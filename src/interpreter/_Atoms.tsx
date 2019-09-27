@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { ElementNode, Nodes, NodeTypes } from '@src/interfaces/nodes'
-import state from '@state'
+import stateComponents from '@state/components'
 
 import Element from './_Element'
 import BoxAtom from './Box'
@@ -120,7 +120,7 @@ interface Props {
 function Atoms({ component, parent, tilted, index }: Props) {
   if (component.type === NodeTypes.Element) {
     const element = {
-      ...state.elements.find(el => el.id === component.elementId).root,
+      ...stateComponents.find(el => el.id === component.elementId).root,
       columnStart: component.columnStart,
       columnEnd: component.columnEnd,
       rowStart: component.rowStart,

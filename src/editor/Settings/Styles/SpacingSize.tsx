@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import stateSettings from '@state/settings'
 import SymbolBox from '@src/editor/components/SymbolBox'
-import state from '@state'
 import TextInput from '@src/editor/components/TextInput'
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ interface SpacingSizeProps {
 }
 
 const onSpacingSizeChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  state.settings.spacing[index] = event.target.value
+  stateSettings.spacing[index] = event.target.value
 }
 
 const SpacingSize = ({ spacing, index }: SpacingSizeProps) => (

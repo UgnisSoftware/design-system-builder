@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ColorBox, IconRow, InfoColumn, Title } from './_styles'
-import state from '@state'
+
+import stateSettings from '@state/settings'
 import { IconNode, TextNode } from '@src/interfaces/nodes'
 import { changeProperty } from '@src/actions'
 import { getSelectedNode } from '@src/utils'
@@ -16,7 +17,7 @@ const FontColorMutator = () => {
       <InfoColumn>
         <Title>Color</Title>
         <IconRow>
-          {state.settings.colors.map(color => (
+          {stateSettings.colors.map(color => (
             <ColorBox
               key={color.id}
               selected={component.fontColorId === color.id}

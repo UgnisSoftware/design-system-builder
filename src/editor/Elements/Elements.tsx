@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import TopBar from './TopBar/TopBar'
 import Background from './Background/Background'
-import state from '@state'
+import stateUi from '@state/ui'
 
 import { Emitter } from 'lape'
 import { Data } from 'lape/dist/eventEmitter'
@@ -36,7 +36,7 @@ const ElementWrapper = styled.div`
   display: grid;
   flex: 1;
   transform: ${() =>
-    `translateZ(0)  scale(${state.ui.zoom / 100}) ${state.ui.tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
+    `translateZ(0)  scale(${stateUi.zoom / 100}) ${stateUi.tilted ? `rotateY(30deg) rotateX(30deg)` : ''}`};
 `
 
 const Dimmer = styled.div`
@@ -44,7 +44,7 @@ const Dimmer = styled.div`
   position: relative;
   display: grid;
   grid-template-columns: 512px;
-  opacity: ${() => (state.ui.showGrid ? 0.3 : 1)};
+  opacity: ${() => (stateUi.showGrid ? 0.3 : 1)};
 `
 
 interface State {
@@ -72,15 +72,15 @@ const Elements = () => {
       let reset = false
       let onlyUI = true
       data.forEach(entry => {
-        if (entry.receiver === state.ui.router) {
+        if (entry.receiver === stateUi.router) {
           setState({ stack: [], index: 0 })
           reset = true
           return
         }
         if (
-          entry.receiver !== state.ui &&
-          entry.receiver !== state.ui.router &&
-          entry.receiver !== state.ui.addingAtom
+          entry.receiver !== stateUi &&
+          entry.receiver !== stateUi.router &&
+          entry.receiver !== stateUi.addingAtom
         ) {
           onlyUI = false
         }
@@ -108,7 +108,7 @@ const Elements = () => {
 
         mutations.forEach(data => {
           // ignore UI state
-          if (data.receiver === state.ui || data.receiver === state.ui.router) {
+          if (data.receiver === stateUi || data.receiver === stateUi.router) {
             return
           }
           data.props.forEach(prop => {
@@ -129,7 +129,7 @@ const Elements = () => {
 
         mutations.forEach(data => {
           // ignore UI state
-          if (data.receiver == state.ui || data.receiver === state.ui.router) {
+          if (data.receiver == stateUi || data.receiver === stateUi.router) {
             return
           }
           data.props.forEach(prop => {
@@ -151,7 +151,7 @@ const Elements = () => {
     return (
       <Wrapper>
         <div />
-        <Background>No Element with id {state.ui.router[1]} was found</Background>
+        <Background>No Element with id {stateUi.router[1]} was found</Background>
       </Wrapper>
     )
   }
@@ -172,13 +172,13 @@ const Elements = () => {
         <AddMenuButton />
         <ElementWrapper>
           <Dimmer>
-            <Component component={element.root} tilted={state.ui.tilted} />
+            <Component component={element.root} tilted={stateUi.tilted} />
           </Dimmer>
           <GridOverlay rootNode={element.root} />
         </ElementWrapper>
         <AddComponentMenu />
         <ExporterMenu />
-        {!state.ui.showAddComponentMenu && <Zoom />}
+        {!stateUi.showAddComponentMenu && <Zoom />}
       </Background>
     </Wrapper>
   )

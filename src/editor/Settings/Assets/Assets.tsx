@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import H1 from '@src/editor/components/H1'
 import PlusSign from '@src/editor/components/PlusSign'
 import { Colors } from '@src/styles'
-import state from '@state'
+import stateSettings from '@state/settings'
 import { uuid } from '@src/utils'
 import { ImageAsset } from '@src/interfaces/settings'
 
@@ -71,12 +71,12 @@ const onUrlChange = (image: ImageAsset) => e => {
 }
 
 const onDeleteImage = (image: ImageAsset) => () => {
-  state.settings.images.splice(state.settings.images.indexOf(image), 1)
+  stateSettings.images.splice(stateSettings.images.indexOf(image), 1)
 }
 
 const onAddImage = () => {
   const newId = uuid()
-  state.settings.images.unshift({
+  stateSettings.images.unshift({
     id: newId,
     url: 'https://ugnis.com/images/logo.png',
   })
@@ -91,7 +91,7 @@ const Assets = () => (
       </AddBox>
     </H1>
     <ImagesWrapper>
-      {state.settings.images.map(img => (
+      {stateSettings.images.map(img => (
         <div key={img.id}>
           <div onClick={onDeleteImage(img)}>
             <i className="material-icons">clear</i>

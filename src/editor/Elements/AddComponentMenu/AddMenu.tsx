@@ -1,18 +1,19 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import state from '@state'
+import stateComponents from '@state/components'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import { Alignment, EditableNodes, IconTypes, NodeTypes } from '@src/interfaces/nodes'
 import Component from '@src/interpreter/_Component'
 import { connect } from 'lape'
 import { dragComponent } from '@src/actions'
-import { FontSizeName } from '@src/interfaces/settings'
 import { uuid } from '@src/utils'
 import { Element, ElementType } from '@src/interfaces/elements'
 import { getSelectedElement } from '@src/selector'
 
 const bgColor = '#fcfcfc'
 const Menu = styled.div`
-  transform: translateX(${() => (state.ui.showAddComponentMenu ? '0' : '-100%')});
+  transform: translateX(${() => (stateUi.showAddComponentMenu ? '0' : '-100%')});
   transition: 0.3s all cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: rgb(244, 244, 244);
   padding: 64px 24px;
@@ -77,15 +78,15 @@ const OnClickOverlay = styled.div`
 `
 
 const icons: IconTypes[] = [
-  IconTypes.beach_access,
-  IconTypes.casino,
-  IconTypes.golf_course,
-  IconTypes.pool,
-  IconTypes.business_center,
-  IconTypes.public,
-  IconTypes.sentiment_very_satisfied,
-  IconTypes.cake,
-  IconTypes.fitness_center,
+  'beach_access',
+  'casino',
+  'golf_course',
+  'pool',
+  'business_center',
+  'public',
+  'sentiment_very_satisfied',
+  'cake',
+  'fitness_center',
 ]
 
 let icon = icons[Math.floor(Math.random() * icons.length)]
@@ -130,8 +131,8 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       ...baseComponent,
       type: NodeTypes.Text,
       text: 'Text',
-      fontSize: FontSizeName.L,
-      fontFamilyId: state.settings.fonts[0].id,
+      fontSize: 'L',
+      fontFamilyId: stateSettings.fonts[0].id,
       horizontalAlign: Alignment.center,
       verticalAlign: Alignment.center,
       states: {
@@ -145,14 +146,14 @@ const generateComponent = (type: NodeTypes, element?: Element): EditableNodes =>
       ...baseComponent,
       type: NodeTypes.Icon as NodeTypes.Icon,
       iconType: icon,
-      fontSize: FontSizeName.L,
+      fontSize: 'L',
       horizontalAlign: Alignment.center,
       verticalAlign: Alignment.center,
       states: {
         hover: {},
         parentHover: {},
       },
-    }
+    } as const
     icon = icons[Math.floor(Math.random() * icons.length)]
     return newComponent
   }
@@ -178,7 +179,7 @@ const MenuComponent = () => {
         <Title>Icon</Title>
       </ComponentWrapperIcons>
       {element.type === ElementType.Component &&
-        state.elements
+        stateComponents
           .filter(element => element.type !== ElementType.Component)
           .map(component => (
             <ComponentWrapper key={component.id}>

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import state from '@state'
+import stateComponents from '@state/components'
+import stateUi from '@state/ui'
 import { RouterPaths } from '@src/interfaces/router'
 
 import HomePage from './HomePage/HomePage'
@@ -26,18 +27,18 @@ const Editor = () => {
   return (
     <Root>
       <LeftMenu />
-      {state.ui.router[0] === undefined && <HomePage />}
-      {state.ui.router[0] === RouterPaths.docs && <Docs />}
-      {Object.values(ElementType).includes(state.ui.router[0]) && <Elements />}
-      {state.ui.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
-      {state.ui.router[0] === RouterPaths.fonts && <Fonts />}
-      {state.ui.router[0] === RouterPaths.exporting && <Exporting />}
-      {state.ui.router[0] === RouterPaths.assets && <Assets />}
-      {state.ui.addingAtom && <AddingAtom />}
+      {stateUi.router[0] === undefined && <HomePage />}
+      {stateUi.router[0] === RouterPaths.docs && <Docs />}
+      {Object.values(ElementType).includes(stateUi.router[0] as any) && <Elements />}
+      {stateUi.router[0] === RouterPaths.colors && <ColorsAndSpacing />}
+      {stateUi.router[0] === RouterPaths.fonts && <Fonts />}
+      {stateUi.router[0] === RouterPaths.exporting && <Exporting />}
+      {stateUi.router[0] === RouterPaths.assets && <Assets />}
+      {stateUi.addingAtom && <AddingAtom />}
     </Root>
   )
 }
 
-connectDevTools(state)
+connectDevTools(stateComponents)
 
 export default Editor

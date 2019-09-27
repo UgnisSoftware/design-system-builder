@@ -3,7 +3,7 @@ import { Emitter } from 'lape'
 import { DeepPartial, Element } from './interfaces/elements'
 import { RootNode } from '@src/interfaces/nodes'
 import mergeDeepRight from 'ramda/es/mergeDeepRight'
-import state from '@state'
+import stateUi from '@state/ui'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
 
 export const parseUrl = () => {
@@ -49,15 +49,15 @@ export const mergeElements = (a: Element, b: DeepPartial<RootNode>): Element => 
 }
 
 export const getSelectedNode = () => {
-  if (!state.ui.selectedNode) {
+  if (!stateUi.selectedNode) {
     return null
   }
   const selectedElement = getSelectedElement()
   const modifier = getSelectedModifier()
-  const elementState = state.ui.stateManager
+  const elementState = stateUi.stateManager
   const mergedElement = modifier ? mergeElements(selectedElement, selectedElement.modifiers[modifier]) : selectedElement
 
-  const child = mergedElement.root.children[state.ui.selectedNode.id]
+  const child = mergedElement.root.children[stateUi.selectedNode.id]
   const node = elementState ? mergeDeepRight(child, child.states[elementState]) : child
 
   return node

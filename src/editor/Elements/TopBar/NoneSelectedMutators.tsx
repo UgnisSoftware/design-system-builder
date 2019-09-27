@@ -1,23 +1,23 @@
-import state from '@state'
+import stateUi from '@state/ui'
 import * as React from 'react'
 import { Divider, IconRow, InfoColumn, StylelessButton, Title, TopBarBox } from './shared/_styles'
 
 const changeGrid = () => {
-  state.ui.showGrid = !state.ui.showGrid
+  stateUi.showGrid = !stateUi.showGrid
 }
 
 const showExportMenu = () => {
-  state.ui.showExportMenu = !state.ui.showExportMenu
+  stateUi.showExportMenu = !stateUi.showExportMenu
 }
 
 const tiltView = () => {
-  state.ui.tilted = !state.ui.tilted
+  stateUi.tilted = !stateUi.tilted
 }
 
 const NoneSelectedMutators = () => {
   return (
     <TopBarBox>
-      {state.ui.showAddComponentMenu && 'Click and drag'}
+      {stateUi.showAddComponentMenu && 'Click and drag'}
       <InfoColumn style={{ marginLeft: 'auto' }}>
         <Title>Layer view</Title>
         <IconRow>
@@ -29,7 +29,7 @@ const NoneSelectedMutators = () => {
               marginLeft: 'auto',
               marginRight: 'auto',
               transform: 'rotateZ(40deg)',
-              color: state.ui.tilted ? ' rgb(83, 212, 134)' : 'black',
+              color: stateUi.tilted ? ' rgb(83, 212, 134)' : 'black',
             }}
             onClick={tiltView}
           >
@@ -48,11 +48,11 @@ const NoneSelectedMutators = () => {
               fontSize: '24px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              color: state.ui.showGrid ? ' rgb(83, 212, 134)' : 'black',
+              color: stateUi.showGrid ? ' rgb(83, 212, 134)' : 'black',
             }}
             onClick={changeGrid}
           >
-            {state.ui.showGrid ? 'grid_on' : 'grid_off'}
+            {stateUi.showGrid ? 'grid_on' : 'grid_off'}
           </StylelessButton>
         </IconRow>
       </InfoColumn>
@@ -69,7 +69,7 @@ const NoneSelectedMutators = () => {
               marginRight: 'auto',
               marginTop: '2px',
 
-              color: state.ui.showExportMenu ? ' rgb(83, 212, 134)' : 'black',
+              color: stateUi.showExportMenu ? ' rgb(83, 212, 134)' : 'black',
             }}
             onClick={showExportMenu}
           >

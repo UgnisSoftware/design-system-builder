@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-
-import state from '@state'
+import stateComponents from '@state/components'
+import stateUi from '@state/ui'
 import { ElementType } from '@src/interfaces/elements'
 import { RouterPaths } from '@src/interfaces/router'
 
@@ -81,12 +81,12 @@ const deleteItem = (array, item) => () => {
   array.splice(index, 1)
 }
 
-const showAddElement = (elementName: typeof state.ui.addingElement) => () => {
-  state.ui.addingElement = elementName
+const showAddElement = (elementName: typeof stateUi.addingElement) => () => {
+  stateUi.addingElement = elementName
 }
 
-const addElement = (elementName: typeof state.ui.addingElement) => value => {
-  state.ui.addingElement = null
+const addElement = (elementName: typeof stateUi.addingElement) => value => {
+  stateUi.addingElement = null
 
   console.log(value)
   if (!value) {
@@ -94,7 +94,7 @@ const addElement = (elementName: typeof state.ui.addingElement) => value => {
   }
   const newElement = NewElement(value)
   route(elementName, newElement.id)()
-  state.elements.push(newElement)
+  stateComponents.push(newElement)
 }
 
 const sortComponents = (component1: Element, component2: Element) => component1.name.localeCompare(component2.name)
@@ -117,9 +117,9 @@ const LeftMenu = () => {
           <PlusSign />
         </AddComponentBox>
       </Title>
-      {state.ui.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
+      {stateUi.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
 
-      {state.elements
+      {stateComponents
         .filter(element => element.type !== ElementType.Component)
         .concat()
         .sort(sortComponents)
@@ -127,7 +127,7 @@ const LeftMenu = () => {
           <React.Fragment key={element.id}>
             <ComponentItem
               selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
-              onDelete={deleteItem(state.elements, element)}
+              onDelete={deleteItem(stateComponents, element)}
               onClick={route(element.type, element.id)}
               name={element.name}
             />
@@ -142,7 +142,7 @@ const LeftMenu = () => {
                     key={element.id + modifierName}
                     name={modifierName}
                     onClick={route(element.type, element.id, modifierName)}
-                    onDelete={deleteItem(state.elements, element)}
+                    onDelete={deleteItem(stateComponents, element)}
                   />
                 )
               })}
@@ -155,8 +155,8 @@ const LeftMenu = () => {
           <PlusSign />
         </AddComponentBox>
       </Title>
-      {state.ui.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
-      {state.elements
+      {stateUi.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
+      {stateComponents
         .filter(element => element.type === ElementType.Component)
         .concat()
         .sort(sortComponents)
@@ -165,21 +165,21 @@ const LeftMenu = () => {
             key={component.id}
             name={component.name}
             onClick={route('component', component.id)}
-            onDelete={deleteItem(state.elements, component)}
+            onDelete={deleteItem(stateComponents, component)}
           />
         ))}
 
       <Title>Settings</Title>
-      <Item onClick={route(RouterPaths.colors)} selected={state.ui.router[1] === RouterPaths.colors}>
+      <Item onClick={route(RouterPaths.colors)} selected={stateUi.router[1] === RouterPaths.colors}>
         Styles
       </Item>
-      <Item onClick={route(RouterPaths.fonts)} selected={state.ui.router[1] === RouterPaths.fonts}>
+      <Item onClick={route(RouterPaths.fonts)} selected={stateUi.router[1] === RouterPaths.fonts}>
         Fonts
       </Item>
-      <Item onClick={route(RouterPaths.assets)} selected={state.ui.router[1] === RouterPaths.assets}>
+      <Item onClick={route(RouterPaths.assets)} selected={stateUi.router[1] === RouterPaths.assets}>
         Assets
       </Item>
-      <Item onClick={route(RouterPaths.exporting)} selected={state.ui.router[1] === RouterPaths.exporting}>
+      <Item onClick={route(RouterPaths.exporting)} selected={stateUi.router[1] === RouterPaths.exporting}>
         Exporting
       </Item>
     </LeftMenuBox>

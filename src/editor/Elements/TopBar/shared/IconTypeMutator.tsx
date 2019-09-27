@@ -1,4 +1,4 @@
-import { IconTypes } from '@src/interfaces/nodes'
+import { IconTypes, iconTypes } from '@src/interfaces/nodes'
 import { changeProperty } from '@src/actions'
 import { default as React, useState } from 'react'
 import { StylelessButton } from '@src/editor/Elements/TopBar/shared/_styles'
@@ -40,7 +40,7 @@ const IconTypeMutator = () => {
       {open && (
         <ImageDropdown>
           <ImageGrid>
-            {Object.values(IconTypes).map(icon => (
+            {Object.values(iconTypes).map(icon => (
               <StylelessButton key={icon} className="material-icons" onClick={changeIcon(icon)}>
                 {icon}
               </StylelessButton>

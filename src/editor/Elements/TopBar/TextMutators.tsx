@@ -1,4 +1,4 @@
-import state from '@state'
+import stateSettings from '@state/settings'
 import { TextNode } from '@src/interfaces/nodes'
 import Select from '@components/Select'
 import * as React from 'react'
@@ -31,9 +31,9 @@ const TextMutators = () => {
         <Title>Font family</Title>
         <IconRow>
           <Select
-            options={state.settings.fonts.map(font => font.id)}
+            options={stateSettings.fonts.map(font => font.id)}
             value={component.fontFamilyId}
-            toName={id => state.settings.fonts.find(font => font.id === id).fontFamily}
+            toName={id => stateSettings.fonts.find(font => font.id === id).fontFamily}
             onChange={changeFontFamily}
           />
         </IconRow>

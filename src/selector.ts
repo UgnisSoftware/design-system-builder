@@ -1,4 +1,5 @@
-import state from '@state'
+import stateComponents from '@state/components'
+import stateUi from '@state/ui'
 
-export const getSelectedElement = () => state.elements.find(el => el.id === state.ui.router[1])
-export const getSelectedModifier = () => state.ui.router[2]
+export const getSelectedElement = () => stateComponents.find(el => el.id === stateUi.router[1])
+export const getSelectedModifier = () => stateUi.router[2]

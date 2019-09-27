@@ -15,7 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"],
-      "@state": ["src/state"],
+      "@state/*": ["src/state/*"],
       "@components/*": ["src/editor/components/*"]
     }
   },

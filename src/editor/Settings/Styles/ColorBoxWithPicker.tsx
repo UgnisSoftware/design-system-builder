@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import ChromePicker from 'react-color/lib/Chrome'
 import chroma from 'chroma-js'
 
-import state from '@state'
+import stateSettings from '@state/settings'
+import stateUi from '@state/ui'
 import { findNearestColor } from './colorList'
 import { connect } from 'lape'
 import { Color } from '@src/interfaces/settings'
@@ -109,11 +110,11 @@ interface ColorChroma {
 }
 
 const onEditingColorChange = id => () => {
-  state.ui.editingColorId = id
+  stateUi.editingColorId = id
 }
 
 const onClickOutside = () => {
-  state.ui.editingColorId = ''
+  stateUi.editingColorId = ''
 }
 
 const onColorChange = (color: Color) => (colorChroma: ColorChroma) => {
@@ -130,7 +131,7 @@ const onHexValueChange = (color: Color) => (event: React.ChangeEvent<HTMLInputEl
 }
 
 const onDelete = (color: Color) => () => {
-  state.settings.colors.splice(state.settings.colors.indexOf(color), 1)
+  stateSettings.colors.splice(stateSettings.colors.indexOf(color), 1)
 }
 
 const ColorBoxWithPicker = ({ color, editing }: ColorBoxWithPickerProps) => {
