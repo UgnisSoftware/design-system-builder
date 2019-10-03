@@ -1,4 +1,3 @@
-import { parseUrl } from '@src/utils'
 import { AnyEditableNodes, EditableNodes, ElementNode, Units } from '@src/interfaces/nodes'
 import stateUi from '@state/ui'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
@@ -120,13 +119,6 @@ const addComponent = (component: EditableNodes) => {
   }
   stateUi.addingAtom = null
   stateUi.hoveredCell = null
-}
-
-export const route = (path, componentId?, subComponentId?) => () => {
-  stateUi.selectedNode = null
-  stateUi.stateManager = null
-  history.pushState(null, '', `/${[path, componentId, subComponentId].filter(Boolean).join('/')}`)
-  stateUi.router = parseUrl()
 }
 
 export const changeProperty = <T extends keyof AnyEditableNodes>(propertyName: T, value: AnyNodes[T]) => {

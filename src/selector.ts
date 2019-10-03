@@ -1,5 +1,13 @@
 import stateComponents from '@state/components'
-import stateUi from '@state/ui'
+import { paths, pathToParams } from '@state/router'
 
-export const getSelectedElement = () => stateComponents.find(el => el.id === stateUi.router[1])
-export const getSelectedModifier = () => stateUi.router[2]
+export const getSelectedElement = () => {
+  const { componentId } = pathToParams(paths.element)
+
+  return stateComponents.find(el => el.id === componentId)
+}
+export const getSelectedModifier = () => {
+  const { modifierName } = pathToParams(paths.element)
+
+  return modifierName
+}

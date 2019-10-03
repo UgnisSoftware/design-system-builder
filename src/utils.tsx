@@ -1,14 +1,9 @@
-import { RouterPaths } from '@src/interfaces/router'
 import { Emitter } from 'lape'
 import { DeepPartial, Element } from './interfaces/elements'
 import { RootNode } from '@src/interfaces/nodes'
 import mergeDeepRight from 'ramda/es/mergeDeepRight'
 import stateUi from '@state/ui'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
-
-export const parseUrl = () => {
-  return window.location.pathname.split('/').filter(a => a) as RouterPaths[]
-}
 
 export function uuid() {
   // return ('' + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[10]/g, function() {

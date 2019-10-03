@@ -1,9 +1,7 @@
 import { proxify } from 'lape'
-import { parseUrl } from '@src/utils'
 import { UI } from '@src/interfaces/ui'
 
 const defaultState: UI = {
-  router: parseUrl(),
   editingColorId: '',
   editingTextNode: null,
   addingElement: null,

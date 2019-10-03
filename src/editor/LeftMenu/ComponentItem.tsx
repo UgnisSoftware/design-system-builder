@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useRef } from 'react'
 import useClickAway from 'react-use/esm/useClickAway'
 import useKey from 'react-use/esm/useKey'
+import { paths, pathToUrl } from '@state/router'
 
 interface ItemProps {
   selected?: boolean
@@ -24,7 +25,9 @@ const DeleteIcon = styled.div`
   }
 `
 
-export const Item = styled.div<{ subComponent: boolean }>`
+export const Item = styled.a`
+  text-decoration: none;
+  display: block;
   position: relative;
   font-size: ${({ subComponent }) => (!subComponent ? '16px' : '14px')};
   font-weight: 400;
@@ -62,11 +65,10 @@ const Input = styled(TextInput)`
 `
 
 interface Props {
-  subComponent?: boolean
-  onClick: () => void
   onDelete: () => void
   selected?: boolean
   name: string
+  id?: string
 }
 
 const ComponentItem = (props: Props) => {
@@ -114,8 +116,7 @@ const ComponentItem = (props: Props) => {
 
   return (
     <Item
-      subComponent={props.subComponent}
-      onClick={props.onClick}
+      href={pathToUrl(paths.element, { componentId: props.id })}
       selected={props.selected}
       onDoubleClick={() => updateEditingName(true)}
     >

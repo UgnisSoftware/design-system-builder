@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { RouterPaths } from '@src/interfaces/router'
+import { paths, pathToUrl } from '@state/router'
 
 const Container = styled.div`
   overflow: scroll;
@@ -47,7 +47,7 @@ const HomePage = () => {
         </a>
       </h4>
       <h4>
-        <a href={'/' + RouterPaths.docs}>Documentation</a>
+        <a href={pathToUrl(paths.docs)}>Documentation</a>
       </h4>
     </Container>
   )

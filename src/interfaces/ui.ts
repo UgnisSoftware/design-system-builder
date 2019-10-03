@@ -1,5 +1,4 @@
 import { EditableNodes, Nodes, RootNode } from '@src/interfaces/nodes'
-import { RouterPaths } from '@src/interfaces/router'
 import { ElementType } from '@src/interfaces/elements'
 
 export enum DragDirection {
@@ -29,7 +28,6 @@ export interface HoveredCell {
 }
 
 export interface UI {
-  router: (RouterPaths | ElementType)[]
   editingColorId: string
   editingTextNode: Nodes
   addingElement: ElementType | null

@@ -3,17 +3,15 @@ import styled from 'styled-components'
 import stateComponents from '@state/components'
 import stateUi from '@state/ui'
 import { ElementType } from '@src/interfaces/elements'
-import { RouterPaths } from '@src/interfaces/router'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
 import { Colors } from '@src/styles'
 import PlusSign from '@src/editor/components/PlusSign'
-import { route } from '@src/actions'
-import Link from '@src/editor/components/Link/Link'
 import NewElement from '@src/elements/NewElement'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import { Element } from '@src/interfaces/elements'
+import router, { paths, pathToUrl, navigate } from '@state/router'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -75,6 +73,9 @@ const Logo = styled.div`
 const LogoImg = styled.img`
   margin-right: -1px;
 `
+const A = styled.a`
+  text-decoration: none;
+`
 
 const deleteItem = (array, item) => () => {
   const index = array.indexOf(item)
@@ -85,15 +86,14 @@ const showAddElement = (elementName: typeof stateUi.addingElement) => () => {
   stateUi.addingElement = elementName
 }
 
-const addElement = (elementName: typeof stateUi.addingElement) => value => {
+const addElement = (_: typeof stateUi.addingElement) => value => {
   stateUi.addingElement = null
 
-  console.log(value)
   if (!value) {
     return
   }
   const newElement = NewElement(value)
-  route(elementName, newElement.id)()
+  navigate(pathToUrl(paths.element, { componentId: newElement.id }))
   stateComponents.push(newElement)
 }
 
@@ -105,12 +105,12 @@ const LeftMenu = () => {
 
   return (
     <LeftMenuBox>
-      <Link href="/">
+      <A href="/">
         <Logo>
           <LogoImg src="/images/logo.png" height={32} />
           Ugnis
         </Logo>
-      </Link>
+      </A>
       <Title>
         Elements
         <AddComponentBox onClick={showAddElement(ElementType.Button)}>
@@ -124,29 +124,13 @@ const LeftMenu = () => {
         .concat()
         .sort(sortComponents)
         .map(element => (
-          <React.Fragment key={element.id}>
-            <ComponentItem
-              selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
-              onDelete={deleteItem(stateComponents, element)}
-              onClick={route(element.type, element.id)}
-              name={element.name}
-            />
-            {selectedElement &&
-              selectedElement.id === element.id &&
-              element.modifiers &&
-              Object.keys(element.modifiers).map(modifierName => {
-                return (
-                  <ComponentItem
-                    subComponent
-                    selected={selectedModifierName === modifierName}
-                    key={element.id + modifierName}
-                    name={modifierName}
-                    onClick={route(element.type, element.id, modifierName)}
-                    onDelete={deleteItem(stateComponents, element)}
-                  />
-                )
-              })}
-          </React.Fragment>
+          <ComponentItem
+            key={element.id}
+            id={element.id}
+            selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
+            onDelete={deleteItem(stateComponents, element)}
+            name={element.name}
+          />
         ))}
 
       <Title>
@@ -163,23 +147,23 @@ const LeftMenu = () => {
         .map(component => (
           <ComponentItem
             key={component.id}
+            id={component.id}
             name={component.name}
-            onClick={route('component', component.id)}
             onDelete={deleteItem(stateComponents, component)}
           />
         ))}
 
       <Title>Settings</Title>
-      <Item onClick={route(RouterPaths.colors)} selected={stateUi.router[1] === RouterPaths.colors}>
+      <Item href={paths.color} selected={router.url === paths.color}>
         Styles
       </Item>
-      <Item onClick={route(RouterPaths.fonts)} selected={stateUi.router[1] === RouterPaths.fonts}>
+      <Item href={paths.font} selected={router.url === paths.font}>
         Fonts
       </Item>
-      <Item onClick={route(RouterPaths.assets)} selected={stateUi.router[1] === RouterPaths.assets}>
+      <Item href={paths.assets} selected={router.url === paths.assets}>
         Assets
       </Item>
-      <Item onClick={route(RouterPaths.exporting)} selected={stateUi.router[1] === RouterPaths.exporting}>
+      <Item href={paths.export} selected={router.url === paths.export}>
         Exporting
       </Item>
     </LeftMenuBox>
