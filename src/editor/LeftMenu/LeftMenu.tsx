@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import stateComponents from '@state/components'
 import stateUi from '@state/ui'
 import { ElementType } from '@src/interfaces/elements'
+import logo from './../../assets/images/logo.png'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
@@ -107,7 +108,7 @@ const LeftMenu = () => {
     <LeftMenuBox>
       <A href="/">
         <Logo>
-          <LogoImg src="/images/logo.png" height={32} />
+          <LogoImg src={logo} height={32} />
           Ugnis
         </Logo>
       </A>

@@ -1,17 +1,10 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const { WebpackPluginServe: Serve } = require('webpack-plugin-serve')
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
   entry: './src/index.tsx',
-  output: {
-    filename: '[name].js',
-    publicPath: '/',
-    path: path.resolve(__dirname, 'public'),
-  },
+  devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     plugins: [
@@ -19,6 +12,10 @@ module.exports = {
         configFile: './tsconfig.json',
       }),
     ],
+  },
+  output: {
+    path: path.join(__dirname, '/public'),
+    filename: '[hash].js',
   },
   module: {
     rules: [
@@ -32,17 +29,37 @@ module.exports = {
         exclude: /node_modules/,
         include: path.resolve(__dirname, 'src'),
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "svg-url-loader",
+            options: {
+              limit: 10000
+            }
+          }
+        ]
+      }
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
-    new Serve({
-      client: { silent: true },
-      historyFallback: true,
-      progress: false,
-      port: 3000,
-      static: path.resolve(__dirname, 'public'),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
     }),
   ],
-  watch: true,
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
+  },
 }
