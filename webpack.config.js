@@ -14,7 +14,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, '/public'),
+    publicPath: '/',
     filename: '[hash].js',
   },
   module: {
@@ -29,28 +29,6 @@ module.exports = {
         exclude: /node_modules/,
         include: path.resolve(__dirname, 'src'),
       },
-      {
-        test: /\.(png|jpg|gif)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: "svg-url-loader",
-            options: {
-              limit: 10000
-            }
-          }
-        ]
-      }
     ],
   },
   plugins: [
@@ -59,6 +37,8 @@ module.exports = {
     }),
   ],
   devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    compress: true,
     port: 3000,
     historyApiFallback: true,
   },

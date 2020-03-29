@@ -1,5 +1,5 @@
 import { proxify } from 'lape'
-import pathToRegexp from 'path-to-regexp'
+import { compile, pathToRegexp } from 'path-to-regexp'
 import stateUi from '@state/ui'
 
 export interface Router {
@@ -22,7 +22,7 @@ export const paths = {
   element: '/component/:componentId',
 }
 
-export const navigate = url => {
+export const navigate = (url) => {
   stateUi.selectedNode = null
   stateUi.stateManager = null
   router.url = url
@@ -49,15 +49,15 @@ function interceptClickEvent(e) {
 
 document.addEventListener('click', interceptClickEvent)
 
-export const matches = path => {
+export const matches = (path) => {
   return pathToRegexp(path).test(router.url)
 }
 
 export const pathToUrl = (path, params?) => {
-  return pathToRegexp.compile(path)(params)
+  return compile(path)(params)
 }
 
-export const pathToParams = path => {
+export const pathToParams = (path) => {
   let keys = []
   const regexp = pathToRegexp(path, keys)
   const match = regexp.exec(router.url)

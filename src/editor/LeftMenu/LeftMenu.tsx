@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import stateComponents from '@state/components'
 import stateUi from '@state/ui'
 import { ElementType } from '@src/interfaces/elements'
-import logo from './../../assets/images/logo.png'
 
 import AddInput from './AddComponentInput'
 import ComponentItem, { Item } from './ComponentItem'
@@ -21,7 +20,7 @@ const LeftMenuBox = styled.div`
   user-select: none;
   padding-top: 16px;
   z-index: 100;
-  overflow: scroll;
+  overflow: auto;
   max-height: 100vh;
   padding-bottom: 32px;
 `
@@ -87,7 +86,7 @@ const showAddElement = (elementName: typeof stateUi.addingElement) => () => {
   stateUi.addingElement = elementName
 }
 
-const addElement = (_: typeof stateUi.addingElement) => value => {
+const addElement = (_: typeof stateUi.addingElement) => (value) => {
   stateUi.addingElement = null
 
   if (!value) {
@@ -108,7 +107,7 @@ const LeftMenu = () => {
     <LeftMenuBox>
       <A href="/">
         <Logo>
-          <LogoImg src={logo} height={32} />
+          <LogoImg src="/images/logo.png" height={32} />
           Ugnis
         </Logo>
       </A>
@@ -121,10 +120,10 @@ const LeftMenu = () => {
       {stateUi.addingElement === ElementType.Button && <AddInput onSave={addElement(ElementType.Button)} />}
 
       {stateComponents
-        .filter(element => element.type !== ElementType.Component)
+        .filter((element) => element.type !== ElementType.Component)
         .concat()
         .sort(sortComponents)
-        .map(element => (
+        .map((element) => (
           <ComponentItem
             key={element.id}
             id={element.id}
@@ -142,10 +141,10 @@ const LeftMenu = () => {
       </Title>
       {stateUi.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
       {stateComponents
-        .filter(element => element.type === ElementType.Component)
+        .filter((element) => element.type === ElementType.Component)
         .concat()
         .sort(sortComponents)
-        .map(component => (
+        .map((component) => (
           <ComponentItem
             key={component.id}
             id={component.id}

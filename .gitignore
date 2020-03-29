@@ -3,7 +3,4 @@ node_modules
 .cache
 dist
 .vscode
-static/bundle.min.js
 package-lock.json
-/public/main.js
-/public/*hmr*
