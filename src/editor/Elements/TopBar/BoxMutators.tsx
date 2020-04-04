@@ -104,7 +104,7 @@ const ImageBox = () => {
             </IconRow>
           </div>
           <ImageGrid>
-            {stateSettings.images.map(img => (
+            {stateSettings.images.map((img) => (
               <Image src={img.url} key={img.id} onClick={changeBackgroundToImage(img)} />
             ))}
           </ImageGrid>
@@ -120,13 +120,14 @@ const BoxMutators = () => {
   return (
     <TopBarBox>
       <ZIndexMutator />
+      <Divider />
       <InfoColumn>
         <Title>Background</Title>
         <IconRow>
           <ColorBox selected={component.backgroundColorId === null} color="#ffffff" onClick={changeBackground(null)}>
             <i className="material-icons">clear</i>
           </ColorBox>
-          {stateSettings.colors.map(color => (
+          {stateSettings.colors.map((color) => (
             <ColorBox
               key={color.id}
               selected={component.backgroundColorId === color.id}
@@ -148,7 +149,7 @@ const BoxMutators = () => {
             selected={component.border === null}
             onClick={changeBorder(null)}
           />
-          {stateSettings.border.map(border => (
+          {stateSettings.border.map((border) => (
             <BorderBox
               key={border.id}
               selected={component.border === border.id}
@@ -168,7 +169,7 @@ const BoxMutators = () => {
             selected={component.boxShadow === null}
             onClick={changeBoxShadow(null)}
           />
-          {stateSettings.boxShadow.map(boxShadow => (
+          {stateSettings.boxShadow.map((boxShadow) => (
             <BoxShadowBox
               key={boxShadow.id}
               selected={component.boxShadow === boxShadow.id}

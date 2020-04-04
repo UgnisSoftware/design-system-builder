@@ -18,7 +18,7 @@ const ElementsWrapper = styled.div`
   display: grid;
 `
 
-const unselectComponent = e => {
+const unselectComponent = (e) => {
   if (e.currentTarget === e.target) {
     stateUi.selectedNode = null
     stateUi.stateManager = null
@@ -29,7 +29,7 @@ const unselectComponent = e => {
   }
 }
 
-const Background = props => {
+const Background = (props) => {
   return <ElementsWrapper onClick={unselectComponent}>{props.children}</ElementsWrapper>
 }
 export default Background

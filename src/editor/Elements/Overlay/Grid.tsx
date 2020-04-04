@@ -80,7 +80,7 @@ const GridTop = styled.div`
   top: -70px;
   display: grid;
   justify-content: center;
-  grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map(col => col.value + col.unit).join(' ')};
+  grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map((col) => col.value + col.unit).join(' ')};
   grid-template-rows: 20px;
 `
 const GridLeft = styled.div`
@@ -91,7 +91,7 @@ const GridLeft = styled.div`
   top: 0px;
   display: grid;
   grid-template-columns: 20px;
-  grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map(col => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map((col) => col.value + col.unit).join(' ')};
 `
 
 const Border = styled.div`
@@ -133,8 +133,8 @@ const Grid = styled.div`
   top: 0px;
   display: grid;
   justify-content: center;
-  grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map(col => col.value + col.unit).join(' ')};
-  grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map(col => col.value + col.unit).join(' ')};
+  grid-template-columns: ${({ rootNode }: Props) => rootNode.columns.map((col) => col.value + col.unit).join(' ')};
+  grid-template-rows: ${({ rootNode }: Props) => rootNode.rows.map((col) => col.value + col.unit).join(' ')};
 `
 
 const GridOverlayWrapper = styled.div`
@@ -152,7 +152,7 @@ const GridOverlayWrapper = styled.div`
   right: 0;
 `
 
-const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => e => {
+const drag = (node: Nodes, parent: RootNode, direction: DragDirection) => (e) => {
   e.stopPropagation()
   e.preventDefault()
 
@@ -343,7 +343,7 @@ const onTileClick = (rowIndex: number, colIndex: number) => () => {
   }
 }
 
-const onMouseOver = (rowIndex: number, colIndex: number) => event => {
+const onMouseOver = (rowIndex: number, colIndex: number) => (event) => {
   if (stateUi.addingAtom) {
     const box = (event.target as HTMLDivElement).getBoundingClientRect()
 
@@ -395,7 +395,8 @@ const FullGrid = ({ rootNode }: Props) => (
           col={colIndex + 1}
           selected={
             stateUi.hoveredCell &&
-            (stateUi.hoveredCell.colIndex === colIndex && stateUi.hoveredCell.rowIndex === rowIndex)
+            stateUi.hoveredCell.colIndex === colIndex &&
+            stateUi.hoveredCell.rowIndex === rowIndex
           }
           onClick={onTileClick(rowIndex, colIndex)}
           onMouseOver={onMouseOver(rowIndex, colIndex)}
@@ -493,7 +494,7 @@ interface SideForSelectedProps {
 }
 const GridColumnsForSelected = ({ rootNode, selectedNode }: SideForSelectedProps) => {
   const selected = times(
-    index => index + selectedNode.columnStart - 1,
+    (index) => index + selectedNode.columnStart - 1,
     (selectedNode.columnEnd === -1 ? rootNode.columns.length + 1 : selectedNode.columnEnd) - selectedNode.columnStart,
   )
   return (
@@ -516,7 +517,7 @@ const GridColumnsForSelected = ({ rootNode, selectedNode }: SideForSelectedProps
 }
 const GridRowsForSelected = ({ rootNode, selectedNode }: SideForSelectedProps) => {
   const selected = times(
-    index => index + selectedNode.rowStart - 1,
+    (index) => index + selectedNode.rowStart - 1,
     (selectedNode.rowEnd === -1 ? rootNode.rows.length + 1 : selectedNode.rowEnd) - selectedNode.rowStart,
   )
   return (

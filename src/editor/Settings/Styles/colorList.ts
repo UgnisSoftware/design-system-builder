@@ -489,7 +489,7 @@ export const colors: StaticColors[] = [
 
 export function findNearestColor(color: string) {
   return colors
-    .map(pantone => {
+    .map((pantone) => {
       const distance = chroma.distance(color, chroma(pantone.hex))
 
       return {

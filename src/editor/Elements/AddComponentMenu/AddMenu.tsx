@@ -165,27 +165,27 @@ const MenuComponent = () => {
   return (
     <Menu>
       <ComponentWrapper>
-        <Box onMouseDown={e => dragComponent(generateComponent(NodeTypes.Box))(e)} />
+        <Box onMouseDown={(e) => dragComponent(generateComponent(NodeTypes.Box))(e)} />
         <Title>Box</Title>
       </ComponentWrapper>
       <ComponentWrapper>
-        <Text onMouseDown={e => dragComponent(generateComponent(NodeTypes.Text))(e)}>Text</Text>
+        <Text onMouseDown={(e) => dragComponent(generateComponent(NodeTypes.Text))(e)}>Text</Text>
         <Title>Text</Title>
       </ComponentWrapper>
       <ComponentWrapperIcons>
-        <div onMouseDown={e => dragComponent(generateComponent(NodeTypes.Icon))(e as any)} className="material-icons">
+        <div onMouseDown={(e) => dragComponent(generateComponent(NodeTypes.Icon))(e as any)} className="material-icons">
           {icon}
         </div>
         <Title>Icon</Title>
       </ComponentWrapperIcons>
       {element.type === ElementType.Component &&
         stateComponents
-          .filter(element => element.type !== ElementType.Component)
-          .map(component => (
+          .filter((element) => element.type !== ElementType.Component)
+          .map((component) => (
             <ComponentWrapper key={component.id}>
               <Component component={component.root} />
               <Title>{component.name}</Title>
-              <OnClickOverlay onMouseDown={e => dragComponent(generateComponent(NodeTypes.Element, component))(e)} />
+              <OnClickOverlay onMouseDown={(e) => dragComponent(generateComponent(NodeTypes.Element, component))(e)} />
             </ComponentWrapper>
           ))}
     </Menu>

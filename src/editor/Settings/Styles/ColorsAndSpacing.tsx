@@ -88,7 +88,7 @@ const ColorsAndSpacing = () => (
       </AddBox>
     </H1>
     <ColorWrapper>
-      {stateSettings.colors.map(color => (
+      {stateSettings.colors.map((color) => (
         <ColorBoxWithPicker editing={stateUi.editingColorId === color.id} key={color.id} color={color} />
       ))}
     </ColorWrapper>

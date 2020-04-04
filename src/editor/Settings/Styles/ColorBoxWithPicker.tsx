@@ -109,7 +109,7 @@ interface ColorChroma {
   }
 }
 
-const onEditingColorChange = id => () => {
+const onEditingColorChange = (id) => () => {
   stateUi.editingColorId = id
 }
 

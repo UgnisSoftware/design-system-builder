@@ -19,10 +19,10 @@ const Input = styled.input`
 
   background: ${({ component }: BoxProps) =>
     component.backgroundColorId
-      ? stateSettings.colors.find(color => color.id === component.backgroundColorId).hex
+      ? stateSettings.colors.find((color) => color.id === component.backgroundColorId).hex
       : 'none'};
   ${({ component }: BoxProps) => {
-    const border = stateSettings.border.find(border => border.id === component.border)
+    const border = stateSettings.border.find((border) => border.id === component.border)
     return border
       ? css`
           border: ${border.style};

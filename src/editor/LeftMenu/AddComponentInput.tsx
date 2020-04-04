@@ -22,7 +22,7 @@ const AddComponent = (props: Props) => {
   const [value, updateValue] = useState('')
   const ref = useRef(null)
   useClickAway(ref, () => props.onSave(value))
-  useKey(e => {
+  useKey((e) => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {
@@ -35,7 +35,7 @@ const AddComponent = (props: Props) => {
   })
   return (
     <div ref={ref}>
-      <Input value={value} name="AddComponent" autoFocus={true} onChange={e => updateValue(e.target.value)} />
+      <Input value={value} name="AddComponent" autoFocus={true} onChange={(e) => updateValue(e.target.value)} />
     </div>
   )
 }

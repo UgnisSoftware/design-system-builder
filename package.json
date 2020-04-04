@@ -42,6 +42,7 @@
     "webpack-dev-server": "3.10.3"
   },
   "prettier": {
+    "endOfLine": "crlf",
     "tabWidth": 2,
     "singleQuote": true,
     "trailingComma": "all",

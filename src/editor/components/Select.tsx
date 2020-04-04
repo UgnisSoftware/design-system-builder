@@ -56,7 +56,7 @@ const Menu = ({ options, updateOpen, onChange, toName }: MenuProps) => {
 
   return (
     <MenuWrapper ref={ref}>
-      {options.map(option => (
+      {options.map((option) => (
         <MenuItem
           key={option}
           onClick={() => {

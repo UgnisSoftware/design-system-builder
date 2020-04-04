@@ -21,7 +21,7 @@ const FontRow = styled.div`
 const FontsPage = () => (
   <Wrapper>
     <H1>Fonts</H1>
-    {stateSettings.fonts.map(font => (
+    {stateSettings.fonts.map((font) => (
       <div key={font.id}>
         <h2>{font.fontFamily}</h2>
         <FontRow>

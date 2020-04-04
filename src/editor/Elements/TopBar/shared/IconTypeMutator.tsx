@@ -40,7 +40,7 @@ const IconTypeMutator = () => {
       {open && (
         <ImageDropdown>
           <ImageGrid>
-            {Object.values(iconTypes).map(icon => (
+            {Object.values(iconTypes).map((icon) => (
               <StylelessButton key={icon} className="material-icons" onClick={changeIcon(icon)}>
                 {icon}
               </StylelessButton>

@@ -120,7 +120,7 @@ interface Props {
 function Atoms({ component, parent, tilted, index }: Props) {
   if (component.type === NodeTypes.Element) {
     const element = {
-      ...stateComponents.find(el => el.id === component.elementId).root,
+      ...stateComponents.find((el) => el.id === component.elementId).root,
       columnStart: component.columnStart,
       columnEnd: component.columnEnd,
       rowStart: component.rowStart,

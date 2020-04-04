@@ -37,7 +37,7 @@ const changeVerticalAlignment = (alignment: Alignment) => () => {
 }
 
 const AlignmentMutators = () => {
-  const component = getSelectedNode() as (TextNode | IconNode)
+  const component = getSelectedNode() as TextNode | IconNode
   return (
     <>
       <InfoColumn>

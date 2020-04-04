@@ -23,7 +23,7 @@ const BoxAtom = styled.div`
     tilted
       ? `-10px 10px 3px -3px rgba(100, 100, 100, 0.5)`
       : component.boxShadow
-      ? stateSettings.boxShadow.find(boxShadow => boxShadow.id === component.boxShadow).value
+      ? stateSettings.boxShadow.find((boxShadow) => boxShadow.id === component.boxShadow).value
       : 'none'};
   ${({ component }: BoxProps) => {
     if (component.backgroundImageUrl) {
@@ -36,12 +36,12 @@ const BoxAtom = styled.div`
     }
     if (component.backgroundColorId) {
       return css`
-        background: ${stateSettings.colors.find(color => color.id === component.backgroundColorId).hex};
+        background: ${stateSettings.colors.find((color) => color.id === component.backgroundColorId).hex};
       `
     }
   }}
   ${({ component }: BoxProps) => {
-    const border = stateSettings.border.find(border => border.id === component.border)
+    const border = stateSettings.border.find((border) => border.id === component.border)
     return border
       ? css`
           border: ${border.style};

@@ -11,13 +11,13 @@ const changeFontColor = (colorId: string) => () => {
 }
 
 const FontColorMutator = () => {
-  const component = getSelectedNode() as (TextNode | IconNode)
+  const component = getSelectedNode() as TextNode | IconNode
   return (
     <>
       <InfoColumn>
         <Title>Color</Title>
         <IconRow>
-          {stateSettings.colors.map(color => (
+          {stateSettings.colors.map((color) => (
             <ColorBox
               key={color.id}
               selected={component.fontColorId === color.id}

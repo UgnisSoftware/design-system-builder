@@ -23,12 +23,12 @@ const TextWrapper = styled.div<TextProps>`
   justify-self: ${({ component }) => component.horizontalAlign};
   align-self: ${({ component }) => component.verticalAlign};
   font-size: ${({ component }) =>
-    stateSettings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
+    stateSettings.fonts.find((font) => font.id === component.fontFamilyId).sizes[component.fontSize].fontSize};
   line-height: ${({ component }) =>
-    stateSettings.fonts.find(font => font.id === component.fontFamilyId).sizes[component.fontSize].lineHeight};
+    stateSettings.fonts.find((font) => font.id === component.fontFamilyId).sizes[component.fontSize].lineHeight};
   color: ${({ component }) =>
-    component.fontColorId ? stateSettings.colors.find(color => color.id === component.fontColorId).hex : 'black'};
-  font-family: ${({ component }) => stateSettings.fonts.find(font => font.id === component.fontFamilyId).fontFamily};
+    component.fontColorId ? stateSettings.colors.find((color) => color.id === component.fontColorId).hex : 'black'};
+  font-family: ${({ component }) => stateSettings.fonts.find((font) => font.id === component.fontFamilyId).fontFamily};
   overflow-wrap: break-word;
   white-space: pre;
   transform: ${({ tilted, index }) =>
@@ -36,7 +36,7 @@ const TextWrapper = styled.div<TextProps>`
   text-shadow: ${({ tilted }) => (tilted ? `-10px 10px 2px rgba(100, 100, 100, 0.5)` : '')};
 `
 
-const changeTextValue = e => {
+const changeTextValue = (e) => {
   e.preventDefault()
   e.stopPropagation()
   ;(stateUi.selectedNode as TextNode).text = e.target.innerText
@@ -88,7 +88,7 @@ class TextComponent extends React.Component<TextProps, { inEditing: boolean }> {
         onInput={changeTextValue}
         suppressContentEditableWarning={true}
         contentEditable={this.state.inEditing ? 'true' : 'false'}
-        onPaste={e => {
+        onPaste={(e) => {
           e.preventDefault()
           const text = e.clipboardData.getData('text/plain')
           document.execCommand('insertHTML', false, text)

@@ -66,7 +66,7 @@ const Input = styled.input`
   }
 `
 
-const onUrlChange = (image: ImageAsset) => e => {
+const onUrlChange = (image: ImageAsset) => (e) => {
   image.url = e.target.value
 }
 
@@ -91,7 +91,7 @@ const Assets = () => (
       </AddBox>
     </H1>
     <ImagesWrapper>
-      {stateSettings.images.map(img => (
+      {stateSettings.images.map((img) => (
         <div key={img.id}>
           <div onClick={onDeleteImage(img)}>
             <i className="material-icons">clear</i>

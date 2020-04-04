@@ -31,9 +31,9 @@ const TextMutators = () => {
         <Title>Font family</Title>
         <IconRow>
           <Select
-            options={stateSettings.fonts.map(font => font.id)}
+            options={stateSettings.fonts.map((font) => font.id)}
             value={component.fontFamilyId}
-            toName={id => stateSettings.fonts.find(font => font.id === id).fontFamily}
+            toName={(id) => stateSettings.fonts.find((font) => font.id === id).fontFamily}
             onChange={changeFontFamily}
           />
         </IconRow>

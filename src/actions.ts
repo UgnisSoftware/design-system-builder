@@ -5,7 +5,7 @@ import * as React from 'react'
 import { AnyNodes } from '@src/interfaces/nodes'
 import { DeepPartial } from '@src/interfaces/elements'
 
-export const selectComponent = (component: EditableNodes, parent?: ElementNode) => e => {
+export const selectComponent = (component: EditableNodes, parent?: ElementNode) => (e) => {
   if (e.currentTarget === e.target) {
     stateUi.selectedNode = parent || component
     stateUi.selectedNodeToOverride = parent ? component : null
@@ -111,7 +111,7 @@ const addComponent = (component: EditableNodes) => {
     } else {
       const children = selectedElement.root.children as { [key: string]: EditableNodes }
       order.push(component.id)
-      Object.values(selectedElement.modifiers).forEach(mod => mod.order.push(component.id))
+      Object.values(selectedElement.modifiers).forEach((mod) => mod.order.push(component.id))
       children[component.id] = component
     }
 
@@ -200,7 +200,7 @@ export const moveLayer = (by: number) => () => {
   order.splice(toIndex, 0, node)
 }
 
-export const deleteComponent = e => {
+export const deleteComponent = (e) => {
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
   const component = getSelectedElement()
@@ -210,7 +210,7 @@ export const deleteComponent = e => {
     const nodeIndex = node.order.indexOf(stateUi.selectedNode.id)
     // delete in all modifiers too
     if (!modifier) {
-      Object.values(component.modifiers).forEach(mod => {
+      Object.values(component.modifiers).forEach((mod) => {
         const nodeIndex = mod.order.indexOf(stateUi.selectedNode.id)
         if (nodeIndex > -1) {
           mod.order.splice(nodeIndex, 1)
@@ -282,7 +282,7 @@ export const addRow = () => {
   }
 }
 
-export const changeColumnValue = (index: number) => e => {
+export const changeColumnValue = (index: number) => (e) => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
@@ -297,7 +297,7 @@ export const changeColumnValue = (index: number) => e => {
     element.root.columns[index].value = e.target.value
   }
 }
-export const changeRowValue = (index: number) => e => {
+export const changeRowValue = (index: number) => (e) => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
@@ -313,7 +313,7 @@ export const changeRowValue = (index: number) => e => {
   }
 }
 
-export const changeColumnUnits = (index: number) => e => {
+export const changeColumnUnits = (index: number) => (e) => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
@@ -328,7 +328,7 @@ export const changeColumnUnits = (index: number) => e => {
     element.root.columns[index].unit = e.target.value
   }
 }
-export const changeRowUnits = (index: number) => e => {
+export const changeRowUnits = (index: number) => (e) => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
@@ -344,7 +344,7 @@ export const changeRowUnits = (index: number) => e => {
   }
 }
 
-export const deleteColumn = colIndex => () => {
+export const deleteColumn = (colIndex) => () => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
@@ -362,7 +362,7 @@ export const deleteColumn = colIndex => () => {
   }
 }
 
-export const deleteRow = rowIndex => () => {
+export const deleteRow = (rowIndex) => () => {
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 

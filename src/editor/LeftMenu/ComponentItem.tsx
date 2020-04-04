@@ -87,14 +87,14 @@ const ComponentItem = (props: Props) => {
       onExitWithoutSave()
     }
   }
-  const onDelete = e => {
+  const onDelete = (e) => {
     e.stopPropagation()
     props.onDelete()
   }
 
   const ref = useRef(null)
   useClickAway(ref, save)
-  useKey(e => {
+  useKey((e) => {
     const ENTER = 13
     const ESCAPE = 27
     if (e.keyCode === ENTER) {
@@ -109,7 +109,7 @@ const ComponentItem = (props: Props) => {
   if (editingName) {
     return (
       <div ref={ref}>
-        <Input value={name} name="AddComponent" autoFocus={true} onChange={e => updateName(e.target.value)} />
+        <Input value={name} name="AddComponent" autoFocus={true} onChange={(e) => updateName(e.target.value)} />
       </div>
     )
   }

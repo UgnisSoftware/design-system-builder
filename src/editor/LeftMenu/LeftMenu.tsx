@@ -111,6 +111,28 @@ const LeftMenu = () => {
           Ugnis
         </Logo>
       </A>
+
+      <Title>
+        Components
+        <AddComponentBox onClick={showAddElement(ElementType.Component)}>
+          <PlusSign />
+        </AddComponentBox>
+      </Title>
+      {stateUi.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
+      {stateComponents
+        .filter((element) => element.type === ElementType.Component)
+        .concat()
+        .sort(sortComponents)
+        .map((component) => (
+          <ComponentItem
+            key={component.id}
+            id={component.id}
+            name={component.name}
+            selected={!selectedModifierName && selectedElement && selectedElement.id === component.id}
+            onDelete={deleteItem(stateComponents, component)}
+          />
+        ))}
+
       <Title>
         Elements
         <AddComponentBox onClick={showAddElement(ElementType.Button)}>
@@ -130,26 +152,6 @@ const LeftMenu = () => {
             selected={!selectedModifierName && selectedElement && selectedElement.id === element.id}
             onDelete={deleteItem(stateComponents, element)}
             name={element.name}
-          />
-        ))}
-
-      <Title>
-        Components
-        <AddComponentBox onClick={showAddElement(ElementType.Component)}>
-          <PlusSign />
-        </AddComponentBox>
-      </Title>
-      {stateUi.addingElement === ElementType.Component && <AddInput onSave={addElement(ElementType.Component)} />}
-      {stateComponents
-        .filter((element) => element.type === ElementType.Component)
-        .concat()
-        .sort(sortComponents)
-        .map((component) => (
-          <ComponentItem
-            key={component.id}
-            id={component.id}
-            name={component.name}
-            onDelete={deleteItem(stateComponents, component)}
           />
         ))}
 
