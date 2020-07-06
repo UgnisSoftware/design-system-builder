@@ -1,4 +1,4 @@
-import { proxify } from 'lape'
+import { lape } from 'lape'
 import { Alignment, NodeTypes, ObjectFit, Units } from '@src/interfaces/nodes'
 import { Element, ElementType } from '@src/interfaces/elements'
 
@@ -774,4 +774,4 @@ const defaultState: Element[] = [
   },
 ]
 
-export default proxify(defaultState)
+export default lape(defaultState)

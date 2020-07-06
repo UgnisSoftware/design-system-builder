@@ -1,4 +1,4 @@
-import { proxify } from 'lape'
+import { lape } from 'lape'
 import { UI } from '@src/interfaces/ui'
 
 const defaultState: UI = {
@@ -20,4 +20,4 @@ const defaultState: UI = {
   tilted: false,
 }
 
-export default proxify(defaultState)
+export default lape(defaultState)

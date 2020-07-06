@@ -65,7 +65,9 @@ const Docs = () => {
       </li>
 
       <p>It is also important to mention, that the items in Ugnis follow a certain hierarchy:</p>
-      <p>atoms > elements > components > pages</p>
+      <p>
+        atoms {'>'} elements {'>'} components {'>'} pages
+      </p>
       <p>
         Each of these structures are unique in scale and application, you can view them as parent to child structure,
         except usually the lower level parts will not inherit styling from the parent component, meaning that the

@@ -34,7 +34,7 @@ export const connectDevTools = (state) => {
   const devTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__.connect(config)
   devTools.init(state)
 
-  Emitter.addSet(() => {
+  Emitter.listenSetEvents(() => {
     devTools.send('State changed', state)
   })
 }

@@ -1,4 +1,4 @@
-import { proxify } from 'lape'
+import { lape } from 'lape'
 import { Settings } from '@src/interfaces/settings'
 
 const defaultState: Settings = {
@@ -204,4 +204,4 @@ const defaultState: Settings = {
   ],
 }
 
-export default proxify(defaultState)
+export default lape(defaultState)

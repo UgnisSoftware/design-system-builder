@@ -1,4 +1,4 @@
-import { proxify } from 'lape'
+import { lape } from 'lape'
 
 /*
 XS @media all and (max-width: 479px) { ... }
@@ -32,7 +32,7 @@ const calculateSize = () => {
   }
 }
 
-const screen: Window = proxify({
+const screen: Window = lape({
   size: calculateSize(),
   width: window.innerWidth,
   height: window.innerHeight,

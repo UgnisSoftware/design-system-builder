@@ -155,6 +155,8 @@ const LeftMenu = () => {
           />
         ))}
 
+      {console.log(router)}
+
       <Title>Settings</Title>
       <Item href={paths.color} selected={router.url === paths.color}>
         Styles

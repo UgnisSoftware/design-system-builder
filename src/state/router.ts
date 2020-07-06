@@ -1,4 +1,4 @@
-import { proxify } from 'lape'
+import { lape } from 'lape'
 import { compile, pathToRegexp } from 'path-to-regexp'
 import stateUi from '@state/ui'
 
@@ -7,7 +7,7 @@ export interface Router {
   query: string
 }
 
-const router: Router = proxify({
+const router: Router = lape({
   url: window.location.pathname,
   query: window.location.search,
 })
@@ -25,6 +25,7 @@ export const paths = {
 export const navigate = (url) => {
   stateUi.selectedNode = null
   stateUi.stateManager = null
+  console.log(url)
   router.url = url
   history.pushState(null, '', url)
 }
