@@ -5,7 +5,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import stateComponents from '@state/components'
-import stateUi from '@state/ui'
 
 import HomePage from './editor/HomePage/HomePage'
 import Docs from './editor/HomePage/Docs'
@@ -36,7 +35,7 @@ const Editor = () => {
       {matches(paths.font) && <Fonts />}
       {matches(paths.export) && <Exporting />}
       {matches(paths.assets) && <Assets />}
-      {stateUi.addingAtom && <AddingAtom />}
+      <AddingAtom />
     </Root>
   )
 }

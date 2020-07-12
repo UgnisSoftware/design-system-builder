@@ -59,10 +59,7 @@ const AddComponentBox = styled.div`
 `
 
 const Logo = styled.div`
-  font-size: 26px;
-  font-weight: 400;
   display: flex;
-  color: ${Colors.brand};
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 10px;
@@ -107,8 +104,7 @@ const LeftMenu = () => {
     <LeftMenuBox>
       <A href="/">
         <Logo>
-          <LogoImg src="/images/logo.png" height={32} />
-          Ugnis
+          <LogoImg src="/images/logoText.png" height={32} />
         </Logo>
       </A>
 
@@ -154,8 +150,6 @@ const LeftMenu = () => {
             name={element.name}
           />
         ))}
-
-      {console.log(router)}
 
       <Title>Settings</Title>
       <Item href={paths.color} selected={router.url === paths.color}>

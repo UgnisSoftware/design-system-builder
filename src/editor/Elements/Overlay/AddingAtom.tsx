@@ -19,6 +19,9 @@ const Wrapper = styled.div`
 `
 
 const AddingAtom = () => {
+  if (!stateUi.addingAtom) {
+    return null
+  }
   const node = {
     ...stateUi.addingAtom.node,
     columnStart: 1,

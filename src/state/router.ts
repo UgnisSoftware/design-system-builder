@@ -25,7 +25,6 @@ export const paths = {
 export const navigate = (url) => {
   stateUi.selectedNode = null
   stateUi.stateManager = null
-  console.log(url)
   router.url = url
   history.pushState(null, '', url)
 }

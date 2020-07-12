@@ -13,7 +13,7 @@ import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import ExporterMenu from '@src/editor/Elements/ExporterMenu/ExporterMenu'
 import useKey from 'react-use/esm/useKey'
 import { mergeElements } from '@src/utils'
-import { deleteComponent } from '@src/actions'
+import { deleteComponent, undoElement } from '@src/actions'
 import Zoom from './Zoom/Zoom'
 import { paths, pathToParams } from '@state/router'
 
@@ -44,8 +44,10 @@ const Dimmer = styled.div`
 `
 
 const Elements = () => {
-  useKey(deleteComponent)
   const { componentId } = pathToParams(paths.element)
+
+  useKey(deleteComponent)
+  useKey(undoElement)
 
   const modifier = getSelectedModifier()
   const selectedElement = getSelectedElement()

@@ -4,6 +4,8 @@ import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import * as React from 'react'
 import { AnyNodes } from '@src/interfaces/nodes'
 import { DeepPartial } from '@src/interfaces/elements'
+import { recordUndo, redo, undo } from 'lape'
+import { paths, pathToParams } from '@state/router'
 
 export const selectComponent = (component: EditableNodes, parent?: ElementNode) => (e) => {
   if (e.currentTarget === e.target) {
@@ -201,6 +203,7 @@ export const moveLayer = (by: number) => () => {
 }
 
 export const deleteComponent = (e) => {
+  const { componentId } = pathToParams(paths.element)
   const del = e.keyCode === 46
   const backspace = e.keyCode === 8
   const component = getSelectedElement()
@@ -208,19 +211,38 @@ export const deleteComponent = (e) => {
   if ((del || backspace) && stateUi.selectedNode && !stateUi.editingTextNode) {
     const node = modifier ? component.modifiers[modifier] : component.root
     const nodeIndex = node.order.indexOf(stateUi.selectedNode.id)
-    // delete in all modifiers too
-    if (!modifier) {
-      Object.values(component.modifiers).forEach((mod) => {
-        const nodeIndex = mod.order.indexOf(stateUi.selectedNode.id)
-        if (nodeIndex > -1) {
-          mod.order.splice(nodeIndex, 1)
-        }
-      })
-    }
-    node.order.splice(nodeIndex, 1)
-    delete node.children[stateUi.selectedNode.id]
+    recordUndo(() => {
+      // delete in all modifiers too
+      if (!modifier) {
+        Object.values(component.modifiers).forEach((mod) => {
+          const nodeIndex = mod.order.indexOf(stateUi.selectedNode.id)
+          if (nodeIndex > -1) {
+            mod.order.splice(nodeIndex, 1)
+          }
+        })
+      }
+      node.order.splice(nodeIndex, 1)
+      delete node.children[stateUi.selectedNode.id]
+    }, componentId)
     stateUi.selectedNode = null
     stateUi.stateManager = null
+  }
+  return false
+}
+
+export const undoElement = (e) => {
+  const { componentId } = pathToParams(paths.element)
+
+  if (!e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+    e.preventDefault()
+    undo(componentId)
+  }
+  if (
+    (e.which === 89 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) ||
+    (e.shiftKey && e.which === 90 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))
+  ) {
+    e.preventDefault()
+    redo(componentId)
   }
   return false
 }

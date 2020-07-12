@@ -30,7 +30,7 @@ export const Item = styled.a`
   display: block;
   position: relative;
   font-size: ${({ subComponent }) => (!subComponent ? '16px' : '14px')};
-  font-weight: 400;
+  font-weight: 300;
   color: ${({ subComponent }) => (!subComponent ? Colors.grey900 : Colors.grey800)};
   line-height: 40px;
   height: 40px;

@@ -12,7 +12,7 @@
   "author": "Karolis Masiulis",
   "dependencies": {
     "chroma-js": "2.1.0",
-    "lape": "5.0.2",
+    "lape": "5.0.6",
     "path-to-regexp": "6.1.0",
     "ramda": "0.27.0",
     "react": "16.13.1",

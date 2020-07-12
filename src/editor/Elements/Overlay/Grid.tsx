@@ -15,6 +15,7 @@ import {
   deleteRow,
 } from '@src/actions'
 import times from 'ramda/src/times'
+import { connect } from 'lape'
 
 interface BorderProps {
   col: number
@@ -585,4 +586,4 @@ const GridOverlay = ({ rootNode }: Props) => {
     </GridOverlayWrapper>
   )
 }
-export default GridOverlay
+export default connect(GridOverlay)

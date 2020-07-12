@@ -26,7 +26,7 @@ const Subhead = styled.div`
   margin-bottom: 1em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: lighter;
+  font-weight: 300;
   padding: 15px;
   border-bottom: 3px dotted #d9d9d9;
 `
