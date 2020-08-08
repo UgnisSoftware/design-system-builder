@@ -92,62 +92,91 @@ export const dragComponent = (component: EditableNodes, parent?: ElementNode) =>
 }
 
 const addComponent = (component: EditableNodes) => {
-  if (stateUi.hoveredCell) {
-    const modifier = getSelectedModifier()
-    const selectedElement = getSelectedElement()
-    const order = modifier ? selectedElement.modifiers[modifier].order : selectedElement.root.order
+  const { componentId } = pathToParams(paths.element)
 
-    component.columnStart = stateUi.hoveredCell.colIndex + 1
-    component.columnEnd = stateUi.hoveredCell.colIndex + 2
-    component.rowStart = stateUi.hoveredCell.rowIndex + 1
-    component.rowEnd = stateUi.hoveredCell.rowIndex + 2
+  recordUndo(() => {
+    if (stateUi.hoveredCell) {
+      const modifier = getSelectedModifier()
+      const selectedElement = getSelectedElement()
+      const order = modifier ? selectedElement.modifiers[modifier].order : selectedElement.root.order
 
-    if (modifier) {
-      const children = selectedElement.modifiers[modifier].children
+      component.columnStart = stateUi.hoveredCell.colIndex + 1
+      component.columnEnd = stateUi.hoveredCell.colIndex + 2
+      component.rowStart = stateUi.hoveredCell.rowIndex + 1
+      component.rowEnd = stateUi.hoveredCell.rowIndex + 2
 
-      if (!children) {
-        selectedElement.modifiers[modifier].children = {}
+      if (modifier) {
+        const children = selectedElement.modifiers[modifier].children
+
+        if (!children) {
+          selectedElement.modifiers[modifier].children = {}
+        }
+        order.push(component.id)
+        children[component.id] = component
+      } else {
+        const children = selectedElement.root.children as { [key: string]: EditableNodes }
+        order.push(component.id)
+        Object.values(selectedElement.modifiers).forEach((mod) => mod.order.push(component.id))
+        children[component.id] = component
       }
-      order.push(component.id)
-      children[component.id] = component
-    } else {
-      const children = selectedElement.root.children as { [key: string]: EditableNodes }
-      order.push(component.id)
-      Object.values(selectedElement.modifiers).forEach((mod) => mod.order.push(component.id))
-      children[component.id] = component
-    }
 
-    stateUi.selectedNode = component
-  }
-  stateUi.addingAtom = null
-  stateUi.hoveredCell = null
+      stateUi.selectedNode = component
+    }
+    stateUi.addingAtom = null
+    stateUi.hoveredCell = null
+  }, componentId)
 }
 
 export const changeProperty = <T extends keyof AnyEditableNodes>(propertyName: T, value: AnyNodes[T]) => {
+  const { componentId } = pathToParams(paths.element)
   const stateManager = stateUi.stateManager
   const modifier = getSelectedModifier()
   const selectedElement = getSelectedElement()
   const selectedNode = stateUi.selectedNode
-  if (modifier) {
-    const children = selectedElement.modifiers[modifier].children as { [key: string]: DeepPartial<AnyEditableNodes> }
 
-    if (!children) {
-      selectedElement.modifiers[modifier].children = {}
-    }
-    if (!children[selectedNode.id]) {
-      children[selectedNode.id] = stateManager
-        ? {
-            states: {
-              [stateManager]: {
-                [propertyName]: value,
+
+  console.log(propertyName, value)
+  recordUndo(() => {
+    if (modifier) {
+      const children = selectedElement.modifiers[modifier].children as { [key: string]: DeepPartial<AnyEditableNodes> }
+
+      if (!children) {
+        selectedElement.modifiers[modifier].children = {}
+      }
+      if (!children[selectedNode.id]) {
+        children[selectedNode.id] = stateManager
+          ? {
+              states: {
+                [stateManager]: {
+                  [propertyName]: value,
+                },
               },
+            }
+          : {
+              [propertyName]: value,
+            }
+        return
+      }
+      if (stateManager) {
+        children[selectedNode.id] = {
+          ...children[selectedNode.id],
+          states: {
+            ...children[selectedNode.id].states,
+            [stateManager]: {
+              ...(children[selectedNode.id].states && children[selectedNode.id].states[stateManager]),
+              [propertyName]: value,
             },
-          }
-        : {
-            [propertyName]: value,
-          }
+          },
+        }
+        return
+      }
+      children[selectedNode.id] = {
+        ...children[selectedNode.id],
+        [propertyName]: value,
+      }
       return
     }
+    const children = selectedElement.root.children as { [key: string]: AnyEditableNodes }
     if (stateManager) {
       children[selectedNode.id] = {
         ...children[selectedNode.id],
@@ -166,29 +195,11 @@ export const changeProperty = <T extends keyof AnyEditableNodes>(propertyName: T
       [propertyName]: value,
     }
     return
-  }
-  const children = selectedElement.root.children as { [key: string]: AnyEditableNodes }
-  if (stateManager) {
-    children[selectedNode.id] = {
-      ...children[selectedNode.id],
-      states: {
-        ...children[selectedNode.id].states,
-        [stateManager]: {
-          ...(children[selectedNode.id].states && children[selectedNode.id].states[stateManager]),
-          [propertyName]: value,
-        },
-      },
-    }
-    return
-  }
-  children[selectedNode.id] = {
-    ...children[selectedNode.id],
-    [propertyName]: value,
-  }
-  return
+  }, componentId)
 }
 
 export const moveLayer = (by: number) => () => {
+  const { componentId } = pathToParams(paths.element)
   const node = stateUi.selectedNode.id
   const modifier = getSelectedModifier()
   const order = modifier ? getSelectedElement().modifiers[modifier].order : getSelectedElement().root.order
@@ -198,8 +209,10 @@ export const moveLayer = (by: number) => () => {
   if (toIndex < 0 || toIndex > order.length) {
     return
   }
-  order.splice(fromIndex, 1)
-  order.splice(toIndex, 0, node)
+  recordUndo(() => {
+    order.splice(fromIndex, 1)
+    order.splice(toIndex, 0, node)
+  }, componentId)
 }
 
 export const deleteComponent = (e) => {
@@ -248,156 +261,180 @@ export const undoElement = (e) => {
 }
 
 export const addColumn = () => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const columns = element.modifiers[modifier].columns
+  recordUndo(() => {
+    if (modifier) {
+      const columns = element.modifiers[modifier].columns
 
-    if (!columns) {
-      element.modifiers[modifier].columns = [
-        ...element.root.columns,
-        {
+      if (!columns) {
+        element.modifiers[modifier].columns = [
+          ...element.root.columns,
+          {
+            value: 100,
+            unit: Units.Px,
+          },
+        ]
+      } else {
+        columns.push({
           value: 100,
           unit: Units.Px,
-        },
-      ]
+        })
+      }
     } else {
-      columns.push({
+      element.root.columns.push({
         value: 100,
         unit: Units.Px,
       })
     }
-  } else {
-    element.root.columns.push({
-      value: 100,
-      unit: Units.Px,
-    })
-  }
+  }, componentId)
 }
 export const addRow = () => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const rows = element.modifiers[modifier].rows
+  recordUndo(() => {
+    if (modifier) {
+      const rows = element.modifiers[modifier].rows
 
-    if (!rows) {
-      element.modifiers[modifier].rows = [
-        ...element.root.rows,
-        {
+      if (!rows) {
+        element.modifiers[modifier].rows = [
+          ...element.root.rows,
+          {
+            value: 100,
+            unit: Units.Px,
+          },
+        ]
+      } else {
+        rows.push({
           value: 100,
           unit: Units.Px,
-        },
-      ]
+        })
+      }
     } else {
-      rows.push({
+      element.root.rows.push({
         value: 100,
         unit: Units.Px,
       })
     }
-  } else {
-    element.root.rows.push({
-      value: 100,
-      unit: Units.Px,
-    })
-  }
+  }, componentId)
 }
 
 export const changeColumnValue = (index: number) => (e) => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const columns = element.modifiers[modifier].columns
+  recordUndo(() => {
+    if (modifier) {
+      const columns = element.modifiers[modifier].columns
 
-    if (!columns) {
-      element.modifiers[modifier].columns = [...element.root.columns]
+      if (!columns) {
+        element.modifiers[modifier].columns = [...element.root.columns]
+      }
+      element.modifiers[modifier].columns[index].value = e.target.value
+    } else {
+      element.root.columns[index].value = e.target.value
     }
-    element.modifiers[modifier].columns[index].value = e.target.value
-  } else {
-    element.root.columns[index].value = e.target.value
-  }
+  }, componentId)
 }
 export const changeRowValue = (index: number) => (e) => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const rows = element.modifiers[modifier].rows
+  recordUndo(() => {
+    if (modifier) {
+      const rows = element.modifiers[modifier].rows
 
-    if (!rows) {
-      element.modifiers[modifier].rows = [...element.root.rows]
+      if (!rows) {
+        element.modifiers[modifier].rows = [...element.root.rows]
+      }
+      element.modifiers[modifier].rows[index].value = e.target.value
+    } else {
+      element.root.rows[index].value = e.target.value
     }
-    element.modifiers[modifier].rows[index].value = e.target.value
-  } else {
-    element.root.rows[index].value = e.target.value
-  }
+  }, componentId)
 }
 
 export const changeColumnUnits = (index: number) => (e) => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const columns = element.modifiers[modifier].columns
+  recordUndo(() => {
+    if (modifier) {
+      const columns = element.modifiers[modifier].columns
 
-    if (!columns) {
-      element.modifiers[modifier].columns = [...element.root.columns]
+      if (!columns) {
+        element.modifiers[modifier].columns = [...element.root.columns]
+      }
+      element.modifiers[modifier].columns[index].unit = e.target.value
+    } else {
+      element.root.columns[index].unit = e.target.value
     }
-    element.modifiers[modifier].columns[index].unit = e.target.value
-  } else {
-    element.root.columns[index].unit = e.target.value
-  }
+  }, componentId)
 }
 export const changeRowUnits = (index: number) => (e) => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const rows = element.modifiers[modifier].rows
+  recordUndo(() => {
+    if (modifier) {
+      const rows = element.modifiers[modifier].rows
 
-    if (!rows) {
-      element.modifiers[modifier].rows = [...element.root.rows]
+      if (!rows) {
+        element.modifiers[modifier].rows = [...element.root.rows]
+      }
+      element.modifiers[modifier].rows[index].unit = e.target.value
+    } else {
+      element.root.rows[index].unit = e.target.value
     }
-    element.modifiers[modifier].rows[index].unit = e.target.value
-  } else {
-    element.root.rows[index].unit = e.target.value
-  }
+  }, componentId)
 }
 
 export const deleteColumn = (colIndex) => () => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const columns = element.modifiers[modifier].columns
+  recordUndo(() => {
+    if (modifier) {
+      const columns = element.modifiers[modifier].columns
 
-    if (!columns) {
-      element.modifiers[modifier].columns = [...element.root.columns]
-      element.modifiers[modifier].columns.splice(colIndex, 1)
+      if (!columns) {
+        element.modifiers[modifier].columns = [...element.root.columns]
+        element.modifiers[modifier].columns.splice(colIndex, 1)
+      } else {
+        columns.splice(colIndex, 1)
+      }
     } else {
-      columns.splice(colIndex, 1)
+      element.root.columns.splice(colIndex, 1)
     }
-  } else {
-    element.root.columns.splice(colIndex, 1)
-  }
+  }, componentId)
 }
 
 export const deleteRow = (rowIndex) => () => {
+  const { componentId } = pathToParams(paths.element)
   const element = getSelectedElement()
   const modifier = getSelectedModifier()
 
-  if (modifier) {
-    const rows = element.modifiers[modifier].rows
+  recordUndo(() => {
+    if (modifier) {
+      const rows = element.modifiers[modifier].rows
 
-    if (!rows) {
-      element.modifiers[modifier].rows = [...element.root.rows]
-      element.modifiers[modifier].rows.splice(rowIndex, 1)
+      if (!rows) {
+        element.modifiers[modifier].rows = [...element.root.rows]
+        element.modifiers[modifier].rows.splice(rowIndex, 1)
+      } else {
+        rows.splice(rowIndex, 1)
+      }
     } else {
-      rows.splice(rowIndex, 1)
+      element.root.rows.splice(rowIndex, 1)
     }
-  } else {
-    element.root.rows.splice(rowIndex, 1)
-  }
+  }, componentId)
 }
