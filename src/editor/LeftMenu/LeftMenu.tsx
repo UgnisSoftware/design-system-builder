@@ -12,6 +12,7 @@ import NewElement from '@src/elements/NewElement'
 import { getSelectedElement, getSelectedModifier } from '@src/selector'
 import { Element } from '@src/interfaces/elements'
 import router, { paths, pathToUrl, navigate } from '@state/router'
+import logoText from '@src/assets/images/logoText.png'
 
 const LeftMenuBox = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 2px;
@@ -104,7 +105,7 @@ const LeftMenu = () => {
     <LeftMenuBox>
       <A href="/">
         <Logo>
-          <LogoImg src="/images/logoText.png" height={32} />
+          <LogoImg src={logoText} height={32} />
         </Logo>
       </A>
 

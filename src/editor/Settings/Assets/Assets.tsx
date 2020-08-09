@@ -6,6 +6,7 @@ import { Colors } from '@src/styles'
 import stateSettings from '@state/settings'
 import { uuid } from '@src/utils'
 import { ImageAsset } from '@src/interfaces/settings'
+import logo from '@src/assets/images/logo.png'
 
 const Wrapper = styled.div`
   padding: 24px;
@@ -78,7 +79,7 @@ const onAddImage = () => {
   const newId = uuid()
   stateSettings.images.unshift({
     id: newId,
-    url: 'https://ugnis.com/images/logo.png',
+    url: logo,
   })
 }
 

@@ -29,11 +29,15 @@ module.exports = {
         exclude: /node_modules/,
         include: path.resolve(__dirname, 'src'),
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader'],
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './src/index.html',
     }),
   ],
   devServer: {
