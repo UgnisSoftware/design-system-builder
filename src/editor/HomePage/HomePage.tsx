@@ -3,19 +3,16 @@ import styled from 'styled-components'
 import { paths, pathToUrl } from '@state/router'
 
 const Container = styled.div`
-  overflow: scroll;
   max-height: 100vh;
   padding: 64px;
   width: 100%;
 `
 const Top = styled.div`
   display: block;
-  text-align: center;
   font-family: Roboto;
   font-size: 36px;
 `
 const SubTop = styled.div`
-  text-align: center;
   font-size: 24px;
   font-family: Roboto;
 `
@@ -34,12 +31,10 @@ const Subhead = styled.div`
 const HomePage = () => {
   return (
     <Container>
-      <Container>
-        <Top>
-          <h3>Welcome to Ugnis</h3>
-        </Top>
-        <SubTop>A visual design tool with no CSS</SubTop>
-      </Container>
+      <Top>
+        <h3>Welcome to Ugnis</h3>
+      </Top>
+      <SubTop>A visual design system builder, early alpha</SubTop>
       <Subhead> {'<<<'} Click on the left menu to start</Subhead>
       <h4>
         <a href={'https://github.com/masiulis/Ugnis'} target="_blank">
