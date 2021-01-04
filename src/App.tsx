@@ -1,13 +1,14 @@
-import React from 'react';
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
 
-interface AppProps {}
+import { themeProps } from './Theme'
 
-function App({}: AppProps) {
+export const App = () => {
   return (
-    <div>
-      Ugnis
-    </div>
-  );
+    <ThemeProvider theme={themeProps}>
+      <div>Ugnis</div>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
