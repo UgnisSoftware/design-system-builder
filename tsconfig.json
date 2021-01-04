@@ -1,23 +1,21 @@
 {
+  "include": ["src", "types"],
   "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
-    "module": "es6",
-    "jsx": "react",
+    "jsx": "preserve",
+    "baseUrl": "./",
+    /* paths - If you configure Snowpack import aliases, add them here. */
+    "paths": {},
+    /* noEmit - Snowpack builds (emits) files, not tsc. */
+    "noEmit": true,
+    /* Additional Options */
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": false,
-    "noUnusedLocals": true,
-    "noImplicitAny": false,
-    "noImplicitThis": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "target": "es6",
-    "lib": ["es6", "es2017", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"],
-      "@state/*": ["src/state/*"],
-      "@components/*": ["src/editor/components/*"]
-    }
-  },
-  "exclude": ["node_modules"]
+    "importsNotUsedAsValues": "error"
+  }
 }
