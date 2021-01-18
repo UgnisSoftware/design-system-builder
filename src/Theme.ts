@@ -1,12 +1,4 @@
-import React from 'react'
-import {
-  TEXT_FONT_SIZES,
-  TEXT_FONTS,
-  TEXT_LETTER_SPACING,
-  TEXT_LINE_HEIGHTS,
-  TEXT_VARIANTS,
-  FONT_FAMILY,
-} from './elements/Text/tokens'
+import { TEXT_FONT_SIZES, TEXT_FONTS, TEXT_LETTER_SPACING, TEXT_VARIANTS, FONT_FAMILY } from './elements/Text/tokens'
 
 export const breakpoints = {
   xl: '1192px',
@@ -20,9 +12,6 @@ export const breakpoints = {
   xs: '767px',
 }
 
-/**
- * Copy of `breakpoints` as integers
- */
 export const unitlessBreakpoints = {
   /** Above 1192 */
   xl: parseInt(breakpoints.xl, 10),
@@ -36,6 +25,77 @@ export const unitlessBreakpoints = {
   xs: parseInt(breakpoints.xs, 10),
 }
 
+export const COLORS = {
+  white: '#FFF',
+  black: '#000',
+
+  primary000: '#E0E8F9',
+  primary100: '#BED0F7',
+  primary200: '#98AEEB',
+  primary300: '#7B93DB',
+  primary400: '#647ACB',
+  primary500: '#4C63B6',
+  primary600: '#4055A8',
+  primary700: '#35469C',
+  primary800: '#2D3A8C',
+  primary900: '#19216C',
+
+  neutral000: '#F5F7FA',
+  neutral100: '#E4E7EB',
+  neutral200: '#CBD2D9',
+  neutral300: '#9AA5B1',
+  neutral400: '#7B8794',
+  neutral500: '#616E7C',
+  neutral600: '#52606D',
+  neutral700: '#3E4C59',
+  neutral800: '#323F4B',
+  neutral900: '#1F2933',
+
+  accent000: '#E3F8FF',
+  accent100: '#B3ECFF',
+  accent200: '#81DEFD',
+  accent300: '#5ED0FA',
+  accent400: '#40C3F7',
+  accent500: '#2BB0ED',
+  accent600: '#1992D4',
+  accent700: '#127FBF',
+  accent800: '#0B69A3',
+  accent900: '#035388',
+
+  error000: '#FFE3E3',
+  error100: '#FFBDBD',
+  error200: '#FF9B9B',
+  error300: '#F86A6A',
+  error400: '#EF4E4E',
+  error500: '#E12D39',
+  error600: '#CF1124',
+  error700: '#AB091E',
+  error800: '#8A041A',
+  error900: '#610316',
+
+  warning000: '#FFFBEA',
+  warning100: '#FFF3C4',
+  warning200: '#FCE588',
+  warning300: '#FADB5F',
+  warning400: '#F7C948',
+  warning500: '#F0B429',
+  warning600: '#DE911D',
+  warning700: '#CB6E17',
+  warning800: '#B44D12',
+  warning900: '#8D2B0B',
+
+  success000: '#EFFCF6',
+  success100: '#C6F7E2',
+  success200: '#8EEDC7',
+  success300: '#65D6AD',
+  success400: '#3EBD93',
+  success500: '#27AB83',
+  success600: '#199473',
+  success700: '#147D64',
+  success800: '#0C6B58',
+  success900: '#014D40',
+}
+
 /**
  * We alias breakpoints onto the scale so that styled-system has access
  * to the named breakpoints as well as the scale
@@ -43,70 +103,18 @@ export const unitlessBreakpoints = {
 const BREAKPOINTS_SCALE = Object.assign([breakpoints.sm, breakpoints.md, breakpoints.lg, breakpoints.xl], breakpoints)
 
 export const themeProps = {
-  /** Border variations */
   borders: ['1px solid', '2px solid'],
   breakpoints: BREAKPOINTS_SCALE,
-  colors: {
-    primary000: '#E0E8F9',
-    primary100: '#BED0F7',
-    primary200: '#98AEEB',
-    primary300: '#7B93DB',
-    primary400: '#647ACB',
-    primary500: '#4C63B6',
-    primary600: '#4055A8',
-    primary700: '#35469C',
-    primary800: '#2D3A8C',
-    primary900: '#19216C',
-
-    neutral000: '#F5F7FA',
-    neutral100: '#E4E7EB',
-    neutral200: '#CBD2D9',
-    neutral300: '#9AA5B1',
-    neutral400: '#7B8794',
-    neutral500: '#616E7C',
-    neutral600: '#52606D',
-    neutral700: '#3E4C59',
-    neutral800: '#323F4B',
-    neutral900: '#1F2933',
-
-    error000: '#FFE3E3',
-    error100: '#FFBDBD',
-    error200: '#FF9B9B',
-    error300: '#F86A6A',
-    error400: '#EF4E4E',
-    error500: '#E12D39',
-    error600: '#CF1124',
-    error700: '#AB091E',
-    error800: '#8A041A',
-    error900: '#610316',
-
-    warning000: '#FFFBEA',
-    warning100: '#FFF3C4',
-    warning200: '#FCE588',
-    warning300: '#FADB5F',
-    warning400: '#F7C948',
-    warning500: '#F0B429',
-    warning600: '#DE911D',
-    warning700: '#CB6E17',
-    warning800: '#B44D12',
-    warning900: '#8D2B0B',
-
-    success000: '#EFFCF6',
-    success100: '#C6F7E2',
-    success200: '#8EEDC7',
-    success300: '#65D6AD',
-    success400: '#3EBD93',
-    success500: '#27AB83',
-    success600: '#199473',
-    success700: '#147D64',
-    success800: '#0C6B58',
-    success900: '#014D40',
-  },
+  colors: COLORS,
   fontFamily: FONT_FAMILY,
   fonts: TEXT_FONTS,
   fontSizes: TEXT_FONT_SIZES,
   letterSpacings: TEXT_LETTER_SPACING,
-  lineHeights: TEXT_LINE_HEIGHTS,
+  lineHeights: {
+    solid: 1,
+    title: 1.25,
+    body: 1.5,
+  },
   mediaQueries: {
     xl: `(min-width: ${breakpoints.xl})`,
     lg: `(min-width: ${breakpoints.lg}) and (max-width: ${parseInt(breakpoints.xl, 10) - 1})`,
@@ -283,22 +291,21 @@ export const themeProps = {
       },
     },
   },
-
+  fontWeights: {
+    regular: 400,
+    semibold: 500,
+  },
+  radii: {
+    buttonRadii: '4px',
+  },
   textVariants: TEXT_VARIANTS,
 }
 
-/** All available px spacing maps */
+export type Theme = typeof themeProps
 export type SpacingUnit = keyof typeof themeProps['space']
-/** All available color keys */
 export type Color = keyof typeof themeProps['colors']
-/** All available width breakpoint */
 export type Breakpoint = keyof typeof breakpoints
-
-/** All available type sizes */
 export type TypeSizes = typeof themeProps.typeSizes
-/** All available sizes for our sans font */
 export type SansSize = keyof TypeSizes['sans'] | Array<keyof TypeSizes['sans']>
-/** All available sizes for our serif font */
 export type SerifSize = keyof TypeSizes['serif'] | Array<keyof TypeSizes['serif']>
-/** All available sizes for our display font */
 export type DisplaySize = keyof TypeSizes['display'] | Array<keyof TypeSizes['display']>

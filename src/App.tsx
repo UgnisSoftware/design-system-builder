@@ -2,11 +2,16 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
 import { themeProps } from './Theme'
+import { Text } from './elements/Text/Text'
+import { GlobalStyle } from './helpers/GlobalStyle'
 
 export const App = () => {
   return (
     <ThemeProvider theme={themeProps}>
-      <div>Ugnis</div>
+      <GlobalStyle />
+      <Text variant="h1" textColor="primary900">
+        Ugnis
+      </Text>
     </ThemeProvider>
   )
 }

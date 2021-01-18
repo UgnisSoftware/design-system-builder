@@ -24,7 +24,7 @@ import type { themeProps } from '../../Theme'
 export interface BoxProps
   extends BackgroundProps,
     BorderProps,
-    ColorProps<typeof themeProps>,
+    Omit<ColorProps<typeof themeProps>, 'color'>,
     FlexboxProps,
     LayoutProps,
     PositionProps,
