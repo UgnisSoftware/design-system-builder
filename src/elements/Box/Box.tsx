@@ -1,3 +1,4 @@
+import type { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import {
   background,
@@ -23,6 +24,7 @@ import type { themeProps } from '../../Theme'
 
 export interface BoxProps
   extends BackgroundProps,
+    Omit<HTMLAttributes<any>, 'onChange'>,
     BorderProps,
     Omit<ColorProps<typeof themeProps>, 'color'>,
     FlexboxProps,

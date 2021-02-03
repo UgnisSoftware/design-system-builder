@@ -4,6 +4,14 @@ import { createGlobalStyle } from 'styled-components'
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   *:focus {
-   outline: none;
+    outline: none;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Nunito', sans-serif;
   }
 `
