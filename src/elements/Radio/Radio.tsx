@@ -22,34 +22,6 @@ type InnerCircleProps = Pick<ContainerProps, 'selected'>
 
 export interface RadioToggleProps extends Pick<ContainerProps, 'disabled' | 'selected'>, BorderProps, SpaceProps {}
 
-export const Radio: React.FC<RadioProps> = (props) => {
-  const { disabled, value, label, ...rest } = props
-  const { onChange, value: radioGroupValue, name } = useRadioGroup()
-  const selected = radioGroupValue === value
-
-  return (
-    <Container disabled={disabled} selected={selected} my={0.25} {...rest}>
-      <Label disabled={disabled}>
-        <Flex alignItems="center">
-          <RadioButton border={1} mr={0.5} selected={selected} disabled={disabled}>
-            <InnerCircle selected={selected} />
-          </RadioButton>
-          <input
-            type="radio"
-            hidden
-            name={name}
-            disabled={disabled}
-            onChange={onChange}
-            value={value}
-            checked={selected}
-          />
-          <Text>{label}</Text>
-        </Flex>
-      </Label>
-    </Container>
-  )
-}
-
 const Container = styled(Flex)<ContainerProps>`
   cursor: ${({ disabled }) => !disabled && 'pointer'};
   user-select: none;
@@ -111,3 +83,31 @@ const RadioButton = styled.div<RadioToggleProps>`
           border-color: ${themeGet('colors.primary500')};
         `}
 `
+
+export const Radio: React.FC<RadioProps> = (props) => {
+  const { disabled, value, label, ...rest } = props
+  const { onChange, value: radioGroupValue, name } = useRadioGroup()
+  const selected = radioGroupValue === value
+
+  return (
+    <Container disabled={disabled} selected={selected} my={0.25} {...rest}>
+      <Label disabled={disabled}>
+        <Flex alignItems="center">
+          <RadioButton border={1} mr={0.5} selected={selected} disabled={disabled}>
+            <InnerCircle selected={selected} />
+          </RadioButton>
+          <input
+            type="radio"
+            hidden
+            name={name}
+            disabled={disabled}
+            onChange={onChange}
+            value={value}
+            checked={selected}
+          />
+          <Text>{label}</Text>
+        </Flex>
+      </Label>
+    </Container>
+  )
+}

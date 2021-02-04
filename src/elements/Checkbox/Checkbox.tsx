@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 import { Transition } from 'react-spring/renderprops'
 

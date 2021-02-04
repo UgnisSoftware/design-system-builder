@@ -38,5 +38,3 @@ export const boxMixin = compose(background, border, color, flexbox, layout, posi
 export const Box = styled.div<BoxProps>`
   ${boxMixin}
 `
-
-Box.displayName = 'Box'

@@ -150,6 +150,12 @@ export const themeProps = {
     9: '128px',
     12: '256px',
   },
+  sizes: {
+    switch: {
+      height: '22px',
+      width: '44px',
+    },
+  },
   typeSizes: {
     sans: {
       '0': {
@@ -297,6 +303,8 @@ export const themeProps = {
   },
   radii: {
     buttonRadii: '4px',
+    round: '50%',
+    pill: '100px',
   },
   textVariants: TEXT_VARIANTS,
 }
