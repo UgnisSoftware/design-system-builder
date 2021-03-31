@@ -1,7 +1,7 @@
 import { themeGet } from '@styled-system/theme-get'
 import styled, { css } from 'styled-components'
 import { color, ColorProps, compose, ResponsiveValue, style, typography, TypographyProps, variant } from 'styled-system'
-import type { Color, themeProps } from '../../Theme'
+import type { Color, themeProps } from '../../theme'
 import { Box, boxMixin, BoxProps } from '../Box/Box'
 import { TEXT_VARIANTS, TextVariant } from './tokens'
 

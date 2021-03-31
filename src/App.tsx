@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
-import { themeProps } from './Theme'
+import { themeProps } from './theme'
 import { Text } from './elements/Text/Text'
 import { GlobalStyle } from './helpers/GlobalStyle'
 

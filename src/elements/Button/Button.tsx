@@ -3,7 +3,7 @@ import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components
 import { borderRadius, borders, height, space, textAlign, width } from 'styled-system'
 import { themeGet } from '@styled-system/theme-get'
 
-import { Theme, themeProps } from '../../Theme'
+import { Theme, themeProps } from '../../theme'
 import type { BoxProps } from '../Box/Box'
 import { Text } from '../Text/Text'
 import { Spinner, SpinnerSizes } from '../Spinner/Spinner'

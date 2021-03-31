@@ -20,7 +20,7 @@ import {
   TextAlignProps,
 } from 'styled-system'
 
-import type { themeProps } from '../../Theme'
+import type { themeProps } from '../../theme'
 
 export interface BoxProps
   extends BackgroundProps,

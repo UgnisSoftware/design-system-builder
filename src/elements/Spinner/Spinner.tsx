@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import type { RequireField } from '../../../types/helpers/RequireField'
-import type { Color } from '../../Theme'
+import type { Color } from '../../theme'
 
 export type SpinnerVariant = 'xsmall' | 'small' | 'medium'
 export type SpinnerProps = {
