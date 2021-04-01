@@ -1,15 +1,15 @@
-import React, { ReactNode, useMemo } from 'react'
-import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components'
-import { borderRadius, borders, height, space, textAlign, width } from 'styled-system'
-import { themeGet } from '@styled-system/theme-get'
+import React, { ReactNode, useMemo } from "react"
+import styled, { css, FlattenInterpolation, ThemeProps } from "styled-components"
+import { borderRadius, borders, height, space, textAlign, width } from "styled-system"
+import { themeGet } from "@styled-system/theme-get"
 
-import { Theme, themeProps } from '../../theme'
-import type { BoxProps } from '../Box/Box'
-import { Text } from '../Text/Text'
-import { Spinner, SpinnerSizes } from '../Spinner/Spinner'
+import { Theme, themeProps } from "../../theme"
+import type { BoxProps } from "../Box/Box"
+import { Text } from "../Text/Text"
+import { Spinner, SpinnerSizes } from "../Spinner/Spinner"
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'text'
-export type ButtonSize = 'small' | 'medium'
+export type ButtonVariant = "primary" | "secondary" | "outline" | "text"
+export type ButtonSize = "small" | "medium"
 
 export interface ButtonProps extends BoxProps {
   children: ReactNode
@@ -32,7 +32,8 @@ const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   white-space: nowrap;
   border-style: none;
-  border-radius: ${themeGet('radii.buttonRadii')};
+  border-radius: ${themeGet("radii.buttonRadii")};
+  width: fit-content;
   ${(props) => props.sizeStyle};
 
   ${borders};
@@ -62,7 +63,7 @@ const ButtonBase = styled.button<ButtonBaseProps>`
 
   svg {
     color: currentColor;
-    ${(props) => (props.loading ? 'opacity: 0;  pointer-events: none;' : '')}
+    ${(props) => (props.loading ? "opacity: 0;  pointer-events: none;" : "")}
   }
 `
 
@@ -80,7 +81,7 @@ const StyledSpinner = styled(Spinner)`
 const getVariantStyle = (variant: ButtonVariant) => {
   switch (variant) {
     default:
-    case 'primary':
+    case "primary":
       return css`
         ${(props) => {
           const {
@@ -108,7 +109,7 @@ const getVariantStyle = (variant: ButtonVariant) => {
           `
         }}
       `
-    case 'secondary':
+    case "secondary":
       return css`
         ${(props) => {
           const { colors } = props.theme
@@ -133,13 +134,13 @@ const getVariantStyle = (variant: ButtonVariant) => {
           `
         }}
       `
-    case 'outline':
+    case "outline":
       return css`
         ${(props) => {
           const { colors } = props.theme
           return css`
             color: ${colors.neutral800};
-            border: ${themeGet('borders.0')} ${colors.primary300};
+            border: ${themeGet("borders.0")} ${colors.primary300};
             background-color: transparent;
             @media ${themeProps.mediaQueries.hover} {
               &:hover {
@@ -160,7 +161,7 @@ const getVariantStyle = (variant: ButtonVariant) => {
           `
         }}
       `
-    case 'text':
+    case "text":
       return css`
         ${(props) => {
           const { colors } = props.theme
@@ -189,21 +190,21 @@ const getVariantStyle = (variant: ButtonVariant) => {
 const getSizeStyle = (size: ButtonSize) => {
   switch (size) {
     default:
-    case 'medium':
+    case "medium":
       return css`
-        padding: ${themeGet('space.1')} ${(props: ThemeProps<typeof themeProps>) => props.theme.space['1.5']};
+        padding: ${themeGet("space.1")} ${(props: ThemeProps<typeof themeProps>) => props.theme.space["1.5"]};
       `
-    case 'small':
+    case "small":
       return css`
-        padding: ${(props: ThemeProps<typeof themeProps>) => props.theme.space['0.5']} ${themeGet('space.1')};
+        padding: ${(props: ThemeProps<typeof themeProps>) => props.theme.space["0.5"]} ${themeGet("space.1")};
       `
   }
 }
 
 export const Button = ({
   children,
-  variant = 'primary',
-  size = 'medium',
+  variant = "primary",
+  size = "medium",
   loading,
   iconLeft,
   iconRight,
@@ -211,9 +212,9 @@ export const Button = ({
 }: ButtonProps) => {
   const variantStyle = useMemo(() => getVariantStyle(variant), [variant])
   const sizeStyle = useMemo(() => getSizeStyle(size), [size])
-  const textSize = size === 'medium' ? 'body2' : 'caption'
-  const spinnerVariant = size === 'medium' ? 'small' : 'xsmall'
-  const variantSpinnerColor = variant === 'primary' ? 'white' : 'neutral800'
+  const textSize = size === "medium" ? "body2" : "caption"
+  const spinnerVariant = size === "medium" ? "small" : "xsmall"
+  const variantSpinnerColor = variant === "primary" ? "white" : "neutral800"
   return (
     <ButtonBase sizeStyle={sizeStyle} variantStyle={variantStyle} {...rest} display="flex">
       {loading && (
