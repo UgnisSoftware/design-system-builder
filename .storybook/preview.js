@@ -1,6 +1,6 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import { GlobalStyle } from '../src/helpers/GlobalStyle'
+import { GlobalStyle } from './GlobalStyle'
 import { themeProps } from '../src/theme'
 
 export const parameters = {

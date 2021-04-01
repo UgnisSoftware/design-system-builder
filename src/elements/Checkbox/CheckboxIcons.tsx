@@ -1,3 +1,5 @@
+import React from 'react'
+
 type CheckboxIconProps = {
   style?: object
   className?: string
