@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react"
+import styled from "@emotion/styled"
 
-import type { RequireField } from '../../types/helpers/RequireField'
-import type { Color } from '../../theme'
+import type { RequireField } from "../../utils/types"
+import type { Color } from "../../theme/theme"
 
-export type SpinnerVariant = 'xsmall' | 'small' | 'medium'
+export type SpinnerVariant = "xsmall" | "small" | "medium"
 export type SpinnerProps = {
   variant?: SpinnerVariant
   className?: string
@@ -18,12 +18,12 @@ export const SpinnerSizes = {
 } as const
 
 export const Spinner = ({ variant, className, color }: SpinnerProps) => (
-  <StyledSpinner viewBox="0 0 66 66" variant={variant || 'medium'} className={className} color={color}>
+  <StyledSpinner viewBox="0 0 66 66" variant={variant || "medium"} className={className} color={color}>
     <circle className="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
   </StyledSpinner>
 )
 
-const StyledSpinner = styled.svg<RequireField<SpinnerProps, 'variant'>>`
+const StyledSpinner = styled.svg<RequireField<SpinnerProps, "variant">>`
   animation: rotate 1s linear infinite;
   width: ${({ variant }) => SpinnerSizes[variant]}px;
   height: ${({ variant }) => SpinnerSizes[variant]}px;

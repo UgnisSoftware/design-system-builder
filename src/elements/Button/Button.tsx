@@ -1,9 +1,9 @@
 import React, { ReactNode, useMemo } from "react"
-import styled, { css, FlattenInterpolation, ThemeProps } from "styled-components"
+import styled from "@emotion/styled"
 import { borderRadius, borders, height, space, textAlign, width } from "styled-system"
 import { themeGet } from "@styled-system/theme-get"
 
-import { Theme, themeProps } from "../../theme"
+import { themeProps } from "../../theme/theme"
 import type { BoxProps } from "../Box/Box"
 import { Text } from "../Text/Text"
 import { Spinner, SpinnerSizes } from "../Spinner/Spinner"
@@ -22,8 +22,8 @@ export interface ButtonProps extends BoxProps {
 }
 
 export interface ButtonBaseProps extends ButtonProps {
-  variantStyle: FlattenInterpolation<ThemeProps<Theme>>
-  sizeStyle: FlattenInterpolation<ThemeProps<Theme>>
+  variantStyle: any
+  sizeStyle: any
 }
 
 const ButtonBase = styled.button<ButtonBaseProps>`
@@ -82,12 +82,12 @@ const getVariantStyle = (variant: ButtonVariant) => {
   switch (variant) {
     default:
     case "primary":
-      return css`
+      return `
         ${(props) => {
           const {
             theme: { colors },
           } = props
-          return css`
+          return `
             background-color: ${colors.primary500};
             color: ${colors.white};
 
@@ -110,10 +110,10 @@ const getVariantStyle = (variant: ButtonVariant) => {
         }}
       `
     case "secondary":
-      return css`
+      return `
         ${(props) => {
           const { colors } = props.theme
-          return css`
+          return `
             background-color: ${colors.neutral100};
             color: ${colors.neutral800};
 
@@ -135,10 +135,10 @@ const getVariantStyle = (variant: ButtonVariant) => {
         }}
       `
     case "outline":
-      return css`
+      return `
         ${(props) => {
           const { colors } = props.theme
-          return css`
+          return `
             color: ${colors.neutral800};
             border: ${themeGet("borders.0")} ${colors.primary300};
             background-color: transparent;
@@ -162,10 +162,10 @@ const getVariantStyle = (variant: ButtonVariant) => {
         }}
       `
     case "text":
-      return css`
+      return `
         ${(props) => {
           const { colors } = props.theme
-          return css`
+          return `
             color: ${colors.neutral800};
             background-color: transparent;
             @media ${themeProps.mediaQueries.hover} {
@@ -191,12 +191,12 @@ const getSizeStyle = (size: ButtonSize) => {
   switch (size) {
     default:
     case "medium":
-      return css`
-        padding: ${themeGet("space.1")} ${(props: ThemeProps<typeof themeProps>) => props.theme.space["1.5"]};
+      return `
+        padding: ${themeGet("space.1")} ${(props: any) => props.theme.space["1.5"]};
       `
     case "small":
-      return css`
-        padding: ${(props: ThemeProps<typeof themeProps>) => props.theme.space["0.5"]} ${themeGet("space.1")};
+      return `
+        padding: ${(props: any) => props.theme.space["0.5"]} ${themeGet("space.1")};
       `
   }
 }

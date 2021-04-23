@@ -1,5 +1,5 @@
-import type { HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import type { HTMLAttributes } from "react"
+import styled from "@emotion/styled"
 import {
   background,
   BackgroundProps,
@@ -18,15 +18,15 @@ import {
   SpaceProps,
   textAlign,
   TextAlignProps,
-} from 'styled-system'
+} from "styled-system"
 
-import type { themeProps } from '../../theme'
+import type { themeProps } from "../../theme/theme"
 
 export interface BoxProps
   extends BackgroundProps,
-    Omit<HTMLAttributes<any>, 'onChange'>,
+    Omit<HTMLAttributes<any>, "onChange">,
     BorderProps,
-    Omit<ColorProps<typeof themeProps>, 'color'>,
+    Omit<ColorProps<typeof themeProps>, "color">,
     FlexboxProps,
     LayoutProps,
     PositionProps,

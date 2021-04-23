@@ -1,16 +1,29 @@
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { GlobalStyle } from './GlobalStyle'
-import { themeProps } from '../src/theme'
+import React from "react"
+import { ThemeProvider, Global, css } from "@emotion/react"
+import { themeProps } from "../src"
+import { CSSReset } from "../src/css-reset"
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  actions: { argTypesRegex: "^on[A-Z].*" },
 }
 
 export const decorators = [
   (Story) => (
     <ThemeProvider theme={themeProps}>
-      <GlobalStyle />
+      <CSSReset />
+      <Global
+        styles={css`
+          *:focus {
+            outline: none;
+          }
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Nunito", sans-serif;
+          }
+        `}
+      />
       <Story />
     </ThemeProvider>
   ),

@@ -1,9 +1,9 @@
-import { themeGet } from '@styled-system/theme-get'
-import styled, { css } from 'styled-components'
-import { color, ColorProps, compose, ResponsiveValue, style, typography, TypographyProps, variant } from 'styled-system'
-import type { Color, themeProps } from '../../theme'
-import { Box, boxMixin, BoxProps } from '../Box/Box'
-import { TEXT_VARIANTS, TextVariant } from './tokens'
+import { themeGet } from "@styled-system/theme-get"
+import styled from "@emotion/styled"
+import { color, ColorProps, compose, ResponsiveValue, style, typography, TypographyProps, variant } from "styled-system"
+import type { Color, themeProps } from "../../theme/theme"
+import { Box, boxMixin, BoxProps } from "../Box/Box"
+import { TEXT_VARIANTS, TextVariant } from "./tokens"
 
 export type BaseTextProps = TypographyProps<typeof themeProps> &
   ColorProps<typeof themeProps> & {
@@ -12,14 +12,14 @@ export type BaseTextProps = TypographyProps<typeof themeProps> &
   }
 
 const textColor = style({
-  prop: 'textColor',
-  cssProperty: 'color',
-  key: 'colors',
+  prop: "textColor",
+  cssProperty: "color",
+  key: "colors",
 })
 
 export const textMixin = compose(typography, color, textColor)
 
-export const overflowEllipsisMixin = css`
+export const overflowEllipsisMixin = `
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -31,7 +31,7 @@ export const Text = styled(Box)<TextProps>`
   ${variant({ variants: TEXT_VARIANTS.small })}
   ${textMixin}
 
-  @media (min-width: ${themeGet('breakpoints.0')}) {
+  @media (min-width: ${themeGet("breakpoints.0")}) {
     ${variant({ variants: TEXT_VARIANTS.large })}
     ${textMixin}
     ${boxMixin}
@@ -40,9 +40,9 @@ export const Text = styled(Box)<TextProps>`
   ${({ overflowEllipsis }) => overflowEllipsis && overflowEllipsisMixin}
 `
 
-Text.displayName = 'Text'
+Text.displayName = "Text"
 
 Text.defaultProps = {
-  fontFamily: 'sans',
-  variant: 'body',
+  fontFamily: "sans",
+  variant: "body",
 }
