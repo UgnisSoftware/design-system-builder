@@ -5,7 +5,7 @@ import { Transition } from "react-spring/renderprops"
 import { Flex, FlexProps } from "../Flex/Flex"
 import { CheckedIcon, PartiallyCheckedIcon, EmptyIcon } from "./CheckboxIcons"
 import { Box } from "../Box/Box"
-import { Text } from "../Text/Text"
+import { Text } from "../Text/src/Text"
 import { themeGet } from "@styled-system/theme-get"
 
 export interface CheckboxProps extends FlexProps {

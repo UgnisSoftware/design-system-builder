@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import type { Story, Meta } from '@storybook/react'
 
 import { Switch } from './Switch'
-import { Text } from '../Text/Text'
+import { Text } from '../Text/src/Text'
 
 export default {
   title: 'Elements/Switch',

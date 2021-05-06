@@ -4,8 +4,8 @@ import { propNames } from "../../styled-system"
  * List of props for emotion to omit from DOM.
  * It mostly consists of Chakra props
  */
-const allPropNames = new Set([
-  ...propNames,
+
+export const systemProps = [
   "textStyle",
   "layerStyle",
   "apply",
@@ -17,7 +17,10 @@ const allPropNames = new Set([
   "__css",
   "css",
   "sx",
-])
+]
+export const HTMLprops = ["htmlWidth", "htmlHeight", "htmlSize"]
+
+const allPropNames = new Set([...propNames, ...systemProps])
 
 /**
  * htmlWidth and htmlHeight is used in the <Image />
@@ -25,6 +28,6 @@ const allPropNames = new Set([
  *
  * https://github.com/chakra-ui/chakra-ui/issues/149
  */
-const validHTMLProps = new Set(["htmlWidth", "htmlHeight", "htmlSize"])
+const validHTMLProps = new Set(HTMLprops)
 
 export const shouldForwardProp = (prop: string): boolean => validHTMLProps.has(prop) || !allPropNames.has(prop)

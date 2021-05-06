@@ -5,10 +5,10 @@ import type { Dict } from "../../utils"
 
 export interface ThemingProps<ThemeComponent extends string = string> {
   variant?: ThemeComponent extends keyof ThemeTypings["components"]
-    ? ThemeTypings["components"][ThemeComponent]["variants"] | (string & {})
+    ? ThemeTypings["components"][ThemeComponent]["variants"]
     : string
   size?: ThemeComponent extends keyof ThemeTypings["components"]
-    ? ThemeTypings["components"][ThemeComponent]["sizes"] | (string & {})
+    ? ThemeTypings["components"][ThemeComponent]["sizes"]
     : string
   colorScheme?: ThemeTypings["colorSchemes"] | (string & {})
   orientation?: "vertical" | "horizontal"
@@ -82,9 +82,7 @@ export type MergeWithAs<
   }
 
 export type ComponentWithAs<Component extends As, Props extends object = {}> = {
-  <AsComponent extends As>(
-    props: MergeWithAs<React.ComponentProps<Component>, React.ComponentProps<AsComponent>, Props, AsComponent>,
-  ): JSX.Element
+  (props: MergeWithAs<React.ComponentProps<Component>, object, Props>): JSX.Element
 
   displayName?: string
   propTypes?: React.WeakValidationMap<any>

@@ -35,6 +35,7 @@ import Switch from "./switch"
 import Table from "./table"
 import Tabs from "./tabs"
 import Tag from "./tag"
+import Text from "./text"
 import Textarea from "./textarea"
 import Tooltip from "./tooltip"
 import FormError from "./form-error"
@@ -77,6 +78,7 @@ export default {
   Table,
   Tabs,
   Tag,
+  Text,
   Textarea,
   Tooltip,
   FormError,

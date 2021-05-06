@@ -1,20 +1,19 @@
 export const TEXT_FONTS = {
-  sans: '"Nunito", "Helvetica Neue", Helvetica, Arial, sans-serif',
   serif: '"adobe-garamond-pro", "Times New Roman", Times, serif',
 }
 
 export const TEXT_FONT_SIZES = {
-  size11: '72px',
-  size10: '60px',
-  size9: '48px',
-  size8: '36px',
-  size7: '30px',
-  size6: '24px',
-  size5: '20px',
-  size4: '18px',
-  size3: '16px',
-  size2: '14px',
-  size1: '12px',
+  size11: "72px",
+  size10: "60px",
+  size9: "48px",
+  size8: "36px",
+  size7: "30px",
+  size6: "24px",
+  size5: "20px",
+  size4: "18px",
+  size3: "16px",
+  size2: "14px",
+  size1: "12px",
 }
 
 export type TextFontSize = keyof typeof TEXT_FONT_SIZES
@@ -28,8 +27,8 @@ export const TEXT_LINE_HEIGHTS = {
 export type TextLineHeight = keyof typeof TEXT_LINE_HEIGHTS
 
 export const TEXT_LETTER_SPACING = {
-  tight: '-0.02em',
-  tightest: '-0.03em',
+  tight: "-0.02em",
+  tightest: "-0.03em",
 }
 
 export type TextLetterSpacing = keyof typeof TEXT_LETTER_SPACING
@@ -38,10 +37,10 @@ export interface TextTreatment {
   fontSize: TextFontSize
   lineHeight: TextLineHeight
   letterSpacing?: TextLetterSpacing
-  fontWeight?: 'normal' | 'bold'
+  fontWeight?: "normal" | "bold"
 }
 
-export const TEXT_TREATMENTS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body', 'body2', 'caption'] as const
+export const TEXT_TREATMENTS = ["h1", "h2", "h3", "h4", "h5", "h6", "body", "body2", "caption"] as const
 
 export type TextTreatments = {
   [K in typeof TEXT_TREATMENTS[number]]: TextTreatment
@@ -50,96 +49,96 @@ export type TextTreatments = {
 export const TEXT_VARIANTS: { [key: string]: TextTreatments } = {
   large: {
     h1: {
-      fontSize: 'size11',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size11",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h2: {
-      fontSize: 'size10',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size10",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h3: {
-      fontSize: 'size9',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size9",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h4: {
-      fontSize: 'size8',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size8",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h5: {
-      fontSize: 'size6',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size6",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h6: {
-      fontSize: 'size4',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size4",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     body: {
-      fontSize: 'size3',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size3",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     body2: {
-      fontSize: 'size2',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size2",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     caption: {
-      fontSize: 'size1',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size1",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
   },
   small: {
     h1: {
-      fontSize: 'size11',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size11",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h2: {
-      fontSize: 'size10',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size10",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h3: {
-      fontSize: 'size9',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size9",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h4: {
-      fontSize: 'size8',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size8",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h5: {
-      fontSize: 'size6',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size6",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     h6: {
-      fontSize: 'size4',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size4",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     body: {
-      fontSize: 'size3',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size3",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
     body2: {
-      fontSize: 'size2',
-      lineHeight: 'body',
-      fontWeight: 'normal',
+      fontSize: "size2",
+      lineHeight: "body",
+      fontWeight: "normal",
     },
     caption: {
-      fontSize: 'size1',
-      lineHeight: 'title',
-      fontWeight: 'normal',
+      fontSize: "size1",
+      lineHeight: "title",
+      fontWeight: "normal",
     },
   },
 }
@@ -178,7 +177,7 @@ export const FONT_FAMILY: FontFamily = {
     regular: `Unica77LLWebRegular, ${sansFallback}`,
     italic: {
       fontFamily: `Unica77LLWebItalic, ${sansFallback}`,
-      fontStyle: 'italic',
+      fontStyle: "italic",
     },
     medium: {
       fontFamily: `Unica77LLWebMedium, ${sansFallback}`,
@@ -187,14 +186,14 @@ export const FONT_FAMILY: FontFamily = {
     mediumItalic: {
       fontFamily: `Unica77LLWebMediumItalic, ${sansFallback}`,
       fontWeight: 500,
-      fontStyle: 'italic',
+      fontStyle: "italic",
     },
   },
   serif: {
     regular: "'Adobe Garamond W08', 'adobe-garamond-pro', 'AGaramondPro-Regular', 'Times New Roman', Times, serif",
     italic: {
       fontFamily: "'Adobe Garamond W08', 'adobe-garamond-pro', 'AGaramondPro-Regular', 'Times New Roman', Times, serif",
-      fontStyle: 'italic',
+      fontStyle: "italic",
     },
     semibold: {
       fontFamily: "'Adobe Garamond W08', 'adobe-garamond-pro', 'AGaramondPro-Regular', 'Times New Roman', Times, serif",

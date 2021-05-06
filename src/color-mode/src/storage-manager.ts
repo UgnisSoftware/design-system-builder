@@ -1,4 +1,4 @@
-import { ColorMode } from "./color-mode.utils"
+import type { ColorMode } from "./color-mode.utils"
 import { __DEV__ } from "../../utils"
 
 const hasSupport = () => typeof Storage !== "undefined"

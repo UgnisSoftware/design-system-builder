@@ -49,7 +49,7 @@ export type CSSWithMultiValues = {
   [K in keyof SystemCSSProperties]?: K extends keyof StyleProps ? StyleProps[K] | PropertyValue<K> : PropertyValue<K>
 }
 
-type PseudoKeys = keyof CSS.Pseudos | keyof Pseudos
+type PseudoKeys = CSS.Pseudos | keyof Pseudos
 
 type PseudoSelectorDefinition<D> = D | RecursivePseudo<D>
 
@@ -63,9 +63,11 @@ export interface RecursiveCSSSelector<D> {
   [selector: string]: CSSDefinition<D> & D
 }
 
-export type RecursiveCSSObject<D> = D & (D | RecursivePseudo<D> | RecursiveCSSSelector<D>)
+export type RecursiveCSSObject<D> = D & (RecursivePseudo<D> | RecursiveCSSSelector<D>)
 
 export type CSSObject = RecursiveCSSObject<CSSWithMultiValues>
+
+type a = RecursiveCSSObject<CSSWithMultiValues>
 
 export type SystemStyleObject = CSSObject
 

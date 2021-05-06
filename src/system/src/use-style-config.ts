@@ -58,7 +58,6 @@ export function useStyleConfig(themeKey: any, props: any = {}, opts: any = {}) {
         stylesRef.current = styles
       }
     }
-
     return stylesRef.current
   }, [styleConfig, mergedProps, opts?.isMultiPart])
 }

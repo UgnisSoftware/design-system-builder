@@ -5,7 +5,7 @@ import { BorderProps, borders, space as styledSpace, SpaceProps } from "styled-s
 
 import { Flex, FlexProps } from "../Flex/Flex"
 import { useRadioGroup } from "../RadioGroup/RadioGroup"
-import { Text } from "../Text/Text"
+import { Text } from "../Text/src/Text"
 
 export interface RadioProps extends FlexProps {
   disabled?: boolean
