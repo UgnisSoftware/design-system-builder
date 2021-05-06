@@ -474,7 +474,7 @@ export interface ThemeTypings {
       variants: never
     }
     Radio: {
-      sizes: "md" | "lg" | "sm"
+      sizes: never
       variants: never
     }
     Select: {

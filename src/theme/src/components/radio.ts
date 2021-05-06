@@ -1,51 +1,58 @@
-import Checkbox from "./checkbox"
-
 const parts = ["container", "control", "label"]
 
-function baseStyleControl(props: Record<string, any>) {
-  const { control } = Checkbox.baseStyle(props)
-
-  return {
-    ...control,
-    borderRadius: "full",
-    _checked: {
-      ...control["_checked"],
-      _before: {
-        content: `""`,
-        display: "inline-block",
-        pos: "relative",
-        w: "50%",
-        h: "50%",
-        borderRadius: "50%",
-        bg: "currentColor",
-      },
+const control = {
+  borderRadius: "full",
+  w: "100%",
+  border: "2px solid",
+  color: "primary.500",
+  borderColor: "currentColor",
+  _disabled: {
+    color: "neutral.300",
+    _hover: {
+      color: "neutral.300",
     },
-  }
+  },
+  _focus: {
+    color: "primary.600",
+  },
+  _invalid: {
+    color: "warning.500",
+  },
+  _hover: {
+    color: "primary.400",
+  },
+  _checked: {
+    _before: {
+      content: `""`,
+      display: "inline-block",
+      pos: "relative",
+      w: "50%",
+      h: "50%",
+      borderRadius: "50%",
+      bg: "currentColor",
+    },
+  },
 }
 
-const baseStyle = (props: Record<string, any>) => ({
-  label: Checkbox.baseStyle(props).label,
-  control: baseStyleControl(props),
-})
+const label = {
+  userSelect: "none",
+  _disabled: { color: "neutral.300" },
+}
+
+const baseStyle = {
+  label,
+  control,
+}
 
 const sizes = {
-  md: {
-    control: { w: 4, h: 4 },
-    label: { fontSize: "md" },
-  },
-  lg: {
-    control: { w: 5, h: 5 },
-    label: { fontSize: "lg" },
-  },
   sm: {
-    control: { width: 3, height: 3 },
-    label: { fontSize: "sm" },
+    control: { width: 2.5, height: 2.5 },
+    label: { fontSize: "md" },
   },
 }
 
 const defaultProps = {
-  size: "md",
-  colorScheme: "blue",
+  size: "sm",
 }
 
 export default {
