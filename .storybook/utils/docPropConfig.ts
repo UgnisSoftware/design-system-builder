@@ -23,3 +23,11 @@ export const propConfig = allProps.reduce<Record<AllProps, Config>>((acc, prop) 
   }
   return acc
 }, {})
+
+export const excludeProps = (...args: any[]) =>
+  args?.reduce<Record<AllProps, Config>>((acc, prop) => {
+    ;(acc as any)[prop] = {
+      table: { disable: true },
+    }
+    return acc
+  }, {})

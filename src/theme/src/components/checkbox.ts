@@ -1,87 +1,63 @@
-import { mode } from "../../../theme-tools"
-
 const parts = ["container", "control", "label", "icon"]
 
-function baseStyleControl(props: Record<string, any>) {
-  const { colorScheme: c } = props
+const control = {
+  w: "100%",
+  transition: "box-shadow 250ms",
+  border: "2px solid",
+  borderRadius: "sm",
+  borderColor: "primary.500",
+  color: "white",
 
-  return {
-    w: "100%",
-    transition: "box-shadow 250ms",
-    border: "2px solid",
-    borderRadius: "sm",
-    borderColor: "inherit",
+  _checked: {
+    bg: "primary.500",
+    borderColor: "primary.500",
     color: "white",
 
-    _checked: {
-      bg: mode(`${c}.500`, `${c}.200`)(props),
-      borderColor: mode(`${c}.500`, `${c}.200`)(props),
-      color: mode("white", "gray.900")(props),
-
-      _hover: {
-        bg: mode(`${c}.600`, `${c}.300`)(props),
-        borderColor: mode(`${c}.600`, `${c}.300`)(props),
-      },
-
-      _disabled: {
-        borderColor: mode("gray.200", "transparent")(props),
-        bg: mode("gray.200", "whiteAlpha.300")(props),
-        color: mode("gray.500", "whiteAlpha.500")(props),
-      },
-    },
-
-    _indeterminate: {
-      bg: mode(`${c}.500`, `${c}.200`)(props),
-      borderColor: mode(`${c}.500`, `${c}.200`)(props),
-      color: mode("white", "gray.900")(props),
+    _hover: {
+      bg: "primary.400",
+      borderColor: "primary.400",
     },
 
     _disabled: {
-      bg: mode("gray.100", "whiteAlpha.100")(props),
-      borderColor: mode("gray.100", "transparent")(props),
+      borderColor: "neutral.300",
+      bg: "neutral.300",
+      color: "white",
     },
+  },
 
-    _focus: {
-      boxShadow: "outline",
-    },
+  _disabled: {
+    borderColor: "neutral.300",
+  },
 
-    _invalid: {
-      borderColor: mode("red.500", "red.300")(props),
-    },
-  }
+  _invalid: {
+    borderColor: "error.500",
+  },
+
+  _indeterminate: {
+    bg: "primary.500",
+  },
 }
 
-const baseStyleLabel = {
+const label = {
   userSelect: "none",
-  _disabled: { opacity: 0.4 },
+  _disabled: { color: "neutral.300" },
 }
 
-const baseStyle = (props: Record<string, any>) => ({
-  control: baseStyleControl(props),
-  label: baseStyleLabel,
-})
+const baseStyle = {
+  control,
+  label,
+}
 
 const sizes = {
   sm: {
-    control: { h: 3, w: 3 },
-    label: { fontSize: "sm" },
-    icon: { fontSize: "0.45rem" },
-  },
-  md: {
-    control: { w: 4, h: 4 },
+    control: { h: "1.125rem", w: "1.125rem" },
     label: { fontSize: "md" },
-    icon: { fontSize: "0.625rem" },
-  },
-  lg: {
-    control: { w: 5, h: 5 },
-    label: { fontSize: "lg" },
-    icon: { fontSize: "0.625rem" },
+    icon: { fontSize: "0.6rem" },
   },
 }
 
 const defaultProps = {
-  size: "md",
-  colorScheme: "blue",
+  size: "sm",
 }
 
 export default {

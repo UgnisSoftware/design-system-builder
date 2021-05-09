@@ -38,9 +38,6 @@
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "build-storybook": "build-storybook"
   },
-  "peerDependencies": {
-    "react": ">=16.3.1"
-  },
   "dependencies": {
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^10.0.27",
@@ -48,7 +45,7 @@
     "@types/lodash.mergewith": "^4.6.6",
     "copy-to-clipboard": "^3.3.1",
     "css-box-model": "^1.2.1",
-    "framer-motion": "^4.1.5",
+    "framer-motion": "^4.1.11",
     "lodash.mergewith": "^4.6.2",
     "react-fast-compare": "^2.0.4",
     "react-icons": "^4.1.0",

@@ -394,7 +394,7 @@ export interface ThemeTypings {
       variants: "primary" | "outline" | "secondary" | "text"
     }
     Checkbox: {
-      sizes: "sm" | "md" | "lg"
+      sizes: "sm"
       variants: never
     }
     CloseButton: {
