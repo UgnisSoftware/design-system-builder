@@ -1,4 +1,4 @@
-import type { ButtonProps } from "../../../elements/Button"
+import type { ButtonProps } from "../../../components/Button"
 
 const baseStyle = {
   borderRadius: "md",

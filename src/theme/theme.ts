@@ -1,4 +1,4 @@
-import { TEXT_FONT_SIZES, TEXT_FONTS, TEXT_LETTER_SPACING, TEXT_VARIANTS, FONT_FAMILY } from '../elements/Text/tokens'
+import { TEXT_FONT_SIZES, TEXT_FONTS, TEXT_LETTER_SPACING, TEXT_VARIANTS, FONT_FAMILY } from '../components/Text/tokens'
 
 export const breakpoints = {
   xl: '1192px',
