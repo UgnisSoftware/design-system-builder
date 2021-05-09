@@ -1,4 +1,4 @@
-import { Spinner } from "../../Spinner"
+import { Spinner } from "~/components/Spinner"
 import {
   chakra,
   forwardRef,
@@ -8,8 +8,8 @@ import {
   ThemingProps,
   useStyleConfig,
   HTMLChakraProps,
-} from "../../../system"
-import { cx, dataAttr, mergeWith, __DEV__ } from "../../../utils"
+} from "~/system"
+import { cx, dataAttr, mergeWith, __DEV__ } from "~/utils"
 import * as React from "react"
 import { useButtonGroup } from "./Button-group"
 
