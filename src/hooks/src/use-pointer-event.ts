@@ -3,16 +3,12 @@
  * License can be found here: https://github.com/framer/motion
  */
 
-import {
-  EventListenerWithPointInfo,
-  getPointerEventName,
-  wrapPointerEventHandler,
-} from "../../utils"
+import { EventListenerWithPointInfo, getPointerEventName, TouchEventName, wrapPointerEventHandler } from "../../utils"
 import { useEventListener } from "./use-event-listener"
 
 export function usePointerEvent(
   env: Document | HTMLElement | null,
-  eventName: string,
+  eventName: TouchEventName,
   handler: EventListenerWithPointInfo,
   options?: AddEventListenerOptions,
 ) {

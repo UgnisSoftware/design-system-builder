@@ -25,7 +25,7 @@ export type ThemeOverride = Partial<ChakraTheme> & DeepThemeExtension<Theme, Cha
  * @param overrides - Your custom theme object overrides
  * @param baseTheme - theme to customize
  */
-export function extendTheme<BaseTheme extends ChakraTheme = Theme, Overrides extends ThemeOverride = ThemeOverride>(
+export function extendTheme<BaseTheme extends ChakraTheme = ChakraTheme, Overrides extends ThemeOverride = ThemeOverride>(
   overrides: Overrides,
   baseTheme: BaseTheme = (defaultTheme as unknown) as BaseTheme,
 ): BaseTheme & Overrides {

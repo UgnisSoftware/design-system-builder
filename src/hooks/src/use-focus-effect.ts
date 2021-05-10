@@ -1,4 +1,4 @@
-import * as React from "react"
+import type * as React from "react"
 import { hasFocusWithin, focus } from "../../utils"
 import { useUpdateEffect } from "./use-update-effect"
 
@@ -12,10 +12,7 @@ export type UseFocusEffectOptions = {
  * @param ref the ref of the element to focus
  * @param options focus management options
  */
-export function useFocusEffect<T extends HTMLElement>(
-  ref: React.RefObject<T>,
-  options: UseFocusEffectOptions,
-) {
+export function useFocusEffect<T extends HTMLElement>(ref: React.RefObject<T>, options: UseFocusEffectOptions) {
   const { shouldFocus, preventScroll } = options
 
   useUpdateEffect(() => {

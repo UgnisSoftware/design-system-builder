@@ -82,8 +82,9 @@ export type MergeWithAs<
   }
 
 export type ComponentWithAs<Component extends As, Props extends object = {}> = {
-  (props: MergeWithAs<React.ComponentProps<Component>, object, Props>): JSX.Element
-
+  <AsComponent extends As>(
+    props: MergeWithAs<React.ComponentProps<Component>, React.ComponentProps<AsComponent>, Props, AsComponent>,
+  ): JSX.Element
   displayName?: string
   propTypes?: React.WeakValidationMap<any>
   contextTypes?: React.ValidationMap<any>

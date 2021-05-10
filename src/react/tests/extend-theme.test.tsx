@@ -1,4 +1,4 @@
-import { extendTheme, ThemeOverride } from '../src'
+import { extendTheme, ThemeOverride } from "../src"
 import { createBreakpoints } from "../../theme-tools"
 
 describe("extendTheme", () => {
@@ -33,7 +33,7 @@ describe("extendTheme", () => {
 
     const customTheme = extendTheme(override)
 
-    const { variants, defaultProps } = customTheme.components.Button
+    const { variants, defaultProps } = (customTheme.components as any).Button
     const solidStyles = variants.solid(defaultProps)
 
     expect(solidStyles.bg).toBe(testColor)
@@ -56,7 +56,7 @@ describe("extendTheme", () => {
 
     const customTheme = extendTheme(override)
 
-    const { baseStyle, defaultProps } = customTheme.components.Button
+    const { baseStyle } = customTheme.components.Button
     const baseStyles = baseStyle()
 
     expect(baseStyles.bg).toBe(testColor)
@@ -81,7 +81,7 @@ describe("extendTheme", () => {
 
     const customTheme = extendTheme(override)
 
-    const { variants, defaultProps } = customTheme.components.Button
+    const { variants, defaultProps } = (customTheme.components as any).Button
     const solidStyles = variants.solid(defaultProps)
 
     expect(solidStyles.bg).toBe(testColor)
@@ -252,7 +252,7 @@ describe("extendTheme", () => {
   })
 
   it("should not extend with function that is inherited", () => {
-    (Array.prototype as any)["customFunction"] = () => {}
+    ;(Array.prototype as any)["customFunction"] = () => {}
 
     const override = {
       breakpoints: createBreakpoints({

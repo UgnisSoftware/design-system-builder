@@ -1,11 +1,5 @@
-import {
-  contains,
-  focus,
-  FocusableElement,
-  getActiveElement,
-  isTabbable,
-} from "../../utils"
-import { RefObject } from "react"
+import type { RefObject } from "react"
+import { contains, focus, FocusableElement, getActiveElement, isTabbable } from "../../utils"
 import { useUpdateEffect } from "./use-update-effect"
 
 export interface UseFocusOnHideOptions {
@@ -34,10 +28,7 @@ function preventReturnFocus(containerRef: React.RefObject<HTMLElement>) {
  * let focus proceed normally if user moved to another interactive
  * element in the viewport.
  */
-export function useFocusOnHide(
-  containerRef: RefObject<HTMLElement>,
-  options: UseFocusOnHideOptions,
-) {
+export function useFocusOnHide(containerRef: RefObject<HTMLElement>, options: UseFocusOnHideOptions) {
   const { shouldFocus: shouldFocusProp, visible, focusRef } = options
 
   const shouldFocus = shouldFocusProp && !visible

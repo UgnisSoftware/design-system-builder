@@ -1,10 +1,10 @@
 import React from "react"
 import type { Story, Meta } from "@storybook/react"
-import { Button, ButtonProps } from "../src"
-import { ChakraProvider } from '~/react'
-import { filterUndefined } from '~/utils'
+import { ChakraProvider } from "~/react"
+import { filterUndefined } from "~/utils"
 import { propConfig } from ".storybook/utils/docPropConfig"
 import { MdBuild, MdCall } from "react-icons/md"
+import { Button, ButtonProps } from "~/components/Button"
 
 const icons = { MdBuild: <MdBuild />, MdCall: <MdCall />, none: undefined }
 

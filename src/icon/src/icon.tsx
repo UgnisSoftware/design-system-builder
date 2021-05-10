@@ -1,7 +1,6 @@
 import * as React from "react"
-import { chakra, ChakraProps, forwardRef, SystemStyleObject } from '../../system'
-import { cx, __DEV__ } from "../../utils"
-
+import { chakra, forwardRef, HTMLChakraProps, SystemStyleObject } from "../../system"
+import { __DEV__ } from "../../utils"
 
 const fallbackIcon = {
   path: (
@@ -14,12 +13,10 @@ const fallbackIcon = {
   viewBox: "0 0 24 24",
 }
 
-export interface IconProps extends Omit<React.SVGAttributes<SVGElement>, keyof ChakraProps>, ChakraProps {}
+export type IconProps = HTMLChakraProps<"svg">
 
 export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
   const { as: element, viewBox, color = "currentColor", focusable = false, children, className, __css, ...rest } = props
-
-  const _className = cx("chakra-icon", className)
 
   const styles: SystemStyleObject = {
     w: "1em",
@@ -34,7 +31,7 @@ export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
   const shared: any = {
     ref,
     focusable,
-    className: _className,
+    className,
     __css: styles,
   }
 

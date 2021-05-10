@@ -128,7 +128,7 @@ const supportsTouchEvents = (name?: string): name is keyof typeof touchEventName
 const supportsMouseEvents = (name?: string): name is keyof typeof mouseEventNames =>
   isBrowser && window.onmousedown === null
 
-type TouchEventName = keyof PointerNameMap
+export type TouchEventName = keyof PointerNameMap
 
 export function getPointerEventName(name: TouchEventName): string {
   if (supportsPointerEvents(name)) {

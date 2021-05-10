@@ -50,6 +50,7 @@ export type ThemeComponentFunction<Style, Theme extends ChakraTheme = ChakraThem
 export type ThemingPropsThunk<Style, Theme extends ChakraTheme = ChakraTheme> =
   | Style
   | ThemeComponentFunction<Style, Theme>
+  | string
 
 export interface SystemStyleObjectRecord {
   [key: string]: StyleObjectOrFn

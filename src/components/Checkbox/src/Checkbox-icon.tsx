@@ -2,7 +2,8 @@ import * as React from "react"
 import { chakra, PropsOf } from "../../../system"
 import { AnimatePresence, CustomDomComponent, motion } from "framer-motion"
 
-const MotionSvg: CustomDomComponent<PropsOf<typeof chakra.svg>> = (motion as any)(chakra.svg)
+type ChakraSvgProps = Omit<PropsOf<typeof chakra.svg>, "css">
+const MotionSvg: CustomDomComponent<ChakraSvgProps> = (motion as any)(chakra.svg)
 
 const CheckIcon = (props: PropsOf<typeof MotionSvg>) => (
   <MotionSvg

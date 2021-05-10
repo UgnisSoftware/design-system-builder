@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ThemingProps } from "../../../system"
+import type { ThemingProps } from "../../../system"
 import { __DEV__ } from "../../../utils"
 import { createContext } from "../../../react-utils"
 import { useCheckboxGroup, UseCheckboxGroupProps, UseCheckboxGroupReturn } from "./use-checkbox-group"

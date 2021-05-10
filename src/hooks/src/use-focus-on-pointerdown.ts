@@ -1,10 +1,5 @@
-import {
-  detectBrowser,
-  focus,
-  isActiveElement,
-  isRefObject,
-} from "../../utils"
-import { RefObject } from "react"
+import type { RefObject } from "react"
+import { detectBrowser, focus, isActiveElement, isRefObject } from "../../utils"
 import { usePointerEvent } from "./use-pointer-event"
 
 export interface UseFocusOnMouseDownProps {

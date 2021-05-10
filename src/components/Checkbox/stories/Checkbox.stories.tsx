@@ -1,12 +1,10 @@
 import * as React from "react"
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { Icon } from "../../../icon"
-import { Checkbox, CheckboxGroup, CheckboxProps, useCheckbox } from "../src"
-import { Stack } from "../../Stack"
 import type { Meta } from "@storybook/react"
+import { Icon } from "../../../icon"
+import { Checkbox, CheckboxProps } from "../src"
+import { Stack } from "../../Stack"
 import { ChakraProvider } from "../../../react"
 import { excludeProps, propConfig } from "../../../../.storybook/utils/docPropConfig"
-import { MdRemove } from "react-icons/all"
 
 export default {
   title: "Checkbox",

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { forwardRef } from "../../system"
+import { ComponentWithAs, forwardRef } from "../../system"
 import { __DEV__ } from "../../utils"
 import { Icon, IconProps } from "./icon"
 
@@ -29,13 +29,7 @@ interface CreateIconOptions {
 }
 
 export function createIcon(options: CreateIconOptions) {
-  const {
-    viewBox = "0 0 24 24",
-    d: pathDefinition,
-    path,
-    displayName,
-    defaultProps = {},
-  } = options
+  const { viewBox = "0 0 24 24", d: pathDefinition, path, displayName, defaultProps = {} } = options
 
   const Comp = forwardRef<IconProps, "svg">((props, ref) => (
     <Icon ref={ref} viewBox={viewBox} {...defaultProps} {...props}>
