@@ -4,7 +4,7 @@ import { Icon } from "../../../icon"
 import { Checkbox, CheckboxProps } from "../src"
 import { Stack } from "../../Stack"
 import { ChakraProvider } from "../../../react"
-import { excludeProps, propConfig } from "../../../../.storybook/utils/docPropConfig"
+import { excludeProps, propConfig } from "../../../utils/src/docPropConfig"
 
 export default {
   title: "Checkbox",

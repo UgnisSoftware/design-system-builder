@@ -7,8 +7,7 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["src/*"],
-      ".storybook": [".storybook/*"]
+      "~/*": ["src/*"]
     },
     "noEmit": true,
     "strict": true,

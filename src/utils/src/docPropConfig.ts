@@ -1,5 +1,5 @@
-import { HTMLprops, systemProps } from "../../src/system/src/should-forward-prop"
-import { propNames } from "../../src/styled-system"
+import { HTMLprops, systemProps } from "../../system/src/should-forward-prop"
+import { propNames } from "../../styled-system"
 
 /* Storybook doc props config
  * to hide default chakra props from

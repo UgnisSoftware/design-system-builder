@@ -1,14 +1,11 @@
 const path = require("path")
+const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin")
 
 const toPath = (_path) => path.join(process.cwd(), _path)
 
 module.exports = {
   stories: ["../src/**/stories/*.stories.tsx"],
-  addons: [
-    "@storybook/addon-docs",
-    "storybook-addon-performance/register",
-    "@storybook/addon-a11y",
-  ],
+  addons: ["@storybook/addon-docs", "storybook-addon-performance/register", "@storybook/addon-a11y"],
   typescript: {
     reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
@@ -17,6 +14,7 @@ module.exports = {
     },
   },
   webpackFinal: async (config) => {
+    ;[].push.apply(config.resolve.plugins, [new TsconfigPathsPlugin({ extensions: config.resolve.extensions })])
     return {
       ...config,
       resolve: {

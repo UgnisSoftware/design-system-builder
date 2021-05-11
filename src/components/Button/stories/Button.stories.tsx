@@ -3,7 +3,7 @@ import type { Story, Meta } from "@storybook/react"
 import { Button, ButtonProps } from "../src"
 import { ChakraProvider } from "../../../react"
 import { filterUndefined } from "../../../utils"
-import { propConfig } from "../../../../.storybook/utils/docPropConfig"
+import { propConfig } from "../../../utils/src/docPropConfig"
 import { MdBuild, MdCall } from "react-icons/md"
 
 const icons = { MdBuild: <MdBuild />, MdCall: <MdCall />, none: undefined }

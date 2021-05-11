@@ -1,7 +1,7 @@
 import React from "react"
 import { Stack } from "../../Stack"
 import { Radio, RadioGroup, RadioGroupProps } from "../src"
-import { propConfig } from "../../../../.storybook/utils/docPropConfig"
+import { propConfig } from "../../../utils/src/docPropConfig"
 import { ChakraProvider } from "../../../react"
 import type { Meta } from "@storybook/react"
 import { Button } from "../../Button"
