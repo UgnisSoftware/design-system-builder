@@ -17,6 +17,7 @@ module.exports = {
     ;[].push.apply(config.resolve.plugins, [new TsconfigPathsPlugin({ extensions: config.resolve.extensions })])
     return {
       ...config,
+      devtool: "inline-source-map",
       resolve: {
         ...config.resolve,
         alias: {

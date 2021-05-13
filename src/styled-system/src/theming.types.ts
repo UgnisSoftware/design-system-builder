@@ -502,7 +502,7 @@ export interface ThemeTypings {
       variants: never
     }
     Switch: {
-      sizes: "sm" | "md" | "lg"
+      sizes: "lg"
       variants: never
     }
     Table: {

@@ -5,7 +5,15 @@ import { propNames } from "../../styled-system"
  * to hide default chakra props from
  * the Story */
 
-const storyExcludedProps = ["orientation", "styleConfig", "colorScheme"]
+const storyExcludedProps = [
+  "orientation",
+  "styleConfig",
+  "colorScheme",
+  "aria-describedby",
+  "aria-invalid",
+  "aria-label",
+  "aria-labelledby",
+]
 
 const allProps = [...propNames, ...systemProps, ...propNames, ...storyExcludedProps]
 

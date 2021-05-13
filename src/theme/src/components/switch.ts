@@ -1,26 +1,22 @@
-import { mode } from "../../../theme-tools"
-
 const parts = ["container", "track", "thumb"]
 
 function baseStyleTrack(props: Record<string, any>) {
-  const { colorScheme: c } = props
-
   return {
     borderRadius: "full",
-    p: "2px",
+    p: "4px",
     width: "var(--slider-track-width)",
     height: "var(--slider-track-height)",
     transition: "all 120ms",
-    bg: mode("gray.300", "whiteAlpha.400")(props),
-    _focus: {
-      boxShadow: "outline",
-    },
+    bg: "neutral.300",
     _disabled: {
-      opacity: 0.4,
+      bg: "neutral.100",
+      _checked: {
+        bg: "primary.200",
+      },
       cursor: "not-allowed",
     },
     _checked: {
-      bg: mode(`${c}.500`, `${c}.200`)(props),
+      bg: "primary.600",
     },
   }
 }
@@ -38,8 +34,7 @@ const baseStyleThumb = {
 
 const baseStyle = (props: Record<string, any>) => ({
   container: {
-    "--slider-track-diff":
-      "calc(var(--slider-track-width) - var(--slider-track-height))",
+    "--slider-track-diff": "calc(var(--slider-track-width) - var(--slider-track-height))",
     "--slider-thumb-x": "var(--slider-track-diff)",
     _rtl: {
       "--slider-thumb-x": "calc(-1 * var(--slider-track-diff))",
@@ -50,29 +45,16 @@ const baseStyle = (props: Record<string, any>) => ({
 })
 
 const sizes = {
-  sm: {
-    container: {
-      "--slider-track-width": "1.375rem",
-      "--slider-track-height": "0.75rem",
-    },
-  },
-  md: {
-    container: {
-      "--slider-track-width": "1.875rem",
-      "--slider-track-height": "1rem",
-    },
-  },
   lg: {
     container: {
-      "--slider-track-width": "2.875rem",
-      "--slider-track-height": "1.5rem",
+      "--slider-track-width": "2.25rem",
+      "--slider-track-height": "0.875rem",
     },
   },
 }
 
 const defaultProps = {
-  size: "md",
-  colorScheme: "blue",
+  size: "lg",
 }
 
 export default {
