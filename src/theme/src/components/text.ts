@@ -24,7 +24,7 @@ const variants = {
     fontSize: "sm",
   },
   caption: {
-    fontSize: "xm",
+    fontSize: "xs",
   },
 }
 

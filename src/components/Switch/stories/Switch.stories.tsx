@@ -23,7 +23,7 @@ export default {
   ],
 } as Meta
 
-export const Base = (args: SwitchProps) => <Switch colorScheme="green" {...filterUndefined(args)} />
+export const Basic = (args: SwitchProps) => <Switch colorScheme="green" {...filterUndefined(args)} />
 
 export const Usage = () => (
   <chakra.div display="flex" justifyContent="center" alignItems="center">

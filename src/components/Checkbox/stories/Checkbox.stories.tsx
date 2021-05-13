@@ -3,8 +3,8 @@ import type { Meta } from "@storybook/react"
 import { Icon } from "../../../icon"
 import { Checkbox, CheckboxProps } from "../src"
 import { Stack } from "../../Stack"
-import { ChakraProvider } from "../../../react"
-import { excludeProps, propConfig } from "../../../utils/src/docPropConfig"
+import { ChakraProvider } from "~/react"
+import { excludeProps, propConfig } from "~/utils/src/docPropConfig"
 
 export default {
   title: "Checkbox",
@@ -27,7 +27,7 @@ export default {
   ],
 } as Meta
 
-export const Usage = (args: CheckboxProps) => <Checkbox {...args} />
+export const Basic = (args: CheckboxProps) => <Checkbox {...args} />
 
 const CustomIcon = (props: any) => {
   const { isIndeterminate, ...rest } = props

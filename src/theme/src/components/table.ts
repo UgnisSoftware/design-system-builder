@@ -1,4 +1,4 @@
-import { mode } from "../../../theme-tools"
+import { mode } from '~/theme-tools'
 
 const parts = ["table", "thead", "tbody", "tr", "th", "td", "caption"]
 

@@ -1,8 +1,8 @@
 import React from "react"
 import { Stack } from "../../Stack"
 import { Radio, RadioGroup, RadioGroupProps } from "../src"
-import { propConfig } from "../../../utils/src/docPropConfig"
-import { ChakraProvider } from "../../../react"
+import { propConfig } from "~/utils/src/docPropConfig"
+import { ChakraProvider } from "~/react"
 import type { Meta } from "@storybook/react"
 import { Button } from "../../Button"
 
@@ -22,7 +22,7 @@ export default {
   ],
 } as Meta
 
-export const Usage = (args: RadioGroupProps) => {
+export const Basic = (args: RadioGroupProps) => {
   const [value, setValue] = React.useState("")
   return (
     <RadioGroup {...args} value={value} onChange={setValue}>

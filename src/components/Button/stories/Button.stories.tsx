@@ -44,4 +44,4 @@ export default {
   ],
 } as Meta
 
-export const Usage = (args: ButtonProps) => <Button {...filterUndefined(args)} />
+export const Basic = (args: ButtonProps) => <Button {...filterUndefined(args)} />

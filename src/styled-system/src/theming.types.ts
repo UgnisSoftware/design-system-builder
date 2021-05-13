@@ -494,7 +494,7 @@ export interface ThemeTypings {
       variants: never
     }
     Spinner: {
-      sizes: "xs" | "sm" | "md" | "lg" | "xl"
+      sizes: "sm" | "md"
       variants: never
     }
     Stat: {

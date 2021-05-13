@@ -1,41 +1,27 @@
 import * as React from "react"
-import { ChakraProvider, extendTheme } from "../../../react"
-import { Text } from "../src"
+import type { Meta } from "@storybook/react"
+import { ChakraProvider } from "~/react"
+import { Text, TextProps } from "../src"
+import { propConfig } from "~/utils/src/docPropConfig"
 
 export default {
   title: "Text",
-}
-
-const customTheme = extendTheme({
-  components: {
-    Text: {
-      variants: {
-        customCaps: {
-          textTransform: "uppercase",
-        },
-      },
-    },
+  parameters: {
+    component: Text,
   },
-})
+  argTypes: {
+    ...propConfig,
+  },
+  args: {
+    children: "Loerm ipsum",
+  },
+  decorators: [
+    (Story) => (
+      <ChakraProvider>
+        <Story />
+      </ChakraProvider>
+    ),
+  ],
+} as Meta
 
-// see https://github.com/chakra-ui/chakra-ui/issues/2464
-export const withVariant = () => (
-  <ChakraProvider theme={customTheme}>
-    <Text variant={"customCaps" as any}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, sapiente.</Text>
-  </ChakraProvider>
-)
-
-// see https://github.com/chakra-ui/chakra-ui/issues/2464
-export const overrideVariant = () => (
-  <ChakraProvider theme={customTheme}>
-    <Text variant={"customCaps" as any} textTransform="lowercase">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, sapiente.
-    </Text>
-  </ChakraProvider>
-)
-
-export const variants = () => (
-  <Text size={"paragraph"} variant={"h3"}>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, sapiente.
-  </Text>
-)
+export const Basic = (args: TextProps) => <Text {...args} />
