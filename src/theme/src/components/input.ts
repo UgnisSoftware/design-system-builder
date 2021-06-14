@@ -1,6 +1,4 @@
-import { getColor, mode } from "../../../theme-tools"
-
-const parts = ["field", "addon"]
+const parts = ["field", "addon", "errorMessage", "label", "requiredIndicator"]
 
 const baseStyle = {
   field: {
@@ -10,36 +8,58 @@ const baseStyle = {
     position: "relative",
     appearance: "none",
     transition: "all 0.2s",
+    borderRadius: "base",
+  },
+  errorMessage: {
+    bg: "red.600",
+    px: 1,
+    py: 0.5,
+    borderRadius: "base",
+    border: "1px solid",
+    mt: 0.25,
+    borderColor: "red.600",
+    color: "white",
+    fontSize: "xs",
+    lineHeight: "0.75rem",
+  },
+  label: {
+    color: "neutral.800",
+    mb: 0.25,
+    fontSize: "xs",
+    lineHeight: "0.75rem",
+  },
+  requiredIndicator: {
+    ml: "1px",
+    color: "error.700",
+    fontSize: "sm",
+    lineHeight: 0,
   },
 }
 
 const size = {
   lg: {
     fontSize: "lg",
-    px: 4,
-    h: 12,
-    borderRadius: "md",
+    px: 1,
+    h: 5,
   },
 
   md: {
     fontSize: "md",
-    px: 4,
-    h: 10,
-    borderRadius: "md",
+    px: 1,
+    h: "2.5rem",
   },
 
   sm: {
     fontSize: "sm",
     px: 3,
-    h: 8,
-    borderRadius: "sm",
+    h: 2,
   },
 
   xs: {
     fontSize: "xs",
     px: 2,
-    h: 6,
-    borderRadius: "sm",
+    h: 1,
+    borderRadius: "base",
   },
 }
 
@@ -62,121 +82,36 @@ const sizes = {
   },
 }
 
-function getDefaults(props: Record<string, any>) {
-  const { focusBorderColor: fc, errorBorderColor: ec } = props
-  return {
-    focusBorderColor: fc || mode("blue.500", "blue.300")(props),
-    errorBorderColor: ec || mode("red.500", "red.300")(props),
-  }
-}
-
-function variantOutline(props: Record<string, any>) {
-  const { theme } = props
-  const { focusBorderColor: fc, errorBorderColor: ec } = getDefaults(props)
-
-  return {
-    field: {
-      border: "1px solid",
-      borderColor: "inherit",
-      bg: "inherit",
+const variantOutline = {
+  field: {
+    color: "neutral.800",
+    border: "1px solid",
+    borderColor: "neutral.200",
+    bg: "inherit",
+    _hover: {
+      borderColor: "neutral.400",
+    },
+    _readOnly: {
+      userSelect: "all",
+    },
+    _disabled: {
+      cursor: "not-allowed",
       _hover: {
-        borderColor: mode("gray.300", "whiteAlpha.400")(props),
-      },
-      _readOnly: {
-        boxShadow: "none !important",
-        userSelect: "all",
-      },
-      _disabled: {
-        opacity: 0.4,
-        cursor: "not-allowed",
-      },
-      _invalid: {
-        borderColor: getColor(theme, ec),
-        boxShadow: `0 0 0 1px ${getColor(theme, ec)}`,
-      },
-      _focus: {
-        zIndex: 1,
-        borderColor: getColor(theme, fc),
-        boxShadow: `0 0 0 1px ${getColor(theme, fc)}`,
+        borderColor: "neutral.200",
       },
     },
-    addon: {
-      border: "1px solid",
-      borderColor: mode("inherit", "whiteAlpha.50")(props),
-      bg: mode("gray.100", "whiteAlpha.300")(props),
+    _invalid: {
+      borderColor: "error.600",
     },
-  }
-}
-
-function variantFilled(props: Record<string, any>) {
-  const { theme } = props
-  const { focusBorderColor: fc, errorBorderColor: ec } = getDefaults(props)
-
-  return {
-    field: {
-      border: "2px solid",
-      borderColor: "transparent",
-      bg: mode("gray.100", "whiteAlpha.50")(props),
-      _hover: {
-        bg: mode("gray.200", "whiteAlpha.100")(props),
-      },
-      _readOnly: {
-        boxShadow: "none !important",
-        userSelect: "all",
-      },
-      _disabled: {
-        opacity: 0.4,
-        cursor: "not-allowed",
-      },
-      _invalid: {
-        borderColor: getColor(theme, ec),
-      },
-      _focus: {
-        bg: "transparent",
-        borderColor: getColor(theme, fc),
-      },
+    _focus: {
+      borderColor: "primary.500",
     },
-    addon: {
-      border: "2px solid",
-      borderColor: "transparent",
-      bg: mode("gray.100", "whiteAlpha.50")(props),
-    },
-  }
-}
-
-function variantFlushed(props: Record<string, any>) {
-  const { theme } = props
-  const { focusBorderColor: fc, errorBorderColor: ec } = getDefaults(props)
-
-  return {
-    field: {
-      borderBottom: "1px solid",
-      borderColor: "inherit",
-      borderRadius: 0,
-      pl: 0,
-      pr: 0,
-      bg: "transparent",
-      _readOnly: {
-        boxShadow: "none !important",
-        userSelect: "all",
-      },
-      _invalid: {
-        borderColor: getColor(theme, ec),
-        boxShadow: `0px 1px 0px 0px ${getColor(theme, ec)}`,
-      },
-      _focus: {
-        borderColor: getColor(theme, fc),
-        boxShadow: `0px 1px 0px 0px ${getColor(theme, fc)}`,
-      },
-    },
-    addon: {
-      borderBottom: "2px solid",
-      borderColor: "inherit",
-      borderRadius: 0,
-      paddingX: 0,
-      bg: "transparent",
-    },
-  }
+  },
+  addon: {
+    border: "1px solid",
+    borderColor: "neutral.200",
+    bg: "neutral.100",
+  },
 }
 
 const variantUnstyled = {
@@ -196,8 +131,6 @@ const variantUnstyled = {
 
 const variants = {
   outline: variantOutline,
-  filled: variantFilled,
-  flushed: variantFlushed,
   unstyled: variantUnstyled,
 }
 

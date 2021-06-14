@@ -1,4 +1,4 @@
-import { mode } from "../../../theme-tools"
+import { mode } from '~/theme-tools'
 import Input from "./input"
 import typography from "../foundations/typography"
 

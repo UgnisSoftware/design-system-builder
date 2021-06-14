@@ -2,14 +2,15 @@ import type { FocusEventHandler } from "react"
 import { ariaAttr, callAllHandlers } from "../../utils"
 import { FormControlOptions, useFormControlContext } from "./form-control"
 
-export interface UseFormControlProps<T extends HTMLElement> extends FormControlOptions {
+export type UseFormControlProps<T extends HTMLElement> = {
   id?: string
   onFocus?: FocusEventHandler<T>
   onBlur?: FocusEventHandler<T>
   disabled?: boolean
   readOnly?: boolean
   required?: boolean
-}
+  error?: string
+} & FormControlOptions
 
 /**
  * React hook that provides the props that should be spread on to
@@ -46,6 +47,7 @@ export function useFormControlProps<T extends HTMLElement>(props: UseFormControl
     isDisabled,
     onFocus,
     onBlur,
+    error,
     ...rest
   } = props
 
@@ -62,6 +64,7 @@ export function useFormControlProps<T extends HTMLElement>(props: UseFormControl
 
   return {
     ...rest,
+    error,
     "aria-describedby": labelIds.join(" ") || undefined,
     id: id ?? field?.id,
     isDisabled: disabled ?? isDisabled ?? field?.isDisabled,

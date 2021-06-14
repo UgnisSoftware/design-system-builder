@@ -1,24 +1,22 @@
 const parts = ["container", "track", "thumb"]
 
-function baseStyleTrack(props: Record<string, any>) {
-  return {
-    borderRadius: "full",
-    p: "4px",
-    width: "var(--slider-track-width)",
-    height: "var(--slider-track-height)",
-    transition: "all 120ms",
-    bg: "neutral.300",
-    _disabled: {
-      bg: "neutral.100",
-      _checked: {
-        bg: "primary.200",
-      },
-      cursor: "not-allowed",
-    },
+const baseStyleTrack = {
+  borderRadius: "full",
+  p: "4px",
+  width: "var(--slider-track-width)",
+  height: "var(--slider-track-height)",
+  transition: "all 120ms",
+  bg: "neutral.300",
+  _disabled: {
+    bg: "neutral.100",
     _checked: {
-      bg: "primary.600",
+      bg: "primary.200",
     },
-  }
+    cursor: "not-allowed",
+  },
+  _checked: {
+    bg: "primary.600",
+  },
 }
 
 const baseStyleThumb = {
@@ -32,7 +30,7 @@ const baseStyleThumb = {
   },
 }
 
-const baseStyle = (props: Record<string, any>) => ({
+const baseStyle = {
   container: {
     "--slider-track-diff": "calc(var(--slider-track-width) - var(--slider-track-height))",
     "--slider-thumb-x": "var(--slider-track-diff)",
@@ -40,9 +38,9 @@ const baseStyle = (props: Record<string, any>) => ({
       "--slider-thumb-x": "calc(-1 * var(--slider-track-diff))",
     },
   },
-  track: baseStyleTrack(props),
+  track: baseStyleTrack,
   thumb: baseStyleThumb,
-})
+}
 
 const sizes = {
   lg: {

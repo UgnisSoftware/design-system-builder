@@ -1,7 +1,5 @@
 import Input from "./input"
 
-type Dict = Record<string, any>
-
 const baseStyle = {
   ...Input.baseStyle.field,
   paddingY: "8px",
@@ -10,9 +8,7 @@ const baseStyle = {
 }
 
 const variants = {
-  outline: (props: Dict) => Input.variants.outline(props).field,
-  flushed: (props: Dict) => Input.variants.flushed(props).field,
-  filled: (props: Dict) => Input.variants.filled(props).field,
+  outline: Input.variants.outline.field,
   unstyled: Input.variants.unstyled.field,
 }
 

@@ -35,9 +35,7 @@ const sizes = {
 }
 
 const variants = {
-  outline: (props: Dict) => Input.variants.outline(props).field,
-  flushed: (props: Dict) => Input.variants.flushed(props).field,
-  filled: (props: Dict) => Input.variants.filled(props).field,
+  outline: Input.variants.outline.field,
   unstyled: Input.variants.unstyled.field,
 }
 

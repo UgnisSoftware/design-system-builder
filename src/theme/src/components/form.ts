@@ -1,4 +1,4 @@
-import { mode } from "../../../theme-tools"
+import { mode } from "~/theme-tools"
 
 type Dict = Record<string, any>
 
@@ -7,7 +7,7 @@ const parts = ["requiredIndicator", "helperText"]
 function baseStyleRequiredIndicator(props: Dict) {
   return {
     ml: 1,
-    color: mode("red.500", "red.300")(props),
+    color: "error.600",
   }
 }
 

@@ -134,14 +134,13 @@ export const Checkbox = forwardRef<CheckboxProps, "input">((props, ref) => {
   })
 
   return (
-    <Label __css={styles.container} className={cx("chakra-checkbox", className)} {...getRootProps()}>
-      <input className="chakra-checkbox__input" {...getInputProps({}, ref)} />
-      <CheckboxControl __css={styles.control} className="chakra-checkbox__control" {...getCheckboxProps()}>
+    <Label __css={styles.container} className={className} {...getRootProps()}>
+      <input {...getInputProps({}, ref)} />
+      <CheckboxControl __css={styles.control} {...getCheckboxProps()}>
         {clonedIcon}
       </CheckboxControl>
       {children && (
         <chakra.span
-          className="chakra-checkbox__label"
           {...getLabelProps()}
           __css={{
             marginStart: spacing,

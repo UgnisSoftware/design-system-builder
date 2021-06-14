@@ -434,8 +434,8 @@ export interface ThemeTypings {
       variants: never
     }
     Input: {
-      sizes: "lg" | "md" | "sm" | "xs"
-      variants: "outline" | "filled" | "flushed" | "unstyled"
+      sizes: "md"
+      variants: "outline" | "unstyled"
     }
     Kbd: {
       sizes: never
@@ -458,8 +458,8 @@ export interface ThemeTypings {
       variants: never
     }
     NumberInput: {
-      sizes: "xs" | "sm" | "md" | "lg"
-      variants: "outline" | "filled" | "flushed" | "unstyled"
+      sizes: "md"
+      variants: "outline" | "unstyled"
     }
     PinInput: {
       sizes: "lg" | "md" | "sm" | "xs"
