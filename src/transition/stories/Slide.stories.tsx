@@ -1,5 +1,4 @@
 import { useBoolean } from "~/hooks"
-import * as React from "react"
 import { Slide } from "../src/Slide"
 
 export default {

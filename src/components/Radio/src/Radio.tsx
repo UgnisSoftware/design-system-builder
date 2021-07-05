@@ -10,7 +10,6 @@ import {
   HTMLChakraProps,
 } from "../../../system"
 import { callAll, split, __DEV__ } from "../../../utils"
-import * as React from "react"
 import { useRadioGroupContext } from "./Radio-group"
 import { useRadio, UseRadioProps } from "./use-radio"
 

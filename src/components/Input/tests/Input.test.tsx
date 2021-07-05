@@ -1,5 +1,4 @@
 import { render, screen, testA11y } from "~/test-utils"
-import * as React from "react"
 import { InputCore, InputGroup, InputLeftElement, InputRightElement } from "../src"
 
 test("passes a11y test", async () => {

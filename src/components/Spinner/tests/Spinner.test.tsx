@@ -1,4 +1,3 @@
-import * as React from "react"
 import { render, testA11y } from "../../../test-utils"
 import { Spinner } from "../src"
 

@@ -1,4 +1,3 @@
-import * as React from "react"
 import type { ColorMode } from './color-mode.utils'
 
 type Mode = ColorMode | "system" | undefined

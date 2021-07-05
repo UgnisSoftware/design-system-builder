@@ -1,4 +1,4 @@
-import { mode } from '~/theme-tools'
+import { mode } from "~/theme-tools"
 
 const parts = ["table", "thead", "tbody", "tr", "th", "td", "caption"]
 
@@ -6,9 +6,16 @@ type Dict = Record<string, any>
 
 const baseStyle = {
   table: {
-    fontVariantNumeric: "lining-nums tabular-nums",
-    borderCollapse: "collapse",
-    width: "full",
+    position: 'relative'
+  },
+  thead: {
+    position: 'sticky',
+    top: 0,
+    backgroundColor: 'white',
+    display: "flex",
+  },
+  tr: {
+    display: "flex",
   },
   th: {
     fontFamily: "heading",
@@ -16,15 +23,15 @@ const baseStyle = {
     textTransform: "uppercase",
     letterSpacing: "wider",
     textAlign: "start",
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   td: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
     textAlign: "start",
-  },
-  caption: {
-    mt: 4,
-    fontFamily: "heading",
-    textAlign: "center",
-    fontWeight: "medium",
   },
 }
 

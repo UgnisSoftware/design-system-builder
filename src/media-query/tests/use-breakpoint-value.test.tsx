@@ -1,4 +1,3 @@
-import React from "react"
 import { ThemeProvider } from "../../system"
 import { render, screen } from "../../test-utils"
 import MatchMediaMock from "jest-matchmedia-mock"

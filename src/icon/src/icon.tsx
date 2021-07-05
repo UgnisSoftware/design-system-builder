@@ -1,4 +1,3 @@
-import * as React from "react"
 import { chakra, forwardRef, HTMLChakraProps, SystemStyleObject } from "../../system"
 import { __DEV__ } from "../../utils"
 
@@ -45,7 +44,7 @@ export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
     return <chakra.svg as={element} {...shared} {...rest} />
   }
 
-  const _path = (children ?? fallbackIcon.path) as React.ReactNode
+  const _path = children ?? fallbackIcon.path
 
   return (
     <chakra.svg verticalAlign="middle" viewBox={_viewBox} {...shared} {...rest}>

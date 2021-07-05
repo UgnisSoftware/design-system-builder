@@ -1,12 +1,5 @@
-import {
-  chakra,
-  forwardRef,
-  SystemStyleObject,
-  useStyles,
-  HTMLChakraProps,
-} from "~/system"
+import { chakra, forwardRef, SystemStyleObject, useStyles, HTMLChakraProps } from "~/system"
 import { cx, __DEV__ } from "~/utils"
-import * as React from "react"
 
 export interface InputElementProps extends HTMLChakraProps<"div"> {
   placement?: "left" | "right"
@@ -47,21 +40,12 @@ if (__DEV__) {
   InputElement.displayName = "InputElement"
 }
 
-export const InputLeftElement = forwardRef<InputElementProps, "div">(
-  (props, ref) => {
-    const { className, ...rest } = props
-    const _className = cx("chakra-input__left-element", className)
+export const InputLeftElement = forwardRef<InputElementProps, "div">((props, ref) => {
+  const { className, ...rest } = props
+  const _className = cx("chakra-input__left-element", className)
 
-    return (
-      <InputElement
-        ref={ref}
-        placement="left"
-        className={_className}
-        {...rest}
-      />
-    )
-  },
-)
+  return <InputElement ref={ref} placement="left" className={_className} {...rest} />
+})
 
 // This is used in `input-group.tsx`
 InputLeftElement.id = "InputLeftElement"
@@ -70,21 +54,12 @@ if (__DEV__) {
   InputLeftElement.displayName = "InputLeftElement"
 }
 
-export const InputRightElement = forwardRef<InputElementProps, "div">(
-  (props, ref) => {
-    const { className, ...rest } = props
-    const _className = cx("chakra-input__right-element", className)
+export const InputRightElement = forwardRef<InputElementProps, "div">((props, ref) => {
+  const { className, ...rest } = props
+  const _className = cx("chakra-input__right-element", className)
 
-    return (
-      <InputElement
-        ref={ref}
-        placement="right"
-        className={_className}
-        {...rest}
-      />
-    )
-  },
-)
+  return <InputElement ref={ref} placement="right" className={_className} {...rest} />
+})
 
 // This is used in `input-group.tsx`
 InputRightElement.id = "InputRightElement"

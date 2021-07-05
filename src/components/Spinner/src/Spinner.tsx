@@ -9,7 +9,6 @@ import {
 } from "../../../system"
 import { __DEV__ } from "../../../utils"
 import { VisuallyHidden } from "../../../visually-hidden"
-import * as React from "react"
 
 const spin = keyframes({
   "0%": {

@@ -1,4 +1,3 @@
-import * as React from "react"
 import { chakra, PropsOf } from "../../../system"
 import { AnimatePresence, CustomDomComponent, motion } from "framer-motion"
 
@@ -92,7 +91,7 @@ export interface CheckboxIconProps extends PropsOf<typeof MotionSvg> {
  *
  * @todo allow users pass their own icon svgs
  */
-export const CheckboxIcon: React.FC<CheckboxIconProps> = (props) => {
+export const CheckboxIcon = (props: CheckboxIconProps) => {
   const { isIndeterminate, isChecked, ...rest } = props
   const IconEl = isIndeterminate ? IndeterminateIcon : CheckIcon
   return (

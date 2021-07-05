@@ -1,5 +1,4 @@
 import { useBoolean } from "~/hooks"
-import * as React from "react"
 import { SlideFade } from "../src/SlideFade"
 import { ScaleFade } from "../src/ScaleFade"
 

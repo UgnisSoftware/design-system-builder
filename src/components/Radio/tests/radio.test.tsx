@@ -1,4 +1,3 @@
-import * as React from "react"
 import { render, fireEvent, screen } from "../../../test-utils"
 import { Radio, useRadio, UseRadioProps } from "../src"
 import { FormControl, FormHelperText, FormLabel } from "../../../form-control"

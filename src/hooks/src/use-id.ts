@@ -33,7 +33,7 @@ export function useId(idProp?: string, prefix?: string) {
 }
 
 /**
- * Reack hook to generate ids for use in compound components
+ * Reack hook to generate ids for use in compound Row
  *
  * @param idProp the external id passed from the user
  * @param prefixes array of prefixes to use

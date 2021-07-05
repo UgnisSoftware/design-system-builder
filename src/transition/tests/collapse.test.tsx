@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Collapse } from "../src"
 import { render, screen } from "~/test-utils"
 

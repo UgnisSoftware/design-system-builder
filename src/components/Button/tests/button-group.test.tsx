@@ -1,5 +1,4 @@
 import { testA11y } from "../../../test-utils"
-import * as React from "react"
 import { Button, ButtonGroup } from "../src"
 
 it("passes a11y test", async () => {

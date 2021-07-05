@@ -4,7 +4,7 @@
     "target": "es2020",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": "./",
     "sourceMap": true,
     "paths": {

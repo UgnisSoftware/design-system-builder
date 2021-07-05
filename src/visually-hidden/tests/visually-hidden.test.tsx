@@ -1,4 +1,3 @@
-import * as React from "react"
 import { render, testA11y } from "../../test-utils"
 import { VisuallyHidden } from "../src"
 
@@ -36,14 +35,7 @@ test("should have no accessibility violations", async () => {
 })
 
 test("should render a visually hidden input", async () => {
-  const { getByTestId } = render(
-    <VisuallyHidden
-      data-testid="input"
-      as="input"
-      type="checkbox"
-      defaultChecked
-    />,
-  )
+  const { getByTestId } = render(<VisuallyHidden data-testid="input" as="input" type="checkbox" defaultChecked />)
 
   const input = getByTestId("input")
 

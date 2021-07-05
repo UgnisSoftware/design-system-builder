@@ -1,4 +1,3 @@
-import * as React from "react"
 import Icon, { IconProps } from "../../icon"
 import {
   chakra,

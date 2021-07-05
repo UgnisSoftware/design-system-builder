@@ -1,4 +1,3 @@
-import React from "react"
 import type { Story, Meta } from "@storybook/react"
 import { Button, ButtonProps } from "../src"
 import { ChakraProvider } from '~/react'

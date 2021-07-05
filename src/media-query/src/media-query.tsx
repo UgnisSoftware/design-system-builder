@@ -1,4 +1,3 @@
-import * as React from "react"
 import { useMediaQuery } from "./use-media-query"
 import type { Dict } from "../../utils"
 import { __DEV__, memoizedGet as get } from "../../utils"
@@ -16,7 +15,7 @@ interface VisibilityProps {
  * React component to control the visibility of its
  * children based on the current breakpoint
  */
-const Visibility: React.FC<VisibilityProps> = (props) => {
+const Visibility = (props: VisibilityProps) => {
   const { breakpoint, hide, children } = props
   const [show] = useMediaQuery(breakpoint)
   const isVisible = hide ? !show : show

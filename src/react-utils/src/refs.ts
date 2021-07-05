@@ -27,7 +27,7 @@ export function assignRef<T = any>(ref: ReactRef<T> | undefined, value: T) {
 /**
  * Combine multiple React refs into a single ref function.
  * This is used mostly when you need to allow consumers forward refs to
- * internal components
+ * internal Row
  *
  * @param refs refs to assign to value to
  */

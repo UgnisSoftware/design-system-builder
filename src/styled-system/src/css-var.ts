@@ -77,7 +77,7 @@ export function toCSSVar<T extends Dict>(rawTheme: T) {
    */
   const theme = omitVars(rawTheme)
 
-  // omit components and breakpoints from css variable map
+  // omit Row and breakpoints from css variable map
   const tokens = extractTokens(theme)
 
   const cssVarPrefix = theme.config?.cssVarPrefix

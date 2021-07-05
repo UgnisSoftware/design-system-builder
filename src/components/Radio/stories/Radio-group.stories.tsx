@@ -1,4 +1,4 @@
-import React from "react"
+import { useState } from "react"
 import { Stack } from "../../Stack"
 import { Radio, RadioGroup, RadioGroupProps } from "../src"
 import { propConfig } from "~/utils/src/docPropConfig"
@@ -23,7 +23,7 @@ export default {
 } as Meta
 
 export const Basic = (args: RadioGroupProps) => {
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = useState("")
   return (
     <RadioGroup {...args} value={value} onChange={setValue}>
       <Stack>

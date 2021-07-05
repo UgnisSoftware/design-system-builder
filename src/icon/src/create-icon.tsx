@@ -1,5 +1,5 @@
-import * as React from "react"
-import { ComponentWithAs, forwardRef } from "../../system"
+import type * as React from "react"
+import { forwardRef } from "../../system"
 import { __DEV__ } from "../../utils"
 import { Icon, IconProps } from "./icon"
 

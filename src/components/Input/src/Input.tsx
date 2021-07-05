@@ -1,5 +1,4 @@
 import { Conditional } from "~/components/Conditional"
-import * as React from "react"
 import { InputCore, InputCoreProps } from "~/components/Input"
 import { InputError } from "~/components/Input/src/InputError"
 import { useFormControl } from "~/form-control"

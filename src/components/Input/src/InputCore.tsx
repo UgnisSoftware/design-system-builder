@@ -1,7 +1,6 @@
 import { FormControlOptions, useFormControl } from "~/form-control"
 import { chakra, forwardRef, omitThemingProps, ThemingProps, useMultiStyleConfig, HTMLChakraProps } from "~/system"
 import { __DEV__ } from "~/utils"
-import * as React from "react"
 
 type Omitted = "disabled" | "required" | "readOnly" | "size"
 

@@ -1,4 +1,3 @@
-import React from "react"
 import { Collapse } from "~/transition"
 import { useMultiStyleConfig, chakra } from "~/system"
 

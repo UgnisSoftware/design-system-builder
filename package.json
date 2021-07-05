@@ -1,6 +1,16 @@
 {
   "name": "ugnis",
   "version": "1.0.2",
+  "description": "Ugnis - design system builder",
+  "author": "JulitorK",
+  "scripts": {
+    "start": "start-storybook -p 6006",
+    "build": "pika build",
+    "publish": "npm publish pkg",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
+    "build-storybook": "build-storybook"
+  },
   "@pika/pack": {
     "pipeline": [
       [
@@ -27,16 +37,6 @@
         "@pika/plugin-bundle-types"
       ]
     ]
-  },
-  "description": "Ugnis - design system builder",
-  "author": "JulitorK",
-  "scripts": {
-    "start": "start-storybook -p 6006",
-    "build": "pika build",
-    "publish": "npm publish pkg",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
-    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@emotion/react": "^11.1.5",
@@ -73,6 +73,7 @@
     "@testing-library/react-hooks": "^5.1.1",
     "@testing-library/user-event": "^13.1.5",
     "@types/chai": "4.2.14",
+    "@types/faker": "5.5.6",
     "@types/jest": "^26.0.22",
     "@types/jest-axe": "^3.5.1",
     "@types/react": "17.0.0",
@@ -86,6 +87,7 @@
     "babel-loader": "^8.2.2",
     "chai": "4.2.0",
     "csstype": "^3.0.7",
+    "faker": "5.5.3",
     "formik": "^2.2.6",
     "jest": "^26.6.3",
     "jest-axe": "^4.1.0",

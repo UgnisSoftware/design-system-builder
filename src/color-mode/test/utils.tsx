@@ -1,4 +1,3 @@
-import React from "react"
 import type { ColorModeOptions } from "../src/color-mode-provider"
 import type { ColorMode } from "../src/color-mode.utils"
 import { screen } from "@testing-library/react"

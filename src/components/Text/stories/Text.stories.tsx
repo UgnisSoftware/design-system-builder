@@ -1,4 +1,3 @@
-import * as React from "react"
 import type { Meta } from "@storybook/react"
 import { ChakraProvider } from "~/react"
 import { Text, TextProps } from "../src"

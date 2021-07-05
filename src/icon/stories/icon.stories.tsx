@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Md3DRotation } from "react-icons/md"
 import { Icon, IconProps } from "../src"
 

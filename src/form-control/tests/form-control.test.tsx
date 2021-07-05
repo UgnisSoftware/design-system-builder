@@ -1,4 +1,3 @@
-import * as React from "react"
 import { chakra, forwardRef, PropsOf } from "../../system"
 import { fireEvent, render, screen, testA11y } from "../../test-utils"
 import {
@@ -15,7 +14,7 @@ import {
 type OmittedTypes = "disabled" | "required" | "readOnly"
 type InputProps = Omit<PropsOf<typeof chakra.input>, OmittedTypes> & FormControlOptions
 
-const Input: React.FC<InputProps> = forwardRef<InputProps, "input">((props, ref) => {
+const Input = forwardRef<InputProps, "input">((props, ref) => {
   const inputProps = useFormControl<HTMLInputElement>(props)
   return <chakra.input ref={ref} {...inputProps} />
 })

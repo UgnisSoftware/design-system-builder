@@ -1,5 +1,4 @@
 import { useBoolean } from "~/hooks"
-import * as React from "react"
 import { Fade } from "../src/Fade"
 
 export default {

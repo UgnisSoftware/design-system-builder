@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Spinner, SpinnerProps } from "../src"
 import { propConfig } from "~/utils/src/docPropConfig"
 import { ChakraProvider } from "~/react"

@@ -43,7 +43,7 @@ export function useTheme<T extends object = Dict>() {
 
 const [StylesProvider, useStyles] = createContext<Dict<SystemStyleObject>>({
   name: "StylesContext",
-  errorMessage: "useStyles: `styles` is undefined. Seems you forgot to wrap the components in `<StylesProvider />` ",
+  errorMessage: "useStyles: `styles` is undefined. Seems you forgot to wrap the Row in `<StylesProvider />` ",
 })
 export { StylesProvider, useStyles }
 

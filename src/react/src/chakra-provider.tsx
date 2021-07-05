@@ -3,7 +3,7 @@ import { PortalManager } from "../../portal"
 import { ColorModeProvider, ColorModeProviderProps, GlobalStyle, ThemeProvider } from "../../system"
 import defaultTheme from "../../theme"
 import type { Dict } from "../../utils"
-import * as React from "react"
+import type * as React from "react"
 
 export interface ChakraProviderProps {
   /**
@@ -36,7 +36,7 @@ export interface ChakraProviderProps {
 }
 
 /**
- * The global provider that must be added to make all Chakra components
+ * The global provider that must be added to make all Chakra Row
  * work correctly
  */
 export const ChakraProvider = (props: ChakraProviderProps) => {

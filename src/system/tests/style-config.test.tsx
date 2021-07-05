@@ -1,5 +1,4 @@
 import { rtlRender, render } from "../../test-utils"
-import * as React from "react"
 import { ThemeProvider, useStyleConfig, useProps } from "../src"
 
 test("should resolve styles in theme", async () => {

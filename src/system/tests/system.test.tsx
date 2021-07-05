@@ -1,5 +1,4 @@
 import { render } from "../../test-utils"
-import * as React from "react"
 import { chakra } from "../src"
 
 const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {})

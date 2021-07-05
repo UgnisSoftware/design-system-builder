@@ -1,4 +1,3 @@
-import * as React from "react"
 import type { Meta } from "@storybook/react"
 import { chakra } from "~/system"
 import { Switch, SwitchProps } from "../src"

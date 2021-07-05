@@ -1,11 +1,5 @@
-import {
-  chakra,
-  forwardRef,
-  useStyles,
-  HTMLChakraProps,
-} from "~/system"
+import { chakra, forwardRef, useStyles, HTMLChakraProps } from "~/system"
 import { cx, __DEV__ } from "~/utils"
-import * as React from "react"
 
 type Placement = "left" | "right"
 
@@ -67,16 +61,9 @@ if (__DEV__) {
  *
  * Element to append to the left of an input
  */
-export const InputLeftAddon = forwardRef<InputAddonProps, "div">(
-  (props, ref) => (
-    <InputAddon
-      ref={ref}
-      placement="left"
-      {...props}
-      className={cx("chakra-input__left-addon", props.className)}
-    />
-  ),
-)
+export const InputLeftAddon = forwardRef<InputAddonProps, "div">((props, ref) => (
+  <InputAddon ref={ref} placement="left" {...props} className={cx("chakra-input__left-addon", props.className)} />
+))
 
 if (__DEV__) {
   InputLeftAddon.displayName = "InputLeftAddon"
@@ -90,16 +77,9 @@ InputLeftAddon.id = "InputLeftAddon"
  *
  * Element to append to the right of an input
  */
-export const InputRightAddon = forwardRef<InputAddonProps, "div">(
-  (props, ref) => (
-    <InputAddon
-      ref={ref}
-      placement="right"
-      {...props}
-      className={cx("chakra-input__right-addon", props.className)}
-    />
-  ),
-)
+export const InputRightAddon = forwardRef<InputAddonProps, "div">((props, ref) => (
+  <InputAddon ref={ref} placement="right" {...props} className={cx("chakra-input__right-addon", props.className)} />
+))
 
 if (__DEV__) {
   InputRightAddon.displayName = "InputRightAddon"

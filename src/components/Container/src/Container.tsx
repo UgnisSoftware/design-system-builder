@@ -1,6 +1,5 @@
 import { chakra, forwardRef, omitThemingProps, ThemingProps, useStyleConfig, HTMLChakraProps } from "../../../system"
 import { __DEV__ } from "../../../utils"
-import * as React from "react"
 
 export interface ContainerProps extends HTMLChakraProps<"div">, ThemingProps<"Container"> {
   /**

@@ -1,5 +1,4 @@
 import { useBoolean } from "~/hooks"
-import * as React from "react"
 import { Collapse, CollapseOptions } from "../src/Collapse"
 
 export default {

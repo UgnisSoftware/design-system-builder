@@ -1,5 +1,4 @@
 import { fireEvent, render } from "../../../test-utils"
-import * as React from "react"
 import { Radio, useRadioGroup, UseRadioGroupProps } from "../src"
 
 test("works with Radio component", () => {
@@ -93,10 +92,7 @@ describe("focus action", () => {
         <button onClick={focus}>Focus</button>
         <div {...getRootProps()}>
           <label>
-            <input
-              type="radio"
-              {...getRadioProps({ value: "a", disabled: true })}
-            />
+            <input type="radio" {...getRadioProps({ value: "a", disabled: true })} />
             <span>a</span>
           </label>
           <label>

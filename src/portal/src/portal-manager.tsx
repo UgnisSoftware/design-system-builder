@@ -1,15 +1,12 @@
 import { __DEV__ } from "../../utils"
 import { createContext } from "../../react-utils"
-import * as React from "react"
+import type * as React from "react"
 
 interface PortalManagerContext {
   zIndex?: number
 }
 
-const [
-  PortalManagerContextProvider,
-  usePortalManager,
-] = createContext<PortalManagerContext | null>({
+const [PortalManagerContextProvider, usePortalManager] = createContext<PortalManagerContext | null>({
   strict: false,
   name: "PortalManagerContext",
 })
@@ -27,11 +24,7 @@ export interface PortalManagerProps {
 
 export function PortalManager(props: PortalManagerProps) {
   const { children, zIndex } = props
-  return (
-    <PortalManagerContextProvider value={{ zIndex }}>
-      {children}
-    </PortalManagerContextProvider>
-  )
+  return <PortalManagerContextProvider value={{ zIndex }}>{children}</PortalManagerContextProvider>
 }
 
 if (__DEV__) {

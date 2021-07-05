@@ -3,7 +3,7 @@ import type * as React from "react"
 import type { ThemingProps } from "./system.types"
 
 /**
- * Carefully selected html elements for chakra components.
+ * Carefully selected html elements for chakra Row.
  * This is mostly for `chakra.<element>` syntax.
  */
 export const domElements = [

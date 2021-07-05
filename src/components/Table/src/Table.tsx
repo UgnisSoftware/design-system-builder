@@ -1,15 +1,38 @@
-import { forwardRef, ThemingProps, HTMLChakraProps } from "~/system"
-import { __DEV__ } from "~/utils"
-import * as React from "react"
+import { memo } from "react"
 
-export interface TableOptions {}
+import HeaderRow from "./Header/HeaderRow"
+import Row from "./Row/Row"
+import { chakra, useMultiStyleConfig } from "~/system"
 
-export interface TableProps extends TableOptions, ThemingProps<"Table"> {}
+import type { Column } from "./types"
 
-export const Table = forwardRef<TableProps, "div">((props, ref) => {
-  return null
-})
-
-if (__DEV__) {
-  Table.displayName = "Table"
+interface Props<Data> {
+  columns: Column<Data>[]
+  data: Data[]
 }
+
+function Table<Data extends {}>({ columns, data }: Props<Data>) {
+  function handleScroll(event: React.UIEvent<HTMLDivElement>) {
+    const { scrollTop, scrollLeft } = event.currentTarget
+  }
+
+  const handleColumnResize = () => {}
+  const onSortChange = () => {}
+
+  const styles = useMultiStyleConfig("Table", {})
+
+  return (
+    <chakra.div
+      __css={styles.tbody}
+      role="table"
+      aria-colcount={columns.length}
+      aria-rowcount={data.length}
+      onScroll={handleScroll}
+    >
+      <HeaderRow columns={columns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
+      {data.length === 0 ? <div> No rows </div> : data.map((rowData) => <Row data={rowData} columns={columns} />)}
+    </chakra.div>
+  )
+}
+
+export default memo(Table)

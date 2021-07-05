@@ -1,39 +1,18 @@
-import React from "react"
-import type { Story, Meta } from "@storybook/react"
+import Table from "../src"
 import { ChakraProvider } from "~/react"
-import { filterUndefined } from "~/utils"
-import { propConfig } from "../../../utils/src/docPropConfig"
-import { MdBuild, MdCall } from "react-icons/md"
-import { Button, ButtonProps } from "~/components/Button"
-
-const icons = { MdBuild: <MdBuild />, MdCall: <MdCall />, none: undefined }
+import type { Meta } from "@storybook/react"
+import { propConfig } from "~/utils/src/docPropConfig"
 
 export default {
   title: "Table",
   parameters: {
-    component: Button,
-  },
-  args: {
-    variant: "primary",
-    children: "Button",
-    size: "md",
+    component: Table,
   },
   argTypes: {
     ...propConfig,
-    leftIcon: {
-      options: Object.keys(icons),
-      mapping: icons,
-      control: {
-        type: "select",
-      },
-    },
-    rightIcon: {
-      options: Object.keys(icons),
-      mapping: icons,
-      control: {
-        type: "select",
-      },
-    },
+  },
+  args: {
+    children: "Lorem ipsum",
   },
   decorators: [
     (Story) => (
@@ -44,4 +23,4 @@ export default {
   ],
 } as Meta
 
-export const Usage = (args: ButtonProps) => <Button {...filterUndefined(args)} />
+export * from './Simple'

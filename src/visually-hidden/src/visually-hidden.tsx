@@ -32,7 +32,7 @@ if (__DEV__) {
 
 /**
  * Visually hidden input component for designing
- * custom input components using the html `input`
+ * custom input Row using the html `input`
  * as a proxy
  */
 export const VisuallyHiddenInput = chakra("input", {
