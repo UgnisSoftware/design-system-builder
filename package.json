@@ -12,33 +12,6 @@
     "test": "jest",
     "build-storybook": "build-storybook"
   },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg"
-      ],
-      [
-        "@pika/plugin-build-node",
-        {}
-      ],
-      [
-        "@pika/plugin-build-web",
-        {
-          "entrypoint": [
-            "module",
-            "unpkg",
-            "jsdelivr"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-umd"
-      ],
-      [
-        "@pika/plugin-bundle-types"
-      ]
-    ]
-  },
   "dependencies": {
     "@emotion/react": "11.4.0",
     "@emotion/styled": "11.3.0",
@@ -106,11 +79,69 @@
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "4.3.5"
   },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg"
+      ],
+      [
+        "@pika/plugin-build-node",
+        {}
+      ],
+      [
+        "@pika/plugin-build-web",
+        {
+          "entrypoint": [
+            "module",
+            "unpkg",
+            "jsdelivr"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-umd"
+      ],
+      [
+        "@pika/plugin-bundle-types"
+      ]
+    ]
+  },
   "prettier": {
     "endOfLine": "crlf",
     "tabWidth": 2,
     "trailingComma": "all",
     "semi": false,
     "printWidth": 120
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)?$": "ts-jest/dist"
+    },
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/src/$1"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ]
   }
 }
