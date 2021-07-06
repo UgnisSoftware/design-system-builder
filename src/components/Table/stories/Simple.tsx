@@ -96,7 +96,7 @@ function createRows(numberOfRows: number): Data[] {
 }
 
 export const Simple = () => {
-  const [data, setData] = useState(() => createRows(20))
+  const [data, setData] = useState(() => createRows(2000))
 
   return <Table columns={columns} data={data} />
 }
