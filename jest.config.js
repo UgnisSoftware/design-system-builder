@@ -1,9 +1,12 @@
 module.exports = {
   preset: "ts-jest",
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   transform: {
     "^.+\\.(ts|tsx)?$": "ts-jest/dist",
+  },
+  moduleNameMapper: {
+    "~/(.*)": "<rootDir>/src/$1",
   },
   transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
   setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
@@ -12,8 +15,5 @@ module.exports = {
       tsconfig: "tsconfig.json",
     },
   },
-  watchPlugins: [
-    "jest-watch-typeahead/filename",
-    "jest-watch-typeahead/testname",
-  ],
+  watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 }

@@ -1,17 +1,10 @@
 import { render } from "@testing-library/react"
-import {
-  mockIsBrowser,
-  createMockStorageManager,
-  defaultThemeOptions,
-  getColorModeButton,
-  DummyComponent,
-} from "./utils"
+import { createMockStorageManager, defaultThemeOptions, getColorModeButton, DummyComponent } from "./utils"
 import * as colorModeUtils from "../src/color-mode.utils"
 import userEvent from "@testing-library/user-event"
 
 beforeEach(() => {
   jest.resetAllMocks()
-  mockIsBrowser(true)
 })
 
 describe("<ColorModeProvider /> localStorage browser", () => {
@@ -24,16 +17,12 @@ describe("<ColorModeProvider /> localStorage browser", () => {
       </ColorModeProvider>,
     )
 
-    expect(getColorModeButton()).toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).toHaveTextContent(defaultThemeOptions.initialColorMode)
   })
 
   test("prefers useSystemColorMode over root property", () => {
     const { ColorModeProvider } = require("../src/color-mode-provider")
-    const getColorSchemeSpy = jest
-      .spyOn(colorModeUtils, "getColorScheme")
-      .mockReturnValueOnce("dark")
+    const getColorSchemeSpy = jest.spyOn(colorModeUtils, "getColorScheme").mockReturnValueOnce("dark")
     const rootGetSpy = jest.spyOn(colorModeUtils.root, "get")
     const mockLocalStorageManager = createMockStorageManager("localStorage")
 
@@ -51,9 +40,7 @@ describe("<ColorModeProvider /> localStorage browser", () => {
     expect(rootGetSpy).not.toHaveBeenCalled()
     expect(mockLocalStorageManager.get).not.toHaveBeenCalled()
 
-    expect(getColorModeButton()).not.toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).not.toHaveTextContent(defaultThemeOptions.initialColorMode)
   })
 
   test("prefers root property over localStorage", () => {
@@ -64,16 +51,10 @@ describe("<ColorModeProvider /> localStorage browser", () => {
       // @ts-expect-error only happens if value doesn't exist, e.g. CSR
       .mockReturnValueOnce("")
 
-    const mockLocalStorageManager = createMockStorageManager(
-      "localStorage",
-      "dark",
-    )
+    const mockLocalStorageManager = createMockStorageManager("localStorage", "dark")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockLocalStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockLocalStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
@@ -81,9 +62,7 @@ describe("<ColorModeProvider /> localStorage browser", () => {
     expect(rootGetSpy).toHaveBeenCalledTimes(1)
     expect(mockLocalStorageManager.get).toHaveBeenCalledTimes(1)
 
-    expect(getColorModeButton()).not.toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).not.toHaveTextContent(defaultThemeOptions.initialColorMode)
   })
 
   test("onChange sets value to all listeners", () => {
@@ -94,10 +73,7 @@ describe("<ColorModeProvider /> localStorage browser", () => {
     const mockLocalStorageManager = createMockStorageManager("localStorage")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockLocalStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockLocalStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
@@ -121,18 +97,13 @@ describe("<ColorModeProvider /> cookie browser", () => {
   test("by default, picks from cookie", () => {
     const { ColorModeProvider } = require("../src/color-mode-provider")
 
-    const getColorSchemeSpy = jest
-      .spyOn(colorModeUtils, "getColorScheme")
-      .mockReturnValueOnce("dark")
+    const getColorSchemeSpy = jest.spyOn(colorModeUtils, "getColorScheme").mockReturnValueOnce("dark")
     const rootGetSpy = jest.spyOn(colorModeUtils.root, "get")
 
     const mockCookieStorageManager = createMockStorageManager("cookie", "dark")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockCookieStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockCookieStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
@@ -151,10 +122,7 @@ describe("<ColorModeProvider /> cookie browser", () => {
     const mockCookieStorageManager = createMockStorageManager("cookie")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockCookieStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockCookieStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )

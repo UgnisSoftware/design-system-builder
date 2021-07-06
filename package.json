@@ -9,6 +9,7 @@
     "publish": "npm publish pkg",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
+    "test": "jest",
     "build-storybook": "build-storybook"
   },
   "@pika/pack": {

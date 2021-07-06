@@ -4,7 +4,7 @@ import { invoke, renderHook } from "../../test-utils"
 import { useClipboard } from "../src"
 
 jest.mock("copy-to-clipboard")
-jest.useFakeTimers()
+jest.useFakeTimers("legacy")
 
 const text = "lorem ipsum"
 

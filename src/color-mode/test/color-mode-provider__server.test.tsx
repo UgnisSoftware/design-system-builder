@@ -1,16 +1,9 @@
 import { render } from "@testing-library/react"
-import {
-  mockIsBrowser,
-  createMockStorageManager,
-  defaultThemeOptions,
-  getColorModeButton,
-  DummyComponent,
-} from "./utils"
+import { createMockStorageManager, defaultThemeOptions, getColorModeButton, DummyComponent } from "./utils"
 import * as colorModeUtils from "../src/color-mode.utils"
 
 beforeEach(() => {
   jest.resetAllMocks()
-  mockIsBrowser(false)
 })
 
 describe("<ColorModeProvider /> localStorage server", () => {
@@ -21,16 +14,14 @@ describe("<ColorModeProvider /> localStorage server", () => {
 
     render(
       <ColorModeProvider
-        options={defaultThemeOptions}
+        options={{ ...defaultThemeOptions, useSystemColorMode: true }}
         colorModeManager={mockLocalStorageManager}
       >
         <DummyComponent />
       </ColorModeProvider>,
     )
 
-    expect(getColorModeButton()).toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).toHaveTextContent(defaultThemeOptions.initialColorMode)
 
     expect(mockLocalStorageManager.get).not.toHaveBeenCalled()
   })
@@ -41,9 +32,7 @@ describe("<ColorModeProvider /> localStorage server", () => {
     const addListenerSpy = jest.spyOn(colorModeUtils, "addListener")
 
     render(
-      <ColorModeProvider
-        options={{ ...defaultThemeOptions, useSystemColorMode: true }}
-      >
+      <ColorModeProvider options={{ ...defaultThemeOptions, useSystemColorMode: true }}>
         <DummyComponent />
       </ColorModeProvider>,
     )
@@ -52,17 +41,13 @@ describe("<ColorModeProvider /> localStorage server", () => {
   })
 
   test("adds no mediaQueryListener if theme.config.useSystemColorMode is false", () => {
-    mockIsBrowser(false)
     const { ColorModeProvider } = require("../src/color-mode-provider")
 
     const addListenerSpy = jest.spyOn(colorModeUtils, "addListener")
     const mockLocalStorageManager = createMockStorageManager("localStorage")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockLocalStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockLocalStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
@@ -78,17 +63,12 @@ describe("<ColorModeProvider /> cookie server", () => {
     const mockCookieStorageManager = createMockStorageManager("cookie", "dark")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockCookieStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockCookieStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
 
-    expect(getColorModeButton()).not.toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).not.toHaveTextContent(defaultThemeOptions.initialColorMode)
 
     expect(mockCookieStorageManager.get).toHaveBeenCalledTimes(1)
   })
@@ -99,22 +79,15 @@ describe("<ColorModeProvider /> cookie server", () => {
     const mockCookieStorageManager = createMockStorageManager("cookie")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockCookieStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockCookieStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )
 
-    expect(getColorModeButton()).toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).toHaveTextContent(defaultThemeOptions.initialColorMode)
 
     expect(mockCookieStorageManager.get).toHaveBeenCalledTimes(1)
-    expect(mockCookieStorageManager.get).toHaveBeenCalledWith(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(mockCookieStorageManager.get).toHaveBeenCalledWith(defaultThemeOptions.initialColorMode)
   })
 
   test("never calls localStorage effect-bound functions", () => {
@@ -126,10 +99,7 @@ describe("<ColorModeProvider /> cookie server", () => {
     const mockCookieStorageManager = createMockStorageManager("cookie")
 
     render(
-      <ColorModeProvider
-        options={defaultThemeOptions}
-        colorModeManager={mockCookieStorageManager}
-      >
+      <ColorModeProvider options={defaultThemeOptions} colorModeManager={mockCookieStorageManager}>
         <DummyComponent />
       </ColorModeProvider>,
     )

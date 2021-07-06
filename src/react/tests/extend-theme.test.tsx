@@ -25,6 +25,7 @@ describe("extendTheme", () => {
           variants: {
             solid: () => ({
               bg: testColor,
+              color: testColor,
             }),
           },
         },
@@ -49,6 +50,7 @@ describe("extendTheme", () => {
         Button: {
           baseStyle: () => ({
             bg: testColor,
+            color: testColor,
           }),
         },
       },
@@ -73,6 +75,7 @@ describe("extendTheme", () => {
           variants: {
             solid: {
               bg: testColor,
+              color: testColor,
             },
           },
         },
@@ -81,10 +84,11 @@ describe("extendTheme", () => {
 
     const customTheme = extendTheme(override)
 
-    const { variants, defaultProps } = (customTheme.components as any).Button
-    const solidStyles = variants.solid(defaultProps)
+    const { variants } = (customTheme.components as any).Button
+    const solidStyles = variants.solid
 
     expect(solidStyles.bg).toBe(testColor)
+    expect(solidStyles.color).toBe(testColor)
 
     // should have more properties from the default theme
     expect(Object.keys(solidStyles).length).toBeGreaterThan(1)
