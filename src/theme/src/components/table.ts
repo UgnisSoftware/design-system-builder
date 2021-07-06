@@ -4,33 +4,52 @@ const parts = ["table", "thead", "tbody", "tr", "th", "td", "caption"]
 
 type Dict = Record<string, any>
 
+export const GRID_COLUMN_WIDTHS = "--template-columns"
+export const GRID_ROW_HEIGHT = "--template-row-height"
+export const GRID_ROW_WIDTH = "--template-row-width"
+
 const baseStyle = {
-  table: {
-    position: 'relative'
+  tbody: {
+    position: "relative",
   },
   thead: {
-    position: 'sticky',
+    position: "sticky",
     top: 0,
-    backgroundColor: 'white',
-    display: "flex",
-  },
-  tr: {
-    display: "flex",
+    left: 0,
+    zIndex: 2,
+    backgroundColor: "white",
+    display: "grid",
+    contain: "size layout style paint",
+    gridAutoFlow: `column`,
+    gridAutoColumns: `var(${GRID_COLUMN_WIDTHS})`,
+    gridAutoRows: `var(${GRID_ROW_HEIGHT})`,
+    height: `var(${GRID_ROW_HEIGHT})`,
+    lineHeight: `var(${GRID_ROW_HEIGHT})`,
+    width: `var(${GRID_ROW_WIDTH})`,
   },
   th: {
-    fontFamily: "heading",
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: "wider",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     textAlign: "start",
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+  },
+  tr: {
+    display: "grid",
+    contain: "size layout style paint",
+    gridAutoFlow: `column`,
+    gridAutoColumns: `var(${GRID_COLUMN_WIDTHS})`,
+    gridAutoRows: `var(${GRID_ROW_HEIGHT})`,
+    height: `var(${GRID_ROW_HEIGHT})`,
+    lineHeight: `var(${GRID_ROW_HEIGHT})`,
+    width: `var(${GRID_ROW_WIDTH})`,
   },
   td: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     textAlign: "start",
   },
 }
@@ -55,16 +74,6 @@ const simpleVariant = (props: Dict) => {
       borderBottom: "1px",
       borderColor: mode(`${c}.100`, `${c}.700`)(props),
       ...numericStyles,
-    },
-    caption: {
-      color: mode(`gray.600`, `gray.100`)(props),
-    },
-    tfoot: {
-      tr: {
-        "&:last-of-type": {
-          th: { borderBottomWidth: 0 },
-        },
-      },
     },
   }
 }
@@ -117,61 +126,9 @@ const variants = {
 }
 
 const sizes = {
-  sm: {
-    th: {
-      px: "4",
-      py: "1",
-      lineHeight: "4",
-      fontSize: "xs",
-    },
-    td: {
-      px: "4",
-      py: "2",
-      fontSize: "sm",
-      lineHeight: "4",
-    },
-    caption: {
-      px: "4",
-      py: "2",
-      fontSize: "xs",
-    },
-  },
-  md: {
-    th: {
-      px: "6",
-      py: "3",
-      lineHeight: "4",
-      fontSize: "xs",
-    },
-    td: {
-      px: "6",
-      py: "4",
-      lineHeight: "5",
-    },
-    caption: {
-      px: "6",
-      py: "2",
-      fontSize: "sm",
-    },
-  },
-  lg: {
-    th: {
-      px: "8",
-      py: "4",
-      lineHeight: "5",
-      fontSize: "sm",
-    },
-    td: {
-      px: "8",
-      py: "5",
-      lineHeight: "6",
-    },
-    caption: {
-      px: "6",
-      py: "2",
-      fontSize: "md",
-    },
-  },
+  sm: {},
+  md: {},
+  lg: {},
 }
 
 const defaultProps = {
