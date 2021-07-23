@@ -33,9 +33,9 @@ export const ExamplePopper = () => {
   )
 }
 
-function debounce(func: any, wait: number, immediate?: any) {
+function debounce( func: any, wait: number, immediate?: any) {
   let timeout: any
-  return function run(...args: any[]) {
+  return function run(this: any, ...args: any[]) {
     const context = this
     const later = function later() {
       timeout = null
@@ -70,8 +70,8 @@ export const VirtualElement = () => {
 
   React.useEffect(() => {
     referenceRef(node)
-    const el = document.getElementById("root")
-    const handler = debounce(({ clientX: x, clientY: y }) => {
+    const el = document.getElementById("root") as any
+    const handler = debounce(({ clientX: x, clientY: y }: any) => {
       setNode({ getBoundingClientRect: generateGetBoundingClientRect(x, y) })
       update?.()
     }, 10)

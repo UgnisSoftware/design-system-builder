@@ -1,4 +1,4 @@
-import * as React from "react"
+import type * as React from "react"
 import { chakra, forwardRef, HTMLChakraProps } from "~/system"
 import type { Merge } from "~/utils"
 import { useClickable, UseClickableProps } from "../src"

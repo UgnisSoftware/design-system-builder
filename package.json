@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "jest",
+    "ts": "tsc",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
