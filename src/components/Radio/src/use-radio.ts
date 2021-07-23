@@ -176,7 +176,6 @@ export function useRadio(props: UseRadioProps = {}) {
         "id",
         "disabled",
         "readOnly",
-        "required",
         "aria-invalid",
         "aria-required",
         "aria-readonly",

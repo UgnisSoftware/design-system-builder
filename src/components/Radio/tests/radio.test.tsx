@@ -40,7 +40,6 @@ test("has proper aria and data attributes", async () => {
   checkbox = utils.getByTestId("checkbox")
 
   expect(input).toHaveAttribute("aria-required")
-  expect(input).toHaveAttribute("required")
   expect(input).toHaveAttribute("aria-invalid")
   expect(input).toHaveAttribute("aria-disabled")
   expect(input).toBeDisabled()
