@@ -11,6 +11,4 @@ import { isBrowser } from "../../utils"
  *
  * @see https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
  */
-export const useSafeLayoutEffect = isBrowser
-  ? React.useLayoutEffect
-  : React.useEffect
+export const useSafeLayoutEffect = isBrowser ? React.useLayoutEffect : React.useEffect

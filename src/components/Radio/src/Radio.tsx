@@ -18,7 +18,7 @@ interface BaseControlProps extends Omit<HTMLChakraProps<"div">, Omitted> {}
 
 export interface RadioProps extends UseRadioProps, ThemingProps<"Radio">, BaseControlProps {
   /**
-   * The spacing between the checkbox and its label text
+   * The spacing between the checkbox and its text text
    * @default 0.5rem
    * @type SystemProps["marginLeft"]
    */

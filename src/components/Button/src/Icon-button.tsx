@@ -3,12 +3,7 @@ import { __DEV__ } from "../../../utils"
 import * as React from "react"
 import { Button, ButtonProps } from "./Button"
 
-type Omitted =
-  | "leftIcon"
-  | "isFullWidth"
-  | "rightIcon"
-  | "loadingText"
-  | "iconSpacing"
+type Omitted = "leftIcon" | "isFullWidth" | "rightIcon" | "loadingText" | "iconSpacing"
 
 interface BaseButtonProps extends Omit<ButtonProps, Omitted> {}
 
@@ -23,39 +18,31 @@ export interface IconButtonProps extends BaseButtonProps {
    */
   isRound?: boolean
   /**
-   * A11y: A label that describes the button
+   * A11y: A text that describes the button
    */
   "aria-label": string
 }
 
-export const IconButton = forwardRef<IconButtonProps, "button">(
-  (props, ref) => {
-    const { icon, children, isRound, "aria-label": ariaLabel, ...rest } = props
+export const IconButton = forwardRef<IconButtonProps, "button">((props, ref) => {
+  const { icon, children, isRound, "aria-label": ariaLabel, ...rest } = props
 
-    /**
-     * Passing the icon as prop or children should work
-     */
-    const element = icon || children
-    const _children = React.isValidElement(element)
-      ? React.cloneElement(element as any, {
+  /**
+   * Passing the icon as prop or children should work
+   */
+  const element = icon || children
+  const _children = React.isValidElement(element)
+    ? React.cloneElement(element as any, {
         "aria-hidden": true,
         focusable: false,
       })
-      : null
+    : null
 
-    return (
-      <Button
-        padding="0"
-        borderRadius={isRound ? "full" : "md"}
-        ref={ref}
-        aria-label={ariaLabel}
-        {...rest}
-      >
-        {_children}
-      </Button>
-    )
-  },
-)
+  return (
+    <Button padding="0" borderRadius={isRound ? "full" : "md"} ref={ref} aria-label={ariaLabel} {...rest}>
+      {_children}
+    </Button>
+  )
+})
 
 if (__DEV__) {
   IconButton.displayName = "IconButton"

@@ -17,7 +17,7 @@ export interface SwitchProps
     Omit<HTMLChakraProps<"label">, keyof UseCheckboxProps>,
     ThemingProps<"Switch"> {
   /**
-   * The spacing between the switch and its label text
+   * The spacing between the switch and its text text
    * @default 0.5rem
    * @type SystemProps["marginLeft"]
    */

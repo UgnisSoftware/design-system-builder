@@ -1,50 +1,73 @@
-import { mode } from "../../../theme-tools"
-import { mergeWith as merge } from "../../../utils"
 import Input from "./input"
 
-const parts = ["field", "icon"]
+const parts = ["field", "icon", "iconBox", "clearIcon", "selectIcon", "dropdown", "dropdownItem"]
 
-function baseStyleField(props: Record<string, any>) {
-  return {
-    ...Input.baseStyle.field,
-    appearance: "none",
-    paddingBottom: "1px",
-    lineHeight: "normal",
-    "> option, > optgroup": {
-      bg: mode("white", "gray.700")(props),
-    },
-  }
+const baseStyleField = {
+  ...Input.baseStyle.field,
+  appearance: "none",
+  paddingBottom: "1px",
+  lineHeight: "normal",
+  width: "100%",
+  height: "fit-content",
+  position: "relative",
 }
 
 const baseStyleIcon = {
-  width: "1.5rem",
-  height: "100%",
-  right: "0.5rem",
   position: "relative",
   color: "currentColor",
   fontSize: "1.25rem",
-  _disabled: {
-    opacity: 0.5,
-  },
+  pointerEvents: "none",
 }
 
-const baseStyle = (props: Record<string, any>) => ({
-  field: baseStyleField(props),
-  icon: baseStyleIcon,
-})
+const baseStyleIconBox = {
+  position: "absolute",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  top: "50%",
+  transform: "translate(0%,-50%)",
+  right: "1rem",
+}
 
-const sizes = merge({}, Input.sizes, {
-  xs: {
-    icon: {
-      right: "0.25rem",
-    },
-  },
-})
+const baseStyleSelectIcon = {
+  fontSize: "xl",
+  color: "neutral.500",
+  pointerEvents: "none",
+}
+
+const baseStyleClearIcon = {
+  fontSize: "lg",
+  color: "neutral.500",
+  cursor: "pointer",
+}
+
+const baseDropdown = {
+  zIndex: "dropdown",
+  borderRadius: "base",
+  border: "1px solid",
+  borderColor: "neutral.200",
+  bg: "white",
+  py: 0.5,
+  boxShadow: "sm",
+}
+
+const dropdownItem = {
+  px: 1,
+}
+
+const baseStyle = {
+  field: baseStyleField,
+  icon: baseStyleIcon,
+  iconBox: baseStyleIconBox,
+  clearIcon: baseStyleClearIcon,
+  selectIcon: baseStyleSelectIcon,
+  dropdown: baseDropdown,
+  dropdownItem: dropdownItem,
+}
 
 export default {
   parts,
   baseStyle,
-  sizes,
   variants: Input.variants,
   defaultProps: Input.defaultProps,
 }

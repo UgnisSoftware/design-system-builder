@@ -27,7 +27,7 @@ export interface ButtonOptions {
    */
   isDisabled?: boolean
   /**
-   * The label to show in the button when `isLoading` is true
+   * The text to show in the button when `isLoading` is true
    * If no text is passed, it only shows the spinner
    */
   loadingText?: string
@@ -40,17 +40,17 @@ export interface ButtonOptions {
    */
   type?: "button" | "reset" | "submit"
   /**
-   * If added, the button will show an icon before the button's label.
+   * If added, the button will show an icon before the button's text.
    * @type React.ReactElement
    */
   leftIcon?: React.ReactElement
   /**
-   * If added, the button will show an icon after the button's label.
+   * If added, the button will show an icon after the button's text.
    * @type React.ReactElement
    */
   rightIcon?: React.ReactElement
   /**
-   * The space between the button icon and label.
+   * The space between the button icon and text.
    * @type SystemProps["marginRight"]
    */
   iconSpacing?: SystemProps["marginRight"]

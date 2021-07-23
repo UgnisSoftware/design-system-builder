@@ -1,4 +1,4 @@
-const parts = ["field", "addon", "errorMessage", "label", "requiredIndicator"]
+const parts = ["field", "addon", "errorMessage"]
 
 const baseStyle = {
   field: {
@@ -21,18 +21,6 @@ const baseStyle = {
     color: "white",
     fontSize: "xs",
     lineHeight: "0.75rem",
-  },
-  label: {
-    color: "neutral.800",
-    mb: 0.25,
-    fontSize: "xs",
-    lineHeight: "0.75rem",
-  },
-  requiredIndicator: {
-    ml: "1px",
-    color: "error.700",
-    fontSize: "sm",
-    lineHeight: 0,
   },
 }
 
@@ -100,11 +88,11 @@ const variantOutline = {
         borderColor: "neutral.200",
       },
     },
-    _invalid: {
-      borderColor: "error.600",
-    },
     _focus: {
       borderColor: "primary.500",
+    },
+    _invalid: {
+      borderColor: "error.600",
     },
   },
   addon: {

@@ -7,9 +7,7 @@ import { useSafeLayoutEffect } from "./use-safe-layout-effect"
  *
  * @param value the value or function to persist
  */
-export function useCallbackRef<T extends (...args: any[]) => any>(
-  fn: T | undefined,
-): T {
+export function useCallbackRef<T extends (...args: any[]) => any>(fn: T | undefined): T {
   const ref = React.useRef(fn)
 
   useSafeLayoutEffect(() => {

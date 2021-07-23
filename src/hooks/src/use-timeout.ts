@@ -7,10 +7,7 @@ import { useCallbackRef } from "./use-callback-ref"
  * @param callback the callback to run after specified delay
  * @param delay the delay (in ms)
  */
-export function useTimeout(
-  callback: (...args: any[]) => void,
-  delay: number | null,
-) {
+export function useTimeout(callback: (...args: any[]) => void, delay: number | null) {
   const fn = useCallbackRef(callback)
 
   React.useEffect(() => {

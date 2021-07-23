@@ -12,8 +12,7 @@ const mockEnv = {
   document: ssrDocument,
 }
 
-const defaultEnv: Environment =
-  typeof window !== "undefined" ? { window, document } : mockEnv
+const defaultEnv: Environment = typeof window !== "undefined" ? { window, document } : mockEnv
 
 const EnvironmentContext = createContext(defaultEnv)
 EnvironmentContext.displayName = "EnvironmentContext"

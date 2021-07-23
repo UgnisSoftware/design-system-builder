@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react"
-import { DarkMode } from '../src'
+import { DarkMode } from "../src"
 import { DummyComponent, getColorModeButton } from "./utils"
 import userEvent from "@testing-library/user-event"
 

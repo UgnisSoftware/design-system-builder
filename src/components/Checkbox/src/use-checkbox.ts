@@ -258,7 +258,7 @@ export function useCheckbox(props: UseCheckboxProps = {}) {
         /**
          * Accessibility:
          *
-         * Ideally, `getRootProps` should be spread unto a `label` element.
+         * Ideally, `getRootProps` should be spread unto a `text` element.
          *
          * If the element was changed using the `as` prop or changing
          * the dom node `getRootProps` is spread unto (to a `div` or `span`), we'll trigger
@@ -362,7 +362,7 @@ export function useCheckbox(props: UseCheckboxProps = {}) {
 }
 
 /**
- * Prevent `onBlur` being fired when the checkbox label is touched
+ * Prevent `onBlur` being fired when the checkbox text is touched
  */
 function stopEvent(event: React.SyntheticEvent) {
   event.preventDefault()

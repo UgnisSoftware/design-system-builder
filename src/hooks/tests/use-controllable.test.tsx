@@ -1,17 +1,9 @@
-import {
-  invoke,
-  render,
-  renderHook,
-  screen,
-  userEvent,
-} from "../../test-utils"
+import { invoke, render, renderHook, screen, userEvent } from "../../test-utils"
 import React, { useState } from "react"
 import { useControllableState } from "../src"
 
 test("should be uncontrolled when defaultValue is passed", () => {
-  const { result } = renderHook(() =>
-    useControllableState({ defaultValue: "testing" }),
-  )
+  const { result } = renderHook(() => useControllableState({ defaultValue: "testing" }))
   const [value] = result.current
   expect(value).toBe("testing")
 
@@ -25,9 +17,7 @@ test("should be uncontrolled when defaultValue is passed", () => {
 })
 
 test("should be controlled when value is passed", () => {
-  const { result } = renderHook(() =>
-    useControllableState({ value: "testing" }),
-  )
+  const { result } = renderHook(() => useControllableState({ value: "testing" }))
   const [value] = result.current
   expect(value).toBe("testing")
 
@@ -43,23 +33,13 @@ test("should be controlled when value is passed", () => {
 })
 
 test("onChange does not become stale when callback is updated", async () => {
-  const Controllable = ({
-    value,
-    onChange,
-  }: {
-    value: number
-    onChange: (next: number) => void
-  }) => {
+  const Controllable = ({ value, onChange }: { value: number; onChange: (next: number) => void }) => {
     const [state, setState] = useControllableState({ value, onChange })
 
     return (
       <div>
         <p data-testid="value">{value}</p>
-        <input
-          type="text"
-          value={state}
-          onChange={(e) => setState(Number(e.target.value))}
-        />
+        <input type="text" value={state} onChange={(e) => setState(Number(e.target.value))} />
       </div>
     )
   }

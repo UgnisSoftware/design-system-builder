@@ -21,16 +21,11 @@ export interface UseClipboardOptions {
  * @param {string} optionsOrTimeout.format - set the desired MIME type
  * @param {number} optionsOrTimeout.timeout - delay (in ms) to switch back to initial state once copied.
  */
-export function useClipboard(
-  text: string,
-  optionsOrTimeout: number | UseClipboardOptions = {},
-) {
+export function useClipboard(text: string, optionsOrTimeout: number | UseClipboardOptions = {}) {
   const [hasCopied, setHasCopied] = useState(false)
 
   const { timeout = 1500, ...copyOptions } =
-    typeof optionsOrTimeout === "number"
-      ? { timeout: optionsOrTimeout }
-      : optionsOrTimeout
+    typeof optionsOrTimeout === "number" ? { timeout: optionsOrTimeout } : optionsOrTimeout
 
   const onCopy = useCallback(() => {
     const didCopy = copy(text, copyOptions)

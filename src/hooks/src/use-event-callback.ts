@@ -9,15 +9,10 @@ import { useSafeLayoutEffect } from "./use-safe-layout-effect"
  * @deprecated Use `useCallbackRef` instead. `useEventCallback` will be removed
  * in a future version.
  */
-export function useEventCallback<E extends Event | React.SyntheticEvent>(
-  callback: (event: E, ...args: any[]) => void,
-) {
+export function useEventCallback<E extends Event | React.SyntheticEvent>(callback: (event: E, ...args: any[]) => void) {
   const ref = React.useRef(callback)
   useSafeLayoutEffect(() => {
     ref.current = callback
   })
-  return React.useCallback(
-    (event: E, ...args: any[]) => ref.current(event, ...args),
-    [],
-  )
+  return React.useCallback((event: E, ...args: any[]) => ref.current(event, ...args), [])
 }

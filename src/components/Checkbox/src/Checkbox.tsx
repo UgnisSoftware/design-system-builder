@@ -49,7 +49,7 @@ export interface CheckboxProps
     ThemingProps<"Checkbox">,
     UseCheckboxProps {
   /**
-   * The spacing between the checkbox and its label text
+   * The spacing between the checkbox and its text text
    * @default 0.5rem
    * @type SystemProps["marginLeft"]
    */

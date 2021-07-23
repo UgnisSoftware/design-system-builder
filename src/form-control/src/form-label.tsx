@@ -24,7 +24,7 @@ export interface FormLabelProps extends HTMLChakraProps<"label">, ThemingProps<"
  * It is used to inform users as to what information
  * is requested for a form field.
  *
- * ♿️ Accessibility: Every form field should have a form label.
+ * ♿️ Accessibility: Every form field should have a form text.
  */
 export const FormLabel = forwardRef<FormLabelProps, "label">((passedProps, ref) => {
   const styles = useStyleConfig("FormLabel", passedProps)

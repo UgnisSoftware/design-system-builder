@@ -1,6 +1,6 @@
 import type { Meta } from "@storybook/react"
 import { ChakraProvider } from "../../../react"
-import { Radio, RadioGroup, RadioProps } from "../src"
+import { Radio, RadioProps } from "../src"
 import { propConfig } from "../../../utils/src/docPropConfig"
 import { filterUndefined } from "../../../utils"
 

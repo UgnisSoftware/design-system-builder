@@ -48,7 +48,6 @@ interface StackOptions {
   isInline?: boolean
 }
 
-
 export const StackDivider: React.FC<HTMLChakraProps<"div">> = (props) => (
   <chakra.div
     {...props}

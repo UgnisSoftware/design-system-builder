@@ -71,33 +71,17 @@ describe("Radio", () => {
   test("controlled", () => {
     const Component = () => {
       const [value, setValue] = React.useState("1")
-      const onChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-        setValue(event.target.value)
+      const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value)
 
       return (
         <>
-          <Radio
-            name="radio"
-            value="1"
-            isChecked={value === "1"}
-            onChange={onChange}
-          >
+          <Radio name="radio" value="1" isChecked={value === "1"} onChange={onChange}>
             One
           </Radio>
-          <Radio
-            name="radio"
-            value="2"
-            isChecked={value === "2"}
-            onChange={onChange}
-          >
+          <Radio name="radio" value="2" isChecked={value === "2"} onChange={onChange}>
             Two
           </Radio>
-          <Radio
-            name="radio"
-            value="3"
-            isChecked={value === "3"}
-            onChange={onChange}
-          >
+          <Radio name="radio" value="3" isChecked={value === "3"} onChange={onChange}>
             Three
           </Radio>
         </>

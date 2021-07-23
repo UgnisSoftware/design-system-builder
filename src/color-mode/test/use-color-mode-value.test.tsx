@@ -1,10 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import {
-  ColorModeProvider,
-  useColorModeValue,
-  useColorMode,
-} from '../src'
+import { ColorModeProvider, useColorModeValue, useColorMode } from "../src"
 import { defaultThemeOptions } from "./utils"
 
 const lightValue = "light-value"

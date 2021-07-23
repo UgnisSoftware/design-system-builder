@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/text-has-associated-control */
 import * as React from "react"
 import Icon from "../../../icon"
 import { fireEvent, render, renderHook, screen, testA11y, userEvent } from "../../../test-utils"

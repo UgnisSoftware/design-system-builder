@@ -1,10 +1,4 @@
-import {
-  contains,
-  focus,
-  FocusableElement,
-  getAllFocusable,
-  isRefObject,
-} from "../../utils"
+import { contains, focus, FocusableElement, getAllFocusable, isRefObject } from "../../utils"
 import React, { useCallback } from "react"
 import { useEventListener } from "./use-event-listener"
 import { useUpdateEffect } from "./use-update-effect"
@@ -21,10 +15,7 @@ const defaultOptions: UseFocusOnShowOptions = {
   shouldFocus: false,
 }
 
-export function useFocusOnShow<T extends HTMLElement>(
-  target: React.RefObject<T> | T,
-  options = defaultOptions,
-) {
+export function useFocusOnShow<T extends HTMLElement>(target: React.RefObject<T> | T, options = defaultOptions) {
   const { focusRef, preventScroll, shouldFocus, visible } = options
   const element = isRefObject(target) ? target.current : target
 

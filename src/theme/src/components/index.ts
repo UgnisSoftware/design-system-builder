@@ -16,6 +16,7 @@ import FormLabel from "./form-label"
 import Heading from "./heading"
 import Input from "./input"
 import Kbd from "./kbd"
+import Label from "./label"
 import Link from "./link"
 import List from "./list"
 import Menu from "./menu"
@@ -59,6 +60,7 @@ export default {
   Heading,
   Input,
   Kbd,
+  Label,
   Link,
   List,
   Menu,

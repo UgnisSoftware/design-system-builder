@@ -478,8 +478,8 @@ export interface ThemeTypings {
       variants: never
     }
     Select: {
-      sizes: "lg" | "md" | "sm" | "xs"
-      variants: "outline" | "filled" | "flushed" | "unstyled"
+      sizes: "md"
+      variants: "outline"
     }
     Skeleton: {
       sizes: never

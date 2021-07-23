@@ -1,12 +1,8 @@
 import * as colorModeUtils from "../src/color-mode.utils"
 import { render } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import {
-  defaultThemeOptions,
-  DummyComponent,
-  getColorModeButton,
-} from "./utils"
-import { ColorModeProvider } from '../src'
+import { defaultThemeOptions, DummyComponent, getColorModeButton } from "./utils"
+import { ColorModeProvider } from "../src"
 
 describe("<ColorModeProvider />", () => {
   test("sets class on body", () => {
@@ -46,9 +42,7 @@ describe("<ColorModeProvider />", () => {
 
     userEvent.click(button)
 
-    expect(getColorModeButton()).not.toHaveTextContent(
-      defaultThemeOptions.initialColorMode,
-    )
+    expect(getColorModeButton()).not.toHaveTextContent(defaultThemeOptions.initialColorMode)
   })
 
   test("is controlled given a value", () => {

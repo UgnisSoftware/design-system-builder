@@ -26,7 +26,6 @@ export function useFormControl<T extends HTMLElement>(props: UseFormControlProps
     ...rest,
     disabled: isDisabled,
     readOnly: isReadOnly,
-    required: isRequired,
     "aria-invalid": ariaAttr(isInvalid),
     "aria-required": ariaAttr(isRequired),
     "aria-readonly": ariaAttr(isReadOnly),

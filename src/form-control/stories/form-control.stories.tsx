@@ -93,7 +93,7 @@ export const SelectExample: React.FC = () => (
 )
 
 /**
- * You can style the label when the input is focused,
+ * You can style the text when the input is focused,
  * simply pass the `_focus` pseudo prop
  */
 export const StylingFocus: React.FC = () => (

@@ -28,7 +28,7 @@ test("shows spinner if isLoading", () => {
   // children text is hidden
   expect(screen.getByText("Email")).not.toBeVisible()
 
-  // "Loading..." visually hidden label shown
+  // "Loading..." visually hidden text shown
   screen.getByText("Loading...")
 })
 

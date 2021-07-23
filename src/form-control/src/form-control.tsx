@@ -11,12 +11,7 @@ import {
   useStyles,
 } from "../../system"
 import { cx, dataAttr, __DEV__, scheduleMicrotask } from "../../utils"
-import {
-  createContext,
-  mergeRefs,
-  PropGetter,
-  PropGetterV2,
-} from "../../react-utils"
+import { createContext, mergeRefs, PropGetter, PropGetterV2 } from "../../react-utils"
 
 export interface FormControlOptions {
   /**
@@ -45,29 +40,23 @@ export interface FormControlOptions {
 
 interface FormControlContext extends FormControlOptions {
   /**
-   * The label text used to inform users as to what information is
+   * The text text used to inform users as to what information is
    * requested for a text field.
    */
   label?: string
   /**
    * The custom `id` to use for the form control. This is passed directly to the form element (e.g, Input).
    * - The form element (e.g Input) gets the `id`
-   * - The form label id: `form-label-${id}`
+   * - The form text id: `form-text-${id}`
    * - The form error text id: `form-error-text-${id}`
    * - The form helper text id: `form-helper-text-${id}`
    */
   id?: string
 }
 
-type FormControlProviderContext = Omit<
-  ReturnType<typeof useFormControlProvider>,
-  "getRootProps" | "htmlProps"
->
+type FormControlProviderContext = Omit<ReturnType<typeof useFormControlProvider>, "getRootProps" | "htmlProps">
 
-const [
-  FormControlProvider,
-  useFormControlContext,
-] = createContext<FormControlProviderContext>({
+const [FormControlProvider, useFormControlContext] = createContext<FormControlProviderContext>({
   strict: false,
   name: "FormControlContext",
 })
@@ -75,14 +64,7 @@ const [
 export { useFormControlContext }
 
 function useFormControlProvider(props: FormControlContext) {
-  const {
-    id: idProp,
-    isRequired,
-    isInvalid,
-    isDisabled,
-    isReadOnly,
-    ...htmlProps
-  } = props
+  const { id: idProp, isRequired, isInvalid, isDisabled, isReadOnly, ...htmlProps } = props
 
   // Generate all the required ids
   const uuid = useId()
@@ -204,10 +186,7 @@ function useFormControlProvider(props: FormControlContext) {
   }
 }
 
-export interface FormControlProps
-  extends HTMLChakraProps<"div">,
-    ThemingProps<"FormControl">,
-    FormControlContext {}
+export interface FormControlProps extends HTMLChakraProps<"div">, ThemingProps<"FormControl">, FormControlContext {}
 
 /**
  * FormControl provides context such as
@@ -219,9 +198,7 @@ export interface FormControlProps
 export const FormControl = forwardRef<FormControlProps, "div">((props, ref) => {
   const styles = useMultiStyleConfig("Form", props)
   const ownProps = omitThemingProps(props)
-  const { getRootProps, htmlProps: _, ...context } = useFormControlProvider(
-    ownProps,
-  )
+  const { getRootProps, htmlProps: _, ...context } = useFormControlProvider(ownProps)
 
   const className = cx("chakra-form-control", props.className)
   const contextValue = React.useMemo(() => context, [context])
@@ -259,13 +236,7 @@ export const FormHelperText = forwardRef<HelpTextProps, "div">((props, ref) => {
   const field = useFormControlContext()
   const styles = useStyles()
   const className = cx("chakra-form__helper-text", props.className)
-  return (
-    <chakra.div
-      {...field?.getHelpTextProps(props, ref)}
-      __css={styles.helperText}
-      className={className}
-    />
-  )
+  return <chakra.div {...field?.getHelpTextProps(props, ref)} __css={styles.helperText} className={className} />
 })
 
 if (__DEV__) {

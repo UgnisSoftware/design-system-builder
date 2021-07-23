@@ -1,20 +1,8 @@
 import { useBoolean, useControllableProp } from "../../../hooks"
-import {
-  ariaAttr,
-  callAllHandlers,
-  dataAttr,
-  pick,
-  warn,
-} from "../../../utils"
+import { ariaAttr, callAllHandlers, dataAttr, pick, warn } from "../../../utils"
 import { mergeRefs, PropGetter } from "../../../react-utils"
 import { visuallyHiddenStyle } from "../../../visually-hidden"
-import {
-  ChangeEvent,
-  SyntheticEvent,
-  useCallback,
-  useRef,
-  useState,
-} from "react"
+import { ChangeEvent, SyntheticEvent, useCallback, useRef, useState } from "react"
 import ReactDOM from "react-dom"
 import { useFormControl } from "../../../form-control"
 
@@ -105,10 +93,7 @@ export function useRadio(props: UseRadioProps = {}) {
 
   const [isCheckedState, setChecked] = useState(Boolean(defaultChecked))
 
-  const [isControlled, isChecked] = useControllableProp(
-    isCheckedProp,
-    isCheckedState,
-  )
+  const [isControlled, isChecked] = useControllableProp(isCheckedProp, isCheckedState)
 
   warn({
     condition: !!defaultIsChecked,
@@ -231,17 +216,7 @@ export function useRadio(props: UseRadioProps = {}) {
         style: visuallyHiddenStyle,
       }
     },
-    [
-      inputProps,
-      isFocusable,
-      name,
-      value,
-      handleChange,
-      setFocused,
-      onKeyDown,
-      onKeyUp,
-      isChecked,
-    ],
+    [inputProps, isFocusable, name, value, handleChange, setFocused, onKeyDown, onKeyUp, isChecked],
   )
 
   const getLabelProps: PropGetter = (props = {}, ref = null) => ({
@@ -273,7 +248,7 @@ export function useRadio(props: UseRadioProps = {}) {
 }
 
 /**
- * Prevent `onBlur` being fired when the checkbox label is touched
+ * Prevent `onBlur` being fired when the checkbox text is touched
  */
 function stop(event: SyntheticEvent) {
   event.preventDefault()

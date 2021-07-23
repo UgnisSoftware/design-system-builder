@@ -14,7 +14,7 @@ const variants: CollapseVariants = {
       opacity: hasHeightValue(props.startingHeight) ? 1 : 0,
     }),
     height: props.startingHeight,
-    transition: {
+    transition: props.exitTransition || {
       height: { duration: 0.2, ease: EASINGS.ease },
       opacity: { duration: 0.3, ease: EASINGS.ease },
     },
@@ -24,7 +24,7 @@ const variants: CollapseVariants = {
       opacity: 1,
     }),
     height: props.endingHeight,
-    transition: {
+    transition: props.enterTransition || {
       height: {
         duration: 0.3,
         ease: EASINGS.ease,
@@ -36,6 +36,8 @@ const variants: CollapseVariants = {
     },
   }),
 }
+
+type Transition = { duration: number; ease: typeof EASINGS[keyof typeof EASINGS] }
 
 export interface CollapseOptions {
   /**
@@ -61,9 +63,15 @@ export interface CollapseOptions {
    * @default "auto"
    */
   endingHeight?: number | string
+  /**
+   * Custom exit transition configuration
+   */
+  exitTransition?: { height: Transition; opacity: Transition }
+  /**
+   * Custom enter transition configuration
+   */
+  enterTransition?: { height: Transition; opacity: Transition }
 }
-
-export type ICollapse = CollapseProps
 
 type Display = React.CSSProperties["display"]
 
@@ -79,6 +87,8 @@ export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, 
     style,
     className,
     onAnimationComplete,
+    enterTransition,
+    exitTransition,
     ...rest
   } = props
 
@@ -117,7 +127,7 @@ export const Collapse = React.forwardRef<HTMLDivElement, CollapseProps>((props, 
     message: `startingHeight and unmountOnExit are mutually exclusive. You can't use them together`,
   })
 
-  const custom = { startingHeight, endingHeight, animateOpacity }
+  const custom = { startingHeight, endingHeight, animateOpacity, enterTransition, exitTransition }
 
   const ownProps: HTMLMotionProps<"div"> & React.RefAttributes<any> = {
     ref,

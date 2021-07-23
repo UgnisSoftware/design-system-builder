@@ -12,12 +12,7 @@ export interface UseDisclosureProps {
 }
 
 export function useDisclosure(props: UseDisclosureProps = {}) {
-  const {
-    onClose: onCloseProp,
-    onOpen: onOpenProp,
-    isOpen: isOpenProp,
-    id: idProp,
-  } = props
+  const { onClose: onCloseProp, onOpen: onOpenProp, isOpen: isOpenProp, id: idProp } = props
 
   const [isOpenState, setIsOpen] = React.useState(props.defaultIsOpen || false)
   const [isControlled, isOpen] = useControllableProp(isOpenProp, isOpenState)

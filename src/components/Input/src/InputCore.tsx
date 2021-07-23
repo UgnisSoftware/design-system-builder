@@ -19,7 +19,6 @@ export const InputCore = forwardRef<InputCoreProps, "input">((props, ref) => {
   const ownProps = omitThemingProps(props)
   const input = useFormControl<HTMLInputElement>(ownProps)
   const { className } = props
-
   return <chakra.input {...input} __css={styles.field} ref={ref} className={className} />
 })
 

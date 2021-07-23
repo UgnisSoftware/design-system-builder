@@ -1,5 +1,6 @@
 import { chakra, forwardRef, HTMLChakraProps, SystemStyleObject } from "../../system"
 import { __DEV__ } from "../../utils"
+import { useEffect, useRef } from "react"
 
 const fallbackIcon = {
   path: (
@@ -40,6 +41,7 @@ export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
    * If you're using an icon library like `react-icons`.
    * Note: anyone passing the `as` prop, should manage the `viewBox` from the external component
    */
+
   if (element && typeof element !== "string") {
     return <chakra.svg as={element} {...shared} {...rest} />
   }

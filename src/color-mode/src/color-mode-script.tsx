@@ -1,4 +1,5 @@
-import type { ColorMode } from './color-mode.utils'
+import * as React from "react"
+import type { ColorMode } from "./color-mode.utils"
 
 type Mode = ColorMode | "system" | undefined
 
@@ -11,9 +12,7 @@ function setScript(initialValue: Mode) {
   try {
     persistedPreference = localStorage.getItem("chakra-ui-color-mode") as Mode
   } catch (error) {
-    console.log(
-      "Chakra UI: localStorage is not available. Color mode persistence might not work as expected",
-    )
+    console.log("Chakra UI: localStorage is not available. Color mode persistence might not work as expected")
   }
 
   const isInStorage = typeof persistedPreference === "string"
@@ -47,7 +46,5 @@ interface ColorModeScriptProps {
 export const ColorModeScript = (props: ColorModeScriptProps) => {
   const { initialColorMode = "light" } = props
   const html = `(${String(setScript)})('${initialColorMode}')`
-  return (
-    <script nonce={props.nonce} dangerouslySetInnerHTML={{ __html: html }} />
-  )
+  return <script nonce={props.nonce} dangerouslySetInnerHTML={{ __html: html }} />
 }
