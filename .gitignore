@@ -4,4 +4,3 @@ build
 web_modules
 node_modules
 pkg
-package-lock.json
