@@ -37,12 +37,10 @@ export const ButtonGroup = forwardRef<ButtonGroupProps, "div">((props, ref) => {
 
   const _className = cx("chakra-button__group", className)
 
-  const context = React.useMemo(() => ({ size, colorScheme, variant, isDisabled }), [
-    size,
-    colorScheme,
-    variant,
-    isDisabled,
-  ])
+  const context = React.useMemo(
+    () => ({ size, colorScheme, variant, isDisabled }),
+    [size, colorScheme, variant, isDisabled],
+  )
 
   let groupStyles: SystemStyleObject = {
     display: "inline-flex",

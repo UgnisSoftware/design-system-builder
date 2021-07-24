@@ -37,9 +37,7 @@ test("should render nested portal", () => {
     </PortalManager>,
   )
 
-  const portals: HTMLElement[] = Array.from(
-    tools.baseElement.querySelectorAll(Portal.selector),
-  )
+  const portals: HTMLElement[] = Array.from(tools.baseElement.querySelectorAll(Portal.selector))
 
   const [parentPortal, childPortal] = portals
   expect(parentPortal).toContainElement(childPortal)

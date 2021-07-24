@@ -1,10 +1,6 @@
 import { fireEvent } from "@testing-library/react"
 
-export function press(
-  key: string,
-  element?: Element | null,
-  options: KeyboardEventInit = {},
-) {
+export function press(key: string, element?: Element | null, options: KeyboardEventInit = {}) {
   if (!element) return
 
   if (document.activeElement !== element) {

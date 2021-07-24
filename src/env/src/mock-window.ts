@@ -39,4 +39,4 @@ const win = {
   },
 }
 
-export const ssrWindow = (win as unknown) as typeof window
+export const ssrWindow = win as unknown as typeof window

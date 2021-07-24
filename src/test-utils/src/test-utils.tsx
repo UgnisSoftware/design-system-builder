@@ -1,11 +1,6 @@
 import { ChakraProvider } from "../../react"
 import "@testing-library/jest-dom/extend-expect"
-import {
-  render as rtlRender,
-  RenderOptions,
-  fireEvent,
-  RenderResult,
-} from "@testing-library/react"
+import { render as rtlRender, RenderOptions, fireEvent, RenderResult } from "@testing-library/react"
 import * as React from "react"
 import { toHaveNoViolations, axe } from "jest-axe"
 import { createSerializer } from "@emotion/jest"
@@ -71,17 +66,11 @@ export { axe }
 
 export * from "@testing-library/react"
 
-export {
-  act as invoke,
-  renderHook,
-  RenderHookOptions,
-  RenderHookResult,
-} from "@testing-library/react-hooks"
+export { act as invoke, renderHook, RenderHookOptions, RenderHookResult } from "@testing-library/react-hooks"
 
 export { default as userEvent } from "@testing-library/user-event"
 
-export const escape = (ui: HTMLElement) =>
-  fireEvent.keyDown(ui, { key: "Escape", keyCode: 27 })
+export const escape = (ui: HTMLElement) => fireEvent.keyDown(ui, { key: "Escape", keyCode: 27 })
 
 type TestA11YOptions = TestOptions & { axeOptions?: RunOptions }
 
@@ -108,13 +97,8 @@ type TestA11YOptions = TestOptions & { axeOptions?: RunOptions }
  *
  * @see https://github.com/nickcolley/jest-axe#testing-react-with-react-testing-library
  */
-export const testA11y = async (
-  ui: UI | Element,
-  { axeOptions, ...options }: TestA11YOptions = {},
-) => {
-  const container = React.isValidElement(ui)
-    ? render(ui, options).container
-    : ui
+export const testA11y = async (ui: UI | Element, { axeOptions, ...options }: TestA11YOptions = {}) => {
+  const container = React.isValidElement(ui) ? render(ui, options).container : ui
 
   const results = await axe(container, axeOptions)
 

@@ -75,7 +75,7 @@ export type MergeWithAs<
   ComponentProps extends object,
   AsProps extends object,
   AdditionalProps extends object = {},
-  AsComponent extends As = As
+  AsComponent extends As = As,
 > = RightJoinProps<ComponentProps, AdditionalProps> &
   RightJoinProps<AsProps, AdditionalProps> & {
     as?: AsComponent

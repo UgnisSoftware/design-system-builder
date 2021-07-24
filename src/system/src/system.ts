@@ -29,13 +29,15 @@ interface GetStyleObject {
  * behaviors. Right now, the `sx` prop has the highest priority so the resolved
  * fontSize will be `40px`
  */
-export const toCSSObject: GetStyleObject = ({ baseStyle }) => (props) => {
-  const { theme, css: cssProp, __css, sx, ...rest } = props
-  const styleProps = objectFilter(rest, (_, prop) => isStyleProp(prop))
-  const finalStyles = Object.assign({}, __css, baseStyle, styleProps, sx)
-  const computedCSS = css(finalStyles)(props.theme)
-  return cssProp ? [computedCSS, cssProp] : computedCSS
-}
+export const toCSSObject: GetStyleObject =
+  ({ baseStyle }) =>
+  (props) => {
+    const { theme, css: cssProp, __css, sx, ...rest } = props
+    const styleProps = objectFilter(rest, (_, prop) => isStyleProp(prop))
+    const finalStyles = Object.assign({}, __css, baseStyle, styleProps, sx)
+    const computedCSS = css(finalStyles)(props.theme)
+    return cssProp ? [computedCSS, cssProp] : computedCSS
+  }
 
 interface StyledOptions {
   shouldForwardProp?(prop: string): boolean
@@ -68,7 +70,7 @@ type ChakraFactory = {
   <T extends As, P = {}>(component: T, options?: StyledOptions): ChakraComponent<T, P>
 }
 
-export const chakra = (styled as unknown) as ChakraFactory & HTMLChakraComponents
+export const chakra = styled as unknown as ChakraFactory & HTMLChakraComponents
 
 domElements.forEach((tag) => {
   chakra[tag] = chakra(tag)

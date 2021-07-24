@@ -25,10 +25,10 @@ export type ThemeOverride = Partial<ChakraTheme> & DeepThemeExtension<Theme, Cha
  * @param overrides - Your custom theme object overrides
  * @param baseTheme - theme to customize
  */
-export function extendTheme<BaseTheme extends ChakraTheme = ChakraTheme, Overrides extends ThemeOverride = ThemeOverride>(
-  overrides: Overrides,
-  baseTheme: BaseTheme = (defaultTheme as unknown) as BaseTheme,
-): BaseTheme & Overrides {
+export function extendTheme<
+  BaseTheme extends ChakraTheme = ChakraTheme,
+  Overrides extends ThemeOverride = ThemeOverride,
+>(overrides: Overrides, baseTheme: BaseTheme = defaultTheme as unknown as BaseTheme): BaseTheme & Overrides {
   function customizer(source: unknown, override: unknown, key: string, object: any) {
     if ((isFunction(source) || isFunction(override)) && Object.prototype.hasOwnProperty.call(object, key)) {
       return (...args: unknown[]) => {

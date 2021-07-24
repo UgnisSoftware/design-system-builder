@@ -1,4 +1,4 @@
-import { mode } from '~/theme-tools'
+import { mode } from "~/theme-tools"
 import Input from "./input"
 import typography from "../foundations/typography"
 
@@ -8,8 +8,7 @@ const { variants, defaultProps } = Input
 
 const baseStyleRoot = {
   "--number-input-stepper-width": "24px",
-  "--number-input-field-padding":
-    "calc(var(--number-input-stepper-width) + 0.5rem)",
+  "--number-input-field-padding": "calc(var(--number-input-stepper-width) + 0.5rem)",
 }
 
 const baseStyleField = Input.baseStyle?.field

@@ -5,8 +5,7 @@ export function isNumber(value: any): value is number {
   return typeof value === "number"
 }
 
-export const isNotNumber = (value: any) =>
-  typeof value !== "number" || Number.isNaN(value) || !Number.isFinite(value)
+export const isNotNumber = (value: any) => typeof value !== "number" || Number.isNaN(value) || !Number.isFinite(value)
 
 export function isNumeric(value: any) {
   return value != null && value - parseFloat(value) + 1 >= 0
@@ -25,24 +24,17 @@ export function isFunction(value: any): value is Function {
 }
 
 // Generic assertions
-export const isDefined = (value: any) =>
-  typeof value !== "undefined" && value !== undefined
+export const isDefined = (value: any) => typeof value !== "undefined" && value !== undefined
 
-export const isUndefined = (value: any): value is undefined =>
-  typeof value === "undefined" || value === undefined
+export const isUndefined = (value: any): value is undefined => typeof value === "undefined" || value === undefined
 
 // Object assertions
 export const isObject = (value: any): value is Dict => {
   const type = typeof value
-  return (
-    value != null &&
-    (type === "object" || type === "function") &&
-    !isArray(value)
-  )
+  return value != null && (type === "object" || type === "function") && !isArray(value)
 }
 
-export const isEmptyObject = (value: any) =>
-  isObject(value) && Object.keys(value).length === 0
+export const isEmptyObject = (value: any) => isObject(value) && Object.keys(value).length === 0
 
 export function isNotEmptyObject(value: any): value is object {
   return value && !isEmptyObject(value)
@@ -71,11 +63,8 @@ export const __DEV__ = process.env.NODE_ENV !== "production"
 
 export const __TEST__ = process.env.NODE_ENV === "test"
 
-export const isRefObject = (val: any): val is { current: any } =>
-  "current" in val
+export const isRefObject = (val: any): val is { current: any } => "current" in val
 
-export function isInputEvent(
-  value: any,
-): value is { target: HTMLInputElement } {
+export function isInputEvent(value: any): value is { target: HTMLInputElement } {
   return value && isObject(value) && isObject(value.target)
 }

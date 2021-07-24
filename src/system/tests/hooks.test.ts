@@ -46,9 +46,7 @@ describe("useToken", () => {
   test("resolves multiple values", () => {
     setupMock()
 
-    const { result } = renderHook(() =>
-      useToken("colors", ["red.100", "blue.300"]),
-    )
+    const { result } = renderHook(() => useToken("colors", ["red.100", "blue.300"]))
 
     expect(result.current).toHaveLength(2)
     expect(result.current).toStrictEqual([mockRed[100], mockBlue[300]])
@@ -68,17 +66,9 @@ describe("useToken", () => {
   test("known and unknown values mixed", () => {
     setupMock()
 
-    const { result } = renderHook(() =>
-      useToken("colors", ["red.100", "blue.300", "foo", "bar", "baz"]),
-    )
+    const { result } = renderHook(() => useToken("colors", ["red.100", "blue.300", "foo", "bar", "baz"]))
 
     expect(result.current).toHaveLength(5)
-    expect(result.current).toStrictEqual([
-      mockRed[100],
-      mockBlue[300],
-      "foo",
-      "bar",
-      "baz",
-    ])
+    expect(result.current).toStrictEqual([mockRed[100], mockBlue[300], "foo", "bar", "baz"])
   })
 })

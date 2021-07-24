@@ -1,4 +1,4 @@
-import { toCSSVar } from '../src'
+import { toCSSVar } from "../src"
 
 test("should convert to css variables", () => {
   expect(

@@ -146,10 +146,7 @@ export interface GridProps {
    *
    * @see [Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns)
    */
-  gridTemplateColumns?: Token<
-    CSS.Property.GridTemplateColumns | number,
-    "sizes"
-  >
+  gridTemplateColumns?: Token<CSS.Property.GridTemplateColumns | number, "sizes">
   /**
    * The CSS `grid-template-rows` property.
    *

@@ -1,4 +1,4 @@
-import { toCSSVar } from '../src'
+import { toCSSVar } from "../src"
 
 export const createTheme = (direction: "rtl" | "ltr") =>
   toCSSVar({

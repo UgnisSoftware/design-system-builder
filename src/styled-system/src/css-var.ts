@@ -35,7 +35,7 @@ export const tokens = [
 export type ThemeScale = typeof tokens[number] | "transition.duration" | "transition.property" | "transition.easing"
 
 function extractTokens(theme: Dict) {
-  const _tokens = (tokens as unknown) as string[]
+  const _tokens = tokens as unknown as string[]
   return pick(theme, _tokens)
 }
 

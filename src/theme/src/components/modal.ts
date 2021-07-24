@@ -1,14 +1,6 @@
 import { mode } from "../../../theme-tools"
 
-const parts = [
-  "overlay",
-  "dialogContainer",
-  "dialog",
-  "header",
-  "closeButton",
-  "body",
-  "footer",
-]
+const parts = ["overlay", "dialogContainer", "dialog", "header", "closeButton", "body", "footer"]
 
 const baseStyleOverlay = {
   bg: "blackAlpha.600",

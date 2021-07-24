@@ -2,16 +2,11 @@
 import { isFunction, __DEV__, __TEST__ } from "./assertion"
 import type { AnyFunction, FunctionArguments } from "./types"
 
-export function runIfFn<T, U>(
-  valueOrFn: T | ((...fnArgs: U[]) => T),
-  ...args: U[]
-): T {
+export function runIfFn<T, U>(valueOrFn: T | ((...fnArgs: U[]) => T), ...args: U[]): T {
   return isFunction(valueOrFn) ? valueOrFn(...args) : valueOrFn
 }
 
-export function callAllHandlers<T extends (event: any) => void>(
-  ...fns: (T | undefined)[]
-) {
+export function callAllHandlers<T extends (event: any) => void>(...fns: (T | undefined)[]) {
   return function func(event: FunctionArguments<T>[0]) {
     fns.some((fn) => {
       fn?.(event)
@@ -28,10 +23,13 @@ export function callAll<T extends AnyFunction>(...fns: (T | undefined)[]) {
   }
 }
 
-export const compose = <T>(
-  fn1: (...args: T[]) => T,
-  ...fns: Array<(...args: T[]) => T>
-) => fns.reduce((f1, f2) => (...args) => f1(f2(...args)), fn1)
+export const compose = <T>(fn1: (...args: T[]) => T, ...fns: Array<(...args: T[]) => T>) =>
+  fns.reduce(
+    (f1, f2) =>
+      (...args) =>
+        f1(f2(...args)),
+    fn1,
+  )
 
 export function once<T extends AnyFunction>(fn?: T | null) {
   let result: any

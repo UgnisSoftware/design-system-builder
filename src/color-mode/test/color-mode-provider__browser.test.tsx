@@ -85,5 +85,4 @@ describe("<ColorModeProvider /> cookie browser", () => {
     expect(getColorSchemeSpy).not.toHaveBeenCalled()
     expect(rootGetSpy).not.toHaveBeenCalled()
   })
-
 })

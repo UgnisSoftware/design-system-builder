@@ -1,9 +1,7 @@
 import type { Booleanish, EventKeys } from "./types"
 
 export function getOwnerWindow(node?: HTMLElement | null) {
-  return node instanceof Element
-    ? getOwnerDocument(node)?.defaultView ?? window
-    : window
+  return node instanceof Element ? getOwnerDocument(node)?.defaultView ?? window : window
 }
 
 export function getOwnerDocument(node?: HTMLElement | null) {
@@ -11,20 +9,14 @@ export function getOwnerDocument(node?: HTMLElement | null) {
 }
 
 export function canUseDOM() {
-  return !!(
-    typeof window !== "undefined" &&
-    window.document &&
-    window.document.createElement
-  )
+  return !!(typeof window !== "undefined" && window.document && window.document.createElement)
 }
 
 export const isBrowser = canUseDOM()
 
-export const dataAttr = (condition: boolean | undefined) =>
-  (condition ? "" : undefined) as Booleanish
+export const dataAttr = (condition: boolean | undefined) => (condition ? "" : undefined) as Booleanish
 
-export const ariaAttr = (condition: boolean | undefined) =>
-  condition ? true : undefined
+export const ariaAttr = (condition: boolean | undefined) => (condition ? true : undefined)
 
 export const cx = (...classNames: any[]) => classNames.filter(Boolean).join(" ")
 
@@ -54,27 +46,21 @@ export function addDomEvent(
  * Get the normalized event key across all browsers
  * @param event keyboard event
  */
-export function normalizeEventKey(
-  event: Pick<KeyboardEvent, "key" | "keyCode">,
-) {
+export function normalizeEventKey(event: Pick<KeyboardEvent, "key" | "keyCode">) {
   const { key, keyCode } = event
 
-  const isArrowKey =
-    keyCode >= 37 && keyCode <= 40 && key.indexOf("Arrow") !== 0
+  const isArrowKey = keyCode >= 37 && keyCode <= 40 && key.indexOf("Arrow") !== 0
 
   const eventKey = isArrowKey ? `Arrow${key}` : key
 
   return eventKey as EventKeys
 }
 
-export function getRelatedTarget(
-  event: Pick<FocusEvent, "relatedTarget" | "target" | "currentTarget">,
-) {
+export function getRelatedTarget(event: Pick<FocusEvent, "relatedTarget" | "target" | "currentTarget">) {
   const target = (event.target ?? event.currentTarget) as HTMLElement
   const activeElement = getActiveElement(target)
   const originalTarget = (event as any).nativeEvent.explicitOriginalTarget
   return (event.relatedTarget ?? originalTarget ?? activeElement) as HTMLElement
 }
 
-export const isRightClick = (event: Pick<MouseEvent, "button">) =>
-  event.button !== 0
+export const isRightClick = (event: Pick<MouseEvent, "button">) => event.button !== 0

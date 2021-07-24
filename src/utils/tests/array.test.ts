@@ -113,12 +113,7 @@ describe("chunk array", () => {
 test("get next item based on search", () => {
   const array = [{ value: "React" }, { value: "Vue" }, { value: "Svelte" }]
   const currentItem = { value: "React" }
-  const result = getNextItemFromSearch(
-    array,
-    "vu",
-    (item) => item.value,
-    currentItem,
-  )
+  const result = getNextItemFromSearch(array, "vu", (item) => item.value, currentItem)
   expect(result).toEqual({ value: "Vue" })
 })
 

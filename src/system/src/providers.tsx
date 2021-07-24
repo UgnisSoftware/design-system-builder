@@ -31,7 +31,7 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
 }
 
 export function useTheme<T extends object = Dict>() {
-  const theme = React.useContext((ThemeContext as unknown) as React.Context<T | undefined>)
+  const theme = React.useContext(ThemeContext as unknown as React.Context<T | undefined>)
   if (!theme) {
     throw Error(
       "useTheme: `theme` is undefined. Seems you forgot to wrap your app in `<ChakraProvider />` or `<ThemeProvider />`",

@@ -13,5 +13,5 @@ export function forwardRef<Props extends object, Component extends As>(
     }
   >,
 ) {
-  return (React.forwardRef(component) as unknown) as ComponentWithAs<Component, Props>
+  return React.forwardRef(component) as unknown as ComponentWithAs<Component, Props>
 }

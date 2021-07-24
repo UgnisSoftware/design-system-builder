@@ -11,9 +11,7 @@ export interface BaseBreakpointConfig {
 
 export type Breakpoints<T> = T & { base: "0em" }
 
-export const createBreakpoints = <T extends BaseBreakpointConfig>(
-  config: T,
-): Breakpoints<T> => {
+export const createBreakpoints = <T extends BaseBreakpointConfig>(config: T): Breakpoints<T> => {
   warn({
     condition: true,
     message: [

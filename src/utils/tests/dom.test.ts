@@ -1,10 +1,4 @@
-import {
-  ariaAttr,
-  dataAttr,
-  getOwnerDocument,
-  getOwnerWindow,
-  normalizeEventKey,
-} from "../src"
+import { ariaAttr, dataAttr, getOwnerDocument, getOwnerWindow, normalizeEventKey } from "../src"
 
 test("should get window object", () => {
   expect(getOwnerWindow()).toBe(window)

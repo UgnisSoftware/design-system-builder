@@ -7,7 +7,5 @@ import * as React from "react"
  * @param children the children
  */
 export function getValidChildren(children: React.ReactNode) {
-  return React.Children.toArray(children).filter((child) =>
-    React.isValidElement(child),
-  ) as React.ReactElement[]
+  return React.Children.toArray(children).filter((child) => React.isValidElement(child)) as React.ReactElement[]
 }

@@ -33,7 +33,7 @@ export const ExamplePopper = () => {
   )
 }
 
-function debounce( func: any, wait: number, immediate?: any) {
+function debounce(func: any, wait: number, immediate?: any) {
   let timeout: any
   return function run(this: any, ...args: any[]) {
     const context = this

@@ -1,6 +1,6 @@
 import { toCSSVar } from "../../styled-system"
 import defaultTheme from "../../theme"
-import { toCSSObject } from '../src'
+import { toCSSObject } from "../src"
 
 const theme = toCSSVar({
   ...defaultTheme,

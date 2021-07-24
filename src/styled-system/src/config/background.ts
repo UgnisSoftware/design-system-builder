@@ -4,9 +4,7 @@ import { t, Token } from "../utils"
 import { gradientTransform } from "../utils/parse-gradient"
 
 function bgClipTransform(value: string) {
-  return value === "text"
-    ? { color: "transparent", backgroundClip: "text" }
-    : { backgroundClip: value }
+  return value === "text" ? { color: "transparent", backgroundClip: "text" } : { backgroundClip: value }
 }
 
 export const background: Config = {

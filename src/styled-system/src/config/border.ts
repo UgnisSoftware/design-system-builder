@@ -94,15 +94,9 @@ export const border: Config = {
   borderRightStyle: t.borderStyles("borderRightStyle"),
   borderInlineEndStyle: t.borderStyles("borderInlineEndStyle"),
   borderTopRadius: t.radii(["borderTopLeftRadius", "borderTopRightRadius"]),
-  borderBottomRadius: t.radii([
-    "borderBottomLeftRadius",
-    "borderBottomRightRadius",
-  ]),
+  borderBottomRadius: t.radii(["borderBottomLeftRadius", "borderBottomRightRadius"]),
   borderLeftRadius: t.radii(["borderTopLeftRadius", "borderBottomLeftRadius"]),
-  borderRightRadius: t.radii([
-    "borderTopRightRadius",
-    "borderBottomRightRadius",
-  ]),
+  borderRightRadius: t.radii(["borderTopRightRadius", "borderBottomRightRadius"]),
 }
 
 Object.assign(border, {
@@ -322,10 +316,7 @@ export interface BorderProps {
    */
   borderTopLeftRadius?: Token<CSS.Property.BorderRadius | number, "radii">
   borderTopStartRadius?: Token<CSS.Property.BorderRadius | number, "radii">
-  borderStartStartRadius?: Token<
-    CSS.Property.BorderStartStartRadius | number,
-    "radii"
-  >
+  borderStartStartRadius?: Token<CSS.Property.BorderStartStartRadius | number, "radii">
   /**
    * The CSS `border-top-left-radius` property
    */
@@ -336,10 +327,7 @@ export interface BorderProps {
    */
   borderTopRightRadius?: Token<CSS.Property.BorderRadius | number, "radii">
   borderTopEndRadius?: Token<CSS.Property.BorderRadius | number, "radii">
-  borderStartEndRadius?: Token<
-    CSS.Property.BorderStartEndRadius | number,
-    "radii"
-  >
+  borderStartEndRadius?: Token<CSS.Property.BorderStartEndRadius | number, "radii">
   /**
    * The CSS `border-top-right-radius` property
    */
@@ -350,10 +338,7 @@ export interface BorderProps {
    */
   borderBottomLeftRadius?: Token<CSS.Property.BorderRadius | number, "radii">
   borderBottomStartRadius?: Token<CSS.Property.BorderRadius | number, "radii">
-  borderEndStartRadius?: Token<
-    CSS.Property.BorderEndStartRadius | number,
-    "radii"
-  >
+  borderEndStartRadius?: Token<CSS.Property.BorderEndStartRadius | number, "radii">
   /**
    * The CSS `border-bottom-left-radius` property
    */

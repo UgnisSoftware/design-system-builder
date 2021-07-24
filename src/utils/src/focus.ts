@@ -22,16 +22,8 @@ export interface ExtendedFocusOptions extends FocusOptions {
   selectTextIfInput?: boolean
 }
 
-export function focus(
-  element: FocusableElement | null,
-  options: ExtendedFocusOptions = {},
-) {
-  const {
-    isActive = isActiveElement,
-    nextTick,
-    preventScroll = true,
-    selectTextIfInput = true,
-  } = options
+export function focus(element: FocusableElement | null, options: ExtendedFocusOptions = {}) {
+  const { isActive = isActiveElement, nextTick, preventScroll = true, selectTextIfInput = true } = options
 
   if (!element || isActive(element)) return -1
 
@@ -39,8 +31,7 @@ export function focus(
     if (!element) {
       warn({
         condition: true,
-        message:
-          "[chakra-ui]: can't call focus() on `null` or `undefined` element",
+        message: "[chakra-ui]: can't call focus() on `null` or `undefined` element",
       })
       return
     }
@@ -100,10 +91,7 @@ function getScrollableElements(element: HTMLElement): ScrollableElement[] {
   const rootScrollingElement = doc.scrollingElement || doc.documentElement
 
   while (parent instanceof HTMLElement && parent !== rootScrollingElement) {
-    if (
-      parent.offsetHeight < parent.scrollHeight ||
-      parent.offsetWidth < parent.scrollWidth
-    ) {
+    if (parent.offsetHeight < parent.scrollHeight || parent.offsetWidth < parent.scrollWidth) {
       scrollableElements.push({
         element: parent,
         scrollTop: parent.scrollTop,

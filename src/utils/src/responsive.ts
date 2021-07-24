@@ -3,14 +3,7 @@ import { isArray, isNumber, isObject } from "./assertion"
 import { fromEntries, objectKeys } from "./object"
 import type { Dict } from "./types"
 
-export const breakpoints = Object.freeze([
-  "base",
-  "sm",
-  "md",
-  "lg",
-  "xl",
-  "2xl",
-])
+export const breakpoints = Object.freeze(["base", "sm", "md", "lg", "xl", "2xl"])
 
 export function mapResponsive(prop: any, mapper: (val: any) => any) {
   if (isArray(prop)) {
@@ -78,11 +71,9 @@ export const px = (value: number | string): string => {
   return unitless || isNumber(value) ? `${value}px` : value
 }
 
-const sortByBreakpointValue = (a: any[], b: any[]) =>
-  parseInt(a[1], 10) > parseInt(b[1], 10) ? 1 : -1
+const sortByBreakpointValue = (a: any[], b: any[]) => (parseInt(a[1], 10) > parseInt(b[1], 10) ? 1 : -1)
 
-const sortBps = (breakpoints: Dict): Dict =>
-  fromEntries(Object.entries(breakpoints).sort(sortByBreakpointValue))
+const sortBps = (breakpoints: Dict): Dict => fromEntries(Object.entries(breakpoints).sort(sortByBreakpointValue))
 
 function normalize(breakpoints: Dict) {
   const sorted = sortBps(breakpoints)
@@ -101,9 +92,7 @@ function subtract(value: string) {
     ? -1
     : // the equivalent of 1px in em using a 16px base
       -0.0635
-  return isNumber(value)
-    ? `${value + factor}`
-    : value.replace(/(\d+\.?\d*)/u, (m) => `${parseFloat(m) + factor}`)
+  return isNumber(value) ? `${value + factor}` : value.replace(/(\d+\.?\d*)/u, (m) => `${parseFloat(m) + factor}`)
 }
 
 function queryString(min: string | null, max?: string) {
@@ -182,5 +171,4 @@ export type AnalyzeBreakpointsReturn = ReturnType<typeof analyzeBreakpoints>
  *
  * This function returns true given a custom array property.
  */
-export const isCustomBreakpoint = (maybeBreakpoint: string) =>
-  Number.isNaN(Number(maybeBreakpoint))
+export const isCustomBreakpoint = (maybeBreakpoint: string) => Number.isNaN(Number(maybeBreakpoint))

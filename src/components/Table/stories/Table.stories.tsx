@@ -23,4 +23,4 @@ export default {
   ],
 } as Meta
 
-export * from './Simple'
+export * from "./Simple"

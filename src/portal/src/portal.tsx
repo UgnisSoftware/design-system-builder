@@ -68,19 +68,10 @@ const DefaultPortal: React.FC<{ appendToParentPortal?: boolean }> = (props) => {
     }
   }, [])
 
-  const _children = manager?.zIndex ? (
-    <Container zIndex={manager?.zIndex}>{children}</Container>
-  ) : (
-    children
-  )
+  const _children = manager?.zIndex ? <Container zIndex={manager?.zIndex}>{children}</Container> : children
 
   return portal.current ? (
-    createPortal(
-      <PortalContextProvider value={portal.current}>
-        {_children}
-      </PortalContextProvider>,
-      portal.current,
-    )
+    createPortal(<PortalContextProvider value={portal.current}>{_children}</PortalContextProvider>, portal.current)
   ) : (
     <span ref={tempNode} />
   )
@@ -121,9 +112,7 @@ const ContainerPortal: React.FC<ContainerPortalProps> = (props) => {
 
   if (host && portal) {
     return createPortal(
-      <PortalContextProvider value={appendToParentPortal ? portal : null}>
-        {children}
-      </PortalContextProvider>,
+      <PortalContextProvider value={appendToParentPortal ? portal : null}>{children}</PortalContextProvider>,
       portal,
     )
   }
@@ -162,11 +151,7 @@ export interface PortalProps {
 
 export function Portal(props: PortalProps) {
   const { containerRef, ...rest } = props
-  return containerRef ? (
-    <ContainerPortal containerRef={containerRef} {...rest} />
-  ) : (
-    <DefaultPortal {...rest} />
-  )
+  return containerRef ? <ContainerPortal containerRef={containerRef} {...rest} /> : <DefaultPortal {...rest} />
 }
 
 Portal.defaultProps = {

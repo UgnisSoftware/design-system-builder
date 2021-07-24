@@ -1,4 +1,4 @@
-import type { SystemStyleObject, StyleProps } from '../src'
+import type { SystemStyleObject, StyleProps } from "../src"
 
 test("should be assignable to Chakra style props", () => {
   const base: StyleProps = {

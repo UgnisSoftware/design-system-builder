@@ -3,39 +3,26 @@
 
 import { getOwnerDocument } from "./dom"
 
-export const hasDisplayNone = (element: HTMLElement) =>
-  window.getComputedStyle(element).display === "none"
+export const hasDisplayNone = (element: HTMLElement) => window.getComputedStyle(element).display === "none"
 
-export const hasTabIndex = (element: HTMLElement) =>
-  element.hasAttribute("tabindex")
+export const hasTabIndex = (element: HTMLElement) => element.hasAttribute("tabindex")
 
-export const hasNegativeTabIndex = (element: HTMLElement) =>
-  hasTabIndex(element) && element.tabIndex === -1
+export const hasNegativeTabIndex = (element: HTMLElement) => hasTabIndex(element) && element.tabIndex === -1
 
 export function isDisabled(element: HTMLElement) {
-  return (
-    Boolean(element.getAttribute("disabled")) === true ||
-    Boolean(element.getAttribute("aria-disabled")) === true
-  )
+  return Boolean(element.getAttribute("disabled")) === true || Boolean(element.getAttribute("aria-disabled")) === true
 }
 
 export interface FocusableElement {
   focus(options?: FocusOptions): void
 }
 
-export function isInputElement(
-  element: FocusableElement,
-): element is HTMLInputElement {
-  return (
-    isHTMLElement(element) &&
-    element.tagName.toLowerCase() === "input" &&
-    "select" in element
-  )
+export function isInputElement(element: FocusableElement): element is HTMLInputElement {
+  return isHTMLElement(element) && element.tagName.toLowerCase() === "input" && "select" in element
 }
 
 export function isActiveElement(element: FocusableElement) {
-  const doc =
-    element instanceof HTMLElement ? getOwnerDocument(element) : document
+  const doc = element instanceof HTMLElement ? getOwnerDocument(element) : document
   return doc.activeElement === (element as HTMLElement)
 }
 
@@ -84,9 +71,5 @@ export function isFocusable(element: HTMLElement) {
 
 export function isTabbable(element?: HTMLElement | null) {
   if (!element) return false
-  return (
-    isHTMLElement(element) &&
-    isFocusable(element) &&
-    !hasNegativeTabIndex(element)
-  )
+  return isHTMLElement(element) && isFocusable(element) && !hasNegativeTabIndex(element)
 }

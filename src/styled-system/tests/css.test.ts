@@ -1,5 +1,5 @@
-import { css } from '../src'
-import { toCSSVar } from '../src'
+import { css } from "../src"
+import { toCSSVar } from "../src"
 
 const theme = toCSSVar({
   breakpoints: {

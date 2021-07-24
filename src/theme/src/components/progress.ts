@@ -7,10 +7,7 @@ const parts = ["track", "filledTrack", "panel"]
 function filledStyle(props: Dict) {
   const { colorScheme: c, theme: t, isIndeterminate, hasStripe } = props
 
-  const stripeStyle = mode(
-    generateStripe(),
-    generateStripe("1rem", "rgba(0,0,0,0.1)"),
-  )(props)
+  const stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props)
 
   const bgColor = mode(`${c}.500`, `${c}.200`)(props)
 

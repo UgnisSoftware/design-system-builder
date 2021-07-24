@@ -11,4 +11,4 @@ export * from "./responsive"
 export * from "./focus"
 export * from "./pointer-event"
 export * from "./user-agent"
-export * from "css-box-model";
+export * from "css-box-model"

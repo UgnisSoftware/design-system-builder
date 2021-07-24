@@ -1,9 +1,5 @@
 import type { Placement, Modifier, State } from "@popperjs/core"
-import {
-  getBoxShadow,
-  toTransformOrigin,
-  popperCSSVars as cssVars,
-} from "./utils"
+import { getBoxShadow, toTransformOrigin, popperCSSVars as cssVars } from "./utils"
 
 /* -------------------------------------------------------------------------------------------------
  The match width modifier sets the popper width to match the reference.
@@ -18,10 +14,12 @@ export const matchWidth: Modifier<"matchWidth", any> = {
   fn: ({ state }) => {
     state.styles.popper.width = `${state.rects.reference.width}px`
   },
-  effect: ({ state }) => () => {
-    const reference = state.elements.reference as HTMLElement
-    state.elements.popper.style.width = `${reference.offsetWidth}px`
-  },
+  effect:
+    ({ state }) =>
+    () => {
+      const reference = state.elements.reference as HTMLElement
+      state.elements.popper.style.width = `${reference.offsetWidth}px`
+    },
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -38,16 +36,15 @@ export const transformOrigin: Modifier<"transformOrigin", any> = {
   fn: ({ state }) => {
     setTransformOrigin(state)
   },
-  effect: ({ state }) => () => {
-    setTransformOrigin(state)
-  },
+  effect:
+    ({ state }) =>
+    () => {
+      setTransformOrigin(state)
+    },
 }
 
 const setTransformOrigin = (state: State) => {
-  state.elements.popper.style.setProperty(
-    cssVars.transformOrigin.var,
-    toTransformOrigin(state.placement),
-  )
+  state.elements.popper.style.setProperty(cssVars.transformOrigin.var, toTransformOrigin(state.placement))
 }
 
 /* -------------------------------------------------------------------------------------------------
@@ -115,17 +112,17 @@ export const innerArrow: Modifier<"innerArrow", any> = {
   fn: ({ state }) => {
     setInnerArrowStyles(state)
   },
-  effect: ({ state }) => () => {
-    setInnerArrowStyles(state)
-  },
+  effect:
+    ({ state }) =>
+    () => {
+      setInnerArrowStyles(state)
+    },
 }
 
 const setInnerArrowStyles = (state: State) => {
   if (!state.elements.arrow) return
 
-  const inner = state.elements.arrow.querySelector(
-    "[data-popper-arrow-inner]",
-  ) as HTMLElement | null
+  const inner = state.elements.arrow.querySelector("[data-popper-arrow-inner]") as HTMLElement | null
 
   if (!inner) return
 

@@ -1,5 +1,5 @@
 import { propNames } from "../../styled-system"
-import { shouldForwardProp } from '../src'
+import { shouldForwardProp } from "../src"
 
 describe("does not forward styled-system props", () => {
   test.each(propNames)("%s", (propName) => {
