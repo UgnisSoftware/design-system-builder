@@ -72,7 +72,7 @@ export { default as userEvent } from "@testing-library/user-event"
 
 export const escape = (ui: HTMLElement) => fireEvent.keyDown(ui, { key: "Escape", keyCode: 27 })
 
-type TestA11YOptions = TestOptions & { axeOptions?: RunOptions }
+type TestA11YOptions = TestOptions & { axeOptions?: Omit<RunOptions, string> }
 
 /**
  * Validates against common a11y mistakes.
