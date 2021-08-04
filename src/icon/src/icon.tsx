@@ -13,10 +13,22 @@ const fallbackIcon = {
   viewBox: "0 0 24 24",
 }
 
-export type IconProps = HTMLChakraProps<"svg">
+export type IconProps = HTMLChakraProps<"svg"> & {
+  isDisabled?: boolean
+}
 
 export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
-  const { as: element, viewBox, color = "currentColor", focusable = false, children, className, __css, ...rest } = props
+  const {
+    as: element,
+    viewBox,
+    color = "currentColor",
+    focusable = false,
+    children,
+    className,
+    __css,
+    isDisabled,
+    ...rest
+  } = props
 
   const styles: SystemStyleObject = {
     w: "1em",
@@ -33,6 +45,7 @@ export const Icon = forwardRef<IconProps, "svg">((props, ref) => {
     focusable,
     className,
     __css: styles,
+    "data-disabled": isDisabled,
   }
 
   const _viewBox = viewBox ?? fallbackIcon.viewBox

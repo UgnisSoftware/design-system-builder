@@ -18,8 +18,8 @@ export const InputCore = forwardRef<InputCoreProps, "input">((props, ref) => {
   const styles = useMultiStyleConfig("Input", props)
   const ownProps = omitThemingProps(props)
   const input = useFormControl<HTMLInputElement>(ownProps)
-  const { className } = props
-  return <chakra.input {...input} __css={styles.field} ref={ref} className={className} />
+  const { className, __css } = props
+  return <chakra.input {...input} __css={{ ...styles.field, ...__css }} ref={ref} className={className} />
 })
 
 if (__DEV__) {

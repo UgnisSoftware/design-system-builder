@@ -21,6 +21,7 @@ import Link from "./link"
 import List from "./list"
 import Menu from "./menu"
 import Modal from "./modal"
+import Multiselect from "./multiselect"
 import NumberInput from "./number-input"
 import PinInput from "./pin-input"
 import Popover from "./popover"
@@ -65,6 +66,7 @@ export default {
   List,
   Menu,
   Modal,
+  Multiselect,
   NumberInput,
   PinInput,
   Popover,

@@ -48,9 +48,10 @@ export const Select = React.forwardRef(
       placement = "bottom-start",
       getOptionLabel = itemToString,
       noOptionsPlaceholder = NO_OPTIONS,
+      isDisabled,
       ...rest
     } = omitThemingProps(props)
-    const ownProps = useFormControl<HTMLSelectElement>(rest)
+    const ownProps = useFormControl<HTMLSelectElement>(rest as any)
     const [inputItems, setInputItems] = useState(items)
     const { popperRef, referenceRef } = usePopper({
       placement,
@@ -142,15 +143,23 @@ export const Select = React.forwardRef(
 
     return (
       <chakra.div __css={rootStyles}>
-        <Label text={label || ""} isRequired={isRequired} {...getLabelProps()}>
-          <chakra.div __css={rootStyles} {...comboboxProps} ref={inputWrapperRef}>
-            <InputCore {...ownProps} __css={styles.field} isInvalid={!!error} ref={inputRef} {...inputProps} />
-            <chakra.div __css={styles.iconBox}>
-              {inputValue && <Icon as={MdClose} __css={styles.clearIcon} onClick={onResetValueClick} />}
-              <Icon as={MdExpandMore} __css={styles.selectIcon} />
-            </chakra.div>
+        <Label text={label || ""} isRequired={isRequired} {...getLabelProps()} />
+        <chakra.div __css={rootStyles} {...comboboxProps} ref={inputWrapperRef}>
+          <InputCore
+            {...ownProps}
+            isDisabled={isDisabled}
+            __css={styles.field}
+            isInvalid={!!error}
+            ref={inputRef}
+            {...inputProps}
+          />
+          <chakra.div __css={styles.iconBox}>
+            {inputValue && (
+              <Icon as={MdClose} __css={styles.clearIcon} onClick={onResetValueClick} isDisabled={isDisabled} />
+            )}
+            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={isDisabled} onClick={openMenu} />
           </chakra.div>
-        </Label>
+        </chakra.div>
         <InputError error={error} />
         <List
           {...menuProps}

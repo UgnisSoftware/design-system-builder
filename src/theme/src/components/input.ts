@@ -108,6 +108,7 @@ const variantUnstyled = {
     pl: 0,
     pr: 0,
     height: "auto",
+    borderRadius: "none",
   },
   addon: {
     bg: "transparent",

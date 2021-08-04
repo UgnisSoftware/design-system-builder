@@ -3,13 +3,14 @@ import Input from "./input"
 const parts = ["field", "icon", "iconBox", "clearIcon", "selectIcon", "dropdown", "dropdownItem"]
 
 const baseStyleField = {
-  ...Input.baseStyle.field,
   appearance: "none",
   paddingBottom: "1px",
   lineHeight: "normal",
   width: "100%",
-  height: "fit-content",
   position: "relative",
+  fontSize: "md",
+  px: 1,
+  h: "2.5rem",
 }
 
 const baseStyleIcon = {
@@ -32,13 +33,19 @@ const baseStyleIconBox = {
 const baseStyleSelectIcon = {
   fontSize: "xl",
   color: "neutral.500",
-  pointerEvents: "none",
+  cursor: "pointer",
+  _disabled: {
+    cursor: "not-allowed",
+  },
 }
 
 const baseStyleClearIcon = {
   fontSize: "lg",
   color: "neutral.500",
   cursor: "pointer",
+  _disabled: {
+    cursor: "not-allowed",
+  },
 }
 
 const baseDropdown = {

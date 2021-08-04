@@ -481,6 +481,10 @@ export interface ThemeTypings {
       sizes: "md"
       variants: "outline"
     }
+    Multiselect: {
+      sizes: "md"
+      variants: "outline"
+    }
     Skeleton: {
       sizes: never
       variants: never

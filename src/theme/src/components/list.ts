@@ -5,7 +5,7 @@ const baseStyleContainer = {}
 const baseStyleItem = {}
 
 const baseStyleIcon = {
-  marginEnd: "0.5rem",
+  marginEnd: "0.25rem",
   display: "inline",
   verticalAlign: "text-bottom",
 }

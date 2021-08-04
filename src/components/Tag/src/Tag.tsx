@@ -14,16 +14,13 @@ import {
 import { __DEV__ } from "~/utils"
 import { MdClose } from "react-icons/md"
 
-export interface TagProps extends HTMLChakraProps<"span">, ThemingProps<"Tag"> {}
+export interface TagProps extends HTMLChakraProps<"span">, ThemingProps<"Tag"> {
+  isDisabled?: boolean
+}
 
-/**
- * The tag component is used to label or categorize UI elements.
- * To style the tag globally, change the styles in `theme.components.Tag`
- * @see Docs https://chakra-ui.com/docs/data-display/tag
- */
 export const Tag = forwardRef<TagProps, "span">((props, ref) => {
   const styles = useMultiStyleConfig("Tag", props)
-  const ownProps = omitThemingProps(props)
+  const { isDisabled, ...ownProps } = omitThemingProps(props)
 
   const containerStyles: SystemStyleObject = {
     display: "inline-flex",
@@ -35,7 +32,7 @@ export const Tag = forwardRef<TagProps, "span">((props, ref) => {
 
   return (
     <StylesProvider value={styles}>
-      <chakra.span ref={ref} {...ownProps} __css={containerStyles} />
+      <chakra.span ref={ref} {...ownProps} data-disabled={isDisabled} __css={containerStyles} />
     </StylesProvider>
   )
 })

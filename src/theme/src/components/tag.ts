@@ -22,6 +22,9 @@ const baseStyleCloseButton = {
   borderRadius: "full",
   ms: "0.375rem",
   me: "-1",
+  _disabled: {
+    cursor: "not-allowed",
+  },
 }
 
 const baseStyle = {
@@ -46,6 +49,10 @@ const variants = {
     container: {
       bg: "primary.500",
       color: "white",
+      _disabled: {
+        bg: "neutral.200",
+        cursor: "not-allowed",
+      },
     },
   },
 }

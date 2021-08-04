@@ -9,12 +9,12 @@ export type LabelProps = {
 
 export const Label = (props: LabelProps) => {
   const styles = useMultiStyleConfig("Label", props)
-  const { children, text, isRequired } = props
+  const { children, text, isRequired, ...rest } = props
   const rootStyles: SystemStyleObject = {
     width: "100%",
   }
   return (
-    <chakra.label __css={rootStyles}>
+    <chakra.label __css={rootStyles} {...rest}>
       <chakra.div __css={styles.label}>
         {text}
         {isRequired && <chakra.span __css={styles.requiredIndicator}>*</chakra.span>}
