@@ -69,7 +69,7 @@ if (__DEV__) {
 }
 
 const TagCloseIcon: React.FC<IconProps> = (props) => (
-  <Icon verticalAlign="inherit" as={MdClose} viewBox="0 0 512 512" {...props} />
+  <Icon verticalAlign="inherit" as={MdClose} viewBox="0 0 512 512" title="Close" {...props} />
 )
 
 if (__DEV__) {

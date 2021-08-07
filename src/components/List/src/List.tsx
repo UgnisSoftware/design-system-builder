@@ -116,7 +116,7 @@ if (__DEV__) {
 export const ListIcon = forwardRef<IconProps, "svg">((props, ref) => {
   const styles = useStyles()
 
-  return <Icon ref={ref} role="presentation" {...props} __css={styles.icon} />
+  return <Icon ref={ref} role="presentation" {...props} __css={styles.icon}/>
 })
 
 if (__DEV__) {

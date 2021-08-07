@@ -18,15 +18,14 @@ export type MultiselectProps<T, K extends keyof T = keyof T> = ThemingProps<"Mul
   Omit<FormControlOptions, "isInvalid" | "isReadOnly"> & {
     placeholder?: string
     options: T[]
-    value?: T[K][]
+    value: T[K][]
     label?: string
     error?: string
-    onChange?: (value: string[]) => void
+    onChange: (value: T[K][]) => void
     getOptionLabel?: (option: T | null) => string
     valueKey?: K
     noOptionsPlaceholder?: string
     placement?: UsePopperProps["placement"]
-    autoFocused?: boolean
   }
 
 const itemToString = <T extends { label?: string; id?: string }>(item: T | null) => item?.label ?? ""
@@ -45,10 +44,11 @@ export const Multiselect = React.forwardRef(
       getOptionLabel = itemToString,
       noOptionsPlaceholder,
       isDisabled,
+      ...rest
     } = omitThemingProps(props)
 
     const styles = useMultiStyleConfig("Multiselect", props)
-    const ownProps = useFormControl<HTMLSelectElement>(props)
+    const ownProps = useFormControl<HTMLSelectElement>({ ...rest, isDisabled, isInvalid: !!error })
     const [inputItems, setInputItems] = useState(items)
 
     const selectedItems = items.filter((item) => value.includes(item[valueKey]))
@@ -217,8 +217,9 @@ export const Multiselect = React.forwardRef(
               onMouseDown={handleMouseDown}
               onClick={handleClearMultiselect}
               isDisabled={isDisabled}
+              title="Clear"
             />
-            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={isDisabled} />
+            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={isDisabled} title="Expand" />
           </chakra.div>
         </chakra.div>
         <InputError error={error} />

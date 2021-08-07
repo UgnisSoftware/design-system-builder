@@ -44,7 +44,7 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
   const dropdownRef = mergeRefs(downshiftMenuRef, popperRef)
   return (
     <List {...menuProps} ref={dropdownRef} __css={{ ...styles.dropdown, visibility: isOpen ? "visible" : "hidden" }}>
-      <Collapse in={isOpen} enterTransition={TRANSITIONS}>
+      <Collapse in={isOpen} enterTransition={TRANSITIONS} unmountOnExit>
         {items.length ? (
           items.map((item, index) => (
             <ListItem
@@ -58,7 +58,7 @@ export const Dropdown = <T,>(props: DropdownProps<T>) => {
                 index,
               })}
             >
-              {value.includes(item[valueKey]) && <ListIcon as={MdCheckCircle} color="primary.500" />}
+              {value.includes(item[valueKey]) && <ListIcon as={MdCheckCircle} color="primary.500" title="Check" />}
               {getOptionLabel(item)}
             </ListItem>
           ))
