@@ -45,7 +45,7 @@ const variants: SlideFadeVariant = {
   },
 }
 
-export const slideFadeConfig: HTMLMotionProps<"div"> = {
+export const slideFadeConfig: Omit<HTMLMotionProps<"div">, "css"> = {
   initial: "initial",
   animate: "enter",
   exit: "exit",
