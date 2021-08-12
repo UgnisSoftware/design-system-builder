@@ -1,5 +1,3 @@
-import { mode } from "../../../theme-tools"
-
 const parts = ["overlay", "dialogContainer", "dialog", "header", "closeButton", "body", "footer"]
 
 const baseStyleOverlay = {
@@ -26,12 +24,12 @@ function baseStyleDialog(props: Dict) {
 
   return {
     borderRadius: "md",
-    bg: mode("white", "gray.700")(props),
+    bg: "white",
     color: "inherit",
     my: "3.75rem",
     zIndex: "modal",
     maxH: scrollBehavior === "inside" ? "calc(100vh - 7.5rem)" : undefined,
-    boxShadow: mode("lg", "dark-lg")(props),
+    boxShadow: "lg",
   }
 }
 
@@ -85,6 +83,7 @@ function getSize(value: string) {
 }
 
 const sizes = {
+  "2xs": getSize("2xs"),
   xs: getSize("xs"),
   sm: getSize("sm"),
   md: getSize("md"),

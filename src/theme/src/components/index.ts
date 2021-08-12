@@ -12,6 +12,7 @@ import Divider from "./divider"
 import Drawer from "./drawer"
 import Editable from "./editable"
 import Form from "./form"
+import FormError from "./form-error"
 import FormLabel from "./form-label"
 import Heading from "./heading"
 import Input from "./input"
@@ -40,7 +41,7 @@ import Tag from "./tag"
 import Text from "./text"
 import Textarea from "./textarea"
 import Tooltip from "./tooltip"
-import FormError from "./form-error"
+import VerticalNavigation from "./vertical-navigation"
 
 export default {
   Accordion,
@@ -57,6 +58,7 @@ export default {
   Drawer,
   Editable,
   Form,
+  FormError,
   FormLabel,
   Heading,
   Input,
@@ -85,5 +87,5 @@ export default {
   Text,
   Textarea,
   Tooltip,
-  FormError,
+  VerticalNavigation,
 }

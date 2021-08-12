@@ -1,6 +1,5 @@
 import { chakra, forwardRef, HTMLChakraProps, SystemStyleObject } from "../../system"
 import { __DEV__ } from "../../utils"
-import { useEffect, useRef } from "react"
 
 const fallbackIcon = {
   path: (

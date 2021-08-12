@@ -1,12 +1,7 @@
-import { mode } from "../../../theme-tools"
 import Modal from "./modal"
 
 const parts = Modal.parts
 
-/**
- * Since the `maxWidth` prop references theme.sizes internally,
- * we can leverage that to size our modals.
- */
 function getSize(value: string) {
   if (value === "full") {
     return { dialog: { maxW: "100vw", h: "100vh" } }
@@ -25,17 +20,12 @@ const baseStyleDialogContainer = {
   justifyContent: "center",
 }
 
-function baseStyleDialog(props: Record<string, any>) {
-  const { isFullHeight } = props
-
-  return {
-    ...(isFullHeight && { height: "100vh" }),
-    zIndex: "modal",
-    maxH: "100vh",
-    bg: mode("white", "gray.700")(props),
-    color: "inherit",
-    boxShadow: mode("lg", "dark-lg")(props),
-  }
+const baseStyleDialog = {
+  zIndex: "modal",
+  maxH: "100vh",
+  bg: "white",
+  color: "inherit",
+  boxShadow: "lg",
 }
 
 const baseStyleHeader = {
@@ -63,17 +53,18 @@ const baseStyleFooter = {
   py: 4,
 }
 
-const baseStyle = (props: Record<string, any>) => ({
+const baseStyle = {
   overlay: baseStyleOverlay,
   dialogContainer: baseStyleDialogContainer,
-  dialog: baseStyleDialog(props),
+  dialog: baseStyleDialog,
   header: baseStyleHeader,
   closeButton: baseStyleCloseButton,
   body: baseStyleBody,
   footer: baseStyleFooter,
-})
+}
 
 const sizes = {
+  "2xs": getSize("2xs"),
   xs: getSize("xs"),
   sm: getSize("md"),
   md: getSize("lg"),

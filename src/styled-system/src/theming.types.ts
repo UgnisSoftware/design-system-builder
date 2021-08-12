@@ -414,7 +414,7 @@ export interface ThemeTypings {
       variants: "solid" | "dashed"
     }
     Drawer: {
-      sizes: "xs" | "sm" | "md" | "lg" | "xl" | "full"
+      sizes: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "full"
       variants: never
     }
     Editable: {
@@ -454,7 +454,7 @@ export interface ThemeTypings {
       variants: never
     }
     Modal: {
-      sizes: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "full"
+      sizes: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "full"
       variants: never
     }
     NumberInput: {

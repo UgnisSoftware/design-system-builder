@@ -156,12 +156,16 @@ const sizes = {
     px: 2,
     fontSize: "sm",
     lineHeight: "none",
+    minH: "2.375rem",
+    minW: "2.375rem",
   },
   sm: {
     py: 0.5,
     px: 1,
     fontSize: "xs",
     lineHeight: "none",
+    minH: "1.75rem",
+    minW: "1.75rem",
   },
 }
 

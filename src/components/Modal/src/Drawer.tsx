@@ -1,41 +1,28 @@
-import { chakra, forwardRef, SystemStyleObject, useStyles, useTheme, HTMLChakraProps } from "~/system"
+import { chakra, forwardRef, SystemStyleObject, useStyles, useTheme, HTMLChakraProps, ThemingProps } from "~/system"
 import { Slide, SlideOptions } from "~/transition"
-import { cx, __DEV__ } from "~/utils"
+import { __DEV__ } from "~/utils"
 import { createContext } from "~/react-utils"
 import * as React from "react"
 import { Modal, ModalProps, useModalContext } from "./Modal"
 
 const [DrawerContextProvider, useDrawerContext] = createContext<DrawerOptions>()
 
-interface DrawerOptions {
-  /**
-   * The placement of the drawer
-   */
+type DrawerOptions = {
   placement?: SlideOptions["direction"]
-  /**
-   * If `true` and drawer's placement is `top` or `bottom`,
-   * the drawer will occupy the viewport height (100vh)
-   */
   isFullHeight?: boolean
 }
 
-export interface DrawerProps extends Omit<ModalProps, "scrollBehavior"> {
-  /**
-   * The placement of the drawer
-   */
-  placement?: SlideOptions["direction"]
-  /**
-   * If `true` and drawer's placement is `top` or `bottom`,
-   * the drawer will occupy the viewport height (100vh)
-   */
-  isFullHeight?: boolean
-}
+export type DrawerProps = Omit<ModalProps, "scrollBehavior"> &
+  ThemingProps<"Drawer"> & {
+    placement?: SlideOptions["direction"]
+    isFullHeight?: boolean
+  }
 
 export function Drawer(props: DrawerProps) {
-  const { isOpen, onClose, placement = "right", children, ...rest } = props
+  const { isOpen, onClose, placement = "right", children, styleConfig, ...rest } = props
 
   const theme = useTheme()
-  const drawerStyleConfig = theme.components?.Drawer
+  const drawerStyleConfig = styleConfig || theme.components?.Drawer
 
   return (
     <DrawerContextProvider value={{ placement }}>
@@ -48,21 +35,17 @@ export function Drawer(props: DrawerProps) {
 
 const StyleSlide = chakra(Slide)
 
-export interface DrawerContentProps extends HTMLChakraProps<"section"> {}
+export interface DrawerContentProps extends HTMLChakraProps<"section"> {
+  initialAnimation?: boolean
+}
 
-/**
- * ModalContent is used to group modal's content. It has all the
- * necessary `aria-*` properties to indicate that it is a modal
- */
 export const DrawerContent = forwardRef<DrawerContentProps, "section">((props, ref) => {
-  const { className, children, ...rest } = props
+  const { className, children, initialAnimation, ...rest } = props
 
   const { getDialogProps, getDialogContainerProps, isOpen } = useModalContext()
 
   const dialogProps = getDialogProps(rest, ref) as any
   const containerProps = getDialogContainerProps()
-
-  const _className = cx("chakra-modal__content", className)
 
   const styles = useStyles()
 
@@ -88,8 +71,15 @@ export const DrawerContent = forwardRef<DrawerContentProps, "section">((props, r
   const { placement } = useDrawerContext()
 
   return (
-    <chakra.div {...containerProps} className="chakra-modal__content-container" __css={dialogContainerStyles}>
-      <StyleSlide direction={placement} in={isOpen} className={_className} {...dialogProps} __css={dialogStyles}>
+    <chakra.div {...containerProps} __css={dialogContainerStyles}>
+      <StyleSlide
+        direction={placement}
+        in={isOpen}
+        className={className}
+        initialAnimation={initialAnimation}
+        {...dialogProps}
+        __css={dialogStyles}
+      >
         {children}
       </StyleSlide>
     </chakra.div>

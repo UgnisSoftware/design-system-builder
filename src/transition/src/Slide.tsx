@@ -87,10 +87,12 @@ export interface SlideOptions {
   in?: boolean
 }
 
-export interface SlideProps extends HTMLMotionProps<"div">, SlideOptions {}
+export interface SlideProps extends HTMLMotionProps<"div">, SlideOptions {
+  initialAnimation: boolean
+}
 
 export const Slide = React.forwardRef<HTMLDivElement, SlideProps>((props, ref) => {
-  const { direction = "right", style, unmountOnExit, in: isOpen, className, ...rest } = props
+  const { direction = "right", style, unmountOnExit, in: isOpen, className, initialAnimation = true, ...rest } = props
 
   const { baseStyle } = directions[direction] ?? {}
   const shouldExpand = unmountOnExit ? isOpen && unmountOnExit : true
@@ -100,7 +102,7 @@ export const Slide = React.forwardRef<HTMLDivElement, SlideProps>((props, ref) =
       {shouldExpand && (
         <motion.div
           ref={ref}
-          initial="exit"
+          initial={initialAnimation && "exit"}
           className={cx("chakra-slide", className)}
           animate={isOpen || unmountOnExit ? "enter" : "exit"}
           exit="exit"

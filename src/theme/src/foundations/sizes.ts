@@ -5,7 +5,7 @@ const largeSizes = {
   min: "min-content",
   full: "100%",
   "3xs": "14rem",
-  "2xs": "16rem",
+  "2xs": "15rem",
   xs: "20rem",
   sm: "24rem",
   md: "28rem",

@@ -134,7 +134,6 @@ export function useModal(props: UseModalProps) {
       if (closeOnOverlayClick) {
         onClose?.()
       }
-
       onOverlayClickProp?.()
     },
     [onClose, closeOnOverlayClick, onOverlayClickProp],

@@ -11,7 +11,7 @@ import {
 } from "~/system"
 import { cx, dataAttr, mergeWith, __DEV__ } from "~/utils"
 import * as React from "react"
-import { useButtonGroup } from "./Button-group"
+import { useButtonGroup } from "./ButtonGroup"
 
 export interface ButtonOptions {
   /**
@@ -145,10 +145,8 @@ const ButtonIcon: React.FC<HTMLChakraProps<"span">> = (props) => {
       })
     : children
 
-  const _className = cx("chakra-button__icon", className)
-
   return (
-    <chakra.span {...rest} className={_className}>
+    <chakra.span {...rest} className={className}>
       {_children}
     </chakra.span>
   )
