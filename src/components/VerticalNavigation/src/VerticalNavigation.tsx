@@ -2,7 +2,7 @@ import type React from "react"
 import { Drawer, DrawerContent, DrawerOverlay } from "~/components/Modal"
 import { noop } from "~/utils"
 import { useBreakpoint } from "~/media-query"
-import { chakra, useStyleConfig, useTheme } from "~/system"
+import { chakra, ThemeTypings, useStyleConfig, useTheme } from "~/system"
 
 export type VerticalNavigationProps = {
   isOpen?: boolean
@@ -10,18 +10,18 @@ export type VerticalNavigationProps = {
    * If shouldAnimateOnBreakpoints prop is passed,
    * navigation will animate only on those breakpoints
    * */
-  shouldAnimateOnBreakpoints?: string[]
+  shouldAnimateOnBreakpoints?: ThemeTypings["breakpoints"][]
   onClose?: () => void
   children: React.ReactNode
 }
 
 export const VerticalNavigation = (props: VerticalNavigationProps) => {
   const { isOpen, shouldAnimateOnBreakpoints, onClose, children } = props
-  const breakpoint = useBreakpoint()
+  const breakpoint = useBreakpoint() as ThemeTypings["breakpoints"]
   const shouldAnimate = shouldAnimateOnBreakpoints ? shouldAnimateOnBreakpoints.includes(breakpoint!) : true
   const handleOnClose = shouldAnimate && onClose ? onClose : noop
   const theme = useTheme()
-  const styleConfig = theme.components.VerticalNavigation
+  const styleConfig = theme.components?.VerticalNavigation
   return (
     <Drawer
       isOpen={isOpen ?? !shouldAnimate}

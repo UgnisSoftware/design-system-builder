@@ -140,7 +140,6 @@ export const Modal: React.FC<ModalProps> = (props) => {
     preserveScrollBarGap,
     motionPreset,
   }
-
   return (
     <ModalContextProvider value={context}>
       <StylesProvider value={styles}>

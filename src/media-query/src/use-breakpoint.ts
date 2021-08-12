@@ -1,6 +1,6 @@
 import React from "react"
 import createMediaQueries from "./create-media-query"
-import { useTheme } from "../../system"
+import { ThemeTypings, useTheme } from "../../system"
 
 interface Listener {
   mediaQuery: MediaQueryList

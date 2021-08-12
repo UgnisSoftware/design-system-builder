@@ -4,7 +4,6 @@ import { createBreakpoints } from "../../../theme-tools"
  * Breakpoints for responsive design
  */
 const breakpoints = createBreakpoints({
-  xs: "10em",
   sm: "30em",
   md: "48em",
   lg: "62em",
