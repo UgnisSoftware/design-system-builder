@@ -7,8 +7,7 @@ interface Data {
   id: string
   email: string
   title: string
-  firstName: string
-  lastName: string
+  name: string
   street: string
   zipCode: string
   date: string
@@ -22,14 +21,10 @@ faker.locale = "en_GB"
 
 const columns: Column<Data>[] = [
   {
-    key: "firstName",
-    name: "First Name",
+    key: "name",
+    name: "Name",
     width: 200,
-  },
-  {
-    key: "lastName",
-    name: "Last Name",
-    width: 200,
+    fixed: true,
   },
   {
     key: "email",
@@ -73,8 +68,7 @@ function createFakeRowObjectData(index: number): Data {
     id: `id_${index}`,
     email: faker.internet.email(),
     title: faker.name.prefix(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    name: faker.name.firstName() + " " + faker.name.lastName(),
     street: faker.address.streetName(),
     zipCode: faker.address.zipCode(),
     date: faker.date.past().toLocaleDateString(),

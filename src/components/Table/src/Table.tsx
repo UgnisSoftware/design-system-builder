@@ -14,10 +14,6 @@ interface Props<Data> {
 }
 
 function Table<Data extends {}>({ columns, data }: Props<Data>) {
-  function handleScroll(event: React.UIEvent<HTMLDivElement>) {
-    const { scrollTop, scrollLeft } = event.currentTarget
-  }
-
   const handleColumnResize = () => {}
   const onSortChange = () => {}
 
@@ -26,6 +22,7 @@ function Table<Data extends {}>({ columns, data }: Props<Data>) {
   const columnWidths = columns.map((a) => `${a.width}px`).join(" ")
   const tableWidth = columns.map((a) => a.width).reduce((a, b) => a + b, 0)
   const rowHeight = 35
+
   return (
     <chakra.div
       __css={styles.tbody}
@@ -37,18 +34,23 @@ function Table<Data extends {}>({ columns, data }: Props<Data>) {
       role="table"
       aria-colcount={columns.length}
       aria-rowcount={data.length}
-      onScroll={handleScroll}
     >
-      <HeaderRow columns={columns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
       <Virtuoso
         components={{
           EmptyPlaceholder: () => <div> No rows </div>,
         }}
         overscan={700}
         fixedItemHeight={rowHeight}
-        totalCount={data.length}
+        topItemCount={1}
+        totalCount={data.length + 1}
         useWindowScroll
-        itemContent={(index) => <Row data={data[index]} columns={columns} />}
+        itemContent={(index) =>
+          index === 0 ? (
+            <HeaderRow columns={columns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
+          ) : (
+            <Row data={data[index - 1]} columns={columns} index={index} />
+          )
+        }
       />
     </chakra.div>
   )

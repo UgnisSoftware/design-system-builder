@@ -9,14 +9,8 @@ export const GRID_ROW_HEIGHT = "--template-row-height"
 export const GRID_ROW_WIDTH = "--template-row-width"
 
 const baseStyle = {
-  tbody: {
-    position: "relative",
-  },
+  tbody: {},
   thead: {
-    position: "sticky",
-    top: 0,
-    left: 0,
-    zIndex: 2,
     backgroundColor: "white",
     display: "grid",
     contain: "size layout style paint",
