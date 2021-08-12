@@ -106,9 +106,6 @@
       ],
       [
         "@pika/plugin-build-umd"
-      ],
-      [
-        "@pika/plugin-bundle-types"
       ]
     ]
   },
