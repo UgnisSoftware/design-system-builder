@@ -3,5 +3,5 @@ build
 .idea
 web_modules
 node_modules
-dist
+pkg
 storybook-static
