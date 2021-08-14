@@ -18,20 +18,13 @@ function Row<Data extends {}>({ columns, data, index }: Props<Data>) {
 
   return (
     <chakra.div __css={styles.tr} role="row" aria-rowindex={index + 1}>
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          left: 0,
-          backgroundColor: "white",
-          willChange: "transform",
-          marginLeft: -16,
-        }}
-      >
-        {fixedColumns.map((column) => (
-          <Cell key={column.key} data={data} column={column} />
-        ))}
-      </div>
+      {!!fixedColumns.length && (
+        <chakra.div __css={styles.trStickyContainer}>
+          {fixedColumns.map((column) => (
+            <Cell key={column.key} data={data} column={column} />
+          ))}
+        </chakra.div>
+      )}
       {otherColumns.map((column) => (
         <Cell key={column.key} data={data} column={column} />
       ))}

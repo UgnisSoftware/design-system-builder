@@ -21,6 +21,14 @@ const baseStyle = {
     lineHeight: `var(${GRID_ROW_HEIGHT})`,
     width: `var(${GRID_ROW_WIDTH})`,
   },
+  trStickyContainer: {
+    position: "sticky",
+    top: 0,
+    left: 0,
+    backgroundColor: "white",
+    willChange: "transform",
+    marginLeft: -16,
+  },
   th: {
     paddingLeft: 16,
     fontWeight: "bold",
