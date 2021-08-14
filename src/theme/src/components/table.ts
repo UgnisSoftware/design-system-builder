@@ -29,6 +29,14 @@ const baseStyle = {
     willChange: "transform",
     marginLeft: -16,
   },
+  thResizeHandle: {
+    cursor: "col-resize",
+    width: "5px",
+    marginTop: "6px",
+    marginBottom: "6px",
+    marginLeft: "-6px",
+    borderRight: "1px solid var(--chakra-colors-gray-200)",
+  },
   th: {
     display: "flex",
     justifyContent: "space-between",

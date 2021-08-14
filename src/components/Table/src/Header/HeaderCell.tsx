@@ -52,10 +52,7 @@ function HeaderCell<Data extends {}>({ column, onColumnResize, onSortChange }: P
       aria-sort="ascending"
     >
       {column.name}
-      <div
-        onPointerDown={onPointerDown}
-        style={{ cursor: "col-resize", width: 5, marginLeft: -5, backgroundColor: "red" }}
-      />
+      <chakra.div __css={styles.thResizeHandle} onPointerDown={onPointerDown} />
     </chakra.div>
   )
 }
