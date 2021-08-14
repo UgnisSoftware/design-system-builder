@@ -22,6 +22,7 @@ const baseStyle = {
     width: `var(${GRID_ROW_WIDTH})`,
   },
   th: {
+    paddingLeft: 16,
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: "wider",
@@ -41,6 +42,7 @@ const baseStyle = {
     width: `var(${GRID_ROW_WIDTH})`,
   },
   td: {
+    paddingLeft: 16,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",

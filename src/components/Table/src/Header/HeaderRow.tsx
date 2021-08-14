@@ -18,7 +18,16 @@ function HeaderRow<Data extends {}>({ columns, onColumnResize, onSortChange }: P
 
   return (
     <chakra.div __css={styles.thead} role="row" aria-rowindex={1}>
-      <div style={{ position: "sticky", top: 0, left: 16, backgroundColor: "white", willChange: "transform" }}>
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          left: 0,
+          backgroundColor: "white",
+          willChange: "transform",
+          marginLeft: -16,
+        }}
+      >
         {fixedColumns.map((column) => (
           <HeaderCell key={column.key} column={column} onColumnResize={onColumnResize} onSortChange={onSortChange} />
         ))}
