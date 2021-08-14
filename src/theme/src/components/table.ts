@@ -30,6 +30,8 @@ const baseStyle = {
     marginLeft: -16,
   },
   th: {
+    display: "flex",
+    justifyContent: "space-between",
     paddingLeft: 16,
     fontWeight: "bold",
     textTransform: "uppercase",

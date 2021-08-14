@@ -3,6 +3,7 @@ import { memo } from "react"
 import HeaderCell from "./HeaderCell"
 import { chakra, useMultiStyleConfig } from "~/system"
 import type { Column } from "~/components"
+import { connect } from "lape"
 
 interface Props<Data> {
   columns: Column<Data>[]
@@ -32,4 +33,4 @@ function HeaderRow<Data extends {}>({ columns, onColumnResize, onSortChange }: P
   )
 }
 
-export default memo(HeaderRow)
+export default memo(connect(HeaderRow))

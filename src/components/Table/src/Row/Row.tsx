@@ -3,6 +3,7 @@ import { memo } from "react"
 import Cell from "./Cell"
 import { chakra, useMultiStyleConfig } from "~/system"
 import type { Column } from "../types"
+import { connect } from "lape"
 
 interface Props<Data> {
   data: Data
@@ -32,4 +33,4 @@ function Row<Data extends {}>({ columns, data, index }: Props<Data>) {
   )
 }
 
-export default memo(Row)
+export default memo(connect(Row))

@@ -2,6 +2,7 @@ import { memo } from "react"
 
 import { chakra, useMultiStyleConfig } from "~/system"
 import type { Column } from "../types"
+import { connect } from "lape"
 
 export interface Props<Data> {
   column: Column<Data>
@@ -15,29 +16,24 @@ function HeaderCell<Data extends {}>({ column, onColumnResize, onSortChange }: P
       return
     }
 
-    const { currentTarget, pointerId } = event
-    const { right } = currentTarget.getBoundingClientRect()
-    const offset = right - event.clientX
-
-    if (offset > 11) {
-      // +1px to account for the border size
-      return
-    }
+    const pointerId = event.pointerId
+    const initialPosition = event.clientX
+    const initialWidth = column.width
 
     function onPointerMove(event: PointerEvent) {
-      if (event.pointerId !== pointerId) return
+      if (event?.pointerId !== pointerId) return
       if (event.pointerType === "mouse" && event.buttons !== 1) {
         onPointerUp(event)
         return
       }
-      const width = event.clientX + offset - currentTarget.getBoundingClientRect().left
-      if (width > 0) {
+      const width = initialWidth + (event.clientX - initialPosition)
+      if (width > 10) {
         onColumnResize(column, width)
       }
     }
 
     function onPointerUp(event: PointerEvent) {
-      if (event.pointerId !== pointerId) return
+      if (event?.pointerId !== pointerId) return
       window.removeEventListener("pointermove", onPointerMove)
       window.removeEventListener("pointerup", onPointerUp)
     }
@@ -54,11 +50,14 @@ function HeaderCell<Data extends {}>({ column, onColumnResize, onSortChange }: P
       role="columnheader"
       // aria-colindex={column.idx + 1}
       aria-sort="ascending"
-      // onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       {column.name}
+      <div
+        onPointerDown={onPointerDown}
+        style={{ cursor: "col-resize", width: 5, marginLeft: -5, backgroundColor: "red" }}
+      />
     </chakra.div>
   )
 }
 
-export default memo(HeaderCell)
+export default memo(connect(HeaderCell))

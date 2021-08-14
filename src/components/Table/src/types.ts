@@ -3,4 +3,5 @@ export interface Column<Data> {
   name: string
   width: number
   fixed?: boolean
+  resizable?: boolean
 }
