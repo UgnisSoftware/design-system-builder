@@ -12,7 +12,7 @@
     "start": "start-storybook -p 6006",
     "prebuild": "rimraf dist",
     "build": "rollup -c rollup.config.ts",
-    "release:minor": "npm run test && npm run ts && npm run build && npm version patch && npm publish && git add -A && git push && git push --tags",
+    "release:minor": "npm run test && npm run ts && npm run build && npm version patch && git add -A && git push && git push --tags && npm publish",
     "publish": "npm publish",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
