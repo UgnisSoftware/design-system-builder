@@ -16,6 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          configuration: ".github/config/config.json"
           commitMode: true
 
       - name: Create Release
