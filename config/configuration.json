@@ -13,8 +13,8 @@
       "labels": ["test"]
     },
     {
-      "title": "## 🧪 Chore",
-      "labels": ["chore"]
+      "title": "## 💬 Other",
+      "labels": ["other", "chore", "added", "updated", "merge"]
     }
   ],
   "ignore_labels": ["ignore"],

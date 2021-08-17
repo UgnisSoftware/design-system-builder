@@ -12,11 +12,11 @@ jobs:
     steps:
       - name: Build Changelog
         id: github_release
-        uses: mikepenz/release-changelog-builder-action@v1
+        uses: mikepenz/release-changelog-builder-action@v2.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          configuration: ".github/config/config.json"
+          configuration: "config/configuration.json"
           commitMode: true
 
       - name: Create Release
