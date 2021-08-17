@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           configuration: ".github/config/configuration.json"
-          commitMode: "true"
+          commitMode: true
 
       - name: Create Release
         uses: actions/create-release@v1
