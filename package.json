@@ -88,14 +88,14 @@
     "react-hook-form": "7.11.1",
     "react-lorem-component": "0.13.0",
     "rollup": "1.32.1",
-    "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-typescript2": "0.30.0",
     "storybook-addon-performance": "0.16.0",
     "tinycolor2": "1.4.2",
     "ts-jest": "27.0.4",
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "ttypescript": "1.5.12",
     "typescript": "4.3.5",
-    "typescript-transform-paths": "^3.3.0"
+    "typescript-transform-paths": "3.3.0"
   },
   "prettier": {
     "endOfLine": "crlf",
