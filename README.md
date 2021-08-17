@@ -1,4 +1,4 @@
-# Ugnis v1.0.2-alpha
+# Ugnis
 
 Ugnis is a Design System builder that exports to React and Figma - keeping your designers and developers in sync.
 
