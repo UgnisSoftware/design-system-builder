@@ -37,7 +37,8 @@
     "react-icons": "4.2.0",
     "react-remove-scroll": "2.4.3",
     "react-virtuoso": "1.10.0",
-    "styled-system": "5.1.5"
+    "styled-system": "5.1.5",
+    "tinycolor2": "1.4.2"
   },
   "devDependencies": {
     "@babel/core": "7.14.8",
@@ -91,7 +92,6 @@
     "rollup": "1.32.1",
     "rollup-plugin-typescript2": "0.30.0",
     "storybook-addon-performance": "0.16.0",
-    "tinycolor2": "1.4.2",
     "ts-jest": "27.0.4",
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "ttypescript": "1.5.12",
