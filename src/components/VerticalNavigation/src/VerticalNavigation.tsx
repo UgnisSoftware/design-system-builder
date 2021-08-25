@@ -2,7 +2,7 @@ import type React from "react"
 import { Drawer, DrawerContent, DrawerOverlay } from "~/components/Modal"
 import { noop } from "~/utils"
 import { useBreakpoint } from "~/media-query"
-import { chakra, ThemeTypings, useStyleConfig, useTheme } from "~/system"
+import { chakra, ThemeTypings, useMultiStyleConfig, useTheme } from "~/system"
 
 export type VerticalNavigationProps = {
   isOpen?: boolean
@@ -27,7 +27,7 @@ export const VerticalNavigation = (props: VerticalNavigationProps) => {
       isOpen={isOpen ?? !shouldAnimate}
       onClose={handleOnClose}
       placement="left"
-      size={"2xs"}
+      size="2xs"
       styleConfig={styleConfig}
     >
       {shouldAnimate && <DrawerOverlay />}
@@ -56,7 +56,7 @@ type ListItemProps = {
 
 const ListItem = (props: ListItemProps) => {
   const { children, onClick } = props
-  const styles = useStyleConfig("VerticalNavigation")
+  const styles = useMultiStyleConfig("VerticalNavigation", props)
   return (
     <chakra.li __css={styles.listItem} onClick={onClick}>
       {children}
