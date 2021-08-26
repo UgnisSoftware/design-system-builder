@@ -75,7 +75,7 @@ const variantOutline = {
     color: "neutral.800",
     border: "1px solid",
     borderColor: "neutral.200",
-    bg: "inherit",
+    bg: "white",
     _hover: {
       borderColor: "neutral.400",
     },

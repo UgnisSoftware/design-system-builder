@@ -9,7 +9,7 @@ import {
   useStyleConfig,
   HTMLChakraProps,
 } from "~/system"
-import { cx, dataAttr, mergeWith, __DEV__ } from "~/utils"
+import { dataAttr, mergeWith, __DEV__ } from "~/utils"
 import * as React from "react"
 import { useButtonGroup } from "./ButtonGroup"
 
