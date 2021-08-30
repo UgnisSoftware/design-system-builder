@@ -1,6 +1,6 @@
 import faker from "faker"
 import { useState } from "react"
-import Table from "../src"
+import { Table } from "../src"
 import type { Column } from "../src"
 
 interface Data {

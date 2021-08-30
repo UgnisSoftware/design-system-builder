@@ -1,4 +1,4 @@
-import Table from "../src"
+import { Table } from "../src"
 import { ChakraProvider } from "~/react"
 import type { Meta } from "@storybook/react"
 import { propConfig } from "~/utils/src/docPropConfig"

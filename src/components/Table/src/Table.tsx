@@ -14,7 +14,7 @@ interface Props<Data> {
   data: Data[]
 }
 
-function Table<Data extends {}>({ columns, data }: Props<Data>) {
+function _Table<Data extends {}>({ columns, data }: Props<Data>) {
   const mutableColumns = useLape(columns)
   const handleColumnResize = (column: any, width: number) => {
     column.width = width
@@ -60,4 +60,5 @@ function Table<Data extends {}>({ columns, data }: Props<Data>) {
   )
 }
 
-export default memo(connect(Table))
+export default memo(connect(_Table))
+export { _Table as Table }
