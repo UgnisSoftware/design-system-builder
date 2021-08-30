@@ -12,6 +12,7 @@ export * from "./Select"
 export * from "./Input"
 export * from "./Multiselect"
 export * from "./Label"
-export * from './Tag'
-export * from './Switch'
-export * from './Modal'
+export * from "./Tag"
+export * from "./Switch"
+export * from "./Modal"
+export * from "./Table"
