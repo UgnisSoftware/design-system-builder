@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react"
+import { memo } from "react"
 
 import HeaderRow from "./Header/HeaderRow"
 import Row from "./Row/Row"
@@ -60,5 +60,4 @@ function _Table<Data extends {}>({ columns, data }: Props<Data>) {
   )
 }
 
-export default memo(connect(_Table))
-export { _Table as Table }
+export const Table = memo(connect(_Table))
