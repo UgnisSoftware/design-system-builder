@@ -15,10 +15,12 @@ export const Label = (props: LabelProps) => {
   }
   return (
     <chakra.label __css={rootStyles} {...rest}>
-      <chakra.div __css={styles.label}>
-        {text}
-        {isRequired && <chakra.span __css={styles.requiredIndicator}>*</chakra.span>}
-      </chakra.div>
+      {text && (
+        <chakra.div __css={styles.label}>
+          {text}
+          {isRequired && <chakra.span __css={styles.requiredIndicator}>*</chakra.span>}
+        </chakra.div>
+      )}
       {children}
     </chakra.label>
   )
