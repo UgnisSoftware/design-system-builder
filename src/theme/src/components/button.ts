@@ -2,6 +2,7 @@ import type { ButtonProps } from "../../../components/Button"
 
 const baseStyle = {
   borderRadius: "md",
+  h: "fit-content",
   fontWeight: "semibold",
   _disabled: {
     cursor: "not-allowed",
@@ -152,7 +153,7 @@ const variants = {
 
 const sizes = {
   md: {
-    py: 1,
+    py: "0.8125rem",
     px: 2,
     fontSize: "sm",
     lineHeight: "none",

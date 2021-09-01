@@ -39,8 +39,8 @@ const size = {
 
   sm: {
     fontSize: "sm",
-    px: 3,
-    h: 2,
+    px: 1,
+    h: "1.75rem",
   },
 
   xs: {

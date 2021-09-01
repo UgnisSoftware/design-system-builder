@@ -434,7 +434,7 @@ export interface ThemeTypings {
       variants: never
     }
     Input: {
-      sizes: "md"
+      sizes: "md" | "sm"
       variants: "outline" | "unstyled"
     }
     Kbd: {
