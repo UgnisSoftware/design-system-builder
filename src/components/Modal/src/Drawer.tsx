@@ -60,7 +60,7 @@ export const DrawerContent = forwardRef<DrawerContentProps, "section">((props, r
 
   const dialogContainerStyles: SystemStyleObject = {
     display: "flex",
-    width: "100vw",
+    width: initialAnimation ? "100vw" : "auto",
     height: "100vh",
     position: "fixed",
     left: 0,

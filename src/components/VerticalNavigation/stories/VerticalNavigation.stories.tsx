@@ -33,7 +33,9 @@ export const Basic = () => {
   const [isOpen, setIsOpen] = React.useState(false)
   return (
     <Box height="100vh" width={"100%"} bg={"neutral.50"}>
-      <Button onClick={() => setIsOpen(true)}>Open</Button>
+      <Button ml={"20rem"} onClick={() => setIsOpen(true)}>
+        Open
+      </Button>
       <VerticalNavigation isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <VerticalNavigation.List>
           {[...items, ...items, ...items, ...items].map((item, index) => (
