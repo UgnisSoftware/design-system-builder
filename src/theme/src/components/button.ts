@@ -115,6 +115,7 @@ const outline = ({ isLoading, disabled }: ButtonProps) => {
 const text = ({ isLoading, disabled }: ButtonProps) => {
   const styles = {
     p: 0,
+    h: "auto",
     color: "neutral.800",
     _hover: {
       color: "neutral.900",
@@ -153,19 +154,17 @@ const variants = {
 
 const sizes = {
   md: {
-    py: "0.8125rem",
+    h: "2.5rem",
     px: 2,
     fontSize: "sm",
     lineHeight: "none",
-    minH: "2.375rem",
     minW: "2.375rem",
   },
   sm: {
-    py: 0.5,
+    h: "1.75rem",
     px: 1,
     fontSize: "xs",
     lineHeight: "none",
-    minH: "1.75rem",
     minW: "1.75rem",
   },
 }
