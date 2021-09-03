@@ -17,6 +17,12 @@ export default {
   },
   argTypes: {
     ...propConfig,
+    disabled: {
+      table: { disable: false },
+      control: {
+        type: "boolean",
+      },
+    },
   },
   decorators: [
     (Story) => (

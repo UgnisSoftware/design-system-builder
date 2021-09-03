@@ -2,12 +2,11 @@ import React, { useState, useRef, ForwardedRef, MouseEvent, useCallback } from "
 import { useCombobox, useMultipleSelection } from "downshift"
 import { MdExpandMore, MdClose } from "react-icons/md"
 
-import type { FormControlOptions } from "~/form-control"
 import { chakra, omitThemingProps, SystemStyleObject, ThemingProps, useMultiStyleConfig } from "~/system"
 import { __DEV__ } from "~/utils"
 import { InputCore, InputError } from "~/components/Input"
 import { Label } from "~/components/Input"
-import { useFormControl } from "~/form-control"
+import { useFormControl, UseFormControlProps } from "~/form-control"
 import { Icon } from "~/icon"
 import { usePopper, UsePopperProps } from "~/popper"
 import { mergeRefs } from "~/react-utils"
@@ -15,7 +14,7 @@ import { Dropdown } from "./Dropdown"
 import { Tags } from "./Tags"
 
 export type MultiselectProps<T, K extends keyof T = keyof T> = ThemingProps<"Multiselect"> &
-  Omit<FormControlOptions, "isInvalid" | "isReadOnly"> & {
+  Omit<UseFormControlProps<HTMLInputElement>, "isInvalid" | "isReadOnly"> & {
     placeholder?: string
     options: T[]
     value: T[K][]
@@ -37,18 +36,17 @@ export const Multiselect = React.forwardRef(
       options: items,
       onChange,
       label,
-      isRequired,
       error,
       valueKey = "id",
       placement = "bottom-start",
       getOptionLabel = itemToString,
       noOptionsPlaceholder,
-      isDisabled,
+      disabled,
       ...rest
     } = omitThemingProps(props)
 
     const styles = useMultiStyleConfig("Multiselect", props)
-    const ownProps = useFormControl<HTMLSelectElement>({ ...rest, isDisabled, isInvalid: !!error })
+    const ownProps = useFormControl<HTMLInputElement>({ ...rest, disabled })
     const [inputItems, setInputItems] = useState(items)
 
     const selectedItems = items.filter((item) => value.includes(item[valueKey]))
@@ -116,7 +114,7 @@ export const Multiselect = React.forwardRef(
           case useCombobox.stateChangeTypes.FunctionOpenMenu:
             return {
               ...changes,
-              isOpen: !isDisabled,
+              isOpen: !ownProps.disabled,
             }
           default:
             return changes
@@ -157,14 +155,14 @@ export const Multiselect = React.forwardRef(
     const focusInput = useCallback(() => inputFocusRef.current?.focus(), [inputFocusRef])
     const handleMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), [])
     const handleInputWrapperClick = useCallback(() => {
-      if (isDisabled) {
+      if (ownProps.disabled) {
         return
       }
       focusInput()
       if (!isOpen) {
         openMenu()
       }
-    }, [isOpen, openMenu, focusInput, isDisabled])
+    }, [isOpen, openMenu, focusInput, ownProps.disabled])
     const handleTagClose = useCallback(
       (e: MouseEvent, item: T) => {
         e.stopPropagation()
@@ -175,13 +173,13 @@ export const Multiselect = React.forwardRef(
     const handleClearMultiselect = useCallback(
       (e: MouseEvent) => {
         e.stopPropagation()
-        if (isDisabled) {
+        if (ownProps.disabled) {
           return
         }
         reset()
         focusInput()
       },
-      [reset, focusInput, isDisabled],
+      [reset, focusInput, ownProps.disabled],
     )
 
     const rootStyles: SystemStyleObject = {
@@ -192,20 +190,20 @@ export const Multiselect = React.forwardRef(
 
     return (
       <chakra.div __css={rootStyles}>
-        <Label text={label || ""} isRequired={isRequired} {...getLabelProps()} />
+        <Label text={label || ""} isRequired={ownProps.required} {...getLabelProps()} />
         <chakra.div
           __css={styles.field}
           {...comboboxProps}
           ref={inputWrapperRef}
           aria-invalid={!!error}
           onClick={handleInputWrapperClick}
-          disabled={isDisabled}
+          disabled={ownProps.disabled}
         >
           <Tags
             items={selectedItems}
             getSelectedItemProps={getSelectedItemProps}
             getOptionLabel={getOptionLabel}
-            isDisabled={isDisabled}
+            isDisabled={ownProps.disabled}
             onMouseDown={handleMouseDown}
             onTagClose={handleTagClose}
           />
@@ -216,10 +214,10 @@ export const Multiselect = React.forwardRef(
               __css={styles.clearIcon}
               onMouseDown={handleMouseDown}
               onClick={handleClearMultiselect}
-              isDisabled={isDisabled}
+              isDisabled={ownProps.disabled}
               title="Clear"
             />
-            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={isDisabled} title="Expand" />
+            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={ownProps.disabled} title="Expand" />
           </chakra.div>
         </chakra.div>
         <InputError error={error} />

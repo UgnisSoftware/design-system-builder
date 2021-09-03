@@ -59,7 +59,7 @@ describe("Multiselect tests", () => {
   })
 
   it("Should not allow interactions with 'disabled' state", () => {
-    const { getByText, queryByText } = render(<Multiselect isDisabled />)
+    const { getByText, queryByText } = render(<Multiselect disabled />)
     fireEvent.click(getByText(LABEL))
     expect(queryByText(NAME1)).not.toBeInTheDocument()
   })

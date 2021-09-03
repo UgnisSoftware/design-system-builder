@@ -1,13 +1,11 @@
 import React, { useState, MouseEvent, useRef, useCallback, useMemo, ForwardedRef } from "react"
 import { useCombobox } from "downshift"
 import { MdExpandMore, MdClose } from "react-icons/md"
-
-import type { FormControlOptions } from "~/form-control"
 import { chakra, omitThemingProps, SystemStyleObject, ThemingProps, useMultiStyleConfig } from "~/system"
 import { __DEV__ } from "~/utils"
 import { InputCore, InputError } from "~/components/Input"
 import { Label } from "~/components/Input"
-import { useFormControl } from "~/form-control"
+import { useFormControl, UseFormControlProps } from "~/form-control"
 import { List, ListItem } from "~/components/List"
 import { Icon } from "~/icon"
 import { Collapse } from "~/transition"
@@ -18,7 +16,7 @@ import { TRANSITIONS } from "./constants"
 const NO_OPTIONS = "No options"
 
 export type SelectProps<T, K extends keyof T = keyof T> = ThemingProps<"Select"> &
-  Omit<FormControlOptions, "isInvalid" | "isReadOnly"> & {
+  UseFormControlProps<HTMLInputElement> & {
     placeholder?: string
     options: T[]
     selectedItem?: T
@@ -42,16 +40,13 @@ export const Select = React.forwardRef(
       options: items,
       onChange,
       label,
-      isRequired,
-      error,
       valueKey = "id",
       placement = "bottom-start",
       getOptionLabel = itemToString,
       noOptionsPlaceholder = NO_OPTIONS,
-      isDisabled,
       ...rest
     } = omitThemingProps(props)
-    const ownProps = useFormControl<HTMLSelectElement>(rest as any)
+    const ownProps = useFormControl<HTMLInputElement>(rest)
     const [inputItems, setInputItems] = useState(items)
     const { popperRef, referenceRef } = usePopper({
       placement,
@@ -143,24 +138,17 @@ export const Select = React.forwardRef(
 
     return (
       <chakra.div __css={rootStyles}>
-        <Label text={label || ""} isRequired={isRequired} {...getLabelProps()} />
+        <Label text={label || ""} isRequired={ownProps.required} {...getLabelProps()} />
         <chakra.div __css={rootStyles} {...comboboxProps} ref={inputWrapperRef}>
-          <InputCore
-            {...ownProps}
-            isDisabled={isDisabled}
-            __css={styles.field}
-            isInvalid={!!error}
-            ref={inputRef}
-            {...inputProps}
-          />
+          <InputCore {...ownProps} __css={styles.field} ref={inputRef} {...inputProps} />
           <chakra.div __css={styles.iconBox}>
             {inputValue && (
-              <Icon as={MdClose} __css={styles.clearIcon} onClick={onResetValueClick} isDisabled={isDisabled} />
+              <Icon as={MdClose} __css={styles.clearIcon} onClick={onResetValueClick} isDisabled={ownProps.disabled} />
             )}
-            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={isDisabled} onClick={openMenu} />
+            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={ownProps.disabled} onClick={openMenu} />
           </chakra.div>
         </chakra.div>
-        <InputError error={error} />
+        <InputError error={ownProps.error} />
         <List
           {...menuProps}
           ref={dropdownRef}

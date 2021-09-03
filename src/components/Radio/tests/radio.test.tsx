@@ -1,144 +1,66 @@
-import { render, fireEvent, screen } from "../../../test-utils"
-import { Radio, useRadio, UseRadioProps } from "../src"
-import { FormControl, FormHelperText, FormLabel } from "../../../form-control"
+import { render, fireEvent } from "../../../test-utils"
+import { useRadio } from "../src"
 
-test("has proper aria and data attributes", async () => {
-  const Component = (props: UseRadioProps = {}) => {
-    const { getCheckboxProps, getInputProps } = useRadio(props)
+describe("radio", () => {
+  test("handles events and callbacks correctly", () => {
+    const hookProps = { onChange: jest.fn() }
+    const checkboxProps = {
+      onMouseDown: jest.fn(),
+      onMouseUp: jest.fn(),
+    }
+    const inputProps = {
+      onChange: jest.fn(),
+      onBlur: jest.fn(),
+      onFocus: jest.fn(),
+      onKeyDown: jest.fn(),
+      onKeyUp: jest.fn(),
+    }
+    const Component = () => {
+      const { getCheckboxProps, getInputProps } = useRadio(hookProps)
 
-    return (
-      <label>
-        <input data-testid="input" {...getInputProps()} />
-        <div data-testid="checkbox" {...getCheckboxProps()} />
-      </label>
-    )
-  }
-  const utils = render(<Component name="name" value="" id="id" />)
+      return (
+        <label>
+          <input data-testid="input" {...getInputProps(inputProps)} />
+          <div data-testid="checkbox" {...getCheckboxProps(checkboxProps)} />
+        </label>
+      )
+    }
+    const utils = render(<Component />)
+    const input = utils.getByTestId("input")
+    const checkbox = utils.getByTestId("checkbox")
 
-  let input = utils.getByTestId("input")
-  let checkbox = utils.getByTestId("checkbox")
+    // mouse up and down
+    fireEvent.mouseDown(checkbox)
+    expect(checkbox).toHaveAttribute("data-active")
+    expect(checkboxProps.onMouseDown).toHaveBeenCalled()
 
-  expect(input).toHaveAttribute("name", "name")
-  expect(input).toHaveAttribute("id", "id")
-  expect(input).toHaveAttribute("value", "")
-  expect(input).not.toBeDisabled()
-  expect(input).not.toHaveAttribute("aria-required")
-  expect(input).not.toHaveAttribute("required")
-  expect(input).not.toHaveAttribute("aria-invalid")
-  expect(input).not.toHaveAttribute("aria-disabled")
-  expect(checkbox).toHaveAttribute("aria-hidden", "true")
-  expect(checkbox).not.toHaveAttribute("data-active")
-  expect(checkbox).not.toHaveAttribute("data-hover")
-  expect(checkbox).not.toHaveAttribute("data-checked")
-  expect(checkbox).not.toHaveAttribute("data-focus")
-  expect(checkbox).not.toHaveAttribute("data-readonly")
+    fireEvent.mouseUp(checkbox)
+    expect(checkbox).not.toHaveAttribute("data-active")
+    expect(checkboxProps.onMouseUp).toHaveBeenCalled()
 
-  // render with various flags enabled
-  utils.rerender(<Component isDisabled isInvalid isReadOnly isRequired />)
+    // on change
+    fireEvent.click(input)
+    expect(input).toBeChecked()
+    expect(checkbox).toHaveAttribute("data-checked")
+    expect(hookProps.onChange).toHaveBeenCalled()
+    expect(inputProps.onChange).toHaveBeenCalled()
 
-  input = utils.getByTestId("input")
-  checkbox = utils.getByTestId("checkbox")
+    // blur and focus
+    fireEvent.focus(input)
+    expect(checkbox).toHaveAttribute("data-focus")
+    expect(inputProps.onFocus).toHaveBeenCalled()
 
-  expect(input).toHaveAttribute("aria-required")
-  expect(input).toHaveAttribute("aria-invalid")
-  expect(input).toHaveAttribute("aria-disabled")
-  expect(input).toBeDisabled()
-  expect(checkbox).toHaveAttribute("data-readonly")
+    fireEvent.blur(input)
+    expect(checkbox).not.toHaveAttribute("data-focus")
+    expect(inputProps.onFocus).toHaveBeenCalled()
 
-  // input is not truly disabled if focusable
-  utils.rerender(<Component isDisabled isFocusable />)
+    // key down and key up
+    fireEvent.keyDown(input, { key: " ", keyCode: 32 })
+    expect(checkbox).toHaveAttribute("data-active")
+    expect(inputProps.onKeyDown).toHaveBeenCalled()
 
-  input = utils.getByTestId("input")
-
-  expect(input).not.toBeDisabled()
-})
-
-test("handles events and callbacks correctly", () => {
-  const hookProps = { onChange: jest.fn() }
-  const checkboxProps = {
-    onMouseDown: jest.fn(),
-    onMouseUp: jest.fn(),
-  }
-  const inputProps = {
-    onChange: jest.fn(),
-    onBlur: jest.fn(),
-    onFocus: jest.fn(),
-    onKeyDown: jest.fn(),
-    onKeyUp: jest.fn(),
-  }
-  const Component = () => {
-    const { getCheckboxProps, getInputProps } = useRadio(hookProps)
-
-    return (
-      <label>
-        <input data-testid="input" {...getInputProps(inputProps)} />
-        <div data-testid="checkbox" {...getCheckboxProps(checkboxProps)} />
-      </label>
-    )
-  }
-  const utils = render(<Component />)
-  const input = utils.getByTestId("input")
-  const checkbox = utils.getByTestId("checkbox")
-
-  // mouse up and down
-  fireEvent.mouseDown(checkbox)
-  expect(checkbox).toHaveAttribute("data-active")
-  expect(checkboxProps.onMouseDown).toHaveBeenCalled()
-
-  fireEvent.mouseUp(checkbox)
-  expect(checkbox).not.toHaveAttribute("data-active")
-  expect(checkboxProps.onMouseUp).toHaveBeenCalled()
-
-  // on change
-  fireEvent.click(input)
-  expect(input).toBeChecked()
-  expect(checkbox).toHaveAttribute("data-checked")
-  expect(hookProps.onChange).toHaveBeenCalled()
-  expect(inputProps.onChange).toHaveBeenCalled()
-
-  // blur and focus
-  fireEvent.focus(input)
-  expect(checkbox).toHaveAttribute("data-focus")
-  expect(inputProps.onFocus).toHaveBeenCalled()
-
-  fireEvent.blur(input)
-  expect(checkbox).not.toHaveAttribute("data-focus")
-  expect(inputProps.onFocus).toHaveBeenCalled()
-
-  // key down and key up
-  fireEvent.keyDown(input, { key: " ", keyCode: 32 })
-  expect(checkbox).toHaveAttribute("data-active")
-  expect(inputProps.onKeyDown).toHaveBeenCalled()
-
-  fireEvent.keyUp(input, { key: " ", keyCode: 32 })
-  expect(checkbox).not.toHaveAttribute("data-active")
-  expect(inputProps.onKeyUp).toHaveBeenCalled()
-})
-
-test("should derive values from surrounding FormControl", () => {
-  const onFocus = jest.fn()
-  const onBlur = jest.fn()
-
-  render(
-    <FormControl id="radio" isRequired isInvalid isDisabled isReadOnly onFocus={onFocus} onBlur={onBlur}>
-      <FormLabel>Radio</FormLabel>
-      <Radio value="Chakra UI">Chakra UI</Radio>
-      <FormHelperText>Select a value</FormHelperText>
-    </FormControl>,
-  )
-
-  const radio = screen.getByRole("radio")
-
-  expect(radio).toHaveAttribute("id", "radio")
-  expect(radio).toHaveAttribute("aria-invalid", "true")
-  expect(radio).toHaveAttribute("aria-required", "true")
-  expect(radio).toHaveAttribute("aria-readonly", "true")
-  expect(radio).toHaveAttribute("aria-invalid", "true")
-  expect(radio).toHaveAttribute("aria-describedby")
-
-  fireEvent.focus(radio)
-  expect(onFocus).toHaveBeenCalled()
-
-  fireEvent.blur(radio)
-  expect(onBlur).toHaveBeenCalled()
+    fireEvent.keyUp(input, { key: " ", keyCode: 32 })
+    expect(checkbox).not.toHaveAttribute("data-active")
+    expect(inputProps.onKeyUp).toHaveBeenCalled()
+  })
 })

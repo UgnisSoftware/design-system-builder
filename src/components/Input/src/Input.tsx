@@ -11,11 +11,11 @@ export type InputProps = InputCoreProps & {
 }
 
 export const Input = forwardRef((props: InputProps, ref) => {
-  const input = useFormControl<HTMLInputElement>(props)
+  const input = useFormControl(props)
 
   return (
-    <Label text={props.label || ""} isRequired={props.isRequired}>
-      <InputCore {...input} isInvalid={!!input.error} ref={ref} />
+    <Label text={props.label || ""} isRequired={input.required}>
+      <InputCore {...input} ref={ref} />
       <InputError error={input.error} />
     </Label>
   )

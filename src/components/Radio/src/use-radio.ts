@@ -172,17 +172,7 @@ export function useRadio(props: UseRadioProps = {}) {
 
   const getInputProps: PropGetter<HTMLInputElement> = useCallback(
     (props = {}, forwardedRef = null) => {
-      const ownProps = pick(inputProps, [
-        "id",
-        "disabled",
-        "readOnly",
-        "aria-invalid",
-        "aria-required",
-        "aria-readonly",
-        "aria-describedby",
-        "onFocus",
-        "onBlur",
-      ])
+      const ownProps = pick(inputProps, ["id", "disabled", "readOnly", "onFocus", "onBlur"])
 
       // This is a workaround for React Concurrent Mode issue https://github.com/facebook/react/issues/18591. Remove once it's fixed.
       const focus = () => {

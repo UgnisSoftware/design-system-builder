@@ -15,7 +15,7 @@ const storyExcludedProps = [
   "aria-labelledby",
 ]
 
-const allProps = [...propNames, ...systemProps, ...propNames, ...storyExcludedProps]
+const allProps = [...propNames, ...systemProps, ...storyExcludedProps]
 
 type AllProps = typeof allProps[number]
 

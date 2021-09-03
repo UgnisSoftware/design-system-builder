@@ -1,20 +1,18 @@
-import { FormControlOptions, useFormControl } from "~/form-control"
-import { chakra, forwardRef, omitThemingProps, ThemingProps, useMultiStyleConfig, HTMLChakraProps } from "~/system"
+import React, { ForwardedRef } from "react"
+import { useFormControl, UseFormControlProps } from "~/form-control"
+import { chakra, omitThemingProps, ThemingProps, useMultiStyleConfig, PropsOf, ChakraProps } from "~/system"
 import { __DEV__ } from "~/utils"
 
-type Omitted = "disabled" | "required" | "readOnly" | "size"
+type Omitted = "size"
 
-export interface InputCoreProps
-  extends Omit<HTMLChakraProps<"input">, Omitted>,
-    ThemingProps<"Input">,
-    FormControlOptions {}
+export type InputCoreProps = Omit<PropsOf<"input">, Omitted> &
+  ThemingProps<"Input"> &
+  UseFormControlProps<HTMLInputElement> &
+  ChakraProps & {
+    id?: string
+  }
 
-/**
- * Input
- *
- * Element that allows users enter single valued data.
- */
-export const InputCore = forwardRef<InputCoreProps, "input">((props, ref) => {
+export const InputCore = React.forwardRef((props: InputCoreProps, ref: ForwardedRef<any>) => {
   const styles = useMultiStyleConfig("Input", props)
   const ownProps = omitThemingProps(props)
   const input = useFormControl<HTMLInputElement>(ownProps)
@@ -27,4 +25,4 @@ if (__DEV__) {
 }
 
 // This is used in `input-group.tsx`
-InputCore.id = "Input"
+;(InputCore as any).id = "Input"
