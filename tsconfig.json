@@ -5,6 +5,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
+    "jsxImportSource": "lape",
     "baseUrl": "./",
     "sourceMap": true,
     "paths": {

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { connect } from "lape"
 
 export const globalTypes = {
   direction: {
