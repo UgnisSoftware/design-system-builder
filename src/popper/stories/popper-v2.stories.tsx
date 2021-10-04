@@ -69,7 +69,7 @@ export const VirtualElement = () => {
   })
 
   React.useEffect(() => {
-    referenceRef(node)
+    referenceRef(node as any)
     const el = document.getElementById("root") as any
     const handler = debounce(({ clientX: x, clientY: y }: any) => {
       setNode({ getBoundingClientRect: generateGetBoundingClientRect(x, y) })

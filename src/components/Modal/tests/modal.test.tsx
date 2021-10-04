@@ -93,5 +93,3 @@ test('clicking overlay or pressing "esc" calls the onClose callback', () => {
   press.Escape(overlay as HTMLElement)
   expect(onClose).toHaveBeenCalled()
 })
-
-

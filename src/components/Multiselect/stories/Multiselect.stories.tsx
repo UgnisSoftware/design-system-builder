@@ -57,7 +57,7 @@ export const Form = () => {
           control={control}
           defaultValue={["1", "2"]}
           render={({ field, fieldState: { error } }) => (
-            <Multiselect {...field} options={options} error={error?.message} label={"label"} />
+            <Multiselect {...field} options={options} error={(error as any)?.message} label={"label"} />
           )}
         />
         <Controller
@@ -66,7 +66,7 @@ export const Form = () => {
           defaultValue={"3"}
           control={control}
           render={({ field, fieldState: { error } }) => (
-            <Select {...field} options={options} error={error?.message} label={"label"} />
+            <Select {...field} options={options} error={(error as any)?.message} label={"label"} />
           )}
         />
       </VStack>
