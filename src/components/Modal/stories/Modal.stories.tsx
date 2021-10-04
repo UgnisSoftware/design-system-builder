@@ -2,8 +2,7 @@ import * as React from "react"
 import { useDisclosure } from "~/hooks"
 import { chakra } from "~/system"
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "../src"
-// @ts-ignore
-import Lorem from "react-lorem-component"
+import { LoremIpsum } from "react-lorem-ipsum"
 
 const Button = chakra("button", {
   baseStyle: {
@@ -92,7 +91,7 @@ export const InsideScroll = () => {
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Lorem size={5} />
+            <LoremIpsum p={5} />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

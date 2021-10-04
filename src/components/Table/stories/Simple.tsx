@@ -2,6 +2,7 @@ import faker from "faker"
 import { useState } from "react"
 import { Table } from "../src"
 import type { Column } from "../src"
+import { useLape } from "lape"
 
 interface Data {
   id: string
@@ -89,8 +90,52 @@ function createRows(numberOfRows: number): Data[] {
   return rows
 }
 
-export const Simple = () => {
+export const Borderless = () => {
   const [data, setData] = useState(() => createRows(200))
 
   return <Table columns={columns} data={data} />
+}
+
+export const OnRowClick = () => {
+  const [data, setData] = useState(() => createRows(200))
+
+  return <Table columns={columns} data={data} onRowClick={(data) => alert(JSON.stringify(data))} />
+}
+
+export const WithSurroundingContent = () => {
+  const [data, setData] = useState(() => createRows(200))
+  const state = useLape({ count: 0 })
+
+  return (
+    <div>
+      Hello
+      <button
+        type="button"
+        onClick={() => {
+          state.count++
+        }}
+      >
+        {state.count}
+      </button>
+      <Table columns={columns} data={data} />
+    </div>
+  )
+}
+
+export const MultipleTables = () => {
+  const [data, setData] = useState(() => createRows(200))
+
+  return (
+    <div>
+      <Table columns={columns} data={data} />
+      <hr />
+      <hr />
+      <hr />
+      <Table columns={columns} data={data} />
+    </div>
+  )
+}
+
+export const Empty = () => {
+  return <Table columns={columns} data={[]} />
 }

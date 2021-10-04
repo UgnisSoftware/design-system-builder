@@ -9,8 +9,13 @@ export const GRID_ROW_HEIGHT = "--template-row-height"
 export const GRID_ROW_WIDTH = "--template-row-width"
 
 const baseStyle = {
-  tbody: {},
+  tbody: {
+    position: "relative",
+  },
   thead: {
+    position: "sticky",
+    top: 0,
+    left: 0,
     backgroundColor: "white",
     display: "grid",
     contain: "size layout style paint",
@@ -20,14 +25,7 @@ const baseStyle = {
     height: `var(${GRID_ROW_HEIGHT})`,
     lineHeight: `var(${GRID_ROW_HEIGHT})`,
     width: `var(${GRID_ROW_WIDTH})`,
-  },
-  trStickyContainer: {
-    position: "sticky",
-    top: 0,
-    left: 0,
-    backgroundColor: "white",
-    willChange: "transform",
-    marginLeft: -16,
+    zIndex: 2,
   },
   thResizeHandle: {
     cursor: "col-resize",

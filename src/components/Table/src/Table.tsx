@@ -1,20 +1,18 @@
-import { memo } from "react"
-
 import HeaderRow from "./Header/HeaderRow"
 import Row from "./Row/Row"
 import { chakra, useMultiStyleConfig } from "~/system"
 
 import type { Column } from "./types"
 import { GRID_COLUMN_WIDTHS, GRID_ROW_HEIGHT, GRID_ROW_WIDTH } from "~/theme/src/components/table"
-import { Virtuoso } from "react-virtuoso"
-import { connect, useLape } from "lape"
+import { useLape } from "lape"
 
 interface Props<Data> {
   columns: Column<Data>[]
   data: Data[]
+  onRowClick?: (row: Data) => void
 }
 
-function _Table<Data extends {}>({ columns, data }: Props<Data>) {
+export function Table<Data extends {}>({ columns, data, onRowClick }: Props<Data>) {
   const mutableColumns = useLape(columns)
   const handleColumnResize = (column: any, width: number) => {
     column.width = width
@@ -39,25 +37,11 @@ function _Table<Data extends {}>({ columns, data }: Props<Data>) {
       aria-colcount={mutableColumns.length}
       aria-rowcount={data.length}
     >
-      <Virtuoso
-        components={{
-          EmptyPlaceholder: () => <div> No rows </div>,
-        }}
-        overscan={700}
-        fixedItemHeight={rowHeight}
-        topItemCount={1}
-        totalCount={data.length + 1}
-        useWindowScroll
-        itemContent={(index) =>
-          index === 0 ? (
-            <HeaderRow columns={mutableColumns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
-          ) : (
-            <Row data={data[index - 1]} columns={mutableColumns} index={index} />
-          )
-        }
-      />
+      <HeaderRow columns={mutableColumns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
+      {data.map((item, index) => (
+        <Row data={item} columns={mutableColumns} index={index} onRowClick={onRowClick} />
+      ))}
+      {!data.length && <>No data </>}
     </chakra.div>
   )
 }
-
-export const Table = memo(connect(_Table))

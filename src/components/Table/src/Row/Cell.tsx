@@ -23,4 +23,4 @@ function Cell<Data extends { [key: string]: string }>({ column, data }: Props<Da
   )
 }
 
-export default memo(connect(Cell))
+export default memo(Cell)

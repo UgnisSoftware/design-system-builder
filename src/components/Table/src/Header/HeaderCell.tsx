@@ -57,4 +57,4 @@ function HeaderCell<Data extends {}>({ column, onColumnResize, onSortChange }: P
   )
 }
 
-export default memo(connect(HeaderCell))
+export default memo(HeaderCell)
