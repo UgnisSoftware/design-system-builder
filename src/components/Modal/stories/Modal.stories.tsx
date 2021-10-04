@@ -113,7 +113,7 @@ export const AnimationDisabled = () => {
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Lorem size={5} />
+            <LoremIpsum p={5} />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
@@ -135,7 +135,7 @@ export const FullWithLongContent = () => {
           <ModalHeader>Modal Title2</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Lorem count={30} />
+            <LoremIpsum p={30} />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
