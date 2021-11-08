@@ -39,7 +39,13 @@ export function Table<Data extends {}>({ columns, data, onRowClick }: Props<Data
     >
       <HeaderRow columns={mutableColumns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
       {data.map((item, index) => (
-        <Row data={item} columns={mutableColumns} index={index} onRowClick={onRowClick} />
+        <Row
+          key={(item as any)?.id || index}
+          data={item}
+          columns={mutableColumns}
+          index={index}
+          onRowClick={onRowClick}
+        />
       ))}
       {!data.length && <>No data </>}
     </chakra.div>
