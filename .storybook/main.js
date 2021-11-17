@@ -29,6 +29,11 @@ module.exports = {
   }),
   webpackFinal: async (config) => {
     ;[].push.apply(config.resolve.plugins, [new TsconfigPathsPlugin({ extensions: config.resolve.extensions })])
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: "javascript/auto",
+    })
     return {
       ...config,
       devtool: "inline-source-map",
