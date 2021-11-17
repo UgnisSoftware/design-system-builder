@@ -42,6 +42,7 @@ import Text from "./text"
 import Textarea from "./textarea"
 import Tooltip from "./tooltip"
 import VerticalNavigation from "./vertical-navigation"
+import HorizontalNavigation from "./horizontal-navigation"
 
 export default {
   Accordion,
@@ -88,4 +89,5 @@ export default {
   Textarea,
   Tooltip,
   VerticalNavigation,
+  HorizontalNavigation,
 }
