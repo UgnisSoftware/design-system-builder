@@ -22,7 +22,7 @@ export function TableEditable<Data extends {}>({ columns, onRowClick, ...props }
       ref={ref}
       columns={columns}
       onRowClick={onRowClick}
-      style={{ height: tableHeight }}
+      style={{ height: tableHeight, flex: 1, ...props.style }}
       rowHeight={ROW_HEIGHT}
       {...props}
     />
