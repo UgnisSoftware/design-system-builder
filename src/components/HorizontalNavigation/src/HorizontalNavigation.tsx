@@ -26,7 +26,7 @@ type NavItemProps = {
 const NavItem = ({ children, active, disabled, onClick }: NavItemProps) => {
   const styles = useStyles()
   return (
-    <chakra.div __css={styles.navItem} data-selected={active} disabled={disabled} onClick={disabled ? noop : onClick}>
+    <chakra.div __css={styles.navItem} aria-selected={active} disabled={disabled} onClick={disabled ? noop : onClick}>
       {children}
     </chakra.div>
   )
