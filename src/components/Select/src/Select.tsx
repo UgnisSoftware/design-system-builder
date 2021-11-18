@@ -2,7 +2,7 @@ import React, { useState, MouseEvent, useRef, useCallback, useMemo, ForwardedRef
 import { useCombobox } from "downshift"
 import { MdExpandMore, MdClose } from "react-icons/md"
 import { chakra, omitThemingProps, SystemStyleObject, ThemingProps, useMultiStyleConfig } from "~/system"
-import { __DEV__ } from "~/utils"
+import { __DEV__, noop } from "~/utils"
 import { InputCore, InputError } from "~/components/Input"
 import { Label } from "~/components/Input"
 import { useFormControl, UseFormControlProps } from "~/form-control"
@@ -124,11 +124,15 @@ export const Select = React.forwardRef(
       [],
     )
 
-    const onResetValueClick = useCallback((e: MouseEvent) => {
-      e.preventDefault()
-      resetSelectValue()
-      inputFocusRef?.current?.focus()
-    }, [])
+    const onResetValueClick = useCallback(
+      (e: MouseEvent) => {
+        if (ownProps.disabled) return
+        e.preventDefault()
+        resetSelectValue()
+        inputFocusRef?.current?.focus()
+      },
+      [ownProps.disabled],
+    )
 
     const rootStyles: SystemStyleObject = {
       width: "100%",
@@ -145,7 +149,12 @@ export const Select = React.forwardRef(
             {inputValue && (
               <Icon as={MdClose} __css={styles.clearIcon} onClick={onResetValueClick} isDisabled={ownProps.disabled} />
             )}
-            <Icon as={MdExpandMore} __css={styles.selectIcon} isDisabled={ownProps.disabled} onClick={openMenu} />
+            <Icon
+              as={MdExpandMore}
+              __css={styles.selectIcon}
+              isDisabled={ownProps.disabled}
+              onClick={ownProps.disabled ? noop : openMenu}
+            />
           </chakra.div>
         </chakra.div>
         <InputError error={ownProps.error} />

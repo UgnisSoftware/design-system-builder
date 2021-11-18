@@ -9,7 +9,7 @@ import {
   useStyleConfig,
   HTMLChakraProps,
 } from "~/system"
-import { dataAttr, mergeWith, __DEV__ } from "~/utils"
+import { dataAttr, mergeWith, __DEV__, noop } from "~/utils"
 import * as React from "react"
 import { useButtonGroup } from "./ButtonGroup"
 
@@ -80,6 +80,7 @@ export const Button = forwardRef<ButtonProps, "button">((props, ref) => {
     spinner,
     className,
     as,
+    onClick,
     ...rest
   } = omitThemingProps(props)
 
@@ -109,7 +110,8 @@ export const Button = forwardRef<ButtonProps, "button">((props, ref) => {
 
   return (
     <chakra.button
-      disabled={isDisabled || isLoading}
+      onClick={isDisabled || isLoading ? noop : onClick}
+      disabled={isDisabled}
       ref={ref}
       as={as}
       type={as ? undefined : type}
