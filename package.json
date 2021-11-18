@@ -14,7 +14,6 @@
     "build": "rollup -c rollup.config.ts",
     "release:minor": "npm run test && npm run ts && npm run build && npm version patch && git add -A && git push && git push --tags && npm publish",
     "postrelease:minor": "rimraf dist",
-    "publish": "npm publish",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "jest",

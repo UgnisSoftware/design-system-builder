@@ -6,6 +6,7 @@ interface Props<Data> extends DataGridProps<Data> {
 }
 
 const ROW_HEIGHT = 35
+const BORDER_SIZE = 4
 
 export function TableEditable<Data extends {}>({ columns, onRowClick, ...props }: Props<Data>) {
   const [height, setHeight] = useState(window.innerHeight)
@@ -15,7 +16,7 @@ export function TableEditable<Data extends {}>({ columns, onRowClick, ...props }
     setHeight(ref?.current?.element?.clientHeight || window.innerHeight)
   }, [])
 
-  const tableHeight = Math.min(height, props.rows.length * (props.rowHeight || ROW_HEIGHT))
+  const tableHeight = Math.min(height, (props.rows.length + 1) * (props.rowHeight || ROW_HEIGHT) + BORDER_SIZE)
 
   return (
     <DataGrid

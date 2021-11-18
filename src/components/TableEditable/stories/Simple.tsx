@@ -94,6 +94,11 @@ export const Borderless = () => {
 
   return <TableEditable columns={columns} rows={data} />
 }
+export const FewRows = () => {
+  const [data, setData] = useState(() => createRows(3))
+
+  return <TableEditable columns={columns} rows={data} />
+}
 
 export const OnRowClick = () => {
   const [data, setData] = useState(() => createRows(200))
