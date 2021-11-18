@@ -15,7 +15,7 @@ export type UseFormControlProps<T extends HTMLElement> = {
   error?: string
   value?: string | number | readonly string[]
   invalid?: boolean
-  autocomplete?: "on" | "off"
+  autoComplete?: "on" | "off"
 }
 
 export function useFormControl<T extends HTMLElement>(props: UseFormControlProps<T>) {
@@ -32,7 +32,7 @@ export function useFormControl<T extends HTMLElement>(props: UseFormControlProps
     onChange,
     onClick,
     onKeyDown,
-    autocomplete = "off",
+    autoComplete = "off",
   } = props
 
   return {
@@ -47,7 +47,7 @@ export function useFormControl<T extends HTMLElement>(props: UseFormControlProps
     onChange,
     onClick,
     onKeyDown,
-    autocomplete,
+    autoComplete,
     "aria-invalid": ariaAttr(invalid ?? !!error),
   }
 }
