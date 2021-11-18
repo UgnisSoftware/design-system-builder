@@ -17,6 +17,9 @@ const baseStyle = {
     _hover: {
       bg: "neutral.50",
     },
+    _selected: {
+      bg: "neutral.50",
+    },
   },
 }
 export default {

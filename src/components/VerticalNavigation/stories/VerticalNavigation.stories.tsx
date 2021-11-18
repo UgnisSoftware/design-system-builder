@@ -55,3 +55,11 @@ export const List = () => (
     </VerticalNavigation.List>
   </Box>
 )
+export const Selected = () => (
+  <Box>
+    <VerticalNavigation.List>
+      <VerticalNavigation.ListItem>Number One</VerticalNavigation.ListItem>
+      <VerticalNavigation.ListItem active>Number Two</VerticalNavigation.ListItem>
+    </VerticalNavigation.List>
+  </Box>
+)

@@ -52,13 +52,14 @@ const List = ({ children }: ListProps) => {
 type ListItemProps = {
   children: React.ReactNode
   onClick?: (item?: unknown) => void
+  active?: boolean
 }
 
 const ListItem = (props: ListItemProps) => {
-  const { children, onClick } = props
+  const { children, onClick, active } = props
   const styles = useMultiStyleConfig("VerticalNavigation", props)
   return (
-    <chakra.li __css={styles.listItem} onClick={onClick}>
+    <chakra.li __css={styles.listItem} onClick={onClick} aria-selected={active}>
       {children}
     </chakra.li>
   )
