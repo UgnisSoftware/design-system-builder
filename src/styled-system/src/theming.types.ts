@@ -391,7 +391,7 @@ export interface ThemeTypings {
     }
     Button: {
       sizes: "md" | "sm"
-      variants: "primary" | "outline" | "secondary" | "text"
+      variants: "primary" | "outline" | "secondary" | "text" | "outlineError"
     }
     Checkbox: {
       sizes: "sm"
