@@ -116,12 +116,12 @@ const outlineError = ({ isLoading, disabled }: ButtonProps) => {
   const styles = {
     color: "neutral.800",
     border: "1px",
-    borderColor: "error.200",
+    borderColor: "error.600",
     _hover: {
-      borderColor: "error.300",
+      borderColor: "error.700",
     },
     _active: {
-      borderColor: "error.400",
+      borderColor: "error.800",
     },
     _disabled: {
       borderColor: "neutral.200",
