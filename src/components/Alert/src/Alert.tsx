@@ -11,8 +11,7 @@ import {
   HTMLChakraProps,
 } from "~/system"
 import { createContext } from "~/react-utils"
-import { MdError, MdInfo } from "react-icons/all"
-import { MdCheckCircle } from "react-icons/md"
+import { MdCheckCircle, MdError, MdInfo } from "react-icons/md"
 import { CloseButton } from "~/components/CloseButton"
 
 const STATUSES = {
