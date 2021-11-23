@@ -14,15 +14,7 @@ export default {
   ],
 } as Meta
 
-/**
- * A simple close button component.
- */
-
 export const Default = () => <CloseButton />
-
-/**
- * Pass the `isDisabled` prop to put the close button component in a disabled state.
- */
 
 export const State = () => <CloseButton isDisabled />
 
