@@ -67,7 +67,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
               >
                 <Toast
                   status={toast.status}
-                  description={toast.description + toast.id}
+                  description={toast.description}
                   title={toast.title}
                   onClose={() => {
                     toast.onClose?.(toast.id!)
