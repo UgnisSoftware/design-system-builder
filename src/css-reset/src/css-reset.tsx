@@ -18,6 +18,7 @@ export const CSSReset = () => (
         position: relative;
         min-height: 100%;
         font-feature-settings: 'kern';
+        list-style: none;
       }
 
       *,
