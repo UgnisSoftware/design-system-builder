@@ -1,23 +1,14 @@
-import { mode } from "../../../theme-tools"
-
-function baseStyle(props: Record<string, any>) {
-  const hoverBg = mode(`blackAlpha.100`, `whiteAlpha.100`)(props)
-  const activeBg = mode(`blackAlpha.200`, `whiteAlpha.200`)(props)
-
-  return {
-    borderRadius: "md",
-    transition: "all 0.2s",
-    _disabled: {
-      opacity: 0.4,
-      cursor: "not-allowed",
-      boxShadow: "none",
-    },
-    _hover: { bg: hoverBg },
-    _active: { bg: activeBg },
-    _focus: {
-      boxShadow: "outline",
-    },
-  }
+const baseStyle = {
+  borderRadius: "md",
+  transition: "all 0.2s",
+  color: "neutral.800",
+  _disabled: {
+    opacity: 0.4,
+    cursor: "not-allowed",
+    boxShadow: "none",
+  },
+  _hover: { color: "neutral.900" },
+  _active: { color: "neutral.900" },
 }
 
 const sizes = {
@@ -39,7 +30,7 @@ const sizes = {
 }
 
 const defaultProps = {
-  size: "md",
+  size: "sm",
 }
 
 export default {

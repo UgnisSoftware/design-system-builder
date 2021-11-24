@@ -84,6 +84,7 @@ const variantOutline = {
     },
     _disabled: {
       cursor: "not-allowed",
+      color: "neutral.300",
       _hover: {
         borderColor: "neutral.200",
       },

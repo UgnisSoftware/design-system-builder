@@ -15,10 +15,10 @@ const primary = ({ isLoading, disabled }: ButtonProps) => {
     color: "white",
     bg: "primary.500",
     _hover: {
-      bg: "primary.400",
+      bg: "primary.600",
     },
     _active: {
-      bg: "primary.600",
+      bg: "primary.700",
     },
     _disabled: {
       bg: "neutral.200",
@@ -48,10 +48,10 @@ const secondary = ({ isLoading, disabled }: ButtonProps) => {
     color: "neutral.800",
     bg: "neutral.100",
     _hover: {
-      bg: "neutral.50",
+      bg: "neutral.200",
     },
     _active: {
-      bg: "neutral.200",
+      bg: "neutral.300",
     },
     _disabled: {
       bg: "neutral.200",
@@ -83,10 +83,45 @@ const outline = ({ isLoading, disabled }: ButtonProps) => {
     border: "1px",
     borderColor: "primary.300",
     _hover: {
-      borderColor: "primary.200",
+      borderColor: "primary.400",
     },
     _active: {
-      borderColor: "primary.400",
+      borderColor: "primary.500",
+    },
+    _disabled: {
+      borderColor: "neutral.200",
+      color: "neutral.300",
+      _hover: {
+        borderColor: "neutral.200",
+      },
+    },
+  }
+  if (isLoading && !disabled) {
+    return {
+      ...styles,
+      _disabled: {
+        ...styles._disabled,
+        borderColor: "primary.300",
+        color: "neutral.800",
+        _hover: {
+          borderColor: "primary.200",
+        },
+      },
+    }
+  }
+  return styles
+}
+
+const outlineError = ({ isLoading, disabled }: ButtonProps) => {
+  const styles = {
+    color: "neutral.800",
+    border: "1px",
+    borderColor: "error.600",
+    _hover: {
+      borderColor: "error.700",
+    },
+    _active: {
+      borderColor: "error.800",
     },
     _disabled: {
       borderColor: "neutral.200",
@@ -121,7 +156,7 @@ const text = ({ isLoading, disabled }: ButtonProps) => {
       color: "neutral.900",
     },
     _active: {
-      color: "neutral.700",
+      color: "neutral.900",
     },
     _disabled: {
       color: "neutral.300",
@@ -149,6 +184,7 @@ const variants = {
   primary,
   secondary,
   outline,
+  outlineError,
   text,
 }
 

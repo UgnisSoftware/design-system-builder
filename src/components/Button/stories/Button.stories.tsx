@@ -43,4 +43,4 @@ export default {
   ],
 } as Meta
 
-export const Basic = (args: ButtonProps) => <Button {...filterUndefined(args)} onClick={(a) => console.log("works", a)} />
+export const Basic = (args: ButtonProps) => <Button {...filterUndefined(args)} variant={"outlineError"} />
