@@ -36,7 +36,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ toast, state }}>
       <Portal>
-        <chakra.div position="fixed" bottom={0} transform="translateX(-50%)" left="50%">
+        <chakra.div position="fixed" bottom={0} transform="translateX(-50%)" left="50%" zIndex="toast">
           <AnimatePresence>
             {state.map((toast) => (
               <motion.li
