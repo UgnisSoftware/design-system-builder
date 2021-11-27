@@ -8,7 +8,13 @@ interface Props<Data> extends DataGridProps<Data> {
 
 const ROW_HEIGHT = 35
 
-export function TableEditable<Data extends {}>({ columns, onRowClick, rowHeight = ROW_HEIGHT, ...props }: Props<Data>) {
+export function TableEditable<Data extends {}>({
+  columns,
+  onRowClick,
+  rowHeight = ROW_HEIGHT,
+  className,
+  ...props
+}: Props<Data>) {
   const [height, setHeight] = useState(window.innerHeight)
   const ref = useRef<DataGridHandle>(null)
 
@@ -25,6 +31,7 @@ export function TableEditable<Data extends {}>({ columns, onRowClick, rowHeight 
       onRowClick={onRowClick}
       style={{ height: tableHeight, flex: 1, ...props.style }}
       rowHeight={ROW_HEIGHT}
+      className={"rdg-light " + className}
       {...props}
     />
   )
