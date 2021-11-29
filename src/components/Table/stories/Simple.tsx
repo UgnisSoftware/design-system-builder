@@ -1,8 +1,8 @@
 import faker from "faker"
 import { useState } from "react"
 import { Table } from "../src"
-import type { Column } from "../src"
 import { useLape } from "lape"
+import type { Column } from "react-data-grid"
 
 interface Data {
   id: string
@@ -25,7 +25,6 @@ const columns: Column<Data>[] = [
     key: "name",
     name: "Name",
     width: 200,
-    fixed: true,
   },
   {
     key: "email",
@@ -93,13 +92,18 @@ function createRows(numberOfRows: number): Data[] {
 export const Borderless = () => {
   const [data, setData] = useState(() => createRows(200))
 
-  return <Table columns={columns} data={data} />
+  return <Table columns={columns} rows={data} />
+}
+export const FewRows = () => {
+  const [data, setData] = useState(() => createRows(3))
+
+  return <Table columns={columns} rows={data} />
 }
 
 export const OnRowClick = () => {
   const [data, setData] = useState(() => createRows(200))
 
-  return <Table columns={columns} data={data} onRowClick={(data) => alert(JSON.stringify(data))} />
+  return <Table columns={columns} rows={data} onRowClick={(data) => alert(JSON.stringify(data))} />
 }
 
 export const WithSurroundingContent = () => {
@@ -117,25 +121,11 @@ export const WithSurroundingContent = () => {
       >
         {state.count}
       </button>
-      <Table columns={columns} data={data} />
-    </div>
-  )
-}
-
-export const MultipleTables = () => {
-  const [data, setData] = useState(() => createRows(200))
-
-  return (
-    <div>
-      <Table columns={columns} data={data} />
-      <hr />
-      <hr />
-      <hr />
-      <Table columns={columns} data={data} />
+      <Table columns={columns} rows={data} />
     </div>
   )
 }
 
 export const Empty = () => {
-  return <Table columns={columns} data={[]} />
+  return <Table columns={columns} rows={[]} />
 }

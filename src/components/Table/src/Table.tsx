@@ -1,53 +1,38 @@
-import HeaderRow from "./Header/HeaderRow"
-import Row from "./Row/Row"
-import { chakra, useMultiStyleConfig } from "~/system"
+import DataGrid, { DataGridHandle, DataGridProps } from "react-data-grid"
+import { useEffect, useRef, useState } from "react"
 
-import type { Column } from "./types"
-import { GRID_COLUMN_WIDTHS, GRID_ROW_HEIGHT, GRID_ROW_WIDTH } from "~/theme/src/components/table"
-import { useLape } from "lape"
-
-interface Props<Data> {
-  columns: Column<Data>[]
-  data: Data[]
-  onRowClick?: (row: Data) => void
+interface Props<Data> extends DataGridProps<Data> {
+  rowHeight?: number
+  bottomPadding?: number
 }
 
-export function Table<Data extends {}>({ columns, data, onRowClick }: Props<Data>) {
-  const mutableColumns = useLape(columns)
-  const handleColumnResize = (column: any, width: number) => {
-    column.width = width
-  }
-  const onSortChange = () => {}
+const ROW_HEIGHT = 35
 
-  const styles = useMultiStyleConfig("Table", {})
+export function Table<Data extends {}>({
+  columns,
+  onRowClick,
+  rowHeight = ROW_HEIGHT,
+  className,
+  ...props
+}: Props<Data>) {
+  const [height, setHeight] = useState(window.innerHeight)
+  const ref = useRef<DataGridHandle>(null)
 
-  const columnWidths = mutableColumns.map((a) => `${a.width}px`).join(" ")
-  const tableWidth = mutableColumns.map((a) => a.width).reduce((a, b) => a + b, 0)
-  const rowHeight = 35
+  useEffect(() => {
+    setHeight(ref?.current?.element?.clientHeight || window.innerHeight)
+  }, [])
+
+  const tableHeight = Math.min(height, (props.rows.length + 1) * rowHeight)
 
   return (
-    <chakra.div
-      __css={styles.tbody}
-      sx={{
-        [GRID_COLUMN_WIDTHS]: columnWidths,
-        [GRID_ROW_WIDTH]: `${tableWidth}px`,
-        [GRID_ROW_HEIGHT]: `${rowHeight}px`,
-      }}
-      role="table"
-      aria-colcount={mutableColumns.length}
-      aria-rowcount={data.length}
-    >
-      <HeaderRow columns={mutableColumns} onColumnResize={handleColumnResize} onSortChange={onSortChange} />
-      {data.map((item, index) => (
-        <Row
-          key={(item as any)?.id || index}
-          data={item}
-          columns={mutableColumns}
-          index={index}
-          onRowClick={onRowClick}
-        />
-      ))}
-      {!data.length && <>No data </>}
-    </chakra.div>
+    <DataGrid
+      ref={ref}
+      columns={columns}
+      onRowClick={onRowClick}
+      style={{ height: tableHeight, flex: 1, ...props.style }}
+      rowHeight={ROW_HEIGHT}
+      className={"rdg-light " + className}
+      {...props}
+    />
   )
 }
