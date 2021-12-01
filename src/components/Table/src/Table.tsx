@@ -1,5 +1,6 @@
-import DataGrid, { DataGridHandle, DataGridProps } from "react-data-grid"
+import DataGrid, { DataGridHandle, DataGridProps, useRowSelection } from "react-data-grid"
 import { useEffect, useRef, useState } from "react"
+export { useRowSelection } from "react-data-grid"
 
 interface Props<Data> extends DataGridProps<Data> {
   rowHeight?: number
