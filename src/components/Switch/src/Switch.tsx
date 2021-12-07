@@ -25,7 +25,7 @@ export interface SwitchProps
   textPosition?: "left" | "right"
 }
 
-export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
+export const Switch = forwardRef<SwitchProps, "input">(({ textPosition = "right", ...props }, ref) => {
   const styles = useMultiStyleConfig("Switch", props)
 
   const { spacing = "0.5rem", children, ...ownProps } = omitThemingProps(props)
@@ -74,7 +74,7 @@ export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
   return (
     <chakra.label {...getRootProps()} className={props.className} __css={containerStyles}>
       <input {...getInputProps({}, ref)} />
-      {children && props.textPosition === "left" && childText}
+      {children && textPosition === "left" && childText}
       <chakra.span {...getCheckboxProps()} __css={trackStyles}>
         <chakra.span
           __css={styles.thumb}
@@ -82,7 +82,7 @@ export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
           data-hover={dataAttr(state.isHovered)}
         />
       </chakra.span>
-      {children && props.textPosition !== "left" && childText}
+      {children && textPosition === "right" && childText}
     </chakra.label>
   )
 })
