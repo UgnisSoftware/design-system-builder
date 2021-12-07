@@ -22,6 +22,7 @@ export interface SwitchProps
    * @type SystemProps["marginLeft"]
    */
   spacing?: SystemProps["marginLeft"]
+  textPosition?: "left" | "right"
 }
 
 export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
@@ -33,8 +34,8 @@ export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
 
   const containerStyles: SystemStyleObject = React.useMemo(
     () => ({
-      display: "inline-block",
-      verticalAlign: "middle",
+      display: "flex",
+      alignItems: "center",
       lineHeight: "normal",
       ...styles.container,
     }),
@@ -56,15 +57,24 @@ export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
   const labelStyles: SystemStyleObject = React.useMemo(
     () => ({
       userSelect: "none",
-      marginStart: spacing,
+      paddingStart: spacing,
+      paddingEnd: spacing,
+      cursor: "pointer",
       ...styles.label,
     }),
     [spacing, styles.label],
   )
 
+  const childText = (
+    <chakra.span {...getLabelProps()} __css={labelStyles}>
+      {children}
+    </chakra.span>
+  )
+
   return (
     <chakra.label {...getRootProps()} className={props.className} __css={containerStyles}>
       <input {...getInputProps({}, ref)} />
+      {children && props.textPosition === "left" && childText}
       <chakra.span {...getCheckboxProps()} __css={trackStyles}>
         <chakra.span
           __css={styles.thumb}
@@ -72,11 +82,7 @@ export const Switch = forwardRef<SwitchProps, "input">((props, ref) => {
           data-hover={dataAttr(state.isHovered)}
         />
       </chakra.span>
-      {children && (
-        <chakra.span {...getLabelProps()} __css={labelStyles}>
-          {children}
-        </chakra.span>
-      )}
+      {children && props.textPosition !== "left" && childText}
     </chakra.label>
   )
 })

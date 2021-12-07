@@ -23,12 +23,9 @@ export default {
 } as Meta
 
 export const Basic = (args: SwitchProps) => <Switch colorScheme="green" {...filterUndefined(args)} />
-
-export const Usage = () => (
-  <chakra.div display="flex" justifyContent="center" alignItems="center">
-    <chakra.label htmlFor="email-alerts" mr="16px">
-      Enable email alerts?
-    </chakra.label>
-    <Switch id="email-alerts" />
-  </chakra.div>
+export const Usage = () => <Switch>Enable email alerts?</Switch>
+export const TextOnLeft = (args: SwitchProps) => (
+  <Switch colorScheme="green" {...filterUndefined(args)} textPosition="left">
+    Hello
+  </Switch>
 )
