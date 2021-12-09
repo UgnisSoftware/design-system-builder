@@ -35,6 +35,8 @@ export default {
 
 export const Basic = (args: InputProps) => <Input {...filterUndefined(args)} />
 
+export const Autofocus = (args: InputProps) => <Input {...filterUndefined(args)} autoFocus />
+
 export const Form = () => {
   const {
     register,
