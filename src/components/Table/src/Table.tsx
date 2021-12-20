@@ -20,7 +20,8 @@ export function Table<Data extends {}>({
   const ref = useRef<DataGridHandle>(null)
 
   useEffect(() => {
-    setHeight(ref?.current?.element?.clientHeight || window.innerHeight)
+    const newHeight = (ref?.current?.element?.clientHeight || 0) - (ref?.current?.element?.offsetTop || 0)
+    setHeight(newHeight || window.innerHeight)
   }, [])
 
   const tableHeight = Math.min(height, (props.rows.length + 1) * rowHeight)
