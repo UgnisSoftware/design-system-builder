@@ -1,0 +1,98 @@
+name-template: "v$RESOLVED_VERSION"
+category-template: "### $TITLE"
+tag-template: "v$RESOLVED_VERSION"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+no-changes-template: "* No Change"
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+categories:
+  - title: "✨ Feature"
+    labels:
+      - "feature"
+
+  - title: "💎 Optimize"
+    labels:
+      - "optimize"
+
+  - title: "🧱 Refactor"
+    labels:
+      - "refactor"
+  - title: "🐞 Bug Fixed"
+    labels:
+      - "fix"
+      - "bugfix"
+      - "bug"
+
+  - title: "💥 Breaking"
+    labels:
+      - "breaking"
+
+  - title: "🚧 Maintenance"
+    labels:
+      - "maintenance"
+
+  - title: "📦 Dependencies"
+    labels:
+      - "dependencies"
+
+  - title: "🚀 Performance"
+    labels:
+      - "performance"
+
+  - title: "📝 Documentation"
+    labels:
+      - "documentation"
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: patch
+template: |
+  ## Release Notes
+  $CHANGES
+exclude-contributors:
+  - "renovate"
+  - "renovate-bot"
+
+exclude-labels:
+  - "skip-changelog"
+
+autolabeler:
+  - label: "documentation"
+    files:
+      - "*.md"
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: "bugfix"
+    branch:
+      - '/fix\/.+/'
+      - '/bugfix\/.+/'
+    title:
+      - "/Fix/i"
+  - label: "feature"
+    branch:
+      - '/feature\/.+/'
+  - label: "optimize"
+    branch:
+      - '/optimize\/.+/'
+  - label: "refactor"
+    branch:
+      - '/refactor\/.+/'
+  - label: "breaking"
+    branch:
+      - '/breaking\/.+/'
+  - label: "maintenance"
+    branch:
+      - '/maintenance\/.+/'
+  - label: "perf"
+    branch:
+      - '/perf\/.+/'
+
+replacers:
+  - search: '/(feat|fix|docs|chore|build|style|refactor|perf|test|break|ci|revert|wip)(\(\w+\))?: /g'
+    replace: ""
