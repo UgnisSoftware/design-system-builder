@@ -16,8 +16,10 @@
     "@emotion/react": "11.9.0",
     "@emotion/styled": "11.8.1",
     "framer-motion": "6.2.9",
+    "lape": "6.4.8",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "react-icons": "4.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",
@@ -25,7 +27,6 @@
     "@types/react-dom": "18.0.0",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
-    "@vitejs/plugin-legacy": "1.8.0",
     "@vitejs/plugin-react": "1.3.0",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
