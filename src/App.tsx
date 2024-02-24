@@ -1,13 +1,14 @@
 import { Box, ChakraProvider, extendTheme, Flex } from "@chakra-ui/react";
 import Template from "@/Template/Template";
 import Editor, { SIDEBAR_SIZE } from "@/Editor/Editor";
-import React from "react";
-import { state } from "@/state";
-import { lapeSyncInternalUseState } from "lape";
+import { state$ } from "@/state";
+import { enableReactTracking } from "@legendapp/state/config/enableReactTracking";
+import { useSelector } from "@legendapp/state/react";
+
+enableReactTracking({ auto: true });
 
 function App() {
-  lapeSyncInternalUseState();
-
+  const state = useSelector(state$)
   const customTheme = extendTheme({
     components: {
       Alert: {

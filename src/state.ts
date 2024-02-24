@@ -1,5 +1,5 @@
-import { lape } from "lape";
+import { observable } from '@legendapp/state';
 
-export const state = lape({
-  Alert: { borderRadius: "4" },
-});
+export const state$ = observable({
+    Alert: { borderRadius: "4" },
+})
