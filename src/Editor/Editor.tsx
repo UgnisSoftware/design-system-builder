@@ -13,13 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { changeAlertBorder } from "@/actions";
 import { CgUndo, CgRedo } from "react-icons/cg";
-import { state$ } from "@/state";
+import { redo, state$, undo } from "@/state";
 import { useSelector } from "@legendapp/state/react";
 
 export const SIDEBAR_SIZE = 580;
 
 function Editor() {
-  const state = useSelector(state$)
+  const state = useSelector(state$);
 
   return (
     <Flex p={4} w={SIDEBAR_SIZE} position="fixed" right={0} top={0} bottom={0}>
@@ -59,7 +59,5 @@ function Editor() {
     </Flex>
   );
 }
-
-console.log(Editor);
 
 export default Editor;

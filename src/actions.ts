@@ -1,5 +1,7 @@
-import { state$ } from "@/state";
+import { state$, trackChanges } from "@/state";
 
 export const changeAlertBorder = (border: string) => {
-  state$.Alert.borderRadius.set(border);
+  trackChanges(() => {
+    state$.Alert.borderRadius.set(border);
+  });
 };
